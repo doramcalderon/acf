@@ -8,10 +8,10 @@ package es.uma.pfc.implications.generator.controller;
 import com.google.common.base.Strings;
 import es.uma.pfc.implications.generator.ImplicationsFactory;
 import es.uma.pfc.implications.generator.model.ImplicationsModel;
+import es.uma.pfc.implications.generator.model.NodeType;
 import fr.kbertet.lattice.ImplicationalSystem;
 import java.io.File;
 import java.io.IOException;
-import java.io.InputStream;
 import java.net.URL;
 import java.nio.file.Files;
 import java.util.List;
@@ -22,16 +22,13 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
-import javafx.scene.control.CheckBox;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.text.Text;
 import javafx.stage.FileChooser;
 import javafx.stage.FileChooser.ExtensionFilter;
 import javafx.stage.Window;
-import net.automatalib.commons.dotutil.DOT;
 
 /**
  * FXML Controller class
@@ -50,12 +47,14 @@ public class ImplicationsController implements Initializable {
     private TextField txtMaxLongRight;
     @FXML
     private Button btnSave;
+    @FXML private ComboBox cbNodeType;
     
     @FXML
     private Text textViewer;
     @FXML
     private AnchorPane implicationsPane;
 
+    private NodeType nodeType;
     ImplicationalSystem implications;
     
     private ImplicationsModel model;
@@ -72,6 +71,8 @@ public class ImplicationsController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
 //        this.resources = rb;
         this.model = new ImplicationsModel();
+        this.cbNodeType.getItems().addAll(NodeType.NUMBER, NodeType.LETTER, NodeType.INDEXED_LETTER);
+        this.cbNodeType.getSelectionModel().select(NodeType.NUMBER);
     }
 
     /**
@@ -87,8 +88,19 @@ public class ImplicationsController implements Initializable {
 //        imageViewer.setImage(null);
         textViewer.setText("<No implications generated>");
         btnSave.setDisable(true);
+        this.cbNodeType.getSelectionModel().clearSelection();
+        this.cbNodeType.getSelectionModel().select(NodeType.NUMBER);
     }
 
+    /**
+     * Actualiza el tipo de nodo a utilizar para las implicaciones.
+     * @param event Evento.
+     */
+    @FXML
+    public void handleNodeTypeSelection(ActionEvent event) {
+        nodeType = (NodeType) cbNodeType.getSelectionModel().getSelectedItem();
+    }
+    
     /**
      * Controlador del botón Generate. Genera las implicaciones con los valores introducidos.
      *
@@ -103,7 +115,7 @@ public class ImplicationsController implements Initializable {
         
         Integer maxLongLeft = (!Strings.isNullOrEmpty(strMaxLongLeft)) ? new Integer(strMaxLongLeft) : null;
         Integer maxLongRight = (!Strings.isNullOrEmpty(strMaxLongRight)) ? new Integer(strMaxLongRight) : null;
-        implications = ImplicationsFactory.getImplicationalSystem(nodesNumber, rulesNumber, maxLongLeft, maxLongRight);
+        implications = ImplicationsFactory.getImplicationalSystem(nodesNumber, rulesNumber, maxLongLeft, maxLongRight, nodeType);
         
         showText(implications);
         btnSave.setDisable(false);
