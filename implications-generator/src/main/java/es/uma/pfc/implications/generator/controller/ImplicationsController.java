@@ -42,7 +42,11 @@ public class ImplicationsController implements Initializable {
     @FXML
     private TextField txtImplications;
     @FXML
+    private TextField txtMinLongLeft;
+    @FXML
     private TextField txtMaxLongLeft;
+    @FXML
+    private TextField txtMinLongRight;
     @FXML
     private TextField txtMaxLongRight;
     @FXML
@@ -54,10 +58,11 @@ public class ImplicationsController implements Initializable {
     @FXML
     private AnchorPane implicationsPane;
 
+    /** Tipo de los nodos **/
     private NodeType nodeType;
+    /** Sistema generado.**/
     ImplicationalSystem implications;
     
-    private ImplicationsModel model;
 
 //    @FXML
 //    private ResourceBundle resources;
@@ -70,7 +75,6 @@ public class ImplicationsController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
 //        this.resources = rb;
-        this.model = new ImplicationsModel();
         this.cbNodeType.getItems().addAll(NodeType.NUMBER, NodeType.LETTER, NodeType.INDEXED_LETTER);
         this.cbNodeType.getSelectionModel().select(NodeType.NUMBER);
     }
@@ -110,12 +114,24 @@ public class ImplicationsController implements Initializable {
     public void handleGenerateButton(ActionEvent event) {
         int nodesNumber = new Integer(txtNodes.getText());
         int rulesNumber = new Integer(txtImplications.getText());
-        String strMaxLongLeft = txtMaxLongLeft.getText();
-        String strMaxLongRight = txtMaxLongRight.getText();
+        String strMinPremise = txtMinLongLeft.getText();
+        String strMaxPremise = txtMaxLongLeft.getText();
+        String strMinConclusion = txtMinLongRight.getText();
+        String strMaxConclusion = txtMaxLongRight.getText();
         
-        Integer maxLongLeft = (!Strings.isNullOrEmpty(strMaxLongLeft)) ? new Integer(strMaxLongLeft) : null;
-        Integer maxLongRight = (!Strings.isNullOrEmpty(strMaxLongRight)) ? new Integer(strMaxLongRight) : null;
-        implications = ImplicationsFactory.getImplicationalSystem(nodesNumber, rulesNumber, maxLongLeft, maxLongRight, nodeType);
+        Integer minPremiseLength = (!Strings.isNullOrEmpty(strMinPremise)) ? new Integer(strMinPremise) : null;
+        Integer maxPremiseLength = (!Strings.isNullOrEmpty(strMaxPremise)) ? new Integer(strMaxPremise) : null;
+        Integer minConclusionLength = (!Strings.isNullOrEmpty(strMinConclusion)) ? new Integer(strMinConclusion) : null;
+        Integer maxConclusionLength = (!Strings.isNullOrEmpty(strMaxConclusion)) ? new Integer(strMaxConclusion) : null;
+        
+        ImplicationsModel model = new ImplicationsModel(nodesNumber, rulesNumber);
+        model.setNodeType(nodeType);
+        model.setMinPremiseLength(minPremiseLength);
+        model.setMaxPremiseLength(maxPremiseLength);
+        model.setMinConclusionLength(minConclusionLength);
+        model.setMaxConclusionLength(maxConclusionLength);
+        
+        implications = ImplicationsFactory.getImplicationalSystem(model);
         
         showText(implications);
         btnSave.setDisable(false);
