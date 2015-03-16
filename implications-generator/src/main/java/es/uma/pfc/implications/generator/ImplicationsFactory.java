@@ -1,13 +1,11 @@
 package es.uma.pfc.implications.generator;
 
 import es.uma.pfc.implications.generator.model.ImplicationsModel;
-import es.uma.pfc.implications.generator.model.NodeType;
 import fr.kbertet.lattice.ImplicationalSystem;
 import fr.kbertet.lattice.Rule;
 import fr.kbertet.util.ComparableSet;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 
 /**
  *

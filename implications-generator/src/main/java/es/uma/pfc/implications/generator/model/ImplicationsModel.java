@@ -1,16 +1,14 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 
 package es.uma.pfc.implications.generator.model;
 
+import es.uma.pfc.implications.generator.Messages;
+import es.uma.pfc.implications.generator.exception.ModelException;
 
 
 
 /**
- *
+ * Clase que representa las características de un sistema de implicaciones.
+ * 
  * @since 
  * @author Dora Calderón
  */
@@ -78,6 +76,7 @@ public class ImplicationsModel {
     /**
      * Número de nodos.
      * @param nodes the nodes to set
+     * @throws ModelException Si el número de nodos es 0.
      */
     public void setNodes(Integer nodes) {
         this.nodes = nodes;
@@ -110,8 +109,10 @@ public class ImplicationsModel {
     /**
      * Número máximo de atributos en la premisa.
      * @param maxPremiseLength the maxPremiseLength to set
+     * @throws ModelException Si el número mínimo de atributos en la premisa está establecido y es mayor que el máximo.
      */
     public void setMaxPremiseLength(Integer maxPremiseLength) {
+       
         this.maxPremiseLength = maxPremiseLength;
     }
 
@@ -125,7 +126,8 @@ public class ImplicationsModel {
 
     /**
      * Número mínimo de atributos en la premisa.
-     * @param minPremiseLength the minPremiseLength to set
+     * @param minPremiseLength Número mínimo de atributos.
+     * @throws ModelException Si el número máximo de atributos en la premisa está establecido y es menor que el mínimo.
      */
     public void setMinPremiseLength(Integer minPremiseLength) {
         this.minPremiseLength = minPremiseLength;
@@ -196,7 +198,26 @@ public class ImplicationsModel {
     }
     
     
-
+    /**
+     * Comprueba que el modelo es correcto para la generación de un sistema de implicaciones.
+     * @return 
+     */
+    public ResultModelValidation validate() {
+        ResultModelValidation result;
+        
+        if (nodes == null || nodes == 0) {
+            result = new ResultModelValidation(ResultValidation.ZERO_NODES);
+        } else if (maxPremiseLength != null && minPremiseLength != null && maxPremiseLength < minPremiseLength) {
+            result = new ResultModelValidation(ResultValidation.INVALID_PREMISE_LENGTH);   
+        } else  if (minPremiseLength != null && maxPremiseLength != null && minPremiseLength > maxPremiseLength) {
+            result = new ResultModelValidation(ResultValidation.INVALID_PREMISE_LENGTH);   
+        } else {
+            result = new ResultModelValidation(ResultValidation.OK);
+        }
+               
+        
+        return result;
+    }
     
     
     

@@ -7,8 +7,11 @@ package es.uma.pfc.implications.generator.controller;
 
 import com.google.common.base.Strings;
 import es.uma.pfc.implications.generator.ImplicationsFactory;
+import es.uma.pfc.implications.generator.exception.ModelException;
+import es.uma.pfc.implications.generator.exception.ZeroNodesException;
 import es.uma.pfc.implications.generator.model.ImplicationsModel;
 import es.uma.pfc.implications.generator.model.NodeType;
+import es.uma.pfc.implications.generator.model.ResultValidation;
 import fr.kbertet.lattice.ImplicationalSystem;
 import java.io.File;
 import java.io.IOException;
@@ -36,6 +39,7 @@ import javafx.stage.Window;
  * @author Dora Calderón
  */
 public class ImplicationsController implements Initializable {
+    private Logger logger = Logger.getLogger(ImplicationsController.class.getName());
 
     @FXML
     private TextField txtNodes;
@@ -62,6 +66,8 @@ public class ImplicationsController implements Initializable {
     private NodeType nodeType;
     /** Sistema generado.**/
     ImplicationalSystem implications;
+    
+    ImplicationsModel model;
     
 
 //    @FXML
@@ -112,30 +118,38 @@ public class ImplicationsController implements Initializable {
      */
     @FXML
     public void handleGenerateButton(ActionEvent event) {
-        int nodesNumber = new Integer(txtNodes.getText());
-        int rulesNumber = new Integer(txtImplications.getText());
+        String strRulesNumber = txtImplications.getText();
+        String strNodesNumber = txtNodes.getText();
         String strMinPremise = txtMinLongLeft.getText();
         String strMaxPremise = txtMaxLongLeft.getText();
         String strMinConclusion = txtMinLongRight.getText();
         String strMaxConclusion = txtMaxLongRight.getText();
         
+        Integer nodesNumber = (!Strings.isNullOrEmpty(strNodesNumber)) ? new Integer(strNodesNumber) : null;
+        Integer rulesNumber = (!Strings.isNullOrEmpty(strRulesNumber)) ? new Integer(strRulesNumber) : null;
         Integer minPremiseLength = (!Strings.isNullOrEmpty(strMinPremise)) ? new Integer(strMinPremise) : null;
         Integer maxPremiseLength = (!Strings.isNullOrEmpty(strMaxPremise)) ? new Integer(strMaxPremise) : null;
         Integer minConclusionLength = (!Strings.isNullOrEmpty(strMinConclusion)) ? new Integer(strMinConclusion) : null;
         Integer maxConclusionLength = (!Strings.isNullOrEmpty(strMaxConclusion)) ? new Integer(strMaxConclusion) : null;
         
-        ImplicationsModel model = new ImplicationsModel(nodesNumber, rulesNumber);
-        model.setNodeType(nodeType);
-        model.setMinPremiseLength(minPremiseLength);
-        model.setMaxPremiseLength(maxPremiseLength);
-        model.setMinConclusionLength(minConclusionLength);
-        model.setMaxConclusionLength(maxConclusionLength);
-        
-        implications = ImplicationsFactory.getImplicationalSystem(model);
-        
-        showText(implications);
-        btnSave.setDisable(false);
+        try {
+            model = new ImplicationsModel(nodesNumber, rulesNumber);
+            model.setNodeType(nodeType);
+            model.setMinPremiseLength(minPremiseLength);
+            model.setMaxPremiseLength(maxPremiseLength);
+            model.setMinConclusionLength(minConclusionLength);
+            model.setMaxConclusionLength(maxConclusionLength);
+            model.validate();
+            
+            implications = ImplicationsFactory.getImplicationalSystem(model);
 
+            showText(implications);
+            btnSave.setDisable(false);
+            
+        } catch (RuntimeException modelEx) {
+            // TODO pintar el mensaje en la interfaz
+            logger.log(Level.SEVERE, modelEx.getMessage());
+        }
     }
 
     /**
@@ -194,6 +208,15 @@ public class ImplicationsController implements Initializable {
         }
     }
 
+    public void validate() {
+        ResultValidation validation = ResultValidation.OK;
+        if (model != null) {
+            validation = model.validate().getResult();
+        }
+        if (!validation.isValid()) {
+            throw new RuntimeException("Error de validación: " + validation.toString());
+        }
+    }
 //    /**
 //     * Abre un archivo DOT como imagen.
 //     *

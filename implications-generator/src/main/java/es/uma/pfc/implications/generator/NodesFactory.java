@@ -6,6 +6,7 @@
 package es.uma.pfc.implications.generator;
 
 import com.google.common.base.Strings;
+import es.uma.pfc.implications.generator.exception.ZeroNodesException;
 import es.uma.pfc.implications.generator.model.NodeType;
 import java.util.ArrayList;
 import java.util.List;
@@ -27,7 +28,7 @@ public class NodesFactory {
     }
 
     public String[] getNodes(NodeType type, Integer size) {
-        checkSize(size);
+        checkNodesSize(size);
         String[] nodes = null;
 
         if (type == null || NodeType.NUMBER.equals(type)) {
@@ -90,11 +91,11 @@ public class NodesFactory {
     /**
      * Comprueba que el tamaño sea mayor que 0.
      * @param size Tamaño.
-     * @throws IllegalArgumentException si el tamaño es menor que 0 o nulo.
+     * @throws ZeroNodesException si el tamaño es menor que 0 o nulo.
      */
-    protected void checkSize(Integer size) {
+    protected void checkNodesSize(Integer size) {
         if (size == null || size < 1) {
-            throw new IllegalArgumentException("El número de elementos debe ser mayor que 0");
+            throw new ZeroNodesException();
         }
     }
 }
