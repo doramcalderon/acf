@@ -83,6 +83,7 @@ public class ImplicationsController implements Initializable {
 //        this.resources = rb;
         this.cbNodeType.getItems().addAll(NodeType.NUMBER, NodeType.LETTER, NodeType.INDEXED_LETTER);
         this.cbNodeType.getSelectionModel().select(NodeType.NUMBER);
+        ImplicationsFactory.initialize();
     }
 
     /**
@@ -163,6 +164,7 @@ public class ImplicationsController implements Initializable {
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Guardar");
         fileChooser.getExtensionFilters().add(new ExtensionFilter("Text File", "*.txt"));
+        fileChooser.getExtensionFilters().add(new ExtensionFilter("Prolog File", "*.pl"));
         fileChooser.setInitialFileName("implications.txt");
         Window mainStage = implicationsPane.getScene().getWindow();
         File selectedFile = fileChooser.showSaveDialog(mainStage);

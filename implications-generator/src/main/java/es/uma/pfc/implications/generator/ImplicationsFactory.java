@@ -1,5 +1,6 @@
 package es.uma.pfc.implications.generator;
 
+import es.uma.pfc.implications.generator.io.ImplicationalSystemWriterProlog;
 import es.uma.pfc.implications.generator.model.ImplicationsModel;
 import fr.kbertet.lattice.ImplicationalSystem;
 import fr.kbertet.lattice.Rule;
@@ -12,7 +13,10 @@ import java.util.List;
  * @since @author Dora Calderón
  */
 public class ImplicationsFactory {
-
+    
+    public static void initialize() {
+        ImplicationalSystemWriterProlog.register();
+    }
 
     public static ImplicationalSystem getImplicationalSystem(int nodesNumber, int rulesNumber) {
         return ImplicationalSystem.random(nodesNumber, rulesNumber);
