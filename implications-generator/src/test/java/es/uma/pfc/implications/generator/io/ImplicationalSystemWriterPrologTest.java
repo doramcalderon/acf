@@ -12,7 +12,12 @@ import fr.kbertet.util.ComparableSet;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 import java.util.SortedSet;
 import java.util.TreeSet;
 import org.junit.Test;
@@ -23,7 +28,7 @@ import static org.junit.Assert.*;
  * @author Dora Calderón
  */
 public class ImplicationalSystemWriterPrologTest {
-
+    
     public ImplicationalSystemWriterPrologTest() {
         ImplicationalSystemWriterProlog.register();
     }
@@ -50,12 +55,44 @@ public class ImplicationalSystemWriterPrologTest {
         for(Rule r : rules) {
             system.addRule(r);
         }
-        File f = new File("test.pl");
+        Path dir = Paths.get("tests");
+        if (Files.notExists(dir)) {Files.createDirectory(Paths.get("tests"));};
+        File f = new File("tests/test.pl");
+        if (!f.exists()) {f.createNewFile();}
         BufferedWriter file = new BufferedWriter(new FileWriter(f));
         ImplicationalSystemWriterProlog.getInstance().write(system, file);
         
         assertTrue(f.exists());
-        f.delete();
+    }
+
+    /**
+     * Test of write method, of class ImplicationalSystemWriterProlog.
+     */
+    @Test
+    public void testWrite_List() throws Exception {
+        List<ImplicationalSystem> systems = new ArrayList();
+        ImplicationalSystem system = new ImplicationalSystem();
+        system.addAllElements(getNodes());
+        TreeSet<Rule> rules = getImplications();
+        for(Rule r : rules) {
+            system.addRule(r);
+        }
+        systems.add(system);
+        system = new ImplicationalSystem();
+        system.addAllElements(getNodes());
+        rules = getImplications();
+        for(Rule r : rules) {
+            system.addRule(r);
+        }
+        systems.add(system);
+        
+        ImplicationalSystemWriterProlog.getInstance().write(systems, "tests/test.pl");
+        
+        Path path = Paths.get("tests/test_1.pl");
+        assertTrue(Files.exists(path));
+        
+        path = Paths.get("tests/test_2.pl");
+        assertTrue(Files.exists(path));
     }
 
     /**

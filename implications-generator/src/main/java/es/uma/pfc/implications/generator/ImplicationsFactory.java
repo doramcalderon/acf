@@ -24,6 +24,25 @@ public class ImplicationsFactory {
 
 
     /**
+     * Devuelve n conjuntos aleatorios de implicaciones cumpliendo las restricciones establecidas en el parámetro
+     * {@code implicationsModel}.
+     *
+     * @param implicationsModel Restricciones para los sistemas de implicaciones a generar.
+     * @return Lista de conjuntos de implicaciones aleatorios.
+     */
+    public static List<ImplicationalSystem> getImplicationalSystems(ImplicationsModel implicationsModel) {
+        List<ImplicationalSystem> systems = new ArrayList();
+        int n = implicationsModel.getNum();
+        
+        for (int i = 0; i < n; i++) {
+            systems.add(getImplicationalSystem(implicationsModel));
+        }
+        
+        return systems;
+    }
+
+
+    /**
      * Devuelve un conjunto aleatorio de implicaciones cumpliendo las restricciones establecidas en el parámetro
      * {@code implicationsModel}.
      *
@@ -32,6 +51,7 @@ public class ImplicationsFactory {
      */
     public static ImplicationalSystem getImplicationalSystem(ImplicationsModel implicationsModel) {
         ImplicationalSystem sigma = new ImplicationalSystem();
+        
         Integer nodesNumber = implicationsModel.getNodes();
         Integer rulesNumber = implicationsModel.getImplications();
         Integer maxConclusionsLength = implicationsModel.getMaxConclusionLength();
@@ -41,8 +61,8 @@ public class ImplicationsFactory {
 
         String[] nodes = NodesFactory.get().getNodes(implicationsModel.getNodeType(), nodesNumber);
         // addition of elements
-        for (int i = 0; i < nodesNumber; i++) {
-            sigma.addElement(nodes[i]);
+        for (int j = 0; j < nodesNumber; j++) {
+            sigma.addElement(nodes[j]);
         }
         // addition of rules
         while (sigma.getRules().size() < rulesNumber) {
@@ -50,6 +70,7 @@ public class ImplicationsFactory {
             ComparableSet premisse = getPremise(sigma, minPremisesLength, maxPremisesLength);
             sigma.addRule(new Rule(premisse, conclusion));
         }
+        
         return sigma;
     }
 

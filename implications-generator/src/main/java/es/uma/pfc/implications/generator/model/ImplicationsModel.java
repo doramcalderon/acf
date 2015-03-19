@@ -45,7 +45,9 @@ public class ImplicationsModel {
      * Si se dibuja el grafo.
      */
     private Boolean showImage;
-
+    /** Número de conjuntos a generar**/
+    private Integer num;
+    
     /**
      * Constructor.
      */
@@ -196,6 +198,32 @@ public class ImplicationsModel {
     public void setShowImage(Boolean showImage) {
         this.showImage = showImage;
     }
+
+    /**
+     * Número de conjuntos a generar
+     * @return the num
+     */
+    public Integer getNum() {
+        if (num == null || num < 1) {
+            this.num = 1;
+        }
+        return num;
+    }
+
+    /**
+     * Establece el número de conjuntos a generar.<br/>
+     * Si {@cod num} es nulo o menor que 1, se establece a 1 por defecto.
+     * @param num the num to set
+     */
+    public void setNum(Integer num) {
+        if (num == null || num < 1) {
+            this.num = 1;
+        } else {
+            this.num = num;
+        }
+    }
+    
+    
     
     
     /**
@@ -218,6 +246,8 @@ public class ImplicationsModel {
         
         return result;
     }
+
+    
     
     
     

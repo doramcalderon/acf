@@ -7,8 +7,7 @@ package es.uma.pfc.implications.generator.controller;
 
 import com.google.common.base.Strings;
 import es.uma.pfc.implications.generator.ImplicationsFactory;
-import es.uma.pfc.implications.generator.exception.ModelException;
-import es.uma.pfc.implications.generator.exception.ZeroNodesException;
+import es.uma.pfc.implications.generator.io.GeneratorImplicationalSystemIO;
 import es.uma.pfc.implications.generator.model.ImplicationsModel;
 import es.uma.pfc.implications.generator.model.NodeType;
 import es.uma.pfc.implications.generator.model.ResultValidation;
@@ -25,6 +24,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
@@ -56,6 +56,7 @@ public class ImplicationsController implements Initializable {
     @FXML
     private Button btnSave;
     @FXML private ComboBox cbNodeType;
+    @FXML private TextField txtSystemsNumber;
     
     @FXML
     private Text textViewer;
@@ -65,7 +66,7 @@ public class ImplicationsController implements Initializable {
     /** Tipo de los nodos **/
     private NodeType nodeType;
     /** Sistema generado.**/
-    ImplicationalSystem implications;
+    List<ImplicationalSystem> implicationSystems;
     
     ImplicationsModel model;
     
@@ -119,32 +120,14 @@ public class ImplicationsController implements Initializable {
      */
     @FXML
     public void handleGenerateButton(ActionEvent event) {
-        String strRulesNumber = txtImplications.getText();
-        String strNodesNumber = txtNodes.getText();
-        String strMinPremise = txtMinLongLeft.getText();
-        String strMaxPremise = txtMaxLongLeft.getText();
-        String strMinConclusion = txtMinLongRight.getText();
-        String strMaxConclusion = txtMaxLongRight.getText();
-        
-        Integer nodesNumber = (!Strings.isNullOrEmpty(strNodesNumber)) ? new Integer(strNodesNumber) : null;
-        Integer rulesNumber = (!Strings.isNullOrEmpty(strRulesNumber)) ? new Integer(strRulesNumber) : null;
-        Integer minPremiseLength = (!Strings.isNullOrEmpty(strMinPremise)) ? new Integer(strMinPremise) : null;
-        Integer maxPremiseLength = (!Strings.isNullOrEmpty(strMaxPremise)) ? new Integer(strMaxPremise) : null;
-        Integer minConclusionLength = (!Strings.isNullOrEmpty(strMinConclusion)) ? new Integer(strMinConclusion) : null;
-        Integer maxConclusionLength = (!Strings.isNullOrEmpty(strMaxConclusion)) ? new Integer(strMaxConclusion) : null;
-        
         try {
-            model = new ImplicationsModel(nodesNumber, rulesNumber);
-            model.setNodeType(nodeType);
-            model.setMinPremiseLength(minPremiseLength);
-            model.setMaxPremiseLength(maxPremiseLength);
-            model.setMinConclusionLength(minConclusionLength);
-            model.setMaxConclusionLength(maxConclusionLength);
-            model.validate();
+            viewToModel();
+            validate();
             
-            implications = ImplicationsFactory.getImplicationalSystem(model);
-
-            showText(implications);
+            implicationSystems = ImplicationsFactory.getImplicationalSystems(model);
+            if (implicationSystems != null && implicationSystems.size() == 1) {
+                showText(implicationSystems.get(0));
+            }
             btnSave.setDisable(false);
             
         } catch (RuntimeException modelEx) {
@@ -170,7 +153,7 @@ public class ImplicationsController implements Initializable {
         File selectedFile = fileChooser.showSaveDialog(mainStage);
         if (selectedFile != null) {
             try {
-                implications.save(selectedFile.getAbsolutePath());
+                GeneratorImplicationalSystemIO.save(implicationSystems, selectedFile.getAbsolutePath());
             } catch (IOException ex) {
                 Logger.getLogger(ImplicationsController.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -210,6 +193,10 @@ public class ImplicationsController implements Initializable {
         }
     }
 
+    /**
+     * Valida el modelo.
+     * @throw RuntimeException Si hay algún error de validación.
+     */
     public void validate() {
         ResultValidation validation = ResultValidation.OK;
         if (model != null) {
@@ -218,6 +205,36 @@ public class ImplicationsController implements Initializable {
         if (!validation.isValid()) {
             throw new RuntimeException("Error de validación: " + validation.toString());
         }
+    }
+    
+    /**
+     * Lee las propiedades de la vista y las guarda en el modelo.
+     */
+    public void viewToModel() {
+        String strRulesNumber = txtImplications.getText();
+        String strNodesNumber = txtNodes.getText();
+        String strMinPremise = txtMinLongLeft.getText();
+        String strMaxPremise = txtMaxLongLeft.getText();
+        String strMinConclusion = txtMinLongRight.getText();
+        String strMaxConclusion = txtMaxLongRight.getText();
+        String strSystemsNumber = txtSystemsNumber.getText();
+        
+        Integer nodesNumber = (!Strings.isNullOrEmpty(strNodesNumber)) ? new Integer(strNodesNumber) : null;
+        Integer rulesNumber = (!Strings.isNullOrEmpty(strRulesNumber)) ? new Integer(strRulesNumber) : null;
+        Integer minPremiseLength = (!Strings.isNullOrEmpty(strMinPremise)) ? new Integer(strMinPremise) : null;
+        Integer maxPremiseLength = (!Strings.isNullOrEmpty(strMaxPremise)) ? new Integer(strMaxPremise) : null;
+        Integer minConclusionLength = (!Strings.isNullOrEmpty(strMinConclusion)) ? new Integer(strMinConclusion) : null;
+        Integer maxConclusionLength = (!Strings.isNullOrEmpty(strMaxConclusion)) ? new Integer(strMaxConclusion) : null;
+        Integer systemsNumber = (!Strings.isNullOrEmpty(strSystemsNumber)) ? new Integer(strSystemsNumber) : null;
+        
+        
+        model = new ImplicationsModel(nodesNumber, rulesNumber);
+        model.setNodeType(nodeType);
+        model.setMinPremiseLength(minPremiseLength);
+        model.setMaxPremiseLength(maxPremiseLength);
+        model.setMinConclusionLength(minConclusionLength);
+        model.setMaxConclusionLength(maxConclusionLength);
+        model.setNum(systemsNumber);
     }
 //    /**
 //     * Abre un archivo DOT como imagen.

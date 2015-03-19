@@ -6,12 +6,9 @@
 
 package es.uma.pfc.implications.generator.io;
 
-import com.google.common.base.Strings;
 import fr.kbertet.lattice.ImplicationalSystem;
 import fr.kbertet.lattice.Rule;
-import fr.kbertet.lattice.io.ImplicationalSystemWriter;
 import fr.kbertet.lattice.io.ImplicationalSystemWriterFactory;
-import fr.kbertet.lattice.io.ImplicationalSystemWriterText;
 import java.io.BufferedWriter;
 import java.io.IOException;
 import java.util.SortedSet;
@@ -21,7 +18,7 @@ import java.util.SortedSet;
  * @since 1.0.0
  * @author Dora Calderón
  */
-public class ImplicationalSystemWriterProlog implements ImplicationalSystemWriter {
+public class ImplicationalSystemWriterProlog extends GeneratorImplicationalSystemWriter {
     /**
      * String para una nueva línea.
      */

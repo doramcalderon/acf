@@ -1,0 +1,184 @@
+
+package es.uma.pfc.implications.generator.model;
+
+
+import org.junit.After;
+import org.junit.AfterClass;
+import org.junit.Before;
+import org.junit.BeforeClass;
+import org.junit.Test;
+import static org.junit.Assert.*;
+
+/**
+ *
+ * @author Dora Calderón
+ */
+public class ImplicationsModelTest {
+
+    public ImplicationsModelTest() {
+    }
+
+    @BeforeClass
+    public static void setUpClass() {
+    }
+
+    @AfterClass
+    public static void tearDownClass() {
+    }
+
+    @Before
+    public void setUp() {
+    }
+
+    @After
+    public void tearDown() {
+    }
+
+    /**
+     * Test of getNodes method, of class ImplicationsModel.
+     */
+    @Test
+    public void testGetSetNodes() {
+        Integer nodes = 10;
+        ImplicationsModel model = new ImplicationsModel();
+        model.setNodes(nodes);
+
+        assertEquals(nodes, model.getNodes());
+    }
+
+   
+
+    /**
+     * Test of getImplications method, of class ImplicationsModel.
+     */
+    @Test
+    public void testGetSetImplications() {
+        Integer implications = 10;
+        ImplicationsModel model = new ImplicationsModel();
+        model.setImplications(implications);
+
+        assertEquals(implications, model.getImplications());
+    }
+
+    /**
+     * Test of getMaxPremiseLength method, of class ImplicationsModel.
+     */
+    @Test
+    public void testGetSetMaxPremiseLength() {
+        Integer maxPremiseLength = 10;
+        ImplicationsModel model = new ImplicationsModel();
+        model.setMaxPremiseLength(maxPremiseLength);
+
+        assertEquals(maxPremiseLength, model.getMaxPremiseLength());
+    }
+
+    @Test
+    public void testValidatePremiseLength() {
+        Integer minPremiseLength = 7;
+        Integer maxPremiseLength = 10;
+
+        ImplicationsModel model = new ImplicationsModel(5, 4);
+        model.setMinPremiseLength(minPremiseLength);
+        model.setMaxPremiseLength(maxPremiseLength);
+
+        ResultModelValidation validation = model.validate();
+        
+        assertNotNull(validation);
+        assertEquals(ResultValidation.OK, validation.getResult());
+    }
+
+    @Test
+    public void testFailValidatePremiseLength() {
+        Integer minPremiseLength = 10;
+        Integer maxPremiseLength = 7;
+
+        ImplicationsModel model = new ImplicationsModel(5, 4);
+        model.setMinPremiseLength(minPremiseLength);
+        model.setMaxPremiseLength(maxPremiseLength);
+
+        ResultModelValidation validation = model.validate();
+        
+        assertNotNull(validation);
+        assertEquals(ResultValidation.INVALID_PREMISE_LENGTH, validation.getResult());
+    }
+
+    /**
+     * Test of getMinPremiseLength method, of class ImplicationsModel.
+     */
+    @Test
+    public void testGetSetMinPremiseLength() {
+        Integer minPremiseLength = 10;
+        ImplicationsModel model = new ImplicationsModel();
+        model.setMinPremiseLength(minPremiseLength);
+
+        assertEquals(minPremiseLength, model.getMinPremiseLength());
+    }
+
+    @Test
+    public void testValidateMinPremiseLength() {
+        Integer minPremiseLength = 7;
+        Integer maxPremiseLength = 10;
+
+        ImplicationsModel model = new ImplicationsModel(5, 4);
+        model.setMinPremiseLength(minPremiseLength);
+        model.setMaxPremiseLength(maxPremiseLength);
+
+        ResultModelValidation validation = model.validate();
+        
+        assertNotNull(validation);
+        assertEquals(ResultValidation.OK, validation.getResult());
+    }
+
+    @Test
+    public void testFailValidateMinPremiseLength() {
+        Integer minPremiseLength = 10;
+        Integer maxPremiseLength = 7;
+
+        ImplicationsModel model = new ImplicationsModel(5, 4);
+        model.setMinPremiseLength(minPremiseLength);
+        model.setMaxPremiseLength(maxPremiseLength);
+
+        ResultModelValidation validation = model.validate();
+        assertNotNull(validation);
+        assertEquals(ResultValidation.INVALID_PREMISE_LENGTH, validation.getResult());
+    }
+
+    /**
+     * Test of getMaxConclusionLength method, of class ImplicationsModel.
+     */
+    @Test
+    public void testGetSetMaxConclusionLength() {
+        Integer conclusionLength = 10;
+        ImplicationsModel model = new ImplicationsModel();
+        model.setMaxConclusionLength(conclusionLength);
+
+        assertEquals(conclusionLength, model.getMaxConclusionLength());
+    }
+
+    @Test
+    public void testGetSetNum() {
+        Integer num = 10;
+        ImplicationsModel model = new ImplicationsModel();
+        model.setNum(num);
+
+        assertEquals(num, model.getNum());
+    }
+
+    @Test
+    public void tesSetNullNum() {
+        Integer num = null;
+        ImplicationsModel model = new ImplicationsModel();
+        model.setNum(num);
+
+        assertEquals(new Integer(1), model.getNum());
+    }
+
+    @Test
+    public void tesSetNegativeNum() {
+        Integer num = -2;
+        ImplicationsModel model = new ImplicationsModel();
+        model.setNum(num);
+
+        assertEquals(new Integer(1), model.getNum());
+    }
+}
