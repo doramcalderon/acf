@@ -55,45 +55,14 @@ public class ImplicationalSystemWriterPrologTest {
         for(Rule r : rules) {
             system.addRule(r);
         }
-        Path dir = Paths.get("tests");
-        if (Files.notExists(dir)) {Files.createDirectory(Paths.get("tests"));};
-        File f = new File("tests/test.pl");
-        if (!f.exists()) {f.createNewFile();}
+      
+        File f = File.createTempFile("test", ".pl");
         BufferedWriter file = new BufferedWriter(new FileWriter(f));
         ImplicationalSystemWriterProlog.getInstance().write(system, file);
         
         assertTrue(f.exists());
     }
 
-    /**
-     * Test of write method, of class ImplicationalSystemWriterProlog.
-     */
-    @Test
-    public void testWrite_List() throws Exception {
-        List<ImplicationalSystem> systems = new ArrayList();
-        ImplicationalSystem system = new ImplicationalSystem();
-        system.addAllElements(getNodes());
-        TreeSet<Rule> rules = getImplications();
-        for(Rule r : rules) {
-            system.addRule(r);
-        }
-        systems.add(system);
-        system = new ImplicationalSystem();
-        system.addAllElements(getNodes());
-        rules = getImplications();
-        for(Rule r : rules) {
-            system.addRule(r);
-        }
-        systems.add(system);
-        
-        ImplicationalSystemWriterProlog.getInstance().write(systems, "tests/test.pl");
-        
-        Path path = Paths.get("tests/test_1.pl");
-        assertTrue(Files.exists(path));
-        
-        path = Paths.get("tests/test_2.pl");
-        assertTrue(Files.exists(path));
-    }
 
     /**
      * Test of getSystemInPrologFormat method, of class ImplicationalSystemWriterProlog.

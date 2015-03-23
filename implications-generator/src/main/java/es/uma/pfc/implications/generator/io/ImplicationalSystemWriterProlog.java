@@ -8,6 +8,7 @@ package es.uma.pfc.implications.generator.io;
 
 import fr.kbertet.lattice.ImplicationalSystem;
 import fr.kbertet.lattice.Rule;
+import fr.kbertet.lattice.io.ImplicationalSystemWriter;
 import fr.kbertet.lattice.io.ImplicationalSystemWriterFactory;
 import java.io.BufferedWriter;
 import java.io.IOException;
@@ -18,7 +19,7 @@ import java.util.SortedSet;
  * @since 1.0.0
  * @author Dora Calderón
  */
-public class ImplicationalSystemWriterProlog extends GeneratorImplicationalSystemWriter {
+public class ImplicationalSystemWriterProlog implements ImplicationalSystemWriter {
     /**
      * String para una nueva línea.
      */
@@ -47,10 +48,17 @@ public class ImplicationalSystemWriterProlog extends GeneratorImplicationalSyste
     }
 
       /**
-     * Register this class for writing .txt files.
+     * Register this class for writing .pl files.
      */
     public static void register() {
         ImplicationalSystemWriterFactory.register(ImplicationalSystemWriterProlog.getInstance(), "pl");
+    }
+
+      /**
+     * Unregister this class for writing .pl files.
+     */
+    public static void unregister() {
+        ImplicationalSystemWriterFactory.unregister("pl");
     }
     
     /**

@@ -8,9 +8,10 @@ package es.uma.pfc.implications.generator.io;
 
 import com.google.common.base.Strings;
 import fr.kbertet.lattice.ImplicationalSystem;
-import fr.kbertet.lattice.io.ImplicationalSystemWriter;
-import fr.kbertet.lattice.io.ImplicationalSystemWriterFactory;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.List;
 
 /**
@@ -31,12 +32,25 @@ public class GeneratorImplicationalSystemIO {
                 systems.get(0).save(fileName);
             } else {
                 int i = 1;
-                ImplicationalSystemWriter writer =  ImplicationalSystemWriterFactory.get(getExtension(fileName));
+                String fileNameWithIndex;
                 for (ImplicationalSystem system : systems) {
-                    system.save(getFileName(fileName, i));
+                    fileNameWithIndex = getFileName(fileName, i);
+                    checkFile(fileNameWithIndex);
+                    system.save(fileNameWithIndex);
                     i++;
                 }
             }
+        }
+    }
+    /**
+     * Comprueba si existe el fichero con nombre {@code fileName}, y si no existe, lo crea.
+     * @param fileName Nombre del fichero.
+     * @throws IOException Error en la lectura / escritura del fichero.
+     */
+    protected static void checkFile(String fileName) throws IOException {
+        Path path = Paths.get(fileName);
+        if (!Files.exists(path)) {
+            Files.createFile(path);
         }
     }
     
