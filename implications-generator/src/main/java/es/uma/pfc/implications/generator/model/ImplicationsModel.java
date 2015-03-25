@@ -247,8 +247,21 @@ public class ImplicationsModel {
         return result;
     }
 
-    
-    
+    /**
+     * Limpia los valores de las propiedades.
+     */
+    public void clean()     {
+        setImplications(0);
+        setMaxConclusionLength(0);
+        setMaxPremiseLength(0);
+        setMinConclusionLength(0);
+        setMinPremiseLength(0);
+        setNodeType(null);
+        setNodes(0);
+        setNum(null);
+        setShowImage(Boolean.FALSE);
+        
+    }
     
     
 }
