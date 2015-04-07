@@ -10,7 +10,7 @@ import java.util.List;
 
 /**
  *
- * @since @author Dora Calderón
+ * @author Dora Calderón
  */
 public class ImplicationsFactory {
     
