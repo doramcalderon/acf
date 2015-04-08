@@ -306,10 +306,14 @@ public class ImplicationsController implements Initializable {
         txtNodes.clear();
         txtImplications.clear();
 //        imageViewer.setImage(null);
-        textViewer.setText("<No implications generated>");
         this.cbNodeType.getSelectionModel().clearSelection();
         this.cbNodeType.getSelectionModel().select(NodeType.NUMBER);
+        this.txtMinLongLeft.clear();
+        this.txtMaxLongLeft.clear();
+        this.txtMinLongRight.clear();
+        this.txtMaxLongRight.clear();
         this.txtSystemsNumber.clear();
+        textViewer.setText("<No implications generated>");
         btnSave.setDisable(true);
     }
 
