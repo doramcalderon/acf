@@ -149,15 +149,14 @@ public class ImplicationsController implements Initializable {
 //                pin.setVisible(true);
             });
             genService.setOnSucceeded((WorkerStateEvent event1) -> {
-                List<ImplicationalSystem> value = (List<ImplicationalSystem>) event1.getSource().getValue();
-                implicationsGenerated(value);
+                implicationSystems = (List<ImplicationalSystem>) event1.getSource().getValue();
+                implicationsGenerated(implicationSystems);
                 //                    pin.setVisible(false);
                 implicationsPane.getScene().setCursor(Cursor.DEFAULT);
             });
 
             genService.start();
-            implicationSystems = genService.getValue();
-
+            
         } catch (RuntimeException modelEx) {
             // TODO pintar el mensaje en la interfaz
             logger.log(Level.SEVERE, modelEx.getMessage());
@@ -318,8 +317,12 @@ public class ImplicationsController implements Initializable {
      * Limpia el modelo.
      */
     protected void cleanModel() {
-        this.model.clean();
-        this.implicationSystems.clear();
+        if (model != null) {
+            this.model.clean();            
+        }
+        if (implicationSystems != null) {
+            this.implicationSystems.clear();
+        }
     }
 //    /**
 //     * Abre un archivo DOT como imagen.
