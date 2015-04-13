@@ -5,6 +5,8 @@
  */
 package es.uma.pfc.is.algorithms.util;
 
+import es.uma.pfc.is.algorithms.DirectOptimalBasis;
+import es.uma.pfc.is.algorithms.SimplificationLogic;
 import fr.kbertet.lattice.ImplicationalSystem;
 import fr.kbertet.lattice.Rule;
 import java.io.File;
@@ -70,28 +72,28 @@ public class ImplicationalSystemsTest {
         assertNull(size);
     }
 
-    /**
-     * Test of compositionEquivalency method, of class ImplicationalSystems.
-     */
-    @Test
-    public void testCompositionEquivalency_ImplicationalSystem() throws IOException {
-        String dir = System.getProperty("user.dir") + File.separator + "src" + File.separator + "test" + File.separator + "resources" + File.separator;
-        ImplicationalSystem system = new ImplicationalSystem(dir + "test_2.txt");
-        
-        system.getRules().stream().map((r) -> {
-            system.addAllElements(r.getPremise());
-            return r;
-        }).forEach((r) -> {
-            system.addAllElements(r.getConclusion());
-        });
-                
-        
-        ImplicationalSystem newSystem = ImplicationalSystems.compositionEquivalency(system);
-        
-        assertNotNull(newSystem);
-        assertEquals(new Integer(2), (Integer) newSystem.getRules().size());
-        
-    }
+//    /**
+//     * Test of simplification method, of class ImplicationalSystems.
+//     */
+//    @Test
+//    public void testCompositionEquivalency_ImplicationalSystem() throws IOException {
+//        String dir = System.getProperty("user.dir") + File.separator + "src" + File.separator + "test" + File.separator + "resources" + File.separator;
+//        ImplicationalSystem system = new ImplicationalSystem(dir + "test_2.txt");
+//        
+//        system.getRules().stream().map((r) -> {
+//            system.addAllElements(r.getPremise());
+//            return r;
+//        }).forEach((r) -> {
+//            system.addAllElements(r.getConclusion());
+//        });
+//                
+//        
+//        ImplicationalSystem newSystem = ImplicationalSystems.simplification(system);
+//        
+//        assertNotNull(newSystem);
+//        assertEquals(new Integer(2), (Integer) newSystem.getRules().size());
+//        
+//    }
 
     /**
      * Comprueba que cuando dos reglas tienen la misma premisa se devuelve una única regla con la premisa y como conclusión,
@@ -110,7 +112,7 @@ public class ImplicationalSystemsTest {
         rule2.getPremise().add("A");
         rule2.getConclusion().add("C");
         
-        List<Rule> rulesComposition = ImplicationalSystems.compositionEquivalency(rule1, rule2);
+        List<Rule> rulesComposition = SimplificationLogic.compositionEquivalency(rule1, rule2);
         
         assertNotNull(rulesComposition);
         assertEquals(new Integer(1), (Integer) rulesComposition.size());
@@ -140,7 +142,7 @@ public class ImplicationalSystemsTest {
         rule2.getPremise().add("C");
         rule2.getConclusion().add("D");
         
-        List<Rule> rulesComposition = ImplicationalSystems.compositionEquivalency(rule1, rule2);
+        List<Rule> rulesComposition = SimplificationLogic.compositionEquivalency(rule1, rule2);
         
         assertNotNull(rulesComposition);
         assertEquals(new Integer(2), (Integer) rulesComposition.size());
@@ -160,7 +162,7 @@ public class ImplicationalSystemsTest {
         
         Rule rule2 = null;
         
-        ImplicationalSystems.compositionEquivalency(rule1, rule2);
+        SimplificationLogic.compositionEquivalency(rule1, rule2);
         fail("NullPointerException expected.");
         
     }
@@ -177,7 +179,7 @@ public class ImplicationalSystemsTest {
         
         Rule rule2 = new Rule();
         
-        List<Rule> rulesComposition = ImplicationalSystems.compositionEquivalency(rule1, rule2);
+        List<Rule> rulesComposition = SimplificationLogic.compositionEquivalency(rule1, rule2);
         
         assertNotNull(rulesComposition);
         assertEquals(new Integer(2), (Integer) rulesComposition.size());
@@ -252,7 +254,7 @@ public class ImplicationalSystemsTest {
         rule.getConclusion().add("b");
         rule.getConclusion().add("c");
         
-        Rule eqRule = ImplicationalSystems.fragmentationEquivalency(rule);
+        Rule eqRule = SimplificationLogic.fragmentationEquivalency(rule);
         
         assertNotNull(eqRule);
         assertEquals(new Integer(2), (Integer) eqRule.getPremise().size());
@@ -275,7 +277,7 @@ public class ImplicationalSystemsTest {
         rule.getConclusion().add("b");
         rule.getConclusion().add("c");
         
-        Rule eqRule = ImplicationalSystems.fragmentationEquivalency(rule);
+        Rule eqRule = SimplificationLogic.fragmentationEquivalency(rule);
         
         assertEquals(rule, eqRule);
     }
@@ -287,7 +289,7 @@ public class ImplicationalSystemsTest {
     @Test
     public void testFragmentationEquivalency_EmptyRule() {
         Rule rule = new Rule();
-        Rule eqRule = ImplicationalSystems.fragmentationEquivalency(rule);
+        Rule eqRule = SimplificationLogic.fragmentationEquivalency(rule);
         
         assertNotNull(eqRule);
         assertTrue(eqRule.getPremise().isEmpty());
@@ -301,7 +303,7 @@ public class ImplicationalSystemsTest {
      */
     @Test
     public void testFragmentationEquivalency_NullRule() {
-        assertNull(ImplicationalSystems.fragmentationEquivalency(null));
+        assertNull(SimplificationLogic.fragmentationEquivalency(null));
     }
     /* dado el sistema {a->b, ac->be}, 
      * al aplicar la simplificación debe quedar {a->b, ac -> e}
@@ -314,12 +316,12 @@ public class ImplicationalSystemsTest {
         rule1.addToConclusion("b");
         
         Rule rule2 = new Rule();
-        rule1.addToPremise("a");
-        rule1.addToPremise("c");
-        rule1.addToConclusion("b");
-        rule1.addToConclusion("e");
+        rule2.addToPremise("a");
+        rule2.addToPremise("c");
+        rule2.addToConclusion("b");
+        rule2.addToConclusion("e");
         
-        List<Rule> rules = ImplicationalSystems.simplificationEquivalency(rule1, rule2);
+        List<Rule> rules = SimplificationLogic.simplificationEquivalency(rule1, rule2);
         
         assertNotNull(rules);
         assertEquals(new Integer(2), (Integer) rules.size());
@@ -332,4 +334,80 @@ public class ImplicationalSystemsTest {
         
         assertTrue(rules.contains(rulesimp));
     }
+    /* dado el sistema {a->ab, ac->be}, no se aplicará la simplificación.
+     */
+    @Test
+    public void testSimplificationEquivalencyNonEmptyAIntersectB() {
+        
+        Rule rule1 = new Rule();
+        rule1.addToPremise("a");
+        rule1.addToConclusion("ab");
+        
+        Rule rule2 = new Rule();
+        rule2.addToPremise("a");
+        rule2.addToPremise("c");
+        rule2.addToConclusion("b");
+        rule2.addToConclusion("e");
+        
+        List<Rule> rules = SimplificationLogic.simplificationEquivalency(rule1, rule2);
+        
+        assertNotNull(rules);
+        assertEquals(new Integer(2), (Integer) rules.size());
+        assertTrue(rules.contains(rule1));
+        assertTrue(rules.contains(rule2));
+    }
+  
+    
+    @Test
+    public void testReduce() throws IOException {
+        ImplicationalSystem system = getSystemFromFile("test_1.txt");
+        
+        ImplicationalSystem reducedSystem = ImplicationalSystems.reduce(system);
+        
+        assertNotNull(reducedSystem);
+        assertEquals(new Integer(4), (Integer) reducedSystem.sizeRules());
+        
+        Rule r = new Rule();
+        r.addToPremise("d");
+        r.addToConclusion("c");
+        assertTrue(reducedSystem.containsRule(r));
+        
+        r = new Rule();
+        r.addToPremise("c");
+        r.addToConclusion("a");
+        r.addToConclusion("b");
+        r.addToConclusion("d");
+        assertTrue(reducedSystem.containsRule(r));
+        
+        r = new Rule();
+        r.addToPremise("c");
+        r.addToPremise("e");
+        r.addToConclusion("a");
+        r.addToConclusion("b");
+        assertTrue(reducedSystem.containsRule(r));
+        
+        r = new Rule();
+        r.addToPremise("a");
+        r.addToConclusion("d");
+        assertTrue(reducedSystem.containsRule(r));
+    }
+    
+    @Test
+    public void testReduceNullSystem() throws IOException {
+        ImplicationalSystem reducedSystem = ImplicationalSystems.reduce(null);    
+        assertNull(reducedSystem);
+    }
+    
+    
+    
+    //<editor-fold defaultstate="collapsed" desc="Utilidades">
+    
+    private ImplicationalSystem getSystemFromFile(String file) throws IOException {
+        String dir = System.getProperty("user.dir") + File.separator + "src" + File.separator + "test" 
+                    + File.separator + "resources" + File.separator;
+        return new ImplicationalSystem(dir + file);        
+    }
+    
+//</editor-fold>
+    
 }

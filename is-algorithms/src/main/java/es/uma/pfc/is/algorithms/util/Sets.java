@@ -7,6 +7,7 @@
 package es.uma.pfc.is.algorithms.util;
 
 import java.util.Set;
+import java.util.TreeSet;
 
 /**
  *
@@ -14,6 +15,29 @@ import java.util.Set;
  * @author Dora Calderón
  */
 public class Sets {
+    /**
+     * Unión de dos conjuntos.
+     * @param <T> Tipo de los conjuntos.
+     * @param set1 Conjunto.
+     * @param set2 Conjunto.
+     * @return Conjunto con los elementos de los dos conjuntos pasados como parámetro. Si uno de los dos es nulo,
+     * se devuelve el otro.
+     */
+    public static final TreeSet  union(Set set1, Set set2) {
+        TreeSet union;
+        if(set1 == null && set2 == null) {
+            union = null;
+        } else if(set1 == null) {
+            union = new TreeSet(set2);
+        } else if (set2 == null) {
+            union = new TreeSet(set1);
+        } else {
+            union = new TreeSet(set1);
+            union.addAll(set2);
+        }
+        
+        return union;
+    }
 
     /**
      * Intersección de dos conjuntos.
@@ -38,12 +62,32 @@ public class Sets {
      * @return Diferencia de dos conjuntos.<br/>
      * {@code null} si alguno de los dos conjuntos es nulo.
      */
-    public static final <T extends Set>  T difference(T set1, T set2) {
-        T difference = null;
+    public static final TreeSet difference(Set set1, Set set2) {
+        TreeSet difference = null;
         if (set1 != null && set2 != null) {
-            difference = set1;
+            difference = new TreeSet(set1);
             difference.removeAll(set2);
         }
         return difference;
+    }
+    
+    /**
+     * A \ B = (A - B) union (B - A)
+     * @param <T>
+     * @param set1
+     * @param set2
+     * @return 
+     */
+    public static final  TreeSet symDifference(Set set1, Set set2) {
+        return union(difference(set1, set2), difference(set2, set1));
+    }
+    
+    /**
+     * Devuelve si un conjunto es vacío.
+     * @param set Conjunto.
+     * @return {@code true} si el conjunto es nulo o vacío, {@code false} en otro caso.
+     */
+    public static final boolean isEmpty(Set set) {
+        return (set == null || set.isEmpty());
     }
 }
