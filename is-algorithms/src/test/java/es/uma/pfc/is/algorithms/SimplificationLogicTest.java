@@ -237,7 +237,8 @@ public class SimplificationLogicTest {
         
         Rule rule1 = new Rule();
         rule1.addToPremise("a");
-        rule1.addToConclusion("ab");
+        rule1.addToConclusion("a");
+        rule1.addToConclusion("b");
         
         Rule rule2 = new Rule();
         rule2.addToPremise("a");
@@ -256,10 +257,33 @@ public class SimplificationLogicTest {
     
 
     /**
-     * Test of strongSimplificationEq method, of class SimplificationLogic.
+     * Se comprueba que se aplica la regla:
+     * <p>
+     * Si (B interseccion C) no es vacío y (D \ (A union B)) tampoco, se devuelve la nueva implicación 
+     * AC - B -> D - (AB).
+     * </p>
+     * Por lo que dado el sistema {a->ab, ac->be}, debe devolver la nueva regla a añadir c -> e.
      */
     @Test
     public void testStrongSimplificationEq() {
+        Rule rule1 = new Rule();
+        rule1.addToPremise("a");
+        rule1.addToConclusion("a");
+        rule1.addToConclusion("b");
+        
+        Rule rule2 = new Rule();
+        rule2.addToPremise("a");
+        rule2.addToPremise("c");
+        rule2.addToConclusion("b");
+        rule2.addToConclusion("e");
+        
+        Rule newRule = SimplificationLogic.strongSimplificationEq(rule1, rule2);
+        
+        assertNotNull(newRule);
+        assertEquals(1, newRule.getPremise().size());
+        assertTrue(newRule.getPremise().contains("c"));
+        assertEquals(1, newRule.getConclusion().size());
+        assertTrue(newRule.getConclusion().contains("e"));
     }
     
 }

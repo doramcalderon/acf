@@ -99,7 +99,7 @@ public class SimplificationLogic {
         TreeSet c = rule2.getPremise();
         TreeSet d = rule2.getConclusion();
         
-        if(!Sets.intersection(a, b).isEmpty()) {
+        if(!Sets.intersection(b, c).isEmpty()) {
             if(!Sets.symDifference(d, Sets.union(a, b)).isEmpty()) {
                 newRule = new Rule();
                 newRule.addAllToPremise(Sets.difference(Sets.union(a, c), b));
