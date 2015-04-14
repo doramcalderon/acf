@@ -76,12 +76,7 @@ public class SimplificationLogic {
         TreeSet<Comparable> b = rule1.getConclusion();
         TreeSet<Comparable> c = rule2.getPremise();
         TreeSet<Comparable> d = rule2.getConclusion();
-        System.out.println("A: " + a);
-        System.out.println("B: " + b);
-        System.out.println("C: " + c);
-        System.out.println("D: " + d);
-        System.out.println("A inters B empty?: " + Sets.intersection(a, b).isEmpty());
-        System.out.println("A subset C? : " + c.containsAll(a));
+        
         if (Sets.intersection(a, b).isEmpty() && c.containsAll(a)) {
             rules.add(new Rule( Sets.difference(c, b), Sets.difference(d, b)));
         } else {

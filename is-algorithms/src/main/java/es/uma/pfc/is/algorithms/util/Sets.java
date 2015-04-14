@@ -23,7 +23,7 @@ public class Sets {
      * @return Conjunto con los elementos de los dos conjuntos pasados como parámetro. Si uno de los dos es nulo,
      * se devuelve el otro.
      */
-    public static final TreeSet  union(Set set1, Set set2) {
+    public static final TreeSet  union(final Set set1, final Set set2) {
         TreeSet union;
         if(set1 == null && set2 == null) {
             union = null;
@@ -46,10 +46,10 @@ public class Sets {
      * @return Intersección de dos conjuntos.<br/>
      * {@code null} si alguno de los dos conjuntos es nulo.
      */
-    public static final Set intersection(Set set1, Set set2) {
-        Set intersection = null;
+    public static final TreeSet intersection(final Set set1, final Set set2) {
+        TreeSet intersection = null;
         if (set1 != null && set2 != null) {
-            intersection = set1;
+            intersection = new TreeSet(set1);
             intersection.retainAll(set2);
         }
         return intersection;
@@ -62,7 +62,7 @@ public class Sets {
      * @return Diferencia de dos conjuntos.<br/>
      * {@code null} si alguno de los dos conjuntos es nulo.
      */
-    public static final TreeSet difference(Set set1, Set set2) {
+    public static final TreeSet difference(final Set set1, final Set set2) {
         TreeSet difference = null;
         if (set1 != null && set2 != null) {
             difference = new TreeSet(set1);
@@ -78,7 +78,7 @@ public class Sets {
      * @param set2
      * @return 
      */
-    public static final  TreeSet symDifference(Set set1, Set set2) {
+    public static final  TreeSet symDifference(final Set set1, final Set set2) {
         return union(difference(set1, set2), difference(set2, set1));
     }
     
@@ -87,7 +87,7 @@ public class Sets {
      * @param set Conjunto.
      * @return {@code true} si el conjunto es nulo o vacío, {@code false} en otro caso.
      */
-    public static final boolean isEmpty(Set set) {
+    public static final boolean isEmpty(final Set set) {
         return (set == null || set.isEmpty());
     }
 }
