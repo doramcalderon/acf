@@ -1,14 +1,10 @@
 package es.uma.pfc.is.algorithms.util;
 
-import es.uma.pfc.is.algorithms.DirectOptimalBasis;
 import es.uma.pfc.is.algorithms.SimplificationLogic;
 import fr.kbertet.lattice.ImplicationalSystem;
 import fr.kbertet.lattice.Rule;
-import fr.kbertet.util.ComparableSet;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collection;
-import java.util.List;
+import java.util.Iterator;
 import java.util.TreeSet;
 
 /**
@@ -150,5 +146,31 @@ public class ImplicationalSystems {
         }
 
         return reducedSystem;
+    }
+    
+    /**
+     * Si dos sistemas son dos iguales, es decir, contienen las mismas implicaciones.
+     * @param system1 Sistema implicacional.
+     * @param system2 Sistema implicacional.
+     * @return {@code true} si los dos sistemas contienen las mismas implicaciones, {@code false} en otro caso.
+     */
+    public static final boolean equals(ImplicationalSystem system1, ImplicationalSystem system2) {
+        
+        if (system1 == null && system2 == null) {
+            return true;
+        }
+        if (system1 != null && system2 != null) {
+            boolean equals = false;
+            if (getCardinality(system1).equals(getCardinality(system2))) {
+                equals = true;
+                Iterator<Rule> iterator = system1.getRules().iterator();
+                while(iterator.hasNext() && equals) {
+                    equals = system2.containsRule(iterator.next());
+                }
+            } 
+            return equals;
+        } else {
+            return false;
+        }
     }
 }

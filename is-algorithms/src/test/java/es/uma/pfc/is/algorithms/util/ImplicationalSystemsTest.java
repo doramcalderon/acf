@@ -187,7 +187,27 @@ public class ImplicationalSystemsTest {
         ImplicationalSystem reducedSystem = ImplicationalSystems.reduce(null);    
         assertNull(reducedSystem);
     }
-    
+
+    @Test
+    public void testEquals() throws IOException {
+        ImplicationalSystem system1 = getSystemFromFile("test_1.txt");
+        ImplicationalSystem system2 = getSystemFromFile("test_1.txt");
+        
+        assertTrue(ImplicationalSystems.equals(system1, system2));
+    }
+    @Test
+    public void testNotEquals() throws IOException {
+        ImplicationalSystem system1 = getSystemFromFile("test_1.txt");
+        ImplicationalSystem system2 = getSystemFromFile("test_2.txt");
+        
+        assertFalse(ImplicationalSystems.equals(system1, system2));
+    }
+    @Test
+    public void testNotEqualsWithNull() throws IOException {
+        ImplicationalSystem system1 = getSystemFromFile("test_1.txt");
+        
+        assertFalse(ImplicationalSystems.equals(system1, null));
+    }
     
     
     //<editor-fold defaultstate="collapsed" desc="Utilidades">
