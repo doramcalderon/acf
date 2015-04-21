@@ -95,6 +95,55 @@ public class ImplicationalSystemsTest {
 //        
 //    }
 
+    @Test
+    public void testAddRuleAndElements() {
+        ImplicationalSystem system = new ImplicationalSystem();
+        system.addElement("a");
+        system.addElement("b");
+        TreeSet premise = new TreeSet();
+        premise.add("a");
+        TreeSet conclusion = new TreeSet();
+        conclusion.add("b");
+        Rule rule = new Rule(premise, conclusion);
+        system.addRule(rule);
+        
+        premise = new TreeSet();
+        premise.add("c");
+        conclusion = new TreeSet();
+        conclusion.add("d");
+        
+        Rule newRule = new Rule(premise, conclusion);
+        
+        ImplicationalSystem newSystem = ImplicationalSystems.addRuleAndElements(system, newRule);
+        
+        assertNotNull(newSystem);
+        assertEquals(2, newSystem.sizeRules());
+        assertTrue(newSystem.containsRule(rule));
+        assertTrue(newSystem.containsRule(newRule));
+        assertEquals(4, newSystem.sizeElements());
+        assertTrue(newSystem.getSet().contains("a"));
+        assertTrue(newSystem.getSet().contains("b"));
+        assertTrue(newSystem.getSet().contains("c"));
+        assertTrue(newSystem.getSet().contains("d"));
+    }
+    @Test
+    public void testAddRuleAndElements_NullSystem() {
+        ImplicationalSystem system = null;
+        TreeSet premise = new TreeSet();
+        premise.add("b");
+        TreeSet conclusion = new TreeSet();
+        conclusion.add("c");
+        Rule newRule = new Rule(premise, conclusion);
+        
+        ImplicationalSystem newSystem = ImplicationalSystems.addRuleAndElements(system, newRule);
+        
+        assertNotNull(newSystem);
+        assertEquals(1, newSystem.sizeRules());
+        assertTrue(newSystem.containsRule(newRule));
+        assertEquals(2, newSystem.sizeElements());
+        assertTrue(newSystem.getSet().contains("b"));
+        assertTrue(newSystem.getSet().contains("c"));
+    }
    
     /**
      * Comprueba que se añaden las reglas de una colección a un sistema.
@@ -108,10 +157,10 @@ public class ImplicationalSystemsTest {
         List <Rule> rules = Arrays.asList(new Rule(new TreeSet(Arrays.asList("a", "b")), new TreeSet(Arrays.asList("c"))),
                                           new Rule(new TreeSet(Arrays.asList("b")), new TreeSet(Arrays.asList("c"))));
         
-        ImplicationalSystems.addAllRules(system, rules);
+        ImplicationalSystem newSystem = ImplicationalSystems.addAllRules(system, rules);
         
-        assertNotNull(system.getRules());
-        assertEquals(new Integer(3), (Integer) system.getRules().size());
+        assertNotNull(newSystem.getRules());
+        assertEquals(3, newSystem.getRules().size());
         
     }
     /**

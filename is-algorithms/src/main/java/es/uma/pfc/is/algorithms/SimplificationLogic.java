@@ -101,9 +101,12 @@ public class SimplificationLogic {
         
         if(!Sets.intersection(b, c).isEmpty()) {
             if(!Sets.symDifference(d, Sets.union(a, b)).isEmpty()) {
-                newRule = new Rule();
-                newRule.addAllToPremise(Sets.difference(Sets.union(a, c), b));
-                newRule.addAllToConclusion(Sets.difference(d, Sets.union(a, b)));
+                TreeSet conclusion = Sets.difference(d, Sets.union(a, b));
+                if (!conclusion.isEmpty()) {
+                    newRule = new Rule();
+                    newRule.addAllToPremise(Sets.difference(Sets.union(a, c), b));
+                    newRule.addAllToConclusion(conclusion);
+                }
             }
         }
         

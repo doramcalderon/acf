@@ -5,6 +5,7 @@
  */
 package es.uma.pfc.is.algorithms;
 
+import es.uma.pfc.is.algorithms.util.ImplicationalSystems;
 import static es.uma.pfc.is.algorithms.util.ImplicationalSystems.*;
 import es.uma.pfc.is.algorithms.util.Rules;
 import es.uma.pfc.is.algorithms.util.Sets;
@@ -17,8 +18,15 @@ import java.util.TreeSet;
  *
  * @since @author Dora Calderón
  */
-public class DirectOptimalBasis {
+public class DirectOptimalBasis implements Algorithm<ImplicationalSystem, ImplicationalSystem> {
 
+    @Override
+    public String getName() {
+        return "Direct Optimal Basis";
+    }
+
+    
+    @Override
     public ImplicationalSystem execute(ImplicationalSystem system) {
         ImplicationalSystem directOptimalBasis = null;
 
@@ -60,16 +68,18 @@ public class DirectOptimalBasis {
                 a = rule1.getPremise();
                 b = rule1.getConclusion();
                 for (Rule rule2 : system.getRules()) {
-                    c = rule2.getPremise();
-                    d = rule2.getConclusion();
+                    if(!rule1.equals(rule2)) {
+                        c = rule2.getPremise();
+                        d = rule2.getConclusion();
 
-                    if (c.containsAll(a)) {
-                        if (union(a, b).containsAll(c)) {
-                            simplificatedSystem.removeRule(rule1);
-                            simplificatedSystem.removeRule(rule2);
-                            simplificatedSystem.addRule(new Rule(a, new TreeSet(union(b, d))));
-                        } else {
-                            addAllRules(simplificatedSystem, SimplificationLogic.simplificationEquivalency(rule1, rule2));
+                        if (c.containsAll(a)) {
+                            if (union(a, b).containsAll(c)) {
+                                simplificatedSystem.removeRule(rule1);
+                                simplificatedSystem.removeRule(rule2);
+                                simplificatedSystem.addRule(new Rule(a, new TreeSet(union(b, d))));
+                            } else {
+                                addAllRules(simplificatedSystem, SimplificationLogic.simplificationEquivalency(rule1, rule2));
+                            }
                         }
                     }
                 }
@@ -85,30 +95,37 @@ public class DirectOptimalBasis {
      * @param system
      * @return
      */
-    protected ImplicationalSystem strongSimplificate(ImplicationalSystem system) {
-        ImplicationalSystem newSystem = new ImplicationalSystem(system);
+    protected ImplicationalSystem strongSimplificate(final ImplicationalSystem system) {
+        ImplicationalSystem simplSystem = new ImplicationalSystem(system);
+        ImplicationalSystem auxSystem = new ImplicationalSystem();
         int size;
 
-        ImplicationalSystem copyOfSystem;
-        ImplicationalSystem copyOfSystem2;
         do {
-            size = newSystem.sizeRules();
-            copyOfSystem = new ImplicationalSystem(newSystem);
-            copyOfSystem2 = new ImplicationalSystem(newSystem);
-
-            for (Rule rule1 : copyOfSystem.getRules()) {
-                for (Rule rule2 : copyOfSystem2.getRules()) {
-                    Rule r = SimplificationLogic.strongSimplificationEq(rule1, rule2);
-                    if (r != null) {
-                        newSystem.addRule(r);
+            size = simplSystem.sizeRules();
+            auxSystem.init();
+            
+            for (Rule rule1 : simplSystem.getRules()) {
+                for (Rule rule2 : simplSystem.getRules()) {
+                    if(!rule1.equals(rule2)) {
+                        Rule r = SimplificationLogic.strongSimplificationEq(rule1, rule2);
+                        if (r != null) {
+                            auxSystem.addAllElements(Rules.getElements(r));
+                            auxSystem.addRule(r);
+                        }
                     }
                 }
             }
-        } while (size != newSystem.sizeRules());
-        return newSystem;
+            simplSystem = ImplicationalSystems.addAllRules(simplSystem, auxSystem.getRules());
+        } while (size != simplSystem.sizeRules());
+        return simplSystem;
     }
 
-    protected ImplicationalSystem optimize(ImplicationalSystem system) {
+    /**
+     * Devuelve un sistema de implicaciones optimizado.
+     * @param system Sistema implicacional.
+     * @return Sistema implicacional optimizado.
+     */
+    protected ImplicationalSystem optimize(final ImplicationalSystem system) {
         ImplicationalSystem optimizedSystem = new ImplicationalSystem();
         Rule optimizedRule = null;
         
@@ -130,7 +147,7 @@ public class DirectOptimalBasis {
     /**
      * Devuelve la optimización de una implicación respecto a otra aplicando que:<br/>
      *      if C = A then B = B union D<br/>
-     *      if C no es subconjunto de A then B = diferencia simetrica (B, D) <br/>
+     *      if C es subconjunto propio de A then B = diferencia simetrica (B, D) <br/>
      * 
      * @param implication1 Implicación.
      * @param implication2 Implicación.
@@ -139,23 +156,28 @@ public class DirectOptimalBasis {
     protected Rule optimize(Rule implication1, Rule implication2) {
         Rule optimizedRule = null;
         if (implication1 != null && implication2 != null) {
-            optimizedRule = new Rule(implication1.getPremise(), implication1.getConclusion());
-            TreeSet a = optimizedRule.getPremise();
-            TreeSet b = optimizedRule.getConclusion();
+            TreeSet a = implication1.getPremise();
+            TreeSet b = implication1.getConclusion();
             TreeSet c = implication2.getPremise();
             TreeSet d = implication2.getConclusion();
 
             if (c.equals(a)) {
+                optimizedRule = new Rule(implication1.getPremise(), implication1.getConclusion());
                 optimizedRule.addAllToConclusion(d);
-            }
-            if (!a.containsAll(c)) {
+            } else if (a.containsAll(c)) {
                 TreeSet symDifference = Sets.symDifference(b, d);
+                optimizedRule = new Rule(implication1.getPremise(), symDifference);
                 // System.out.println("symDiference(" + b + ", " + d + "): " + symDifference);
-                optimizedRule.getConclusion().clear();
-                optimizedRule.addAllToConclusion(symDifference);
             }
         }
         System.out.println("optimize(" + implication1 + ", " + implication2 + ") ==> " + optimizedRule);
         return optimizedRule;
     }
+
+    @Override
+    public String toString() {
+        return getName();
+    }
+    
+    
 }

@@ -55,19 +55,36 @@ public class ImplicationalSystems {
     }
 
     /**
+     * Añade una regla y sus elementos a un sistema.
+     * @param system Sistema implicacional.
+     * @param rule Regla.
+     * @return Sistema implicacional con la nueva regla.
+     */
+    public static final ImplicationalSystem addRuleAndElements(final ImplicationalSystem system, final Rule rule) {
+        ImplicationalSystem newSystem = (system == null) ? new ImplicationalSystem() : new ImplicationalSystem(system);
+        
+        if(rule != null) {
+            newSystem.addAllElements(Rules.getElements(rule));
+            newSystem.addRule(rule);
+        }
+        return newSystem;
+    }
+    /**
      * Añade una colección de implicaciones a un sistema.
      *
      * @param system Sistema implicacional.
      * @param rules Implicaciones.
      * @return Sistema implicacional con las nuevas implicaciones añadidas.
      */
-    public static final ImplicationalSystem addAllRules(ImplicationalSystem system, Collection<Rule> rules) {
+    public static final ImplicationalSystem addAllRules(final ImplicationalSystem system, final Collection<Rule> rules) {
+        ImplicationalSystem newSystem = (system == null) ? new ImplicationalSystem() : new ImplicationalSystem(system);
         if (rules != null) {
             rules.stream().forEach((rule) -> {
-                system.addRule(rule);
+                newSystem.addAllElements(Rules.getElements(rule));
+                newSystem.addRule(rule);
             });
         }
-        return system;
+        return newSystem;
     }
 
 
