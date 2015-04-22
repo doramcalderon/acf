@@ -18,7 +18,7 @@ import java.util.TreeSet;
  *
  * @since @author Dora Calderón
  */
-public class DirectOptimalBasis implements Algorithm<ImplicationalSystem, ImplicationalSystem> {
+public class DirectOptimalBasis extends GenericAlgorithm {
 
     @Override
     public String getName() {
