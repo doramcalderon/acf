@@ -17,6 +17,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
+import javafx.stage.DirectoryChooser;
 import javafx.stage.FileChooser;
 import javafx.stage.Window;
 
@@ -120,6 +121,18 @@ public class FXMLController implements Initializable {
         File selectedFile = fileChooser.showOpenDialog(mainStage);
         if(selectedFile != null) {
             txtInput.setText(selectedFile.getPath());
+        }
+    }
+     
+    @FXML
+    public void handleSelectOutputAction(ActionEvent event) {
+        DirectoryChooser dirChooser = new DirectoryChooser();
+        dirChooser.setTitle("Select Output");
+                
+        Window mainStage = rootPane.getScene().getWindow();
+        File selectedDir = dirChooser.showDialog(mainStage);
+        if(selectedDir != null) {
+            txtOutput.setText(selectedDir.getPath());
         }
     }
 }

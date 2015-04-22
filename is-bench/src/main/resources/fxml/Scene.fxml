@@ -108,7 +108,7 @@
                               <Label text="Input:" />
                               <Label layoutX="10.0" layoutY="17.0" text="Output" GridPane.rowIndex="1" />
                               <Button fx:id="btnSelectInput" mnemonicParsing="false" onAction="#handleSelectInputAction" text="..." GridPane.columnIndex="2" />
-                              <Button fx:id="btnSelectOutput" mnemonicParsing="false" text="..." GridPane.columnIndex="2" GridPane.rowIndex="1" />
+                              <Button fx:id="btnSelectOutput" mnemonicParsing="false" onAction="#handleSelectOutputAction" text="..." GridPane.columnIndex="2" GridPane.rowIndex="1" />
                               <TextField fx:id="txtInput" GridPane.columnIndex="1">
                                  <padding>
                                     <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
