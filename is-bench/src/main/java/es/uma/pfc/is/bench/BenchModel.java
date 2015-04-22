@@ -16,6 +16,14 @@ public class BenchModel {
      * Algoritmos disponibles.
      */
     private List<Algorithm> algorithms;
+    /**
+     * Algoritmo seleccionado.
+     */
+    private Algorithm selectedAlgorithm;
+    /** Archivo de entrada.**/
+    private String input;
+    /** Directorio de salida.**/
+    private String output;
 
     public BenchModel() {
         algorithms = new ArrayList();
@@ -50,6 +58,52 @@ public class BenchModel {
      */
     public void setAlgorithms(List<Algorithm> algorithms) {
         this.algorithms = algorithms;
+    }
+
+    /**
+     * @return the selectedAlgorithm
+     */
+    public Algorithm getSelectedAlgorithm() {
+        return selectedAlgorithm;
+    }
+
+    /**
+     * @param selectedAlgorithm the selectedAlgorithm to set
+     */
+    public void setSelectedAlgorithm(Algorithm selectedAlgorithm) {
+        this.selectedAlgorithm = selectedAlgorithm;
+    }
+
+    /**
+     * Archivo de entrada.
+     * @return the input
+     */
+    public String getInput() {
+        return input;
+    }
+
+    /**
+     * Archivo de entrada.
+     * @param input the input to set
+     */
+    public void setInput(String input) {
+        this.input = input;
+    }
+
+    /**
+     * Directorio de salida.
+     * @return the output
+     */
+    public String getOutput() {
+        return output;
+    }
+
+    /**
+     * Directorio de salida.
+     * @param output the output to set
+     */
+    public void setOutput(String output) {
+        this.output = output;
     }
     
     
