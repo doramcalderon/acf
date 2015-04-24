@@ -3,8 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package es.uma.pfc.is.algorithms;
+package es.uma.pfc.is.algorithms.optbasis;
 
+import es.uma.pfc.is.algorithms.optbasis.DirectOptimalBasis;
 import es.uma.pfc.is.algorithms.util.ImplicationalSystems;
 import fr.kbertet.lattice.ImplicationalSystem;
 import fr.kbertet.lattice.Rule;

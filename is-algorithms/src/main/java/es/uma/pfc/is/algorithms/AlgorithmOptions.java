@@ -20,6 +20,12 @@ public class AlgorithmOptions {
         STATISTICS, 
         /** Se genera traza.*/
         TRACE}
+    public enum Options {
+        /** Entrada del algoritmo.**/
+        INPUT,
+        /** Directorio de salida.**/
+        OUTPUT
+    }
     
     /**
      * Opciones.
@@ -30,6 +36,25 @@ public class AlgorithmOptions {
         options = new HashMap();
     }
     
+    
+    /**
+     * Devuelve el valor de una opción.
+     * @param <T> Tipo del valor.
+     * @param algOptions Opciones de algoritmo.
+     * @param key Nombre.
+     * @return Valor de la opción. <br/> {@code null} si no existe.
+     * @throws ClassCastException si el tipo de la opción no es T.
+     */
+    public static <T> T getOption(AlgorithmOptions algOptions, String key) {
+        T optionValue = null;
+        if (algOptions != null) {
+            if(key == null || key.isEmpty()) {
+                throw new InvalidKeyException("The key can't be empty or null.");
+            }
+            optionValue = (T) algOptions.getOption(key);
+        }
+        return optionValue;
+    }
     
     /**
      * Añade una nueva opción.

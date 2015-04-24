@@ -4,7 +4,7 @@
  * and open the template in the editor.
  */
 
-package es.uma.pfc.is.algorithms;
+package es.uma.pfc.is.algorithms.optbasis;
 
 import es.uma.pfc.is.algorithms.util.Sets;
 import fr.kbertet.lattice.Rule;

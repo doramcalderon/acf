@@ -3,8 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package es.uma.pfc.is.algorithms;
+package es.uma.pfc.is.algorithms.optbasis;
 
+import es.uma.pfc.is.algorithms.GenericAlgorithm;
 import es.uma.pfc.is.algorithms.util.ImplicationalSystems;
 import static es.uma.pfc.is.algorithms.util.ImplicationalSystems.*;
 import es.uma.pfc.is.algorithms.util.Rules;

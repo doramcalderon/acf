@@ -1,6 +1,6 @@
 package es.uma.pfc.is.algorithms.util;
 
-import es.uma.pfc.is.algorithms.SimplificationLogic;
+import es.uma.pfc.is.algorithms.optbasis.SimplificationLogic;
 import fr.kbertet.lattice.ImplicationalSystem;
 import fr.kbertet.lattice.Rule;
 import java.util.Collection;

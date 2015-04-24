@@ -1,5 +1,6 @@
 package es.uma.pfc.is.algorithms;
 
+import es.uma.pfc.is.algorithms.exceptions.AlgorithmException;
 import fr.kbertet.lattice.ImplicationalSystem;
 
 /**

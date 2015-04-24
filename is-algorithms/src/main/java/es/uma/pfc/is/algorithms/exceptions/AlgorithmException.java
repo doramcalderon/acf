@@ -1,5 +1,7 @@
+package es.uma.pfc.is.algorithms.exceptions;
 
-package es.uma.pfc.is.algorithms;
+
+
 
 /**
  * Error al ejecutar un algoritmo.

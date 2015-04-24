@@ -3,8 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package es.uma.pfc.is.algorithms;
+package es.uma.pfc.is.algorithms.optbasis;
 
+import es.uma.pfc.is.algorithms.optbasis.SimplificationLogic;
 import fr.kbertet.lattice.Rule;
 import java.util.List;
 import java.util.TreeSet;
