@@ -2,8 +2,13 @@ package es.uma.pfc.is.bench;
 
 import com.sun.istack.internal.logging.Logger;
 import es.uma.pfc.is.algorithms.Algorithm;
-import es.uma.pfc.is.algorithms.AlgorithmException;
-import es.uma.pfc.is.algorithms.DirectOptimalBasis;
+import es.uma.pfc.is.algorithms.AlgorithmExecutor;
+import es.uma.pfc.is.algorithms.AlgorithmOptions;
+import es.uma.pfc.is.algorithms.AlgorithmOptions.Options;
+import es.uma.pfc.is.algorithms.exceptions.AlgorithmException;
+import es.uma.pfc.is.algorithms.optbasis.DirectOptimalBasis;
+import es.uma.pfc.is.bench.config.UserConfig;
+import es.uma.pfc.is.bench.output.Console;
 import java.io.File;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -15,6 +20,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
+import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.DirectoryChooser;
@@ -52,6 +58,9 @@ public class FXMLController implements Initializable {
     
     @FXML
     private BorderPane rootPane;
+    
+    @FXML
+    private TextArea txtPerformanceArea;
     
     
     @Override
@@ -101,7 +110,13 @@ public class FXMLController implements Initializable {
     public void handleRunAction(ActionEvent event) {
         viewToModel();
         try {
-            model.getSelectedAlgorithm().execute(model.getInput());
+            Algorithm alg = model.getSelectedAlgorithm();
+            alg.input(model.getInput())
+                .output(new Console(txtPerformanceArea))
+                .output(model.getOutput())
+                .enable(AlgorithmOptions.Mode.PERFORMANCE);
+            new AlgorithmExecutor().execute(alg);
+            alg.reset();
         } catch (AlgorithmException ex) {
             Logger.getLogger(FXMLController.class).log(Level.SEVERE, ex.getMessage(), ex);
         }
@@ -116,6 +131,7 @@ public class FXMLController implements Initializable {
         fileChooser.setTitle("Select Input");
         fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("Text File", "*.txt"));
         fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("Prolog File", "*.pl"));
+        fileChooser.setInitialDirectory(UserConfig.get().getDefaultInputDir());
         
         Window mainStage = rootPane.getScene().getWindow();
         File selectedFile = fileChooser.showOpenDialog(mainStage);
@@ -128,7 +144,8 @@ public class FXMLController implements Initializable {
     public void handleSelectOutputAction(ActionEvent event) {
         DirectoryChooser dirChooser = new DirectoryChooser();
         dirChooser.setTitle("Select Output");
-                
+        dirChooser.setInitialDirectory(UserConfig.get().getDefaultOutputDir());
+        
         Window mainStage = rootPane.getScene().getWindow();
         File selectedDir = dirChooser.showDialog(mainStage);
         if(selectedDir != null) {

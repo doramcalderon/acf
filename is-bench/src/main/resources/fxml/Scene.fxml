@@ -128,6 +128,23 @@
                            </children>
                         </GridPane>
                      </top>
+                     <center>
+                        <TabPane prefHeight="200.0" prefWidth="200.0" tabClosingPolicy="UNAVAILABLE" BorderPane.alignment="CENTER">
+                          <tabs>
+                            <Tab text="Times">
+                                 <content>
+                                    <TextArea fx:id="txtPerformanceArea" editable="false" prefHeight="200.0" prefWidth="200.0" />
+                                 </content>
+                              </Tab>
+                            <Tab text="History" />
+                              <Tab text="Statistics">
+                                <content>
+                                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+                                </content>
+                              </Tab>
+                          </tabs>
+                        </TabPane>
+                     </center>
                   </BorderPane>
                </children>
             </AnchorPane>
