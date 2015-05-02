@@ -122,6 +122,13 @@ public class AlgorithmOptions {
         checkMode(mode);
         return Boolean.TRUE.equals(options.get(mode.toString()));
     }
+    
+    /**
+     * Limpia la configuración.
+     */
+    public void clear() {
+        options.clear();
+    }
   
     /**
      * Comprueba si la clave es válida.

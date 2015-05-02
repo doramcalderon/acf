@@ -1,8 +1,6 @@
 
 package es.uma.pfc.is.algorithms;
 
-import es.uma.pfc.is.algorithms.AlgorithmOptions.Options;
-
 /**
  * Servicio que ejecuta un algoritmo.
  * @author Dora Calderón
@@ -17,12 +15,11 @@ public class AlgorithmExecutor {
      * @param options Opciones de ejecución.
      * @return Resultado de la ejecución.
      */
-    public <I,O> O execute(Algorithm<I, O> alg, AlgorithmOptions options) {
-        init(options);
-        O output = run(alg, options);
+    public <I,O> O execute(Algorithm<I, O> alg) {
+        O output = run(alg);
         stop();
         return output;
-    }
+    }   
     /**
      * Inicializa
      * @param options 
@@ -38,11 +35,10 @@ public class AlgorithmExecutor {
      * @param options Opciones.
      * @return Resultado del algoritmo.
      */
-    protected <I,O> O run(Algorithm<I, O> alg, AlgorithmOptions options) {
+    protected <I,O> O run(Algorithm<I, O> alg) {
         O output = null;
         if(alg != null) {
-            I input = options.<I>getOption(Options.INPUT.toString());
-            output = alg.execute(input);
+            output = alg.execute();
         }
         return output;
     }
