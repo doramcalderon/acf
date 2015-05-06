@@ -15,6 +15,8 @@ import javafx.fxml.Initializable;
 import javafx.scene.Scene;
 import javafx.scene.control.Menu;
 import javafx.scene.control.TabPane;
+import javafx.scene.layout.BorderPane;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 /**
@@ -25,6 +27,9 @@ public class RootController implements Initializable {
     @FXML
     private Menu preferencesMenu;
 
+    @FXML
+    private BorderPane rootPane;
+    
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         System.out.println("initialize");   
@@ -41,6 +46,8 @@ public class RootController implements Initializable {
             Scene preferencesScene = new Scene(configView);
             
             Stage preferencesStage = new Stage();
+            preferencesStage.initOwner(rootPane.getScene().getWindow());
+            preferencesStage.initModality(Modality.WINDOW_MODAL);
             preferencesStage.setTitle(" Workspaces");
             preferencesStage.centerOnScreen();
             preferencesStage.setScene(preferencesScene);
