@@ -9,5 +9,5 @@ public interface UserConfigProperties {
     /**
      * Workspace por defecto.
      */
-    String DEFAULT_WORKSPACE = "workspace.default";
+    String DEFAULT_WORKSPACE_PROPERTY = "workspace.default";
 }

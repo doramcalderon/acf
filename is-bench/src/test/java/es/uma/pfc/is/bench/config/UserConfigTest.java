@@ -1,7 +1,13 @@
 
 package es.uma.pfc.is.bench.config;
 
+import static es.uma.pfc.is.bench.config.UserConfig.CONFIG_PATH;
+import es.uma.pfc.is.bench.uitls.FileUtils;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
 import java.nio.file.Paths;
+import java.util.Properties;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
@@ -12,9 +18,22 @@ import static org.junit.Assert.*;
 public class UserConfigTest {
     @Test
     public void testGet() {
+        UserConfig.me = null;
         UserConfig config = UserConfig.get();
         assertNotNull(config.getConfig());
-        assertEquals(Paths.get(UserConfig.DEFAULT_WORKSPACE_PATH).toString(), config.getDefaultWorkspace());
+    }
+    
+    @Test
+    public void testInitDefaultWorkspace() throws IOException {
+        Properties config = new Properties();
+        File configFile = FileUtils.createIfNoExists(UserConfig.CONFIG_PATH);
+        config.load(new FileInputStream(configFile));
+        String defaultWsConfigured = config.getProperty(UserConfig.DEFAULT_WORKSPACE_PROPERTY, UserConfig.DEFAULT_WORKSPACE_PATH);
+        
+        UserConfig uc = new UserConfig();
+        uc.initDefaultWorkspace();
+        assertEquals(defaultWsConfigured, uc.getDefaultWorkspace());
+        
     }
 
     /**
@@ -22,7 +41,7 @@ public class UserConfigTest {
      */
     @Test
     public void testGetDefaultWorkspace() {
-        String expected = UserConfig.get().getConfig().getProperty(UserConfig.DEFAULT_WORKSPACE); 
+        String expected = UserConfig.get().getConfig().getProperty(UserConfig.DEFAULT_WORKSPACE_PROPERTY); 
         assertEquals(expected, UserConfig.get().getDefaultWorkspace());
     }
 

@@ -8,7 +8,11 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.Properties;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * Configuración de usuario.
@@ -26,19 +30,19 @@ public class UserConfig implements UserConfigProperties {
                                                         + File.separator + ".isbench" 
                                                         + File.separator + "default";
     /**
-     * Directorio de entradas por defecto.
+     * Directorio de entradas por defecto dentro del workspace.
      */
-    public static final String DEFAULT_INPUT_PATH = DEFAULT_WORKSPACE_PATH + File.separator + "input";
+    public static final String DEFAULT_INPUT_PATH =  "input";
     /**
-     * Directorio de salidas por defecto.
+     * Directorio de salidas por defecto dentro del workspace.
      */
-    public static final String DEFAULT_OUTPUT_PATH = DEFAULT_WORKSPACE_PATH + File.separator + "output";
+    public static final String DEFAULT_OUTPUT_PATH =  "output";
     
     
     /**
      * Instancia única.
      */
-    private static UserConfig me;
+    protected static UserConfig me;
     /**
      * Configuración.
      */
@@ -50,7 +54,7 @@ public class UserConfig implements UserConfigProperties {
      * Si el archivo no existe, lo crea con las propiedades básicas por defecto.
      * @throws ConfigurationException Si se produce algún error al cargar el archivo de configuración.
      */
-    private UserConfig() {
+    protected UserConfig() {
         try {
             initConfig();
             initDefaultWorkspace();
@@ -62,7 +66,7 @@ public class UserConfig implements UserConfigProperties {
      * Carga el archivo isbench.properties y lo crea si no existe.
      * @throws IOException Eror al leer / escribir en el archivo de configuración.
      */
-    private void initConfig() throws IOException {
+    protected final void initConfig() throws IOException {
         config = new Properties();
         
         File configFile = FileUtils.createIfNoExists(CONFIG_PATH);
@@ -73,12 +77,15 @@ public class UserConfig implements UserConfigProperties {
     /**
      * Inicializa el workspace por defecto.
      */
-    private void initDefaultWorkspace() throws IOException {
-        File defautlWs = FileUtils.createDirIfNoExists(DEFAULT_WORKSPACE_PATH);
-        config.setProperty(DEFAULT_WORKSPACE, defautlWs.getAbsolutePath());
-        
-        FileUtils.createDirIfNoExists(DEFAULT_INPUT_PATH);
-        FileUtils.createDirIfNoExists(DEFAULT_OUTPUT_PATH);
+    protected final void initDefaultWorkspace() throws IOException {
+        String defaultWsPath = config.getProperty(DEFAULT_WORKSPACE_PROPERTY);
+        if(defaultWsPath == null || defaultWsPath.trim().length() == 0) {
+            defaultWsPath = DEFAULT_WORKSPACE_PATH;
+        } 
+        FileUtils.createDirIfNoExists(defaultWsPath);
+        FileUtils.createDirIfNoExists(defaultWsPath + File.separator + DEFAULT_INPUT_PATH);
+        FileUtils.createDirIfNoExists(defaultWsPath + File.separator + DEFAULT_OUTPUT_PATH);
+        config.setProperty(DEFAULT_WORKSPACE_PROPERTY, defaultWsPath);
         save();    
     }
     
@@ -98,22 +105,35 @@ public class UserConfig implements UserConfigProperties {
      * @return Path del workspace.
      */
     public String getDefaultWorkspace() {
-        return config.getProperty(DEFAULT_WORKSPACE);
+        return config.getProperty(DEFAULT_WORKSPACE_PROPERTY);
     }
     /**
      * Establece el workspace por defecto.
      * @param workspace Path del workspace.
      */
     public void setDefaultWorkspace(String workspace) {
-        config.setProperty(DEFAULT_WORKSPACE, workspace);
+        try {
+            FileUtils.createDirIfNoExists(workspace);
+            config.setProperty(DEFAULT_WORKSPACE_PROPERTY, workspace);
+        } catch (IOException ex) {
+            throw new ConfigurationException(workspace + " not exists.", ex);
+        }
     }
 
     public File getDefaultInputDir() {
-        return new File(getDefaultWorkspace() + File.separator + "input");
+        String inputDir = getDefaultWorkspace() + File.separator + "input";
+        if (!Files.exists(Paths.get(inputDir))) {
+            inputDir = getDefaultWorkspace();
+        }
+        return new File(inputDir);
     }
 
     public File getDefaultOutputDir() {
-        return new File(getDefaultWorkspace() + File.separator + "output");
+        String outputDir=  getDefaultWorkspace() + File.separator + "output";
+        if (!Files.exists(Paths.get(outputDir))) {
+            outputDir = getDefaultWorkspace();
+        }
+        return new File(outputDir);
     }
     /**
      * Establece el valor de una propiedad en la configuración.

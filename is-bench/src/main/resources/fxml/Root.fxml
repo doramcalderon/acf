@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+
+<BorderPane id="RootPane" prefHeight="400.0" prefWidth="600.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8" fx:controller="es.uma.pfc.is.bench.RootController">
+   <top>
+      <MenuBar BorderPane.alignment="CENTER">
+        <menus>
+          <Menu mnemonicParsing="false" text="Run">
+            <items>
+              <MenuItem mnemonicParsing="false" text="Run" />
+            </items>
+          </Menu>
+          <Menu mnemonicParsing="false" text="Preferences">
+               <items>
+              <MenuItem fx:id="workspaceMenuItem" mnemonicParsing="false" onAction="#handleWorkspacesAction" text="Workspaces" />
+               </items>
+          </Menu>
+            <Menu mnemonicParsing="false" text="Help">
+               <items>
+                  <MenuItem mnemonicParsing="false" text="Delete" />
+               </items>
+            </Menu>
+        </menus>
+      </MenuBar>
+   </top>
+</BorderPane>

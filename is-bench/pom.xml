@@ -11,7 +11,6 @@
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <mainClass>es.uma.pfc.is.bench.MainApp</mainClass>
     </properties>
 
     <organization>
@@ -39,7 +38,7 @@
         </dependency>
     </dependencies>
     
-    <build>
+<!--    <build>
         <plugins>
            
             <plugin>
@@ -52,6 +51,7 @@
                     <compilerArguments>
                         <bootclasspath>${sun.boot.class.path}${path.separator}${java.home}/lib/jfxrt.jar</bootclasspath>
                     </compilerArguments>
+                    <showDeprecation>true</showDeprecation>
                 </configuration>
             </plugin>
             <plugin>
@@ -65,6 +65,6 @@
                 </configuration>
             </plugin>
         </plugins>
-    </build>
+    </build>-->
 
 </project>
