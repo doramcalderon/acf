@@ -9,6 +9,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
 
@@ -41,7 +42,7 @@ public class ISBenchApp extends Application {
      */
     protected void loadMainForm() {
         try {
-            BorderPane mainForm = FXMLLoader.load(ISBenchApp.class.getResource(FXMLViews.MAIN_VIEW));
+            Pane mainForm = FXMLLoader.load(ISBenchApp.class.getResource(FXMLViews.MAIN_VIEW));
             root.setCenter(mainForm);
         } catch (IOException ex) {
             ex.printStackTrace();
@@ -54,6 +55,8 @@ public class ISBenchApp extends Application {
      */
     protected void showStage(Stage primaryStage) {
         this.primaryStage = primaryStage;
+        primaryStage.setMinHeight(600);
+        primaryStage.setMinWidth(800);
         Scene scene = new Scene(root);
         primaryStage.setScene(scene);
         primaryStage.setTitle("IS Bench");
