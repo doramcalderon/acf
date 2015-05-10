@@ -4,6 +4,7 @@ package es.uma.pfc.is.bench;
 import es.uma.pfc.is.algorithms.Algorithm;
 import es.uma.pfc.is.algorithms.AlgorithmExecutor;
 import es.uma.pfc.is.algorithms.AlgorithmOptions;
+import es.uma.pfc.is.algorithms.AlgorithmOptions.Mode;
 import es.uma.pfc.is.algorithms.exceptions.AlgorithmException;
 import es.uma.pfc.is.algorithms.optbasis.DirectOptimalBasis;
 import es.uma.pfc.is.bench.config.UserConfig;
@@ -20,6 +21,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
@@ -62,6 +64,9 @@ public class FXMLController implements Initializable {
     @FXML
     private TextArea txtPerformanceArea;
     
+    @FXML
+    private CheckBox chkTime, chkHistory, chkStatistics;
+    
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -103,6 +108,9 @@ public class FXMLController implements Initializable {
      */
     protected void viewToModel() {
         model.setSelectedAlgorithm(algorithmsList.getSelectionModel().getSelectedItem());
+        model.getSelectedAlgorithm().option(Mode.PERFORMANCE.toString(), chkTime.isSelected());
+        model.getSelectedAlgorithm().option(Mode.TRACE.toString(), chkHistory.isSelected());
+        model.getSelectedAlgorithm().option(Mode.STATISTICS.toString(), chkStatistics.isSelected());
         model.setInput(txtInput.getText());
         model.setOutput(txtOutput.getText());
     }

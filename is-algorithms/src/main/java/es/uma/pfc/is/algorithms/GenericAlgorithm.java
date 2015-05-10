@@ -136,7 +136,13 @@ public abstract class GenericAlgorithm implements Algorithm<String, Implicationa
         outputs.clear();
     }
     
-    
+    /**
+     * Logger.
+     * @return Logger. 
+     */
+    protected ISBenchLogger getLogger() {
+        return logger;
+    }
     
 
     /**

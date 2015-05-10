@@ -6,14 +6,13 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-
 <AnchorPane minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="es.uma.pfc.is.bench.FXMLController">
    <children>
       <BorderPane fx:id="rootPane" prefHeight="600.0" prefWidth="800.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <top>
             <HBox>
                <children>
-                  <FlowPane prefHeight="60.0" prefWidth="400.0" BorderPane.alignment="CENTER">
+                  <FlowPane prefHeight="65.0" prefWidth="400.0" BorderPane.alignment="CENTER">
                      <children>
                         <Button fx:id="btnRun" disable="true" mnemonicParsing="false" onAction="#handleRunAction" prefHeight="60.0" prefWidth="60.0" text="Run" />
                      </children>
@@ -23,7 +22,7 @@
                   </FlowPane>
                   <FlowPane alignment="CENTER_RIGHT" columnHalignment="RIGHT" prefHeight="0.0" prefWidth="400.0" BorderPane.alignment="CENTER">
                      <children>
-                        <CheckBox mnemonicParsing="false" selected="true" text="Time">
+                        <CheckBox fx:id="chkTime" mnemonicParsing="false" selected="true" text="Time">
                            <font>
                               <Font size="14.0" />
                            </font>
@@ -31,7 +30,7 @@
                               <Insets bottom="5.0" left="5.0" right="10.0" top="5.0" />
                            </padding>
                         </CheckBox>
-                        <CheckBox mnemonicParsing="false" text="History">
+                        <CheckBox fx:id="chkHistory" mnemonicParsing="false" text="History">
                            <font>
                               <Font size="14.0" />
                            </font>
@@ -39,7 +38,7 @@
                               <Insets bottom="5.0" left="5.0" right="10.0" top="5.0" />
                            </padding>
                         </CheckBox>
-                        <CheckBox mnemonicParsing="false" text="Statistics">
+                        <CheckBox fx:id="chkStatistics" mnemonicParsing="false" text="Statistics">
                            <font>
                               <Font size="14.0" />
                            </font>

@@ -2,7 +2,14 @@
 package es.uma.pfc.is.logging;
 
 import es.uma.pfc.is.algorithms.AlgorithmOptions;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
 import java.io.OutputStream;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 import org.junit.Test;
@@ -68,19 +75,19 @@ public class ISBenchLoggerTest {
     }
 
     /**
-     * Test of isTraceEnabled method, of class ISBenchLogger.
+     * Test of isHistoryEnabled method, of class ISBenchLogger.
      */
     @Test
-    public void testIsTraceEnabled() {
+    public void testIsHistoryEnabled() {
         AlgorithmOptions options = new AlgorithmOptions();
         options.enable(AlgorithmOptions.Mode.TRACE);
         ISBenchLogger logger = new ISBenchLogger(options);
         
-        assertTrue(logger.isTraceEnabled());
+        assertTrue(logger.isHistoryEnabled());
     }
 
     /**
-     * Test of isTraceEnabled method, of class ISBenchLogger.
+     * Test of isHistoryEnabled method, of class ISBenchLogger.
      */
     @Test
     public void testIsTraceNotEnabled() {
@@ -88,7 +95,7 @@ public class ISBenchLoggerTest {
         options.disable(AlgorithmOptions.Mode.TRACE);
         ISBenchLogger logger = new ISBenchLogger(options);
         
-        assertFalse(logger.isTraceEnabled());
+        assertFalse(logger.isHistoryEnabled());
     }
 
     /**
@@ -271,6 +278,56 @@ public class ISBenchLoggerTest {
      */
     @Test
     public void testGetOutputs() {
+    }
+
+    /**
+     * Test of clearOutputs method, of class ISBenchLogger.
+     */
+    @Test
+    public void testClearOutputs() {
+    }
+
+    /**
+     * Test of initOutputs method, of class ISBenchLogger.
+     */
+    @Test
+    public void testInitOutputs() {
+    }
+
+    /**
+     * Comprueba que se escribe una línea en el archivo history.txt y en ninguno más.
+     * @throws java.io.FileNotFoundException
+     */
+    @Test
+    public void testHistory() throws FileNotFoundException, IOException {
+        AlgorithmOptions options = new AlgorithmOptions();
+        options.enable(AlgorithmOptions.Mode.TRACE);
+        ISBenchLogger logger = new ISBenchLogger(options);
+        
+        logger.history("History message {}", 1);
+        
+        File log = new File("history.txt");
+        assertTrue(log.exists());
+        
+        BufferedReader reader = new BufferedReader(new FileReader(log));
+        String line = reader.readLine();
+        assertNotNull(line);
+        assertTrue(line.length() > 0);
+        reader.close();
+        
+        log = new File("stats.csv");
+        assertTrue(log.exists());
+        reader = new BufferedReader(new FileReader(log));
+        int i = reader.read();
+        assertEquals(-1, i);
+        reader.close();
+    }
+
+    /**
+     * Test of statistics method, of class ISBenchLogger.
+     */
+    @Test
+    public void testStatistics() {
     }
     
 }

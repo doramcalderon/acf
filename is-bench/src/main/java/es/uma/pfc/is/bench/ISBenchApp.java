@@ -21,6 +21,7 @@ public class ISBenchApp extends Application {
     
     @Override
     public void start(Stage primaryStage) throws IOException {
+        System.setProperty("log4j.configurationFile", "es/uma/pfc/is/bench/log4j2.xml");
         loadRootLayout();
         loadMainForm();
         showStage(primaryStage);

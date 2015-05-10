@@ -14,8 +14,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Properties;
-import java.util.logging.Level;
-import org.apache.log4j.BasicConfigurator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.slf4j.Marker;
@@ -28,14 +26,32 @@ import org.slf4j.MarkerFactory;
  * @author Dora Calderón
  */
 public class ISBenchLogger  implements Messages {
+    /** Performance appender name.**/
+    protected static final String PERFORMANCE_APPENDER = "Performance";
+    /** Statistics appender name.**/
+    protected static final String STATISTICS_APPENDER = "Statistics";
+    /** History Appender name.*/
+    protected static final String HISTORY_APPENDER = "History";
+    
+    /** Marker for performance outputs.**/
+    protected static final Marker PERFORMANCE_MARKER = MarkerFactory.getMarker("PERFORMANCE");
+    /** Marker for statistics outputs.**/
+    protected static final Marker STATISTICS_MARKER = MarkerFactory.getMarker("STATS");
+    /** Marker for history outputs.**/
+    protected static final Marker HISTORY_MARKER = MarkerFactory.getMarker("HISTORY");
+    
+        
+    /**
+     * SLF4J Logger.
+     */
     protected Logger logger;
+    
     
     private AlgorithmOptions options;
     private List<OutputStream> outputs;
     private long startTime;
     
     
-    private static final Marker performanceMarker = MarkerFactory.getMarker("PERFORMANCE");
             
     private static final Properties messages;
     static {
@@ -52,8 +68,7 @@ public class ISBenchLogger  implements Messages {
     }
     
     public ISBenchLogger() {
-        BasicConfigurator.configure();
-        logger = LoggerFactory.getLogger("Performance");
+        logger = LoggerFactory.getLogger(ISBenchLogger.class);
         outputs = new ArrayList();
     }
 
@@ -97,7 +112,7 @@ public class ISBenchLogger  implements Messages {
      * Si el modo {@link Mode#TRACE} está habilitado.
      * @return {@code true} si {@link Mode#TRACE} está habilitado, {@code false} en otro caso.
      */
-    public boolean isTraceEnabled() {
+    public boolean isHistoryEnabled() {
         return options.isEnabled(Mode.TRACE);
     }
     
@@ -171,49 +186,16 @@ public class ISBenchLogger  implements Messages {
         return outputs;
     }
     
-    /**
-     * Escribe un mensaje en las distintas salidas.
-     * @param message Mensaje.
-     */
-    protected void writeMessage(String message, Object ... args)  {
-        for (OutputStream output : outputs) {
-            writeMessage(message, output);
-        }
-    }
-    /**
-     * Escribe el mensaje en una salida.
-     * @param message Mensaje.
-     * @param output Salida.
-     */
-    protected void writeMessage(String message, OutputStream output, Object ... args)  {
-        String messageWithArgs = String.format(message, args);
-        char[] messageChars = messageWithArgs.toCharArray();
-        try {
-            for (char c : messageChars) {
-                output.write(message.getBytes());
-            }
-            output.write("\n".getBytes());
-            output.flush();
-        } catch (IOException ex) {
-            java.util.logging.Logger.getLogger(PerformanceLogger.class.getName()).log(Level.SEVERE, null, ex);
-        } finally {
-            try {
-                output.close();
-            } catch (IOException ex) {
-                java.util.logging.Logger.getLogger(ISBenchLogger.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        }
-    }
-    
+   
     /**
      * Escribe la hora de comienzo.
      * @param time HOra de inicio.
      */
     public void startTime(Date time) {
+        
         if (isPerformanceEnabled()) {
             startTime = time.getTime();
-            writeMessage(getMessage(PERFORMANCE_INIT));
-//            logger.info(getMessage(PERFORMANCE_INIT), time);
+            logger.info(PERFORMANCE_MARKER, getMessage(PERFORMANCE_INIT), time);
         }
     }
     
@@ -224,10 +206,31 @@ public class ISBenchLogger  implements Messages {
     public void endTime(Date time) {
         if(isPerformanceEnabled()) {
             long total = time.getTime() - startTime;
-            writeMessage(getMessage(PERFORMANCE_END), time);
-            writeMessage(getMessage(PERFORMANCE_TOTAL), total);
-            // logger.info(getMessage(PERFORMANCE_END), time);
-            //logger.info(getMessage(PERFORMANCE_TOTAL), total);
+            logger.info(PERFORMANCE_MARKER,getMessage(PERFORMANCE_END), time);
+            logger.info(PERFORMANCE_MARKER,getMessage(PERFORMANCE_TOTAL), total);
+        }
+    }
+    
+    /**
+     * Write a message with History Appender.
+     * @param message Message.
+     * @param args Message arguments.
+     */
+    public void history(String message, Object ... args) {
+        if(isHistoryEnabled()) {
+            logger.info(HISTORY_MARKER, message, args);
+        }
+    }
+    
+    
+    /**
+     * Write a message with Statistics Appender.
+     * @param message Message.
+     * @param args Message arguments.
+     */
+    public void statistics(String message, Object ... args) {
+        if(isStatisticsEnabled()) {
+            logger.info(STATISTICS_MARKER, message, args);
         }
     }
     

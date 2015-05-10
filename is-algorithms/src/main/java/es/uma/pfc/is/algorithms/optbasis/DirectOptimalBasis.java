@@ -11,6 +11,7 @@ import static es.uma.pfc.is.algorithms.util.ImplicationalSystems.*;
 import es.uma.pfc.is.algorithms.util.Rules;
 import es.uma.pfc.is.algorithms.util.Sets;
 import static es.uma.pfc.is.algorithms.util.Sets.*;
+import es.uma.pfc.is.logging.ISBenchLogger;
 import fr.kbertet.lattice.ImplicationalSystem;
 import fr.kbertet.lattice.Rule;
 import java.util.TreeSet;
@@ -29,27 +30,35 @@ public class DirectOptimalBasis extends GenericAlgorithm {
     
     @Override
     public ImplicationalSystem execute(ImplicationalSystem system) {
+        getLogger().history("Executing {}", getName());
+        
         ImplicationalSystem directOptimalBasis = null;
 
         if (system != null && !isEmpty(system.getRules())) {
             /* Stage 1: Generation of reduced IS*/
+            getLogger().history("Stage 1: Generation of reduced IS");
             directOptimalBasis = reduce(system);
 
-            /* Stage 2: Generation of IS simplificated by simplification of reducedIS*/
+            /* Stage 2: Generation of IS simplificated by simplification of reduced IS*/
+            getLogger().history("Stage 2: Generation of IS simplificated by simplification of reduced IS");
             directOptimalBasis = simplificate(directOptimalBasis);
 
             /**
              * Stage 3: Generation of IS by completion of simplifacted IS --> Strong Simplification
              */
+            getLogger().history("Stage 3: Generation of IS by completion of simplifacted IS --> Strong Simplification");
             directOptimalBasis = strongSimplificate(directOptimalBasis);
 
             /**
              * Stage 4: Generation of optimized IS *
              */
+            getLogger().history("Stage 4: Generation of optimized IS ");
             directOptimalBasis = optimize(directOptimalBasis);
 
         }
 
+        getLogger().history("Finish {} with return ", getName());
+        getLogger().history((directOptimalBasis != null) ? directOptimalBasis.toString() : "null");
         return directOptimalBasis;
     }
 
@@ -60,6 +69,7 @@ public class DirectOptimalBasis extends GenericAlgorithm {
      * @return Sistema simplificado.
      */
     protected ImplicationalSystem simplificate(ImplicationalSystem system) {
+        
         ImplicationalSystem simplificatedSystem = new ImplicationalSystem(system);
         int size = system.sizeRules();
         TreeSet a, b, c, d;
