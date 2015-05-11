@@ -38,7 +38,12 @@ public class Chooser {
         fileChooser.setInitialDirectory(initialDirectory);
         fileChooser.getExtensionFilters().addAll(filters);
         
-        File selectedFile = fileChooser.showOpenDialog(owner);
+        File selectedFile = null;
+        if(FileChooserMode.SAVE.equals(mode)) {
+            selectedFile = fileChooser.showSaveDialog(owner);
+        } else {
+            selectedFile = fileChooser.showOpenDialog(owner);
+        }
         
         return selectedFile;
     }

@@ -1,5 +1,6 @@
 package es.uma.pfc.is.bench;
 
+import es.uma.pfc.is.bench.config.UserConfig;
 import es.uma.pfc.is.bench.view.FXMLViews;
 import java.io.IOException;
 import javafx.application.Application;
@@ -22,6 +23,7 @@ public class ISBenchApp extends Application {
     @Override
     public void start(Stage primaryStage) throws IOException {
         System.setProperty("log4j.configurationFile", "es/uma/pfc/is/bench/log4j2.xml");
+        System.setProperty("isbench.output.dir", UserConfig.get().getDefaultOutputDir().getPath());
         loadRootLayout();
         loadMainForm();
         showStage(primaryStage);

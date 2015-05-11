@@ -2,6 +2,8 @@
 package es.uma.pfc.is.bench;
 
 import es.uma.pfc.is.algorithms.Algorithm;
+import es.uma.pfc.is.bench.config.UserConfig;
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -104,6 +106,7 @@ public class BenchModel {
      */
     public void setOutput(String output) {
         this.output = output;
+        System.setProperty("isbench.output.dir", this.output);
     }
     
     

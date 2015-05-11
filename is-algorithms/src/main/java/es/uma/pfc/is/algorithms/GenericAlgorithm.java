@@ -1,12 +1,12 @@
 package es.uma.pfc.is.algorithms;
 
 import es.uma.pfc.is.algorithms.AlgorithmOptions.Mode;
+import es.uma.pfc.is.algorithms.AlgorithmOptions.Options;
 import es.uma.pfc.is.algorithms.exceptions.AlgorithmException;
 import es.uma.pfc.is.algorithms.exceptions.InvalidPathException;
 import es.uma.pfc.is.logging.ISBenchLogger;
 import es.uma.pfc.is.logging.PerformanceLogger;
 import fr.kbertet.lattice.ImplicationalSystem;
-import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -72,6 +72,7 @@ public abstract class GenericAlgorithm implements Algorithm<String, Implicationa
             logger.startTime(new Date());
             ImplicationalSystem result = execute(new ImplicationalSystem(getInput()));
             logger.endTime(new Date());
+            result.save(options.<String>getOption(Options.OUTPUT.toString()));
             return result;
         } catch (Exception ex) {
             throw new AlgorithmException("Error en la ejecución de " + toString(), ex);
@@ -110,6 +111,14 @@ public abstract class GenericAlgorithm implements Algorithm<String, Implicationa
         getOutputs().add(outputStream);
         return this;
     }
+
+    @Override
+    public Algorithm outputFile(String file) {
+        this.options.addOption(Options.OUTPUT.toString(), file);
+        return this;
+    }
+    
+    
     
     @Override
     public GenericAlgorithm enable(Mode mode) {

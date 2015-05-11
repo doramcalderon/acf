@@ -56,6 +56,7 @@ public interface Algorithm <I, O> {
      * @return Algoritmo con una salida añadida.
      */
     public Algorithm output(OutputStream outputStream);
+    public Algorithm outputFile(String file);
     
     /**
      * Habilita un modo de ejecución.
