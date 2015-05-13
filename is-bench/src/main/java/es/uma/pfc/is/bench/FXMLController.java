@@ -6,6 +6,7 @@ import es.uma.pfc.is.algorithms.AlgorithmOptions.Mode;
 import es.uma.pfc.is.algorithms.exceptions.AlgorithmException;
 import es.uma.pfc.is.algorithms.optbasis.DirectOptimalBasis;
 import es.uma.pfc.is.bench.config.UserConfig;
+import es.uma.pfc.is.bench.i18n.I18n;
 import es.uma.pfc.is.bench.output.Console;
 import es.uma.pfc.is.bench.tasks.AlgorithmExecService;
 import es.uma.pfc.is.bench.uitls.Chooser;
@@ -23,7 +24,6 @@ import javafx.concurrent.WorkerStateEvent;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
-import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ListView;
@@ -35,7 +35,7 @@ import javafx.scene.layout.BorderPane;
 import javafx.stage.FileChooser;
 import javafx.stage.Window;
 
-public class FXMLController implements Initializable {
+public class FXMLController extends Controller {
 
     /**
      * Modelo.
@@ -83,6 +83,7 @@ public class FXMLController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        super.initialize(url, rb);
         timeline = new Timeline();
         btnRun.setDisable(Boolean.TRUE);
         initModel();
@@ -189,9 +190,9 @@ public class FXMLController implements Initializable {
         public void handleSelectInputAction(ActionEvent event) {
             Window mainStage = rootPane.getScene().getWindow();
             File selectedFile = Chooser.openFileChooser(mainStage, Chooser.FileChooserMode.OPEN,
-                    "Select Input", UserConfig.get().getDefaultInputDir(),
-                    new FileChooser.ExtensionFilter("Text File", "*.txt"),
-                    new FileChooser.ExtensionFilter("Prolog File", "*.pl"));
+                    getI18nString(I18n.SELECT_INPUT_DIALOG_TITLE), UserConfig.get().getDefaultInputDir(),
+                    new FileChooser.ExtensionFilter(getI18nString(I18n.TEXT_FILE), "*.txt"),
+                    new FileChooser.ExtensionFilter(getI18nString(I18n.PROLOG_FILE), "*.pl"));
             if (selectedFile != null) {
                 txtInput.setText(selectedFile.getPath());
             }
@@ -208,9 +209,9 @@ public class FXMLController implements Initializable {
             Window mainStage = rootPane.getScene().getWindow();
 
             File selectedFile = Chooser.openFileChooser(mainStage, Chooser.FileChooserMode.OPEN,
-                    "Select Input", UserConfig.get().getDefaultOutputDir(),
-                    new FileChooser.ExtensionFilter("Text File", "*.txt"),
-                    new FileChooser.ExtensionFilter("Prolog File", "*.pl"));
+                    getI18nString(I18n.SELECT_OUTPUT_DIALOG_TITLE), UserConfig.get().getDefaultOutputDir(),
+                    new FileChooser.ExtensionFilter(getI18nString(I18n.TEXT_FILE), "*.txt"),
+                    new FileChooser.ExtensionFilter(getI18nString(I18n.PROLOG_FILE), "*.pl"));
             if (selectedFile != null) {
                 txtOutput.setText(selectedFile.getPath());
             }

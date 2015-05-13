@@ -3,6 +3,8 @@ package es.uma.pfc.is.bench;
 import es.uma.pfc.is.bench.config.UserConfig;
 import es.uma.pfc.is.bench.view.FXMLViews;
 import java.io.IOException;
+import java.util.Locale;
+import java.util.ResourceBundle;
 import javafx.application.Application;
 import static javafx.application.Application.launch;
 import javafx.event.ActionEvent;
@@ -19,14 +21,24 @@ public class ISBenchApp extends Application {
 
     private Stage primaryStage;
     private BorderPane root;
+    private ResourceBundle bundle;
     
     @Override
     public void start(Stage primaryStage) throws IOException {
         System.setProperty("log4j.configurationFile", "es/uma/pfc/is/bench/log4j2.xml");
         System.setProperty("isbench.output.dir", UserConfig.get().getDefaultOutputDir().getPath());
+        loadResources(new Locale("en", "GB"));
         loadRootLayout();
         loadMainForm();
         showStage(primaryStage);
+    }
+    
+    /**
+     * Load resource bundles.
+     * @param locale Locale.
+     */
+    protected void loadResources(Locale locale) {
+        bundle = ResourceBundle.getBundle("bundles.labels", locale);
     }
     
     /**
@@ -34,7 +46,7 @@ public class ISBenchApp extends Application {
      */
     protected void loadRootLayout() {
         try {
-            root = FXMLLoader.load(ISBenchApp.class.getResource(FXMLViews.ROOT_VIEW));
+            root = FXMLLoader.load(ISBenchApp.class.getResource(FXMLViews.ROOT_VIEW), bundle);
             
         } catch (IOException ex) {
             ex.printStackTrace();
@@ -45,7 +57,7 @@ public class ISBenchApp extends Application {
      */
     protected void loadMainForm() {
         try {
-            Pane mainForm = FXMLLoader.load(ISBenchApp.class.getResource(FXMLViews.MAIN_VIEW));
+            Pane mainForm = FXMLLoader.load(ISBenchApp.class.getResource(FXMLViews.MAIN_VIEW), bundle);
             root.setCenter(mainForm);
         } catch (IOException ex) {
             ex.printStackTrace();

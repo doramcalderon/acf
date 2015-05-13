@@ -12,9 +12,9 @@
          <top>
             <HBox>
                <children>
-                  <FlowPane prefHeight="65.0" prefWidth="400.0" BorderPane.alignment="CENTER">
+                  <FlowPane prefHeight="70.0" prefWidth="400.0" BorderPane.alignment="CENTER">
                      <children>
-                        <Button fx:id="btnRun" disable="true" mnemonicParsing="false" onAction="#handleRunAction" prefHeight="60.0" prefWidth="60.0" text="Run" />
+                        <Button fx:id="btnRun" disable="true" mnemonicParsing="false" onAction="#handleRunAction" prefHeight="50.0" prefWidth="50.0" text="%btn.run" />
                      </children>
                      <padding>
                         <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
@@ -22,7 +22,7 @@
                   </FlowPane>
                   <FlowPane alignment="CENTER_RIGHT" columnHalignment="RIGHT" prefHeight="0.0" prefWidth="400.0" BorderPane.alignment="CENTER">
                      <children>
-                        <CheckBox fx:id="chkTime" mnemonicParsing="false" selected="true" text="Time">
+                        <CheckBox fx:id="chkTime" mnemonicParsing="false" selected="true" text="%time">
                            <font>
                               <Font size="14.0" />
                            </font>
@@ -30,7 +30,7 @@
                               <Insets bottom="5.0" left="5.0" right="10.0" top="5.0" />
                            </padding>
                         </CheckBox>
-                        <CheckBox fx:id="chkHistory" mnemonicParsing="false" text="History">
+                        <CheckBox fx:id="chkHistory" mnemonicParsing="false" text="%history">
                            <font>
                               <Font size="14.0" />
                            </font>
@@ -38,7 +38,7 @@
                               <Insets bottom="5.0" left="5.0" right="10.0" top="5.0" />
                            </padding>
                         </CheckBox>
-                        <CheckBox fx:id="chkStatistics" mnemonicParsing="false" text="Statistics">
+                        <CheckBox fx:id="chkStatistics" mnemonicParsing="false" text="%statistics">
                            <font>
                               <Font size="14.0" />
                            </font>
@@ -85,7 +85,7 @@
                               </ListView>
                            </children>
                         </GridPane>
-                        <Label text="Algorithms" AnchorPane.leftAnchor="10.0">
+                        <Label text="%algorithms" AnchorPane.leftAnchor="10.0">
                            <font>
                               <Font size="18.0" />
                            </font>
@@ -107,8 +107,8 @@
                                   <RowConstraints maxHeight="40.0" minHeight="10.0" prefHeight="29.0" vgrow="SOMETIMES" />
                                 </rowConstraints>
                                  <children>
-                                    <Label text="Input:" />
-                                    <Label layoutX="10.0" layoutY="17.0" text="Output" GridPane.rowIndex="1" />
+                                    <Label text="%input" />
+                                    <Label layoutX="10.0" layoutY="17.0" text="%output" GridPane.rowIndex="1" />
                                     <Button fx:id="btnSelectInput" mnemonicParsing="false" onAction="#handleSelectInputAction" text="..." GridPane.columnIndex="2" />
                                     <Button fx:id="btnSelectOutput" mnemonicParsing="false" onAction="#handleSelectOutputAction" text="..." GridPane.columnIndex="2" GridPane.rowIndex="1" />
                                     <TextField fx:id="txtInput" GridPane.columnIndex="1">
@@ -133,13 +133,13 @@
                            <center>
                               <TabPane prefHeight="200.0" prefWidth="200.0" tabClosingPolicy="UNAVAILABLE" BorderPane.alignment="CENTER">
                                 <tabs>
-                                  <Tab text="Times">
+                                  <Tab text="%time">
                                        <content>
                                           <TextArea fx:id="txtPerformanceArea" editable="false" prefHeight="200.0" prefWidth="200.0" />
                                        </content>
                                     </Tab>
-                                  <Tab text="History" />
-                                    <Tab text="Statistics">
+                                  <Tab text="%history" />
+                                    <Tab text="%statistics">
                                       <content>
                                         <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
                                       </content>

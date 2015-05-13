@@ -12,4 +12,6 @@ public interface FXMLViews {
     String MAIN_VIEW = "/fxml/Scene.fxml";
     /** User Preferences view. **/
     String USER_CONFIG_VIEW = "/fxml/UserConfig.fxml";
+    /** About view. **/
+    String ABOUT_VIEW = "/fxml/About.fxml";
 }

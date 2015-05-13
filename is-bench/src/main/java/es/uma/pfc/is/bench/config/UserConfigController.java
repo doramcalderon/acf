@@ -1,6 +1,8 @@
 
 package es.uma.pfc.is.bench.config;
 
+import es.uma.pfc.is.bench.Controller;
+import es.uma.pfc.is.bench.i18n.I18n;
 import es.uma.pfc.is.bench.uitls.Chooser;
 import java.io.File;
 import java.io.IOException;
@@ -10,7 +12,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.Initializable;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
@@ -21,7 +22,7 @@ import javafx.stage.Window;
  *
  * @author Dora Calderón
  */
-public class UserConfigController implements Initializable {
+public class UserConfigController extends Controller {
     @FXML
     private AnchorPane wsAnchorPane;
     @FXML
@@ -29,11 +30,13 @@ public class UserConfigController implements Initializable {
 
     private UserConfig userConfig;
     
+    
     /**
      * Initializes the controller class.
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        super.initialize(url, rb);
         userConfig = UserConfig.get();
         modelToView();
     }    
@@ -59,7 +62,7 @@ public class UserConfigController implements Initializable {
     protected void handleSelectWorkspace(ActionEvent event) {
         Window mainStage = wsAnchorPane.getScene().getWindow();
         
-        File selectedDir = Chooser.openDirectoryChooser(mainStage, "Select Workspace", 
+        File selectedDir = Chooser.openDirectoryChooser(mainStage, getI18nString(I18n.SELECT_WORKSPACE_DIALOG_TITLE), 
                                                         new File(userConfig.getDefaultWorkspace()));
         if(selectedDir != null) {
             txtDefaultWorkspace.setText(selectedDir.getPath());
