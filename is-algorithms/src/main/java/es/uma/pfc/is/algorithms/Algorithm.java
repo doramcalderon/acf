@@ -2,9 +2,14 @@
 
 package es.uma.pfc.is.algorithms;
 
+import es.uma.pfc.is.algorithms.AlgorithmOptions.Mode;
 import es.uma.pfc.is.algorithms.exceptions.InvalidPathException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.io.PrintStream;
+import java.util.Collection;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Algoritmo aplicable a sistemas implicacionales.
@@ -49,14 +54,24 @@ public interface Algorithm <I, O> {
      * @return Algoritmo con una salida añadida.
      * @throws InvalidPathException Cuando el fichero no existe.
      */
-    public Algorithm output(String fileName);
+//    public Algorithm traceOutput(String fileName);
     /**
      * Añade un destino en el que se guardará el resultado.
+     * @param mode Modo.
      * @param outputStream Destino del resultado.
      * @return Algoritmo con una salida añadida.
      */
-    public Algorithm output(OutputStream outputStream);
-    public Algorithm outputFile(String file);
+    public Algorithm traceOutput(Mode mode, OutputStream outputStream);
+    /**
+     * Add a collection of targets where print the result.
+     * @param mode Mode.
+     * @param outputs Outputs.
+     * @return Algorithm with n traceOutputs added.
+     */
+    public Algorithm traceOutputs(Mode mode, Collection<OutputStream> outputs);
+    public Algorithm traceOutputs(Map<Mode, List<PrintStream>> outputs);
+    
+    public Algorithm output(String file);
     
     /**
      * Habilita un modo de ejecución.

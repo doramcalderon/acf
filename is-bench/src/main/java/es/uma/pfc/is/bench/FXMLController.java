@@ -8,9 +8,11 @@ import es.uma.pfc.is.algorithms.optbasis.DirectOptimalBasis;
 import es.uma.pfc.is.bench.config.UserConfig;
 import es.uma.pfc.is.bench.i18n.I18n;
 import es.uma.pfc.is.bench.output.Console;
+import es.uma.pfc.is.bench.output.ConsolePrintStream;
 import es.uma.pfc.is.bench.tasks.AlgorithmExecService;
 import es.uma.pfc.is.bench.uitls.Chooser;
 import java.io.File;
+import java.io.OutputStream;
 import java.net.URL;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
@@ -69,6 +71,10 @@ public class FXMLController extends Controller {
 
     @FXML
     private TextArea txtPerformanceArea;
+    @FXML
+    private TextArea txtHistoryArea;
+    @FXML
+    private TextArea txtStatisticsArea;
 
     @FXML
     private CheckBox chkTime, chkHistory, chkStatistics;
@@ -76,15 +82,11 @@ public class FXMLController extends Controller {
     @FXML
     private ProgressIndicator piExecution;
 
-    @FXML
-    private AnchorPane rootAnchorPane;
 
-    private Timeline timeline;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         super.initialize(url, rb);
-        timeline = new Timeline();
         btnRun.setDisable(Boolean.TRUE);
         initModel();
         modelToView();
@@ -125,11 +127,28 @@ public class FXMLController extends Controller {
      */
     protected void viewToModel() {
         model.setSelectedAlgorithm(algorithmsList.getSelectionModel().getSelectedItem());
-        model.getSelectedAlgorithm().option(Mode.PERFORMANCE.toString(), chkTime.isSelected());
-        model.getSelectedAlgorithm().option(Mode.TRACE.toString(), chkHistory.isSelected());
-        model.getSelectedAlgorithm().option(Mode.STATISTICS.toString(), chkStatistics.isSelected());
+        if(chkTime.isSelected()) {
+            addModeToModel(Mode.PERFORMANCE, txtPerformanceArea);
+        }
+        if(chkHistory.isSelected()) {
+            addModeToModel(Mode.TRACE, txtHistoryArea);
+        }
+        if(chkStatistics.isSelected()) {
+            addModeToModel(Mode.STATISTICS, txtStatisticsArea);
+        }
+        
         model.setInput(txtInput.getText());
         model.setOutput(txtOutput.getText());
+    }
+    
+    /**
+     * Añade al modelo la activación de un modo de ejecución.
+     * @param mode Modo.
+     * @param textArea TextArea donde se mostrará la traza.
+     */
+    protected void addModeToModel(Mode mode, TextArea textArea) {
+        model.getSelectedAlgorithm().enable(mode);
+        model.addTraceOutput(mode, new ConsolePrintStream(new Console(textArea)));
     }
 
     /**
@@ -144,11 +163,9 @@ public class FXMLController extends Controller {
         try {
             final Algorithm alg = model.getSelectedAlgorithm();
             alg.input(model.getInput())
-                .output(new Console(txtPerformanceArea))
-                .output(model.getOutput())
-                .outputFile(model.getOutput())
-                .enable(AlgorithmOptions.Mode.PERFORMANCE);
-//            new AlgorithmExecutor().execute(alg);
+                .traceOutputs(model.getTraceOutputs())
+                .output(model.getOutput());
+            
             AlgorithmExecService service = new AlgorithmExecService(alg);
             service.setOnFinished(new EventHandler<WorkerStateEvent>() {
 

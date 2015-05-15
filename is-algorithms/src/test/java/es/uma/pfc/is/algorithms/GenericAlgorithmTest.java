@@ -5,6 +5,7 @@
  */
 package es.uma.pfc.is.algorithms;
 
+import es.uma.pfc.is.algorithms.AlgorithmOptions.Mode;
 import es.uma.pfc.is.algorithms.exceptions.InvalidPathException;
 import fr.kbertet.lattice.ImplicationalSystem;
 import java.io.FileOutputStream;
@@ -76,25 +77,9 @@ public class GenericAlgorithmTest {
     public void testInput_InputStream() {
     }
 
+ 
     /**
-     * Test of output method, of class GenericAlgorithm.
-     */
-    @Test
-    public void testOutput_String() throws IOException {
-        GenericAlgorithm alg = new GenericAlgorithmImpl();
-        Path path = Files.createTempFile("temp", null);
-        String output = path.toString();
-        OutputStream expected = new FileOutputStream(output);
-        
-        alg = alg.output(output);
-        
-        assertNotNull(alg);
-        assertTrue(alg.getOutputs() != null && !alg.getOutputs().isEmpty());
-        assertNotNull(alg.getOutputs().get(0));
-    }
-
-    /**
-     * Test of output method, of class GenericAlgorithm.
+     * Test of traceOutput method, of class GenericAlgorithm.
      */
     @Test
     public void testOutput_OutputStream() throws IOException {
@@ -102,11 +87,11 @@ public class GenericAlgorithmTest {
         Path path = Files.createTempFile("temp", null);
         OutputStream output = new FileOutputStream(path.toString());
         
-        alg = alg.output(output);
+        alg = alg.traceOutput(Mode.TRACE, output);
         
         assertNotNull(alg);
         assertTrue(alg.getOutputs() != null && !alg.getOutputs().isEmpty());
-        assertNotNull(alg.getOutputs().get(0));
+        assertNotNull(alg.getOutputs().get(Mode.TRACE).get(0));
     }
 
      @Test

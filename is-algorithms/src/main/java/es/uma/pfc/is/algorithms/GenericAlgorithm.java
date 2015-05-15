@@ -11,11 +11,15 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.io.PrintStream;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Algoritmo genérico que recibe como entrada una ruta de un fichero y como salida un sistema implicacional.
@@ -28,10 +32,10 @@ public abstract class GenericAlgorithm implements Algorithm<String, Implicationa
     private AlgorithmOptions options;
     
     private String input;
-    private List < OutputStream > outputs;
+    private Map<Mode, List < PrintStream >> outputs;
 
     public GenericAlgorithm() {
-        outputs = new ArrayList();
+        outputs = new HashMap();
         options = new AlgorithmOptions();
         logger = new ISBenchLogger();
     }
@@ -93,27 +97,39 @@ public abstract class GenericAlgorithm implements Algorithm<String, Implicationa
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
+
     @Override
-    public GenericAlgorithm output(String fileName) {
-        if(fileName != null && !fileName.isEmpty()) {
-            try {
-                output(new FileOutputStream(fileName, false));
-            } catch (IOException ioEx) {
-                throw new InvalidPathException("El fichero de salida no existe");
-            }
+    public GenericAlgorithm traceOutput(Mode mode, OutputStream outputStream) {
+        List<PrintStream> outputs = getOutputs().get(mode);
+        if(outputs == null) {
+            outputs = new ArrayList();
         }
+        outputs.add(new PrintStream(outputStream));
+        this.outputs.put(mode, outputs);
         
         return this;
     }
 
     @Override
-    public GenericAlgorithm output(OutputStream outputStream) {
-        getOutputs().add(outputStream);
+    public GenericAlgorithm traceOutputs(Mode mode, Collection<OutputStream> outputs) {
+        if(outputs != null && !outputs.isEmpty()) {
+            for(OutputStream os : outputs) {
+                GenericAlgorithm.this.traceOutput(mode, os);
+            }
+        }
         return this;
     }
 
     @Override
-    public Algorithm outputFile(String file) {
+    public Algorithm traceOutputs(Map<Mode, List<PrintStream>> outputs) {
+        this.outputs = outputs;
+        return this;
+    }
+    
+    
+    
+    @Override
+    public Algorithm output(String file) {
         this.options.addOption(Options.OUTPUT.toString(), file);
         return this;
     }
@@ -162,9 +178,9 @@ public abstract class GenericAlgorithm implements Algorithm<String, Implicationa
     }
 
     /**
-     * @return the outputs
+     * @return the traceOutputs
      */
-    public List < OutputStream > getOutputs() {
+    public Map<Mode, List < PrintStream >> getOutputs() {
         return outputs;
     }
     

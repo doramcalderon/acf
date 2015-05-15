@@ -35,7 +35,7 @@ public class AlgorithmExecService extends Service {
             protected Object call() throws Exception {
                 return new AlgorithmExecutor().execute(alg);
             }
-            
+
         };
     }
 

@@ -8,12 +8,12 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.OutputStream;
-import java.nio.file.Files;
-import java.nio.file.Paths;
+import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.List;
 import org.junit.Test;
 import static org.junit.Assert.*;
+import org.junit.Ignore;
 import static org.mockito.Mockito.*;
 
 /**
@@ -133,32 +133,7 @@ public class ISBenchLoggerTest {
     public void testGetMessage() {
     }
 
-    /**
-     * Test of addOutput method, of class ISBenchLogger.
-     */
-    @Test
-    public void testAddOutput() {
-        ISBenchLogger logger = new ISBenchLogger();
-        OutputStream output = mock(OutputStream.class);
-        
-        logger.addOutput(output);
-        
-        assertNotNull(logger.getOutputs());
-        assertEquals(1, logger.getOutputs().size());
-    }
-
-    /**
-     * Test of addOutput method, of class ISBenchLogger.
-     */
-    @Test
-    public void testAddNullOutput() {
-        ISBenchLogger logger = new ISBenchLogger();
-                
-        logger.addOutput(null);
-        
-        assertNotNull(logger.getOutputs());
-        assertTrue(logger.getOutputs().isEmpty());
-    }
+   
 
     /**
      * Test of writeMessage method, of class ISBenchLogger.
@@ -181,97 +156,7 @@ public class ISBenchLoggerTest {
     public void testStartTime() {
     }
 
-    /**
-     * Test of addAllOutputs method, of class ISBenchLogger.
-     */
-    @Test
-    public void testAddAllOutputs() {
-        ISBenchLogger logger = new ISBenchLogger();
-        List<OutputStream> outputs = new ArrayList();
-        outputs.add(mock(OutputStream.class));
-        outputs.add(mock(OutputStream.class));
-        
-        logger.addAllOutputs(outputs);
-        
-        assertNotNull(logger.getOutputs());
-        assertEquals(2, logger.getOutputs().size());
-    }
-    /**
-     * Test of addAllOutputs method, of class ISBenchLogger.
-     */
-    @Test
-    public void testAddAllOutputs_WithNullOutputs() {
-        ISBenchLogger logger = new ISBenchLogger();
-        
-        logger.addAllOutputs(null);
-        
-        assertNotNull(logger.getOutputs());
-        assertEquals(0, logger.getOutputs().size());
-    }
-    /**
-     * Test of addAllOutputs method, of class ISBenchLogger.
-     */
-    @Test
-    public void testAddAllOutputs_WithANullOutput() {
-        ISBenchLogger logger = new ISBenchLogger();
-        List<OutputStream> outputs = new ArrayList();
-        outputs.add(mock(OutputStream.class));
-        outputs.add(null);
-        
-        logger.addAllOutputs(outputs);
-        
-        assertNotNull(logger.getOutputs());
-        assertEquals(1, logger.getOutputs().size());
-    }
-
-    /**
-     * Test of removeOutput method, of class ISBenchLogger.
-     */
-    @Test
-    public void testRemoveOutput() {
-        ISBenchLogger logger = new ISBenchLogger();
-        OutputStream o = mock(OutputStream.class);
-        logger.addOutput(o);
-        logger.addOutput(mock(OutputStream.class));
-        
-        logger.removeOutput(o);
-        
-        assertNotNull(logger.getOutputs());
-        assertEquals(1, logger.getOutputs().size());
-    }
-
-    /**
-     * Test of removeOutput method, of class ISBenchLogger.
-     */
-    @Test
-    public void testRemoveNullOutput() {
-        ISBenchLogger logger = new ISBenchLogger();
-        OutputStream o = mock(OutputStream.class);
-        logger.addOutput(o);
-        logger.addOutput(mock(OutputStream.class));
-        
-        logger.removeOutput(null);
-        
-        assertNotNull(logger.getOutputs());
-        assertEquals(2, logger.getOutputs().size());
-    }
-
-    /**
-     * Test of removeAllOutputs method, of class ISBenchLogger.
-     */
-    @Test
-    public void testRemoveAllOutputs() {
-        ISBenchLogger logger = new ISBenchLogger();
-        List<OutputStream> outputs = new ArrayList();
-        outputs.add(mock(OutputStream.class));
-        outputs.add(mock(OutputStream.class));
-        logger.addAllOutputs(outputs);
-        
-        logger.removeAllOutputs(outputs);
-        
-        assertNotNull(logger.getOutputs());
-        assertEquals(0, logger.getOutputs().size());
-    }
+   
 
     /**
      * Test of getOutputs method, of class ISBenchLogger.

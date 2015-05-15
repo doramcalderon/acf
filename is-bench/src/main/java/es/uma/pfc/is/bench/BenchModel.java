@@ -2,10 +2,12 @@
 package es.uma.pfc.is.bench;
 
 import es.uma.pfc.is.algorithms.Algorithm;
-import es.uma.pfc.is.bench.config.UserConfig;
-import java.io.File;
+import es.uma.pfc.is.algorithms.AlgorithmOptions.Mode;
+import java.io.OutputStream;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  *  Modelo de la pantalla principal.
@@ -25,10 +27,13 @@ public class BenchModel {
     /** Archivo de entrada.**/
     private String input;
     /** Directorio de salida.**/
-    private String output;
+    private String outputFile;
+    
+    private Map<Mode, List<OutputStream>> traceOutputs;
 
     public BenchModel() {
         algorithms = new ArrayList();
+        traceOutputs = new HashMap();
     }
     
     /**
@@ -94,20 +99,40 @@ public class BenchModel {
 
     /**
      * Directorio de salida.
-     * @return the output
+     * @return the outputFile
      */
     public String getOutput() {
-        return output;
+        return outputFile;
     }
 
     /**
      * Directorio de salida.
-     * @param output the output to set
+     * @param output the outputFile to set
      */
     public void setOutput(String output) {
-        this.output = output;
-        System.setProperty("isbench.output.dir", this.output);
+        this.outputFile = output;
+        System.setProperty("isbench.output.dir", this.outputFile);
     }
     
-    
+    /**
+     * Add a trace output.
+     * @param os Outputstream.
+     */
+    public void addTraceOutput(Mode mode, OutputStream os) {
+        if (os != null) {
+            List<OutputStream> outputs = traceOutputs.get(mode);
+            if (outputs == null) {
+                outputs = new ArrayList();
+            }
+            outputs.add(os);
+            traceOutputs.put(mode, outputs);
+        }
+    }
+    /**
+     * Trace outputs.
+     * @return List of OutputStream.
+     */
+    public Map<Mode, List<OutputStream>> getTraceOutputs() {
+        return traceOutputs;
+    }
 }
