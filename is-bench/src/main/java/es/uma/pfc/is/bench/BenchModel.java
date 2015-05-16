@@ -37,6 +37,17 @@ public class BenchModel {
     }
     
     /**
+     * Clear the model.
+     */
+    public void clear() {
+        algorithms.clear();
+        selectedAlgorithm = null;
+        input = null;
+        outputFile = null;
+        traceOutputs.clear();
+    }
+    
+    /**
      * Añade un nuevo algoritmo.
      * @param alg Algoritmo.
      * @throws NullPointerException cuando el algoritmo es nulo.

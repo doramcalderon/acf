@@ -14,7 +14,12 @@
                <children>
                   <FlowPane prefHeight="70.0" prefWidth="400.0" BorderPane.alignment="CENTER">
                      <children>
-                        <Button fx:id="btnRun" disable="true" mnemonicParsing="false" onAction="#handleRunAction" prefHeight="50.0" prefWidth="50.0" text="%btn.run" />
+                        <HBox spacing="5.0">
+                           <children>
+                              <Button fx:id="btnRun" disable="true" mnemonicParsing="false" onAction="#handleRunAction" prefHeight="50.0" prefWidth="50.0" text="%btn.run" />
+                              <Button fx:id="btnClear" layoutX="15.0" layoutY="15.0" mnemonicParsing="false" onAction="#handleClearAll" prefHeight="50.0" prefWidth="50.0" text="%menu.clear" />
+                           </children>
+                        </HBox>
                      </children>
                      <padding>
                         <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
@@ -135,18 +140,39 @@
                                 <tabs>
                                   <Tab text="%time">
                                        <content>
-                                          <TextArea fx:id="txtPerformanceArea" editable="false" prefHeight="200.0" prefWidth="200.0" />
+                                          <TextArea fx:id="txtPerformanceArea" editable="false" prefHeight="200.0" prefWidth="200.0">
+                                             <contextMenu>
+                                                <ContextMenu fx:id="ctxMenuTime">
+                                                  <items>
+                                                    <MenuItem fx:id="menuClearTime" mnemonicParsing="false" onAction="#clearTime" text="%menu.clear" />
+                                                  </items>
+                                                </ContextMenu>
+                                             </contextMenu></TextArea>
                                        </content>
                                     </Tab>
                                   <Tab text="%history">
                                        <content>
-                                          <TextArea fx:id="txtHistoryArea" prefHeight="200.0" prefWidth="200.0" />
+                                          <TextArea fx:id="txtHistoryArea" prefHeight="200.0" prefWidth="200.0">
+                                             <contextMenu>
+                                                <ContextMenu fx:id="ctxMenuHistory">
+                                                  <items>
+                                                    <MenuItem fx:id="menuClearHistory" mnemonicParsing="false" onAction="#clearHistory" text="%menu.clear" />
+                                                  </items>
+                                                </ContextMenu>
+                                             </contextMenu></TextArea>
                                        </content></Tab>
                                     <Tab text="%statistics">
                                       <content>
                                         <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                                              <children>
-                                                <TextArea fx:id="txtStatisticsArea" layoutX="122.0" layoutY="55.0" prefHeight="439.0" prefWidth="495.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                                                <TextArea fx:id="txtStatisticsArea" layoutX="122.0" layoutY="55.0" prefHeight="439.0" prefWidth="495.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                                   <contextMenu>
+                                                      <ContextMenu fx:id="ctxMenuStatistics">
+                                                        <items>
+                                                          <MenuItem fx:id="menuClearStats" mnemonicParsing="false" onAction="#clearStatistics" text="%menu.clear" />
+                                                        </items>
+                                                      </ContextMenu>
+                                                   </contextMenu></TextArea>
                                              </children></AnchorPane>
                                       </content>
                                     </Tab>
