@@ -5,6 +5,7 @@
  */
 package es.uma.pfc.is.algorithms.util;
 
+import es.uma.pfc.is.algorithms.optbasis.DirectOptimalBasis;
 import fr.kbertet.lattice.ImplicationalSystem;
 import fr.kbertet.lattice.Rule;
 import java.io.File;
@@ -195,45 +196,7 @@ public class ImplicationalSystemsTest {
 
     
    
-    @Test
-    public void testReduce() throws IOException {
-        ImplicationalSystem system = getSystemFromFile("test_1.txt");
-        
-        ImplicationalSystem reducedSystem = ImplicationalSystems.reduce(system);
-        
-        assertNotNull(reducedSystem);
-        assertEquals(new Integer(4), (Integer) reducedSystem.sizeRules());
-        
-        Rule r = new Rule();
-        r.addToPremise("d");
-        r.addToConclusion("c");
-        assertTrue(reducedSystem.containsRule(r));
-        
-        r = new Rule();
-        r.addToPremise("c");
-        r.addToConclusion("a");
-        r.addToConclusion("b");
-        r.addToConclusion("d");
-        assertTrue(reducedSystem.containsRule(r));
-        
-        r = new Rule();
-        r.addToPremise("c");
-        r.addToPremise("e");
-        r.addToConclusion("a");
-        r.addToConclusion("b");
-        assertTrue(reducedSystem.containsRule(r));
-        
-        r = new Rule();
-        r.addToPremise("a");
-        r.addToConclusion("d");
-        assertTrue(reducedSystem.containsRule(r));
-    }
     
-    @Test
-    public void testReduceNullSystem() throws IOException {
-        ImplicationalSystem reducedSystem = ImplicationalSystems.reduce(null);    
-        assertNull(reducedSystem);
-    }
 
     @Test
     public void testEquals() throws IOException {

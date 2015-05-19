@@ -2,10 +2,14 @@ package es.uma.pfc.is.logging;
 
 import es.uma.pfc.is.algorithms.AlgorithmOptions;
 import es.uma.pfc.is.algorithms.AlgorithmOptions.Mode;
+import es.uma.pfc.is.algorithms.AlgorithmOptions.Options;
 import es.uma.pfc.is.algorithms.Messages;
 import static es.uma.pfc.is.algorithms.Messages.PERFORMANCE_END;
 import static es.uma.pfc.is.algorithms.Messages.PERFORMANCE_INIT;
 import static es.uma.pfc.is.algorithms.Messages.PERFORMANCE_TOTAL;
+import es.uma.pfc.is.algorithms.io.CSVFileWriter;
+import es.uma.pfc.is.algorithms.io.HistoryFileWriter;
+import java.io.IOException;
 import java.io.OutputStream;
 import java.io.PrintStream;
 import java.text.SimpleDateFormat;
@@ -13,6 +17,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.slf4j.Marker;
@@ -63,17 +68,21 @@ public class ISBenchLogger implements Messages {
     private static ResourceBundle messages;
     private SimpleDateFormat df = new SimpleDateFormat("HH:mm:ss:SSS");
     
+    private HistoryFileWriter historyWriter;
     
-
+    
     public ISBenchLogger() {
         logger = LoggerFactory.getLogger(ISBenchLogger.class);
         messages = ResourceBundle.getBundle("es.uma.pfc.is.algorithms.loggingMessages");
         modeStreams = new ModeStreams();
+        options = new AlgorithmOptions();
     }
 
     public ISBenchLogger(AlgorithmOptions options) {
         this();
-        this.options = options;
+        if(options != null) {
+            this.options = options;
+        }
     }
 
     /**
@@ -82,6 +91,7 @@ public class ISBenchLogger implements Messages {
      * @param clazz Clase.
      */
     public ISBenchLogger(Class clazz) {
+        this();
         logger = LoggerFactory.getLogger(clazz);
     }
 
@@ -91,6 +101,7 @@ public class ISBenchLogger implements Messages {
      * @param name Nombre.
      */
     public ISBenchLogger(String name) {
+        this();
         logger = LoggerFactory.getLogger(name);
     }
 
@@ -117,12 +128,25 @@ public class ISBenchLogger implements Messages {
      *
      * @return {@code true} si {@link Mode#TRACE} está habilitado, {@code false} en otro caso.
      */
-    public boolean isHistoryEnabled() {
+    public final boolean isHistoryEnabled() {
         return options.isEnabled(Mode.TRACE);
     }
 
     public void setOptions(AlgorithmOptions options) {
         this.options = options;
+        if (isHistoryEnabled()) {
+        try {
+            String outputname = options.getOption(Options.OUTPUT.toString());
+            if (outputname != null && !outputname.trim().isEmpty()) {
+                String name = outputname.substring(0, outputname.lastIndexOf("."));
+                String extension = outputname.substring(outputname.lastIndexOf("."), outputname.length());
+                outputname = name + "_history." + extension;
+            }
+            historyWriter = new HistoryFileWriter(outputname);
+        } catch (IOException ex) {
+            logger.error(ex.getMessage());
+        }
+    }
     }
 
     protected String getMessage(String name) {
@@ -189,19 +213,32 @@ public class ISBenchLogger implements Messages {
      */
     public void history(String message, Object... args) {
         if (isHistoryEnabled()) {
+            if (historyWriter != null) {
+                historyWriter.print(message, args);
+            }
             log(Mode.TRACE, message, args);
         }
     }
 
+    CSVFileWriter csvWriter = null;
+    public void createStatisticLog(String name, Object ... headers ) throws IOException {
+        csvWriter = new CSVFileWriter(name + ".csv").header(headers);
+        csvWriter.start();
+    }
     /**
      * Write a message with Statistics Appender.
      *
      * @param message Message.
      * @param args Message arguments.
      */
-    public void statistics(String message, Object... args) {
+    public void statistics(Object ... record) {
         if (isStatisticsEnabled()) {
-            log(Mode.STATISTICS, message, args);
+            try {
+                //log(Mode.STATISTICS, message, args);
+                csvWriter.printRecord(record);
+            } catch (IOException ex) {
+                java.util.logging.Logger.getLogger(ISBenchLogger.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
     }
 
@@ -211,5 +248,10 @@ public class ISBenchLogger implements Messages {
     
     public void initOutputs(Map<Mode, List<PrintStream>> outputs) {
         modeStreams.initOutputs(outputs);
+    }
+    
+    public void freeResources() {
+        csvWriter.finish();
+        historyWriter.finish();
     }
 }

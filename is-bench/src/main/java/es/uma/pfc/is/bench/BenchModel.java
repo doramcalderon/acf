@@ -122,7 +122,6 @@ public class BenchModel {
      */
     public void setOutput(String output) {
         this.outputFile = output;
-        System.setProperty("isbench.output.dir", this.outputFile);
     }
     
     /**

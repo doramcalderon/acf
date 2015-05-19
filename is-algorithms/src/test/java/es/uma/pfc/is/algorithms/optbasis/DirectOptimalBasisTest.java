@@ -171,6 +171,46 @@ public class DirectOptimalBasisTest {
         assertNull(optimizedRule);
     }
 
+    @Test
+    public void testReduce() throws IOException {
+        ImplicationalSystem system = getSystemFromFile("test_1.txt");
+        
+        ImplicationalSystem reducedSystem = new DirectOptimalBasis().reduce(system);
+        
+        assertNotNull(reducedSystem);
+        assertEquals(new Integer(4), (Integer) reducedSystem.sizeRules());
+        
+        Rule r = new Rule();
+        r.addToPremise("d");
+        r.addToConclusion("c");
+        assertTrue(reducedSystem.containsRule(r));
+        
+        r = new Rule();
+        r.addToPremise("c");
+        r.addToConclusion("a");
+        r.addToConclusion("b");
+        r.addToConclusion("d");
+        assertTrue(reducedSystem.containsRule(r));
+        
+        r = new Rule();
+        r.addToPremise("c");
+        r.addToPremise("e");
+        r.addToConclusion("a");
+        r.addToConclusion("b");
+        assertTrue(reducedSystem.containsRule(r));
+        
+        r = new Rule();
+        r.addToPremise("a");
+        r.addToConclusion("d");
+        assertTrue(reducedSystem.containsRule(r));
+    }
+    
+    @Test
+    public void testReduceNullSystem() throws IOException {
+        ImplicationalSystem reducedSystem = new DirectOptimalBasis().reduce(null);    
+        assertNull(reducedSystem);
+    }
+    
     //<editor-fold defaultstate="collapsed" desc="Utilidades">
     
     private ImplicationalSystem getSystemFromFile(String file) throws IOException {

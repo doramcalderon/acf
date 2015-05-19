@@ -9,6 +9,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.PrintStream;
+import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.List;
 import org.junit.Test;
@@ -191,21 +192,36 @@ public class ISBenchLoggerTest {
         
         logger.history("History message {}", 1);
         
-        File log = new File("history.txt");
-        assertTrue(log.exists());
-        
-        BufferedReader reader = new BufferedReader(new FileReader(log));
-        String line = reader.readLine();
-        assertNotNull(line);
-        assertTrue(line.length() > 0);
-        reader.close();
-        
-        log = new File("stats.csv");
-        assertTrue(log.exists());
-        reader = new BufferedReader(new FileReader(log));
-        int i = reader.read();
-        assertEquals(-1, i);
-        reader.close();
+        File history = null;
+        File stats = null;
+        BufferedReader reader = null;
+        try {
+            history = new File("history.log");
+            assertTrue(history.exists());
+
+            reader = new BufferedReader(new FileReader(history));
+            String line = reader.readLine();
+            assertNotNull(line);
+            assertTrue(line.length() > 0);
+            reader.close();
+
+            stats = new File("stats.csv");
+            assertTrue(stats.exists());
+            reader = new BufferedReader(new FileReader(stats));
+            int i = reader.read();
+            assertEquals(-1, i);
+        } finally {
+            if (reader != null) {
+                reader.close();
+            }
+            if(history != null && history.exists()) {
+                history.deleteOnExit();
+            }
+            if(stats != null && stats.exists()) {
+                stats.deleteOnExit();
+            }
+            
+        }
     }
 
     /**

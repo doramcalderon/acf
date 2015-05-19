@@ -7,6 +7,7 @@ import es.uma.pfc.is.algorithms.exceptions.InvalidPathException;
 import es.uma.pfc.is.logging.ISBenchLogger;
 import es.uma.pfc.is.logging.PerformanceLogger;
 import fr.kbertet.lattice.ImplicationalSystem;
+import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -20,6 +21,8 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * Algoritmo genérico que recibe como entrada una ruta de un fichero y como salida un sistema implicacional.
@@ -71,6 +74,7 @@ public abstract class GenericAlgorithm implements Algorithm<String, Implicationa
 
     public ImplicationalSystem execute() {
         try {
+            logger.createStatisticLog(System.getProperty("isbench.output.dir") + File.separator + getName(), "Rule", "Old Size", "Current Size");
             logger.initOutputs(outputs);
             logger.setOptions(options);
             logger.startTime(new Date());
@@ -80,6 +84,8 @@ public abstract class GenericAlgorithm implements Algorithm<String, Implicationa
             return result;
         } catch (Exception ex) {
             throw new AlgorithmException("Error en la ejecución de " + toString(), ex);
+        } finally {
+            logger.freeResources();
         }
     }
 
