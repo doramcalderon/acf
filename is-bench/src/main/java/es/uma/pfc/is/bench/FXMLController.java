@@ -10,6 +10,7 @@ import es.uma.pfc.is.bench.output.Console;
 import es.uma.pfc.is.bench.output.ConsolePrintStream;
 import es.uma.pfc.is.bench.output.ConsoleTraceFactory;
 import es.uma.pfc.is.bench.tasks.AlgorithmExecService;
+import es.uma.pfc.is.bench.tasks.StatisticsReaderService;
 import es.uma.pfc.is.bench.uitls.Chooser;
 import java.io.File;
 import java.net.URL;
@@ -21,13 +22,12 @@ import javafx.beans.value.ObservableValue;
 import javafx.concurrent.WorkerStateEvent;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
-import javafx.event.EventType;
 import javafx.fxml.FXML;
-import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ListView;
 import javafx.scene.control.ProgressIndicator;
+import javafx.scene.control.TableView;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
@@ -69,7 +69,7 @@ public class FXMLController extends Controller {
     @FXML
     private TextArea txtHistoryArea;
     @FXML
-    private TextArea txtStatisticsArea;
+    private TableView tableStatistics;
 
     @FXML
     private CheckBox chkTime, chkHistory, chkStatistics;
@@ -98,7 +98,6 @@ public class FXMLController extends Controller {
         ConsolePrintStream historyConsole = new ConsolePrintStream(new Console(txtHistoryArea));
         consoleFactory.register(Mode.PERFORMANCE, historyConsole);
         consoleFactory.register(Mode.HISTORY, historyConsole);
-        consoleFactory.register(Mode.STATISTICS, new ConsolePrintStream(new Console(txtStatisticsArea)));
     }
     /**
      * Crea los listeners necesarios.
@@ -181,6 +180,7 @@ public class FXMLController extends Controller {
             service.setOnFinished(new EventHandler<WorkerStateEvent>() {
 
                 public void handle(WorkerStateEvent event) {
+                    showStatistics();
                     alg.reset();
                 }
             });
@@ -190,6 +190,13 @@ public class FXMLController extends Controller {
         } catch (AlgorithmException ex) {
             Logger.getLogger(FXMLController.class.getName()).log(Level.SEVERE, ex.getMessage(), ex);
         }
+    }
+    
+    protected void showStatistics() {
+        String outputname = model.getOutput();
+        StatisticsReaderService statisticsReader = 
+                new StatisticsReaderService(outputname.substring(0, outputname.lastIndexOf(".")).concat(".csv"), tableStatistics);
+        statisticsReader.restart();
     }
 
     /**
@@ -246,15 +253,16 @@ public class FXMLController extends Controller {
 
     @FXML
     public void clearStatistics(ActionEvent event) {
-        txtStatisticsArea.clear();
+        tableStatistics.getItems().clear();
+        tableStatistics.getColumns().clear();
     }
 
     /**
      * Clear the textareas content.
      */
     protected void clearTraces() {
-        txtHistoryArea.clear();
-        txtStatisticsArea.clear();
+        clearHistory(null);
+        clearStatistics(null);
     }
     /**
      * Clear the model and the view.

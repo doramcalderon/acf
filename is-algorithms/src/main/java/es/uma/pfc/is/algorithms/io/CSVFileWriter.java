@@ -38,7 +38,7 @@ public class CSVFileWriter {
     /**
      * Formatter.
      */
-    private CSVFormat csvFileFormat;
+    private static CSVFormat csvFileFormat = CSVFormat.DEFAULT.withRecordSeparator(NEW_LINE_SEPARATOR);
 
 
     /**
@@ -47,9 +47,11 @@ public class CSVFileWriter {
      */
     public CSVFileWriter(String fileName) {
         this.fileName = fileName;
-        csvFileFormat = CSVFormat.DEFAULT.withRecordSeparator(NEW_LINE_SEPARATOR);
     }
 
+    public static CSVFormat getCSVFileFormat() {
+        return csvFileFormat;
+    }
     /**
      * Sets the header of the CSV file.
      *
