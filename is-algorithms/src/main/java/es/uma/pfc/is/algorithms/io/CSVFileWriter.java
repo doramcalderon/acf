@@ -1,9 +1,11 @@
 package es.uma.pfc.is.algorithms.io;
 
+import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
 
 import org.apache.commons.csv.CSVFormat;
+import org.apache.commons.csv.CSVParser;
 import org.apache.commons.csv.CSVPrinter;
 
 /**
@@ -15,8 +17,6 @@ public class CSVFileWriter {
     //Delimiter used in CSV file
     protected static final String NEW_LINE_SEPARATOR = "\n";
 
-    //CSV file header
-    private static final Object[] FILE_HEADER = {"id", "firstName", "lastName", "gender", "age"};
 
     /**
      * CSV file name.
@@ -39,10 +39,7 @@ public class CSVFileWriter {
      * Formatter.
      */
     private CSVFormat csvFileFormat;
-    /**
-     * File Writer.
-     */
-    private FileWriter fileWriter;
+
 
     /**
      * Constructor.
@@ -82,14 +79,13 @@ public class CSVFileWriter {
     }
 
     /**
-     * Starts the CSV file print with the header.
+     * Starts the CSV file printRecord with the header.
      * @throws java.io.IOException
      */
     public void start() throws IOException {
-        fileWriter = new FileWriter(fileName);
-        csvFilePrinter = new CSVPrinter(fileWriter, csvFileFormat);
+        csvFilePrinter = new CSVPrinter(new BufferedWriter(new FileWriter(fileName)), csvFileFormat);
         csvFilePrinter.printRecord(header);
-        fileWriter.flush();
+        csvFilePrinter.flush();
     }
 
     /**
@@ -100,14 +96,14 @@ public class CSVFileWriter {
     public void printRecord(Object... fields) throws IOException {
         csvFilePrinter.printRecord(fields);
     }
+    
+    
 
     /**
-     * Finish de CSV print and close all streams.
+     * Finish de CSV printRecord and close all streams.
      */
     public void finish() {
         try {
-            fileWriter.flush();
-            fileWriter.close();
             csvFilePrinter.close();
         } catch (IOException e) {
             System.out.println("Error while flushing/closing fileWriter/csvPrinter !!!");
@@ -131,6 +127,6 @@ public class CSVFileWriter {
     protected CSVFormat getCsvFileFormat() {
         return csvFileFormat;
     }
-    
-    
+
+
 }

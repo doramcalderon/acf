@@ -4,9 +4,9 @@ package es.uma.pfc.is.algorithms;
 
 import es.uma.pfc.is.algorithms.AlgorithmOptions.Mode;
 import es.uma.pfc.is.algorithms.exceptions.InvalidPathException;
+import es.uma.pfc.is.algorithms.io.PrintStream;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.io.PrintStream;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
@@ -59,6 +59,7 @@ public interface Algorithm <I, O> {
      * Añade un destino en el que se guardará el resultado.
      * @param mode Modo.
      * @param outputStream Destino del resultado.
+     * @param closeAtFinish Si se cierra al teminar la ejecución del algoritmo.
      * @return Algoritmo con una salida añadida.
      */
     public Algorithm traceOutput(Mode mode, OutputStream outputStream);

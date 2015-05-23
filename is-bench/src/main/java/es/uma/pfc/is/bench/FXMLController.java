@@ -8,6 +8,7 @@ import es.uma.pfc.is.bench.config.UserConfig;
 import es.uma.pfc.is.bench.i18n.I18n;
 import es.uma.pfc.is.bench.output.Console;
 import es.uma.pfc.is.bench.output.ConsolePrintStream;
+import es.uma.pfc.is.bench.output.ConsoleTraceFactory;
 import es.uma.pfc.is.bench.tasks.AlgorithmExecService;
 import es.uma.pfc.is.bench.uitls.Chooser;
 import java.io.File;
@@ -66,8 +67,6 @@ public class FXMLController extends Controller {
     private BorderPane rootPane;
 
     @FXML
-    private TextArea txtPerformanceArea;
-    @FXML
     private TextArea txtHistoryArea;
     @FXML
     private TextArea txtStatisticsArea;
@@ -77,16 +76,30 @@ public class FXMLController extends Controller {
 
     @FXML
     private ProgressIndicator piExecution;
+    
+    private ConsoleTraceFactory consoleFactory;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         super.initialize(url, rb);
+        this.consoleFactory = ConsoleTraceFactory.get();
         btnRun.setDisable(Boolean.TRUE);
         initModel();
+        initView();
         modelToView();
         initListeners();
+        
     }
-
+    
+    /**
+     * Initialize the view.
+     */
+    protected void initView() {
+        ConsolePrintStream historyConsole = new ConsolePrintStream(new Console(txtHistoryArea));
+        consoleFactory.register(Mode.PERFORMANCE, historyConsole);
+        consoleFactory.register(Mode.HISTORY, historyConsole);
+        consoleFactory.register(Mode.STATISTICS, new ConsolePrintStream(new Console(txtStatisticsArea)));
+    }
     /**
      * Crea los listeners necesarios.
      */
@@ -122,13 +135,13 @@ public class FXMLController extends Controller {
     protected void viewToModel() {
         model.setSelectedAlgorithm(algorithmsList.getSelectionModel().getSelectedItem());
         if (chkTime.isSelected()) {
-            addModeToModel(Mode.PERFORMANCE, txtPerformanceArea);
+            addModeToModel(Mode.PERFORMANCE);
         }
         if (chkHistory.isSelected()) {
-            addModeToModel(Mode.TRACE, txtHistoryArea);
+            addModeToModel(Mode.HISTORY);
         }
         if (chkStatistics.isSelected()) {
-            addModeToModel(Mode.STATISTICS, txtStatisticsArea);
+            addModeToModel(Mode.STATISTICS);
         }
 
         model.setInput(txtInput.getText());
@@ -139,11 +152,13 @@ public class FXMLController extends Controller {
      * Añade al modelo la activación de un modo de ejecución.
      *
      * @param mode Modo.
-     * @param textArea TextArea donde se mostrará la traza.
      */
-    protected void addModeToModel(Mode mode, TextArea textArea) {
+    protected void addModeToModel(Mode mode) {
         model.getSelectedAlgorithm().enable(mode);
-        model.addTraceOutput(mode, new ConsolePrintStream(new Console(textArea)));
+        ConsolePrintStream console = consoleFactory.console(mode);
+        if(console != null) {
+            model.addTraceOutput(mode, console);
+        }
     }
 
     /**
@@ -223,10 +238,6 @@ public class FXMLController extends Controller {
         }
     }
 
-    @FXML
-    public void clearTime(ActionEvent event) {
-        txtPerformanceArea.clear();
-    }
 
     @FXML
     public void clearHistory(ActionEvent event) {
@@ -242,7 +253,6 @@ public class FXMLController extends Controller {
      * Clear the textareas content.
      */
     protected void clearTraces() {
-        txtPerformanceArea.clear();
         txtHistoryArea.clear();
         txtStatisticsArea.clear();
     }

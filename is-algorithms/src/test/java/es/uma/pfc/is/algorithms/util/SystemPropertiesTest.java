@@ -27,7 +27,7 @@ public class SystemPropertiesTest {
      */
 //    @Test
     public void testSetOutputPerformanceFile() {
-        SystemProperties.setOutputFile(Mode.TRACE, "C:\\", "performance.log");
+        SystemProperties.setOutputFile(Mode.HISTORY, "C:\\", "performance.log");
         String value = System.getProperty(SystemProperties.PERFORMANCE_FILE);
         assertEquals("C:\\performance.log", value);
     }
@@ -36,7 +36,7 @@ public class SystemPropertiesTest {
      */
 //    @Test
     public void testSetOutputStatisticsFile() {
-        SystemProperties.setOutputFile(Mode.TRACE, "C:\\", "stat.log");
+        SystemProperties.setOutputFile(Mode.HISTORY, "C:\\", "stat.log");
         String value = System.getProperty(SystemProperties.STATISTICS_FILE);
         assertEquals("C:\\stat.log", value);
     }
@@ -45,7 +45,7 @@ public class SystemPropertiesTest {
      */
     @Test
     public void testSetOutputTraceFile() {
-        SystemProperties.setOutputFile(Mode.TRACE, "C:\\", "trace.log");
+        SystemProperties.setOutputFile(Mode.HISTORY, "C:\\", "trace.log");
         String value = System.getProperty(SystemProperties.TRACE_FILE);
         assertEquals("C:\\trace.log", value);
     }

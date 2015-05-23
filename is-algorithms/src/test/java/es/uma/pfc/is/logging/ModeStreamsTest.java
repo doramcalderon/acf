@@ -1,13 +1,9 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package es.uma.pfc.is.logging;
 
 import es.uma.pfc.is.algorithms.AlgorithmOptions.Mode;
+import es.uma.pfc.is.algorithms.io.PrintStream;
 import java.io.OutputStream;
-import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.List;
 import org.junit.Test;
@@ -60,9 +56,9 @@ public class ModeStreamsTest {
         outputs.add(mock(OutputStream.class));
         outputs.add(mock(OutputStream.class));
         
-        modeStreams.addAll(Mode.TRACE, outputs);
+        modeStreams.addAll(Mode.HISTORY, outputs);
         
-        List<PrintStream> traceOutputs = modeStreams.getMap().get(Mode.TRACE);
+        List<PrintStream> traceOutputs = modeStreams.getMap().get(Mode.HISTORY);
         assertNotNull(traceOutputs);
         assertEquals(2, traceOutputs.size());
     }
@@ -73,8 +69,8 @@ public class ModeStreamsTest {
     public void testAddAllOutputs_WithNullOutputs() {
         ModeStreams modeStreams = new ModeStreams();     
         
-        modeStreams.addAll(Mode.TRACE, null);
-        List<PrintStream> traceOutputs = modeStreams.getMap().get(Mode.TRACE);
+        modeStreams.addAll(Mode.HISTORY, null);
+        List<PrintStream> traceOutputs = modeStreams.getMap().get(Mode.HISTORY);
         assertNull(traceOutputs);
     }
     /**
@@ -87,9 +83,9 @@ public class ModeStreamsTest {
         outputs.add(mock(OutputStream.class));
         outputs.add(null);
         
-        modeStreams.addAll(Mode.TRACE, outputs);
+        modeStreams.addAll(Mode.HISTORY, outputs);
         
-        List<PrintStream> traceOutputs = modeStreams.getMap().get(Mode.TRACE);
+        List<PrintStream> traceOutputs = modeStreams.getMap().get(Mode.HISTORY);
         assertNotNull(traceOutputs);
         assertEquals(1, traceOutputs.size());
     }

@@ -14,12 +14,12 @@ public class AlgorithmOptions {
      * Modos de ejecución.
      */
     public enum Mode {
-        /** Se miden los tiempos de ejecuión.*/
+        /** Se miden los tiempos de ejecuión.*//** Se miden los tiempos de ejecuión.*/
         PERFORMANCE, 
         /** Se guardan estadísticas.*/
         STATISTICS, 
         /** Se genera traza.*/
-        TRACE}
+        HISTORY}
     public enum Options {
         /** Entrada del algoritmo.**/
         INPUT,
@@ -31,6 +31,8 @@ public class AlgorithmOptions {
      * Opciones.
      */
     private final Map<String, Object> options;
+    
+    private String outputBaseName;
 
     public AlgorithmOptions() {
         options = new HashMap();
@@ -65,6 +67,9 @@ public class AlgorithmOptions {
      */
     public Object addOption(String key, Object value) {
         checkKey(key);
+        if(Options.OUTPUT.toString().equalsIgnoreCase(key)) {
+            setOutputBaseName((String) value);
+        }
         return options.put(key, value);
     }
     
@@ -75,6 +80,9 @@ public class AlgorithmOptions {
      */
     public Object removeOption(String key) {
         checkKey(key);
+        if(Options.OUTPUT.toString().equalsIgnoreCase(key)) {
+            setOutputBaseName(null);
+        }
         return options.remove(key);
     }
     /**
@@ -149,6 +157,15 @@ public class AlgorithmOptions {
     protected void checkMode(Mode mode) {
         if(mode == null) {
             throw new InvalidKeyException("The mode can't be null");
+        }
+    }
+    public String getOutputBaseName() {
+        return outputBaseName;
+    }
+    protected void setOutputBaseName(String outputname) {
+        outputBaseName = null;
+        if (outputname != null && !outputname.trim().isEmpty()) {
+            outputBaseName = outputname.substring(0, outputname.lastIndexOf("."));
         }
     }
 

@@ -87,11 +87,11 @@ public class GenericAlgorithmTest {
         Path path = Files.createTempFile("temp", null);
         OutputStream output = new FileOutputStream(path.toString());
         
-        alg = alg.traceOutput(Mode.TRACE, output);
+        alg = alg.traceOutput(Mode.HISTORY, output);
         
         assertNotNull(alg);
         assertTrue(alg.getOutputs() != null && !alg.getOutputs().isEmpty());
-        assertNotNull(alg.getOutputs().get(Mode.TRACE).get(0));
+        assertNotNull(alg.getOutputs().get(Mode.HISTORY).get(0));
     }
 
      @Test
@@ -104,14 +104,14 @@ public class GenericAlgorithmTest {
     @Test
     public void testEnable() {
         GenericAlgorithm alg = new GenericAlgorithmImpl();
-        alg.enable(AlgorithmOptions.Mode.TRACE);
-        assertTrue(alg.getOptions().getOption(AlgorithmOptions.Mode.TRACE.toString()));
+        alg.enable(AlgorithmOptions.Mode.HISTORY);
+        assertTrue(alg.getOptions().getOption(AlgorithmOptions.Mode.HISTORY.toString()));
     }
     @Test
     public void testDisable() {
         GenericAlgorithm alg = new GenericAlgorithmImpl();
-        alg.disable(AlgorithmOptions.Mode.TRACE);
-        assertFalse(alg.getOptions().getOption(AlgorithmOptions.Mode.TRACE.toString()));
+        alg.disable(AlgorithmOptions.Mode.HISTORY);
+        assertFalse(alg.getOptions().getOption(AlgorithmOptions.Mode.HISTORY.toString()));
     }
     
     /**

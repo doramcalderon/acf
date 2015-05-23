@@ -4,15 +4,11 @@ import es.uma.pfc.is.algorithms.AlgorithmOptions.Mode;
 import es.uma.pfc.is.algorithms.AlgorithmOptions.Options;
 import es.uma.pfc.is.algorithms.exceptions.AlgorithmException;
 import es.uma.pfc.is.algorithms.exceptions.InvalidPathException;
+import es.uma.pfc.is.algorithms.io.PrintStream;
 import es.uma.pfc.is.logging.ISBenchLogger;
-import es.uma.pfc.is.logging.PerformanceLogger;
 import fr.kbertet.lattice.ImplicationalSystem;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.io.PrintStream;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
@@ -21,8 +17,6 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  * Algoritmo genérico que recibe como entrada una ruta de un fichero y como salida un sistema implicacional.
@@ -35,10 +29,10 @@ public abstract class GenericAlgorithm implements Algorithm<String, Implicationa
     private AlgorithmOptions options;
     
     private String input;
-    private Map<Mode, List < PrintStream >> outputs;
+    private Map<Mode, List < PrintStream >> traceOutputs;
 
     public GenericAlgorithm() {
-        outputs = new HashMap();
+        traceOutputs = new HashMap();
         options = new AlgorithmOptions();
         logger = new ISBenchLogger();
     }
@@ -54,7 +48,6 @@ public abstract class GenericAlgorithm implements Algorithm<String, Implicationa
      * @throws AlgorithmException Si se produce algún error.
      */
     public ImplicationalSystem execute(AlgorithmOptions options) {
-        logger = new PerformanceLogger(options);
         return execute();
     }
 
@@ -74,9 +67,9 @@ public abstract class GenericAlgorithm implements Algorithm<String, Implicationa
 
     public ImplicationalSystem execute() {
         try {
-            logger.createStatisticLog(System.getProperty("isbench.output.dir") + File.separator + getName(), "Rule", "Old Size", "Current Size");
-            logger.initOutputs(outputs);
+            logger.initOutputs(traceOutputs);
             logger.setOptions(options);
+            logger.createStatisticLog(options.getOutputBaseName(), "Rule", "Old Size", "Current Size");
             logger.startTime(new Date());
             ImplicationalSystem result = execute(new ImplicationalSystem(getInput()));
             logger.endTime(new Date());
@@ -111,7 +104,7 @@ public abstract class GenericAlgorithm implements Algorithm<String, Implicationa
             outputs = new ArrayList();
         }
         outputs.add(new PrintStream(outputStream));
-        this.outputs.put(mode, outputs);
+        this.traceOutputs.put(mode, outputs);
         
         return this;
     }
@@ -128,7 +121,7 @@ public abstract class GenericAlgorithm implements Algorithm<String, Implicationa
 
     @Override
     public Algorithm traceOutputs(Map<Mode, List<PrintStream>> outputs) {
-        this.outputs = outputs;
+        this.traceOutputs = outputs;
         return this;
     }
     
@@ -164,7 +157,8 @@ public abstract class GenericAlgorithm implements Algorithm<String, Implicationa
     public void reset() {
         options.clear();
         input = null;
-        outputs.clear();
+        traceOutputs.clear();
+        logger.freeResources();
     }
     
     /**
@@ -187,7 +181,7 @@ public abstract class GenericAlgorithm implements Algorithm<String, Implicationa
      * @return the traceOutputs
      */
     public Map<Mode, List < PrintStream >> getOutputs() {
-        return outputs;
+        return traceOutputs;
     }
     
     public AlgorithmOptions getOptions() {

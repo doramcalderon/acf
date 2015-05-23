@@ -16,6 +16,10 @@ public class StringUtils {
     private StringUtils() {
     }
     
+    public static boolean isEmpty(String str) {
+        return (str == null) || str.trim().isEmpty() || "null".equals(str.trim().toLowerCase());
+    }
+    
     /**
      * Reemplaza los argumentos
      * @param message

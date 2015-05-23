@@ -49,7 +49,7 @@ public class SystemProperties {
             case STATISTICS:
                 System.setProperty(STATISTICS_FILE, path);
                 break;
-            case TRACE:
+            case HISTORY:
                 System.setProperty(TRACE_FILE, path);
                 break;
             default:

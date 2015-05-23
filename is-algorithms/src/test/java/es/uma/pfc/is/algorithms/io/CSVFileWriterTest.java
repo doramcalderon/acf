@@ -1,15 +1,9 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package es.uma.pfc.is.algorithms.io;
 
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
-import java.nio.file.Files;
-import java.nio.file.Path;
 import org.apache.commons.csv.CSVFormat;
 import org.junit.Test;
 import static org.junit.Assert.*;
@@ -85,11 +79,11 @@ public class CSVFileWriterTest {
     
 
     /**
-     * Check if the method {@link CSVFileWriter#printRecord(java.lang.Object...) } writes a line with data of one record.
+     * Check if the method {@link CSVFileWriter#printRecord(java.lang.Object[]) } writes a line with data of one record.
      * @throws Exception 
      */
     @Test
-    public void testPrintRecord() throws Exception {
+    public void testPrint() throws Exception {
         CSVFileWriter writer = new CSVFileWriter("file.csv").header("Name", "Age");
         writer.start();
         writer.printRecord("Jazmina", "12");

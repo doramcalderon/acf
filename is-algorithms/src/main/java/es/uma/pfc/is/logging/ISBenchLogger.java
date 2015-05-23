@@ -2,26 +2,22 @@ package es.uma.pfc.is.logging;
 
 import es.uma.pfc.is.algorithms.AlgorithmOptions;
 import es.uma.pfc.is.algorithms.AlgorithmOptions.Mode;
-import es.uma.pfc.is.algorithms.AlgorithmOptions.Options;
 import es.uma.pfc.is.algorithms.Messages;
 import static es.uma.pfc.is.algorithms.Messages.PERFORMANCE_END;
 import static es.uma.pfc.is.algorithms.Messages.PERFORMANCE_INIT;
 import static es.uma.pfc.is.algorithms.Messages.PERFORMANCE_TOTAL;
 import es.uma.pfc.is.algorithms.io.CSVFileWriter;
 import es.uma.pfc.is.algorithms.io.HistoryFileWriter;
+import es.uma.pfc.is.algorithms.io.PrintStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.OutputStream;
-import java.io.PrintStream;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.slf4j.Marker;
-import org.slf4j.MarkerFactory;
 
 /**
  * Logger.
@@ -30,37 +26,6 @@ import org.slf4j.MarkerFactory;
  */
 public class ISBenchLogger implements Messages {
 
-    /**
-     * Performance appender name.*
-     */
-    protected static final String PERFORMANCE_APPENDER = "Performance";
-    /**
-     * Statistics appender name.*
-     */
-    protected static final String STATISTICS_APPENDER = "Statistics";
-    /**
-     * History Appender name.
-     */
-    protected static final String HISTORY_APPENDER = "History";
-
-    /**
-     * Marker for performance outputs.*
-     */
-    protected static final Marker PERFORMANCE_MARKER = MarkerFactory.getMarker("PERFORMANCE");
-    /**
-     * Marker for statistics outputs.*
-     */
-    protected static final Marker STATISTICS_MARKER = MarkerFactory.getMarker("STATS");
-    /**
-     * Marker for history outputs.*
-     */
-    protected static final Marker HISTORY_MARKER = MarkerFactory.getMarker("HISTORY");
-
-    /**
-     * SLF4J Logger.
-     */
-    protected Logger logger;
-
     private AlgorithmOptions options;
     private ModeStreams modeStreams;
     private long startTime;
@@ -68,11 +33,10 @@ public class ISBenchLogger implements Messages {
     private static ResourceBundle messages;
     private SimpleDateFormat df = new SimpleDateFormat("HH:mm:ss:SSS");
     
-    private HistoryFileWriter historyWriter;
+    private CSVFileWriter csvWriter;
     
     
     public ISBenchLogger() {
-        logger = LoggerFactory.getLogger(ISBenchLogger.class);
         messages = ResourceBundle.getBundle("es.uma.pfc.is.algorithms.loggingMessages");
         modeStreams = new ModeStreams();
         options = new AlgorithmOptions();
@@ -81,7 +45,7 @@ public class ISBenchLogger implements Messages {
     public ISBenchLogger(AlgorithmOptions options) {
         this();
         if(options != null) {
-            this.options = options;
+            setOptions(options);
         }
     }
 
@@ -92,7 +56,6 @@ public class ISBenchLogger implements Messages {
      */
     public ISBenchLogger(Class clazz) {
         this();
-        logger = LoggerFactory.getLogger(clazz);
     }
 
     /**
@@ -102,7 +65,6 @@ public class ISBenchLogger implements Messages {
      */
     public ISBenchLogger(String name) {
         this();
-        logger = LoggerFactory.getLogger(name);
     }
 
     /**
@@ -124,58 +86,54 @@ public class ISBenchLogger implements Messages {
     }
 
     /**
-     * Si el modo {@link Mode#TRACE} está habilitado.
+     * Si el modo {@link Mode#HISTORY} está habilitado.
      *
-     * @return {@code true} si {@link Mode#TRACE} está habilitado, {@code false} en otro caso.
+     * @return {@code true} si {@link Mode#HISTORY} está habilitado, {@code false} en otro caso.
      */
     public final boolean isHistoryEnabled() {
-        return options.isEnabled(Mode.TRACE);
+        return options.isEnabled(Mode.HISTORY);
     }
 
-    public void setOptions(AlgorithmOptions options) {
+    public final void setOptions(AlgorithmOptions options) {
         this.options = options;
-        if (isHistoryEnabled()) {
-        try {
-            String outputname = options.getOption(Options.OUTPUT.toString());
-            if (outputname != null && !outputname.trim().isEmpty()) {
-                String name = outputname.substring(0, outputname.lastIndexOf("."));
-                String extension = outputname.substring(outputname.lastIndexOf("."), outputname.length());
-                outputname = name + "_history." + extension;
-            }
-            historyWriter = new HistoryFileWriter(outputname);
-        } catch (IOException ex) {
-            logger.error(ex.getMessage());
+        
+        if(isHistoryEnabled() || isPerformanceEnabled()) {
+            addHistoryWriter();
         }
     }
+    
+    /**
+     * Adds a history writer.
+     * @throws NullPointerException when output name is null.
+     */
+    protected void addHistoryWriter() {
+        String outputname = options.getOutputBaseName();
+        if (outputname == null) {
+            throw new  NullPointerException("The output is mandatory.");
+        } else {
+            outputname = outputname + "_history.txt";
+        } 
+        try {
+            HistoryFileWriter writer = new HistoryFileWriter(outputname);
+            if(isPerformanceEnabled()) {
+                modeStreams.add(Mode.PERFORMANCE, writer);
+            }
+            if(isHistoryEnabled()) {
+                modeStreams.add(Mode.HISTORY, writer);
+            }
+        } catch (FileNotFoundException ex) {
+            java.util.logging.Logger.getLogger(ISBenchLogger.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
+    
 
     protected String getMessage(String name) {
         return messages.getString(name);
     }
 
-    /**
-     * Return a marker of a mode.
-     * @param mode Mode.
-     * @return Marker.
-     */
-    protected Marker getMarker(Mode mode) {
-        Marker marker = null;
-        switch(mode) {
-            case PERFORMANCE:
-                marker = PERFORMANCE_MARKER;
-                break;
-            case TRACE:
-                marker = HISTORY_MARKER;
-                break;
-            case STATISTICS:
-                marker = STATISTICS_MARKER;
-                break;
-        }
-        return marker;
-    }
+       
 
     public void log(Mode mode, String message, Object ... args) {
-        logger.info(getMarker(mode), message, args);
         modeStreams.println(mode, message, args);
     }
     
@@ -213,17 +171,21 @@ public class ISBenchLogger implements Messages {
      */
     public void history(String message, Object... args) {
         if (isHistoryEnabled()) {
-            if (historyWriter != null) {
-                historyWriter.print(message, args);
-            }
-            log(Mode.TRACE, message, args);
+            log(Mode.HISTORY, message, args);
         }
     }
 
-    CSVFileWriter csvWriter = null;
+    /**
+     * Create the statistics file if statistics mode is enabled.
+     * @param name Name of statistics file.
+     * @param headers Headers.
+     * @throws IOException 
+     */
     public void createStatisticLog(String name, Object ... headers ) throws IOException {
-        csvWriter = new CSVFileWriter(name + ".csv").header(headers);
-        csvWriter.start();
+        if(isStatisticsEnabled()) {
+            csvWriter = new CSVFileWriter(name + ".csv").header(headers);
+            csvWriter.start();
+        }
     }
     /**
      * Write a message with Statistics Appender.
@@ -234,8 +196,8 @@ public class ISBenchLogger implements Messages {
     public void statistics(Object ... record) {
         if (isStatisticsEnabled()) {
             try {
-                //log(Mode.STATISTICS, message, args);
                 csvWriter.printRecord(record);
+                
             } catch (IOException ex) {
                 java.util.logging.Logger.getLogger(ISBenchLogger.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -251,7 +213,16 @@ public class ISBenchLogger implements Messages {
     }
     
     public void freeResources() {
-        csvWriter.finish();
-        historyWriter.finish();
+        if(csvWriter != null) {
+            csvWriter.finish();
+        }
+        if(modeStreams != null) {
+            modeStreams.closeAll();
+        }
+        modeStreams.getMap().clear();
+    }
+    
+    protected SimpleDateFormat getDf() {
+        return df;
     }
 }
