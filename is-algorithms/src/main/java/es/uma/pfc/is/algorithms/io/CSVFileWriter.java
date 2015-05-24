@@ -25,7 +25,7 @@ public class CSVFileWriter {
     /**
      * Header.
      */
-    private Object[] header;
+    private String[] header;
     /**
      * Delimiter used in CSV file. {@literal \n} by default.
      */
@@ -58,7 +58,7 @@ public class CSVFileWriter {
      * @param header Header in CSV format.
      * @return CSVFileWriter with a header.
      */
-    public CSVFileWriter header(Object... header) {
+    public CSVFileWriter header(String... header) {
         this.header = header;
         return this;
     }
@@ -85,8 +85,8 @@ public class CSVFileWriter {
      * @throws java.io.IOException
      */
     public void start() throws IOException {
+        csvFileFormat = csvFileFormat.withHeader(header);
         csvFilePrinter = new CSVPrinter(new BufferedWriter(new FileWriter(fileName)), csvFileFormat);
-        csvFilePrinter.printRecord(header);
         csvFilePrinter.flush();
     }
 

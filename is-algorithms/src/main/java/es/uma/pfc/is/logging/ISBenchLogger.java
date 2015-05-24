@@ -181,7 +181,7 @@ public class ISBenchLogger implements Messages {
      * @param headers Headers.
      * @throws IOException 
      */
-    public void createStatisticLog(String name, Object ... headers ) throws IOException {
+    public void createStatisticLog(String name, String ... headers ) throws IOException {
         if(isStatisticsEnabled()) {
             csvWriter = new CSVFileWriter(name + ".csv").header(headers);
             csvWriter.start();

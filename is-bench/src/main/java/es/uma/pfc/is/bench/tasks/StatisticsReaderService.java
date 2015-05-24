@@ -2,12 +2,10 @@ package es.uma.pfc.is.bench.tasks;
 
 import es.uma.pfc.is.algorithms.io.CSVFileWriter;
 import es.uma.pfc.is.algorithms.util.StringUtils;
-import java.io.BufferedReader;
-import java.io.FileReader;
+import java.io.File;
 import java.io.IOException;
+import java.nio.charset.Charset;
 import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.application.Platform;
@@ -18,6 +16,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.concurrent.Service;
 import javafx.concurrent.Task;
+import javafx.event.EventType;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.util.Callback;
@@ -31,9 +30,20 @@ import org.apache.commons.csv.CSVRecord;
  */
 public class StatisticsReaderService extends Service {
 
+    /**
+     * CSV File name.
+     */
     private String csvFileName;
+    /**
+     * Table.
+     */
     private TableView table;
 
+    /**
+     * Constructor.
+     * @param csvFileName CSV File name.
+     * @param table Table.
+     */
     public StatisticsReaderService(String csvFileName, TableView table) {
         this.csvFileName = csvFileName;
         this.table = table;
@@ -42,64 +52,81 @@ public class StatisticsReaderService extends Service {
     @Override
     protected Task createTask() {
         return new Task<Void>() {
-
             @Override
             protected Void call() throws Exception {
-                final CSVParser parser = new CSVParser(new BufferedReader(new FileReader(csvFileName)),
-                        CSVFileWriter.getCSVFileFormat());
+                final CSVParser parser = CSVParser.parse(new File(csvFileName), Charset.defaultCharset(), CSVFileWriter.getCSVFileFormat());
+                
                 Platform.runLater(new Runnable() {
 
                     public void run() {
                         try {
-                            printHeaders(parser.getHeaderMap());
-                            printRecords(parser.getRecords());
-                        } catch (IOException ex) {
-                            Logger.getLogger(StatisticsReaderService.class.getName()).log(Level.SEVERE, null, ex);
+                            printHeaders(parser);
+                            printRecords(parser);
+                        } finally {
+                            try {
+                                if(!parser.isClosed()) {
+                                    parser.close();
+                                }
+                            } catch (IOException ex) {
+                                Logger.getLogger(StatisticsReaderService.class.getName()).log(Level.SEVERE, null, ex);
+                            }
                         }
                     }
                 });
                 return null;
             }
+            
+            
         };
     }
+    
+    
 
-    protected void printHeaders(final Map<String, Integer> headers) {
-        if (headers != null) {
-            Platform.runLater(new Runnable() {
-
-                public void run() {
-                    for (String headerName : headers.keySet()) {
-                        table.getColumns().add(createColumn(headers.get(headerName), headerName));
-                    }
-                }
-            });
+    /**
+     * Print the headers as columns.
+     * @param parser CSV Parser.
+     */
+    protected void printHeaders(final CSVParser parser) {
+        for(CSVRecord headers : parser) {
+            int i = 0;
+            for(String header : headers) {
+                table.getColumns().add(createColumn(i, header));
+                i++;
+            }
+            break;
         }
-
     }
 
-    protected void printRecords(List<CSVRecord> records) {
-        for(CSVRecord record : records) {
+    /**
+     * Print the records as new rows.
+     * @param parser CSV Parser.
+     */
+    protected void printRecords(CSVParser parser) {
+        for(CSVRecord record : parser) {
             // Add additional columns if necessary:
             for (int columnIndex = table.getColumns().size(); columnIndex < record.size(); columnIndex++) {
                 table.getColumns().add(createColumn(columnIndex, ""));
             }
-            
+
             ObservableList<StringProperty> data = FXCollections.observableArrayList();
             Iterator<String> recordIterator = record.iterator();
-            
-            while(recordIterator.hasNext()) {
+
+            while (recordIterator.hasNext()) {
                 data.add(new SimpleStringProperty(recordIterator.next()));
             }
             table.getItems().add(data);
         }
     }
 
+    /**
+     * Create a new column in the TableView.
+     * @param columnIndex Index of column.
+     * @param columnTitle Title of column.
+     * @return A new column.
+     */
     protected TableColumn<ObservableList<StringProperty>, String> createColumn(final int columnIndex, String columnTitle) {
-        TableColumn<ObservableList<StringProperty>, String> column = new TableColumn();
-
         String title = (StringUtils.isEmpty(columnTitle)) ? "Column " + columnIndex : columnTitle;
-        column.setText(title);
-
+        TableColumn<ObservableList<StringProperty>, String> column = new TableColumn(title);
         column.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<ObservableList<StringProperty>, String>, ObservableValue<String>>() {
 
             public ObservableValue<String> call(TableColumn.CellDataFeatures<ObservableList<StringProperty>, String> cellDataFeatures) {

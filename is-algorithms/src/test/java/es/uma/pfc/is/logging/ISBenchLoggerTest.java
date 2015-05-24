@@ -270,8 +270,8 @@ public class ISBenchLoggerTest {
         options.enable(AlgorithmOptions.Mode.STATISTICS);
         
         ISBenchLogger logger = new ISBenchLogger(options);
-        String header = "Rule,Rule,Old size,New Size";
-        logger.createStatisticLog("output", "Rule", "Rule", "Old size", "New Size");
+        String header = "Rule1,Rule,Old size,New Size";
+        logger.createStatisticLog("output", "Rule1", "Rule", "Old size", "New Size");
         
         logger.statistics("a->b","b->a","3","2");
         logger.freeResources();

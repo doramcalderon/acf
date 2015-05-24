@@ -269,6 +269,9 @@ public class FXMLController extends Controller {
      */
     protected void clear() {
         model.clear();
+        chkTime.setSelected(true);
+        chkHistory.setSelected(false);
+        chkStatistics.setSelected(false);
         txtInput.clear();
         txtOutput.clear();
         clearTraces();
