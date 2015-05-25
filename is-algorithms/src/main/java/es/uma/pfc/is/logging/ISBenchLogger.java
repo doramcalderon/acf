@@ -24,22 +24,21 @@ import java.util.logging.Level;
  *
  * @author Dora Calderón
  */
-public class ISBenchLogger implements Messages {
+public class ISBenchLogger {
 
     private AlgorithmOptions options;
     private ModeStreams modeStreams;
     private long startTime;
 
-    private static ResourceBundle messages;
     private SimpleDateFormat df = new SimpleDateFormat("HH:mm:ss:SSS");
     
     private CSVFileWriter csvWriter;
-    
+    private Messages messages;
     
     public ISBenchLogger() {
-        messages = ResourceBundle.getBundle("es.uma.pfc.is.algorithms.loggingMessages");
         modeStreams = new ModeStreams();
         options = new AlgorithmOptions();
+        messages = Messages.get();
     }
 
     public ISBenchLogger(AlgorithmOptions options) {
@@ -126,12 +125,7 @@ public class ISBenchLogger implements Messages {
         }
     }
     
-
-    protected String getMessage(String name) {
-        return messages.getString(name);
-    }
-
-       
+   
 
     public void log(Mode mode, String message, Object ... args) {
         modeStreams.println(mode, message, args);
@@ -146,7 +140,7 @@ public class ISBenchLogger implements Messages {
 
         if (isPerformanceEnabled()) {
             startTime = time.getTime();
-            log(Mode.PERFORMANCE, getMessage(PERFORMANCE_INIT), df.format(time));
+            log(Mode.PERFORMANCE, messages.getMessage(PERFORMANCE_INIT, df.format(time)));
         }
     }
 
@@ -158,8 +152,8 @@ public class ISBenchLogger implements Messages {
     public void endTime(Date time) {
         if (isPerformanceEnabled()) {
             long total = time.getTime() - startTime;
-            log(Mode.PERFORMANCE, getMessage(PERFORMANCE_END), df.format(time));
-            log(Mode.PERFORMANCE, getMessage(PERFORMANCE_TOTAL), total);
+            log(Mode.PERFORMANCE, messages.getMessage(PERFORMANCE_END, df.format(time)));
+            log(Mode.PERFORMANCE, messages.getMessage(PERFORMANCE_TOTAL, total));
         }
     }
 
@@ -190,8 +184,7 @@ public class ISBenchLogger implements Messages {
     /**
      * Write a message with Statistics Appender.
      *
-     * @param message Message.
-     * @param args Message arguments.
+     * @param record Message.
      */
     public void statistics(Object ... record) {
         if (isStatisticsEnabled()) {

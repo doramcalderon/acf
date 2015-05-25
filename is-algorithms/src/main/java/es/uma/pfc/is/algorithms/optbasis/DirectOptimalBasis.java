@@ -1,11 +1,8 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package es.uma.pfc.is.algorithms.optbasis;
 
 import es.uma.pfc.is.algorithms.GenericAlgorithm;
+import es.uma.pfc.is.algorithms.Messages;
 import es.uma.pfc.is.algorithms.util.ImplicationalSystems;
 import static es.uma.pfc.is.algorithms.util.ImplicationalSystems.*;
 import es.uma.pfc.is.algorithms.util.Rules;
@@ -13,15 +10,15 @@ import es.uma.pfc.is.algorithms.util.Sets;
 import static es.uma.pfc.is.algorithms.util.Sets.*;
 import fr.kbertet.lattice.ImplicationalSystem;
 import fr.kbertet.lattice.Rule;
+import java.util.List;
 import java.util.TreeSet;
 
 /**
- *
- * @since @author Dora Calderón
+ * Direct Optimal Basis algortithm.
+ *@author Dora Calderón
  */
 public class DirectOptimalBasis extends GenericAlgorithm {
-
-   
+ 
 
     @Override
     public String getName() {
@@ -31,7 +28,7 @@ public class DirectOptimalBasis extends GenericAlgorithm {
     
     @Override
     public ImplicationalSystem execute(ImplicationalSystem system) {
-        getLogger().history("Executing {}", getName());
+        getLogger().history(Messages.EXECUTING, getName());
         
         ImplicationalSystem directOptimalBasis = null;
 
@@ -69,25 +66,21 @@ public class DirectOptimalBasis extends GenericAlgorithm {
      * @return Sistema implicacional reducido.{@code null} si el sistema es nulo.
      */
     public ImplicationalSystem reduce(ImplicationalSystem system) {
-        getLogger().history("Generation of reduced IS");
+        getLogger().history(Messages.REDUCE);
         ImplicationalSystem reducedSystem = null;
-        if (system != null) {
-            reducedSystem = new ImplicationalSystem(system);
-            for (Rule r : system.getRules()) {
-                Rule frEqRule = SimplificationLogic.fragmentationEquivalency(r);
-                TreeSet a = frEqRule.getPremise();
-                TreeSet b = frEqRule.getConclusion();
-                if (a.containsAll(b)) {
-                    reducedSystem.removeRule(r);
-                } else {
-                    reducedSystem.replaceRule(r, frEqRule);
+        if(system != null) {
+            reducedSystem = new ImplicationalSystem();
+            for(Rule implication : system.getRules()) {
+                Rule frEqImpl = SimplificationLogic.fragmentationEquivalency(implication);
+                if(!frEqImpl.getConclusion().isEmpty()) {
+                    reducedSystem = ImplicationalSystems.addRuleAndElements(reducedSystem, frEqImpl);
                 }
             }
             getLogger().statistics("reduce", system.sizeRules(), reducedSystem.sizeRules());
         }
         return reducedSystem;
     }
-    
+     
     /**
      * Fase de simplificación.
      *
@@ -97,19 +90,73 @@ public class DirectOptimalBasis extends GenericAlgorithm {
     protected ImplicationalSystem simplificate(ImplicationalSystem system) {
         getLogger().history("Generation of IS simplificated by simplification of reduced IS");
         ImplicationalSystem simplificatedSystem = null;
+        ImplicationalSystem aux = null;
+        
+        if(system != null) {
+            getLogger().history(system.toString());
+            simplificatedSystem = new ImplicationalSystem(system);
+            int size;
+
+            do {
+                size = simplificatedSystem.sizeRules();
+                aux = new ImplicationalSystem(simplificatedSystem);
+                
+                for (Rule rule1 : aux.getRules()) {
+                    for (Rule rule2 : aux.getRules()) {
+                        if(!rule1.equals(rule2)) {
+                            List<Rule> rulesComp = SimplificationLogic.compositionEquivalency(rule1, rule2);
+                            if(rulesComp.size() == 1) {
+                                simplificatedSystem.removeRule(rule1);
+                                simplificatedSystem.removeRule(rule2);
+                                simplificatedSystem.addRule(rulesComp.get(0));
+                            } else {
+                                Rule newRule = SimplificationLogic.simplificationEquivalency(rule1, rule2).get(1);
+                                if(!newRule.getConclusion().isEmpty()) {
+                                        simplificatedSystem.replaceRule(rule2, newRule);
+                                    } else {
+                                        simplificatedSystem.removeRule(rule2);
+                                    }
+                                
+                            }
+                            
+                        }
+                    }
+                }
+                
+            } while (size != simplificatedSystem.sizeRules());
+            
+            
+            
+        }
+        getLogger().statistics("simplificate", system.sizeRules(), simplificatedSystem.sizeRules());
+        return simplificatedSystem;
+    }
+     
+    /**
+     * Fase de simplificación.
+     *
+     * @param system Sistema implicacional.
+     * @return Sistema simplificado.
+     */
+    protected ImplicationalSystem simplificate2(ImplicationalSystem system) {
+        getLogger().history("Generation of IS simplificated by simplification of reduced IS");
+        ImplicationalSystem simplificatedSystem = null;
+        ImplicationalSystem aux = null;
         
         if(system != null) {
             getLogger().history(system.toString());
             simplificatedSystem = new ImplicationalSystem(system);
             
-            int size = system.sizeRules();
+            int size;
             TreeSet a, b, c, d;
 
             do {
-                for (Rule rule1 : system.getRules()) {
+                size = simplificatedSystem.sizeRules();
+                aux = new ImplicationalSystem(simplificatedSystem);
+                for (Rule rule1 : aux.getRules()) {
                     a = rule1.getPremise();
                     b = rule1.getConclusion();
-                    for (Rule rule2 : system.getRules()) {
+                    for (Rule rule2 : aux.getRules()) {
                         if(!rule1.equals(rule2)) {
                             c = rule2.getPremise();
                             d = rule2.getConclusion();
@@ -119,8 +166,15 @@ public class DirectOptimalBasis extends GenericAlgorithm {
                                     simplificatedSystem.removeRule(rule1);
                                     simplificatedSystem.removeRule(rule2);
                                     simplificatedSystem.addRule(new Rule(a, new TreeSet(union(b, d))));
+                                } else if (b.containsAll(d)) {
+                                    simplificatedSystem.removeRule(rule2);
                                 } else {
-                                    addAllRules(simplificatedSystem, SimplificationLogic.simplificationEquivalency(rule1, rule2));
+                                    List<Rule> seq = SimplificationLogic.simplificationEquivalency(rule1, rule2);
+                                    if(seq.get(1).getConclusion().isEmpty()) {
+                                        simplificatedSystem.removeRule(rule2);
+                                    } else {
+                                        simplificatedSystem.replaceRule(rule2, seq.get(1));
+                                    }
                                 }
                             }
                         }

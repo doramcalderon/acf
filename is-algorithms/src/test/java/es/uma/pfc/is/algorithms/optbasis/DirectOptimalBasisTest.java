@@ -5,7 +5,6 @@
  */
 package es.uma.pfc.is.algorithms.optbasis;
 
-import es.uma.pfc.is.algorithms.optbasis.DirectOptimalBasis;
 import es.uma.pfc.is.algorithms.util.ImplicationalSystems;
 import fr.kbertet.lattice.ImplicationalSystem;
 import fr.kbertet.lattice.Rule;
@@ -36,8 +35,15 @@ public class DirectOptimalBasisTest {
      */
     @Test
     public void testSimplificate() throws IOException {
-        ImplicationalSystem system = getSystemFromFile("test_strong_simp.txt");
-        System.out.println(new DirectOptimalBasis().simplificate(system));
+        ImplicationalSystem system = getSystemFromFile("do_ej1.txt");
+        ImplicationalSystem expectedSystem = getSystemFromFile("do_ej1_resul.txt");
+        
+        system = new DirectOptimalBasis().simplificate(system);
+        
+        assertEquals(expectedSystem.sizeRules(), system.sizeRules());
+        for (Rule rule : system.getRules()) {
+            assertTrue(expectedSystem.containsRule(rule));
+        }
     }
 
     /**

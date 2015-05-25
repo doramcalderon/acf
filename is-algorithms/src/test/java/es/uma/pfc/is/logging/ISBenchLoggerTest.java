@@ -6,7 +6,6 @@ import es.uma.pfc.is.algorithms.AlgorithmOptions.Options;
 import es.uma.pfc.is.algorithms.Messages;
 import static es.uma.pfc.is.algorithms.Messages.PERFORMANCE_END;
 import static es.uma.pfc.is.algorithms.Messages.PERFORMANCE_INIT;
-import es.uma.pfc.is.algorithms.util.StringUtils;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -132,7 +131,7 @@ public class ISBenchLoggerTest {
         logger.endTime(end);
         logger.freeResources();
         
-        String expectedLine =  StringUtils.replaceArgs(logger.getMessage(PERFORMANCE_INIT), "{}", logger.getDf().format(start));
+        String expectedLine =  Messages.get().getMessage(PERFORMANCE_INIT, logger.getDf().format(start));
         File history = null;
         BufferedReader reader = null;
         try {
@@ -143,11 +142,11 @@ public class ISBenchLoggerTest {
             String line = reader.readLine();
             assertEquals(expectedLine, line);
             
-            expectedLine =  StringUtils.replaceArgs(logger.getMessage(PERFORMANCE_END), "{}", logger.getDf().format(end));
+            expectedLine =  Messages.get().getMessage(PERFORMANCE_END, logger.getDf().format(end));
             line = reader.readLine();
             assertEquals(expectedLine, line);
             
-            expectedLine =  StringUtils.replaceArgs(logger.getMessage(Messages.PERFORMANCE_TOTAL), "{}", (end.getTime() - start.getTime()));
+            expectedLine =  Messages.get().getMessage(Messages.PERFORMANCE_TOTAL, (end.getTime() - start.getTime()));
             line = reader.readLine();
             assertEquals(expectedLine, line);
             

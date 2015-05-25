@@ -30,7 +30,7 @@ public class StringUtils {
     public static String replaceArgs(String message, String token, Object ... args) {
         String messageReplaced = message;
         
-        if(message != null && message.trim().length() > 0 && token != null) {
+        if(message != null && message.trim().length() > 0 && token != null && args != null) {
             
             for(Object arg : args) {
                 messageReplaced = Pattern.compile(token, Pattern.LITERAL).matcher(messageReplaced)

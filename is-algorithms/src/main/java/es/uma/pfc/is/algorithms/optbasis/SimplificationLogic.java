@@ -7,6 +7,7 @@
 package es.uma.pfc.is.algorithms.optbasis;
 
 import es.uma.pfc.is.algorithms.util.Sets;
+import fr.kbertet.lattice.ImplicationalSystem;
 import fr.kbertet.lattice.Rule;
 import fr.kbertet.util.ComparableSet;
 import java.util.ArrayList;
@@ -59,6 +60,21 @@ public class SimplificationLogic {
         }
         return compositionRules;
     }
+    
+    public static final ImplicationalSystem compositionEquivalency(ImplicationalSystem is, Rule rule1, Rule rule2) {
+        if(is.containsRule(rule1) && is.containsRule(rule2)) {
+            if (rule1.getPremise().equals(rule2.getPremise())) {
+                Rule compositionRule = new Rule(rule1.getPremise(), new ComparableSet());
+                compositionRule.addAllToConclusion(rule1.getConclusion());
+                compositionRule.addAllToConclusion(rule2.getConclusion());
+
+                is.removeRule(rule1);
+                is.removeRule(rule2);
+                is.addRule(compositionRule);
+            }
+        }
+        return is;
+    }
     /**
      * Implementa la regla de simplificación para una pareja de implicaciones.<br/>
      * [SiEq]: If (A intersection B is empty ) and (A subset of C) then <br/><br/>
@@ -82,6 +98,7 @@ public class SimplificationLogic {
         } else {
             rules.add(rule2);
         }
+        System.out.println("seq(" + rule1 + ", " + rule2 +"):  " + rules.toString());
         return rules;
     }
 
