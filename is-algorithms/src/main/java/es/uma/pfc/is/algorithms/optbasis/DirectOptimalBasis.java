@@ -1,10 +1,10 @@
 
 package es.uma.pfc.is.algorithms.optbasis;
 
+import es.uma.pfc.is.algorithms.AlgorithmOptions.Mode;
 import es.uma.pfc.is.algorithms.GenericAlgorithm;
 import es.uma.pfc.is.algorithms.Messages;
 import es.uma.pfc.is.algorithms.util.ImplicationalSystems;
-import static es.uma.pfc.is.algorithms.util.ImplicationalSystems.*;
 import es.uma.pfc.is.algorithms.util.Rules;
 import es.uma.pfc.is.algorithms.util.Sets;
 import static es.uma.pfc.is.algorithms.util.Sets.*;
@@ -28,7 +28,7 @@ public class DirectOptimalBasis extends GenericAlgorithm {
     
     @Override
     public ImplicationalSystem execute(ImplicationalSystem system) {
-        getLogger().history(Messages.EXECUTING, getName());
+        getLogger().history(Messages.get().getMessage(Messages.EXECUTING, getName()));
         
         ImplicationalSystem directOptimalBasis = null;
 
@@ -66,7 +66,7 @@ public class DirectOptimalBasis extends GenericAlgorithm {
      * @return Sistema implicacional reducido.{@code null} si el sistema es nulo.
      */
     public ImplicationalSystem reduce(ImplicationalSystem system) {
-        getLogger().history(Messages.REDUCE);
+        getLogger().history(Messages.get().getMessage(Messages.REDUCE));
         ImplicationalSystem reducedSystem = null;
         if(system != null) {
             reducedSystem = new ImplicationalSystem();
@@ -106,16 +106,16 @@ public class DirectOptimalBasis extends GenericAlgorithm {
                         if(!rule1.equals(rule2)) {
                             List<Rule> rulesComp = SimplificationLogic.compositionEquivalency(rule1, rule2);
                             if(rulesComp.size() == 1) {
-                                simplificatedSystem.removeRule(rule1);
-                                simplificatedSystem.removeRule(rule2);
-                                simplificatedSystem.addRule(rulesComp.get(0));
+                                removeRule(simplificatedSystem, rule1);
+                                removeRule(simplificatedSystem, rule2);
+                                addRule(simplificatedSystem, rulesComp.get(0));
                             } else {
                                 Rule newRule = SimplificationLogic.simplificationEquivalency(rule1, rule2).get(1);
                                 if(!newRule.getConclusion().isEmpty()) {
-                                        simplificatedSystem.replaceRule(rule2, newRule);
-                                    } else {
-                                        simplificatedSystem.removeRule(rule2);
-                                    }
+                                    replaceRule(simplificatedSystem, rule2, newRule);
+                                } else {
+                                    removeRule(simplificatedSystem, rule2);
+                                }
                                 
                             }
                             
@@ -173,7 +173,10 @@ public class DirectOptimalBasis extends GenericAlgorithm {
                                     if(seq.get(1).getConclusion().isEmpty()) {
                                         simplificatedSystem.removeRule(rule2);
                                     } else {
-                                        simplificatedSystem.replaceRule(rule2, seq.get(1));
+                                        Rule newRule = seq.get(1);
+                                        if(!rule2.equals(newRule)) {
+                                            simplificatedSystem.replaceRule(rule2, newRule);
+                                        }
                                     }
                                 }
                             }
@@ -203,25 +206,24 @@ public class DirectOptimalBasis extends GenericAlgorithm {
         if(system != null) {
             getLogger().history(system.toString());
             simplSystem= new ImplicationalSystem(system);
-            ImplicationalSystem auxSystem = new ImplicationalSystem();
+            ImplicationalSystem auxSystem;
             int size;
 
             do {
                 size = simplSystem.sizeRules();
-                auxSystem.init();
+                auxSystem = new ImplicationalSystem(simplSystem);
 
-                for (Rule rule1 : simplSystem.getRules()) {
-                    for (Rule rule2 : simplSystem.getRules()) {
+                for (Rule rule1 : auxSystem.getRules()) {
+                    for (Rule rule2 : auxSystem.getRules()) {
                         if(!rule1.equals(rule2)) {
                             Rule r = SimplificationLogic.strongSimplificationEq(rule1, rule2);
                             if (r != null) {
-                                auxSystem.addAllElements(Rules.getElements(r));
-                                auxSystem.addRule(r);
+                                simplSystem = ImplicationalSystems.addRuleAndElements(simplSystem, r);
                             }
                         }
                     }
                 }
-                simplSystem = ImplicationalSystems.addAllRules(simplSystem, auxSystem.getRules());
+                
             } while (size != simplSystem.sizeRules());
             
             getLogger().history(simplSystem.toString());
@@ -233,7 +235,10 @@ public class DirectOptimalBasis extends GenericAlgorithm {
     }
 
     /**
-     * Devuelve un sistema de implicaciones optimizado.
+     * Devuelve un sistema de implicaciones optimizado.<br/>
+     * Para cada par de implicaciones en el sistema pasado como arguemnto:
+     *      if C = A then B = B union D
+     *      if C es subconjunto propio de A then B = diferencia simetrica (B, D) <br/>
      * @param system Sistema implicacional.
      * @return Sistema implicacional optimizado.
      */
@@ -243,17 +248,20 @@ public class DirectOptimalBasis extends GenericAlgorithm {
         
         if (system != null) {
             optimizedSystem= new ImplicationalSystem();
-            Rule optimizedRule = null;
-
+            TreeSet conclusion;
             for (Rule rule1 : system.getRules()) {
+                conclusion = rule1.getConclusion();
                 for (Rule rule2 : system.getRules()) {
                     if(!rule1.equals(rule2)) {
-                        optimizedRule = optimize(rule1, rule2);
+                        if(rule2.getPremise().equals(rule1.getPremise())) {
+                            conclusion.addAll(rule2.getConclusion());
+                        } else if (rule1.getPremise().containsAll(rule2.getPremise())) {
+                            conclusion = Sets.symDifference(conclusion, rule2.getConclusion());
+                        }
                     }
-                    if (optimizedRule != null && !optimizedRule.getConclusion().isEmpty()) {
-                        optimizedSystem.addAllElements(Rules.getElements(optimizedRule));
-                        optimizedSystem.addRule(optimizedRule);
-                    }
+                }
+                if (!conclusion.isEmpty()) {
+                    optimizedSystem = ImplicationalSystems.addRuleAndElements(optimizedSystem, new Rule(rule1.getPremise(), conclusion));
                 }
             }
             
@@ -264,35 +272,7 @@ public class DirectOptimalBasis extends GenericAlgorithm {
         return optimizedSystem;
     }
 
-    /**
-     * Devuelve la optimización de una implicación respecto a otra aplicando que:<br/>
-     *      if C = A then B = B union D<br/>
-     *      if C es subconjunto propio de A then B = diferencia simetrica (B, D) <br/>
-     * 
-     * @param implication1 Implicación.
-     * @param implication2 Implicación.
-     * @return Implicación optimizada.
-     */
-    protected Rule optimize(Rule implication1, Rule implication2) {
-        Rule optimizedRule = null;
-        if (implication1 != null && implication2 != null) {
-            TreeSet a = implication1.getPremise();
-            TreeSet b = implication1.getConclusion();
-            TreeSet c = implication2.getPremise();
-            TreeSet d = implication2.getConclusion();
-
-            if (c.equals(a)) {
-                optimizedRule = new Rule(implication1.getPremise(), implication1.getConclusion());
-                optimizedRule.addAllToConclusion(d);
-            } else if (a.containsAll(c)) {
-                TreeSet symDifference = Sets.symDifference(b, d);
-                optimizedRule = new Rule(implication1.getPremise(), symDifference);
-                // System.out.println("symDiference(" + b + ", " + d + "): " + symDifference);
-            }
-        }
-        getLogger().history("optimize(" + implication1 + ", " + implication2 + ") ==> " + optimizedRule);
-        return optimizedRule;
-    }
+  
 
     @Override
     public String toString() {

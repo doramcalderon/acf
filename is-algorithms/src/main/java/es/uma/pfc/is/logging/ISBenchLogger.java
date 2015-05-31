@@ -125,9 +125,27 @@ public class ISBenchLogger {
         }
     }
     
-   
+    /**
+     * Escribe un mensaje para distintos modos.
+     * @param message Mensaje.
+     * @param modes Modos.
+     */
+   public void log(String message, Mode ... modes) {
+       if(modes != null) {
+                for(Mode mode : modes) {
+                    switch (mode) {
+                        case HISTORY:
+                            history(message);
+                            break;
+                        case STATISTICS:
+                            statistics(message);
+                            break;
+                    }
+                }
+        }
+   }
 
-    public void log(Mode mode, String message, Object ... args) {
+    public void print(Mode mode, String message, Object ... args) {
         modeStreams.println(mode, message, args);
     }
     
@@ -140,7 +158,7 @@ public class ISBenchLogger {
 
         if (isPerformanceEnabled()) {
             startTime = time.getTime();
-            log(Mode.PERFORMANCE, messages.getMessage(PERFORMANCE_INIT, df.format(time)));
+            print(Mode.PERFORMANCE, messages.getMessage(PERFORMANCE_INIT, df.format(time)));
         }
     }
 
@@ -152,8 +170,8 @@ public class ISBenchLogger {
     public void endTime(Date time) {
         if (isPerformanceEnabled()) {
             long total = time.getTime() - startTime;
-            log(Mode.PERFORMANCE, messages.getMessage(PERFORMANCE_END, df.format(time)));
-            log(Mode.PERFORMANCE, messages.getMessage(PERFORMANCE_TOTAL, total));
+            print(Mode.PERFORMANCE, messages.getMessage(PERFORMANCE_END, df.format(time)));
+            print(Mode.PERFORMANCE, messages.getMessage(PERFORMANCE_TOTAL, total));
         }
     }
 
@@ -165,7 +183,7 @@ public class ISBenchLogger {
      */
     public void history(String message, Object... args) {
         if (isHistoryEnabled()) {
-            log(Mode.HISTORY, message, args);
+            print(Mode.HISTORY, message, args);
         }
     }
 

@@ -7,6 +7,7 @@ import es.uma.pfc.is.algorithms.exceptions.InvalidPathException;
 import es.uma.pfc.is.algorithms.io.PrintStream;
 import es.uma.pfc.is.logging.ISBenchLogger;
 import fr.kbertet.lattice.ImplicationalSystem;
+import fr.kbertet.lattice.Rule;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.nio.file.Files;
@@ -191,4 +192,47 @@ public abstract class GenericAlgorithm implements Algorithm<String, Implicationa
 
     public abstract ImplicationalSystem execute(ImplicationalSystem system);
 
+    /**
+     * Removes rules for implicational system, and print trace in the history.
+     * @param system Implicational system.
+     * @param rule Rule.
+     * @param modes Mode.
+     */
+    protected void removeRule(ImplicationalSystem system, Rule rule) {
+        if(system != null && rule != null) {
+            String message = Messages.get().getMessage(Messages.REMOVE_RULE, rule);
+            getLogger().history(message);
+            
+            system.removeRule(rule);
+        }
+    }
+    
+    
+    /**
+     * Adds rules for implicational system, and print trace in the history.
+     * @param system Implicational system.
+     * @param rule Rule.
+     * @param modes Mode.
+     */
+    protected void addRule(ImplicationalSystem system, Rule rule) {
+        if(system != null && rule != null) {
+            getLogger().history(Messages.get().getMessage(Messages.REMOVE_RULE, rule));
+            system.addRule(rule);
+        }
+    }
+    
+    /**
+     * Replace a rule by other for implicational system, and print trace in the history.
+     * @param system Implicational system.
+     * @param rule1 Rule to replace.
+     * @param rule2 New rule.
+     */
+    protected void replaceRule(ImplicationalSystem system, Rule rule1, Rule rule2) {
+        if(system != null && rule1 != null && rule2 != null && !rule1.equals(rule2)) {
+            getLogger().history(Messages.get().getMessage(Messages.REPLACE_RULE, rule1, rule2));
+            system.replaceRule(rule1, rule2);
+        }
+    }
+    
+    
 }
