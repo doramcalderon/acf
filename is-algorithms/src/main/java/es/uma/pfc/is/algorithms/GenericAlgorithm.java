@@ -5,6 +5,7 @@ import es.uma.pfc.is.algorithms.AlgorithmOptions.Options;
 import es.uma.pfc.is.algorithms.exceptions.AlgorithmException;
 import es.uma.pfc.is.algorithms.exceptions.InvalidPathException;
 import es.uma.pfc.is.algorithms.io.PrintStream;
+import es.uma.pfc.is.algorithms.util.ImplicationalSystems;
 import es.uma.pfc.is.logging.ISBenchLogger;
 import fr.kbertet.lattice.ImplicationalSystem;
 import fr.kbertet.lattice.Rule;
@@ -31,11 +32,13 @@ public abstract class GenericAlgorithm implements Algorithm<String, Implicationa
     
     private String input;
     private Map<Mode, List < PrintStream >> traceOutputs;
+    protected Messages messages;
 
     public GenericAlgorithm() {
         traceOutputs = new HashMap();
         options = new AlgorithmOptions();
         logger = new ISBenchLogger();
+        messages = Messages.get();
     }
     
     
@@ -200,7 +203,7 @@ public abstract class GenericAlgorithm implements Algorithm<String, Implicationa
      */
     protected void removeRule(ImplicationalSystem system, Rule rule) {
         if(system != null && rule != null) {
-            String message = Messages.get().getMessage(Messages.REMOVE_RULE, rule);
+            String message = messages.getMessage(Messages.REMOVE_RULE, rule);
             getLogger().history(message);
             
             system.removeRule(rule);
@@ -216,9 +219,36 @@ public abstract class GenericAlgorithm implements Algorithm<String, Implicationa
      */
     protected void addRule(ImplicationalSystem system, Rule rule) {
         if(system != null && rule != null) {
-            getLogger().history(Messages.get().getMessage(Messages.REMOVE_RULE, rule));
+            getLogger().history(messages.getMessage(Messages.REMOVE_RULE, rule));
             system.addRule(rule);
         }
+    }
+    
+    /**
+     * Adds rules for implicational system, and print trace in the history.
+     * @param system Implicational system.
+     * @param rule Rule.
+     * @param modes Mode.
+     */
+    protected ImplicationalSystem addRuleAndElements(ImplicationalSystem system, Rule rule) {
+        return addRuleAndElements(system, rule, true);
+    }
+    
+    /**
+     * Adds rules for implicational system, and print trace in the history.
+     * @param system Implicational system.
+     * @param rule Rule.
+     * @param modes Mode.
+     */
+    protected ImplicationalSystem addRuleAndElements(ImplicationalSystem system, Rule rule, boolean trace) {
+        ImplicationalSystem newSystem = system;
+        if(system != null && rule != null) {
+            if(trace) {
+                getLogger().history(messages.getMessage(Messages.ADD_RULE, rule));
+            }
+            newSystem = ImplicationalSystems.addRuleAndElements(system, rule);
+        }
+        return newSystem;
     }
     
     /**
@@ -229,7 +259,7 @@ public abstract class GenericAlgorithm implements Algorithm<String, Implicationa
      */
     protected void replaceRule(ImplicationalSystem system, Rule rule1, Rule rule2) {
         if(system != null && rule1 != null && rule2 != null && !rule1.equals(rule2)) {
-            getLogger().history(Messages.get().getMessage(Messages.REPLACE_RULE, rule1, rule2));
+            getLogger().history(messages.getMessage(Messages.REPLACE_RULE, rule1, rule2));
             system.replaceRule(rule1, rule2);
         }
     }

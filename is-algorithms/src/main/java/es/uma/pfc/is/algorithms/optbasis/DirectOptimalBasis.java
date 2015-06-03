@@ -1,16 +1,15 @@
 
 package es.uma.pfc.is.algorithms.optbasis;
 
-import es.uma.pfc.is.algorithms.AlgorithmOptions.Mode;
 import es.uma.pfc.is.algorithms.GenericAlgorithm;
 import es.uma.pfc.is.algorithms.Messages;
 import es.uma.pfc.is.algorithms.util.ImplicationalSystems;
-import es.uma.pfc.is.algorithms.util.Rules;
 import es.uma.pfc.is.algorithms.util.Sets;
 import static es.uma.pfc.is.algorithms.util.Sets.*;
 import fr.kbertet.lattice.ImplicationalSystem;
 import fr.kbertet.lattice.Rule;
 import java.util.List;
+import java.util.Set;
 import java.util.TreeSet;
 
 /**
@@ -28,7 +27,8 @@ public class DirectOptimalBasis extends GenericAlgorithm {
     
     @Override
     public ImplicationalSystem execute(ImplicationalSystem system) {
-        getLogger().history(Messages.get().getMessage(Messages.EXECUTING, getName()));
+        getLogger().history(messages.getMessage(Messages.EXECUTING, getName()));
+        printInit(system);
         
         ImplicationalSystem directOptimalBasis = null;
 
@@ -53,9 +53,41 @@ public class DirectOptimalBasis extends GenericAlgorithm {
 
         }
 
-        getLogger().history("Finish {} with return ", getName());
-        getLogger().history((directOptimalBasis != null) ? directOptimalBasis.toString() : "null");
+        printResult(directOptimalBasis);
         return directOptimalBasis;
+    }
+    /**
+     * Prints de init arguments.
+     * @param inputSystem Implicactional System.
+     */
+    protected void printInit(ImplicationalSystem inputSystem) {
+        getLogger().history("------------- INPUT ------------------------------------");
+        getLogger().history(String.valueOf(inputSystem));
+        getLogger().history("\n\n");
+    }
+    
+    /**
+     * Prints the results.
+     * @param resultSystem Implicational System. 
+     */
+    protected void printResult(ImplicationalSystem resultSystem) {
+        int sizeRules = 0;
+        int sizeSystem = 0;
+        if(resultSystem != null) {
+            sizeRules = resultSystem.sizeRules();
+            sizeSystem = ImplicationalSystems.getSize(resultSystem);
+        }
+        
+        
+        getLogger().history("**************************************************************************************");
+        getLogger().history("DOBasis generated");
+        getLogger().history("**************************************************************************************");
+        getLogger().history(String.valueOf(resultSystem));
+        getLogger().history("------------- COMPARISONS --------------------");
+        getLogger().history("{} ** Implications", sizeRules);
+        getLogger().history("{} the size of DOBasis", sizeSystem);
+        
+        
     }
 
      /**
@@ -66,17 +98,22 @@ public class DirectOptimalBasis extends GenericAlgorithm {
      * @return Sistema implicacional reducido.{@code null} si el sistema es nulo.
      */
     public ImplicationalSystem reduce(ImplicationalSystem system) {
-        getLogger().history(Messages.get().getMessage(Messages.REDUCE));
+        getLogger().history("**************************************************************************************");
+        getLogger().history(messages.getMessage(Messages.REDUCE));
+        getLogger().history("**************************************************************************************");
+//        getLogger().history(messages.getMessage(Messages.START_OF));
+        
         ImplicationalSystem reducedSystem = null;
         if(system != null) {
             reducedSystem = new ImplicationalSystem();
             for(Rule implication : system.getRules()) {
                 Rule frEqImpl = SimplificationLogic.fragmentationEquivalency(implication);
                 if(!frEqImpl.getConclusion().isEmpty()) {
-                    reducedSystem = ImplicationalSystems.addRuleAndElements(reducedSystem, frEqImpl);
+                    reducedSystem = addRuleAndElements(reducedSystem, frEqImpl);
                 }
             }
             getLogger().statistics("reduce", system.sizeRules(), reducedSystem.sizeRules());
+            getLogger().history("\n" + String.valueOf(reducedSystem));
         }
         return reducedSystem;
     }
@@ -88,12 +125,15 @@ public class DirectOptimalBasis extends GenericAlgorithm {
      * @return Sistema simplificado.
      */
     protected ImplicationalSystem simplificate(ImplicationalSystem system) {
+        getLogger().history("**************************************************************************************");
         getLogger().history("Generation of IS simplificated by simplification of reduced IS");
+        getLogger().history("**************************************************************************************");
+
+        
         ImplicationalSystem simplificatedSystem = null;
         ImplicationalSystem aux = null;
         
         if(system != null) {
-            getLogger().history(system.toString());
             simplificatedSystem = new ImplicationalSystem(system);
             int size;
 
@@ -126,9 +166,10 @@ public class DirectOptimalBasis extends GenericAlgorithm {
             } while (size != simplificatedSystem.sizeRules());
             
             
-            
+            getLogger().history("");
+            getLogger().history(String.valueOf(simplificatedSystem.toString()));
+            getLogger().statistics("simplificate", system.sizeRules(), simplificatedSystem.sizeRules());
         }
-        getLogger().statistics("simplificate", system.sizeRules(), simplificatedSystem.sizeRules());
         return simplificatedSystem;
     }
      
@@ -200,37 +241,47 @@ public class DirectOptimalBasis extends GenericAlgorithm {
      * @return
      */
     protected ImplicationalSystem strongSimplificate(final ImplicationalSystem system) {
+        getLogger().history("**************************************************************************************");
         getLogger().history("Generation of IS by completion of simplifacted IS --> Strong Simplification");
+        getLogger().history("**************************************************************************************");
+//        getLogger().history(messages.getMessage(Messages.START_OF));
+        
         ImplicationalSystem simplSystem = null;
         
         if(system != null) {
-            getLogger().history(system.toString());
             simplSystem= new ImplicationalSystem(system);
             ImplicationalSystem auxSystem;
+            
+            
             int size;
-
+            Set implicationElements;
             do {
-                size = simplSystem.sizeRules();
                 auxSystem = new ImplicationalSystem(simplSystem);
-
+                size = auxSystem.sizeRules();
                 for (Rule rule1 : auxSystem.getRules()) {
-                    for (Rule rule2 : auxSystem.getRules()) {
-                        if(!rule1.equals(rule2)) {
-                            Rule r = SimplificationLogic.strongSimplificationEq(rule1, rule2);
-                            if (r != null) {
-                                simplSystem = ImplicationalSystems.addRuleAndElements(simplSystem, r);
+                    // if rule elements contains all elemeents of system, it doesn't generate any new rule
+                    implicationElements = Sets.union(rule1.getPremise(), rule1.getConclusion());
+                    
+                    if(!implicationElements.containsAll(auxSystem.getSet())) {
+                        for (Rule rule2 : auxSystem.getRules()) {
+                            if (!rule1.equals(rule2)) {
+                                Rule r = SimplificationLogic.strongSimplificationEq(rule1, rule2);
+                                if (r != null) {
+                                    getLogger().history("({}) + ({})  --->  ({})", rule1, rule2, r);
+                                    simplSystem = addRuleAndElements(simplSystem, r, false);
+                                }
                             }
                         }
                     }
                 }
-                
-            } while (size != simplSystem.sizeRules());
+            } while(size != simplSystem.sizeRules());
+
+
             
+            getLogger().history("");
             getLogger().history(simplSystem.toString());
-            getLogger().history("End of Strong Simplification.");
             getLogger().statistics("strongSimplificate", system.sizeRules(), simplSystem.sizeRules());
         }
-        
         return simplSystem;
     }
 
@@ -243,7 +294,10 @@ public class DirectOptimalBasis extends GenericAlgorithm {
      * @return Sistema implicacional optimizado.
      */
     protected ImplicationalSystem optimize(final ImplicationalSystem system) {
+        getLogger().history("**************************************************************************************");
         getLogger().history("Generation of optimized IS ");
+        getLogger().history("**************************************************************************************");
+        
         ImplicationalSystem optimizedSystem = null;
         
         if (system != null) {
@@ -261,10 +315,11 @@ public class DirectOptimalBasis extends GenericAlgorithm {
                     }
                 }
                 if (!conclusion.isEmpty()) {
-                    optimizedSystem = ImplicationalSystems.addRuleAndElements(optimizedSystem, new Rule(rule1.getPremise(), conclusion));
+                    Rule r = new Rule(rule1.getPremise(), conclusion);
+                    optimizedSystem = addRuleAndElements(optimizedSystem, r);
                 }
             }
-            
+            getLogger().history("");
             getLogger().history(system.toString());
             getLogger().statistics("optimize", system.sizeRules(), optimizedSystem.sizeRules());
             

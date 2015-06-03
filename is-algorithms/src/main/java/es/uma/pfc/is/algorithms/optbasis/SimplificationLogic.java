@@ -98,7 +98,6 @@ public class SimplificationLogic {
         } else {
             rules.add(rule2);
         }
-        System.out.println("seq(" + rule1 + ", " + rule2 +"):  " + rules.toString());
         return rules;
     }
 
