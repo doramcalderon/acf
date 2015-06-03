@@ -140,7 +140,7 @@
                                 <tabs>
                                   <Tab text="%history">
                                        <content>
-                                          <TextArea fx:id="txtHistoryArea" prefHeight="200.0" prefWidth="200.0">
+                                          <TextArea fx:id="txtHistoryArea" editable="false" prefHeight="200.0" prefWidth="200.0">
 <!--                                             <contextMenu>
                                                 <ContextMenu fx:id="ctxMenuHistory">
                                                   <items>
