@@ -16,7 +16,6 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
-import java.util.ResourceBundle;
 import java.util.logging.Level;
 
 /**
@@ -34,6 +33,8 @@ public class ISBenchLogger {
     
     private CSVFileWriter csvWriter;
     private Messages messages;
+    
+    private Thread loggingThread;
     
     public ISBenchLogger() {
         modeStreams = new ModeStreams();

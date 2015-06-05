@@ -6,6 +6,7 @@ import es.uma.pfc.is.algorithms.exceptions.AlgorithmException;
 import es.uma.pfc.is.algorithms.exceptions.InvalidPathException;
 import es.uma.pfc.is.algorithms.io.PrintStream;
 import es.uma.pfc.is.algorithms.util.ImplicationalSystems;
+import es.uma.pfc.is.logging.AlgorithmLogger;
 import es.uma.pfc.is.logging.ISBenchLogger;
 import fr.kbertet.lattice.ImplicationalSystem;
 import fr.kbertet.lattice.Rule;
@@ -27,7 +28,7 @@ import java.util.Map;
  */
 public abstract class GenericAlgorithm implements Algorithm<String, ImplicationalSystem> {
 
-    private ISBenchLogger logger;
+    private AlgorithmLogger logger;
     private AlgorithmOptions options;
     
     private String input;
@@ -37,7 +38,7 @@ public abstract class GenericAlgorithm implements Algorithm<String, Implicationa
     public GenericAlgorithm() {
         traceOutputs = new HashMap();
         options = new AlgorithmOptions();
-        logger = new ISBenchLogger();
+        logger = new AlgorithmLogger(getName(), options);
         messages = Messages.get();
     }
     
@@ -65,21 +66,21 @@ public abstract class GenericAlgorithm implements Algorithm<String, Implicationa
      */
     public ImplicationalSystem execute(AlgorithmOptions options, OutputStream output) {
         this.options = options;
-        logger = new ISBenchLogger();
         return execute();
     }
 
     public ImplicationalSystem execute() {
         try {
-            logger.initOutputs(traceOutputs);
+//            logger.initOutputs(traceOutputs);
             logger.setOptions(options);
-            logger.createStatisticLog(options.getOutputBaseName(), "Rule", "Old Size", "Current Size");
+//            logger.createStatisticLog(options.getOutputBaseName(), "Rule", "Old Size", "Current Size");
             logger.startTime(new Date());
             ImplicationalSystem result = execute(new ImplicationalSystem(getInput()));
             logger.endTime(new Date());
             result.save(options.<String>getOption(Options.OUTPUT.toString()));
             return result;
         } catch (Exception ex) {
+            ex.printStackTrace();
             throw new AlgorithmException("Error en la ejecución de " + toString(), ex);
         } finally {
             logger.freeResources();
@@ -169,11 +170,17 @@ public abstract class GenericAlgorithm implements Algorithm<String, Implicationa
      * Logger.
      * @return Logger. 
      */
-    protected ISBenchLogger getLogger() {
+    protected AlgorithmLogger getLogger() {
         return logger;
     }
     
-
+/**
+     * For testing usage.
+     * @param logger Logger.
+     */
+    protected void setLogger(AlgorithmLogger logger) {
+        this.logger = logger;
+    }
     /**
      * @return the input
      */

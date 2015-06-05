@@ -32,7 +32,7 @@ public class DirectOptimalBasisTest {
     public void testSimplificate() throws IOException {
         ImplicationalSystem system = getSystemFromFile("do_ej1.txt");
         ImplicationalSystem expectedSystem = getSystemFromFile("do_ej1_resul.txt");
-        
+
         system = new DirectOptimalBasis().simplificate(system);
         
         assertEquals(expectedSystem.sizeRules(), system.sizeRules());

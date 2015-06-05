@@ -39,6 +39,13 @@
             <artifactId>lattices</artifactId>
             <version>2.0.0-SNAPSHOT</version>
         </dependency>
+
+        <dependency>
+            <groupId>ch.qos.logback</groupId>
+            <artifactId>logback-classic</artifactId>
+            <version>1.1.3</version>
+        </dependency>
+
     </dependencies>
     
     <build>
