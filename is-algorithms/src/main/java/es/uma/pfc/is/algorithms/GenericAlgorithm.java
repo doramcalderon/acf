@@ -70,9 +70,9 @@ public abstract class GenericAlgorithm implements Algorithm<String, Implicationa
 
     public ImplicationalSystem execute() {
         try {
-//            logger.initOutputs(traceOutputs);
             logger = new AlgorithmLogger(getName(), options);
-//            logger.createStatisticLog(options.getOutputBaseName(), "Rule", "Old Size", "Current Size");
+            logger.traceOutputs(traceOutputs);
+            
             logger.startTime(new Date());
             ImplicationalSystem result = execute(new ImplicationalSystem(getInput()));
             logger.endTime(new Date());
@@ -114,14 +114,20 @@ public abstract class GenericAlgorithm implements Algorithm<String, Implicationa
     }
 
     @Override
-    public GenericAlgorithm traceOutputs(Mode mode, Collection<OutputStream> outputs) {
-        if(outputs != null && !outputs.isEmpty()) {
-            for(OutputStream os : outputs) {
-                GenericAlgorithm.this.traceOutput(mode, os);
-            }
-        }
+    public GenericAlgorithm traceOutputs(Map<Mode, List<PrintStream>> outputs) {
+        this.traceOutputs = outputs;
         return this;
     }
+//
+//    @Override
+//    public GenericAlgorithm traceOutputs(Mode mode, Collection<OutputStream> outputs) {
+//        if(outputs != null && !outputs.isEmpty()) {
+//            for(OutputStream os : outputs) {
+//                GenericAlgorithm.this.traceOutput(mode, os);
+//            }
+//        }
+//        return this;
+//    }
 
    
     

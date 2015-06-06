@@ -1,16 +1,23 @@
 package es.uma.pfc.is.logging;
 
 import ch.qos.logback.classic.LoggerContext;
+import ch.qos.logback.classic.PatternLayout;
+import ch.qos.logback.classic.encoder.PatternLayoutEncoder;
 import ch.qos.logback.classic.joran.JoranConfigurator;
+import ch.qos.logback.core.OutputStreamAppender;
 import ch.qos.logback.core.joran.spi.JoranException;
 import es.uma.pfc.is.algorithms.AlgorithmOptions;
 import es.uma.pfc.is.algorithms.AlgorithmOptions.Mode;
 import es.uma.pfc.is.algorithms.Messages;
 import static es.uma.pfc.is.algorithms.Messages.*;
+import java.io.IOException;
 import java.io.InputStream;
+import java.io.PrintStream;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
+import java.util.Map;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.slf4j.MDC;
@@ -57,6 +64,11 @@ public class AlgorithmLogger {
     private final String algorithmName;
     /** Output name. **/
     private String output;
+    
+    /**
+     * Logging context.
+     */
+    private LoggerContext loggerContext;
 
     /**
      * Constructor.
@@ -79,10 +91,10 @@ public class AlgorithmLogger {
         try {
             InputStream configFileStream = AlgorithmLoggerFactory.class.getResourceAsStream(configFile);
             
-            LoggerContext lc = (LoggerContext) LoggerFactory.getILoggerFactory();
+            loggerContext = (LoggerContext) LoggerFactory.getILoggerFactory();
             JoranConfigurator configurator = new JoranConfigurator();
-            lc.reset();
-            configurator.setContext(lc);
+            loggerContext.reset();
+            configurator.setContext(loggerContext);
             configurator.doConfigure(configFileStream);
         } catch (JoranException ex) {
             throw new RuntimeException(ex);
@@ -230,6 +242,46 @@ public class AlgorithmLogger {
     }
 
     public void freeResources() {
+        
+    }
+    
+    public void traceOutputs(Map<Mode, List<PrintStream>> outputsByMode) {
+        if (outputsByMode != null && !outputsByMode.isEmpty()) {
+            List<PrintStream> outputs;
+            for (Mode mode : outputsByMode.keySet()) {
+                outputs = outputsByMode.get(mode);
+                
+                if(outputs != null && !outputs.isEmpty()) {
+                    for(PrintStream ps : outputs) {
+                        addAppender("", ps);
+                    }
+                }
+            }
+        }
+    }
+    public void addAppender(String name, PrintStream output) {
+            OutputStreamAppender appender = new OutputStreamAppender();
+            appender.setContext(loggerContext);
+            
+            PatternLayoutEncoder layoutEncoder = new PatternLayoutEncoder();
+            layoutEncoder.setContext(loggerContext);
+            layoutEncoder.setPattern("%m%n");
+            layoutEncoder.start();
+            appender.setEncoder(layoutEncoder);
+            
+            ModeFilter filter = new ModeFilter();
+            filter.setMarkers("HISTORY, PERFORMANCE");
+            filter.start();
+            appender.addFilter(filter);
+            
+            appender.setOutputStream(output);
+            appender.start();
+            
+            
+            ch.qos.logback.classic.Logger lbLogger = (ch.qos.logback.classic.Logger) logger;
+            lbLogger.addAppender(appender);
+            lbLogger.setAdditive(true); 
+            
         
     }
 }

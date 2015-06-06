@@ -126,6 +126,7 @@ public class AlgorithmLoggerTest {
         options.enable(AlgorithmOptions.Mode.PERFORMANCE);
         options.addOption(Options.OUTPUT.toString(), "output.txt");
         AlgorithmLogger logger = new AlgorithmLogger("alg", options);
+        logger.configure("testlogback.xml");
         Date start = new Date(System.currentTimeMillis());
         logger.startTime(start);
         Date end = new Date(System.currentTimeMillis());
@@ -235,6 +236,7 @@ public class AlgorithmLoggerTest {
         options.enable(AlgorithmOptions.Mode.STATISTICS);
         options.addOption(Options.OUTPUT.toString(), "output.log");
         AlgorithmLogger logger = new AlgorithmLogger("alg", options);
+        logger.configure("testlogback.xml");
         
         logger.history("History message {}", 1);
         logger.freeResources();
