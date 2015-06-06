@@ -5,10 +5,10 @@ import ch.qos.logback.classic.joran.JoranConfigurator;
 import ch.qos.logback.core.joran.spi.JoranException;
 import es.uma.pfc.is.algorithms.AlgorithmOptions;
 import es.uma.pfc.is.algorithms.AlgorithmOptions.Mode;
-import es.uma.pfc.is.algorithms.AlgorithmOptions.Options;
 import es.uma.pfc.is.algorithms.Messages;
 import static es.uma.pfc.is.algorithms.Messages.*;
 import java.io.InputStream;
+import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import org.slf4j.Logger;
@@ -63,7 +63,7 @@ public class AlgorithmLogger {
      * @param algorithmName Algorithm name.
      */
     public AlgorithmLogger(String algorithmName, AlgorithmOptions options) {
-        configure();
+        configure("logback.xml");
         this.algorithmName = algorithmName;
         logger = LoggerFactory.getLogger(algorithmName);
         this.options = options;
@@ -71,13 +71,13 @@ public class AlgorithmLogger {
         this.messages = Messages.get();
     }
 
-
+    
     /**
      * Configure logging context.
      */
-    protected final void configure()  {
+    protected final void configure(String configFile)  {
         try {
-            InputStream configFileStream = AlgorithmLoggerFactory.class.getResourceAsStream("logback.xml");
+            InputStream configFileStream = AlgorithmLoggerFactory.class.getResourceAsStream(configFile);
             
             LoggerContext lc = (LoggerContext) LoggerFactory.getILoggerFactory();
             JoranConfigurator configurator = new JoranConfigurator();
@@ -104,6 +104,14 @@ public class AlgorithmLogger {
             }
         }
         return outputName;
+    }
+    
+    /**
+     * Testing usage.
+     * @return Dateformat.
+     */
+    protected DateFormat getDf() {
+        return df;
     }
     /**
      * Si el modo {@link Mode#PERFORMANCE} está habilitado.
@@ -205,13 +213,19 @@ public class AlgorithmLogger {
 
     /**
      * Write a message with Statistics Appender.
-     *
-     * @param message Message.
-     * @param args Message arguments.
+     * @param values Values of row.
      */
-    public void statistics(String message, Object... args) {
+    public void statistics(Object... values) {
         if (isStatisticsEnabled()) {
-            log(Mode.STATISTICS, message, args);
+            StringBuilder sb = new StringBuilder();
+            if(values != null) {
+                for(Object value : values) {
+                    sb.append(",");
+                    sb.append(String.valueOf(value));
+                }
+                sb.deleteCharAt(0);
+            }
+            log(Mode.STATISTICS, sb.toString());
         }
     }
 

@@ -8,7 +8,8 @@
     <modules>
         <module>is-algorithms</module>
         <module>is-bench</module>
-  </modules>
+        <module>test-loggers</module>
+    </modules>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>

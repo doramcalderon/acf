@@ -1,6 +1,5 @@
 package es.uma.pfc.is.bench.tasks;
 
-import es.uma.pfc.is.algorithms.io.CSVFileWriter;
 import es.uma.pfc.is.algorithms.util.StringUtils;
 import java.io.File;
 import java.io.IOException;
@@ -20,6 +19,7 @@ import javafx.event.EventType;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.util.Callback;
+import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVParser;
 import org.apache.commons.csv.CSVRecord;
 
@@ -54,7 +54,8 @@ public class StatisticsReaderService extends Service {
         return new Task<Void>() {
             @Override
             protected Void call() throws Exception {
-                final CSVParser parser = CSVParser.parse(new File(csvFileName), Charset.defaultCharset(), CSVFileWriter.getCSVFileFormat());
+                final CSVParser parser = CSVParser.parse(new File(csvFileName), Charset.defaultCharset(), 
+                                                         CSVFormat.DEFAULT);
                 
                 Platform.runLater(new Runnable() {
 

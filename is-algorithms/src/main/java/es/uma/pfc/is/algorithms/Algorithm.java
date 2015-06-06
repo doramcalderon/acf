@@ -4,7 +4,6 @@ package es.uma.pfc.is.algorithms;
 
 import es.uma.pfc.is.algorithms.AlgorithmOptions.Mode;
 import es.uma.pfc.is.algorithms.exceptions.InvalidPathException;
-import es.uma.pfc.is.algorithms.io.PrintStream;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.Collection;
@@ -70,7 +69,6 @@ public interface Algorithm <I, O> {
      * @return Algorithm with n traceOutputs added.
      */
     public Algorithm traceOutputs(Mode mode, Collection<OutputStream> outputs);
-    public Algorithm traceOutputs(Map<Mode, List<PrintStream>> outputs);
     
     public Algorithm output(String file);
     

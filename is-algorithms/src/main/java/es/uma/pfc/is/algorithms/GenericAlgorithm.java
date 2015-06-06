@@ -4,14 +4,13 @@ import es.uma.pfc.is.algorithms.AlgorithmOptions.Mode;
 import es.uma.pfc.is.algorithms.AlgorithmOptions.Options;
 import es.uma.pfc.is.algorithms.exceptions.AlgorithmException;
 import es.uma.pfc.is.algorithms.exceptions.InvalidPathException;
-import es.uma.pfc.is.algorithms.io.PrintStream;
 import es.uma.pfc.is.algorithms.util.ImplicationalSystems;
 import es.uma.pfc.is.logging.AlgorithmLogger;
-import es.uma.pfc.is.logging.ISBenchLogger;
 import fr.kbertet.lattice.ImplicationalSystem;
 import fr.kbertet.lattice.Rule;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.io.PrintStream;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
@@ -72,7 +71,7 @@ public abstract class GenericAlgorithm implements Algorithm<String, Implicationa
     public ImplicationalSystem execute() {
         try {
 //            logger.initOutputs(traceOutputs);
-            logger.setOptions(options);
+            logger = new AlgorithmLogger(getName(), options);
 //            logger.createStatisticLog(options.getOutputBaseName(), "Rule", "Old Size", "Current Size");
             logger.startTime(new Date());
             ImplicationalSystem result = execute(new ImplicationalSystem(getInput()));
@@ -124,12 +123,7 @@ public abstract class GenericAlgorithm implements Algorithm<String, Implicationa
         return this;
     }
 
-    @Override
-    public Algorithm traceOutputs(Map<Mode, List<PrintStream>> outputs) {
-        this.traceOutputs = outputs;
-        return this;
-    }
-    
+   
     
     
     @Override

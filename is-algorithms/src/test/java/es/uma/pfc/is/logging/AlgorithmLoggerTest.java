@@ -22,9 +22,9 @@ import static org.junit.Assert.*;
  *
  * @author Dora Calderón
  */
-public class ISBenchLoggerTest {
+public class AlgorithmLoggerTest {
     
-    public ISBenchLoggerTest() {
+    public AlgorithmLoggerTest() {
     }
     
     @After
@@ -34,28 +34,28 @@ public class ISBenchLoggerTest {
 
 
     /**
-     * Test of isPerformanceEnabled method, of class ISBenchLogger.
+     * Test of isPerformanceEnabled method, of class AlgorithmLogger.
      */
     @Test
     public void testIsPerformanceEnabled() {
         AlgorithmOptions options = new AlgorithmOptions();
         options.addOption(Options.OUTPUT.toString(), "output.txt");
         options.enable(AlgorithmOptions.Mode.PERFORMANCE);
-        ISBenchLogger logger = new ISBenchLogger(options);
+        AlgorithmLogger logger = new AlgorithmLogger("alg", options);
         logger.freeResources();
         assertTrue(logger.isPerformanceEnabled());
         
         
     }
     /**
-     * Test of isPerformanceEnabled method, of class ISBenchLogger.
+     * Test of isPerformanceEnabled method, of class AlgorithmLogger.
      */
     @Test
     public void testIsPerformanceNotEnabled() {
         AlgorithmOptions options = new AlgorithmOptions();
         options.disable(AlgorithmOptions.Mode.PERFORMANCE);
         
-        ISBenchLogger logger = new ISBenchLogger(options);
+        AlgorithmLogger logger = new AlgorithmLogger("alg", options);
         logger.freeResources();
         
         assertFalse(logger.isPerformanceEnabled());
@@ -63,21 +63,21 @@ public class ISBenchLoggerTest {
     }
 
     /**
-     * Test of isStatisticsEnabled method, of class ISBenchLogger.
+     * Test of isStatisticsEnabled method, of class AlgorithmLogger.
      */
     @Test
     public void testIsStatisticsEnabled() {
          AlgorithmOptions options = new AlgorithmOptions();
         options.enable(AlgorithmOptions.Mode.STATISTICS);
         
-        ISBenchLogger logger = new ISBenchLogger(options);
+        AlgorithmLogger logger = new AlgorithmLogger("alg", options);
         logger.freeResources();
         
         assertTrue(logger.isStatisticsEnabled());
     }
 
     /**
-     * Test of isStatisticsEnabled method, of class ISBenchLogger.
+     * Test of isStatisticsEnabled method, of class AlgorithmLogger.
      */
     @Test
     public void testIsStatisticsNotEnabled() {
@@ -85,46 +85,47 @@ public class ISBenchLoggerTest {
         options.enable(AlgorithmOptions.Mode.PERFORMANCE);
         options.addOption(Options.OUTPUT.toString(), "output.txt");
         
-        ISBenchLogger logger = new ISBenchLogger(options);
+        AlgorithmLogger logger = new AlgorithmLogger("alg", options);
         logger.freeResources();
         
         assertFalse(logger.isStatisticsEnabled());
     }
 
     /**
-     * Test of isHistoryEnabled method, of class ISBenchLogger.
+     * Test of isHistoryEnabled method, of class AlgorithmLogger.
      */
     @Test
     public void testIsHistoryEnabled() {
         AlgorithmOptions options = new AlgorithmOptions();
         options.enable(AlgorithmOptions.Mode.HISTORY);
         options.addOption(Options.OUTPUT.toString(), "output.txt");
-        ISBenchLogger logger = new ISBenchLogger(options);
+        AlgorithmLogger logger = new AlgorithmLogger("alg", options);
         logger.freeResources();
         assertTrue(logger.isHistoryEnabled());
     }
 
     /**
-     * Test of isHistoryEnabled method, of class ISBenchLogger.
+     * Test of isHistoryEnabled method, of class AlgorithmLogger.
      */
     @Test
     public void testIsTraceNotEnabled() {
         AlgorithmOptions options = new AlgorithmOptions();
         options.disable(AlgorithmOptions.Mode.HISTORY);
-        ISBenchLogger logger = new ISBenchLogger(options);
+        AlgorithmLogger logger = new AlgorithmLogger("alg", options);
         logger.freeResources();
         assertFalse(logger.isHistoryEnabled());
     }
 
     /**
-     * Test of startTime method, of class ISBenchLogger.
+     * Test of startTime method, of class AlgorithmLogger.
+     * @throws java.io.IOException
      */
     @Test
-    public void testStartTime() throws FileNotFoundException, IOException {
+    public void testStartTime() throws IOException {
         AlgorithmOptions options = new AlgorithmOptions();
         options.enable(AlgorithmOptions.Mode.PERFORMANCE);
         options.addOption(Options.OUTPUT.toString(), "output.txt");
-        ISBenchLogger logger = new ISBenchLogger(options);
+        AlgorithmLogger logger = new AlgorithmLogger("alg", options);
         Date start = new Date(System.currentTimeMillis());
         logger.startTime(start);
         Date end = new Date(System.currentTimeMillis());
@@ -135,7 +136,7 @@ public class ISBenchLoggerTest {
         File history = null;
         BufferedReader reader = null;
         try {
-            history = new File("output_history.txt");
+            history = new File("output_history.log");
             assertTrue(history.exists());
 
             reader = new BufferedReader(new FileReader(history));
@@ -163,21 +164,21 @@ public class ISBenchLoggerTest {
     }
 
     /**
-     * Test of endTime method, of class ISBenchLogger.
+     * Test of endTime method, of class AlgorithmLogger.
      */
     @Test
     public void testEndTime() {
     }
 
     /**
-     * Test of setOptions method, of class ISBenchLogger.
+     * Test of setOptions method, of class AlgorithmLogger.
      */
     @Test
     public void testSetOptions() {
     }
 
     /**
-     * Test of getMessage method, of class ISBenchLogger.
+     * Test of getMessage method, of class AlgorithmLogger.
      */
     @Test
     public void testGetMessage() {
@@ -186,14 +187,14 @@ public class ISBenchLoggerTest {
    
 
     /**
-     * Test of writeMessage method, of class ISBenchLogger.
+     * Test of writeMessage method, of class AlgorithmLogger.
      */
     @Test
     public void testWriteMessage_String() {
     }
 
     /**
-     * Test of writeMessage method, of class ISBenchLogger.
+     * Test of writeMessage method, of class AlgorithmLogger.
      */
     @Test
     public void testWriteMessage_String_OutputStream() {
@@ -203,21 +204,21 @@ public class ISBenchLoggerTest {
    
 
     /**
-     * Test of getOutputs method, of class ISBenchLogger.
+     * Test of getOutputs method, of class AlgorithmLogger.
      */
     @Test
     public void testGetOutputs() {
     }
 
     /**
-     * Test of clearOutputs method, of class ISBenchLogger.
+     * Test of clearOutputs method, of class AlgorithmLogger.
      */
     @Test
     public void testClearOutputs() {
     }
 
     /**
-     * Test of initOutputs method, of class ISBenchLogger.
+     * Test of initOutputs method, of class AlgorithmLogger.
      */
     @Test
     public void testInitOutputs() {
@@ -233,7 +234,7 @@ public class ISBenchLoggerTest {
         options.enable(AlgorithmOptions.Mode.HISTORY);
         options.enable(AlgorithmOptions.Mode.STATISTICS);
         options.addOption(Options.OUTPUT.toString(), "output.log");
-        ISBenchLogger logger = new ISBenchLogger(options);
+        AlgorithmLogger logger = new AlgorithmLogger("alg", options);
         
         logger.history("History message {}", 1);
         logger.freeResources();
@@ -241,7 +242,7 @@ public class ISBenchLoggerTest {
         File history = null;
         BufferedReader reader = null;
         try {
-            history = new File("output_history.txt");
+            history = new File("output_history.log");
             assertTrue(history.exists());
 
             reader = new BufferedReader(new FileReader(history));
@@ -261,16 +262,17 @@ public class ISBenchLoggerTest {
     }
 
     /**
-     * Test of statistics method, of class ISBenchLogger.
+     * Test of statistics method, of class AlgorithmLogger.
      */
     @Test
     public void testStatistics() throws IOException {
         AlgorithmOptions options = new AlgorithmOptions();
         options.enable(AlgorithmOptions.Mode.STATISTICS);
+        options.addOption(Options.OUTPUT.toString(), "output.txt");
         
-        ISBenchLogger logger = new ISBenchLogger(options);
-        String header = "Rule1,Rule,Old size,New Size";
-        logger.createStatisticLog("output", "Rule1", "Rule", "Old size", "New Size");
+        AlgorithmLogger logger = new AlgorithmLogger("alg", options);
+        logger.configure("testlogback.xml");
+        String header = "rule,old size,new size";
         
         logger.statistics("a->b","b->a","3","2");
         logger.freeResources();

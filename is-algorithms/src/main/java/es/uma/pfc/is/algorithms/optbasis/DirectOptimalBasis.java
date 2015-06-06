@@ -6,7 +6,6 @@ import es.uma.pfc.is.algorithms.Messages;
 import es.uma.pfc.is.algorithms.util.ImplicationalSystems;
 import es.uma.pfc.is.algorithms.util.Sets;
 import static es.uma.pfc.is.algorithms.util.Sets.*;
-import es.uma.pfc.is.logging.AlgorithmLogger;
 import fr.kbertet.lattice.ImplicationalSystem;
 import fr.kbertet.lattice.Rule;
 import java.util.List;

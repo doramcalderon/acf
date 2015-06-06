@@ -173,7 +173,6 @@ public class FXMLController extends Controller {
         try {
             final Algorithm alg = model.getSelectedAlgorithm();
             alg.input(model.getInput())
-                    .traceOutputs(model.getTraceOutputs())
                     .output(model.getOutput());
 
             AlgorithmExecService service = new AlgorithmExecService(alg);
