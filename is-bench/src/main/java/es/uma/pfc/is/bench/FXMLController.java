@@ -10,6 +10,7 @@ import es.uma.pfc.is.bench.output.Console;
 import es.uma.pfc.is.bench.output.ConsolePrintStream;
 import es.uma.pfc.is.bench.output.ConsoleTraceFactory;
 import es.uma.pfc.is.bench.tasks.AlgorithmExecService;
+import es.uma.pfc.is.bench.tasks.FileReaderService;
 import es.uma.pfc.is.bench.tasks.StatisticsReaderService;
 import es.uma.pfc.is.bench.uitls.Chooser;
 import java.io.File;
@@ -26,6 +27,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ListView;
+import javafx.scene.control.ProgressBar;
 import javafx.scene.control.ProgressIndicator;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextArea;
@@ -77,28 +79,31 @@ public class FXMLController extends Controller {
     @FXML
     private ProgressIndicator piExecution;
     
-    private ConsoleTraceFactory consoleFactory;
+    @FXML
+    private ProgressBar historyProgressBar;
+
+    
+    private FileReaderService readerService;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         super.initialize(url, rb);
-        this.consoleFactory = ConsoleTraceFactory.get();
         btnRun.setDisable(Boolean.TRUE);
         initModel();
         initView();
         modelToView();
         initListeners();
         
+        readerService = new FileReaderService();
+
     }
-    
+
     /**
      * Initialize the view.
      */
     protected void initView() {
-        ConsolePrintStream historyConsole = new ConsolePrintStream(new Console(txtHistoryArea));
-        consoleFactory.register(Mode.PERFORMANCE, historyConsole);
-        consoleFactory.register(Mode.HISTORY, historyConsole);
     }
+
     /**
      * Crea los listeners necesarios.
      */
@@ -154,10 +159,6 @@ public class FXMLController extends Controller {
      */
     protected void addModeToModel(Mode mode) {
         model.getSelectedAlgorithm().enable(mode);
-        ConsolePrintStream console = consoleFactory.console(mode);
-        if(console != null) {
-            model.addTraceOutput(mode, console);
-        }
     }
 
     /**
@@ -172,18 +173,13 @@ public class FXMLController extends Controller {
         viewToModel();
         try {
             final Algorithm alg = model.getSelectedAlgorithm();
-            alg.input(model.getInput())
-                .output(model.getOutput())
-                .traceOutputs(model.getTraceOutputs());
-            
-            
-            AlgorithmExecService service = new AlgorithmExecService(alg);
-            service.setOnFinished(new EventHandler<WorkerStateEvent>() {
+            alg.input(model.getInput()).output(model.getOutput());
 
-                public void handle(WorkerStateEvent event) {
-                    showStatistics();
-                    alg.reset();
-                }
+            AlgorithmExecService service = new AlgorithmExecService(alg);
+            service.setOnFinished((WorkerStateEvent event1) -> {
+                showHistory();
+                showStatistics();
+                alg.reset();
             });
             piExecution.visibleProperty().bind(service.runningProperty());
             service.restart();
@@ -192,17 +188,36 @@ public class FXMLController extends Controller {
             Logger.getLogger(FXMLController.class.getName()).log(Level.SEVERE, ex.getMessage(), ex);
         }
     }
-    
+
+    protected void showHistory() {
+        if (chkTime.isSelected() || chkHistory.isSelected()) {
+            String outputname = model.getOutput();
+            String historyName = outputname.substring(0, outputname.lastIndexOf(".")).concat("_history.log");
+            
+            readerService.setFileName(historyName);
+            piExecution.visibleProperty().bind(readerService.runningProperty());
+            txtHistoryArea.textProperty().bindBidirectional(readerService.contentFileProperty());
+            // piExecution.progressProperty().bind(reader.progressProperty());
+            readerService.restart();
+        }
+    }
+
     protected void showStatistics() {
-        String outputname = model.getOutput();
-        StatisticsReaderService statisticsReader = 
-                new StatisticsReaderService(outputname.substring(0, outputname.lastIndexOf(".")).concat(".csv"), tableStatistics);
-        statisticsReader.restart();
+        if (chkStatistics.isSelected()) {
+            String outputname = model.getOutput();
+            if(outputname != null) {
+                StatisticsReaderService statisticsReader
+                        = new StatisticsReaderService(outputname.substring(0, outputname.lastIndexOf(".")).concat(".csv"), tableStatistics);
+                piExecution.visibleProperty().bind(statisticsReader.runningProperty());
+                statisticsReader.restart();
+            }
+        }
     }
 
     /**
      * ActionEvent handler of Run button.<br/>
      * Clear all traces.
+     *
      * @param event Event.
      */
     @FXML
@@ -246,10 +261,9 @@ public class FXMLController extends Controller {
         }
     }
 
-
     @FXML
     public void clearHistory(ActionEvent event) {
-        txtHistoryArea.clear();
+        txtHistoryArea.textProperty().set("");
     }
 
     @FXML
@@ -265,6 +279,7 @@ public class FXMLController extends Controller {
         clearHistory(null);
         clearStatistics(null);
     }
+
     /**
      * Clear the model and the view.
      */

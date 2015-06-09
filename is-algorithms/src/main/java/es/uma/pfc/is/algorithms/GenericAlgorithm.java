@@ -76,7 +76,9 @@ public abstract class GenericAlgorithm implements Algorithm<String, Implicationa
             logger.startTime(new Date());
             ImplicationalSystem result = execute(new ImplicationalSystem(getInput()));
             logger.endTime(new Date());
-            result.save(options.<String>getOption(Options.OUTPUT.toString()));
+            if (result != null) {
+                result.save(options.<String>getOption(Options.OUTPUT.toString()));
+            }
             return result;
         } catch (Exception ex) {
             ex.printStackTrace();
@@ -250,10 +252,17 @@ public abstract class GenericAlgorithm implements Algorithm<String, Implicationa
     protected ImplicationalSystem addRuleAndElements(ImplicationalSystem system, Rule rule, boolean trace) {
         ImplicationalSystem newSystem = system;
         if(system != null && rule != null) {
-            if(trace) {
-                getLogger().history(messages.getMessage(Messages.ADD_RULE, rule));
+            if(system.containsRule(rule)) {
+                if(trace) {
+                    getLogger().history("Rule {} not added because system contains it.", rule);
+                }
+            } else {
+                if(trace) {
+                    getLogger().history(messages.getMessage(Messages.ADD_RULE, rule));
+                }
+                newSystem = ImplicationalSystems.addRuleAndElements(system, rule);
+                
             }
-            newSystem = ImplicationalSystems.addRuleAndElements(system, rule);
         }
         return newSystem;
     }

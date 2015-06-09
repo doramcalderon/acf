@@ -28,7 +28,7 @@ import org.apache.commons.csv.CSVRecord;
  *
  * @author Dora Calderón
  */
-public class StatisticsReaderService extends Service {
+public class StatisticsReaderService extends Service<CSVParser> {
 
     /**
      * CSV File name.
@@ -41,6 +41,7 @@ public class StatisticsReaderService extends Service {
 
     /**
      * Constructor.
+     *
      * @param csvFileName CSV File name.
      * @param table Table.
      */
@@ -50,44 +51,38 @@ public class StatisticsReaderService extends Service {
     }
 
     @Override
-    protected Task createTask() {
-        return new Task<Void>() {
+    protected Task<CSVParser> createTask() {
+        return new Task <CSVParser>() {
             @Override
-            protected Void call() throws Exception {
-                final CSVParser parser = CSVParser.parse(new File(csvFileName), Charset.defaultCharset(), 
-                                                         CSVFormat.DEFAULT);
-                
-                Platform.runLater(new Runnable() {
-
-                    public void run() {
-                        try {
-                            printHeaders(parser);
-                            printRecords(parser);
-                        } finally {
-                            try {
-                                if(!parser.isClosed()) {
-                                    parser.close();
-                                }
-                            } catch (IOException ex) {
-                                Logger.getLogger(StatisticsReaderService.class.getName()).log(Level.SEVERE, null, ex);
-                            }
-                        }
-                    }
-                });
-                return null;
+            protected CSVParser call() throws Exception {
+                return CSVParser.parse(new File(csvFileName), Charset.defaultCharset(), CSVFormat.DEFAULT);
             }
-            
-            
         };
     }
-    
-    
 
-    /**
-     * Print the headers as columns.
-     * @param parser CSV Parser.
-     */
-    protected void printHeaders(final CSVParser parser) {
+    @Override
+    protected void succeeded() {
+        CSVParser parser = getValue();
+        try {
+            printHeaders(parser);
+            printRecords(parser);
+        } finally {
+            try {
+                if (!parser.isClosed()) {
+                    parser.close();
+                }
+            } catch (IOException ex) {
+                Logger.getLogger(StatisticsReaderService.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+}
+
+/**
+ * Print the headers as columns.
+ *
+ * @param parser CSV Parser.
+ */
+protected void printHeaders(final CSVParser parser) {
         for(CSVRecord headers : parser) {
             int i = 0;
             for(String header : headers) {

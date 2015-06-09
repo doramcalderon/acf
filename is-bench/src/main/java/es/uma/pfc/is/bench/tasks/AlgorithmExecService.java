@@ -3,7 +3,6 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package es.uma.pfc.is.bench.tasks;
 
 import es.uma.pfc.is.algorithms.Algorithm;
@@ -15,17 +14,15 @@ import javafx.event.EventHandler;
 
 /**
  *
- * @since 
- * @author Dora Calderón
+ * @since @author Dora Calderón
  */
 public class AlgorithmExecService extends Service {
+
     private Algorithm alg;
 
     public AlgorithmExecService(Algorithm alg) {
         this.alg = alg;
     }
-    
-    
 
     @Override
     protected Task createTask() {
@@ -38,11 +35,11 @@ public class AlgorithmExecService extends Service {
         };
     }
 
-
     /**
      * The onFinish event handler is called whenever the Task state transitions to the finished state: CANCELLED, FAILED
      * or SUCCEEDED.
-     * @param handler Handler. 
+     *
+     * @param handler Handler.
      */
     public void setOnFinished(EventHandler<WorkerStateEvent> handler) {
         setOnCancelled(handler);

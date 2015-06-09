@@ -140,7 +140,9 @@
                                 <tabs>
                                   <Tab text="%history">
                                        <content>
-                                          <TextArea fx:id="txtHistoryArea" editable="false" prefHeight="200.0" prefWidth="200.0">
+                                          <StackPane>
+                                             <children>
+                                                <TextArea fx:id="txtHistoryArea" editable="false" prefHeight="200.0" prefWidth="200.0">
 <!--                                             <contextMenu>
                                                 <ContextMenu fx:id="ctxMenuHistory">
                                                   <items>
@@ -149,6 +151,9 @@
                                                 </ContextMenu>
                                              </contextMenu>-->
                                           </TextArea>
+                                                <ProgressBar fx:id="historyProgressBar" prefWidth="200.0" progress="0.0" visible="false" StackPane.alignment="CENTER" />
+                                             </children>
+                                          </StackPane>
                                        </content></Tab>
                                     <Tab text="%statistics">
                                       <content>

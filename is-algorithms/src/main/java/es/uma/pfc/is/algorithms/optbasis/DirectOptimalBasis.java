@@ -144,6 +144,7 @@ public class DirectOptimalBasis extends GenericAlgorithm {
                 for (Rule rule1 : aux.getRules()) {
                     for (Rule rule2 : aux.getRules()) {
                         if(!rule1.equals(rule2)) {
+                            getLogger().history("SeQ({}, {}):", rule1, rule2);
                             List<Rule> rulesComp = SimplificationLogic.compositionEquivalency(rule1, rule2);
                             if(rulesComp.size() == 1) {
                                 removeRule(simplificatedSystem, rule1);
