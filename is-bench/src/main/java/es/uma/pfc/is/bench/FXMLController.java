@@ -77,10 +77,10 @@ public class FXMLController extends Controller {
     private CheckBox chkTime, chkHistory, chkStatistics;
 
     @FXML
-    private ProgressIndicator piExecution;
+    private ProgressIndicator historyProgressInd;
     
     @FXML
-    private ProgressBar historyProgressBar;
+    private ProgressIndicator statsProgressInd;
 
     
     private FileReaderService readerService;
@@ -181,7 +181,8 @@ public class FXMLController extends Controller {
                 showStatistics();
                 alg.reset();
             });
-            piExecution.visibleProperty().bind(service.runningProperty());
+            historyProgressInd.visibleProperty().bind(service.runningProperty());
+            statsProgressInd.visibleProperty().bind(service.runningProperty());
             service.restart();
 
         } catch (AlgorithmException ex) {
@@ -195,7 +196,7 @@ public class FXMLController extends Controller {
             String historyName = outputname.substring(0, outputname.lastIndexOf(".")).concat("_history.log");
             
             readerService.setFileName(historyName);
-            piExecution.visibleProperty().bind(readerService.runningProperty());
+            historyProgressInd.visibleProperty().bind(readerService.runningProperty());
             txtHistoryArea.textProperty().bindBidirectional(readerService.contentFileProperty());
             // piExecution.progressProperty().bind(reader.progressProperty());
             readerService.restart();
@@ -208,7 +209,7 @@ public class FXMLController extends Controller {
             if(outputname != null) {
                 StatisticsReaderService statisticsReader
                         = new StatisticsReaderService(outputname.substring(0, outputname.lastIndexOf(".")).concat(".csv"), tableStatistics);
-                piExecution.visibleProperty().bind(statisticsReader.runningProperty());
+                statsProgressInd.visibleProperty().bind(statisticsReader.runningProperty());
                 statisticsReader.restart();
             }
         }
