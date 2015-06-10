@@ -32,13 +32,13 @@ public abstract class GenericAlgorithm implements Algorithm<String, Implicationa
     
     private String input;
     private Map<Mode, List < PrintStream >> traceOutputs;
-    protected Messages messages;
+    protected AlgMessages messages;
 
     public GenericAlgorithm() {
         traceOutputs = new HashMap();
         options = new AlgorithmOptions();
         logger = new AlgorithmLogger(getName(), options);
-        messages = Messages.get();
+        messages = AlgMessages.get();
     }
     
     
@@ -212,7 +212,7 @@ public abstract class GenericAlgorithm implements Algorithm<String, Implicationa
      */
     protected void removeRule(ImplicationalSystem system, Rule rule) {
         if(system != null && rule != null) {
-            String message = messages.getMessage(Messages.REMOVE_RULE, rule);
+            String message = messages.getMessage(AlgMessages.REMOVE_RULE, rule);
             getLogger().history(message);
             
             system.removeRule(rule);
@@ -228,7 +228,7 @@ public abstract class GenericAlgorithm implements Algorithm<String, Implicationa
      */
     protected void addRule(ImplicationalSystem system, Rule rule) {
         if(system != null && rule != null) {
-            getLogger().history(messages.getMessage(Messages.REMOVE_RULE, rule));
+            getLogger().history(messages.getMessage(AlgMessages.REMOVE_RULE, rule));
             system.addRule(rule);
         }
     }
@@ -258,7 +258,7 @@ public abstract class GenericAlgorithm implements Algorithm<String, Implicationa
                 }
             } else {
                 if(trace) {
-                    getLogger().history(messages.getMessage(Messages.ADD_RULE, rule));
+                    getLogger().history(messages.getMessage(AlgMessages.ADD_RULE, rule));
                 }
                 newSystem = ImplicationalSystems.addRuleAndElements(system, rule);
                 
@@ -275,7 +275,7 @@ public abstract class GenericAlgorithm implements Algorithm<String, Implicationa
      */
     protected void replaceRule(ImplicationalSystem system, Rule rule1, Rule rule2) {
         if(system != null && rule1 != null && rule2 != null && !rule1.equals(rule2)) {
-            getLogger().history(messages.getMessage(Messages.REPLACE_RULE, rule1, rule2));
+            getLogger().history(messages.getMessage(AlgMessages.REPLACE_RULE, rule1, rule2));
             system.replaceRule(rule1, rule2);
         }
     }

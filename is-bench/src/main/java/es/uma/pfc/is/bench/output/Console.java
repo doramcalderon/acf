@@ -5,8 +5,10 @@
  */
 package es.uma.pfc.is.bench.output;
 
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.io.PrintStream;
 import javafx.application.Platform;
 import javafx.scene.control.TextArea;
 
@@ -20,6 +22,7 @@ public class Console extends OutputStream {
      * Control donde se volcará la salida.
      */
     private final TextArea textArea;
+    private StringBuilder sb;
 
     /**
      * Constructor.
@@ -28,15 +31,26 @@ public class Console extends OutputStream {
      */
     public Console(TextArea textArea) {
         this.textArea = textArea;
+        this.sb = new StringBuilder();
     }
 
     @Override
     public void write(final int i) throws IOException {
+        sb.append((char) i);
+        
+    }
+
+    @Override
+    public void flush() throws IOException {
         Platform.runLater(new Runnable() {
 
             public void run() {
-                textArea.appendText(String.valueOf((char) i));
+                textArea.appendText(sb.toString());
             }
         });
     }
+
+    
+    
+    
 }

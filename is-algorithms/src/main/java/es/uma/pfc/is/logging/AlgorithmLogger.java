@@ -8,8 +8,8 @@ import ch.qos.logback.core.OutputStreamAppender;
 import ch.qos.logback.core.joran.spi.JoranException;
 import es.uma.pfc.is.algorithms.AlgorithmOptions;
 import es.uma.pfc.is.algorithms.AlgorithmOptions.Mode;
-import es.uma.pfc.is.algorithms.Messages;
-import static es.uma.pfc.is.algorithms.Messages.*;
+import es.uma.pfc.is.algorithms.AlgMessages;
+import static es.uma.pfc.is.algorithms.AlgMessages.*;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.PrintStream;
@@ -51,7 +51,7 @@ public class AlgorithmLogger {
     /**
      * I18n messages.
      */
-    private Messages messages;
+    private AlgMessages messages;
     /**
      * Algorithm options.
      */
@@ -80,7 +80,7 @@ public class AlgorithmLogger {
         logger = LoggerFactory.getLogger(algorithmName);
         this.options = options;
         this.output = getOutputName();
-        this.messages = Messages.get();
+        this.messages = AlgMessages.get();
     }
 
     

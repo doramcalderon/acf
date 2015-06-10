@@ -2,7 +2,7 @@
 package es.uma.pfc.is.algorithms.optbasis;
 
 import es.uma.pfc.is.algorithms.GenericAlgorithm;
-import es.uma.pfc.is.algorithms.Messages;
+import es.uma.pfc.is.algorithms.AlgMessages;
 import es.uma.pfc.is.algorithms.util.ImplicationalSystems;
 import es.uma.pfc.is.algorithms.util.Sets;
 import static es.uma.pfc.is.algorithms.util.Sets.*;
@@ -27,7 +27,7 @@ public class DirectOptimalBasis extends GenericAlgorithm {
     
     @Override
     public ImplicationalSystem execute(ImplicationalSystem system) {
-        getLogger().history(messages.getMessage(Messages.EXECUTING, getName()));
+        getLogger().history(messages.getMessage(AlgMessages.EXECUTING, getName()));
         printInit(system);
         
         ImplicationalSystem directOptimalBasis = null;
@@ -99,9 +99,9 @@ public class DirectOptimalBasis extends GenericAlgorithm {
      */
     public ImplicationalSystem reduce(ImplicationalSystem system) {
         getLogger().history("**************************************************************************************");
-        getLogger().history(messages.getMessage(Messages.REDUCE));
+        getLogger().history(messages.getMessage(AlgMessages.REDUCE));
         getLogger().history("**************************************************************************************");
-//        getLogger().history(messages.getMessage(Messages.START_OF));
+//        getLogger().history(messages.getMessage(AlgMessages.START_OF));
         
         ImplicationalSystem reducedSystem = null;
         if(system != null) {
@@ -245,7 +245,7 @@ public class DirectOptimalBasis extends GenericAlgorithm {
         getLogger().history("**************************************************************************************");
         getLogger().history("Generation of IS by completion of simplifacted IS --> Strong Simplification");
         getLogger().history("**************************************************************************************");
-//        getLogger().history(messages.getMessage(Messages.START_OF));
+//        getLogger().history(messages.getMessage(AlgMessages.START_OF));
         
         ImplicationalSystem simplSystem = null;
         

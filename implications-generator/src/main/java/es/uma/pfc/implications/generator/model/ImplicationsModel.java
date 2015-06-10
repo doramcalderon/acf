@@ -1,7 +1,7 @@
 
 package es.uma.pfc.implications.generator.model;
 
-import es.uma.pfc.implications.generator.Messages;
+import es.uma.pfc.implications.generator.i18n.I18n;
 import es.uma.pfc.implications.generator.exception.ModelException;
 
 
@@ -40,7 +40,7 @@ public class ImplicationsModel {
     /**
      * Tipo de los nodos.
      */
-    private NodeType nodeType;
+    private AttributeType nodeType;
     /**
      * Si se dibuja el grafo.
      */
@@ -171,7 +171,7 @@ public class ImplicationsModel {
      * Tipo de los nodos.
      * @return the nodeType
      */
-    public NodeType getNodeType() {
+    public AttributeType getNodeType() {
         return nodeType;
     }
 
@@ -179,7 +179,7 @@ public class ImplicationsModel {
      * Tipo de los nodos.
      * @param nodeType the nodeType to set
      */
-    public void setNodeType(NodeType nodeType) {
+    public void setNodeType(AttributeType nodeType) {
         this.nodeType = nodeType;
     }
 

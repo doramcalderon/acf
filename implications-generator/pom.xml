@@ -35,7 +35,11 @@
             <artifactId>controlsfx</artifactId>
             <version>8.20.8</version>
         </dependency>
-        
+        <dependency>
+            <groupId>es.uma.pfc</groupId>
+            <artifactId>is-commons</artifactId>
+            <version>1.0.0-SNAPSHOT</version>
+        </dependency>
     </dependencies>
     
     <build>

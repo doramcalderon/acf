@@ -1,6 +1,7 @@
 
 package es.uma.pfc.is.algorithms.io;
 
+import java.io.BufferedOutputStream;
 import java.io.OutputStream;
 
 /**
@@ -21,7 +22,7 @@ public class PrintStream extends java.io.PrintStream {
 
     
     public PrintStream(OutputStream out, boolean closeAtFinish) {
-        super(out);
+        super(new BufferedOutputStream(out));
         this.closeAtFinish = closeAtFinish;
     }
 

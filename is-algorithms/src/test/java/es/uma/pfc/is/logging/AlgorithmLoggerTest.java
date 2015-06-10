@@ -3,9 +3,9 @@ package es.uma.pfc.is.logging;
 
 import es.uma.pfc.is.algorithms.AlgorithmOptions;
 import es.uma.pfc.is.algorithms.AlgorithmOptions.Options;
-import es.uma.pfc.is.algorithms.Messages;
-import static es.uma.pfc.is.algorithms.Messages.PERFORMANCE_END;
-import static es.uma.pfc.is.algorithms.Messages.PERFORMANCE_INIT;
+import es.uma.pfc.is.algorithms.AlgMessages;
+import static es.uma.pfc.is.algorithms.AlgMessages.PERFORMANCE_END;
+import static es.uma.pfc.is.algorithms.AlgMessages.PERFORMANCE_INIT;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -133,7 +133,7 @@ public class AlgorithmLoggerTest {
         logger.endTime(end);
         logger.freeResources();
         
-        String expectedLine =  Messages.get().getMessage(PERFORMANCE_INIT, logger.getDf().format(start));
+        String expectedLine =  AlgMessages.get().getMessage(PERFORMANCE_INIT, logger.getDf().format(start));
         File history = null;
         BufferedReader reader = null;
         try {
@@ -144,11 +144,11 @@ public class AlgorithmLoggerTest {
             String line = reader.readLine();
             assertEquals(expectedLine, line);
             
-            expectedLine =  Messages.get().getMessage(PERFORMANCE_END, logger.getDf().format(end));
+            expectedLine =  AlgMessages.get().getMessage(PERFORMANCE_END, logger.getDf().format(end));
             line = reader.readLine();
             assertEquals(expectedLine, line);
             
-            expectedLine =  Messages.get().getMessage(Messages.PERFORMANCE_TOTAL, (end.getTime() - start.getTime()));
+            expectedLine =  AlgMessages.get().getMessage(AlgMessages.PERFORMANCE_TOTAL, (end.getTime() - start.getTime()));
             line = reader.readLine();
             assertEquals(expectedLine, line);
             

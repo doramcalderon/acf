@@ -59,7 +59,7 @@ public class ImplicationsFactory {
         Integer maxPremisesLength = implicationsModel.getMaxPremiseLength();
         Integer minPremisesLength = implicationsModel.getMinPremiseLength();
 
-        String[] nodes = NodesFactory.get().getNodes(implicationsModel.getNodeType(), nodesNumber);
+        String[] nodes = AttributesFactory.get().getAttributes(implicationsModel.getNodeType(), nodesNumber);
         // addition of elements
         for (int j = 0; j < nodesNumber; j++) {
             sigma.addElement(nodes[j]);

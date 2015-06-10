@@ -1,7 +1,7 @@
 
 package es.uma.pfc.implications.generator.model;
 
-import es.uma.pfc.implications.generator.Messages;
+import es.uma.pfc.implications.generator.i18n.I18n;
 
 /**
  *
@@ -25,10 +25,10 @@ public enum ResultValidation {
         
         switch (this) {
             case ZERO_NODES:
-                message = Messages.INVALID_NODES_VALUE;
+                message = I18n.INVALID_ATTRIBUTES_NUM;
                 break;
             case INVALID_PREMISE_LENGTH:
-                message = Messages.INVALID_PREMISE_LENGTH;
+                message = I18n.INVALID_PREMISE_LENGTH;
                 break;
             default:
                 message = super.toString();

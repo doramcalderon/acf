@@ -9,7 +9,7 @@ import com.google.common.base.Strings;
 import es.uma.pfc.implications.generator.ImplicationsFactory;
 import es.uma.pfc.implications.generator.io.GeneratorImplicationalSystemIO;
 import es.uma.pfc.implications.generator.model.ImplicationsModel;
-import es.uma.pfc.implications.generator.model.NodeType;
+import es.uma.pfc.implications.generator.model.AttributeType;
 import es.uma.pfc.implications.generator.model.ResultValidation;
 import es.uma.pfc.implications.generator.view.GenerateService;
 import fr.kbertet.lattice.ImplicationalSystem;
@@ -76,7 +76,7 @@ public class ImplicationsController implements Initializable {
     /**
      * Tipo de los nodos *
      */
-    private NodeType nodeType;
+    private AttributeType nodeType;
     /**
      * Sistema generado.*
      */
@@ -94,8 +94,8 @@ public class ImplicationsController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        this.cbNodeType.getItems().addAll(NodeType.NUMBER, NodeType.LETTER, NodeType.INDEXED_LETTER);
-        this.cbNodeType.getSelectionModel().select(NodeType.NUMBER);
+        this.cbNodeType.getItems().addAll(AttributeType.NUMBER, AttributeType.LETTER, AttributeType.INDEXED_LETTER);
+        this.cbNodeType.getSelectionModel().select(AttributeType.NUMBER);
 
         ImplicationsFactory.initialize();
     }
@@ -119,7 +119,7 @@ public class ImplicationsController implements Initializable {
      */
     @FXML
     public void handleNodeTypeSelection(ActionEvent event) {
-        nodeType = (NodeType) cbNodeType.getSelectionModel().getSelectedItem();
+        nodeType = (AttributeType) cbNodeType.getSelectionModel().getSelectedItem();
     }
 
     /**
@@ -307,7 +307,7 @@ public class ImplicationsController implements Initializable {
         txtImplications.clear();
 //        imageViewer.setImage(null);
         this.cbNodeType.getSelectionModel().clearSelection();
-        this.cbNodeType.getSelectionModel().select(NodeType.NUMBER);
+        this.cbNodeType.getSelectionModel().select(AttributeType.NUMBER);
         this.txtMinLongLeft.clear();
         this.txtMaxLongLeft.clear();
         this.txtMinLongRight.clear();

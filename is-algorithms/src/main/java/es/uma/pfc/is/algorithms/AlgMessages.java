@@ -1,14 +1,15 @@
 package es.uma.pfc.is.algorithms;
 
 import es.uma.pfc.is.algorithms.util.StringUtils;
+import es.uma.pfc.is.commons.i18n.Messages;
 import java.util.ResourceBundle;
 
 /**
- * I18n Messages Keys.
+ * I18n AlgMessages Keys.
  *
  * @author Dora Calderón
  */
-public class Messages {
+public class AlgMessages extends Messages {
 
     public static final String PERFORMANCE_INIT = "performance.init";
     public static final String PERFORMANCE_END = "performance.end";
@@ -26,7 +27,7 @@ public class Messages {
     /**
      * Single instance.*
      */
-    private static Messages me;
+    private static AlgMessages me;
     /**
      * Bundle.
      */
@@ -35,40 +36,26 @@ public class Messages {
     /**
      * Constructor.
      */
-    private Messages() {
+    private AlgMessages() {
         messages = ResourceBundle.getBundle("es.uma.pfc.is.algorithms.loggingMessages");
     }
 
     /**
      * Get a single instance.
-     * @return Messages instance.
+     * @return AlgMessages instance.
      */
-    public static Messages get() {
-        synchronized (Messages.class) {
+    public static AlgMessages get() {
+        synchronized (AlgMessages.class) {
             if (me == null) {
-                me = new Messages();
+                me = new AlgMessages();
             }
         }
         return me;
     }
 
-    /**
-     * Return a message with replaced arguments.
-     *
-     * @param messageKey Message key.
-     * @param args Arguments.
-     * @return Message.<br/> {@code messageKey} if doesn't exist.
-     */
-    public String getMessage(String messageKey, Object... args) {
-        String message = null;
-        if(messages.containsKey(messageKey)) {
-            message = messages.getString(messageKey);
-        }
-        if (!StringUtils.isEmpty(message)) {
-            message = StringUtils.replaceArgs(message, "{}", args);
-        } else {
-            message = messageKey;
-        }
-        return message;
+
+    @Override
+    public ResourceBundle getBundle() {
+        return messages;
     }
 }

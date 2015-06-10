@@ -5,9 +5,12 @@
  */
 package es.uma.pfc.implications.generator;
 
+import es.uma.pfc.implications.generator.i18n.I18n;
 import com.google.common.base.Strings;
 import es.uma.pfc.implications.generator.exception.ZeroNodesException;
-import es.uma.pfc.implications.generator.model.NodeType;
+import es.uma.pfc.implications.generator.i18n.GeneratorMessages;
+import es.uma.pfc.implications.generator.model.AttributeType;
+import es.uma.pfc.is.commons.i18n.Messages;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,27 +18,34 @@ import java.util.List;
  *
  * @since @author Dora Calderón
  */
-public class NodesFactory {
+public class AttributesFactory {
 
     static String characters = "abcdefghijklmnopqrstuvwxyz";
-    private static NodesFactory instance;
+    private static AttributesFactory instance;
+    private final Messages messages;
 
-    public static NodesFactory get() {
+    public AttributesFactory() {
+        messages = GeneratorMessages.get();
+    }
+    
+    
+
+    public static AttributesFactory get() {
         if (instance == null) {
-            instance = new NodesFactory();
+            instance = new AttributesFactory();
         }
         return instance;
     }
 
-    public String[] getNodes(NodeType type, Integer size) {
-        checkNodesSize(size);
+    public String[] getAttributes(AttributeType type, Integer size) {
+        checkAttributesSize(size);
         String[] nodes = null;
 
-        if (type == null || NodeType.NUMBER.equals(type)) {
+        if (type == null || AttributeType.NUMBER.equals(type)) {
             nodes = getNumbersArray(size);
-        } else if (NodeType.LETTER.equals(type)) {
+        } else if (AttributeType.LETTER.equals(type)) {
             nodes = getLettersArray(size);
-        } else if (NodeType.INDEXED_LETTER.equals(type)) {
+        } else if (AttributeType.INDEXED_LETTER.equals(type)) {
             nodes = getIndexedLettersArray(null, size);
         }
 
@@ -93,9 +103,9 @@ public class NodesFactory {
      * @param size Tamaño.
      * @throws ZeroNodesException si el tamaño es menor que 0 o nulo.
      */
-    protected void checkNodesSize(Integer size) {
+    protected void checkAttributesSize(Integer size) {
         if (size == null || size < 1) {
-            throw new ZeroNodesException();
+            throw new ZeroNodesException(messages.getMessage(I18n.INVALID_ATTRIBUTES_NUM));
         }
     }
 }

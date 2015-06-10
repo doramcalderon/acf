@@ -1,7 +1,5 @@
 package es.uma.pfc.implications.generator.exception;
 
-import es.uma.pfc.implications.generator.Messages;
-
 /**
  * Excepción que se ha de lanzar cuando el número de nodos de un sistema es 0.
  * @since 1.0.0
@@ -10,7 +8,7 @@ import es.uma.pfc.implications.generator.Messages;
 public class ZeroNodesException extends RuntimeException {
 
     public ZeroNodesException() {
-        super(Messages.INVALID_NODES_VALUE);
+        super();
     }
 
     public ZeroNodesException(String message) {

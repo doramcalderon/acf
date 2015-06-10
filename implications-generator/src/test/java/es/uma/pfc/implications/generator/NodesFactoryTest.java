@@ -5,7 +5,7 @@
  */
 package es.uma.pfc.implications.generator;
 
-import es.uma.pfc.implications.generator.model.NodeType;
+import es.uma.pfc.implications.generator.model.AttributeType;
 import java.util.Arrays;
 import org.junit.After;
 import org.junit.AfterClass;
@@ -47,7 +47,7 @@ public class NodesFactoryTest {
     public void testGetNumbersArray() {
         Integer size = 5;
         String[] expectArray = new String[]{"0", "1", "2", "3", "4"};
-        String[] array = NodesFactory.get().getNumbersArray(size);
+        String[] array = AttributesFactory.get().getNumbersArray(size);
         assertArrayEquals(expectArray, array);
     }
 
@@ -59,7 +59,7 @@ public class NodesFactoryTest {
     public void testGetLettersArray() {
         Integer size = 4;
         String[] expectedArray = new String[]{"a", "b", "c", "d"};
-        String[] array = NodesFactory.get().getLettersArray(size);
+        String[] array = AttributesFactory.get().getLettersArray(size);
         assertArrayEquals(expectedArray, array);
     }
      /**
@@ -72,7 +72,7 @@ public class NodesFactoryTest {
         
         String[] expectedArray = new String[]{"a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m",
                                               "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z", "a", "b"};
-        String[] array = NodesFactory.get().getLettersArray(size);
+        String[] array = AttributesFactory.get().getLettersArray(size);
         assertArrayEquals(expectedArray, array);
     }
 
@@ -85,7 +85,7 @@ public class NodesFactoryTest {
         String letter = "x";
         Integer size = 4;
         String[] expectedArray = new String[]{"x0", "x1", "x2", "x3"};
-        String[] array = NodesFactory.get().getIndexedLettersArray(letter, size);
+        String[] array = AttributesFactory.get().getIndexedLettersArray(letter, size);
         assertArrayEquals(expectedArray, array);
     }
 
@@ -98,7 +98,7 @@ public class NodesFactoryTest {
         String letter = null;
         Integer size = 4;
         String[] expectedArray = new String[]{"a0", "a1", "a2", "a3"};
-        String[] array = NodesFactory.get().getIndexedLettersArray(letter, size);
+        String[] array = AttributesFactory.get().getIndexedLettersArray(letter, size);
         assertArrayEquals(expectedArray, array);
     }
     

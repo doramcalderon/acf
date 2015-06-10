@@ -8,7 +8,9 @@ package es.uma.pfc.implications.generator.controller;
 import es.uma.pfc.implications.generator.view.FXMLViews;
 import es.uma.pfc.implications.generator.view.MessagesResourceBundle;
 import java.io.IOException;
+import java.util.Locale;
 import java.util.PropertyResourceBundle;
+import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.application.Application;
@@ -27,22 +29,30 @@ import javafx.stage.Stage;
 public class ImplicationsGeneratorApp extends Application {
     private Stage primaryStage;
     private BorderPane root;
+    private ResourceBundle bundle;
     
     @Override
     public void start(Stage primaryStage) throws IOException {
         this.primaryStage = primaryStage;
         primaryStage.setTitle("Implications Generator");
-        
+        loadResources(Locale.getDefault());
         initRootLayout();
         showImplicationsForm();
     }
     
     /**
+     * Load resource bundles.
+     * @param locale Locale.
+     */
+    protected void loadResources(Locale locale) {
+        bundle = ResourceBundle.getBundle("es.uma.pfc.implications.generator.i18n.labels", locale);
+    }
+    /**
      * Initialize root layout.
      */
     protected void initRootLayout() {
         try {
-            root = FXMLLoader.load(Thread.currentThread().getContextClassLoader().getResource(FXMLViews.ROOT_VIEW));
+            root = FXMLLoader.load(Thread.currentThread().getContextClassLoader().getResource(FXMLViews.ROOT_VIEW), bundle);
             
             Scene scene = new Scene(root);
             primaryStage.setScene(scene);
@@ -57,7 +67,7 @@ public class ImplicationsGeneratorApp extends Application {
     protected void showImplicationsForm() {
         try {
             AnchorPane implicationsForm = FXMLLoader.load(
-                    Thread.currentThread().getContextClassLoader().getResource(FXMLViews.IMPLICATIONS_VIEW));
+                    Thread.currentThread().getContextClassLoader().getResource(FXMLViews.IMPLICATIONS_VIEW), bundle);
             root.setCenter(implicationsForm);
         } catch (IOException ex) {
             ex.printStackTrace();
