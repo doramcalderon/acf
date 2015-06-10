@@ -63,7 +63,7 @@ public class GeneratorImplicationalSystemIO {
     protected static String getFileName(String name, int index) {
         String fileName = "";
         if(!Strings.isNullOrEmpty(name)) {
-            String[] nameSplits = name.split("\\.", 2);
+            String[] nameSplits = splitNameAndExtension(name);
             int splitsCount = nameSplits.length;
             
             if(splitsCount > 1) {
@@ -79,7 +79,7 @@ public class GeneratorImplicationalSystemIO {
     protected static String getExtension(String fileName) {
         String extension = "";
         if(!Strings.isNullOrEmpty(fileName)) {
-            String[] nameSplits = fileName.split("\\.", 2);
+            String[] nameSplits = splitNameAndExtension(fileName);
             int splitsCount = nameSplits.length;
             
             if(splitsCount > 1) {
@@ -88,5 +88,23 @@ public class GeneratorImplicationalSystemIO {
             
         }
         return extension;
+    }
+    
+    /**
+     * Returns the filename splited in name and extension.
+     * @param fileName File name.
+     * @return Name and extension.
+     */
+    protected static String[] splitNameAndExtension(String fileName) {
+        String[] nameSplits = null;
+        if(!Strings.isNullOrEmpty(fileName)) {
+            int indexLastPoint = fileName.lastIndexOf(".");
+            if(indexLastPoint >= 0) {
+                nameSplits = new String[]{fileName.substring(0, indexLastPoint), fileName.substring(indexLastPoint)};
+            } else {
+                nameSplits = new String[]{};
+            }
+        }
+        return nameSplits;
     }
 }

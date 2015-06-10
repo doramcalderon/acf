@@ -15,27 +15,24 @@ import es.uma.pfc.implications.generator.view.GenerateService;
 import fr.kbertet.lattice.ImplicationalSystem;
 import java.io.File;
 import java.io.IOException;
-import static java.lang.Thread.State.values;
 import java.net.URL;
 import java.nio.file.Files;
 import java.util.List;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javafx.concurrent.Task;
 import javafx.concurrent.WorkerStateEvent;
 import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.geometry.Pos;
 import javafx.scene.Cursor;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.ProgressIndicator;
+import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.HBox;
-import javafx.scene.text.Text;
 import javafx.stage.FileChooser;
 import javafx.stage.FileChooser.ExtensionFilter;
 import javafx.stage.Window;
@@ -69,9 +66,12 @@ public class ImplicationsController implements Initializable {
     private TextField txtSystemsNumber;
 
     @FXML
-    private Text textViewer;
+    private TextArea textViewer;
     @FXML
     private AnchorPane implicationsPane;
+
+    @FXML
+    private ProgressIndicator generationProgressInd;
 
     /**
      * Tipo de los nodos *
@@ -84,8 +84,6 @@ public class ImplicationsController implements Initializable {
 
     ImplicationsModel model;
 
-    private ProgressIndicator pin;
-
 //    @FXML
 //    private ResourceBundle resources;
     /**
@@ -96,15 +94,8 @@ public class ImplicationsController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-//        this.resources = rb;
         this.cbNodeType.getItems().addAll(NodeType.NUMBER, NodeType.LETTER, NodeType.INDEXED_LETTER);
         this.cbNodeType.getSelectionModel().select(NodeType.NUMBER);
-//        pin = new ProgressIndicator();
-//        pin.setProgress(1.0);
-//        final HBox hb = new HBox();
-//        hb.setSpacing(5);
-//        hb.setAlignment(Pos.CENTER);
-//        hb.getChildren().add(pin);
 
         ImplicationsFactory.initialize();
     }
@@ -146,17 +137,15 @@ public class ImplicationsController implements Initializable {
             GenerateService genService = new GenerateService(model);
             genService.setOnRunning((WorkerStateEvent event1) -> {
                 implicationsPane.getScene().setCursor(Cursor.WAIT);
-//                pin.setVisible(true);
             });
             genService.setOnSucceeded((WorkerStateEvent event1) -> {
                 implicationSystems = (List<ImplicationalSystem>) event1.getSource().getValue();
                 implicationsGenerated(implicationSystems);
-                //                    pin.setVisible(false);
                 implicationsPane.getScene().setCursor(Cursor.DEFAULT);
             });
-
+            generationProgressInd.visibleProperty().bind(genService.runningProperty());
             genService.start();
-            
+
         } catch (RuntimeException modelEx) {
             // TODO pintar el mensaje en la interfaz
             logger.log(Level.SEVERE, modelEx.getMessage());
@@ -166,6 +155,7 @@ public class ImplicationsController implements Initializable {
     /**
      * Muestra el conjunto generado en el visor, si sólo ha sido uno.<br/>
      * Si han sido varios, muestra el cuadro de diálogo <i>Guardar</i>.
+     *
      * @param systems Implicaciones generadas.
      */
     public void implicationsGenerated(List<ImplicationalSystem> systems) {
@@ -198,11 +188,21 @@ public class ImplicationsController implements Initializable {
         File selectedFile = showSaveDialog();
 
         if (selectedFile != null) {
-            try {
-                GeneratorImplicationalSystemIO.save(implicationSystems, selectedFile.getAbsolutePath());
-            } catch (IOException ex) {
-                Logger.getLogger(ImplicationsController.class.getName()).log(Level.SEVERE, null, ex);
-            }
+            Task saveTask = new Task<Void>() {
+
+                @Override
+                protected Void call() throws Exception {
+                    try {
+                        GeneratorImplicationalSystemIO.save(implicationSystems, selectedFile.getAbsolutePath());
+                    } catch (IOException ex) {
+                        Logger.getLogger(ImplicationsController.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                    return null;
+                }
+            };
+            generationProgressInd.visibleProperty().bind(saveTask.runningProperty());
+            saveTask.run();
+            
         }
     }
 
@@ -322,7 +322,7 @@ public class ImplicationsController implements Initializable {
      */
     protected void cleanModel() {
         if (model != null) {
-            this.model.clean();            
+            this.model.clean();
         }
         if (implicationSystems != null) {
             this.implicationSystems.clear();
