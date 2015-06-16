@@ -73,9 +73,9 @@ public abstract class GenericAlgorithm implements Algorithm<String, Implicationa
             logger = new AlgorithmLogger(getName(), options);
             logger.traceOutputs(traceOutputs);
             
-            logger.startTime(new Date());
+            logger.startTime();
             ImplicationalSystem result = execute(new ImplicationalSystem(getInput()));
-            logger.endTime(new Date());
+            logger.endTime();
             if (result != null) {
                 result.save(options.<String>getOption(Options.OUTPUT.toString()));
             }

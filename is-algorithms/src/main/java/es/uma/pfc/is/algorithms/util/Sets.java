@@ -78,9 +78,9 @@ public class Sets {
      * @param set2
      * @return 
      */
-    public static final  TreeSet symDifference(final Set set1, final Set set2) {
-        return union(difference(set1, set2), difference(set2, set1));
-    }
+//    public static final  TreeSet symDifference(final Set set1, final Set set2) {
+//        return union(difference(set1, set2), difference(set2, set1));
+//    }
     
     /**
      * Devuelve si un conjunto es vacío.

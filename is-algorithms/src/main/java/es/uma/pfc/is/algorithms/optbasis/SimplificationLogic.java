@@ -116,7 +116,7 @@ public class SimplificationLogic {
         TreeSet d = rule2.getConclusion();
         
         if(!Sets.intersection(b, c).isEmpty()) {
-            if(!Sets.symDifference(d, Sets.union(a, b)).isEmpty()) {
+            if(!Sets.difference(d, Sets.union(a, b)).isEmpty()) {
                 TreeSet conclusion = Sets.difference(d, Sets.union(a, b));
                 if (!conclusion.isEmpty()) {
                     newRule = new Rule();

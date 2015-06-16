@@ -40,9 +40,10 @@
         </sift>
     </appender>    
     
-<!--    <appender name="ASYNC" class="ch.qos.logback.classic.AsyncAppender">
+    <appender name="ASYNC" class="ch.qos.logback.classic.AsyncAppender">
         <appender-ref ref="HISTORY" />
-    </appender>-->
+        <appender-ref ref="STATISTICS" />
+    </appender>
 
     <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
         <!-- encoders are assigned the type
@@ -52,9 +53,9 @@
         </encoder>
     </appender>
  
-    <root level="DEBUG">
-        <appender-ref ref="HISTORY" />
-        <appender-ref ref="STDOUT" />
-        <appender-ref ref="STATISTICS" />
+    <root level="INFO">
+        <appender-ref ref="ASYNC" />
+        <!--<appender-ref ref="STDOUT" />-->
+        <!--<appender-ref ref="STATISTICS" />-->
     </root>
 </configuration>

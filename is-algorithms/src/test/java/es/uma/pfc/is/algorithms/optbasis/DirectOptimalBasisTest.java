@@ -7,6 +7,7 @@ import fr.kbertet.lattice.Rule;
 import java.io.File;
 import java.io.IOException;
 import static org.junit.Assert.*;
+import org.junit.Ignore;
 import org.junit.Test;
 
 /**
@@ -46,24 +47,23 @@ public class DirectOptimalBasisTest {
      */
     @Test
     public void testStrongSimplificate() throws IOException {
-        ImplicationalSystem system = getSystemFromFile("test_strong_smpl.txt");
-        ImplicationalSystem expectedSystem = getSystemFromFile("test_strong_smpl_resul.txt");
+        ImplicationalSystem system = getSystemFromFile("test_1_simplified.txt");
+        ImplicationalSystem expectedSystem = getSystemFromFile("test_1_strong_smplified.txt");
         
         DirectOptimalBasis alg = new DirectOptimalBasis();
         ImplicationalSystem simpSystem = alg.strongSimplificate(system);
         System.out.println(simpSystem);
         
-        assertNotNull(simpSystem);
-        assertTrue(simpSystem.getRules().containsAll(expectedSystem.getRules()));
+        assertTrue(ImplicationalSystems.equals(expectedSystem, simpSystem));
     }
 
     /**
      * Test of optimize method, of class DirectOptimalBasis.
      */
-    @Test 
+    @Test @Ignore
     public void testOptimize_ImplicationalSystem() throws IOException {
-        ImplicationalSystem system = getSystemFromFile("test_optimize.txt");
-        ImplicationalSystem systemExpected = getSystemFromFile("test_optimize_result.txt");
+        ImplicationalSystem system = getSystemFromFile("test_1_strong_smplified.txt");
+        ImplicationalSystem systemExpected = getSystemFromFile("test_1_optimized.txt");
         
         ImplicationalSystem optimizedSystem = new DirectOptimalBasis().optimize(system);
         
@@ -75,41 +75,27 @@ public class DirectOptimalBasisTest {
     @Test
     public void testReduce() throws IOException {
         ImplicationalSystem system = getSystemFromFile("test_1.txt");
-        
+        ImplicationalSystem expectedSystem = getSystemFromFile("test_1_reduced.txt");
         ImplicationalSystem reducedSystem = new DirectOptimalBasis().reduce(system);
         
         assertNotNull(reducedSystem);
-        assertEquals(new Integer(4), (Integer) reducedSystem.sizeRules());
-        
-        Rule r = new Rule();
-        r.addToPremise("d");
-        r.addToConclusion("c");
-        assertTrue(reducedSystem.containsRule(r));
-        
-        r = new Rule();
-        r.addToPremise("c");
-        r.addToConclusion("a");
-        r.addToConclusion("b");
-        r.addToConclusion("d");
-        assertTrue(reducedSystem.containsRule(r));
-        
-        r = new Rule();
-        r.addToPremise("c");
-        r.addToPremise("e");
-        r.addToConclusion("a");
-        r.addToConclusion("b");
-        assertTrue(reducedSystem.containsRule(r));
-        
-        r = new Rule();
-        r.addToPremise("a");
-        r.addToConclusion("d");
-        assertTrue(reducedSystem.containsRule(r));
+        assertTrue(ImplicationalSystems.equals(expectedSystem, reducedSystem));
     }
     
     @Test
     public void testReduceNullSystem() throws IOException {
         ImplicationalSystem reducedSystem = new DirectOptimalBasis().reduce(null);    
         assertNull(reducedSystem);
+    }
+    
+    @Test
+    public void testSimplify() throws IOException {
+        ImplicationalSystem input = getSystemFromFile("test_1_reduced.txt");
+        ImplicationalSystem expectedSystem = getSystemFromFile("test_1_simplified.txt");
+        
+        ImplicationalSystem simplifiedSystem = new DirectOptimalBasis().simplify(input);
+        
+        assertTrue(ImplicationalSystems.equals(expectedSystem, simplifiedSystem));
     }
     
     //<editor-fold defaultstate="collapsed" desc="Utilidades">

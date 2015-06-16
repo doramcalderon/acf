@@ -195,64 +195,64 @@ public class SetsTest {
     }
     
     
-    /**
-     * Test of intersection method, of class Sets.
-     */
-    @Test
-    public void testSymDifference() {
-        Set set1 = new TreeSet();
-        set1.add("a");
-        set1.add("b");
-        
-        Set set2 = new TreeSet();
-        set2.add("b");
-        set2.add("c");
-        
-        Set symDiff = Sets.symDifference(set1, set2);
-        
-        assertNotNull(symDiff);
-        assertTrue(symDiff.size() == 2);
-        assertTrue(symDiff.contains("a"));
-        assertTrue(symDiff.contains("c"));
-    }
-    @Test
-    public void testSymEmptyDifference() {
-        Set set1 = new TreeSet();
-        set1.add("a");
-        set1.add("b");
-        
-        Set set2 = new TreeSet();
-        set2.add("a");
-        set2.add("b");
-        
-        Set symDifference = Sets.symDifference(set1, set2);
-        
-        assertNotNull(symDifference);
-        assertTrue(symDifference.isEmpty());
-    }
-    @Test
-    public void testSymDifferenceWithEmptySet() {
-        Set set1 = new TreeSet();
-        set1.add("a");
-        set1.add("b");
-        
-        Set set2 = new TreeSet();
-        
-        Set symDifference = Sets.symDifference(set1, set2);
-        
-        assertNotNull(symDifference);
-        assertEquals(set1, symDifference);
-    }
-    @Test
-    public void testSymDifferenceWithNullSet() {
-        Set set1 = new TreeSet();
-        set1.add("a");
-        set1.add("b");
-        
-        Set symDifference = Sets.symDifference(set1, null);
-        
-        assertNull(symDifference);
-    }
+//    /**
+//     * Test of intersection method, of class Sets.
+//     */
+//    @Test
+//    public void testSymDifference() {
+//        Set set1 = new TreeSet();
+//        set1.add("a");
+//        set1.add("b");
+//        
+//        Set set2 = new TreeSet();
+//        set2.add("b");
+//        set2.add("c");
+//        
+//        Set symDiff = Sets.symDifference(set1, set2);
+//        
+//        assertNotNull(symDiff);
+//        assertTrue(symDiff.size() == 2);
+//        assertTrue(symDiff.contains("a"));
+//        assertTrue(symDiff.contains("c"));
+//    }
+//    @Test
+//    public void testSymEmptyDifference() {
+//        Set set1 = new TreeSet();
+//        set1.add("a");
+//        set1.add("b");
+//        
+//        Set set2 = new TreeSet();
+//        set2.add("a");
+//        set2.add("b");
+//        
+//        Set symDifference = Sets.symDifference(set1, set2);
+//        
+//        assertNotNull(symDifference);
+//        assertTrue(symDifference.isEmpty());
+//    }
+//    @Test
+//    public void testSymDifferenceWithEmptySet() {
+//        Set set1 = new TreeSet();
+//        set1.add("a");
+//        set1.add("b");
+//        
+//        Set set2 = new TreeSet();
+//        
+//        Set symDifference = Sets.symDifference(set1, set2);
+//        
+//        assertNotNull(symDifference);
+//        assertEquals(set1, symDifference);
+//    }
+//    @Test
+//    public void testSymDifferenceWithNullSet() {
+//        Set set1 = new TreeSet();
+//        set1.add("a");
+//        set1.add("b");
+//        
+//        Set symDifference = Sets.symDifference(set1, null);
+//        
+//        assertNull(symDifference);
+//    }
     
     
     

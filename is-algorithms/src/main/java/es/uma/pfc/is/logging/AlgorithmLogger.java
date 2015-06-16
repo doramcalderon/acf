@@ -190,11 +190,11 @@ public class AlgorithmLogger {
      *
      * @param time HOra de inicio.
      */
-    public void startTime(Date time) {
+    public void startTime() {
 
         if (isPerformanceEnabled()) {
-            startTime = time.getTime();
-            log(Mode.PERFORMANCE, messages.getMessage(PERFORMANCE_INIT), df.format(time));
+            startTime = System.currentTimeMillis();
+            log(Mode.PERFORMANCE, messages.getMessage(PERFORMANCE_INIT), df.format(new Date(startTime)));
         }
     }
 
@@ -203,10 +203,11 @@ public class AlgorithmLogger {
      *
      * @param time Hora de fin.
      */
-    public void endTime(Date time) {
+    public void endTime() {
         if (isPerformanceEnabled()) {
-            long total = time.getTime() - startTime;
-            log(Mode.PERFORMANCE, messages.getMessage(PERFORMANCE_END), df.format(time));
+            long time = System.currentTimeMillis();
+            long total = time - startTime;
+            log(Mode.PERFORMANCE, messages.getMessage(PERFORMANCE_END), df.format(new Date(time)));
             log(Mode.PERFORMANCE, messages.getMessage(PERFORMANCE_TOTAL), total);
         }
     }
