@@ -8,8 +8,8 @@ package es.uma.pfc.is.bench.view;
 public interface FXMLViews {
     /** Root view.**/
     String ROOT_VIEW = "/fxml/Root.fxml";
-    /** Main view. **/
-    String MAIN_VIEW = "/fxml/Scene.fxml";
+    /** Benchmarks view. **/
+    String BENCHMARK_VIEW = "/fxml/Benchmarks.fxml";
     /** User Preferences view. **/
     String USER_CONFIG_VIEW = "/fxml/UserConfig.fxml";
     /** About view. **/

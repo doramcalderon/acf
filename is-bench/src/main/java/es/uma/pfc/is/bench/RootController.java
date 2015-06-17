@@ -5,6 +5,7 @@ import es.uma.pfc.is.bench.view.FXMLViews;
 import static es.uma.pfc.is.bench.view.FXMLViews.ABOUT_VIEW;
 import java.io.IOException;
 import java.net.URL;
+import java.util.Locale;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -13,9 +14,11 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.Menu;
+import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.Pane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
@@ -31,10 +34,26 @@ public class RootController extends Controller {
 
     @FXML
     private BorderPane rootPane;
+    
+    @FXML
+    private Tab generatorTab;
+    
+    @FXML
+    private Tab benchmarksTab;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        super.initialize(location, resources);
+        try {
+            super.initialize(location, resources);
+            Pane benchmarksForm = FXMLLoader.load(ISBenchApp.class.getResource(FXMLViews.BENCHMARK_VIEW), resources);
+            benchmarksTab.setContent(benchmarksForm);
+            
+            Pane generatorForm = FXMLLoader.load(ISBenchApp.class.getResource("/" + es.uma.pfc.implications.generator.view.FXMLViews.IMPLICATIONS_VIEW), 
+                                                 ResourceBundle.getBundle("es.uma.pfc.implications.generator.i18n.labels", Locale.getDefault()));
+            generatorTab.setContent(generatorForm);
+        } catch (IOException ex) {
+            Logger.getLogger(RootController.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     /**

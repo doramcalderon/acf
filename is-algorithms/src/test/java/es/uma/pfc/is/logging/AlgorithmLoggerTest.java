@@ -128,9 +128,9 @@ public class AlgorithmLoggerTest {
         AlgorithmLogger logger = new AlgorithmLogger("alg", options);
         logger.configure("testlogback.xml");
         Date start = new Date(System.currentTimeMillis());
-        logger.startTime(start);
+        logger.startTime();
         Date end = new Date(System.currentTimeMillis());
-        logger.endTime(end);
+        logger.endTime();
         logger.freeResources();
         
         String expectedLine =  AlgMessages.get().getMessage(PERFORMANCE_INIT, logger.getDf().format(start));

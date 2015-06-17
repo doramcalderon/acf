@@ -25,12 +25,11 @@ public class ISBenchApp extends Application {
     
     @Override
     public void start(Stage primaryStage) throws IOException {
-        System.setProperty("log4j.configurationFile", "es/uma/pfc/is/bench/log4j2.xml");
+//        System.setProperty("log4j.configurationFile", "es/uma/pfc/is/bench/log4j2.xml");
         System.setProperty("isbench.output.dir", UserConfig.get().getDefaultOutputDir().getPath());
         Locale.setDefault(Locale.UK);
         loadResources(new Locale("en", "GB"));
         loadRootLayout();
-        loadMainForm();
         showStage(primaryStage);
     }
     
@@ -53,17 +52,7 @@ public class ISBenchApp extends Application {
             ex.printStackTrace();
         }
     }
-    /**
-     * Load the main form inside the root layout.
-     */
-    protected void loadMainForm() {
-        try {
-            Pane mainForm = FXMLLoader.load(ISBenchApp.class.getResource(FXMLViews.MAIN_VIEW), bundle);
-            root.setCenter(mainForm);
-        } catch (IOException ex) {
-            ex.printStackTrace();
-        }
-    }
+   
     
     /**
      * Show the main window with de main form.
