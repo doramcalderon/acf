@@ -106,7 +106,8 @@ public class ImplicationalSystems {
                 equals = true;
                 Iterator<Rule> iterator = system1.getRules().iterator();
                 while(iterator.hasNext() && equals) {
-                    equals = system2.containsRule(iterator.next());
+                    Rule r = iterator.next();
+                    equals = system2.containsRule(r);
                 }
             } 
             return equals;

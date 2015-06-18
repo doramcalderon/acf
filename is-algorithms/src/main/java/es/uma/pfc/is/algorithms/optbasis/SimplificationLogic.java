@@ -84,7 +84,7 @@ public class SimplificationLogic {
      * @return Implicaciones simplificadas.
      * @throws NullPointerException Si alguna de las dos reglas es nula.
      */
-    public static final List<Rule> simplificationEquivalency(final Rule rule1, final Rule rule2) {
+    public static final List<Rule> rightSimplificationEq(final Rule rule1, final Rule rule2) {
         List<Rule> rules = new ArrayList<>();
         rules.add(rule1);
         

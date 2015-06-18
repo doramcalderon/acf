@@ -35,22 +35,29 @@ public class DirectOptimalBasis extends GenericAlgorithm {
 
         if (system != null && !isEmpty(system.getRules())) {
             /* Stage 1: Generation of reduced IS*/
-            
+            long ini = System.currentTimeMillis();
             directOptimalBasis = reduce(system);
+            getLogger().history("Reduce: {} ms", System.currentTimeMillis() - ini);
             
 
             /* Stage 2: Generation of IS simplificated by simplification of reduced IS*/
+            ini = System.currentTimeMillis();
             directOptimalBasis = simplify(directOptimalBasis);
+            getLogger().history("simplify: {} ms", System.currentTimeMillis() - ini);
             
             /**
              * Stage 3: Generation of IS by completion of simplifacted IS --> Strong Simplification
              */
+            ini = System.currentTimeMillis();
             directOptimalBasis = strongSimplificate(directOptimalBasis);
+            getLogger().history("strong simp.: {} ms", System.currentTimeMillis() - ini);
             
             /**
              * Stage 4: Generation of optimized IS *
              */
+            ini = System.currentTimeMillis();
             directOptimalBasis = optimize(directOptimalBasis);
+            getLogger().history("optimize: {} ms", System.currentTimeMillis() - ini);
 
         }
 
@@ -125,13 +132,13 @@ public class DirectOptimalBasis extends GenericAlgorithm {
         getLogger().history("**************************************************************************************");
         
         ImplicationalSystem simplificated;
-        ImplicationalSystem sigma = new ImplicationalSystem(system);
+        ImplicationalSystem gamma = new ImplicationalSystem(system);
         SortedSet<Rule> simpRules = new TreeSet();
         TreeSet a, b, c, d;
        
         do {
-            simplificated = new ImplicationalSystem(sigma);
-            sigma = new ImplicationalSystem();
+            simplificated = new ImplicationalSystem(gamma);
+            gamma = new ImplicationalSystem();
             getLogger().history("--------------------------------------------------------------------------------------");
             getLogger().history("Initial Simplificated: {}", simplificated.toString());
             
@@ -141,10 +148,13 @@ public class DirectOptimalBasis extends GenericAlgorithm {
                 b = ab.getConclusion();
                 
                 getLogger().history("--------------------------------------------------------------------------------------");
-                getLogger().history("New  Rules: {}", sigma.toString());
                 
-                for(Rule cd : sigma.getRules()) {
-                    if(!ab.equals(cd)) {
+                
+                getLogger().history("Gamma: {}", (gamma.sizeRules() == 0) ? "{}" : gamma.toString());
+                
+                for(Rule cd : gamma.getRules()) {
+                    Rule abAux = new Rule(a, b);
+                    if(!abAux.equals(cd)) {
                         c = cd.getPremise();
                         d = cd.getConclusion();
 
@@ -152,19 +162,23 @@ public class DirectOptimalBasis extends GenericAlgorithm {
                                 || c.containsAll(a) && Sets.union(a, b).containsAll(c)) {
                             a = Sets.intersection(a, c);
                             b = Sets.union(b, d);
+                            getLogger().history("({}) + ({}) ==> A = A intersec C, B = B U D ==> {} -> {}", abAux, cd, a, b);
                         } else {
                             if(a.containsAll(c)) {
                                 a = Sets.difference(a, d);
                                 b = Sets.difference(b, d);
+                                simpRules.add(cd);
+                                getLogger().history("({}) + ({}) ==> A = A-D, B = B-D ==> {} -> {}", abAux, cd, a, b);
+                                getLogger().history("                                 add C -> D to gamma ==> add {}", cd);
                             } else if(c.containsAll(a)) {
                                 if(!b.containsAll(d)) {
                                     Rule newRule = new Rule(Sets.difference(c, b), Sets.difference(d, b)); 
                                     simpRules.add(newRule);
-                                    getLogger().history("add({})", newRule);
+                                    getLogger().history("({}) + ({}) ==> C-B -> D-B ==> {}", abAux, cd, newRule);
                                 }
                             } else {
                                 simpRules.add(cd);
-                                getLogger().history("add({})", cd);
+                                getLogger().history("({}) + ({}) ==> add C -> D ==> {}", abAux, cd, cd);
                             }
                         }
                     }
@@ -172,11 +186,11 @@ public class DirectOptimalBasis extends GenericAlgorithm {
                 if (!b.isEmpty()) {
                     Rule newRule = new Rule(a, b);
                     simpRules.add(newRule);
-                    getLogger().history("add({})", newRule);
+                    getLogger().history("{} (B) not empty ==> add A -> B ==> {}", b, newRule);
                 }
-                sigma = new ImplicationalSystem(simpRules);
+                gamma = new ImplicationalSystem(simpRules);
             }
-        } while(!ImplicationalSystems.equals(simplificated, sigma));
+        } while(!ImplicationalSystems.equals(simplificated, gamma));
         
         getLogger().history("");
         getLogger().history(String.valueOf(simplificated));
@@ -218,7 +232,7 @@ public class DirectOptimalBasis extends GenericAlgorithm {
                                 removeRule(simplificatedSystem, rule2);
                                 addRule(simplificatedSystem, rulesComp.get(0));
                             } else {
-                                Rule newRule = SimplificationLogic.simplificationEquivalency(rule1, rule2).get(1);
+                                Rule newRule = SimplificationLogic.rightSimplificationEq(rule1, rule2).get(1);
                                 if(!newRule.getConclusion().isEmpty()) {
                                     replaceRule(simplificatedSystem, rule2, newRule);
                                 } else {
@@ -278,7 +292,7 @@ public class DirectOptimalBasis extends GenericAlgorithm {
                                 } else if (b.containsAll(d)) {
                                     simplificatedSystem.removeRule(rule2);
                                 } else {
-                                    List<Rule> seq = SimplificationLogic.simplificationEquivalency(rule1, rule2);
+                                    List<Rule> seq = SimplificationLogic.rightSimplificationEq(rule1, rule2);
                                     if(seq.get(1).getConclusion().isEmpty()) {
                                         simplificatedSystem.removeRule(rule2);
                                     } else {
@@ -370,20 +384,27 @@ public class DirectOptimalBasis extends GenericAlgorithm {
         
         if (system != null) {
             optimizedSystem= new ImplicationalSystem();
-            TreeSet conclusion;
+            TreeSet a, b;
             for (Rule ab : system.getRules()) {
-                conclusion = ab.getConclusion();
+                a = ab.getPremise();
+                b = ab.getConclusion();
                 for (Rule cd : system.getRules()) {
-                    if(!ab.equals(cd)) {
-                        if(cd.getPremise().equals(ab.getPremise())) {
-                            conclusion.addAll(cd.getConclusion());
-                        } else if (ab.getPremise().containsAll(cd.getPremise())) {
-                            conclusion = Sets.difference(conclusion, cd.getConclusion());
+                    Rule abAux = new Rule(a, b);
+                    
+                    if(!abAux.equals(cd)) {
+                        if(cd.getPremise().equals(a)) {
+                            b.addAll(cd.getConclusion());
+                            
+                            getLogger().history("({}) + ({}):  C = A ==> B = B U D = {}", abAux, cd, b);
+                        } else if (a.containsAll(cd.getPremise())) {
+                            b = Sets.difference(b, cd.getConclusion());
+                            
+                            getLogger().history("({}) + ({}): C subcjto A ==> B = B-D = {}", abAux, cd, b);
                         }
                     }
                 }
-                if (!conclusion.isEmpty()) {
-                    Rule r = new Rule(ab.getPremise(), conclusion);
+                if (!b.isEmpty()) {
+                    Rule r = new Rule(a, b);
                     optimizedSystem = addRuleAndElements(optimizedSystem, r);
                 }
             }

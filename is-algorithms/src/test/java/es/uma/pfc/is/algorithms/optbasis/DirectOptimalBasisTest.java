@@ -1,11 +1,14 @@
 
 package es.uma.pfc.is.algorithms.optbasis;
 
+import es.uma.pfc.is.algorithms.AlgorithmOptions.Mode;
 import es.uma.pfc.is.algorithms.util.ImplicationalSystems;
 import fr.kbertet.lattice.ImplicationalSystem;
 import fr.kbertet.lattice.Rule;
 import java.io.File;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.nio.charset.Charset;
 import static org.junit.Assert.*;
 import org.junit.Ignore;
 import org.junit.Test;
@@ -64,10 +67,11 @@ public class DirectOptimalBasisTest {
     public void testOptimize_ImplicationalSystem() throws IOException {
         ImplicationalSystem system = getSystemFromFile("test_1_strong_smplified.txt");
         ImplicationalSystem systemExpected = getSystemFromFile("test_1_optimized.txt");
+        DirectOptimalBasis alg = (DirectOptimalBasis) new DirectOptimalBasis().enable(Mode.HISTORY);
         
-        ImplicationalSystem optimizedSystem = new DirectOptimalBasis().optimize(system);
+        ImplicationalSystem optimizedSystem = alg.optimize(system);
         
-        assertTrue(ImplicationalSystems.equals(systemExpected, optimizedSystem));
+        assertTrue("Expected " + systemExpected + " but was " + optimizedSystem , ImplicationalSystems.equals(systemExpected, optimizedSystem));
         
     }
 
@@ -92,9 +96,9 @@ public class DirectOptimalBasisTest {
     public void testSimplify() throws IOException {
         ImplicationalSystem input = getSystemFromFile("test_1_reduced.txt");
         ImplicationalSystem expectedSystem = getSystemFromFile("test_1_simplified.txt");
+        //DirectOptimalBasis alg = (DirectOptimalBasis) new DirectOptimalBasis().enable(Mode.HISTORY);
         
         ImplicationalSystem simplifiedSystem = new DirectOptimalBasis().simplify(input);
-        
         assertTrue(ImplicationalSystems.equals(expectedSystem, simplifiedSystem));
     }
     

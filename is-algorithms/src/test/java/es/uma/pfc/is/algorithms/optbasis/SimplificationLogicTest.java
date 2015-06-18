@@ -195,7 +195,7 @@ public class SimplificationLogicTest {
         rule2.addToConclusion("b");
         rule2.addToConclusion("e");
         
-        List<Rule> rules = SimplificationLogic.simplificationEquivalency(rule1, rule2);
+        List<Rule> rules = SimplificationLogic.rightSimplificationEq(rule1, rule2);
         
         assertNotNull(rules);
         assertEquals(new Integer(2), (Integer) rules.size());
@@ -218,7 +218,7 @@ public class SimplificationLogicTest {
         rule2.addToConclusion("b");
         rule2.addToConclusion("e");
         
-        List<Rule> rules = SimplificationLogic.simplificationEquivalency(rule1, rule2);
+        List<Rule> rules = SimplificationLogic.rightSimplificationEq(rule1, rule2);
         
         assertNotNull(rules);
         assertEquals(new Integer(2), (Integer) rules.size());
@@ -247,7 +247,7 @@ public class SimplificationLogicTest {
         rule2.addToConclusion("b");
         rule2.addToConclusion("e");
         
-        List<Rule> rules = SimplificationLogic.simplificationEquivalency(rule1, rule2);
+        List<Rule> rules = SimplificationLogic.rightSimplificationEq(rule1, rule2);
         
         assertNotNull(rules);
         assertEquals(new Integer(2), (Integer) rules.size());
