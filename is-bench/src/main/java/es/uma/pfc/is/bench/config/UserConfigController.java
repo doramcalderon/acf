@@ -14,6 +14,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import javafx.stage.Window;
 
@@ -40,6 +41,13 @@ public class UserConfigController extends Controller {
         userConfig = UserConfig.get();
         modelToView();
     }    
+
+    @Override
+    public Pane getRootPane() {
+        return wsAnchorPane;
+    }
+    
+    
     
     public void save() {
         viewToModel();
@@ -79,8 +87,5 @@ public class UserConfigController extends Controller {
     protected void handleCancelAction(ActionEvent event) {
         close();
     }
-    
-    protected void close() {
-        ((Stage) this.wsAnchorPane.getScene().getWindow()).close();
-    }
+ 
 }

@@ -9,6 +9,8 @@ package es.uma.pfc.is.bench;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.fxml.Initializable;
+import javafx.scene.layout.Pane;
+import javafx.stage.Stage;
 
 /**
  *
@@ -48,6 +50,23 @@ public abstract class Controller implements Initializable {
             value = bundle.getString(key);
         }
         return value;
+    }
+    /**
+     * Hook method for get the root pane of the view.
+     * @return Root pane of the view. {@code null} if it isn't overrided.
+     */
+    protected Pane getRootPane(){
+        return null;
+    }
+    
+    /**
+     * Close the parent window.
+     */
+    protected void close() {
+        Pane rootPane = getRootPane();
+        if (rootPane != null) {
+            ((Stage) rootPane.getScene().getWindow()).close();
+        }
     }
     
 }

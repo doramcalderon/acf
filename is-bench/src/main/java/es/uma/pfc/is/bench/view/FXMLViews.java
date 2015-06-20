@@ -10,6 +10,10 @@ public interface FXMLViews {
     String ROOT_VIEW = "/fxml/Root.fxml";
     /** Benchmarks view. **/
     String BENCHMARK_VIEW = "/fxml/Benchmarks.fxml";
+    
+    /** Algorithms view. **/
+    String ALGORITHMS_VIEW = "/es/uma/pfc/is/bench/view/algorithms/Algorithms.fxml";
+    
     /** User Preferences view. **/
     String USER_CONFIG_VIEW = "/fxml/UserConfig.fxml";
     /** About view. **/

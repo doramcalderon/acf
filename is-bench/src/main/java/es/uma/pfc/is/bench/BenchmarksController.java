@@ -6,9 +6,6 @@ import es.uma.pfc.is.algorithms.exceptions.AlgorithmException;
 import es.uma.pfc.is.algorithms.optbasis.DirectOptimalBasis;
 import es.uma.pfc.is.bench.config.UserConfig;
 import es.uma.pfc.is.bench.i18n.I18n;
-import es.uma.pfc.is.bench.output.Console;
-import es.uma.pfc.is.bench.output.ConsolePrintStream;
-import es.uma.pfc.is.bench.output.ConsoleTraceFactory;
 import es.uma.pfc.is.bench.tasks.AlgorithmExecService;
 import es.uma.pfc.is.bench.tasks.FileReaderService;
 import es.uma.pfc.is.bench.tasks.StatisticsReaderService;
@@ -22,12 +19,10 @@ import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.concurrent.WorkerStateEvent;
 import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ListView;
-import javafx.scene.control.ProgressBar;
 import javafx.scene.control.ProgressIndicator;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextArea;
@@ -36,7 +31,7 @@ import javafx.scene.layout.BorderPane;
 import javafx.stage.FileChooser;
 import javafx.stage.Window;
 
-public class FXMLController extends Controller {
+public class BenchmarksController extends Controller {
 
     /**
      * Modelo.
@@ -98,6 +93,7 @@ public class FXMLController extends Controller {
 
     }
 
+    
     /**
      * Initialize the view.
      */
@@ -186,7 +182,7 @@ public class FXMLController extends Controller {
             service.restart();
 
         } catch (AlgorithmException ex) {
-            Logger.getLogger(FXMLController.class.getName()).log(Level.SEVERE, ex.getMessage(), ex);
+            Logger.getLogger(BenchmarksController.class.getName()).log(Level.SEVERE, ex.getMessage(), ex);
         }
     }
 

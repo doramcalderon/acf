@@ -8,6 +8,11 @@
    <top>
       <MenuBar BorderPane.alignment="CENTER">
         <menus>
+            <Menu mnemonicParsing="false" text="%menu.file">
+              <items>
+                <MenuItem mnemonicParsing="false" onAction="#handleMenuAlgorithms" text="%menu.algorithms" />
+              </items>
+            </Menu>
           <Menu mnemonicParsing="false" text="%preferences">
                <items>
               <MenuItem fx:id="workspaceMenuItem" mnemonicParsing="false" onAction="#handleWorkspacesAction" text="%workspaces" />
@@ -22,14 +27,14 @@
       </MenuBar>
    </top>
    <center>
-      <TabPane prefHeight="200.0" prefWidth="200.0" tabClosingPolicy="UNAVAILABLE" BorderPane.alignment="CENTER">
+      <TabPane fx:id="rootTabPane" prefHeight="200.0" prefWidth="200.0" tabClosingPolicy="UNAVAILABLE" BorderPane.alignment="CENTER">
         <tabs>
-          <Tab fx:id="benchmarksTab" closable="false" text="%tab.benchmarks">
+          <Tab fx:id="generatorTab" closable="false" text="%tab.generator">
             <content>
               <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
             </content>
           </Tab>
-          <Tab fx:id="generatorTab" closable="false" text="%tab.generator">
+          <Tab fx:id="benchmarksTab" closable="false" text="%tab.benchmarks">
             <content>
               <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
             </content>

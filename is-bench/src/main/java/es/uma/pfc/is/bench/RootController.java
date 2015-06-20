@@ -1,6 +1,7 @@
 package es.uma.pfc.is.bench;
 
 import es.uma.pfc.is.bench.i18n.I18n;
+import es.uma.pfc.is.bench.uitls.Dialogs;
 import es.uma.pfc.is.bench.view.FXMLViews;
 import static es.uma.pfc.is.bench.view.FXMLViews.ABOUT_VIEW;
 import java.io.IOException;
@@ -12,6 +13,7 @@ import java.util.logging.Logger;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Menu;
 import javafx.scene.control.Tab;
@@ -35,6 +37,8 @@ public class RootController extends Controller {
     @FXML
     private BorderPane rootPane;
     
+    @FXML TabPane rootTabPane;
+    
     @FXML
     private Tab generatorTab;
     
@@ -43,19 +47,60 @@ public class RootController extends Controller {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        super.initialize(location, resources);
+        initView(resources);
+    }
+
+    /**
+     * Initialize the view.
+     * @param resources Resource Bundle.
+     */
+    protected void initView(ResourceBundle resources) {
         try {
-            super.initialize(location, resources);
-            Pane benchmarksForm = FXMLLoader.load(ISBenchApp.class.getResource(FXMLViews.BENCHMARK_VIEW), resources);
-            benchmarksTab.setContent(benchmarksForm);
-            
-            Pane generatorForm = FXMLLoader.load(ISBenchApp.class.getResource("/" + es.uma.pfc.implications.generator.view.FXMLViews.IMPLICATIONS_VIEW), 
-                                                 ResourceBundle.getBundle("es.uma.pfc.implications.generator.i18n.labels", Locale.getDefault()));
-            generatorTab.setContent(generatorForm);
+            initializeBenchmarksTab(resources);
+            initializeGeneratorTab(resources);
+            rootTabPane.getSelectionModel().select(benchmarksTab);
         } catch (IOException ex) {
             Logger.getLogger(RootController.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-
+    
+    /**
+     * Initialize the benchmarks tab content.
+     * @param resources ResourceBundle.
+     * @throws IOException 
+     */
+    protected void initializeBenchmarksTab(ResourceBundle resources) throws IOException {
+        Pane benchmarksForm = FXMLLoader.load(ISBenchApp.class.getResource(FXMLViews.BENCHMARK_VIEW), resources);
+        benchmarksTab.setContent(benchmarksForm);
+    }
+    
+    /**
+     * Initialize the generator tab content.
+     * @param resources ResourceBundle.
+     * @throws IOException 
+     */
+    protected void initializeGeneratorTab(ResourceBundle resources) throws IOException {
+        Pane generatorForm = FXMLLoader.load(ISBenchApp.class.getResource("/" + es.uma.pfc.implications.generator.view.FXMLViews.IMPLICATIONS_VIEW), 
+                                                 ResourceBundle.getBundle("es.uma.pfc.implications.generator.i18n.labels", Locale.getDefault()));
+         generatorTab.setContent(generatorForm);
+    }
+    
+    /**
+     * Abre el cuadro de diálogo para el registro de algoritmos.
+     * @param event Action Event.
+     */
+    @FXML
+    public void handleMenuAlgorithms(ActionEvent event) {
+        try {
+            Parent algorithmsPane = FXMLLoader.load(RootController.class.getResource(FXMLViews.ALGORITHMS_VIEW), getBundle());
+            String title = getI18nString(I18n.ALGORITHMS_DIALOG_TITLE);
+            Dialogs.showModalDialog(title, algorithmsPane, rootPane.getScene().getWindow());
+        } catch (IOException ex) {
+            Logger.getLogger(RootController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+    }
     /**
      * Handler of Preferences Menu action event.
      *
@@ -64,16 +109,9 @@ public class RootController extends Controller {
     @FXML
     public void handleWorkspacesAction(ActionEvent event) {
         try {
-            TabPane configView = FXMLLoader.load(ISBenchApp.class.getResource(FXMLViews.USER_CONFIG_VIEW), getBundle());
-            Scene preferencesScene = new Scene(configView);
-
-            Stage preferencesStage = new Stage();
-            preferencesStage.initOwner(rootPane.getScene().getWindow());
-            preferencesStage.initModality(Modality.WINDOW_MODAL);
-            preferencesStage.setTitle(getI18nString(I18n.WORKSPACE_CONFIG_TITLE));
-            preferencesStage.centerOnScreen();
-            preferencesStage.setScene(preferencesScene);
-            preferencesStage.showAndWait();
+            TabPane configView = FXMLLoader.load(RootController.class.getResource(FXMLViews.USER_CONFIG_VIEW), getBundle());
+            String title = getI18nString(I18n.WORKSPACE_CONFIG_TITLE);
+            Dialogs.showModalDialog(title, configView, rootPane.getScene().getWindow());
 
         } catch (IOException ex) {
             Logger.getLogger(RootController.class.getName()).log(Level.SEVERE, null, ex);
