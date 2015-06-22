@@ -13,7 +13,7 @@ import javafx.concurrent.Task;
  * @author Dora Calderón
  */
 public class AlgorithmsSaveService extends Service {
-    private static final String ALG_PROPERTIES_PATH = System.getProperty("user.home") + "\\.isbench\\algorithms.properties";
+    public static final String ALG_PROPERTIES_PATH = System.getProperty("user.home") + "\\.isbench\\algorithms.properties";
     AlgorithmsModel model;
     
 
@@ -21,8 +21,8 @@ public class AlgorithmsSaveService extends Service {
         this.model = model;
     }
 
-    
 
+    
     @Override
     protected Task createTask() {
         return new Task() {

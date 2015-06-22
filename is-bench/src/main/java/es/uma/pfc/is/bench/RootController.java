@@ -94,7 +94,7 @@ public class RootController extends Controller {
     public void handleMenuAlgorithms(ActionEvent event) {
         try {
             Parent algorithmsPane = FXMLLoader.load(RootController.class.getResource(FXMLViews.ALGORITHMS_VIEW), getBundle());
-            String title = getI18nString(I18n.ALGORITHMS_DIALOG_TITLE);
+            String title = getI18nLabel(I18n.ALGORITHMS_DIALOG_TITLE);
             Dialogs.showModalDialog(title, algorithmsPane, rootPane.getScene().getWindow());
         } catch (IOException ex) {
             Logger.getLogger(RootController.class.getName()).log(Level.SEVERE, null, ex);
@@ -110,7 +110,7 @@ public class RootController extends Controller {
     public void handleWorkspacesAction(ActionEvent event) {
         try {
             TabPane configView = FXMLLoader.load(RootController.class.getResource(FXMLViews.USER_CONFIG_VIEW), getBundle());
-            String title = getI18nString(I18n.WORKSPACE_CONFIG_TITLE);
+            String title = getI18nLabel(I18n.WORKSPACE_CONFIG_TITLE);
             Dialogs.showModalDialog(title, configView, rootPane.getScene().getWindow());
 
         } catch (IOException ex) {

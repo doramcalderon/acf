@@ -10,7 +10,10 @@ import es.uma.pfc.is.bench.tasks.AlgorithmExecService;
 import es.uma.pfc.is.bench.tasks.FileReaderService;
 import es.uma.pfc.is.bench.tasks.StatisticsReaderService;
 import es.uma.pfc.is.bench.uitls.Chooser;
+import es.uma.pfc.is.bench.uitls.Dialogs;
+import es.uma.pfc.is.bench.view.FXMLViews;
 import java.io.File;
+import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
@@ -20,6 +23,8 @@ import javafx.beans.value.ObservableValue;
 import javafx.concurrent.WorkerStateEvent;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ListView;
@@ -157,6 +162,16 @@ public class BenchmarksController extends Controller {
         model.getSelectedAlgorithm().enable(mode);
     }
 
+    @FXML
+    public void handleAddAlgAction(ActionEvent event) {
+        try {
+            Parent algorithmsPane = FXMLLoader.load(RootController.class.getResource(FXMLViews.ALGORITHMS_VIEW), getBundle());
+            String title = getI18nLabel(I18n.ALGORITHMS_DIALOG_TITLE);
+            Dialogs.showModalDialog(title, algorithmsPane, rootPane.getScene().getWindow());
+        } catch (IOException ex) {
+            Logger.getLogger(RootController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
     /**
      * Manejador del evento ActionEvent del botón <i>Run</i>.<br/>
      * Ejecuta el algoritmo seleccionado.
@@ -231,9 +246,9 @@ public class BenchmarksController extends Controller {
     public void handleSelectInputAction(ActionEvent event) {
         Window mainStage = rootPane.getScene().getWindow();
         File selectedFile = Chooser.openFileChooser(mainStage, Chooser.FileChooserMode.OPEN,
-                getI18nString(I18n.SELECT_INPUT_DIALOG_TITLE), UserConfig.get().getDefaultInputDir(),
-                new FileChooser.ExtensionFilter(getI18nString(I18n.TEXT_FILE), "*.txt"),
-                new FileChooser.ExtensionFilter(getI18nString(I18n.PROLOG_FILE), "*.pl"));
+                getI18nLabel(I18n.SELECT_INPUT_DIALOG_TITLE), UserConfig.get().getDefaultInputDir(),
+                new FileChooser.ExtensionFilter(getI18nLabel(I18n.TEXT_FILE), "*.txt"),
+                new FileChooser.ExtensionFilter(getI18nLabel(I18n.PROLOG_FILE), "*.pl"));
         if (selectedFile != null) {
             txtInput.setText(selectedFile.getPath());
         }
@@ -250,9 +265,9 @@ public class BenchmarksController extends Controller {
         Window mainStage = rootPane.getScene().getWindow();
 
         File selectedFile = Chooser.openFileChooser(mainStage, Chooser.FileChooserMode.OPEN,
-                getI18nString(I18n.SELECT_OUTPUT_DIALOG_TITLE), UserConfig.get().getDefaultOutputDir(),
-                new FileChooser.ExtensionFilter(getI18nString(I18n.TEXT_FILE), "*.txt"),
-                new FileChooser.ExtensionFilter(getI18nString(I18n.PROLOG_FILE), "*.pl"));
+                getI18nLabel(I18n.SELECT_OUTPUT_DIALOG_TITLE), UserConfig.get().getDefaultOutputDir(),
+                new FileChooser.ExtensionFilter(getI18nLabel(I18n.TEXT_FILE), "*.txt"),
+                new FileChooser.ExtensionFilter(getI18nLabel(I18n.PROLOG_FILE), "*.pl"));
         if (selectedFile != null) {
             txtOutput.setText(selectedFile.getPath());
         }

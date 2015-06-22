@@ -22,7 +22,7 @@ public class ControllerTest {
     
 
     /**
-     * Test of getI18nString method, of class Controller.
+     * Test of getI18nLabel method, of class Controller.
      */
     @Test
     public void testGetI18nString() {
@@ -30,7 +30,7 @@ public class ControllerTest {
         c.setBundle(ResourceBundle.getBundle("messages"));
         String key = "title";
         
-        String title = c.getI18nString(key);
+        String title = c.getI18nLabel(key);
         assertEquals("Title", title);
     }
     @Test
@@ -39,7 +39,7 @@ public class ControllerTest {
         c.setBundle(ResourceBundle.getBundle("messages"));
         String key = "window";
         
-        String value = c.getI18nString(key);
+        String value = c.getI18nLabel(key);
         assertEquals(key, value);
     }
 

@@ -7,6 +7,9 @@ package es.uma.pfc.is.bench.uitls;
 
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.ButtonType;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.Window;
@@ -29,4 +32,16 @@ public class Dialogs {
         preferencesStage.setScene(preferencesScene);
         preferencesStage.showAndWait();
     }
-}
+
+      public static Alert createAlert(AlertType type, Window parent) {
+        Alert alert = new Alert(type, "");
+        alert.initModality(Modality.APPLICATION_MODAL);
+        alert.initOwner(parent);
+        alert.getDialogPane().setContentText(type + " text.");
+        alert.getDialogPane().setHeaderText(null);
+        alert.showAndWait()
+            .filter(response -> response == ButtonType.OK)
+            .ifPresent(response -> System.out.println("The alert was approved"));
+        return alert;
+    }
+    }

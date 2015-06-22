@@ -70,7 +70,7 @@ public class UserConfigController extends Controller {
     protected void handleSelectWorkspace(ActionEvent event) {
         Window mainStage = wsAnchorPane.getScene().getWindow();
         
-        File selectedDir = Chooser.openDirectoryChooser(mainStage, getI18nString(I18n.SELECT_WORKSPACE_DIALOG_TITLE), 
+        File selectedDir = Chooser.openDirectoryChooser(mainStage, getI18nLabel(I18n.SELECT_WORKSPACE_DIALOG_TITLE), 
                                                         new File(userConfig.getDefaultWorkspace()));
         if(selectedDir != null) {
             txtDefaultWorkspace.setText(selectedDir.getPath());
