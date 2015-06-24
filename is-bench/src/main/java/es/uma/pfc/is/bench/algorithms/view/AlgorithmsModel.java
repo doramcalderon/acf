@@ -1,10 +1,12 @@
 
 
-package es.uma.pfc.is.bench.algorithms;
+package es.uma.pfc.is.bench.algorithms.view;
 
+import es.uma.pfc.is.commons.strings.StringUtils;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javafx.beans.property.StringPropertyBase;
+import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  * Model form Algorithms view.
@@ -54,6 +56,14 @@ public class AlgorithmsModel {
      */
     public void setName(String name) {
         this.name.set(name);
+        if (!StringUtils.isEmpty(name) 
+                && ((this.shortName == null) || (this.shortName.isEmpty().get()))) {
+            if(name.length() < 2) {
+                shortName.setValue(name);
+            } else {
+                shortName.setValue(name.substring(0, 1));
+            }
+        }
     }
 
     

@@ -68,5 +68,19 @@ public class UserConfigTest {
     @Test
     public void testGetProperty() {
     }
+
+    
+    /**
+     * Test of getAlgorithmsFile method, of class UserConfig.
+     */
+    @Test
+    public void testGetAlgorithmsFile() {
+        UserConfig.get().setProperty(UserConfig.DEFAULT_WORKSPACE_PROPERTY, System.getProperty("user.dir") + "/src/test/resources");
+        File algorithms = UserConfig.get().getAlgorithmsFile();
+        
+        assertNotNull(algorithms);
+        assertEquals("algorithms.xml", algorithms.getName());
+    }
+
     
 }

@@ -1,16 +1,12 @@
-
-package es.uma.pfc.is.bench.algorithms;
+package es.uma.pfc.is.bench.algorithms.view;
 
 import es.uma.pfc.is.bench.Controller;
+import es.uma.pfc.is.bench.algorithms.business.AlgorithmsBean;
 import es.uma.pfc.is.bench.i18n.BenchMessages;
 import es.uma.pfc.is.bench.tasks.AlgorithmsSaveService;
-import es.uma.pfc.is.bench.uitls.Dialogs;
 import es.uma.pfc.is.bench.validators.ClassNameValidator;
 import es.uma.pfc.is.bench.validators.EmptyStringValidator;
-import es.uma.pfc.is.commons.persistence.PropertiesPersistence;
-import java.io.IOException;
 import java.net.URL;
-import java.util.Properties;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
@@ -30,7 +26,8 @@ import org.controlsfx.validation.ValidationSupport;
  *
  * @author Dora Calderón
  */
-public class AlgorithmsController extends Controller  {
+public class AlgorithmsController extends Controller {
+
     @FXML
     private GridPane gridPane;
     @FXML
@@ -44,12 +41,16 @@ public class AlgorithmsController extends Controller  {
     @FXML
     private Button btnClassesSearch;
 
-    private AlgorithmsModel model;
     ValidationSupport support;
-    
+    private AlgorithmsModel model;
+    /**
+     * Algorithms business logic.
+     */
+    private AlgorithmsBean algorithmsBean;
 
     /**
      * Initializes the controller class.
+     *
      * @param url URL.
      * @param rb Resource bundle.
      */
@@ -59,22 +60,26 @@ public class AlgorithmsController extends Controller  {
         initView();
         initModel();
         initBindings();
-        
-    }    
+
+        algorithmsBean = new AlgorithmsBean();
+
+    }
+
     /**
      * View initialization.
      */
     protected void initView() {
         support = new ValidationSupport();
-       
+
     }
+
     /**
      * Initialize the model.
      */
     protected void initModel() {
         model = new AlgorithmsModel();
     }
-    
+
     /**
      * Initialize the bindings.
      */
@@ -82,66 +87,66 @@ public class AlgorithmsController extends Controller  {
         txtAlgName.textProperty().bindBidirectional(model.getNameProperty());
         txtAlgShortName.textProperty().bindBidirectional(model.getShortNameProperty());
         txtAlgClass.textProperty().bindBidirectional(model.getClassNameProperty());
-        
+
         EmptyStringValidator emptyStringValidator = new EmptyStringValidator();
-        
+
         support.registerValidator(txtAlgName, emptyStringValidator);
         support.registerValidator(txtAlgShortName, emptyStringValidator);
         support.registerValidator(txtAlgClass, new ClassNameValidator());
     }
-    
-    
-    
+
     @Override
     public Pane getRootPane() {
         return gridPane;
     }
-    
+
     /**
      * Perform form validations.
+     *
      * @return {@code true} if validation is succeeded, {@code false} otherwise.
      */
     protected boolean validate() {
         boolean valid = !support.isInvalid();
-        if(!valid) {
+        if (!valid) {
             lbErrorMessages.setText(getI18nMessage(BenchMessages.EMPTY_VALUES));
         } else {
-            try {
-                Properties values = PropertiesPersistence.load(AlgorithmsSaveService.ALG_PROPERTIES_PATH);
+            boolean existsName = algorithmsBean.existsName(model.getName());
+            boolean existsShortName = algorithmsBean.existsShortName(model.getShortName());
+            
+            if (existsName || existsShortName) {
+                String attribute = (existsName) ? getI18nMessage(BenchMessages.ALGORITHM_NAME) 
+                                                :  getI18nMessage(BenchMessages.ALGORITHM_SHORT_NAME);
                 
-                if(values.containsKey(model.getShortName()+".name")) {
-                    Alert a = new Alert(Alert.AlertType.CONFIRMATION, getI18nMessage(BenchMessages.ALGORITHM_EXISTS));
-                    valid = a.showAndWait().filter(response -> response.equals(ButtonType.OK)).isPresent();
+                Alert a = new Alert(Alert.AlertType.CONFIRMATION, getI18nMessage(BenchMessages.ALGORITHM_EXISTS, attribute));
+                valid = a.showAndWait().filter(response -> response.equals(ButtonType.OK)).isPresent();
 
-                }
-            } catch (IOException ex) {
-                ex.printStackTrace();
             }
         }
         return valid;
     }
-    
+
     /**
      * Show the Classes search.
+     *
      * @param action Action Event.
      */
     @FXML
     public void handleClassesSearch(ActionEvent action) {
-        
+
     }
-    
+
     @FXML
     public void handleCancelAction(ActionEvent action) {
         close();
     }
-    
+
     @FXML
     public void handleSaveAction(ActionEvent action) {
         save();
     }
-    
+
     protected void save() {
-        if(validate()) {
+        if (validate()) {
             AlgorithmsSaveService saveService = new AlgorithmsSaveService(model);
             saveService.setOnSucceeded(new EventHandler() {
 
@@ -153,5 +158,5 @@ public class AlgorithmsController extends Controller  {
             saveService.restart();
         }
     }
-   
+
 }

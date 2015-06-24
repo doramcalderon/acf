@@ -23,6 +23,14 @@ public class BenchMessages extends Messages {
      * Algorithm exists validation message.
      */
     public static final String ALGORITHM_EXISTS = "msg.algorithm.exists";
+    /**
+     * Algorithm name attribute.
+     */
+    public static final String ALGORITHM_NAME = "msg.algorithm.name";
+    /**
+     * Algorithm short name attribute.
+     */
+    public static final String ALGORITHM_SHORT_NAME = "msg.algorithm.shortname";
             
             
 /**

@@ -1,46 +1,54 @@
-
 package es.uma.pfc.is.bench.tasks;
 
-import es.uma.pfc.is.bench.algorithms.AlgorithmsModel;
-import es.uma.pfc.is.commons.persistence.PropertiesPersistence;
-import java.util.Properties;
+import es.uma.pfc.is.algorithms.Algorithm;
+import es.uma.pfc.is.bench.algorithms.business.AlgorithmsBean;
+import es.uma.pfc.is.bench.algorithms.business.AlgorithmsPersistence;
+import es.uma.pfc.is.bench.algorithms.view.AlgorithmsModel;
+import es.uma.pfc.is.bench.algorithms.domain.AlgorithmEntity;
+import es.uma.pfc.is.bench.algorithms.domain.Algorithms;
+import es.uma.pfc.is.bench.config.UserConfig;
+import java.io.File;
 import javafx.concurrent.Service;
 import javafx.concurrent.Task;
+import javax.xml.bind.JAXB;
 
 /**
  *
- * @since 
- * @author Dora Calderón
+ *@author Dora Calderón
  */
 public class AlgorithmsSaveService extends Service {
-    public static final String ALG_PROPERTIES_PATH = System.getProperty("user.home") + "\\.isbench\\algorithms.properties";
+    /**
+     * Model.
+     */
     AlgorithmsModel model;
-    
+    AlgorithmsBean algorithmsBean;
 
+    /**
+     * Constructor.
+     * @param model Model. 
+     */
     public AlgorithmsSaveService(AlgorithmsModel model) {
         this.model = model;
+        algorithmsBean = new AlgorithmsBean();
     }
 
-
-    
     @Override
     protected Task createTask() {
         return new Task() {
 
-            
             @Override
             protected Object call() throws Exception {
-                Properties values = PropertiesPersistence.load(ALG_PROPERTIES_PATH);
-                System.out.println("Values: " + values);
                 
-                String prefix = model.getShortName() + ".";
-                values.setProperty(prefix + "name", model.getName());
-                values.setProperty(prefix + "short", model.getShortName());
-                values.setProperty(prefix + "class", model.getClassName());
-                PropertiesPersistence.save(ALG_PROPERTIES_PATH, values);
+                AlgorithmEntity entity = new AlgorithmEntity();
+                entity.setName(model.getName());
+                entity.setShortName(model.getShortName());
+                entity.setType((Class<? extends Algorithm>) Class.forName(model.getClassName()));
+                
+                algorithmsBean.insert(entity);
+                
                 return null;
             }
-            
+
         };
     }
 

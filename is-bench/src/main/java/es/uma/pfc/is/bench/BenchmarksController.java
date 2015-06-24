@@ -4,9 +4,11 @@ import es.uma.pfc.is.algorithms.Algorithm;
 import es.uma.pfc.is.algorithms.AlgorithmOptions.Mode;
 import es.uma.pfc.is.algorithms.exceptions.AlgorithmException;
 import es.uma.pfc.is.algorithms.optbasis.DirectOptimalBasis;
+import es.uma.pfc.is.bench.algorithms.domain.AlgorithmEntity;
 import es.uma.pfc.is.bench.config.UserConfig;
 import es.uma.pfc.is.bench.i18n.I18n;
 import es.uma.pfc.is.bench.tasks.AlgorithmExecService;
+import es.uma.pfc.is.bench.tasks.AlgorithmsLoadService;
 import es.uma.pfc.is.bench.tasks.FileReaderService;
 import es.uma.pfc.is.bench.tasks.StatisticsReaderService;
 import es.uma.pfc.is.bench.uitls.Chooser;
@@ -15,6 +17,7 @@ import es.uma.pfc.is.bench.view.FXMLViews;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
+import java.util.List;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -22,6 +25,7 @@ import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.concurrent.WorkerStateEvent;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -123,7 +127,13 @@ public class BenchmarksController extends Controller {
      */
     protected void initModel() {
         model = new BenchModel();
-        model.addAlgorithm(new DirectOptimalBasis());
+        
+        AlgorithmsLoadService loadService = new AlgorithmsLoadService();
+        loadService.setOnSucceeded((WorkerStateEvent event) -> 
+            {model.setAlgorithms((List<Algorithm>) event.getSource().getValue());});
+        loadService.restart();
+        
+        
 
     }
 
@@ -152,7 +162,7 @@ public class BenchmarksController extends Controller {
         model.setInput(txtInput.getText());
         model.setOutput(txtOutput.getText());
     }
-
+    
     /**
      * Añade al modelo la activación de un modo de ejecución.
      *

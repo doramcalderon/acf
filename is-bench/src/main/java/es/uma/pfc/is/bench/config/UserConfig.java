@@ -2,6 +2,8 @@
 
 package es.uma.pfc.is.bench.config;
 
+import es.uma.pfc.is.bench.algorithms.business.AlgorithmsBean;
+import es.uma.pfc.is.bench.algorithms.domain.Algorithms;
 import es.uma.pfc.is.bench.exception.ConfigurationException;
 import es.uma.pfc.is.bench.uitls.FileUtils;
 import java.io.File;
@@ -9,10 +11,9 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.nio.file.Files;
+import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Properties;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  * Configuración de usuario.
@@ -37,7 +38,10 @@ public class UserConfig implements UserConfigProperties {
      * Directorio de salidas por defecto dentro del workspace.
      */
     public static final String DEFAULT_OUTPUT_PATH =  "output";
-    
+    /**
+     * File that contains the algorithms to load.
+     */
+    public static final String ALGORITHMS_FILE = "algorithms.xml";
     
     /**
      * Instancia única.
@@ -135,6 +139,21 @@ public class UserConfig implements UserConfigProperties {
         }
         return new File(outputDir);
     }
+    
+    /**
+     * Return the properties with the algorithms to load.
+     * @return Properties.{@code null} if {@link #ALGORITHMS_FILE} doesn't exist.
+     */
+    public File getAlgorithmsFile() {
+        String filePath = getDefaultWorkspace() + File.separator + ALGORITHMS_FILE;
+        Path path = Paths.get(filePath);
+        if(!Files.exists(path)) {
+                new AlgorithmsBean().create(new Algorithms());
+        }
+        return path.toFile();
+    }
+    
+    
     /**
      * Establece el valor de una propiedad en la configuración.
      * @param key Nombre.

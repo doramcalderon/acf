@@ -41,4 +41,18 @@ public class StringUtils {
         return messageReplaced;
     }
     
+    /**
+     * Returns a string whose value is this string, with any leading and trailing whitespace removed.
+     * @see java.lang.String#trim() 
+     * @param str String.
+     * @return String without spaces. {@code null} if original string is null.
+     */
+    public static String trim(String str) {
+        String strTrimmed = new String(str);
+        if(!isEmpty(str)) {
+            strTrimmed = str.trim();
+        }
+        return strTrimmed;
+    }
+    
 }

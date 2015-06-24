@@ -12,7 +12,7 @@ public interface FXMLViews {
     String BENCHMARK_VIEW = "/fxml/Benchmarks.fxml";
     
     /** Algorithms view. **/
-    String ALGORITHMS_VIEW = "/es/uma/pfc/is/bench/view/algorithms/Algorithms.fxml";
+    String ALGORITHMS_VIEW = "/es/uma/pfc/is/bench/algorithms/view/Algorithms.fxml";
     
     /** User Preferences view. **/
     String USER_CONFIG_VIEW = "/fxml/UserConfig.fxml";
