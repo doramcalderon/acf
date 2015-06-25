@@ -2,7 +2,7 @@
 package es.uma.pfc.is.bench.config;
 
 import static es.uma.pfc.is.bench.config.UserConfig.CONFIG_PATH;
-import es.uma.pfc.is.bench.uitls.FileUtils;
+import es.uma.pfc.is.commons.files.FileUtils;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;

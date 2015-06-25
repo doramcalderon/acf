@@ -3,12 +3,13 @@ package es.uma.pfc.is.bench;
 
 import es.uma.pfc.is.algorithms.Algorithm;
 import es.uma.pfc.is.algorithms.AlgorithmOptions.Mode;
-import es.uma.pfc.is.bench.algorithms.domain.AlgorithmEntity;
 import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import javafx.beans.property.SimpleListProperty;
+import javafx.collections.FXCollections;
 
 /**
  *  Modelo de la pantalla principal.

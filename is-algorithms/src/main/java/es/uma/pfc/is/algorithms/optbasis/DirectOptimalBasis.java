@@ -18,12 +18,11 @@ import java.util.TreeSet;
  *@author Dora Calderón
  */
 public class DirectOptimalBasis extends GenericAlgorithm {
- 
 
-    @Override
-    public String getName() {
-        return "Direct Optimal Basis";
+    public DirectOptimalBasis() {
+        setName("Direct Optimal Basis");
     }
+ 
 
     
     @Override

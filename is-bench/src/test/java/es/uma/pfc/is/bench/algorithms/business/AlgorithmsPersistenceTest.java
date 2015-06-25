@@ -8,12 +8,12 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import javax.xml.bind.JAXB;
+import org.junit.After;
 import org.junit.AfterClass;
 import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.fail;
-import org.junit.BeforeClass;
-import org.junit.Ignore;
+import org.junit.Before;
 import org.junit.Test;
 
 /**
@@ -22,24 +22,31 @@ import org.junit.Test;
  */
 public class AlgorithmsPersistenceTest {
 
-    private static final String testWorkspace = System.getProperty("user.dir") + "/src/test/resources";
-    private static final String algorithmsFile = testWorkspace + "/algorithms.xml";
-    private static final String initConfig = UserConfig.get().getDefaultWorkspace();
+    private final String testWorkspace;
+    private static String algorithmsFile;
+    private final String initConfig;
     private static AlgorithmsPersistence persistence;
     
     public AlgorithmsPersistenceTest() {
-        UserConfig.get().setDefaultWorkspace(testWorkspace);
         persistence = AlgorithmsPersistence.get();
+        testWorkspace = System.getProperty("user.dir") + "/src/test/resources";
+        algorithmsFile = testWorkspace + "/algorithms.xml";
+        initConfig = UserConfig.get().getDefaultWorkspace();
     }
 
-    @BeforeClass
-    public static void setUp() {
+    @Before
+    public void setUp() {
+        UserConfig.get().setDefaultWorkspace(testWorkspace);
     }
 
-    @AfterClass
-    public static void tearDown() throws IOException {
-        Files.deleteIfExists(Paths.get(algorithmsFile));
+    @After
+    public void tearDown() throws IOException {
         UserConfig.get().setDefaultWorkspace(initConfig);
+        Files.deleteIfExists(Paths.get(algorithmsFile));
+    }
+    
+    @AfterClass
+    public static void finish() throws IOException {
     }
 
     /**

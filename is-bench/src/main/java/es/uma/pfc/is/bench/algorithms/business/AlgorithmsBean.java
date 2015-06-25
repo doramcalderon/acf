@@ -5,6 +5,7 @@ package es.uma.pfc.is.bench.algorithms.business;
 import es.uma.pfc.is.bench.algorithms.domain.AlgorithmEntity;
 import es.uma.pfc.is.bench.algorithms.domain.Algorithms;
 import es.uma.pfc.is.commons.strings.StringUtils;
+import java.util.List;
 
 /**
  * Business logic for insert, modify and delete algorithms.
@@ -17,6 +18,18 @@ public class AlgorithmsBean {
         persistence = AlgorithmsPersistence.get();
     }
     
+    /**
+     * Return the algorithms defined in the algorithms file.
+     * @return Algorithm Entities list.
+     */
+    public List<AlgorithmEntity> getAlgorithms() {
+        List<AlgorithmEntity> algorithms = null;
+        Algorithms algs = persistence.getAlgorithms();
+        if(algs != null) {
+            algorithms = algs.getAlgorithms();
+        }
+        return algorithms;
+    }
     
     public void create(Algorithms algorithms) {
         persistence.create(algorithms);

@@ -1,4 +1,4 @@
-package es.uma.pfc.is.bench.uitls;
+package es.uma.pfc.is.commons.files;
 
 import java.io.File;
 import java.io.IOException;
@@ -17,17 +17,17 @@ public class FileUtils {
      * @throws IOException 
      */
     public static File createIfNoExists(String path) throws IOException {
-        File configFile = null;
+        File file = null;
         
         if(path != null && !path.isEmpty()) {
-            configFile = new File(path);
-            if (!configFile.exists()) {
-                configFile.getParentFile().mkdirs();
-                configFile.createNewFile();
+            file = new File(path);
+            if (!file.exists()) {
+                file.getParentFile().mkdirs();
+                file.createNewFile();
             }
             
         }
-        return configFile;
+        return file;
     }
 
     /**

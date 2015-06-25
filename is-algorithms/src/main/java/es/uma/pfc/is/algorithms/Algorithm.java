@@ -63,13 +63,7 @@ public interface Algorithm <I, O> {
      * @return Algoritmo con una salida añadida.
      */
     public Algorithm traceOutput(Mode mode, OutputStream outputStream);
-//    /**
-//     * Add a collection of targets where print the result.
-//     * @param mode Mode.
-//     * @param outputs Outputs.
-//     * @return Algorithm with n traceOutputs added.
-//     */
-//    public Algorithm traceOutputs(Mode mode, Collection<OutputStream> outputs);
+
     public Algorithm traceOutputs(Map<Mode, List<PrintStream>> outputs);
     
     public Algorithm output(String file);
@@ -101,5 +95,10 @@ public interface Algorithm <I, O> {
      * @return Nombre. 
      */
     public String getName();
+    /**
+     * Set the name.
+     * @return Name. 
+     */
+    public void setName(String name);
 
 }

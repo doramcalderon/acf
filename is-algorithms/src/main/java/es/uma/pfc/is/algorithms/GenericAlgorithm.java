@@ -30,6 +30,7 @@ public abstract class GenericAlgorithm implements Algorithm<String, Implicationa
     private AlgorithmLogger logger;
     private AlgorithmOptions options;
     
+    private String name;
     private String input;
     private Map<Mode, List < PrintStream >> traceOutputs;
     protected AlgMessages messages;
@@ -37,6 +38,7 @@ public abstract class GenericAlgorithm implements Algorithm<String, Implicationa
     public GenericAlgorithm() {
         traceOutputs = new HashMap();
         options = new AlgorithmOptions();
+        name = getClass().getName();
         logger = new AlgorithmLogger(getName(), options);
         messages = AlgMessages.get();
     }
@@ -175,6 +177,24 @@ public abstract class GenericAlgorithm implements Algorithm<String, Implicationa
     protected AlgorithmLogger getLogger() {
         return logger;
     }
+
+    /**
+     * @return the name
+     */
+    @Override
+    public String getName() {
+        return name;
+    }
+
+    /**
+     * @param name the name to set
+     */
+    @Override
+    public final void setName(String name) {
+        this.name = name;
+    }
+
+    
     
 /**
      * For testing usage.

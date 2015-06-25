@@ -1,11 +1,11 @@
 package es.uma.pfc.is.bench.algorithms.business;
 
-import es.uma.pfc.is.algorithms.Algorithm;
 import es.uma.pfc.is.bench.algorithms.domain.AlgorithmEntity;
 import es.uma.pfc.is.bench.algorithms.domain.Algorithms;
 import es.uma.pfc.is.bench.config.UserConfig;
-import es.uma.pfc.is.commons.strings.StringUtils;
+import es.uma.pfc.is.commons.files.FileUtils;
 import java.io.File;
+import java.io.IOException;
 import javax.xml.bind.JAXB;
 
 /**
@@ -14,10 +14,6 @@ import javax.xml.bind.JAXB;
  * @author Dora Calderón
  */
 public class AlgorithmsPersistence {
-       /**
-     * File that contains the algorithms to load.
-     */
-    public String algorithmsFile;
     
 
     /**
@@ -29,7 +25,6 @@ public class AlgorithmsPersistence {
      * Constructor.
      */
     private AlgorithmsPersistence() {
-        algorithmsFile =  UserConfig.get().getDefaultWorkspace() + File.separator + "algorithms.xml";
     }
 
     /**
@@ -50,19 +45,21 @@ public class AlgorithmsPersistence {
      * Initialize the algorithms file with {@code algorithms} param.
      *
      * @param algorithms Algorithms.
-     * @param algorithmsFile Algorithms file.
      */
     public void create(Algorithms algorithms) {
-        System.out.println("create: " + algorithmsFile);
         if (algorithms == null) {
             throw new IllegalArgumentException("algorithms argument can't be null.");
         }
-        if (StringUtils.isEmpty(algorithmsFile)) {
-            throw new IllegalArgumentException("algorithmsFile argument can't be empty.");
+       
+        String algorithmsFile =  UserConfig.get().getDefaultWorkspace() + File.separator + "algorithms.xml";
+        try {
+            FileUtils.createIfNoExists(algorithmsFile);
+        } catch (IOException ex) {
+            throw new RuntimeException("Error creating algorithms file.", ex);
         }
-
         JAXB.marshal(algorithms, algorithmsFile);
     }
+   
 
     /**
      * Add the algorithms of {@code algorithms} param to algorithms file.

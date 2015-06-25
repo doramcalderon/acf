@@ -38,8 +38,6 @@ public class AlgorithmsController extends Controller {
     private TextField txtAlgClass;
     @FXML
     private Label lbErrorMessages;
-    @FXML
-    private Button btnClassesSearch;
 
     ValidationSupport support;
     private AlgorithmsModel model;

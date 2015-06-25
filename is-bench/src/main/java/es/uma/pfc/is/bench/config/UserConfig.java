@@ -5,7 +5,7 @@ package es.uma.pfc.is.bench.config;
 import es.uma.pfc.is.bench.algorithms.business.AlgorithmsBean;
 import es.uma.pfc.is.bench.algorithms.domain.Algorithms;
 import es.uma.pfc.is.bench.exception.ConfigurationException;
-import es.uma.pfc.is.bench.uitls.FileUtils;
+import es.uma.pfc.is.commons.files.FileUtils;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
