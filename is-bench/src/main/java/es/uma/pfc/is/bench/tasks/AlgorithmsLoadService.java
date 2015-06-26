@@ -1,11 +1,14 @@
 
 package es.uma.pfc.is.bench.tasks;
 
+
 import es.uma.pfc.is.algorithms.Algorithm;
+import es.uma.pfc.is.bench.ChangesManager;
 import es.uma.pfc.is.bench.algorithms.business.AlgorithmsBean;
 import es.uma.pfc.is.bench.algorithms.domain.AlgorithmEntity;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Logger;
 import javafx.concurrent.Service;
 import javafx.concurrent.Task;
 
@@ -46,7 +49,6 @@ public class AlgorithmsLoadService extends Service<List<Algorithm>>{
                                 
                             }
                         }
-
                 }
                 return algorithms;
             }
@@ -54,5 +56,13 @@ public class AlgorithmsLoadService extends Service<List<Algorithm>>{
         };
     }
 
+    
+    @Override
+    protected void failed() {
+        Logger.getLogger(getClass().getName()).severe(getException().getMessage());
+        getException().printStackTrace();
+    }
+
+    
   
 }

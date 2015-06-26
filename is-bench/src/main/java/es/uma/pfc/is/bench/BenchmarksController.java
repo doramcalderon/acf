@@ -117,6 +117,13 @@ public class BenchmarksController extends Controller {
      * Crea los listeners necesarios.
      */
     protected void initListeners() {
+        ChangesManager.get().getAlgorithmsChanges().addListener(new ChangeListener() {
+
+            @Override
+            public void changed(ObservableValue observable, Object oldValue, Object newValue) {
+                reload();
+            }
+        });
         algorithmsList.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Algorithm>() {
 
             @Override
@@ -144,7 +151,7 @@ public class BenchmarksController extends Controller {
      * Actualiza la vista con los valores del modelo.
      */
     protected void modelToView() {
-        algorithmsList.getItems().addAll(model.getAlgorithms());
+        algorithmsList.getItems().setAll(model.getAlgorithms());
     }
 
     /**
@@ -164,6 +171,12 @@ public class BenchmarksController extends Controller {
 
         model.setInput(txtInput.getText());
         model.setOutput(txtOutput.getText());
+    }
+    
+    protected void reload() {
+        initModel();
+        modelToView();
+        ChangesManager.get().setAlgorithmsChanges(Boolean.FALSE);
     }
     
     /**

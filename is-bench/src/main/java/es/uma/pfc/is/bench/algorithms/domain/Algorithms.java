@@ -6,6 +6,8 @@
 
 package es.uma.pfc.is.bench.algorithms.domain;
 
+import java.beans.PropertyChangeListener;
+import java.beans.PropertyChangeSupport;
 import java.util.ArrayList;
 import java.util.List;
 import javax.xml.bind.annotation.XmlElement;
@@ -25,16 +27,13 @@ public class Algorithms {
         algorithms = new ArrayList();
     }
     
-    
+        
 
     @XmlElements({@XmlElement(name="algorithm")})
     public List<AlgorithmEntity> getAlgorithms() {
         return algorithms;
     }
 
-    public void setAlgorithms(List<AlgorithmEntity> algorithms) {
-        this.algorithms = algorithms;
-    }
     
     public void add(AlgorithmEntity algEntity) {
         algorithms.add(algEntity);
@@ -44,4 +43,4 @@ public class Algorithms {
             this.algorithms.addAll(algorithms.getAlgorithms());
         }
     }
-}
+    }

@@ -106,7 +106,9 @@ public class AlgorithmsController extends Controller {
     protected boolean validate() {
         boolean valid = !support.isInvalid();
         if (!valid) {
-            lbErrorMessages.setText(getI18nMessage(BenchMessages.EMPTY_VALUES));
+            StringBuilder sb = new StringBuilder();
+            support.getValidationResult().getMessages().stream().forEach(msg -> sb.append(msg.getText()).append("\n"));
+            lbErrorMessages.setText(sb.toString());
         } else {
             boolean existsName = algorithmsBean.existsName(model.getName());
             boolean existsShortName = algorithmsBean.existsShortName(model.getShortName());

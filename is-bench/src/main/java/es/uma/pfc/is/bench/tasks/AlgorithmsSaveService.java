@@ -1,6 +1,7 @@
 package es.uma.pfc.is.bench.tasks;
 
 import es.uma.pfc.is.algorithms.Algorithm;
+import es.uma.pfc.is.bench.ChangesManager;
 import es.uma.pfc.is.bench.algorithms.business.AlgorithmsBean;
 import es.uma.pfc.is.bench.algorithms.business.AlgorithmsPersistence;
 import es.uma.pfc.is.bench.algorithms.view.AlgorithmsModel;
@@ -52,4 +53,9 @@ public class AlgorithmsSaveService extends Service {
         };
     }
 
+    @Override
+    protected void succeeded() {
+        ChangesManager.get().setAlgorithmsChanges(Boolean.TRUE);
+    }
+    
 }
