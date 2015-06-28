@@ -7,6 +7,7 @@
 package es.uma.pfc.is.bench;
 
 import es.uma.pfc.is.bench.i18n.BenchMessages;
+import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.fxml.Initializable;
@@ -85,4 +86,12 @@ public abstract class Controller implements Initializable {
         }
     }
     
+    protected void initView() throws IOException {};
+    protected void initBinding(){};
+    protected void initModel(){};
+    /**
+     * Update the view with the model values.
+     */
+    protected void modelToView(){};
+    protected void initListeners(){};
 }

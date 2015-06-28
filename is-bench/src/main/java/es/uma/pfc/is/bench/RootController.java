@@ -1,5 +1,6 @@
 package es.uma.pfc.is.bench;
 
+import es.uma.pfc.is.bench.benchmarks.ActionsManager;
 import es.uma.pfc.is.bench.i18n.I18n;
 import es.uma.pfc.is.bench.uitls.Dialogs;
 import es.uma.pfc.is.bench.view.FXMLViews;
@@ -10,6 +11,8 @@ import java.util.Locale;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -44,11 +47,21 @@ public class RootController extends Controller {
     
     @FXML
     private Tab benchmarksTab;
+    
+    @FXML
+    private Tab runBenchmarkTab;
+    
+    @FXML
+    private Tab createTab;
+    
+    @FXML
+    private Tab resultsTab;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         super.initialize(location, resources);
         initView(resources);
+        initListeners();
     }
 
     /**
@@ -57,12 +70,48 @@ public class RootController extends Controller {
      */
     protected void initView(ResourceBundle resources) {
         try {
-            initializeBenchmarksTab(resources);
-            initializeGeneratorTab(resources);
+            initializeTabs(resources);
             rootTabPane.getSelectionModel().select(benchmarksTab);
         } catch (IOException ex) {
             Logger.getLogger(RootController.class.getName()).log(Level.SEVERE, null, ex);
         }
+    }
+    
+    protected void initializeTabs(ResourceBundle resources) throws IOException {
+        Pane benchmarksForm = FXMLLoader.load(ISBenchApp.class.getResource(FXMLViews.BENCHMARKS_DASHBOARD_VIEW), resources);
+        benchmarksTab.setContent(benchmarksForm);
+        
+        Pane runBenchmarkForm = FXMLLoader.load(ISBenchApp.class.getResource(FXMLViews.RUN_BENCHMARK_VIEW), resources);
+        runBenchmarkTab.setContent(runBenchmarkForm);
+        
+        Pane newBenchForm = FXMLLoader.load(ISBenchApp.class.getResource(FXMLViews.NEW_ALGORITHM_VIEW), resources);
+        createTab.setContent(newBenchForm);
+        
+        Pane resultsView = FXMLLoader.load(ISBenchApp.class.getResource(FXMLViews.RESULTS_VIEW), resources);
+        resultsTab.setContent(resultsView);
+        
+        Pane generatorForm = FXMLLoader.load(ISBenchApp.class.getResource("/" + es.uma.pfc.implications.generator.view.FXMLViews.IMPLICATIONS_VIEW), 
+                                                 ResourceBundle.getBundle("es.uma.pfc.implications.generator.i18n.labels", Locale.getDefault()));
+         generatorTab.setContent(generatorForm);
+    }
+    
+    protected void initListeners() {
+        ActionsManager.get().getActionProperty().addListener(new ChangeListener() {
+
+            @Override
+            public void changed(ObservableValue observable, Object oldValue, Object newValue) {
+                String action = (String) newValue;
+                switch(action) {
+                    case ActionsManager.NEW:
+                        rootTabPane.getSelectionModel().select(createTab);
+                        break;
+                    case ActionsManager.RUN:
+                        rootTabPane.getSelectionModel().select(runBenchmarkTab);
+                        break;
+                }
+                ActionsManager.get().action("");
+            }
+        });
     }
     
     /**
@@ -71,7 +120,7 @@ public class RootController extends Controller {
      * @throws IOException 
      */
     protected void initializeBenchmarksTab(ResourceBundle resources) throws IOException {
-        Pane benchmarksForm = FXMLLoader.load(ISBenchApp.class.getResource(FXMLViews.BENCHMARK_VIEW), resources);
+        Pane benchmarksForm = FXMLLoader.load(ISBenchApp.class.getResource(FXMLViews.RUN_BENCHMARK_VIEW), resources);
         benchmarksTab.setContent(benchmarksForm);
     }
     

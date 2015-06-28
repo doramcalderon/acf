@@ -3,6 +3,7 @@ package es.uma.pfc.is.bench;
 import es.uma.pfc.is.algorithms.Algorithm;
 import es.uma.pfc.is.algorithms.AlgorithmOptions.Mode;
 import es.uma.pfc.is.algorithms.exceptions.AlgorithmException;
+import es.uma.pfc.is.bench.benchmarks.ActionsManager;
 import es.uma.pfc.is.bench.config.UserConfig;
 import es.uma.pfc.is.bench.i18n.I18n;
 import es.uma.pfc.is.bench.tasks.AlgorithmExecService;
@@ -19,10 +20,8 @@ import java.util.List;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javafx.beans.property.SimpleListProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
-import javafx.collections.FXCollections;
 import javafx.concurrent.WorkerStateEvent;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -117,6 +116,7 @@ public class BenchmarksController extends Controller {
      * Crea los listeners necesarios.
      */
     protected void initListeners() {
+        
         ChangesManager.get().getAlgorithmsChanges().addListener(new ChangeListener() {
 
             @Override
