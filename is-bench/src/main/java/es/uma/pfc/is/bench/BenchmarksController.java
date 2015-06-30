@@ -3,7 +3,6 @@ package es.uma.pfc.is.bench;
 import es.uma.pfc.is.algorithms.Algorithm;
 import es.uma.pfc.is.algorithms.AlgorithmOptions.Mode;
 import es.uma.pfc.is.algorithms.exceptions.AlgorithmException;
-import es.uma.pfc.is.bench.benchmarks.ActionsManager;
 import es.uma.pfc.is.bench.config.UserConfig;
 import es.uma.pfc.is.bench.i18n.I18n;
 import es.uma.pfc.is.bench.tasks.AlgorithmExecService;
@@ -13,17 +12,18 @@ import es.uma.pfc.is.bench.tasks.StatisticsReaderService;
 import es.uma.pfc.is.bench.uitls.Chooser;
 import es.uma.pfc.is.bench.uitls.Dialogs;
 import es.uma.pfc.is.bench.view.FXMLViews;
-import es.uma.pfc.is.commons.files.FileUtils;
+import es.uma.pfc.is.commons.strings.StringUtils;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
-import java.util.Collections;
 import java.util.List;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
+import javafx.collections.FXCollections;
+import javafx.collections.transformation.FilteredList;
 import javafx.concurrent.WorkerStateEvent;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -58,6 +58,11 @@ public class BenchmarksController extends Controller {
      */
     @FXML
     private TextField txtOutput;
+    /**
+     * Algorithms filter.
+     */
+    @FXML
+    private TextField filterField;
 
     /**
      * Algorithms ListView.
@@ -162,7 +167,13 @@ public class BenchmarksController extends Controller {
      */
     @Override
     protected void modelToView() {
-        algorithmsList.getItems().setAll(model.getAlgorithms());
+        FilteredList<Algorithm> filteredData = new FilteredList<>(FXCollections.observableArrayList(model.getAlgorithms()), p -> true);
+        filterField.textProperty().addListener((observable, oldValue, newValue) -> {
+        filteredData.setPredicate(algorithm -> {
+                return (StringUtils.isEmpty(newValue) || StringUtils.containsIgnoreCase(algorithm.getName(), newValue));
+            });
+        });
+        algorithmsList.setItems(filteredData);
     }
 
     /**

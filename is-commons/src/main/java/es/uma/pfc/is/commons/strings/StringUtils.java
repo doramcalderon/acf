@@ -55,4 +55,18 @@ public class StringUtils {
         return strTrimmed;
     }
     
+    /**
+     * If a string contains a substring with case insensitive.
+     * @param str String.
+     * @param substring Substring.
+     * @return {@code true} if str contains substring, {@code false} otherwise.
+     */
+    public static boolean containsIgnoreCase(String str, String substring) {
+        boolean contains = false;
+        if(str != null && substring!= null) {
+            contains = Pattern.compile(Pattern.quote(substring), Pattern.CASE_INSENSITIVE).matcher(str).find();
+        }
+        return contains;
+    }
+    
 }
