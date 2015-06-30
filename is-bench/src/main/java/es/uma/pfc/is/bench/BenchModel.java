@@ -2,40 +2,35 @@
 package es.uma.pfc.is.bench;
 
 import es.uma.pfc.is.algorithms.Algorithm;
-import es.uma.pfc.is.algorithms.AlgorithmOptions.Mode;
-import java.io.OutputStream;
+import es.uma.pfc.is.commons.files.FileUtils;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-import javafx.beans.property.SimpleListProperty;
-import javafx.collections.FXCollections;
 
 /**
- *  Modelo de la pantalla principal.
- * @since 
+ *  Benchmarks execution model.
  * @author Dora Calderón
  */
 public class BenchModel {
     
     /**
-     * Algoritmos disponibles.
+     * Available algorithms.
      */
     private List<Algorithm> algorithms;
     /**
-     * Algoritmo seleccionado.
+     * Selected algorithms.
      */
-    private Algorithm selectedAlgorithm;
-    /** Archivo de entrada.**/
+    private List<Algorithm> selectedAlgorithms;
+    /** Path input file.**/
     private String input;
-    /** Directorio de salida.**/
+    /** Path output file.**/
     private String outputFile;
     
-    private Map<Mode, List<OutputStream>> traceOutputs;
-
+    
+    /**
+     * Constructor.
+     */
     public BenchModel() {
         algorithms = new ArrayList();
-        traceOutputs = new HashMap();
     }
     
     /**
@@ -43,16 +38,14 @@ public class BenchModel {
      */
     public void clear() {
         algorithms.clear();
-        selectedAlgorithm = null;
         input = null;
         outputFile = null;
-        traceOutputs.clear();
     }
     
     /**
-     * Añade un nuevo algoritmo.
-     * @param alg Algoritmo.
-     * @throws NullPointerException cuando el algoritmo es nulo.
+     * Add a new algorithm.
+     * @param alg Algorithm.
+     * @throws NullPointerException when the algorithm is null.
      */
     public void addAlgorithm(Algorithm alg) {
         if(alg == null) {
@@ -65,45 +58,47 @@ public class BenchModel {
     }
 
     /**
-     * Algoritmos disponibles.
-     * @return Algoritmos.
+     * Available algorithms.
+     * @return Algorithms.
      */
     public List<Algorithm> getAlgorithms() {
         return algorithms;
     }
 
     /**
-     * Algoritmos disponibles.
-     * @param algorithms Algoritmos.
+     * Set the available algorithms.
+     * @param algorithms Algorithms.
      */
     public void setAlgorithms(List<Algorithm> algorithms) {
         this.algorithms = algorithms;
     }
 
     /**
-     * @return the selectedAlgorithm
+     * Selected algorithms.
+     * @return Algorithms list.
      */
-    public Algorithm getSelectedAlgorithm() {
-        return selectedAlgorithm;
+    public List<Algorithm> getSelectedAlgorithms() {
+        return selectedAlgorithms;
     }
+    /**
+     * Set the selected algorithms.
+     * @param selectedAlgorithms Algorithms list.
+     */
+    public void setSelectedAlgorithms(List<Algorithm> selectedAlgorithms) {
+        this.selectedAlgorithms = selectedAlgorithms;
+    }
+    
 
     /**
-     * @param selectedAlgorithm the selectedAlgorithm to set
-     */
-    public void setSelectedAlgorithm(Algorithm selectedAlgorithm) {
-        this.selectedAlgorithm = selectedAlgorithm;
-    }
-
-    /**
-     * Archivo de entrada.
-     * @return the input
+     * Path input file.
+     * @return the input.
      */
     public String getInput() {
         return input;
     }
 
     /**
-     * Archivo de entrada.
+     * Set the path input file.
      * @param input the input to set
      */
     public void setInput(String input) {
@@ -111,7 +106,7 @@ public class BenchModel {
     }
 
     /**
-     * Directorio de salida.
+     * Path output file.
      * @return the outputFile
      */
     public String getOutput() {
@@ -119,32 +114,28 @@ public class BenchModel {
     }
 
     /**
-     * Directorio de salida.
+     *  Set the path output file.
      * @param output the outputFile to set
      */
     public void setOutput(String output) {
         this.outputFile = output;
     }
+
     
     /**
-     * Add a trace output.
-     * @param os Outputstream.
+     * Set the input/output for each selected algorithm.
      */
-    public void addTraceOutput(Mode mode, OutputStream os) {
-        if (os != null) {
-            List<OutputStream> outputs = traceOutputs.get(mode);
-            if (outputs == null) {
-                outputs = new ArrayList();
+    public void setInputOutputs() {
+        if(selectedAlgorithms != null) {
+            if(selectedAlgorithms.size() > 1) {
+                int index = 0;
+                for(Algorithm alg : selectedAlgorithms) {
+                    alg.input(input);
+                    alg.output(FileUtils.getFileName(outputFile, ++index));
+                }
+            } else {
+                selectedAlgorithms.get(0).input(input).output(outputFile);
             }
-            outputs.add(os);
-            traceOutputs.put(mode, outputs);
         }
-    }
-    /**
-     * Trace outputs.
-     * @return List of OutputStream.
-     */
-    public Map<Mode, List<OutputStream>> getTraceOutputs() {
-        return traceOutputs;
     }
 }

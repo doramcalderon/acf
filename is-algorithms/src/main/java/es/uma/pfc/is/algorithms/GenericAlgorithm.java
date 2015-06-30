@@ -122,18 +122,6 @@ public abstract class GenericAlgorithm implements Algorithm<String, Implicationa
         this.traceOutputs = outputs;
         return this;
     }
-//
-//    @Override
-//    public GenericAlgorithm traceOutputs(Mode mode, Collection<OutputStream> outputs) {
-//        if(outputs != null && !outputs.isEmpty()) {
-//            for(OutputStream os : outputs) {
-//                GenericAlgorithm.this.traceOutput(mode, os);
-//            }
-//        }
-//        return this;
-//    }
-
-   
     
     
     @Override
@@ -210,6 +198,10 @@ public abstract class GenericAlgorithm implements Algorithm<String, Implicationa
         return input;
     }
 
+    public String getOutput() {
+        return options.getOption(Options.OUTPUT.toString());
+    }
+    
     /**
      * @return the traceOutputs
      */

@@ -1,5 +1,6 @@
 package es.uma.pfc.is.commons.files;
 
+import es.uma.pfc.is.commons.strings.StringUtils;
 import java.io.File;
 import java.io.IOException;
 
@@ -47,5 +48,59 @@ public class FileUtils {
             
         }
         return configFile;
+    }
+    
+    /**
+     * Devuelve el nombre añadiéndole el sufijo "_index".
+     * @param name Nombre.
+     * @param index Índice.
+     * @return Nombre con el sufijo _index.
+     */
+    public static String getFileName(String name, int index) {
+        String fileName = "";
+        if(!StringUtils.isEmpty(name)) {
+            String[] nameSplits = splitNameAndExtension(name);
+            int splitsCount = nameSplits.length;
+            
+            if(splitsCount > 1) {
+                fileName = nameSplits[0] + "_" + String.valueOf(index) + nameSplits[1];
+            } else {
+                fileName = name + "_" + String.valueOf(index);
+            }
+            
+        }
+        return fileName;
+    }
+    
+    public static String getExtension(String fileName) {
+        String extension = "";
+        if(!StringUtils.isEmpty(fileName)) {
+            String[] nameSplits = splitNameAndExtension(fileName);
+            int splitsCount = nameSplits.length;
+            
+            if(splitsCount > 1) {
+                extension = nameSplits[1];
+            }
+            
+        }
+        return extension;
+    }
+    
+    /**
+     * Returns the filename splited in name and extension.
+     * @param fileName File name.
+     * @return Name and extension.
+     */
+    protected static String[] splitNameAndExtension(String fileName) {
+        String[] nameSplits = null;
+        if(!StringUtils.isEmpty(fileName)) {
+            int indexLastPoint = fileName.lastIndexOf(".");
+            if(indexLastPoint >= 0) {
+                nameSplits = new String[]{fileName.substring(0, indexLastPoint), fileName.substring(indexLastPoint)};
+            } else {
+                nameSplits = new String[]{};
+            }
+        }
+        return nameSplits;
     }
 }

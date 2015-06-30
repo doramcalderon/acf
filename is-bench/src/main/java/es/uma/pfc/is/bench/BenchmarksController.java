@@ -13,9 +13,11 @@ import es.uma.pfc.is.bench.tasks.StatisticsReaderService;
 import es.uma.pfc.is.bench.uitls.Chooser;
 import es.uma.pfc.is.bench.uitls.Dialogs;
 import es.uma.pfc.is.bench.view.FXMLViews;
+import es.uma.pfc.is.commons.files.FileUtils;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
+import java.util.Collections;
 import java.util.List;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
@@ -31,6 +33,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ListView;
 import javafx.scene.control.ProgressIndicator;
+import javafx.scene.control.SelectionMode;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
@@ -46,23 +49,23 @@ public class BenchmarksController extends Controller {
     private BenchModel model;
 
     /**
-     * Cuadro de texto que recoge el fichero con los sistemas implicacionales que servirán como entrada.
+     * Input path fle.
      */
     @FXML
     private TextField txtInput;
     /**
-     * Cuadro de texto que recoge el directorio donde se guardarán las salidas.
+     * Path output file.
      */
     @FXML
     private TextField txtOutput;
 
     /**
-     * Lista de algoritmos.
+     * Algorithms ListView.
      */
     @FXML
     private ListView<Algorithm> algorithmsList;
     /**
-     * Botón Run.
+     * Run Button.
      */
     @FXML
     private Button btnRun;
@@ -84,7 +87,9 @@ public class BenchmarksController extends Controller {
     @FXML
     private ProgressIndicator statsProgressInd;
 
-    
+    /**
+     * Service for read a file.
+     */
     private FileReaderService readerService;
 
     @Override
@@ -105,16 +110,20 @@ public class BenchmarksController extends Controller {
     /**
      * Initialize the view.
      */
+    @Override
     protected void initView() {
         btnRun.setDisable(Boolean.TRUE);
+       algorithmsList.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
     }
 
+    @Override
     protected void initBinding() {
 //        algorithmsList.itemsProperty().bindBidirectional(model.getAlgorithms());
     }
     /**
      * Crea los listeners necesarios.
      */
+    @Override
     protected void initListeners() {
         
         ChangesManager.get().getAlgorithmsChanges().addListener(new ChangeListener() {
@@ -136,6 +145,7 @@ public class BenchmarksController extends Controller {
     /**
      * Inicializa el modelo.
      */
+    @Override
     protected void initModel() {
         AlgorithmsLoadService loadService = new AlgorithmsLoadService();
         loadService.setOnSucceeded((WorkerStateEvent event) -> 
@@ -150,6 +160,7 @@ public class BenchmarksController extends Controller {
     /**
      * Actualiza la vista con los valores del modelo.
      */
+    @Override
     protected void modelToView() {
         algorithmsList.getItems().setAll(model.getAlgorithms());
     }
@@ -158,7 +169,12 @@ public class BenchmarksController extends Controller {
      * Actualiza el modelo con los valores de la vista.
      */
     protected void viewToModel() {
-        model.setSelectedAlgorithm(algorithmsList.getSelectionModel().getSelectedItem());
+        model.setInput(txtInput.getText());
+        model.setOutput(txtOutput.getText());
+        
+        model.setSelectedAlgorithms(algorithmsList.getSelectionModel().getSelectedItems());
+        model.setInputOutputs();
+        
         if (chkTime.isSelected()) {
             addModeToModel(Mode.PERFORMANCE);
         }
@@ -168,9 +184,6 @@ public class BenchmarksController extends Controller {
         if (chkStatistics.isSelected()) {
             addModeToModel(Mode.STATISTICS);
         }
-
-        model.setInput(txtInput.getText());
-        model.setOutput(txtOutput.getText());
     }
     
     protected void reload() {
@@ -180,12 +193,15 @@ public class BenchmarksController extends Controller {
     }
     
     /**
+    /**
      * Añade al modelo la activación de un modo de ejecución.
      *
      * @param mode Modo.
      */
     protected void addModeToModel(Mode mode) {
-        model.getSelectedAlgorithm().enable(mode);
+        if(model.getSelectedAlgorithms() != null) {
+            model.getSelectedAlgorithms().forEach(alg -> alg.enable(mode));
+        }
     }
 
     @FXML
@@ -209,14 +225,12 @@ public class BenchmarksController extends Controller {
         clearTraces();
         viewToModel();
         try {
-            final Algorithm alg = model.getSelectedAlgorithm();
-            alg.input(model.getInput()).output(model.getOutput());
-
-            AlgorithmExecService service = new AlgorithmExecService(alg);
+            List<Algorithm> algs = model.getSelectedAlgorithms();
+            AlgorithmExecService service = new AlgorithmExecService(algs);
             service.setOnFinished((WorkerStateEvent event1) -> {
                 showHistory();
                 showStatistics();
-                alg.reset();
+                algs.forEach(alg -> alg .reset());
             });
             historyProgressInd.visibleProperty().bind(service.runningProperty());
             statsProgressInd.visibleProperty().bind(service.runningProperty());

@@ -7,6 +7,7 @@ package es.uma.pfc.is.bench.tasks;
 
 import es.uma.pfc.is.algorithms.Algorithm;
 import es.uma.pfc.is.algorithms.AlgorithmExecutor;
+import java.util.List;
 import javafx.concurrent.Service;
 import javafx.concurrent.Task;
 import javafx.concurrent.WorkerStateEvent;
@@ -17,11 +18,13 @@ import javafx.event.EventHandler;
  * @since @author Dora Calderón
  */
 public class AlgorithmExecService extends Service {
+    /**
+     * Algorithms to execute.
+     */
+    private List<Algorithm> algs;
 
-    private Algorithm alg;
-
-    public AlgorithmExecService(Algorithm alg) {
-        this.alg = alg;
+    public AlgorithmExecService(List<Algorithm> algs) {
+        this.algs = algs;
     }
 
     @Override
@@ -30,7 +33,12 @@ public class AlgorithmExecService extends Service {
 
             @Override
             protected Object call() throws Exception {
-                return new AlgorithmExecutor().execute(alg);
+                
+                if(algs != null) {
+                    AlgorithmExecutor executor = new AlgorithmExecutor();
+                    algs.forEach(alg -> executor.execute(alg));
+                }
+                return null;
             }
         };
     }

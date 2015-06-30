@@ -84,8 +84,8 @@ public class RootController extends Controller {
         Pane runBenchmarkForm = FXMLLoader.load(ISBenchApp.class.getResource(FXMLViews.RUN_BENCHMARK_VIEW), resources);
         runBenchmarkTab.setContent(runBenchmarkForm);
         
-        Pane newBenchForm = FXMLLoader.load(ISBenchApp.class.getResource(FXMLViews.NEW_ALGORITHM_VIEW), resources);
-        createTab.setContent(newBenchForm);
+//        Pane newBenchForm = FXMLLoader.load(ISBenchApp.class.getResource(FXMLViews.NEW_ALGORITHM_VIEW), resources);
+//        createTab.setContent(newBenchForm);
         
         Pane resultsView = FXMLLoader.load(ISBenchApp.class.getResource(FXMLViews.RESULTS_VIEW), resources);
         resultsTab.setContent(resultsView);
