@@ -1,5 +1,5 @@
 
-package es.uma.pfc.is.bench.tasks;
+package es.uma.pfc.is.bench.services;
 
 
 import es.uma.pfc.is.algorithms.Algorithm;
@@ -45,6 +45,7 @@ public class AlgorithmsLoadService extends Service<List<Algorithm>>{
                             if(entity != null) {
                                 Algorithm alg = entity.getType().newInstance();
                                 alg.setName(entity.getName());
+                                alg.setShortName(entity.getShortName());
                                 algorithms.add(alg);
                                 
                             }

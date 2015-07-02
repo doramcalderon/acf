@@ -3,7 +3,7 @@ package es.uma.pfc.is.bench.algorithms.view;
 import es.uma.pfc.is.bench.Controller;
 import es.uma.pfc.is.bench.algorithms.business.AlgorithmsBean;
 import es.uma.pfc.is.bench.i18n.BenchMessages;
-import es.uma.pfc.is.bench.tasks.AlgorithmsSaveService;
+import es.uma.pfc.is.bench.services.AlgorithmsSaveService;
 import es.uma.pfc.is.bench.validators.ClassNameValidator;
 import es.uma.pfc.is.bench.validators.EmptyStringValidator;
 import java.net.URL;

@@ -42,8 +42,8 @@ public class NewBenchmarkController extends Controller {
 
     @Override
     protected void initView() throws IOException {
-        Pane listPane = FXMLLoader.load(ISBenchApp.class.getResource(FXMLViews.ALGORITHMS_LIST_VIEW), this.getBundle());
-        rootListPane.getChildren().add(listPane);
+//        Pane listPane = FXMLLoader.load(ISBenchApp.class.getResource(FXMLViews.ALGORITHMS_LIST_VIEW), this.getBundle());
+//        rootListPane.getChildren().add(listPane);
 
         
         Pane newFormPane = FXMLLoader.load(ISBenchApp.class.getResource(FXMLViews.NEW_ALGORITHM_FORM), this.getBundle());

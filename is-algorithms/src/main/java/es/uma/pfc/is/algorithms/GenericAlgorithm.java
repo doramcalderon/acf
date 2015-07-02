@@ -31,6 +31,7 @@ public abstract class GenericAlgorithm implements Algorithm<String, Implicationa
     private AlgorithmOptions options;
     
     private String name;
+    private String shortName;
     private String input;
     private Map<Mode, List < PrintStream >> traceOutputs;
     protected AlgMessages messages;
@@ -180,6 +181,16 @@ public abstract class GenericAlgorithm implements Algorithm<String, Implicationa
     @Override
     public final void setName(String name) {
         this.name = name;
+    }
+
+    @Override
+    public String getShortName() {
+        return shortName;
+    }
+
+    @Override
+    public final void setShortName(String shortName) {
+        this.shortName = shortName;
     }
 
     

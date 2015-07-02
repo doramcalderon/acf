@@ -7,6 +7,7 @@ package es.uma.pfc.is.bench;
 
 import es.uma.pfc.is.algorithms.Algorithm;
 import es.uma.pfc.is.algorithms.GenericAlgorithm;
+import es.uma.pfc.is.bench.config.UserConfig;
 import es.uma.pfc.is.commons.files.FileUtils;
 import fr.kbertet.lattice.ImplicationalSystem;
 import java.io.File;
@@ -148,17 +149,24 @@ public class BenchModelTest {
      */
     @Test
     public void testSetInputOutputs() throws IOException {
-         String input = System.getProperty("user.dir") + File.separator + "test1.txt";
-        String output = System.getProperty("user.dir") + File.separator +  "test_output.txt";
+        String input = System.getProperty("user.dir") + File.separator + "test1.txt";
+        String initConfig = UserConfig.get().getDefaultWorkspace();
+        String testWorkspace = Paths.get(System.getProperty("user.dir") + "/src/test/resources").toString();
+        UserConfig.get().setDefaultWorkspace(testWorkspace);
+        
         try {
             FileUtils.createIfNoExists(input);
-            FileUtils.createIfNoExists(output);
-
+            
             GenericAlgorithm alg1 = new GenericAlgorithm(){
 
                 @Override
                 public ImplicationalSystem execute(ImplicationalSystem system) {
                     throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+                }
+
+                @Override
+                public String getShortName() {
+                    return "alg1";
                 }
                 
             };
@@ -168,6 +176,11 @@ public class BenchModelTest {
                 public ImplicationalSystem execute(ImplicationalSystem system) {
                     return null;
                 }
+                
+                @Override
+                public String getShortName() {
+                    return "alg2";
+                }
             };
 
             List<Algorithm> algs = new ArrayList();
@@ -176,7 +189,6 @@ public class BenchModelTest {
 
             BenchModel model = new BenchModel();
             model.setInput(input);
-            model.setOutput(output);
             model.setSelectedAlgorithms(algs);
             model.setInputOutputs();
 
@@ -185,11 +197,11 @@ public class BenchModelTest {
             assertNotNull(algs);
             assertEquals(input, alg1.getInput());
             assertEquals(input, alg2.getInput());
-            assertEquals(System.getProperty("user.dir") + File.separator +  "test_output_1.txt", alg1.getOutput());
-            assertEquals(System.getProperty("user.dir") + File.separator +  "test_output_2.txt", alg2.getOutput());
+            assertEquals(testWorkspace + File.separator +  "alg1_output.txt", alg1.getOutput());
+            assertEquals(testWorkspace + File.separator +  "alg2_output.txt", alg2.getOutput());
         } finally {
             Files.deleteIfExists(Paths.get(input));
-            Files.deleteIfExists(Paths.get(output));
+            UserConfig.get().setDefaultWorkspace(initConfig);
         }
     }
     /**

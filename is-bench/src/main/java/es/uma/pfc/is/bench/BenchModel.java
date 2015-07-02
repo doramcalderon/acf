@@ -2,7 +2,8 @@
 package es.uma.pfc.is.bench;
 
 import es.uma.pfc.is.algorithms.Algorithm;
-import es.uma.pfc.is.commons.files.FileUtils;
+import es.uma.pfc.is.bench.config.UserConfig;
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -24,13 +25,14 @@ public class BenchModel {
     private String input;
     /** Path output file.**/
     private String outputFile;
-    
+    private UserConfig userConfig;
     
     /**
      * Constructor.
      */
     public BenchModel() {
         algorithms = new ArrayList();
+        userConfig = UserConfig.get();
     }
     
     /**
@@ -121,17 +123,27 @@ public class BenchModel {
         this.outputFile = output;
     }
 
-    
+    /**
+     * Default output file for an algorithm.
+     * @param alg Algorithm.
+     * @return Default output file.
+     */
+    public String getDefaultOutput(Algorithm alg) {
+        String output = null;
+        if(alg != null) {
+            output = userConfig.getDefaultOutputDir().toString() + File.separator + alg.getShortName() + "_output.txt";
+        }
+        return output;
+    }
     /**
      * Set the input/output for each selected algorithm.
      */
     public void setInputOutputs() {
         if(selectedAlgorithms != null) {
             if(selectedAlgorithms.size() > 1) {
-                int index = 0;
                 for(Algorithm alg : selectedAlgorithms) {
                     alg.input(input);
-                    alg.output(FileUtils.getFileName(outputFile, ++index));
+                    alg.output(getDefaultOutput(alg));
                 }
             } else {
                 selectedAlgorithms.get(0).input(input).output(outputFile);

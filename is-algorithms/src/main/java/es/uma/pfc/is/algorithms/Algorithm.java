@@ -100,5 +100,14 @@ public interface Algorithm <I, O> {
      * @return Name. 
      */
     public void setName(String name);
-
+    /**
+     * Short name.
+     * @return Short name.
+     */
+    public String getShortName();
+    /**
+     * Set the short name.
+     * @param shortName Shrot name.
+     */
+    public void setShortName(String shortName);
 }

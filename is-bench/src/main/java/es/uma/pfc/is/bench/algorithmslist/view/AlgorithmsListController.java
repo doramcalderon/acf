@@ -8,7 +8,7 @@ package es.uma.pfc.is.bench.algorithmslist.view;
 import es.uma.pfc.is.algorithms.Algorithm;
 import es.uma.pfc.is.bench.BenchModel;
 import es.uma.pfc.is.bench.Controller;
-import es.uma.pfc.is.bench.tasks.AlgorithmsLoadService;
+import es.uma.pfc.is.bench.services.AlgorithmsLoadService;
 import java.io.IOException;
 import java.net.URL;
 import java.util.List;
