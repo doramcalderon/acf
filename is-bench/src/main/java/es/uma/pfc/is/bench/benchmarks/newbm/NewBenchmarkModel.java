@@ -9,6 +9,7 @@ import javafx.beans.property.SimpleListProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javafx.collections.FXCollections;
+import javafx.collections.transformation.FilteredList;
 
 /**
  *
@@ -20,6 +21,7 @@ public class NewBenchmarkModel {
      * Algorithms list.
      */
     private ListProperty<Algorithm> algorithmsListProperty;
+    private FilteredList<Algorithm> algorithmsFilteredList;
 
     /**
      * Name.
@@ -37,8 +39,11 @@ public class NewBenchmarkModel {
         nameProperty = new SimpleStringProperty("");
         algorithmsSelectedProperty = new SimpleListProperty<>(FXCollections.observableArrayList());
         algorithmsListProperty = new SimpleListProperty<>(FXCollections.observableArrayList());
+        algorithmsFilteredList = new FilteredList(algorithmsListProperty, p -> true);
     }
-    
+    public FilteredList<Algorithm> getAlgorithmsFilteredList() {
+        return algorithmsFilteredList;
+    }
     /**
      * Algorithms list.
      * @return Algorithms list.

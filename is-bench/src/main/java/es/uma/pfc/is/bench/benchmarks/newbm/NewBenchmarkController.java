@@ -2,19 +2,20 @@ package es.uma.pfc.is.bench.benchmarks.newbm;
 
 import com.google.common.eventbus.Subscribe;
 import es.uma.pfc.is.algorithms.Algorithm;
-import es.uma.pfc.is.algorithms.util.StringUtils;
 import es.uma.pfc.is.bench.Controller;
 import es.uma.pfc.is.bench.algorithmslist.view.AlgorithmsListController;
 import es.uma.pfc.is.bench.events.AlgorithmsSelectedEvent;
 import es.uma.pfc.is.bench.events.BenchEventBus;
 import es.uma.pfc.is.bench.i18n.BenchMessages;
 import es.uma.pfc.is.bench.services.AlgorithmsLoadService;
+import es.uma.pfc.is.commons.strings.StringUtils;
 import java.io.IOException;
 import java.net.URL;
 import java.util.List;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javafx.beans.property.SimpleListProperty;
 import javafx.collections.FXCollections;
 import javafx.concurrent.WorkerStateEvent;
 import javafx.event.ActionEvent;
@@ -36,13 +37,18 @@ import org.controlsfx.validation.Validator;
 public class NewBenchmarkController extends Controller {
     @FXML
     private TextField txtName;
+     /**
+     * Algorithms filter.
+     */
+    @FXML
+    private TextField txtFilter;
     @FXML
     private ListView algorithmsList;
+    @FXML
+    private ListView algorithmsSelected;
      @FXML
     private Label lbErrorMessages;
 
-    @FXML
-    private ListView algorithmsSelected;
     /**
      * Model.
     */
@@ -85,10 +91,9 @@ public class NewBenchmarkController extends Controller {
         AlgorithmsLoadService loadService = new AlgorithmsLoadService();
         loadService.setOnSucceeded((WorkerStateEvent event) -> {
             List<Algorithm> algorithms = (List<Algorithm>) event.getSource().getValue();
+            model.algorithmsListProperty().clear();
             if(algorithms != null) {
-                model.algorithmsListProperty().set(FXCollections.observableArrayList(algorithms));
-            } else {
-                model.algorithmsListProperty().clear();
+                 model.algorithmsListProperty().set(FXCollections.observableArrayList(algorithms));
             }
             modelToView();
         });
@@ -97,7 +102,6 @@ public class NewBenchmarkController extends Controller {
     
      @Override
     protected void initBinding() {
-        algorithmsList.itemsProperty().bind(model.algorithmsListProperty());
         txtName.textProperty().bindBidirectional(model.nameProperty());
         algorithmsSelected.itemsProperty().bindBidirectional(model.algorithmsSelectedProperty());
     }
@@ -105,6 +109,14 @@ public class NewBenchmarkController extends Controller {
     @Override
     protected void initListeners() {
         BenchEventBus.get().register(this);
+        
+        txtFilter.textProperty().addListener(
+                (observable, oldValue, newValue) -> { 
+                    model.getAlgorithmsFilteredList().setPredicate(algorithm -> {
+                        return (StringUtils.isEmpty(newValue) || StringUtils.containsIgnoreCase(algorithm.getName(), newValue));
+                    });
+                });
+        
     }
     
     protected void initValidation() {
@@ -112,6 +124,11 @@ public class NewBenchmarkController extends Controller {
        validationSupport.registerValidator(txtName, (Control c, String newValue) -> 
          	    ValidationResult.fromErrorIf( c, getI18nMessage(BenchMessages.EMPTY_VALUES), StringUtils.isEmpty(newValue)));
        validationSupport.registerValidator(algorithmsList, Validator.createEmptyValidator(getI18nMessage(BenchMessages.EMPTY_VALUES)));
+    }
+    
+    @Override
+    protected void modelToView() {
+        algorithmsList.setItems(model.getAlgorithmsFilteredList());
     }
     
     protected boolean validate() {

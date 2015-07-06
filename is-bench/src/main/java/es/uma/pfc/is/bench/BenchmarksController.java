@@ -186,8 +186,8 @@ public class BenchmarksController extends Controller {
     }
 
     /**
-     * Actualiza la vista con los valores del modelo.
-     */
+     * Actualiza la vista con los valores del modelo. 
+    */
     @Override
     protected void modelToView() {
         FilteredList<Algorithm> filteredData = new FilteredList<>(FXCollections.observableArrayList(model.getAlgorithms()), p -> true);

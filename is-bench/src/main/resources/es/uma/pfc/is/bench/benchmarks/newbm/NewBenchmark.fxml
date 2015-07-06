@@ -32,7 +32,7 @@
                </children>
             </HBox>
             <Label text="%algorithms" GridPane.hgrow="ALWAYS" GridPane.rowIndex="2" GridPane.vgrow="NEVER" />
-            <TextField maxWidth="-Infinity" prefWidth="285.0" GridPane.hgrow="NEVER" GridPane.rowIndex="3" />
+            <TextField fx:id="txtFilter" maxWidth="-Infinity" prefWidth="285.0" GridPane.hgrow="NEVER" GridPane.rowIndex="3" />
             <HBox prefHeight="100.0" prefWidth="200.0" spacing="10.0" GridPane.hgrow="ALWAYS" GridPane.rowIndex="4" GridPane.vgrow="ALWAYS">
                <children>
                   <ListView fx:id="algorithmsList" onMouseClicked="#handleListDoubleClick" prefHeight="200.0" prefWidth="200.0" HBox.hgrow="ALWAYS" />
