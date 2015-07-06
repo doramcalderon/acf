@@ -19,6 +19,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Menu;
+import javafx.scene.control.SplitPane;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import javafx.scene.layout.AnchorPane;
@@ -78,14 +79,10 @@ public class RootController extends Controller {
     }
     
     protected void initializeTabs(ResourceBundle resources) throws IOException {
-        Pane benchmarksForm = FXMLLoader.load(ISBenchApp.class.getResource(FXMLViews.BENCHMARKS_DASHBOARD_VIEW), resources);
-        benchmarksTab.setContent(benchmarksForm);
+
+//        Pane runBenchmarkForm = FXMLLoader.load(ISBenchApp.class.getResource(FXMLViews.RUN_BENCHMARK_VIEW), resources);
+//        runBenchmarkTab.setContent(runBenchmarkForm);
         
-        Pane runBenchmarkForm = FXMLLoader.load(ISBenchApp.class.getResource(FXMLViews.RUN_BENCHMARK_VIEW), resources);
-        runBenchmarkTab.setContent(runBenchmarkForm);
-        
-        Pane newBenchForm = FXMLLoader.load(ISBenchApp.class.getResource(FXMLViews.NEW_ALGORITHM_VIEW), resources);
-        createTab.setContent(newBenchForm);
         
         Pane resultsView = FXMLLoader.load(ISBenchApp.class.getResource(FXMLViews.RESULTS_VIEW), resources);
         resultsTab.setContent(resultsView);

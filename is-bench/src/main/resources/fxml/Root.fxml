@@ -31,12 +31,12 @@
         <tabs>
             <Tab fx:id="benchmarksTab" closable="false" text="%tab.benchmarks">
               <content>
-                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+                    <fx:include source="/es/uma/pfc/is/bench/benchmarks/Benchmarks.fxml"/>
               </content>
             </Tab>
             <Tab fx:id="createTab" closable="false" text="%tab.create.benchmark">
               <content>
-                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+                <fx:include source="/es/uma/pfc/is/bench/benchmarks/newbm/NewBenchmark.fxml"/>
               </content>
             </Tab>
           <Tab fx:id="runBenchmarkTab" closable="false" text="%tab.run.benchmark">
