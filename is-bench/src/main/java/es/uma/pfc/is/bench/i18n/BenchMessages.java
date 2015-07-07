@@ -31,6 +31,22 @@ public class BenchMessages extends Messages {
      * Algorithm short name attribute.
      */
     public static final String ALGORITHM_SHORT_NAME = "msg.algorithm.shortname";
+    /**
+     * Empty algorithm name.
+     */
+    public static final String EMPTY_ALGORITHM_NAME = "msg.algorithm.empty.name";
+    /**
+     * Empty algorithms list.
+     */
+    public static final String EMPTY_ALGORITHM_LIST = "msg.algorithm.empty.algorithms";
+    /**
+     * Creation benchmark error.
+     */
+    public static final String BENCHMARK_CREATION_ERROR = "msg.benchmarks.creation.error";
+    /**
+     * Creation benchmark error.
+     */
+    public static final String BENCHMARK_CREATION_SUCCEEDED = "msg.benchmarks.creation.succeeded";
             
             
 /**

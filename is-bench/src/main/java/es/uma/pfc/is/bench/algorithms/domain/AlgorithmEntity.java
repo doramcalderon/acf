@@ -5,8 +5,6 @@ package es.uma.pfc.is.bench.algorithms.domain;
 import es.uma.pfc.is.algorithms.Algorithm;
 import es.uma.pfc.is.commons.strings.StringUtils;
 import java.util.Objects;
-import javax.xml.bind.annotation.XmlAttribute;
-import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
@@ -27,6 +25,19 @@ public class AlgorithmEntity {
      * Class of implementation.
      */
     private Class<? extends Algorithm> type;
+
+    public AlgorithmEntity() {
+    }
+
+    public AlgorithmEntity(Algorithm alg) {
+        if(alg != null) {
+            this.name = alg.getName();
+            this.shortName = alg.getShortName();
+            this.type = alg.getClass();
+        }
+    }
+    
+    
 
     /**
      * Name.

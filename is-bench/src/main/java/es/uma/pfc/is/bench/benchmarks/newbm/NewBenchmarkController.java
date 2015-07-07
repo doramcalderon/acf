@@ -4,10 +4,12 @@ import com.google.common.eventbus.Subscribe;
 import es.uma.pfc.is.algorithms.Algorithm;
 import es.uma.pfc.is.bench.Controller;
 import es.uma.pfc.is.bench.algorithmslist.view.AlgorithmsListController;
+import es.uma.pfc.is.bench.benchmarks.domain.Benchmark;
 import es.uma.pfc.is.bench.events.AlgorithmsSelectedEvent;
 import es.uma.pfc.is.bench.events.BenchEventBus;
 import es.uma.pfc.is.bench.i18n.BenchMessages;
 import es.uma.pfc.is.bench.services.AlgorithmsLoadService;
+import es.uma.pfc.is.bench.services.BenchmarkSaveService;
 import es.uma.pfc.is.commons.strings.StringUtils;
 import java.io.IOException;
 import java.net.URL;
@@ -15,18 +17,14 @@ import java.util.List;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javafx.beans.property.SimpleListProperty;
 import javafx.collections.FXCollections;
 import javafx.concurrent.WorkerStateEvent;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.Control;
-import javafx.scene.control.Label;
+import javafx.scene.control.Alert;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
-import org.controlsfx.validation.ValidationResult;
-import org.controlsfx.validation.ValidationSupport;
 import org.controlsfx.validation.Validator;
 
 /**
@@ -46,17 +44,13 @@ public class NewBenchmarkController extends Controller {
     private ListView algorithmsList;
     @FXML
     private ListView algorithmsSelected;
-     @FXML
-    private Label lbErrorMessages;
+
 
     /**
      * Model.
     */
     private NewBenchmarkModel model;
-    /**
-     * Validation support.
-     */
-    private ValidationSupport validationSupport;
+    
 
     /**
      * Initializes the controller class.
@@ -79,11 +73,6 @@ public class NewBenchmarkController extends Controller {
         }
     }
 
-    @Override
-    protected void initView() throws IOException {
-
-    }
-   
 
     @Override
     protected void initModel() {
@@ -119,11 +108,10 @@ public class NewBenchmarkController extends Controller {
         
     }
     
+    @Override
     protected void initValidation() {
-       validationSupport = new ValidationSupport();
-       validationSupport.registerValidator(txtName, (Control c, String newValue) -> 
-         	    ValidationResult.fromErrorIf( c, getI18nMessage(BenchMessages.EMPTY_VALUES), StringUtils.isEmpty(newValue)));
-       validationSupport.registerValidator(algorithmsList, Validator.createEmptyValidator(getI18nMessage(BenchMessages.EMPTY_VALUES)));
+       getValidationSupport().registerValidator(txtName, 
+                                    Validator.createEmptyValidator(getI18nMessage(BenchMessages.EMPTY_ALGORITHM_NAME)));
     }
     
     @Override
@@ -132,15 +120,19 @@ public class NewBenchmarkController extends Controller {
     }
     
     protected boolean validate() {
-        boolean isValid = !validationSupport.isInvalid();
-        if (!isValid) {
-            StringBuilder sb = new StringBuilder();
-            validationSupport.getValidationResult().getMessages().stream().forEach(msg -> sb.append(msg.getText()).append("\n"));
-            lbErrorMessages.setText(sb.toString());
+        // si se produce un error por no seleccionar un algoritmo, y la siguiente vez ya se ha seleccionado,
+        // no se muestra el error anterior
+        // registrando un validator para el ListView, no detecta los cambios en  la lista
+//        getValidationSupport().getValidationResult().addErrorIf(algorithmsSelected, 
+//                                                              getI18nMessage(BenchMessages.EMPTY_ALGORITHM_LIST), 
+//                                                              algorithmsSelected.getItems().isEmpty());
+        boolean algNoSelected = algorithmsSelected.getItems().isEmpty();
+        if(algNoSelected) {
+            new Alert(Alert.AlertType.ERROR, getI18nMessage(BenchMessages.EMPTY_ALGORITHM_LIST)).showAndWait();
         }
-        return isValid;
+        return !algNoSelected && super.validate();
     }
-    
+ 
     @Subscribe
     public void algorithmsSelected(AlgorithmsSelectedEvent event) {
         if (event.getAlgorithmsSelection() != null) {
@@ -160,19 +152,25 @@ public class NewBenchmarkController extends Controller {
     }
     
    
-    
+   
     @FXML
     protected void handleSaveButton(ActionEvent event) {
         if(validate()) {
-            
+            Benchmark benchmark = new Benchmark(model.getName(), model.getAlgorithmsSelectedList());
+            BenchmarkSaveService service = new BenchmarkSaveService(benchmark);
+            service.setOnSucceeded((WorkerStateEvent event1) -> {clear();});
+            service.restart();
         }
     }
     
     @FXML
     protected void handleClearButton(ActionEvent event) {
-        txtName.clear();
-        algorithmsList.getItems().clear();
-        lbErrorMessages.setText("");
+        clear();
         
+    }
+    
+    protected void clear() {
+        txtName.clear();
+        algorithmsSelected.getItems().clear();
     }
 }

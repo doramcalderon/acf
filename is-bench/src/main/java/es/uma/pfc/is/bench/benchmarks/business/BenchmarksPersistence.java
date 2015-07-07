@@ -1,5 +1,6 @@
-package es.uma.pfc.is.bench.algorithms.business;
+package es.uma.pfc.is.bench.benchmarks.business;
 
+import es.uma.pfc.is.bench.algorithms.business.*;
 import es.uma.pfc.is.bench.algorithms.domain.AlgorithmEntity;
 import es.uma.pfc.is.bench.algorithms.domain.Algorithms;
 import es.uma.pfc.is.bench.config.UserConfig;
@@ -9,33 +10,33 @@ import java.io.IOException;
 import javax.xml.bind.JAXB;
 
 /**
- * Persist the algorithms into an XML file entities using JAXB.
+ * Persist the benchmarks into an XML file entities using JAXB.
  *
  * @author Dora Calderón
  */
-public class AlgorithmsPersistence {
+public class BenchmarksPersistence {
     
 
     /**
      * Single instance.
      */
-    private static AlgorithmsPersistence me;
+    private static BenchmarksPersistence me;
 
     /**
      * Constructor.
      */
-    private AlgorithmsPersistence() {
+    private BenchmarksPersistence() {
     }
 
     /**
-     * Get a single instance of AlgorithmsPersistence.
+     * Get a single instance of BenchmarksPersistence.
      *
-     * @return AlgorithmsPersistence.
+     * @return BenchmarksPersistence.
      */
-    public static AlgorithmsPersistence get() {
-        synchronized(AlgorithmsPersistence.class) {
+    public static BenchmarksPersistence get() {
+        synchronized(BenchmarksPersistence.class) {
             if (me == null) {
-                me = new AlgorithmsPersistence();
+                me = new BenchmarksPersistence();
             }
         }
         return me;
@@ -47,20 +48,11 @@ public class AlgorithmsPersistence {
      * @param algorithms Algorithms.
      */
     public void create(Algorithms algorithms) {
-        create(UserConfig.get().getDefaultWorkspace(), algorithms);
-    }
-    /**
-     * Initialize the algorithms file with {@code algorithms} param.
-     *
-     * @param path
-     * @param algorithms Algorithms.
-     */
-    public void create(String path, Algorithms algorithms) {
         if (algorithms == null) {
             throw new IllegalArgumentException("algorithms argument can't be null.");
         }
        
-        String algorithmsFile =  path + File.separator + "algorithms.xml";
+        String algorithmsFile =  UserConfig.get().getDefaultWorkspace() + File.separator + "algorithms.xml";
         try {
             FileUtils.createIfNoExists(algorithmsFile);
         } catch (IOException ex) {

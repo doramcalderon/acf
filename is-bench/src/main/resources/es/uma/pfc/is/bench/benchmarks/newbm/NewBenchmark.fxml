@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.effect.*?>
+<?import javafx.scene.text.*?>
 <?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
 <?import java.lang.*?>
@@ -31,7 +33,16 @@
                   <TextField fx:id="txtName" HBox.hgrow="ALWAYS" />
                </children>
             </HBox>
-            <Label text="%algorithms" GridPane.hgrow="ALWAYS" GridPane.rowIndex="2" GridPane.vgrow="NEVER" />
+            <StackPane alignment="CENTER_LEFT" GridPane.rowIndex="2">
+               <children>
+                  <Label text="%algorithms" GridPane.hgrow="ALWAYS" GridPane.rowIndex="2" GridPane.vgrow="NEVER">
+                     <font>
+                        <Font name="System Bold" size="14.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="lbErrorMessages" style="-fx-border-color: red;" text="lbErrorMessages" textFill="#fc0909" visible="false" />
+               </children>
+            </StackPane>
             <TextField fx:id="txtFilter" maxWidth="-Infinity" prefWidth="285.0" GridPane.hgrow="NEVER" GridPane.rowIndex="3" />
             <HBox prefHeight="100.0" prefWidth="200.0" spacing="10.0" GridPane.hgrow="ALWAYS" GridPane.rowIndex="4" GridPane.vgrow="ALWAYS">
                <children>

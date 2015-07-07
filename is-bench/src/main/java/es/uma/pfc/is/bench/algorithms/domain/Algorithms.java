@@ -26,7 +26,9 @@ public class Algorithms {
     public Algorithms() {
         algorithms = new ArrayList();
     }
-    
+    public Algorithms(List<AlgorithmEntity> algorithms) {
+        this.algorithms = algorithms;
+    }
         
 
     @XmlElements({@XmlElement(name="algorithm")})

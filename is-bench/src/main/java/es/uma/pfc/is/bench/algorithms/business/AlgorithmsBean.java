@@ -35,6 +35,7 @@ public class AlgorithmsBean {
         persistence.create(algorithms);
         
     }
+    
 
     /**
      * Insert a new algorithm.
