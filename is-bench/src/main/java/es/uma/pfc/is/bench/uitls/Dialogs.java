@@ -33,15 +33,23 @@ public class Dialogs {
         preferencesStage.showAndWait();
     }
 
-      public static Alert createAlert(AlertType type, Window parent) {
+    /**
+     * Create an alert.
+     * @param type Alert type.
+     * @param title Title.
+     * @param message Message.
+     * @param parent Parent window.
+     * @return Alert.
+     */
+    public static Alert alert(AlertType type, String title, String message, Window parent) {
         Alert alert = new Alert(type, "");
         alert.initModality(Modality.APPLICATION_MODAL);
         alert.initOwner(parent);
-        alert.getDialogPane().setContentText(type + " text.");
-        alert.getDialogPane().setHeaderText(null);
-        alert.showAndWait()
-            .filter(response -> response == ButtonType.OK)
-            .ifPresent(response -> System.out.println("The alert was approved"));
+        alert.getDialogPane().setContentText(message);
+        alert.getDialogPane().setHeaderText(title);
+//        alert.showAndWait()
+//            .filter(response -> response == ButtonType.OK)
+//            .ifPresent(response -> System.out.println("The alert was approved"));
         return alert;
     }
-    }
+}

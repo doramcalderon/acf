@@ -8,6 +8,7 @@ import es.uma.pfc.is.bench.algorithms.business.AlgorithmsPersistence;
 import es.uma.pfc.is.bench.algorithms.domain.AlgorithmEntity;
 import es.uma.pfc.is.bench.algorithms.domain.Algorithms;
 import es.uma.pfc.is.bench.benchmarks.domain.Benchmark;
+import es.uma.pfc.is.commons.strings.StringUtils;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -61,15 +62,19 @@ public class BenchmarksBean {
     }
 
     /**
-     * Insert a new algorithm.
-     * @param algorithm Algorithm.
+     * If exists a benchmark with the name argument in a workspace.
+     * @param name Benchmark name.
+     * @param workspace Workspace path.
+     * @return {@code true} if exists a benchmark with the name argument, {@code false} otherwise.
      */
-    public void insert(AlgorithmEntity algorithm) {
+    public boolean exists(String name, String workspace) {
+        boolean exists = false;
         
-    }
-    
-    public void delete(AlgorithmEntity algorithm) {
+        if(!StringUtils.isEmpty(name) && !StringUtils.isEmpty(workspace)) {
+            exists = Files.exists(Paths.get(workspace.concat(File.separator).concat(name)));
+        }
         
+        return exists;
     }
     
  

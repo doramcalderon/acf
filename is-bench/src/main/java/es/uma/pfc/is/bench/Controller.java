@@ -6,11 +6,14 @@
 package es.uma.pfc.is.bench;
 
 import es.uma.pfc.is.bench.i18n.BenchMessages;
+import es.uma.pfc.is.bench.uitls.Dialogs;
 import java.io.IOException;
 import java.net.URL;
+import java.util.Optional;
 import java.util.ResourceBundle;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import org.controlsfx.validation.ValidationSupport;
@@ -150,5 +153,16 @@ public abstract class Controller implements Initializable {
 
         }
         return isValid;
+    }
+    
+    /**
+     * Show an alert and return the user response.
+     * @param type Alert type.
+     * @param title Title.
+     * @param message Message
+     * @return User response.
+     */
+    protected Optional<ButtonType> showAlert(Alert.AlertType type, String title, String message) {
+         return Dialogs.alert(type, title, message, getRootPane().getScene().getWindow()).showAndWait();
     }
 }

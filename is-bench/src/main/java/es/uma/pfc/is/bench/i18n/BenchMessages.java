@@ -40,6 +40,10 @@ public class BenchMessages extends Messages {
      */
     public static final String EMPTY_ALGORITHM_LIST = "msg.algorithm.empty.algorithms";
     /**
+     * Empty algorithms list.
+     */
+    public static final String DUPLICATED_BENCHMARK = "msg.benchmarks.duplicated";
+    /**
      * Creation benchmark error.
      */
     public static final String BENCHMARK_CREATION_ERROR = "msg.benchmarks.creation.error";

@@ -1,8 +1,4 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package es.uma.pfc.is.bench.benchmarks.business;
 
 import es.uma.pfc.is.algorithms.Algorithm;
@@ -12,7 +8,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.Arrays;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 import org.junit.Test;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
@@ -63,24 +59,29 @@ public class BenchmarksBeanTest {
     }
 
     /**
-     * Test of insert method, of class BenchmarksBean.
+     * Test of exists method, of class BenchmarksBean.
      */
     @Test
-    public void testInsert() {
-    }
+    public void testExists() throws IOException {
+        String workspace = System.getProperty("user.dir") + File.separator + "src" + File.separator + "test";
+        String name = "BENCH1";
+        try {
+            Files.createDirectories(Paths.get(workspace.concat(File.separator).concat(name)));
 
-    /**
-     * Test of delete method, of class BenchmarksBean.
-     */
-    @Test
-    public void testDelete() {
+            BenchmarksBean bean = new BenchmarksBean();
+            assertTrue(bean.exists(name, workspace));
+        } finally {
+            Files.deleteIfExists(Paths.get(workspace.concat(File.separator).concat(name)));
+        }
     }
-
-    /**
-     * Test of setPersistence method, of class BenchmarksBean.
-     */
     @Test
-    public void testSetPersistence() {
+    public void testNoExists() throws IOException {
+        String workspace = System.getProperty("user.dir") + File.separator + "src" + File.separator + "test";
+        String name = "BENCH2";
+        
+        BenchmarksBean bean = new BenchmarksBean();
+        assertFalse(bean.exists(name, workspace));
+
     }
 
 }

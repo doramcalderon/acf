@@ -24,7 +24,7 @@ public class AlgorithmsPersistenceTest {
 
     private final String testWorkspace;
     private static String algorithmsFile;
-    private final String initConfig;
+    private static String initConfig;
     private static AlgorithmsPersistence persistence;
     
     public AlgorithmsPersistenceTest() {
@@ -41,12 +41,14 @@ public class AlgorithmsPersistenceTest {
 
     @After
     public void tearDown() throws IOException {
-        UserConfig.get().setDefaultWorkspace(initConfig);
-        Files.deleteIfExists(Paths.get(algorithmsFile));
+//        UserConfig.get().setDefaultWorkspace(initConfig);
+//        Files.deleteIfExists(Paths.get(algorithmsFile));
     }
     
     @AfterClass
     public static void finish() throws IOException {
+        UserConfig.get().setDefaultWorkspace(initConfig);
+        Files.deleteIfExists(Paths.get(algorithmsFile));
     }
 
     /**

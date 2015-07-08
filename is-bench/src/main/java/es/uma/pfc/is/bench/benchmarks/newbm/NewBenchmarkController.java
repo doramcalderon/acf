@@ -4,7 +4,9 @@ import com.google.common.eventbus.Subscribe;
 import es.uma.pfc.is.algorithms.Algorithm;
 import es.uma.pfc.is.bench.Controller;
 import es.uma.pfc.is.bench.algorithmslist.view.AlgorithmsListController;
+import es.uma.pfc.is.bench.benchmarks.business.BenchmarksBean;
 import es.uma.pfc.is.bench.benchmarks.domain.Benchmark;
+import es.uma.pfc.is.bench.config.UserConfig;
 import es.uma.pfc.is.bench.events.AlgorithmsSelectedEvent;
 import es.uma.pfc.is.bench.events.BenchEventBus;
 import es.uma.pfc.is.bench.i18n.BenchMessages;
@@ -14,6 +16,7 @@ import es.uma.pfc.is.commons.strings.StringUtils;
 import java.io.IOException;
 import java.net.URL;
 import java.util.List;
+import java.util.Optional;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -22,9 +25,12 @@ import javafx.concurrent.WorkerStateEvent;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.Pane;
 import org.controlsfx.validation.Validator;
 
 /**
@@ -45,7 +51,9 @@ public class NewBenchmarkController extends Controller {
     @FXML
     private ListView algorithmsSelected;
 
-
+    @FXML
+    private AnchorPane rootPane;
+    
     /**
      * Model.
     */
@@ -119,6 +127,12 @@ public class NewBenchmarkController extends Controller {
         algorithmsList.setItems(model.getAlgorithmsFilteredList());
     }
     
+    /**
+     * Form validations.
+     * @return {@code true} if there is one algorithm selected at least, and the benchmark name not exists or user
+     * wants override it, and parent validations is succeeded. {@code false} otherwise.
+     */
+    @Override
     protected boolean validate() {
         // si se produce un error por no seleccionar un algoritmo, y la siguiente vez ya se ha seleccionado,
         // no se muestra el error anterior
@@ -126,12 +140,29 @@ public class NewBenchmarkController extends Controller {
 //        getValidationSupport().getValidationResult().addErrorIf(algorithmsSelected, 
 //                                                              getI18nMessage(BenchMessages.EMPTY_ALGORITHM_LIST), 
 //                                                              algorithmsSelected.getItems().isEmpty());
-        boolean algNoSelected = algorithmsSelected.getItems().isEmpty();
-        if(algNoSelected) {
-            new Alert(Alert.AlertType.ERROR, getI18nMessage(BenchMessages.EMPTY_ALGORITHM_LIST)).showAndWait();
+        if(algorithmsSelected.getItems().isEmpty()) {
+            showAlert(Alert.AlertType.ERROR, null, getI18nMessage(BenchMessages.EMPTY_ALGORITHM_LIST));
+            return false;
         }
-        return !algNoSelected && super.validate();
+        
+        boolean validBenchmarkName = !new BenchmarksBean().exists(model.getName(), UserConfig.get().getDefaultWorkspace());
+        if(!validBenchmarkName) {
+            Optional<ButtonType> confirm = 
+                    showAlert(Alert.AlertType.CONFIRMATION, null, getI18nMessage(BenchMessages.DUPLICATED_BENCHMARK));
+           
+           if(confirm.isPresent() && confirm.get().equals(ButtonType.CANCEL)) {
+               return false;
+           };
+        }
+                
+        return super.validate();
     }
+
+    @Override
+    protected Pane getRootPane() {
+        return rootPane;
+    }
+    
  
     @Subscribe
     public void algorithmsSelected(AlgorithmsSelectedEvent event) {
