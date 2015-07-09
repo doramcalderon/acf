@@ -1,7 +1,8 @@
 
-package es.uma.pfc.is.bench;
+package es.uma.pfc.is.bench.benchmarks;
 
 import es.uma.pfc.is.algorithms.Algorithm;
+import es.uma.pfc.is.bench.benchmarks.domain.Benchmark;
 import es.uma.pfc.is.bench.config.UserConfig;
 import java.io.File;
 import java.util.ArrayList;
@@ -11,12 +12,12 @@ import java.util.List;
  *  Benchmarks execution model.
  * @author Dora Calderón
  */
-public class BenchModel {
+public class RunBenchmarkModel {
     
     /**
      * Available algorithms.
      */
-    private List<Algorithm> algorithms;
+    private List<Benchmark> benchmarks;
     /**
      * Selected algorithms.
      */
@@ -30,8 +31,8 @@ public class BenchModel {
     /**
      * Constructor.
      */
-    public BenchModel() {
-        algorithms = new ArrayList();
+    public RunBenchmarkModel() {
+        benchmarks = new ArrayList();
         userConfig = UserConfig.get();
     }
     
@@ -39,7 +40,7 @@ public class BenchModel {
      * Clear the model.
      */
     public void clear() {
-        algorithms.clear();
+        benchmarks.clear();
         input = null;
         outputFile = null;
     }
@@ -50,29 +51,29 @@ public class BenchModel {
      * @throws NullPointerException when the algorithm is null.
      */
     public void addAlgorithm(Algorithm alg) {
-        if(alg == null) {
-            throw new NullPointerException("The element can't be null.");
-        }
-        if(algorithms == null) {
-            algorithms = new ArrayList();
-        }
-        algorithms.add(alg);
+//        if(alg == null) {
+//            throw new NullPointerException("The element can't be null.");
+//        }
+//        if(benchmarks == null) {
+//            benchmarks = new ArrayList();
+//        }
+//        benchmarks.add(alg);
     }
 
     /**
      * Available algorithms.
      * @return Algorithms.
      */
-    public List<Algorithm> getAlgorithms() {
-        return algorithms;
+    public List<Benchmark> getBenchmarks() {
+        return benchmarks;
     }
 
     /**
      * Set the available algorithms.
-     * @param algorithms Algorithms.
+     * @param benchmarks Algorithms.
      */
-    public void setAlgorithms(List<Algorithm> algorithms) {
-        this.algorithms = algorithms;
+    public void setBenchmarks(List<Benchmark> benchmarks) {
+        this.benchmarks = benchmarks;
     }
 
     /**

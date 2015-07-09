@@ -41,7 +41,7 @@
             </Tab>
           <Tab fx:id="runBenchmarkTab" closable="false" text="%tab.run.benchmark">
             <content>
-              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+              <fx:include source="/fxml/RunBenchmark.fxml"/>
             </content>
           </Tab>
             <Tab fx:id="resultsTab" closable="false" text="%tab.results">

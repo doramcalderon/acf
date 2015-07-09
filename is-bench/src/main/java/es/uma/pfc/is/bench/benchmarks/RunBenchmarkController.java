@@ -1,31 +1,32 @@
-package es.uma.pfc.is.bench;
+package es.uma.pfc.is.bench.benchmarks;
 
-import es.uma.pfc.is.algorithms.Algorithm;
 import es.uma.pfc.is.algorithms.AlgorithmOptions.Mode;
-import es.uma.pfc.is.algorithms.exceptions.AlgorithmException;
+import es.uma.pfc.is.bench.ChangesManager;
+import es.uma.pfc.is.bench.Controller;
+import es.uma.pfc.is.bench.RootController;
+import es.uma.pfc.is.bench.benchmarks.domain.Benchmark;
 import es.uma.pfc.is.bench.config.UserConfig;
-import es.uma.pfc.is.bench.i18n.BenchMessages;
 import es.uma.pfc.is.bench.i18n.I18n;
-import es.uma.pfc.is.bench.services.AlgorithmExecService;
-import es.uma.pfc.is.bench.services.AlgorithmsLoadService;
+import es.uma.pfc.is.bench.services.BenchmarksLoadService;
 import es.uma.pfc.is.bench.services.FileReaderService;
 import es.uma.pfc.is.bench.services.StatisticsReaderService;
 import es.uma.pfc.is.bench.uitls.Chooser;
 import es.uma.pfc.is.bench.uitls.Dialogs;
 import es.uma.pfc.is.bench.validators.FilePathValidator;
 import es.uma.pfc.is.bench.view.FXMLViews;
-import es.uma.pfc.is.commons.strings.StringUtils;
+import es.uma.pfc.is.javafx.FilterableTreeItem;
+import es.uma.pfc.is.javafx.TreeItemPredicate;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javafx.beans.binding.Bindings;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
-import javafx.collections.FXCollections;
-import javafx.collections.transformation.FilteredList;
 import javafx.concurrent.WorkerStateEvent;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -34,12 +35,12 @@ import javafx.scene.Parent;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
-import javafx.scene.control.ListView;
 import javafx.scene.control.ProgressIndicator;
-import javafx.scene.control.SelectionMode;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import javafx.scene.control.TreeItem;
+import javafx.scene.control.TreeView;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.FileChooser;
 import javafx.stage.Window;
@@ -48,12 +49,12 @@ import org.controlsfx.validation.ValidationResult;
 import org.controlsfx.validation.ValidationSupport;
 import org.controlsfx.validation.Validator;
 
-public class BenchmarksController extends Controller {
+public class RunBenchmarkController extends Controller {
 
     /**
      * Modelo.
      */
-    private BenchModel model;
+    private RunBenchmarkModel model;
 
     /**
      * Input path fle.
@@ -70,29 +71,25 @@ public class BenchmarksController extends Controller {
      */
     @FXML
     private TextField filterField;
-
-    /**
-     * Algorithms ListView.
-     */
     @FXML
-    private ListView<Algorithm> algorithmsList;
+    private TreeView benchmarksTree;
     /**
      * Run Button.
      */
     @FXML
     private Button btnRun;
-
+    
     @FXML
     private BorderPane rootPane;
-
+    
     @FXML
     private TextArea txtHistoryArea;
     @FXML
     private TableView tableStatistics;
-
+    
     @FXML
     private CheckBox chkTime, chkHistory, chkStatistics;
-
+    
     @FXML
     private ProgressIndicator historyProgressInd;
     
@@ -112,32 +109,29 @@ public class BenchmarksController extends Controller {
     public void initialize(URL url, ResourceBundle rb) {
         super.initialize(url, rb);
         initView();
-        model = new BenchModel();
+        model = new RunBenchmarkModel();
         initModel();
         initBinding();
         initListeners();
-        modelToView();
         
         readerService = new FileReaderService();
         filePathValidator = new FilePathValidator();
     }
 
-    
     /**
      * Initialize the view.
      */
     @Override
     protected void initView() {
         support = new ValidationSupport();
-        btnRun.setDisable(Boolean.TRUE);
-        algorithmsList.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
-    }
-
-    @Override
-    protected void initBinding() {
-        support.registerValidator(txtInput,  Validator.createEmptyValidator("The field can't be empty."));
         
     }
+    
+    @Override
+    protected void initBinding() {
+        support.registerValidator(txtInput, Validator.createEmptyValidator("The field can't be empty."));
+    }
+
     /**
      * Crea los listeners necesarios.
      */
@@ -145,29 +139,29 @@ public class BenchmarksController extends Controller {
     protected void initListeners() {
         
         ChangesManager.get().getAlgorithmsChanges().addListener(new ChangeListener() {
-
+            
             @Override
             public void changed(ObservableValue observable, Object oldValue, Object newValue) {
                 reload();
             }
         });
-        
-        algorithmsList.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Algorithm>() {
 
-            @Override
-            public void changed(ObservableValue<? extends Algorithm> observable, Algorithm oldValue, Algorithm newValue) {
-                btnRun.setDisable(newValue == null);
-                txtOutput.clear();
-                if(algorithmsList.getSelectionModel().getSelectedItems().size() == 1) {
-                    if(newValue != null) {
-                        txtOutput.setDisable(false);
-                        txtOutput.setText(model.getDefaultOutput(newValue));
-                    }
-                } else {
-                    txtOutput.setDisable(true);
-                }
-            }
-        });
+//        algorithmsList.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Algorithm>() {
+//
+//            @Override
+//            public void changed(ObservableValue<? extends Algorithm> observable, Algorithm oldValue, Algorithm newValue) {
+//                btnRun.setDisable(newValue == null);
+//                txtOutput.clear();
+//                if(algorithmsList.getSelectionModel().getSelectedItems().size() == 1) {
+//                    if(newValue != null) {
+//                        txtOutput.setDisable(false);
+//                        txtOutput.setText(model.getDefaultOutput(newValue));
+//                    }
+//                } else {
+//                    txtOutput.setDisable(true);
+//                }
+//            }
+//        });
     }
 
     /**
@@ -175,28 +169,44 @@ public class BenchmarksController extends Controller {
      */
     @Override
     protected void initModel() {
-        AlgorithmsLoadService loadService = new AlgorithmsLoadService();
-        loadService.setOnSucceeded((WorkerStateEvent event) -> 
-            {
-                model.setAlgorithms((List<Algorithm>) event.getSource().getValue());
-                modelToView();
-            });
+        BenchmarksLoadService loadService = new BenchmarksLoadService();
+        loadService.setOnSucceeded((WorkerStateEvent event) -> {
+            model.setBenchmarks((List<Benchmark>) event.getSource().getValue());
+            modelToView();
+        });
         loadService.restart();
         
     }
 
     /**
-     * Actualiza la vista con los valores del modelo. 
-    */
+     * Actualiza la vista con los valores del modelo.
+     */
     @Override
     protected void modelToView() {
-        FilteredList<Algorithm> filteredData = new FilteredList<>(FXCollections.observableArrayList(model.getAlgorithms()), p -> true);
-        filterField.textProperty().addListener((observable, oldValue, newValue) -> {
-        filteredData.setPredicate(algorithm -> {
-                return (StringUtils.isEmpty(newValue) || StringUtils.containsIgnoreCase(algorithm.getName(), newValue));
+        if (model.getBenchmarks() != null) {
+            FilterableTreeItem root = new FilterableTreeItem(null);
+            
+            model.getBenchmarks().stream().forEach((bench) -> {
+                FilterableTreeItem benchItem = new FilterableTreeItem(bench);
+                if (bench.getAlgorithms() != null) {
+                    final List<TreeItem> algItems = new ArrayList();
+                    bench.getAlgorithms().stream().forEach(algorithm -> algItems.add(new TreeItem(algorithm)));
+                    benchItem.getInternalChildren().addAll(algItems);
+                }
+                root.getInternalChildren().add(benchItem);
             });
-        });
-        algorithmsList.setItems(filteredData);
+            
+            root.setExpanded(true);
+            root.predicateProperty().bind(Bindings.createObjectBinding(() -> {
+                if (filterField.getText() == null || filterField.getText().isEmpty()) {
+                    return null;
+                }
+                return TreeItemPredicate.create(benchmark -> benchmark.toString().contains(filterField.getText()));
+            }, filterField.textProperty()));
+            
+            benchmarksTree.setRoot(root);
+            benchmarksTree.setShowRoot(false);
+        }
     }
 
     /**
@@ -206,7 +216,6 @@ public class BenchmarksController extends Controller {
         model.setInput(txtInput.getText());
         model.setOutput(txtOutput.getText());
         
-        model.setSelectedAlgorithms(algorithmsList.getSelectionModel().getSelectedItems());
         model.setInputOutputs();
         
         if (chkTime.isSelected()) {
@@ -219,18 +228,20 @@ public class BenchmarksController extends Controller {
             addModeToModel(Mode.STATISTICS);
         }
     }
-    
+
     /**
      * Validate the fields values.
+     *
      * @return {@code true} if values are valids, {@code false} en otro caso.
      */
+    @Override
     protected boolean validate() {
         boolean valid = !support.isInvalid();
         String message = null;
         
-        if(valid) {
+        if (valid) {
             ValidationResult result = filePathValidator.apply(txtInput, txtInput.getText());
-            if (!result.getErrors().isEmpty()) { 
+            if (!result.getErrors().isEmpty()) {                
                 ValidationMessage valMessage = result.getErrors().toArray(new ValidationMessage[]{})[0];
                 support.getValidationDecorator().applyValidationDecoration(valMessage);
                 message = valMessage.getText();
@@ -240,41 +251,32 @@ public class BenchmarksController extends Controller {
             valid = result.getErrors().isEmpty();
         } else {
             message = support.getHighestMessage(txtInput).get().getText();
-        } 
+        }        
         
-        if(!valid) {
+        if (!valid) {
             new Alert(Alert.AlertType.ERROR, message).show();
         }
         return valid;
     }
+
     protected void reload() {
         initModel();
-        modelToView();
         ChangesManager.get().setAlgorithmsChanges(Boolean.FALSE);
     }
-    
+
     /**
-    /**
+     * /**
      * Añade al modelo la activación de un modo de ejecución.
      *
      * @param mode Modo.
      */
     protected void addModeToModel(Mode mode) {
-        if(model.getSelectedAlgorithms() != null) {
+        if (model.getSelectedAlgorithms() != null) {
             model.getSelectedAlgorithms().forEach(alg -> alg.enable(mode));
         }
     }
-
-    @FXML
-    public void handleAddAlgAction(ActionEvent event) {
-        try {
-            Parent algorithmsPane = FXMLLoader.load(RootController.class.getResource(FXMLViews.ALGORITHMS_VIEW), getBundle());
-            String title = getI18nLabel(I18n.ALGORITHMS_DIALOG_TITLE);
-            Dialogs.showModalDialog(title, algorithmsPane, rootPane.getScene().getWindow());
-        } catch (IOException ex) {
-            Logger.getLogger(RootController.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }
+    
+  
     /**
      * Manejador del evento ActionEvent del botón <i>Run</i>.<br/>
      * Ejecuta el algoritmo seleccionado.
@@ -285,28 +287,28 @@ public class BenchmarksController extends Controller {
     public void handleRunAction(ActionEvent event) {
         clearTraces();
         
-        if(validate()) {
+        if (validate()) {
             viewToModel();
-            try {
-                List<Algorithm> algs = model.getSelectedAlgorithms();
-                AlgorithmExecService service = new AlgorithmExecService(algs);
-                service.setOnFinished((WorkerStateEvent event1) -> {
-                    if(algorithmsList.getSelectionModel().getSelectedItems().size() == 1) {
-                        showHistory();
-                        showStatistics();
-                    }
-                    algs.forEach(alg -> alg .reset());
-                });
-                historyProgressInd.visibleProperty().bind(service.runningProperty());
-                statsProgressInd.visibleProperty().bind(service.runningProperty());
-                service.restart();
-
-            } catch (AlgorithmException ex) {
-                Logger.getLogger(BenchmarksController.class.getName()).log(Level.SEVERE, ex.getMessage(), ex);
-            }     
+//            try {
+//                List<Algorithm> algs = model.getSelectedAlgorithms();
+//                AlgorithmExecService service = new AlgorithmExecService(algs);
+//                service.setOnFinished((WorkerStateEvent event1) -> {
+//                    if(algorithmsList.getSelectionModel().getSelectedItems().size() == 1) {
+//                        showHistory();
+//                        showStatistics();
+//                    }
+//                    algs.forEach(alg -> alg .reset());
+//                });
+//                historyProgressInd.visibleProperty().bind(service.runningProperty());
+//                statsProgressInd.visibleProperty().bind(service.runningProperty());
+//                service.restart();
+//
+//            } catch (AlgorithmException ex) {
+//                Logger.getLogger(RunBenchmarkController.class.getName()).log(Level.SEVERE, ex.getMessage(), ex);
+//            }     
         }
     }
-
+    
     protected void showHistory() {
         if (chkTime.isSelected() || chkHistory.isSelected()) {
             String outputname = model.getOutput();
@@ -319,11 +321,11 @@ public class BenchmarksController extends Controller {
             readerService.restart();
         }
     }
-
+    
     protected void showStatistics() {
         if (chkStatistics.isSelected()) {
             String outputname = model.getOutput();
-            if(outputname != null) {
+            if (outputname != null) {
                 StatisticsReaderService statisticsReader
                         = new StatisticsReaderService(outputname.substring(0, outputname.lastIndexOf(".")).concat(".csv"), tableStatistics);
                 statsProgressInd.visibleProperty().bind(statisticsReader.runningProperty());
@@ -367,9 +369,9 @@ public class BenchmarksController extends Controller {
      */
     @FXML
     public void handleSelectOutputAction(ActionEvent event) {
-
+        
         Window mainStage = rootPane.getScene().getWindow();
-
+        
         File selectedFile = Chooser.openFileChooser(mainStage, Chooser.FileChooserMode.OPEN,
                 getI18nLabel(I18n.SELECT_OUTPUT_DIALOG_TITLE), UserConfig.get().getDefaultOutputDir(),
                 new FileChooser.ExtensionFilter(getI18nLabel(I18n.TEXT_FILE), "*.txt"),
@@ -378,12 +380,12 @@ public class BenchmarksController extends Controller {
             txtOutput.setText(selectedFile.getPath());
         }
     }
-
+    
     @FXML
     public void clearHistory(ActionEvent event) {
         txtHistoryArea.textProperty().set("");
     }
-
+    
     @FXML
     public void clearStatistics(ActionEvent event) {
         tableStatistics.getItems().clear();
@@ -410,6 +412,6 @@ public class BenchmarksController extends Controller {
         txtInput.clear();
         txtOutput.clear();
         clearTraces();
-        this.algorithmsList.getSelectionModel().clearSelection();
+        
     }
 }

@@ -58,7 +58,7 @@ public class BenchmarkTest {
         Benchmark b = new Benchmark("bench1", Arrays.asList(mock(Algorithm.class)));
         b.setWorkspace(workspace);
         
-        String pathExpected = workspace + File.separator + b.getName();
+        String pathExpected = workspace + File.separator + "benchmarks" + File.separator + b.getName();
         String benchmarkPath = b.getBenchmarkPath();
         
         assertEquals(pathExpected, benchmarkPath);

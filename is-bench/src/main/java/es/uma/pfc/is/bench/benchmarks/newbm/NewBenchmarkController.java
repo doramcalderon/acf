@@ -3,6 +3,7 @@ package es.uma.pfc.is.bench.benchmarks.newbm;
 import com.google.common.eventbus.Subscribe;
 import es.uma.pfc.is.algorithms.Algorithm;
 import es.uma.pfc.is.bench.Controller;
+import es.uma.pfc.is.bench.RootController;
 import es.uma.pfc.is.bench.algorithmslist.view.AlgorithmsListController;
 import es.uma.pfc.is.bench.benchmarks.business.BenchmarksBean;
 import es.uma.pfc.is.bench.benchmarks.domain.Benchmark;
@@ -10,8 +11,11 @@ import es.uma.pfc.is.bench.config.UserConfig;
 import es.uma.pfc.is.bench.events.AlgorithmsSelectedEvent;
 import es.uma.pfc.is.bench.events.BenchEventBus;
 import es.uma.pfc.is.bench.i18n.BenchMessages;
+import es.uma.pfc.is.bench.i18n.I18n;
 import es.uma.pfc.is.bench.services.AlgorithmsLoadService;
 import es.uma.pfc.is.bench.services.BenchmarkSaveService;
+import es.uma.pfc.is.bench.uitls.Dialogs;
+import es.uma.pfc.is.bench.view.FXMLViews;
 import es.uma.pfc.is.commons.strings.StringUtils;
 import java.io.IOException;
 import java.net.URL;
@@ -24,6 +28,8 @@ import javafx.collections.FXCollections;
 import javafx.concurrent.WorkerStateEvent;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.ListView;
@@ -199,6 +205,18 @@ public class NewBenchmarkController extends Controller {
         clear();
         
     }
+    
+    @FXML
+    public void handleAddAlgAction(ActionEvent event) {
+        try {
+            Parent algorithmsPane = FXMLLoader.load(RootController.class.getResource(FXMLViews.ALGORITHMS_VIEW), getBundle());
+            String title = getI18nLabel(I18n.ALGORITHMS_DIALOG_TITLE);
+            Dialogs.showModalDialog(title, algorithmsPane, rootPane.getScene().getWindow());
+        } catch (IOException ex) {
+            Logger.getLogger(RootController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
     
     protected void clear() {
         txtName.clear();

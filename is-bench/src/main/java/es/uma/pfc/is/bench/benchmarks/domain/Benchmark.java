@@ -99,8 +99,16 @@ public class Benchmark {
             throw new RuntimeException("The workspace it isn't established.");
         }
         
-        return new StringBuilder(workspace).append(File.separator).append(name).toString();
+        return new StringBuilder(workspace).append(File.separator)
+                         .append("benchmarks").append(File.separator)
+                         .append(name).toString();
     }
+
+    @Override
+    public String toString() {
+        return getName();
+    }
+    
     
     
     

@@ -2,8 +2,7 @@
 
 package es.uma.pfc.is.bench.benchmarks.business;
 
-import es.uma.pfc.is.algorithms.Algorithm;
-import es.uma.pfc.is.bench.algorithms.business.AlgorithmsBean;
+
 import es.uma.pfc.is.bench.algorithms.business.AlgorithmsPersistence;
 import es.uma.pfc.is.bench.algorithms.domain.AlgorithmEntity;
 import es.uma.pfc.is.bench.algorithms.domain.Algorithms;
@@ -24,7 +23,7 @@ import java.util.logging.Logger;
  */
 public class BenchmarksBean {
     private BenchmarksPersistence persistence;
-    private AlgorithmsPersistence algorithmsPersistence;
+    private final AlgorithmsPersistence algorithmsPersistence;
 
     public BenchmarksBean() {
         persistence = BenchmarksPersistence.get();
@@ -33,12 +32,18 @@ public class BenchmarksBean {
     
     /**
      * Return the algorithms defined in the algorithms file.
+     * @param workspace
      * @return Algorithm Entities list.
+     * @throws java.lang.Exception
      */
-    public List<Benchmark> getBenchmarks() {
-        List<Benchmark> algorithms = null;
-        
-        return algorithms;
+    public List<Benchmark> getBenchmarks(String workspace) throws Exception {
+        List<Benchmark> benchmarks = null;
+        try {
+            benchmarks = persistence.getBenchmarks(workspace);
+        } catch (Exception ex) {
+            Logger.getLogger(BenchmarksBean.class.getName()).log(Level.SEVERE, "Error consulting benchmarks.", ex);
+        }
+        return benchmarks;
     }
     
     /**

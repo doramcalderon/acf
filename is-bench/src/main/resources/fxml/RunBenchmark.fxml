@@ -6,7 +6,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane fx:id="rootAnchorPane" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="es.uma.pfc.is.bench.BenchmarksController">
+<AnchorPane fx:id="rootAnchorPane" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="es.uma.pfc.is.bench.benchmarks.RunBenchmarkController">
    <children>
       <BorderPane fx:id="rootPane" prefHeight="600.0" prefWidth="800.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <top>
@@ -64,7 +64,7 @@
               <items>
                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
                      <children>
-                        <GridPane layoutY="-22.0" prefHeight="538.0" prefWidth="277.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                        <GridPane layoutY="-22.0" prefHeight="538.0" prefWidth="277.0" vgap="5.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                           <columnConstraints>
                             <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                           </columnConstraints>
@@ -74,28 +74,19 @@
                               <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
                           </rowConstraints>
                            <children>
-                              <HBox prefHeight="47.0" prefWidth="267.0" spacing="5.0" AnchorPane.bottomAnchor="510.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" GridPane.rowIndex="1">
-                                 <children>
-                                    <TextField fx:id="filterField" prefHeight="25.0" prefWidth="228.0" />
-                                    <Button fx:id="btnAddAlgorithm" mnemonicParsing="false" onAction="#handleAddAlgAction" text="+" />
-                                 </children>
-                                 <GridPane.margin>
-                                    <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-                                 </GridPane.margin>
-                              </HBox>
-                              <ListView fx:id="algorithmsList" layoutX="125.0" layoutY="-42.0" prefHeight="400.0" prefWidth="248.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" GridPane.rowIndex="2">
-                                 <rotationAxis>
-                                    <Point3D />
-                                 </rotationAxis>
-                              </ListView>
+                              <TextField fx:id="filterField" prefHeight="25.0" prefWidth="228.0" GridPane.rowIndex="1" />
+                              <TreeView fx:id="benchmarksTree" prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="2" />
                            </children>
                         </GridPane>
-                        <Label text="%algorithms" AnchorPane.leftAnchor="10.0">
+                        <Label text="%lb.benchmarks.title" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
                            <font>
                               <Font size="18.0" />
                            </font>
                         </Label>
                      </children>
+                     <padding>
+                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                     </padding>
                   </AnchorPane>
                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
                      <children>
@@ -178,6 +169,9 @@
                            </center>
                         </BorderPane>
                      </children>
+                     <padding>
+                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                     </padding>
                   </AnchorPane>
               </items>
             </SplitPane>
