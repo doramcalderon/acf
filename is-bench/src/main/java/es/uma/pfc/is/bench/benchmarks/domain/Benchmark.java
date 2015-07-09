@@ -103,6 +103,20 @@ public class Benchmark {
                          .append("benchmarks").append(File.separator)
                          .append(name).toString();
     }
+    /**
+     * Path of output dir of benchmark.
+     * @return Path.
+     */
+    public String getOutputPath() {
+        return getBenchmarkPath().concat(File.separator).concat("output");
+    }
+    /**
+     * Path of input dir of benchmark.
+     * @return Path.
+     */
+    public String getInputPath() {
+        return getBenchmarkPath().concat(File.separator).concat("input");
+    }
 
     @Override
     public String toString() {

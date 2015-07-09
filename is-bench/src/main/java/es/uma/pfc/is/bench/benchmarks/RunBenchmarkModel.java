@@ -7,6 +7,13 @@ import es.uma.pfc.is.bench.config.UserConfig;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
+import javafx.beans.InvalidationListener;
+import javafx.beans.property.ObjectProperty;
+import javafx.beans.property.SimpleObjectProperty;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 
 /**
  *  Benchmarks execution model.
@@ -19,14 +26,23 @@ public class RunBenchmarkModel {
      */
     private List<Benchmark> benchmarks;
     /**
+     * Selected benchmark.
+     */
+//    private final ObjectProperty selectedBenchmark;
+    /**
      * Selected algorithms.
      */
     private List<Algorithm> selectedAlgorithms;
-    /** Path input file.**/
-    private String input;
-    /** Path output file.**/
-    private String outputFile;
-    private UserConfig userConfig;
+    /**
+     * Path input file property.
+     */
+    private final StringProperty inputProperty;
+    
+    
+    /** Path output file property.**/
+    private final StringProperty outputProperty;
+    
+    private final UserConfig userConfig;
     
     /**
      * Constructor.
@@ -34,6 +50,9 @@ public class RunBenchmarkModel {
     public RunBenchmarkModel() {
         benchmarks = new ArrayList();
         userConfig = UserConfig.get();
+//        selectedBenchmark = new SimpleObjectProperty();
+        inputProperty = new SimpleStringProperty();
+        outputProperty = new SimpleStringProperty();
     }
     
     /**
@@ -41,24 +60,10 @@ public class RunBenchmarkModel {
      */
     public void clear() {
         benchmarks.clear();
-        input = null;
-        outputFile = null;
+        inputProperty.setValue(null);
+        outputProperty.setValue(null);
     }
-    
-    /**
-     * Add a new algorithm.
-     * @param alg Algorithm.
-     * @throws NullPointerException when the algorithm is null.
-     */
-    public void addAlgorithm(Algorithm alg) {
-//        if(alg == null) {
-//            throw new NullPointerException("The element can't be null.");
-//        }
-//        if(benchmarks == null) {
-//            benchmarks = new ArrayList();
-//        }
-//        benchmarks.add(alg);
-    }
+   
 
     /**
      * Available algorithms.
@@ -75,7 +80,11 @@ public class RunBenchmarkModel {
     public void setBenchmarks(List<Benchmark> benchmarks) {
         this.benchmarks = benchmarks;
     }
-
+//
+//    public ObjectProperty selectedBenchmark() {
+//        return selectedBenchmark;
+//    }
+    
     /**
      * Selected algorithms.
      * @return Algorithms list.
@@ -91,39 +100,40 @@ public class RunBenchmarkModel {
         this.selectedAlgorithms = selectedAlgorithms;
     }
     
-
+    /**
+     * Path input file property.
+     * @return StringProperty.
+     */
+    public StringProperty inputProperty() {
+        return inputProperty;
+    }
+    
     /**
      * Path input file.
      * @return the input.
      */
     public String getInput() {
-        return input;
+        return (inputProperty != null) ? inputProperty.get() : null;
     }
+
 
     /**
-     * Set the path input file.
-     * @param input the input to set
+     * Path input file property.
+     * @return StringProperty.
      */
-    public void setInput(String input) {
-        this.input = input;
+    public StringProperty outputProperty() {
+        return outputProperty;
     }
-
+    
     /**
      * Path output file.
      * @return the outputFile
      */
     public String getOutput() {
-        return outputFile;
+        return (outputProperty != null) ? outputProperty.get() : null;
     }
 
-    /**
-     *  Set the path output file.
-     * @param output the outputFile to set
-     */
-    public void setOutput(String output) {
-        this.outputFile = output;
-    }
-
+ 
     /**
      * Default output file for an algorithm.
      * @param alg Algorithm.
@@ -143,12 +153,14 @@ public class RunBenchmarkModel {
         if(selectedAlgorithms != null) {
             if(selectedAlgorithms.size() > 1) {
                 for(Algorithm alg : selectedAlgorithms) {
-                    alg.input(input);
+                    alg.input(getInput());
                     alg.output(getDefaultOutput(alg));
                 }
             } else {
-                selectedAlgorithms.get(0).input(input).output(outputFile);
+                selectedAlgorithms.get(0).input(getInput()).output(getOutput());
             }
         }
     }
+
+    
 }

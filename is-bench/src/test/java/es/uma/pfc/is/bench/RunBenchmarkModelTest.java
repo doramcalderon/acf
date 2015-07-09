@@ -31,46 +31,7 @@ public class RunBenchmarkModelTest {
     public RunBenchmarkModelTest() {
     }
 
-    /**
-     * Test of addAlgorithm method, of class RunBenchmarkModel.
-     */
-    @Ignore
-    @Test
-    public void testAddAlgorithm() {
-        Algorithm alg = mock(Algorithm.class);
-        RunBenchmarkModel model = new RunBenchmarkModel();
-        model.addAlgorithm(alg);
-        
-        assertNotNull(model.getBenchmarks());
-        assertEquals(1, model.getBenchmarks().size());
-        assertTrue(model.getBenchmarks().contains(alg));
-    }
-    /**
-     * Test of addAlgorithm method, of class RunBenchmarkModel.
-     */
-    @Ignore
-    @Test(expected = NullPointerException.class)
-    public void testAddNullAlgorithm() {
-        Algorithm alg = null;
-        RunBenchmarkModel model = new RunBenchmarkModel();
-        model.addAlgorithm(alg);
-        fail("Se esperaba NullPointerException.");
-    }
-    /**
-     * Test of addAlgorithm method, of class RunBenchmarkModel.
-     */
-    @Ignore
-    @Test(expected = NullPointerException.class)
-    public void testAddAlgorithmToNullList() {
-        Algorithm alg = null;
-        RunBenchmarkModel model = new RunBenchmarkModel();
-        model.setBenchmarks(null);
-        model.addAlgorithm(alg);
-        
-        assertNotNull(model.getBenchmarks());
-        assertEquals(1, model.getBenchmarks().size());
-        assertTrue(model.getBenchmarks().contains(alg));
-    }
+  
 
     /**
      * Test of getBenchmarks method, of class RunBenchmarkModel.
@@ -193,7 +154,7 @@ public class RunBenchmarkModelTest {
             algs.add(alg2);
 
             RunBenchmarkModel model = new RunBenchmarkModel();
-            model.setInput(input);
+            model.inputProperty().set(input);
             model.setSelectedAlgorithms(algs);
             model.setInputOutputs();
 
@@ -233,8 +194,8 @@ public class RunBenchmarkModelTest {
             algs.add(alg1);
 
             RunBenchmarkModel model = new RunBenchmarkModel();
-            model.setInput(input);
-            model.setOutput(output);
+            model.inputProperty().set(input);
+            model.outputProperty().set(output);
             model.setSelectedAlgorithms(algs);
             model.setInputOutputs();
 

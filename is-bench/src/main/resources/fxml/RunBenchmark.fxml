@@ -16,7 +16,7 @@
                      <children>
                         <HBox spacing="5.0">
                            <children>
-                              <Button fx:id="btnRun" disable="true" mnemonicParsing="false" onAction="#handleRunAction" prefHeight="50.0" prefWidth="50.0" text="%btn.run" />
+                              <Button fx:id="btnRun" mnemonicParsing="false" onAction="#handleRunAction" prefHeight="50.0" prefWidth="50.0" text="%btn.run" />
                               <Button fx:id="btnClear" layoutX="15.0" layoutY="15.0" mnemonicParsing="false" onAction="#handleClearAll" prefHeight="50.0" prefWidth="50.0" text="%menu.clear" />
                            </children>
                         </HBox>

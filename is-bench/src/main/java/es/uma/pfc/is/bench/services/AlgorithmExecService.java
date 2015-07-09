@@ -3,6 +3,7 @@ package es.uma.pfc.is.bench.services;
 
 import es.uma.pfc.is.algorithms.Algorithm;
 import es.uma.pfc.is.algorithms.AlgorithmExecutor;
+import es.uma.pfc.is.bench.benchmarks.domain.Benchmark;
 import java.util.List;
 import javafx.concurrent.Service;
 import javafx.concurrent.Task;
@@ -23,6 +24,21 @@ public class AlgorithmExecService extends Service {
         this.algs = algs;
     }
 
+    /**
+     * Execute the algorithms of a benchmark.
+     * @param benchmark Benchmark.
+     */
+    public AlgorithmExecService(Benchmark benchmark) {
+        if(benchmark != null) {
+            algs = benchmark.getAlgorithms();
+            
+            if(algs != null) {
+                algs.forEach((alg) -> {
+                    alg.output(benchmark.getOutputPath());
+                });    
+            }
+        }
+    }
     @Override
     protected Task createTask() {
         return new Task() {
@@ -33,7 +49,7 @@ public class AlgorithmExecService extends Service {
                 if(algs != null) {
                     AlgorithmExecutor executor = new AlgorithmExecutor();
                     algs.forEach(alg -> executor.execute(alg));
-                }
+                    }
                 return null;
             }
         };
