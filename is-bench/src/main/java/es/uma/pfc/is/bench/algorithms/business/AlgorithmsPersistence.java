@@ -6,6 +6,7 @@ import es.uma.pfc.is.bench.config.UserConfig;
 import es.uma.pfc.is.commons.files.FileUtils;
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Paths;
 import javax.xml.bind.JAXB;
 
 /**
@@ -60,7 +61,7 @@ public class AlgorithmsPersistence {
             throw new IllegalArgumentException("algorithms argument can't be null.");
         }
        
-        String algorithmsFile =  path + File.separator + "algorithms.xml";
+        String algorithmsFile =  Paths.get(path, "algorithms.xml").toString();
         try {
             FileUtils.createIfNoExists(algorithmsFile);
         } catch (IOException ex) {

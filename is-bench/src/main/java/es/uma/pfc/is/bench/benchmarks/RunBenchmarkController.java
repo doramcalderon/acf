@@ -129,6 +129,7 @@ public class RunBenchmarkController extends Controller {
         support.registerValidator(txtInput, Validator.createEmptyValidator("The field can't be empty."));
         txtInput.textProperty().bindBidirectional(model.inputProperty());
         txtOutput.textProperty().bindBidirectional(model.outputProperty());
+        model.selection().bind(benchmarksTree.getSelectionModel().selectedItemProperty());
     }
 
     /**
@@ -144,23 +145,56 @@ public class RunBenchmarkController extends Controller {
                 reload();
             }
         });
-//
-//        benchmarksTree.getSelectionModel().selectedItemProperty().addListener(new ChangeListener() {
-//
-//            @Override
-//            public void changed(ObservableValue observable, Object oldValue, Object newValue) {
-//                btnRun.setDisable(newValue == null);
-//                txtOutput.clear();
-//                if(benchmarksTree.getSelectionModel().getSelectedItems().size() == 1) {
-//                    if(newValue != null) {
-//                        txtOutput.setDisable(false);
-//                        txtOutput.setText(model.getDefaultOutput(newValue));
-//                    }
-//                } else {
-//                    txtOutput.setDisable(true);
-//                }
-//            }
-//        });
+
+        benchmarksTree.getSelectionModel().selectedItemProperty().addListener(new ChangeListener() {
+
+            @Override
+            public void changed(ObservableValue observable, Object oldValue, Object newValue) {
+                btnRun.setDisable(newValue == null);
+                txtOutput.clear();
+            }
+        });
+        benchmarksTree.getSelectionModel().selectedItemProperty().addListener(new BenchmarkSelectionListener());
+    }
+    
+
+    /**
+     * Benchmarks tree listener.<br/>
+     * When a benchmark is selected, the output field is initialized with benchmark output dir and is disabled.<br/>
+     * In this case, the mode checks and console outputs are disabled too.<br/>
+     * If the selection is an algorithm, the output field is enabled and initialized with the path of algorithm default output file.<br/>
+     * If the selection is more than one algorithm, the output field is cleared and disabled.<br/>
+     * If the selection contains benchmarks and algorithms the output field is cleared ant the Run button disabled.
+     */
+    protected class BenchmarkSelectionListener implements ChangeListener<TreeItem> {
+
+        @Override
+        public void changed(ObservableValue<? extends TreeItem> observable, TreeItem oldItem, TreeItem newItem) {
+            if(newItem != null) {
+                if(newItem.getValue() instanceof Benchmark) {
+                    Benchmark b = (Benchmark) newItem.getValue();
+                    txtOutput.setText(b.getOutputDir());
+                    txtOutput.setDisable(true);
+                    
+                    chkTime.setSelected(true);
+                    chkHistory.setSelected(false);
+                    chkHistory.setDisable(true);
+                    chkStatistics.setSelected(false);
+                    chkStatistics.setDisable(true);
+                    
+                    
+                } else {
+                    Algorithm alg = (Algorithm) newItem.getValue();
+                    txtOutput.setText(alg.getDefaultOutputPath());
+                    txtOutput.setDisable(false);
+                    chkTime.setSelected(true);
+                    chkTime.setDisable(true);
+                    chkHistory.setDisable(false);
+                    chkStatistics.setDisable(false);
+                }
+            }
+        }
+        
     }
 
     /**

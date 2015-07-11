@@ -3,7 +3,9 @@ package es.uma.pfc.is.bench.services;
 
 import es.uma.pfc.is.algorithms.Algorithm;
 import es.uma.pfc.is.algorithms.AlgorithmExecutor;
+import es.uma.pfc.is.algorithms.AlgorithmOptions;
 import es.uma.pfc.is.bench.benchmarks.domain.Benchmark;
+import java.nio.file.Paths;
 import java.util.List;
 import javafx.concurrent.Service;
 import javafx.concurrent.Task;
@@ -34,7 +36,7 @@ public class AlgorithmExecService extends Service {
             
             if(algs != null) {
                 algs.forEach((alg) -> {
-                    alg.output(benchmark.getOutputPath());
+                    alg.output(Paths.get(benchmark.getOutputDir(), alg.getDefaultOutputPath()).toString());
                 });    
             }
         }

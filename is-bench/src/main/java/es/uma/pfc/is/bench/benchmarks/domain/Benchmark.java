@@ -8,6 +8,7 @@ package es.uma.pfc.is.bench.benchmarks.domain;
 import es.uma.pfc.is.algorithms.Algorithm;
 import es.uma.pfc.is.commons.strings.StringUtils;
 import java.io.File;
+import java.nio.file.Paths;
 import java.util.List;
 
 /**
@@ -99,22 +100,20 @@ public class Benchmark {
             throw new RuntimeException("The workspace it isn't established.");
         }
         
-        return new StringBuilder(workspace).append(File.separator)
-                         .append("benchmarks").append(File.separator)
-                         .append(name).toString();
+        return Paths.get(workspace, "benchmarks", name).toString();
     }
     /**
      * Path of output dir of benchmark.
      * @return Path.
      */
-    public String getOutputPath() {
+    public String getOutputDir() {
         return getBenchmarkPath().concat(File.separator).concat("output");
     }
     /**
      * Path of input dir of benchmark.
      * @return Path.
      */
-    public String getInputPath() {
+    public String getInputDir() {
         return getBenchmarkPath().concat(File.separator).concat("input");
     }
 

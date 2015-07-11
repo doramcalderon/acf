@@ -132,5 +132,20 @@ public class GenericAlgorithmTest {
                 return "GenericAlgImpl";
             }
     }
+
+    
+    /**
+     * Test of getDefaultOutputPath method, of class GenericAlgorithm.
+     */
+    @Test
+    public void testDefaultOutputPath() {
+        GenericAlgorithm alg = new GenericAlgorithmImpl();
+        alg.setShortName("do");
+        String defaultOutput = alg.getDefaultOutputPath();
+        
+        assertEquals("do_output.txt", defaultOutput);
+    }
+
+
     
 }

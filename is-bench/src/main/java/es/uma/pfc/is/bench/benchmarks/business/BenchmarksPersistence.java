@@ -89,14 +89,14 @@ public class BenchmarksPersistence {
         List<Benchmark> benchmarks = null;
         
         if(!StringUtils.isEmpty(workspace)) {
-            Path benchmarksPath = Paths.get(workspace.concat(File.separator).concat("benchmarks"));
+            Path benchmarksPath = Paths.get(workspace, "benchmarks");
             if(Files.exists(benchmarksPath)) {
                 List<Path> benchPaths = Arrays.asList(Files.list(benchmarksPath).toArray(Path[]::new));
                 benchmarks = new ArrayList();
 
                 for(Path p : benchPaths) {
                     Algorithms benchAlgorithms;
-                    Path algorithmsPath = Paths.get(p.toString().concat(File.separator).concat("algorithms.xml"));
+                    Path algorithmsPath = Paths.get(p.toString(), "algorithms.xml");
                     if(Files.exists(algorithmsPath)) {
                         File algorithmsXml = algorithmsPath.toFile();
                         benchAlgorithms = JAXB.unmarshal(algorithmsXml, Algorithms.class);

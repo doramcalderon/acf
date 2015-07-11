@@ -21,15 +21,13 @@ import java.util.Properties;
  */
 public class UserConfig implements UserConfigProperties {
     /** Path del archivo de configruación.**/
-    public static final String CONFIG_PATH = System.getProperty("user.home") 
-                                             + File.separator + ".isbench"
-                                             + File.separator + "/isbench.properties";
+    public static final String CONFIG_PATH = Paths.get(System.getProperty("user.home"), 
+                                                       ".isbench", "isbench.properties").toString();
     /**
      * Path del workspace por defecto.
      */
-    public static final String DEFAULT_WORKSPACE_PATH = System.getProperty("user.home") 
-                                                        + File.separator + ".isbench" 
-                                                        + File.separator + "default";
+    public static final String DEFAULT_WORKSPACE_PATH = Paths.get(System.getProperty("user.home"), 
+                                                        ".isbench", "default").toString();
     /**
      * Directorio de entradas por defecto dentro del workspace.
      */
@@ -87,8 +85,8 @@ public class UserConfig implements UserConfigProperties {
             defaultWsPath = DEFAULT_WORKSPACE_PATH;
         } 
         FileUtils.createDirIfNoExists(defaultWsPath);
-        FileUtils.createDirIfNoExists(defaultWsPath + File.separator + DEFAULT_INPUT_PATH);
-        FileUtils.createDirIfNoExists(defaultWsPath + File.separator + DEFAULT_OUTPUT_PATH);
+        FileUtils.createDirIfNoExists(Paths.get(defaultWsPath, DEFAULT_INPUT_PATH).toString());
+        FileUtils.createDirIfNoExists(Paths.get(defaultWsPath, DEFAULT_OUTPUT_PATH).toString());
         config.setProperty(DEFAULT_WORKSPACE_PROPERTY, defaultWsPath);
         save();    
     }
@@ -145,8 +143,7 @@ public class UserConfig implements UserConfigProperties {
      * @return Properties.{@code null} if {@link #ALGORITHMS_FILE} doesn't exist.
      */
     public File getAlgorithmsFile() {
-        String filePath = getDefaultWorkspace() + File.separator + ALGORITHMS_FILE;
-        Path path = Paths.get(filePath);
+        Path path = Paths.get(getDefaultWorkspace(), ALGORITHMS_FILE);
         if(!Files.exists(path)) {
                 new AlgorithmsBean().create(new Algorithms());
         }

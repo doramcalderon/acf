@@ -53,8 +53,8 @@ public class BenchmarksBean {
      */
     public void create(Benchmark benchmark) throws IOException {
         if(benchmark != null) {            
-            Files.createDirectories(Paths.get(benchmark.getBenchmarkPath() + File.separator + "input"));
-            Files.createDirectories(Paths.get(benchmark.getBenchmarkPath() + File.separator + "output"));
+            Files.createDirectories(Paths.get(benchmark.getBenchmarkPath(), "input"));
+            Files.createDirectories(Paths.get(benchmark.getBenchmarkPath(), "output"));
 
             List<AlgorithmEntity> algsEntities = new ArrayList<>();
             benchmark.getAlgorithms().stream().forEach((alg) -> {
@@ -76,7 +76,7 @@ public class BenchmarksBean {
         boolean exists = false;
         
         if(!StringUtils.isEmpty(name) && !StringUtils.isEmpty(workspace)) {
-            exists = Files.exists(Paths.get(workspace.concat(File.separator).concat(name)));
+            exists = Files.exists(Paths.get(workspace, name));
         }
         
         return exists;
