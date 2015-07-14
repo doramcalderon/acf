@@ -39,20 +39,21 @@ public class BenchmarksBeanTest {
             String workspace = System.getProperty("user.dir") + File.separator + "src" + File.separator + "test";
             Algorithm alg = mock(Algorithm.class);
             when(alg.getName()).thenReturn("Alg1");
+            when(alg.getDefaultOutputFileName()).thenReturn("a1_output.txt");
 
             benchmark = new Benchmark(workspace, "Bench1", Arrays.asList(alg));
             BenchmarksBean bean = new BenchmarksBean();
             bean.create(benchmark);
 
             assertTrue(Files.exists(Paths.get(benchmark.getBenchmarkPath())));
-            assertTrue(Files.exists(Paths.get(benchmark.getBenchmarkPath() + File.separator + "input")));
-            assertTrue(Files.exists(Paths.get(benchmark.getBenchmarkPath() + File.separator + "output")));
-            assertTrue(Files.exists(Paths.get(benchmark.getBenchmarkPath() + File.separator + "algorithms.xml")));
+            assertTrue(Files.exists(Paths.get(benchmark.getBenchmarkPath(), "input")));
+            assertTrue(Files.exists(Paths.get(benchmark.getBenchmarkPath(), "output")));
+            assertTrue(Files.exists(Paths.get(benchmark.getBenchmarkPath(), "algorithms.xml")));
         } finally {
             if(benchmark != null) {
-                Files.deleteIfExists(Paths.get(benchmark.getBenchmarkPath() + File.separator + "algorithms.xml"));
-                Files.deleteIfExists(Paths.get(benchmark.getBenchmarkPath() + File.separator + "input"));
-                Files.deleteIfExists(Paths.get(benchmark.getBenchmarkPath() + File.separator + "output"));
+                Files.deleteIfExists(Paths.get(benchmark.getBenchmarkPath(), "algorithms.xml"));
+                Files.deleteIfExists(Paths.get(benchmark.getBenchmarkPath(), "input"));
+                Files.deleteIfExists(Paths.get(benchmark.getBenchmarkPath(), "output"));
                 Files.deleteIfExists(Paths.get(benchmark.getBenchmarkPath()));
             }
         }

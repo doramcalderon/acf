@@ -55,7 +55,8 @@ public class BenchmarkTest {
         String workspace = System.getProperty("user.dir") + File.separator + "src" + File.separator + "test";
         Algorithm alg = mock(Algorithm.class);
         when(alg.getName()).thenReturn("Alg1");
-        Benchmark b = new Benchmark("bench1", Arrays.asList(mock(Algorithm.class)));
+        when(alg.getDefaultOutputFileName()).thenReturn("a1_output.txt");
+        Benchmark b = new Benchmark("bench1", Arrays.asList(alg));
         b.setWorkspace(workspace);
         
         String pathExpected = workspace + File.separator + "benchmarks" + File.separator + b.getName();

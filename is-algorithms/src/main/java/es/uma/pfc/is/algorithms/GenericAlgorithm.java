@@ -193,7 +193,7 @@ public abstract class GenericAlgorithm implements Algorithm<String, Implicationa
 
     
     @Override
-    public String getDefaultOutputPath() {
+    public String getDefaultOutputFileName() {
         return getShortName() + "_output.txt";
     }
     

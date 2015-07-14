@@ -135,13 +135,13 @@ public class GenericAlgorithmTest {
 
     
     /**
-     * Test of getDefaultOutputPath method, of class GenericAlgorithm.
+     * Test of getDefaultOutputFileName method, of class GenericAlgorithm.
      */
     @Test
     public void testDefaultOutputPath() {
         GenericAlgorithm alg = new GenericAlgorithmImpl();
         alg.setShortName("do");
-        String defaultOutput = alg.getDefaultOutputPath();
+        String defaultOutput = alg.getDefaultOutputFileName();
         
         assertEquals("do_output.txt", defaultOutput);
     }

@@ -111,5 +111,5 @@ public interface Algorithm <I, O> {
      * Default output file path.
      * @return String.
      */
-    String getDefaultOutputPath();
+    String getDefaultOutputFileName();
 }

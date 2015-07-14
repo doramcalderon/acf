@@ -6,6 +6,7 @@
 package es.uma.pfc.is.bench.benchmarks.domain;
 
 import es.uma.pfc.is.algorithms.Algorithm;
+import es.uma.pfc.is.bench.config.UserConfig;
 import es.uma.pfc.is.commons.strings.StringUtils;
 import java.io.File;
 import java.nio.file.Paths;
@@ -16,6 +17,7 @@ import java.util.List;
  * @since @author Dora Calderón
  */
 public class Benchmark {
+
     /**
      * Workspace.
      */
@@ -31,44 +33,71 @@ public class Benchmark {
 
     /**
      * Constructor.
+     *
      * @param workspace
      * @param name Name.
-     * @param algorithms Algorithms. 
+     * @param algorithms Algorithms.
      * @throws IllegalArgumentException if name or algorithms list is empty.
      */
     public Benchmark(String workspace, String name, List<Algorithm> algorithms) {
-        this(name, algorithms);
-        this.workspace = workspace;
-    }
-    
-    /**
-     * Constructor.
-     * @param name Name.
-     * @param algorithms Algorithms. 
-     * @throws IllegalArgumentException if name or algorithms list is empty.
-     */
-    public Benchmark(String name, List<Algorithm> algorithms) {
-        if(StringUtils.isEmpty(name)) {
+        if (StringUtils.isEmpty(name)) {
             throw new IllegalArgumentException("The name is required.");
         }
-        if(algorithms == null || algorithms.isEmpty()) {
+        if (algorithms == null || algorithms.isEmpty()) {
             throw new IllegalArgumentException("The list algorithms is required.");
         }
         this.name = name;
-        this.algorithms = algorithms;
+        this.workspace = workspace;
+        this.algorithms = setAlgorithmsOutput(algorithms);
+    }
+
+    /**
+     * Constructor.
+     *
+     * @param name Name.
+     * @param algorithms Algorithms.
+     * @throws IllegalArgumentException if name or algorithms list is empty.
+     */
+    public Benchmark(String name, List<Algorithm> algorithms) {
+        this(UserConfig.get().getDefaultWorkspace(), name, algorithms);
+    }
+
+    /**
+     * Sets the algorithms output to the default output file in the benchmark output dir.
+     * @param algorithms Algorithms.
+     * @return List of algorithms.
+     */
+    protected final List<Algorithm> setAlgorithmsOutput(List<Algorithm> algorithms) {
+        if (algorithms != null) {
+            algorithms.forEach((alg) -> {
+                alg.output(Paths.get(getOutputDir(), alg.getDefaultOutputFileName()).toString());
+            });
+        }
+        return algorithms;
+    }
+    
+    /**
+     * Sets the algorithms input.
+     * @param inputFilePath Input file path.
+     */
+    public void setInput(String inputFilePath) {
+        if(!StringUtils.isEmpty(inputFilePath) && algorithms != null) {
+            algorithms.forEach((alg) -> {alg.input(inputFilePath);});
+        }
     }
 
     /**
      * Name.
+     *
      * @return the name
      */
     public String getName() {
         return name;
     }
 
-
     /**
      * Algorithms.
+     *
      * @return the algorithms
      */
     public List<Algorithm> getAlgorithms() {
@@ -77,6 +106,7 @@ public class Benchmark {
 
     /**
      * Workspace.
+     *
      * @return the workspace
      */
     public String getWorkspace() {
@@ -85,44 +115,48 @@ public class Benchmark {
 
     /**
      * Workspace.
+     *
      * @param workspace the workspace to set
      */
     public void setWorkspace(String workspace) {
         this.workspace = workspace;
+        setAlgorithmsOutput(algorithms);
     }
 
     /**
      * The benchmark path.
+     *
      * @return Benchmark path.
      */
     public String getBenchmarkPath() {
-        if(StringUtils.isEmpty(workspace)) {
-            throw new RuntimeException("The workspace it isn't established.");
+        if (StringUtils.isEmpty(workspace)) {
+            throw new RuntimeException("The workspace isn't established.");
         }
-        
+
         return Paths.get(workspace, "benchmarks", name).toString();
     }
+
     /**
      * Path of output dir of benchmark.
+     *
      * @return Path.
      */
     public String getOutputDir() {
-        return getBenchmarkPath().concat(File.separator).concat("output");
+        return Paths.get(getBenchmarkPath(), "output").toString();
     }
+
     /**
      * Path of input dir of benchmark.
+     *
      * @return Path.
      */
     public String getInputDir() {
-        return getBenchmarkPath().concat(File.separator).concat("input");
+        return Paths.get(getBenchmarkPath(), "input").toString();
     }
 
     @Override
     public String toString() {
         return getName();
     }
-    
-    
-    
-    
+
 }

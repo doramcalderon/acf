@@ -26,21 +26,7 @@ public class AlgorithmExecService extends Service {
         this.algs = algs;
     }
 
-    /**
-     * Execute the algorithms of a benchmark.
-     * @param benchmark Benchmark.
-     */
-    public AlgorithmExecService(Benchmark benchmark) {
-        if(benchmark != null) {
-            algs = benchmark.getAlgorithms();
-            
-            if(algs != null) {
-                algs.forEach((alg) -> {
-                    alg.output(Paths.get(benchmark.getOutputDir(), alg.getDefaultOutputPath()).toString());
-                });    
-            }
-        }
-    }
+    
     @Override
     protected Task createTask() {
         return new Task() {
