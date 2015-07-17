@@ -1,11 +1,10 @@
 package es.uma.pfc.is.algorithms.util;
 
-import es.uma.pfc.is.algorithms.optbasis.SimplificationLogic;
 import fr.kbertet.lattice.ImplicationalSystem;
 import fr.kbertet.lattice.Rule;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Iterator;
-import java.util.TreeSet;
 
 /**
  * Clase de utilidades para objetos de tipo {@link ImplicationalSystem}.
@@ -58,17 +57,16 @@ public class ImplicationalSystems {
      * Añade una regla y sus elementos a un sistema.
      * @param system Sistema implicacional.
      * @param rule Regla.
-     * @return Sistema implicacional con la nueva regla.
+     * @trhows NullPointerExcetpion If system is null.
      */
-    public static final ImplicationalSystem addRuleAndElements(final ImplicationalSystem system, final Rule rule) {
-        ImplicationalSystem newSystem = (system == null) ? new ImplicationalSystem() : new ImplicationalSystem(system);
+    public static final void addRuleAndElements(ImplicationalSystem system, final Rule rule) {
         
         if(rule != null) {
-            newSystem.addAllElements(Rules.getElements(rule));
-            newSystem.addRule(rule);
+            system.addAllElements(Rules.getElements(rule));
+            system.addRule(rule);
         }
-        return newSystem;
     }
+
     /**
      * Añade una colección de implicaciones a un sistema.
      *

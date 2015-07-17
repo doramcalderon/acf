@@ -276,7 +276,7 @@ public abstract class GenericAlgorithm implements Algorithm<String, Implicationa
      * @param modes Mode.
      */
     protected ImplicationalSystem addRuleAndElements(ImplicationalSystem system, Rule rule, boolean trace) {
-        ImplicationalSystem newSystem = system;
+
         if(system != null && rule != null) {
             if(system.containsRule(rule)) {
                 if(trace) {
@@ -286,11 +286,11 @@ public abstract class GenericAlgorithm implements Algorithm<String, Implicationa
                 if(trace) {
                     getLogger().history(messages.getMessage(AlgMessages.ADD_RULE, rule));
                 }
-                newSystem = ImplicationalSystems.addRuleAndElements(system, rule);
+                ImplicationalSystems.addRuleAndElements(system, rule);
                 
             }
         }
-        return newSystem;
+        return system;
     }
     
     /**

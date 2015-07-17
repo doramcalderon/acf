@@ -113,19 +113,20 @@ public class ImplicationalSystemsTest {
         
         Rule newRule = new Rule(premise, conclusion);
         
-        ImplicationalSystem newSystem = ImplicationalSystems.addRuleAndElements(system, newRule);
+        ImplicationalSystems.addRuleAndElements(system, newRule);
         
-        assertNotNull(newSystem);
-        assertEquals(2, newSystem.sizeRules());
-        assertTrue(newSystem.containsRule(rule));
-        assertTrue(newSystem.containsRule(newRule));
-        assertEquals(4, newSystem.sizeElements());
-        assertTrue(newSystem.getSet().contains("a"));
-        assertTrue(newSystem.getSet().contains("b"));
-        assertTrue(newSystem.getSet().contains("c"));
-        assertTrue(newSystem.getSet().contains("d"));
+        assertNotNull(system);
+        assertEquals(2, system.sizeRules());
+        assertTrue(system.containsRule(rule));
+        assertTrue(system.containsRule(newRule));
+        assertEquals(4, system.sizeElements());
+        assertTrue(system.getSet().contains("a"));
+        assertTrue(system.getSet().contains("b"));
+        assertTrue(system.getSet().contains("c"));
+        assertTrue(system.getSet().contains("d"));
     }
-    @Test
+    
+    @Test(expected = NullPointerException.class)
     public void testAddRuleAndElements_NullSystem() {
         ImplicationalSystem system = null;
         TreeSet premise = new TreeSet();
@@ -134,14 +135,8 @@ public class ImplicationalSystemsTest {
         conclusion.add("c");
         Rule newRule = new Rule(premise, conclusion);
         
-        ImplicationalSystem newSystem = ImplicationalSystems.addRuleAndElements(system, newRule);
-        
-        assertNotNull(newSystem);
-        assertEquals(1, newSystem.sizeRules());
-        assertTrue(newSystem.containsRule(newRule));
-        assertEquals(2, newSystem.sizeElements());
-        assertTrue(newSystem.getSet().contains("b"));
-        assertTrue(newSystem.getSet().contains("c"));
+        ImplicationalSystems.addRuleAndElements(system, newRule);
+        fail("Expected NullPointerException");
     }
    
     /**

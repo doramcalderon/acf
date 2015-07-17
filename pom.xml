@@ -8,7 +8,6 @@
     <modules>
         <module>is-algorithms</module>
         <module>is-bench</module>
-        <module>test-loggers</module>
         <module>is-commons</module>
     </modules>
     <properties>

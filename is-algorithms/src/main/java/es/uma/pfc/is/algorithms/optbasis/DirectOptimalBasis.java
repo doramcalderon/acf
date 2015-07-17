@@ -25,6 +25,13 @@ public class DirectOptimalBasis extends GenericAlgorithm {
  
 
     
+//    @Override
+//    public ImplicationalSystem execute(ImplicationalSystem system) {
+//        system.makeCanonicalDirectBasis();
+//        return system;
+//    }
+
+    
     @Override
     public ImplicationalSystem execute(ImplicationalSystem system) {
         getLogger().history(messages.getMessage(AlgMessages.EXECUTING, getName()));
@@ -383,30 +390,35 @@ public class DirectOptimalBasis extends GenericAlgorithm {
         
         if (system != null) {
             optimizedSystem= new ImplicationalSystem();
-            TreeSet a, b;
-            for (Rule ab : system.getRules()) {
-                a = ab.getPremise();
-                b = ab.getConclusion();
-                for (Rule cd : system.getRules()) {
-                    Rule abAux = new Rule(a, b);
-                    
-                    if(!abAux.equals(cd)) {
-                        if(cd.getPremise().equals(a)) {
-                            b.addAll(cd.getConclusion());
-                            
-                            getLogger().history("({}) + ({}):  C = A ==> B = B U D = {}", abAux, cd, b);
-                        } else if (a.containsAll(cd.getPremise())) {
-                            b = Sets.difference(b, cd.getConclusion());
-                            
-                            getLogger().history("({}) + ({}): C subcjto A ==> B = B-D = {}", abAux, cd, b);
+            ImplicationalSystem initOptimizedSystem;
+            do {
+                initOptimizedSystem = new ImplicationalSystem(optimizedSystem);
+                TreeSet a, b;
+                for (Rule ab : system.getRules()) {
+                    a = ab.getPremise();
+                    b = ab.getConclusion();
+                    for (Rule cd : system.getRules()) {
+                        Rule abAux = new Rule(a, b);
+
+                        if(!abAux.equals(cd)) {
+                            if(cd.getPremise().equals(a)) {
+                                b.addAll(cd.getConclusion());
+
+                                getLogger().history("({}) + ({}):  C = A ==> B = B U D = {}", abAux, cd, b);
+                            } else if (a.containsAll(cd.getPremise())) {
+                                b = Sets.difference(b, cd.getConclusion());
+
+                                getLogger().history("({}) + ({}): C subcjto A ==> B = B-D = {}", abAux, cd, b);
+                            }
                         }
                     }
-                }
-                if (!b.isEmpty()) {
-                    Rule r = new Rule(a, b);
-                    optimizedSystem = addRuleAndElements(optimizedSystem, r);
-                }
-            }
+                    if (!b.isEmpty()) {
+                        Rule r = new Rule(a, b);
+                        optimizedSystem = addRuleAndElements(optimizedSystem, r);
+                    }
+                }    
+            } while (!ImplicationalSystems.equals(initOptimizedSystem, optimizedSystem));
+            
             getLogger().history("");
             getLogger().history(optimizedSystem.toString());
             getLogger().statistics("optimize", system.sizeRules(), optimizedSystem.sizeRules());
