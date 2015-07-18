@@ -7,8 +7,6 @@ import fr.kbertet.lattice.ImplicationalSystem;
 import fr.kbertet.lattice.Rule;
 import java.io.File;
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
-import java.nio.charset.Charset;
 import static org.junit.Assert.*;
 import org.junit.Ignore;
 import org.junit.Test;
@@ -17,6 +15,7 @@ import org.junit.Test;
  * Tests de {@link DirectOptimalBasis}.
  * @author Dora Calderón
  */
+@Ignore
 public class DirectOptimalBasisTest {
     
     public DirectOptimalBasisTest() {

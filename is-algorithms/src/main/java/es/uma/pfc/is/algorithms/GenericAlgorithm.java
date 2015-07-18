@@ -306,5 +306,7 @@ public abstract class GenericAlgorithm implements Algorithm<String, Implicationa
         }
     }
     
-    
+    protected void history(String message, Object ... args) {
+        getLogger().history(message, args);
+    }
 }

@@ -93,7 +93,7 @@ public class ImplicationalSystems {
      * @param system2 Sistema implicacional.
      * @return {@code true} si los dos sistemas contienen las mismas implicaciones, {@code false} en otro caso.
      */
-    public static final boolean equals(ImplicationalSystem system1, ImplicationalSystem system2) {
+    public static final boolean equals(final ImplicationalSystem system1, final ImplicationalSystem system2) {
         
         if (system1 == null && system2 == null) {
             return true;
