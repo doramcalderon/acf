@@ -19,7 +19,7 @@ import javafx.fxml.Initializable;
  *
  * @author Dora Calderón
  */
-public class BenchmarksController extends Controller implements Initializable {
+public class HomeController extends Controller implements Initializable {
    
 
     /**

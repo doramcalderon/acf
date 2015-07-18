@@ -7,10 +7,11 @@ package es.uma.pfc.is.bench.view;
  */
 public interface FXMLViews {
     /** Root view.**/
-    String ROOT_VIEW = "/fxml/Root.fxml";
+    // String ROOT_VIEW = "/fxml/Root.fxml";
+    String ROOT_VIEW = "/fxml/MainLayout.fxml";
     
     /** Benchmarks dashboard view. **/
-    String BENCHMARKS_DASHBOARD_VIEW = "/es/uma/pfc/is/bench/benchmarks/Benchmarks.fxml";
+    String BENCHMARKS_DASHBOARD_VIEW = "/es/uma/pfc/is/bench/benchmarks/Home.fxml";
     
     /** Run Benchmark view. **/
     String RUN_BENCHMARK_VIEW = "/fxml/RunBenchmark.fxml";

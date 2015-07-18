@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.text.*?>
+<?import java.lang.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<BorderPane xmlns:fx="http://javafx.com/fxml/1" id="rootPane" fx:id="rootPane" minHeight="-Infinity" minWidth="-Infinity" prefHeight="650.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8"  fx:controller="es.uma.pfc.is.bench.MainLayoutController">
+   <top>
+      <MenuBar BorderPane.alignment="CENTER">
+        <menus>
+            <Menu mnemonicParsing="false" text="%menu.file">
+              <items>
+                <MenuItem mnemonicParsing="false" onAction="#handleMenuAlgorithms" text="%menu.algorithms" />
+              </items>
+            </Menu>
+          <Menu mnemonicParsing="false" text="%preferences">
+               <items>
+              <MenuItem fx:id="workspaceMenuItem" mnemonicParsing="false" onAction="#handleWorkspacesAction" text="%workspaces" />
+               </items>
+          </Menu>
+            <Menu mnemonicParsing="false" text="%help">
+               <items>
+                  <MenuItem fx:id="aboutMenu" mnemonicParsing="false" onAction="#handleAbout" text="%about" />
+               </items>
+            </Menu>
+        </menus>
+      </MenuBar>
+   </top>
+   <left>
+      <FlowPane fx:id="buttonsContainer" prefWidth="210.0" style="-fx-background-color: gray;" BorderPane.alignment="CENTER">
+         <children>
+            <ToggleButton fx:id="btnHome" minHeight="100.0" minWidth="200.0" mnemonicParsing="false" text="Home">
+               <font>
+                  <Font size="18.0" />
+               </font>
+               <FlowPane.margin>
+                  <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+               </FlowPane.margin>
+            </ToggleButton>
+            <ToggleButton fx:id="btnBenchmarks" layoutX="10.0" layoutY="10.0" minHeight="100.0" minWidth="200.0" mnemonicParsing="false" text="Benchmarks">
+               <font>
+                  <Font size="18.0" />
+               </font>
+               <FlowPane.margin>
+                  <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+               </FlowPane.margin>
+            </ToggleButton>
+            <ToggleButton fx:id="btnResults" layoutX="10.0" layoutY="10.0" minHeight="100.0" minWidth="200.0" mnemonicParsing="false" text="Results">
+               <font>
+                  <Font size="18.0" />
+               </font>
+               <FlowPane.margin>
+                  <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+               </FlowPane.margin>
+            </ToggleButton>
+         </children>
+      </FlowPane>
+   </left>
+   <center>
+      <BorderPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+         <center>
+            <StackPane prefHeight="150.0" prefWidth="200.0" BorderPane.alignment="CENTER" fx:id="centerContainer" >
+                <children>
+                    <fx:include source="/es/uma/pfc/is/bench/benchmarks/Home.fxml"/>
+                    <fx:include source="/fxml/Benchmarks.fxml"/>
+                </children>
+            </StackPane>
+         </center>
+         <bottom>
+            <AnchorPane fx:id="stateBar" minHeight="40.0" BorderPane.alignment="CENTER" />
+         </bottom>
+      </BorderPane>
+   </center>
+</BorderPane>
