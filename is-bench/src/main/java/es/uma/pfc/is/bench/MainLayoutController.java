@@ -1,16 +1,21 @@
 package es.uma.pfc.is.bench;
 
-import es.uma.pfc.is.bench.benchmarks.ActionsManager;
+import com.google.common.eventbus.Subscribe;
+import es.uma.pfc.is.bench.events.BenchEventBus;
+import es.uma.pfc.is.bench.events.NewBenchmarkEvent;
+import es.uma.pfc.is.bench.events.RunBenchmarkEvent;
 import es.uma.pfc.is.bench.i18n.I18n;
 import es.uma.pfc.is.bench.uitls.Dialogs;
 import es.uma.pfc.is.bench.view.FXMLViews;
 import static es.uma.pfc.is.bench.view.FXMLViews.ABOUT_VIEW;
 import java.io.IOException;
 import java.net.URL;
+import java.util.HashMap;
+import java.util.Locale;
+import java.util.Map;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -25,6 +30,7 @@ import javafx.scene.control.ToggleButton;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
@@ -35,10 +41,18 @@ import javafx.stage.Stage;
  * @author Dora Calderón
  */
 public class MainLayoutController extends Controller {
+
     private static final int HOME_PANE_INDEX = 0;
-    private static final int RUN_BENCHMARK_PANE_INDEX = 1;
+    private static final int BENCHMARKS_PANE_INDEX = 1;
+    private static final int RESULTS_PANE_INDEX = 2;
+    private static final int GENERATOR_PANE_INDEX = 3;
     
-            
+    /**
+     * Map whit buttons and panes relations.
+     * The key is the button id and the value, the index of pane in the stack pane.
+     */
+    private Map<String, Integer> panes = new HashMap();
+    
     @FXML
     private Menu preferencesMenu;
 
@@ -47,8 +61,9 @@ public class MainLayoutController extends Controller {
     @FXML
     private StackPane centerContainer;
     @FXML
-    ToggleButton btnHome, btnBenchmarks, btnResults;
+    ToggleButton btnHome, btnBenchmarks, btnResults, btnGenerator;
 
+    
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         try {
@@ -58,65 +73,89 @@ public class MainLayoutController extends Controller {
         } catch (IOException ex) {
             Logger.getLogger(MainLayoutController.class.getName()).log(Level.SEVERE, null, ex);
         }
-  
+
     }
 
     @Override
     protected void initView() throws IOException {
         initButtons();
-        centerContainer.getChildren().get(HOME_PANE_INDEX).setVisible(true);
-        centerContainer.getChildren().get(RUN_BENCHMARK_PANE_INDEX).setVisible(false);
+        initGeneratorPane();
+        initVisibilityPanes();
     }
     
+    /**
+     * Loads the generator pane.
+     * @throws IOException 
+     */
+    protected void initGeneratorPane() throws IOException {
+         Pane generatorForm = FXMLLoader.load(ISBenchApp.class.getResource("/" + es.uma.pfc.implications.generator.view.FXMLViews.IMPLICATIONS_VIEW), 
+                                                 ResourceBundle.getBundle("es.uma.pfc.implications.generator.i18n.labels", Locale.getDefault()));
+         centerContainer.getChildren().add(generatorForm);
+    }
+    /**
+     * Initializes the visibility of panes.
+     */
+    protected void initVisibilityPanes() {
+        centerContainer.getChildren().get(HOME_PANE_INDEX).setVisible(true);
+        centerContainer.getChildren().get(BENCHMARKS_PANE_INDEX).setVisible(false);
+        centerContainer.getChildren().get(RESULTS_PANE_INDEX).setVisible(false);
+        centerContainer.getChildren().get(GENERATOR_PANE_INDEX).setVisible(false);
+    }
+
+    /**
+     * Initializes the buttons.
+     */
     protected void initButtons() {
         ToggleGroup group = new ToggleGroup();
         btnHome.setToggleGroup(group);
         btnBenchmarks.setToggleGroup(group);
         btnResults.setToggleGroup(group);
+        btnGenerator.setToggleGroup(group);
+        
+        panes.put(btnHome.getId(), HOME_PANE_INDEX);
+        panes.put(btnBenchmarks.getId(), BENCHMARKS_PANE_INDEX);
+        panes.put(btnResults.getId(), RESULTS_PANE_INDEX);
+        panes.put(btnGenerator.getId(), GENERATOR_PANE_INDEX);
+        
         group.selectedToggleProperty().addListener((ObservableValue<? extends Toggle> observable, Toggle oldValue, Toggle selectedToggle) -> {
-            int selectedIndex = -1;
-            if(selectedToggle != null) {
-                String buttonId =  ((ToggleButton) selectedToggle).getId();
-                switch (buttonId) {
-                    case "btnHome":
-                        selectedIndex = 0;
-                        break;
-                    case "btnBenchmarks":
-                        selectedIndex = 1;
-                        break;
-                }
+            String buttonId = null;
+            if (selectedToggle != null) {
+                buttonId = ((ToggleButton) selectedToggle).getId();
             }
-            selectPane(selectedIndex);
+            selectPane(panes.get(buttonId));
         });
     }
 
-  protected void initListeners() {
-        ActionsManager.get().getActionProperty().addListener(new ChangeListener() {
-            //TODO Hacer con EventBus
-            @Override
-            public void changed(ObservableValue observable, Object oldValue, Object newValue) {
-                String action = (String) newValue;
-                switch(action) {
-                    case ActionsManager.NEW:
-                        selectPane(RUN_BENCHMARK_PANE_INDEX);
-                        break;
-                    case ActionsManager.RUN:
-                        selectPane(RUN_BENCHMARK_PANE_INDEX);
-                        break;
-                }
-                ActionsManager.get().action("");
-            }
-        });
+    @Override
+    protected void initListeners() {
+        BenchEventBus.get().register(this);
     }
-  
-  protected void selectPane(int index) {
-      for(Node node : centerContainer.getChildren()) {
-                node.setVisible((index == centerContainer.getChildren().indexOf(node)));
-            }
-  }
     
+    
+
+    @Subscribe
+    public void runBenchmark(RunBenchmarkEvent event) {
+        btnBenchmarks.setSelected(true);
+    }
+
+    @Subscribe
+    public void newBenchmark(NewBenchmarkEvent event) {
+        btnBenchmarks.setSelected(true);
+    }
+
+    /**
+     * Selects the pane with the index in the stack pane.
+     * @param index 
+     */
+    protected void selectPane(int index) {
+        for (Node node : centerContainer.getChildren()) {
+            node.setVisible((index == centerContainer.getChildren().indexOf(node)));
+        }
+    }
+
     /**
      * Abre el cuadro de diálogo para el registro de algoritmos.
+     *
      * @param event Action Event.
      */
     @FXML
@@ -128,8 +167,9 @@ public class MainLayoutController extends Controller {
         } catch (IOException ex) {
             Logger.getLogger(MainLayoutController.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
+
     }
+
     /**
      * Handler of Preferences Menu action event.
      *
@@ -152,7 +192,7 @@ public class MainLayoutController extends Controller {
         try {
             AnchorPane pane = FXMLLoader.load(MainLayoutController.class.getResource(ABOUT_VIEW), getBundle());
             Scene aboutScene = new Scene(pane);
-            
+
             Stage aboutStage = new Stage();
             aboutStage.initOwner(rootPane.getScene().getWindow());
             aboutStage.initModality(Modality.WINDOW_MODAL);

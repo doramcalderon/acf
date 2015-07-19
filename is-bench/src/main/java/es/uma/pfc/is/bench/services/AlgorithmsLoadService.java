@@ -3,7 +3,6 @@ package es.uma.pfc.is.bench.services;
 
 
 import es.uma.pfc.is.algorithms.Algorithm;
-import es.uma.pfc.is.bench.ChangesManager;
 import es.uma.pfc.is.bench.algorithms.business.AlgorithmsBean;
 import es.uma.pfc.is.bench.algorithms.domain.AlgorithmEntity;
 import java.util.ArrayList;

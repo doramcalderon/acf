@@ -3,11 +3,12 @@ package es.uma.pfc.is.bench.benchmarks.newbm;
 import com.google.common.eventbus.Subscribe;
 import es.uma.pfc.is.algorithms.Algorithm;
 import es.uma.pfc.is.bench.Controller;
-import es.uma.pfc.is.bench.RootController;
+import es.uma.pfc.is.bench.MainLayoutController;
 import es.uma.pfc.is.bench.algorithmslist.view.AlgorithmsListController;
 import es.uma.pfc.is.bench.benchmarks.business.BenchmarksBean;
 import es.uma.pfc.is.bench.benchmarks.domain.Benchmark;
 import es.uma.pfc.is.bench.config.UserConfig;
+import es.uma.pfc.is.bench.events.AlgorithmChangeEvent;
 import es.uma.pfc.is.bench.events.AlgorithmsSelectedEvent;
 import es.uma.pfc.is.bench.events.BenchEventBus;
 import es.uma.pfc.is.bench.i18n.BenchMessages;
@@ -163,6 +164,10 @@ public class NewBenchmarkController extends Controller {
                 
         return super.validate();
     }
+    
+    protected void reload() {
+        initModel();
+    }
 
     @Override
     protected Pane getRootPane() {
@@ -176,13 +181,19 @@ public class NewBenchmarkController extends Controller {
             algorithmsSelected.getItems().addAll(event.getAlgorithmsSelection());
         }
     }
+    
+     
+    @Subscribe
+    public void handleAlgorithmChanges(AlgorithmChangeEvent event) {
+        reload();
+    }
 
     /**
      * When there is a double click in algorithms list, the selection is added to algorithms selected.
      * @param mouseEvent Mouse event.
      */
     @FXML
-    private void handleListDoubleClick(MouseEvent mouseEvent) {
+    protected void handleListDoubleClick(MouseEvent mouseEvent) {
         if (mouseEvent.getClickCount() == 2) {
             BenchEventBus.get().post(new AlgorithmsSelectedEvent(algorithmsList.getSelectionModel().getSelectedItems()));
         }
@@ -209,11 +220,11 @@ public class NewBenchmarkController extends Controller {
     @FXML
     public void handleAddAlgAction(ActionEvent event) {
         try {
-            Parent algorithmsPane = FXMLLoader.load(RootController.class.getResource(FXMLViews.ALGORITHMS_VIEW), getBundle());
+            Parent algorithmsPane = FXMLLoader.load(MainLayoutController.class.getResource(FXMLViews.ALGORITHMS_VIEW), getBundle());
             String title = getI18nLabel(I18n.ALGORITHMS_DIALOG_TITLE);
             Dialogs.showModalDialog(title, algorithmsPane, rootPane.getScene().getWindow());
         } catch (IOException ex) {
-            Logger.getLogger(RootController.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(NewBenchmarkController.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 

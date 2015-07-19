@@ -1,12 +1,14 @@
 package es.uma.pfc.is.bench.benchmarks;
 
+import com.google.common.eventbus.Subscribe;
 import es.uma.pfc.is.algorithms.Algorithm;
 import es.uma.pfc.is.algorithms.AlgorithmOptions.Mode;
 import es.uma.pfc.is.algorithms.exceptions.AlgorithmException;
-import es.uma.pfc.is.bench.ChangesManager;
 import es.uma.pfc.is.bench.Controller;
 import es.uma.pfc.is.bench.benchmarks.domain.Benchmark;
 import es.uma.pfc.is.bench.config.UserConfig;
+import es.uma.pfc.is.bench.events.BenchEventBus;
+import es.uma.pfc.is.bench.events.BenchmarksChangeEvent;
 import es.uma.pfc.is.bench.i18n.I18n;
 import es.uma.pfc.is.bench.services.AlgorithmExecService;
 import es.uma.pfc.is.bench.services.BenchmarksLoadService;
@@ -150,17 +152,14 @@ public class RunBenchmarkController extends Controller {
      */
     @Override
     protected void initListeners() {
-
-        ChangesManager.get().getAlgorithmsChanges().addListener(new ChangeListener() {
-
-            @Override
-            public void changed(ObservableValue observable, Object oldValue, Object newValue) {
-                reload();
-            }
-        });
+        BenchEventBus.get().register(this);
         benchmarksTree.getSelectionModel().selectedItemProperty().addListener(new BenchmarkSelectionListener());
     }
-
+   
+    @Subscribe
+    public void handleBenchamrksChange(BenchmarksChangeEvent event) {
+        reload();
+    }
     
     @Override
     protected void initValidation() {
@@ -248,7 +247,6 @@ public class RunBenchmarkController extends Controller {
 
     protected void reload() {
         initModel();
-        ChangesManager.get().setAlgorithmsChanges(Boolean.FALSE);
     }
 
     /**

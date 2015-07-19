@@ -1,17 +1,13 @@
 package es.uma.pfc.is.bench.services;
 
 import es.uma.pfc.is.algorithms.Algorithm;
-import es.uma.pfc.is.bench.ChangesManager;
 import es.uma.pfc.is.bench.algorithms.business.AlgorithmsBean;
-import es.uma.pfc.is.bench.algorithms.business.AlgorithmsPersistence;
 import es.uma.pfc.is.bench.algorithms.view.AlgorithmsModel;
 import es.uma.pfc.is.bench.algorithms.domain.AlgorithmEntity;
-import es.uma.pfc.is.bench.algorithms.domain.Algorithms;
-import es.uma.pfc.is.bench.config.UserConfig;
-import java.io.File;
+import es.uma.pfc.is.bench.events.AlgorithmChangeEvent;
+import es.uma.pfc.is.bench.events.BenchEventBus;
 import javafx.concurrent.Service;
 import javafx.concurrent.Task;
-import javax.xml.bind.JAXB;
 
 /**
  *
@@ -55,7 +51,7 @@ public class AlgorithmsSaveService extends Service {
 
     @Override
     protected void succeeded() {
-        ChangesManager.get().setAlgorithmsChanges(Boolean.TRUE);
+        BenchEventBus.get().post(new AlgorithmChangeEvent());
     }
     
 }

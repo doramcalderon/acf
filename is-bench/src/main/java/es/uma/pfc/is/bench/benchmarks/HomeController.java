@@ -6,10 +6,11 @@
 package es.uma.pfc.is.bench.benchmarks;
 
 import es.uma.pfc.is.bench.Controller;
+import es.uma.pfc.is.bench.events.BenchEventBus;
+import es.uma.pfc.is.bench.events.NewBenchmarkEvent;
+import es.uma.pfc.is.bench.events.RunBenchmarkEvent;
 import java.net.URL;
 import java.util.ResourceBundle;
-import javafx.beans.property.SimpleStringProperty;
-import javafx.beans.property.StringProperty;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -32,12 +33,12 @@ public class HomeController extends Controller implements Initializable {
     
     @FXML
     public void handleRunAction(ActionEvent event) {
-        ActionsManager.get().action(ActionsManager.RUN);
+        BenchEventBus.get().post(new RunBenchmarkEvent());
     }
     
     @FXML
     public void handleNewAction(ActionEvent event) {
-        ActionsManager.get().action(ActionsManager.NEW);
+        BenchEventBus.get().post(new NewBenchmarkEvent());
     }
     
 }
