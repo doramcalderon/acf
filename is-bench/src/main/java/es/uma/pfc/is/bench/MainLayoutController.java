@@ -187,6 +187,10 @@ public class MainLayoutController extends Controller {
         }
     }
 
+    /**
+     * Handler of About menu action event.
+     * @param event 
+     */
     @FXML
     public void handleAbout(ActionEvent event) {
         try {

@@ -7,7 +7,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<BorderPane xmlns:fx="http://javafx.com/fxml/1" id="rootPane" fx:id="rootPane" minHeight="-Infinity" minWidth="-Infinity" prefHeight="650.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8"  fx:controller="es.uma.pfc.is.bench.MainLayoutController">
+<BorderPane id="rootPane" fx:id="rootPane" minHeight="650.0" minWidth="800.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="es.uma.pfc.is.bench.MainLayoutController">
     <top>
         <MenuBar BorderPane.alignment="CENTER">
             <menus>
@@ -68,15 +68,20 @@
         </FlowPane>
     </left>
     <center>
-        <BorderPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+        <BorderPane BorderPane.alignment="CENTER">
             <center>
-                <StackPane prefHeight="150.0" prefWidth="200.0" BorderPane.alignment="CENTER" fx:id="centerContainer" >
-                    <children>
-                        <fx:include source="/es/uma/pfc/is/bench/benchmarks/Home.fxml"/>
-                        <fx:include source="/fxml/Benchmarks.fxml"/>
-                        <fx:include source="/es/uma/pfc/is/bench/benchmarks/results/view/Results.fxml"/>
-                    </children>
-                </StackPane>
+                <ScrollPane fitToHeight="true" fitToWidth="true" pannable="true" BorderPane.alignment="CENTER">
+                    <content>
+                        <StackPane fx:id="centerContainer">
+                            <children>
+                                <fx:include source="/es/uma/pfc/is/bench/benchmarks/Home.fxml"/>
+                                <fx:include source="/fxml/Benchmarks.fxml"/>
+                                <fx:include source="/es/uma/pfc/is/bench/benchmarks/results/view/Results.fxml"/>
+                            </children>
+                        </StackPane>
+                    </content>                    
+                </ScrollPane>
+                    
             </center>
             <bottom>
                 <AnchorPane fx:id="stateBar" minHeight="40.0" BorderPane.alignment="CENTER" />

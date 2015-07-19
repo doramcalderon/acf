@@ -62,6 +62,7 @@ public class ISBenchApp extends Application {
         this.primaryStage = primaryStage;
         primaryStage.setMinHeight(600);
         primaryStage.setMinWidth(800);
+        primaryStage.setMaximized(true);
         Scene scene = new Scene(root);
         primaryStage.setScene(scene);
         primaryStage.setTitle("IS Bench");

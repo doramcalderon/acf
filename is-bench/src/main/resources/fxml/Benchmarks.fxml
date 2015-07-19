@@ -6,22 +6,17 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-
-<AnchorPane xmlns:fx="http://javafx.com/fxml/1" id="AnchorPane" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" fx:controller="es.uma.pfc.is.bench.BenchmarksController">
-   <children>
-      <TabPane layoutX="76.0" layoutY="100.0" prefHeight="400.0" prefWidth="600.0" tabClosingPolicy="UNAVAILABLE" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" fx:id="benchmarksTabPane" >
-        <tabs>
-          <Tab text="Add" fx:id="tabNew" >
+<TabPane fx:id="benchmarksTabPane" tabClosingPolicy="UNAVAILABLE" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="es.uma.pfc.is.bench.BenchmarksController">
+    <tabs>
+        <Tab fx:id="tabNew" text="Add">
             <content>
-              <fx:include source="/es/uma/pfc/is/bench/benchmarks/newbm/NewBenchmark.fxml"/>
+                <fx:include source="/es/uma/pfc/is/bench/benchmarks/newbm/NewBenchmark.fxml"/>
             </content>
-          </Tab>
-          <Tab text="Run" fx:id="tabRun">
+        </Tab>
+        <Tab fx:id="tabRun" text="Run">
             <content>
-              <fx:include source="/fxml/RunBenchmark.fxml"/>
+                <fx:include source="/fxml/RunBenchmark.fxml"/>
             </content>
-          </Tab>
-        </tabs>
-      </TabPane>
-   </children>
-</AnchorPane>
+        </Tab>
+    </tabs>
+</TabPane>
