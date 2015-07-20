@@ -429,10 +429,4 @@ public class DirectOptimalBasis extends GenericAlgorithm {
 
   
     
-    @Override
-    public String toString() {
-        return getName();
-    }
-    
-    
 }

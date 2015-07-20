@@ -14,10 +14,12 @@ import java.util.TreeSet;
  */
 public class DirectOptimalBasis2 extends GenericAlgorithm {
 
-    @Override
-    public String getName() {
-        return "Direct Optimal Basis II";
+    public DirectOptimalBasis2() {
+        setName("Direct Optimal Basis II");
     }
+
+    
+    
 
     @Override
     public ImplicationalSystem execute(ImplicationalSystem system) {

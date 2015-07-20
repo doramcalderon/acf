@@ -45,7 +45,7 @@ public class DirectOptimalBasis2Test {
     }
 
     
-    @Test
+    @Test @Ignore
     public void testExecute_3() throws IOException {
         ImplicationalSystem system = TestUtils.getSystemFromFile("ej_saedian3.txt");
         ImplicationalSystem expectedSystem = TestUtils.getSystemFromFile("ej_saedian3_result.txt");
@@ -69,7 +69,7 @@ public class DirectOptimalBasis2Test {
         assertTrue("Expected: \n" + expectedSystem + "\n Alg result:\n" + algResult, 
                     ImplicationalSystems.equals(expectedSystem, algResult));
     }
-    @Test
+    @Test @Ignore
     public void testExecute_5() throws IOException {
         ImplicationalSystem system = TestUtils.getSystemFromFile("ej3.txt");
         ImplicationalSystem expectedSystem = TestUtils.getSystemFromFile("ej3_resul.txt");
@@ -91,7 +91,7 @@ public class DirectOptimalBasis2Test {
         assertTrue("Expected: \n" + expectedSystem + "\n Alg result:\n" + algResult, 
                     ImplicationalSystems.equals(expectedSystem, algResult));
     }
-    @Test
+    @Test @Ignore
     public void testExecute_7() throws IOException {
         ImplicationalSystem system = TestUtils.getSystemFromFile("exp15-1.txt");
         ImplicationalSystem expectedSystem = TestUtils.getSystemFromFile("exp15-1_resul.txt");

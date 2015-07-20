@@ -150,7 +150,7 @@ public abstract class Controller implements Initializable {
                             .forEach(msg -> sb.append(msg.getText()).append("\n"));
 
             new Alert(Alert.AlertType.ERROR, sb.toString()).show();
-
+            
         }
         return isValid;
     }

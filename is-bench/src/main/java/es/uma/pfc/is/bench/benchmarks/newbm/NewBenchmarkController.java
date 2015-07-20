@@ -161,7 +161,6 @@ public class NewBenchmarkController extends Controller {
                return false;
            };
         }
-                
         return super.validate();
     }
     

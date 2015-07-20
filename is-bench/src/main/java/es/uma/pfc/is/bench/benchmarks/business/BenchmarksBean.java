@@ -76,7 +76,7 @@ public class BenchmarksBean {
         boolean exists = false;
         
         if(!StringUtils.isEmpty(name) && !StringUtils.isEmpty(workspace)) {
-            exists = Files.exists(Paths.get(workspace, name));
+            exists = Files.exists(Paths.get(workspace, "benchmarks", name));
         }
         
         return exists;

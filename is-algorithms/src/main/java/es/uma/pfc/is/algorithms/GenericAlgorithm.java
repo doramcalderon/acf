@@ -309,4 +309,11 @@ public abstract class GenericAlgorithm implements Algorithm<String, Implicationa
     protected void history(String message, Object ... args) {
         getLogger().history(message, args);
     }
+
+    @Override
+    public String toString() {
+        return getName();
+    }
+    
+    
 }
