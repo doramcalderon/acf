@@ -3,8 +3,9 @@ package es.uma.pfc.is.bench.services;
 
 import es.uma.pfc.is.algorithms.Algorithm;
 import es.uma.pfc.is.algorithms.AlgorithmExecutor;
-import es.uma.pfc.is.algorithms.AlgorithmOptions;
-import es.uma.pfc.is.bench.benchmarks.domain.Benchmark;
+import es.uma.pfc.is.bench.benchmarks.RunBenchmarkModel;
+import es.uma.pfc.is.bench.events.BenchEventBus;
+import es.uma.pfc.is.bench.events.MessageEvent;
 import java.nio.file.Paths;
 import java.util.List;
 import javafx.concurrent.Service;
@@ -24,6 +25,19 @@ public class AlgorithmExecService extends Service {
 
     public AlgorithmExecService(List<Algorithm> algs) {
         this.algs = algs;
+    }
+    public AlgorithmExecService(RunBenchmarkModel model) {
+        if(model != null) {
+            algs = model.getSelectedAlgorithms();
+            for(Algorithm alg : algs) {
+                alg.input(model.getInput());
+                if(model.getSelectedAlgorithm() != null) {
+                    alg.output(model.getOutput());
+                } else {
+                    alg.output(Paths.get(model.getOutput(), alg.getDefaultOutputFileName()).toString());
+                }
+            }
+        }
     }
 
     
@@ -54,4 +68,16 @@ public class AlgorithmExecService extends Service {
         setOnFailed(handler);
         setOnSucceeded(handler);
     }
+
+    @Override
+    protected void failed() {
+        BenchEventBus.get().post(new MessageEvent("The execution has failed.", MessageEvent.Level.ERROR));
+    }
+
+    @Override
+    protected void succeeded() {
+        BenchEventBus.get().post(new MessageEvent("The execution has finished succeeded.", MessageEvent.Level.SUCCEEDED));
+    }
+    
+    
 }

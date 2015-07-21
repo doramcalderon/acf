@@ -7,7 +7,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<BorderPane id="rootPane" fx:id="rootPane" minHeight="650.0" minWidth="800.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="es.uma.pfc.is.bench.MainLayoutController">
+<BorderPane xmlns:fx="http://javafx.com/fxml/1" id="rootPane" fx:id="rootPane" minHeight="650.0" minWidth="800.0" xmlns="http://javafx.com/javafx/8"  fx:controller="es.uma.pfc.is.bench.MainLayoutController">
     <top>
         <MenuBar BorderPane.alignment="CENTER">
             <menus>
@@ -84,7 +84,10 @@
                     
             </center>
             <bottom>
-                <AnchorPane fx:id="stateBar" minHeight="40.0" BorderPane.alignment="CENTER" />
+                <AnchorPane fx:id="stateBar" minHeight="40.0" BorderPane.alignment="CENTER">
+               <children>
+                  <Label layoutX="36.0" layoutY="12.0" text="lbStateBar" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" fx:id="lbStateBar" />
+               </children></AnchorPane>
             </bottom>
         </BorderPane>
     </center>

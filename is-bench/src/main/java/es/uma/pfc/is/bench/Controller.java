@@ -5,6 +5,9 @@
  */
 package es.uma.pfc.is.bench;
 
+import es.uma.pfc.is.bench.events.BenchEventBus;
+import es.uma.pfc.is.bench.events.MessageEvent;
+import es.uma.pfc.is.bench.events.MessageEvent.Level;
 import es.uma.pfc.is.bench.i18n.BenchMessages;
 import es.uma.pfc.is.bench.uitls.Dialogs;
 import java.io.IOException;
@@ -164,5 +167,9 @@ public abstract class Controller implements Initializable {
      */
     protected Optional<ButtonType> showAlert(Alert.AlertType type, String title, String message) {
          return Dialogs.alert(type, title, message, getRootPane().getScene().getWindow()).showAndWait();
+    }
+    
+    protected void publicMessage(String message, Level level) {
+        BenchEventBus.get().post(new MessageEvent(message, level));
     }
 }

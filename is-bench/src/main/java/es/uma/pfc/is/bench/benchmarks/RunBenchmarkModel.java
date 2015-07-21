@@ -1,7 +1,6 @@
 package es.uma.pfc.is.bench.benchmarks;
 
 import es.uma.pfc.is.algorithms.Algorithm;
-import es.uma.pfc.is.algorithms.util.StringUtils;
 import es.uma.pfc.is.bench.benchmarks.domain.Benchmark;
 import es.uma.pfc.is.bench.config.UserConfig;
 import java.nio.file.Paths;
@@ -9,8 +8,6 @@ import java.util.ArrayList;
 import java.util.List;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 
 /**
  * Benchmarks execution model.
@@ -50,19 +47,9 @@ public class RunBenchmarkModel {
         benchmarks = new ArrayList();
         userConfig = UserConfig.get();
         inputProperty = new SimpleStringProperty();
-        inputProperty.addListener(new InputListener());
         outputProperty = new SimpleStringProperty();
-        outputProperty.addListener(new OutputListener());
     }
 
-    /**
-     * Clear the model.
-     */
-    public void clear() {
-        benchmarks.clear();
-        inputProperty.setValue(null);
-        outputProperty.setValue(null);
-    }
 
     /**
      * Available algorithms.
@@ -84,7 +71,6 @@ public class RunBenchmarkModel {
 
     public void setSelectedAlgorithm(Algorithm selectedAlgorithm) {
         this.selectedAlgorithm = selectedAlgorithm;
-        updateOutputs();
     }
 
     /**
@@ -154,7 +140,6 @@ public class RunBenchmarkModel {
      */
     public void setSelectedBenchmark(Benchmark benchmark) {
         this.selectedBenchmark = benchmark;
-        updateOutputs();
     }
 
     /**
@@ -164,59 +149,16 @@ public class RunBenchmarkModel {
      * @return Default output file.
      */
     public String getDefaultOutput(Algorithm alg) {
-        String output = null;
+        String output;
 
         String workspace = (selectedBenchmark != null) ? selectedBenchmark.getOutputDir()
                 : userConfig.getDefaultOutputDir().toString();
         if (alg != null) {
             output = Paths.get(workspace, alg.getShortName() + "_output.txt").toString();
+        } else {
+            output = workspace;
         }
         return output;
     }
 
-    protected void updateOutputs() {
-        if (selectedAlgorithm != null) {
-            outputProperty().setValue(getDefaultOutput(selectedAlgorithm));
-        } else if (selectedBenchmark != null) {
-            outputProperty().setValue(selectedBenchmark.getOutputDir());
-        } else {
-            outputProperty().setValue("");
-        }
-    }
-
-    /**
-     * Listener of inputProperty changes, wich update the inputs of all selected algorithms.
-     */
-    class InputListener implements ChangeListener<String> {
-
-        @Override
-        public void changed(ObservableValue<? extends String> observable, String oldInput, String newInput) {
-            if (!StringUtils.isEmpty(newInput)) {
-                if (selectedBenchmark != null) {
-                    selectedBenchmark.getAlgorithms().forEach(alg -> alg.input(newInput));
-                } else {
-                    selectedAlgorithm.input(newInput);
-                }
-            }
-        }
-
-    }
-
-    /**
-     * Listener of outputProperty changes, wich update the inputs of all selected algorithms.
-     */
-    class OutputListener implements ChangeListener<String> {
-
-        @Override
-        public void changed(ObservableValue<? extends String> observable, String oldOutput, String newOutput) {
-            if (selectedAlgorithm != null) {
-                selectedAlgorithm.output(newOutput);
-            } else {
-                selectedBenchmark.getAlgorithms().forEach(
-                        alg -> alg.output(Paths.get(newOutput, alg.getDefaultOutputFileName()).toString()));
-
-            }
-        }
-
-    }
 }

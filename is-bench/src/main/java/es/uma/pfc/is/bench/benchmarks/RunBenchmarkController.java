@@ -9,6 +9,7 @@ import es.uma.pfc.is.bench.benchmarks.domain.Benchmark;
 import es.uma.pfc.is.bench.config.UserConfig;
 import es.uma.pfc.is.bench.events.BenchEventBus;
 import es.uma.pfc.is.bench.events.BenchmarksChangeEvent;
+import es.uma.pfc.is.bench.events.MessageEvent;
 import es.uma.pfc.is.bench.i18n.I18n;
 import es.uma.pfc.is.bench.services.AlgorithmExecService;
 import es.uma.pfc.is.bench.services.BenchmarksLoadService;
@@ -34,7 +35,6 @@ import javafx.concurrent.WorkerStateEvent;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.fxml.FXML;
-import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ProgressIndicator;
@@ -143,8 +143,8 @@ public class RunBenchmarkController extends Controller {
 
     @Override
     protected void initBinding() {
-        txtInput.textProperty().bindBidirectional(model.inputProperty());
-        txtOutput.textProperty().bindBidirectional(model.outputProperty());
+        model.inputProperty().bind(txtInput.textProperty());
+        model.outputProperty().bind(txtOutput.textProperty());
     }
 
     /**
@@ -240,7 +240,8 @@ public class RunBenchmarkController extends Controller {
         }
 
         if (!valid) {
-            new Alert(Alert.AlertType.ERROR, message).show();
+            publicMessage(message, MessageEvent.Level.ERROR);
+            // new Alert(Alert.AlertType.ERROR, message).show();
         }
         return valid;
     }
@@ -284,7 +285,7 @@ public class RunBenchmarkController extends Controller {
      */
     protected void executeBenchmark(List<Algorithm> algs) {
         try {
-            AlgorithmExecService service = new AlgorithmExecService(algs);
+            AlgorithmExecService service = new AlgorithmExecService(model);
             service.setOnRunning((Event event) -> {busyLayer.setVisible(true);});
             service.setOnFinished((WorkerStateEvent event) -> {finishAlgExecution();});
 
@@ -402,7 +403,7 @@ public class RunBenchmarkController extends Controller {
      * Clear the model and the view.
      */
     protected void clear() {
-        model.clear();
+//        model.clear();
         chkTime.setSelected(true);
         chkHistory.setSelected(false);
         chkStatistics.setSelected(false);
@@ -436,11 +437,16 @@ public class RunBenchmarkController extends Controller {
                     selectedBenchmark = (Benchmark) newItem.getValue();
                     model.setSelectedBenchmark(selectedBenchmark);
                     model.setSelectedAlgorithm(null);
+                    txtOutput.setText(model.getDefaultOutput(null));
+                    
                 } else {
                     selectedBenchmark = (Benchmark) newItem.getParent().getValue();
                     Algorithm alg = (Algorithm) newItem.getValue();
                     model.setSelectedBenchmark(selectedBenchmark);
                     model.setSelectedAlgorithm(alg);
+                    
+                    txtOutput.setText(model.getDefaultOutput(alg));
+                    
                 }
                 
                 txtOutput.setDisable(isBenchmark);

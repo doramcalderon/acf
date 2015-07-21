@@ -2,6 +2,7 @@ package es.uma.pfc.is.bench;
 
 import com.google.common.eventbus.Subscribe;
 import es.uma.pfc.is.bench.events.BenchEventBus;
+import es.uma.pfc.is.bench.events.MessageEvent;
 import es.uma.pfc.is.bench.events.NewBenchmarkEvent;
 import es.uma.pfc.is.bench.events.RunBenchmarkEvent;
 import es.uma.pfc.is.bench.i18n.I18n;
@@ -16,6 +17,7 @@ import java.util.Map;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javafx.application.Platform;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -23,6 +25,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Label;
 import javafx.scene.control.Menu;
 import javafx.scene.control.TabPane;
 import javafx.scene.control.Toggle;
@@ -32,6 +35,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
+import javafx.scene.paint.Paint;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
@@ -46,13 +50,13 @@ public class MainLayoutController extends Controller {
     private static final int BENCHMARKS_PANE_INDEX = 1;
     private static final int RESULTS_PANE_INDEX = 2;
     private static final int GENERATOR_PANE_INDEX = 3;
-    
+
     /**
-     * Map whit buttons and panes relations.
-     * The key is the button id and the value, the index of pane in the stack pane.
+     * Map whit buttons and panes relations. The key is the button id and the value, the index of pane in the stack
+     * pane.
      */
     private Map<String, Integer> panes = new HashMap();
-    
+
     @FXML
     private Menu preferencesMenu;
 
@@ -62,8 +66,9 @@ public class MainLayoutController extends Controller {
     private StackPane centerContainer;
     @FXML
     ToggleButton btnHome, btnBenchmarks, btnResults, btnGenerator;
+    @FXML
+    private Label lbStateBar;
 
-    
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         try {
@@ -82,16 +87,18 @@ public class MainLayoutController extends Controller {
         initGeneratorPane();
         initVisibilityPanes();
     }
-    
+
     /**
      * Loads the generator pane.
-     * @throws IOException 
+     *
+     * @throws IOException
      */
     protected void initGeneratorPane() throws IOException {
-         Pane generatorForm = FXMLLoader.load(ISBenchApp.class.getResource("/" + es.uma.pfc.implications.generator.view.FXMLViews.IMPLICATIONS_VIEW), 
-                                                 ResourceBundle.getBundle("es.uma.pfc.implications.generator.i18n.labels", Locale.getDefault()));
-         centerContainer.getChildren().add(generatorForm);
+        Pane generatorForm = FXMLLoader.load(ISBenchApp.class.getResource("/" + es.uma.pfc.implications.generator.view.FXMLViews.IMPLICATIONS_VIEW),
+                ResourceBundle.getBundle("es.uma.pfc.implications.generator.i18n.labels", Locale.getDefault()));
+        centerContainer.getChildren().add(generatorForm);
     }
+
     /**
      * Initializes the visibility of panes.
      */
@@ -111,12 +118,12 @@ public class MainLayoutController extends Controller {
         btnBenchmarks.setToggleGroup(group);
         btnResults.setToggleGroup(group);
         btnGenerator.setToggleGroup(group);
-        
+
         panes.put(btnHome.getId(), HOME_PANE_INDEX);
         panes.put(btnBenchmarks.getId(), BENCHMARKS_PANE_INDEX);
         panes.put(btnResults.getId(), RESULTS_PANE_INDEX);
         panes.put(btnGenerator.getId(), GENERATOR_PANE_INDEX);
-        
+
         group.selectedToggleProperty().addListener((ObservableValue<? extends Toggle> observable, Toggle oldValue, Toggle selectedToggle) -> {
             String buttonId = null;
             if (selectedToggle != null) {
@@ -130,8 +137,6 @@ public class MainLayoutController extends Controller {
     protected void initListeners() {
         BenchEventBus.get().register(this);
     }
-    
-    
 
     @Subscribe
     public void runBenchmark(RunBenchmarkEvent event) {
@@ -144,8 +149,37 @@ public class MainLayoutController extends Controller {
     }
 
     /**
+     * Show the message of MessageEvent in the state bar.
+     *
+     * @param event Event.
+     */
+    @Subscribe
+    public void showMessage(MessageEvent event) {
+        Platform.runLater(() -> {
+            lbStateBar.setText(event.getMessage());
+            switch (event.getLevel()) {
+                case INFO:
+                    lbStateBar.setTextFill(Paint.valueOf("BLUE"));
+                    break;
+                case SUCCEEDED:
+                    lbStateBar.setTextFill(Paint.valueOf("GREEN"));
+                    break;
+                case WARNING:
+                    lbStateBar.setTextFill(Paint.valueOf("YELLOW"));
+                    break;
+                case ERROR:
+                    lbStateBar.setTextFill(Paint.valueOf("RED"));
+                    break;
+                    
+            }
+        });
+
+    }
+
+    /**
      * Selects the pane with the index in the stack pane.
-     * @param index 
+     *
+     * @param index
      */
     protected void selectPane(int index) {
         for (Node node : centerContainer.getChildren()) {
@@ -189,7 +223,8 @@ public class MainLayoutController extends Controller {
 
     /**
      * Handler of About menu action event.
-     * @param event 
+     *
+     * @param event
      */
     @FXML
     public void handleAbout(ActionEvent event) {

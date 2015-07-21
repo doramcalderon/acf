@@ -64,15 +64,15 @@ public class BenchmarksBeanTest {
      */
     @Test
     public void testExists() throws IOException {
-        String workspace = System.getProperty("user.dir") + File.separator + "src" + File.separator + "test";
+        String workspace = Paths.get(System.getProperty("user.dir"), "src", "test").toString();
         String name = "BENCH1";
         try {
-            Files.createDirectories(Paths.get(workspace.concat(File.separator).concat(name)));
+            Files.createDirectories(Paths.get(workspace, "benchmarks", name));
 
             BenchmarksBean bean = new BenchmarksBean();
             assertTrue(bean.exists(name, workspace));
         } finally {
-            Files.deleteIfExists(Paths.get(workspace.concat(File.separator).concat(name)));
+            Files.deleteIfExists(Paths.get(workspace, name));
         }
     }
     @Test
