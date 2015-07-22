@@ -29,6 +29,7 @@ import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.beans.binding.Bindings;
+import javafx.beans.binding.BooleanBinding;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.concurrent.WorkerStateEvent;
@@ -80,6 +81,8 @@ public class RunBenchmarkController extends Controller {
      */
     @FXML
     private Button btnRun;
+    @FXML
+    private Button btnSelectOutput;
 
     @FXML
     private BorderPane rootPane;
@@ -143,6 +146,21 @@ public class RunBenchmarkController extends Controller {
 
     @Override
     protected void initBinding() {
+        btnRun.disableProperty().bind(benchmarksTree.getSelectionModel().selectedItemProperty().isNull());
+    
+        BooleanBinding isBenchmark = new BooleanBinding() {
+            {
+                super.bind(benchmarksTree.getSelectionModel().selectedItemProperty());
+            }
+
+            @Override
+            protected boolean computeValue() {
+                TreeItem selectedItem = (TreeItem) benchmarksTree.getSelectionModel().getSelectedItem();
+                
+                return ((selectedItem != null) && (selectedItem.getValue() instanceof Benchmark));
+            }
+        };
+        btnSelectOutput.disableProperty().bind(isBenchmark);
         model.inputProperty().bind(txtInput.textProperty());
         model.outputProperty().bind(txtOutput.textProperty());
     }
@@ -428,7 +446,7 @@ public class RunBenchmarkController extends Controller {
 
         @Override
         public void changed(ObservableValue<? extends TreeItem> observable, TreeItem oldItem, TreeItem newItem) {
-            btnRun.setDisable(newItem == null);
+            //btnRun.setDisable(newItem == null);
             if (newItem != null) {
                 Benchmark selectedBenchmark;
                 boolean isBenchmark = (newItem.getValue() instanceof Benchmark);

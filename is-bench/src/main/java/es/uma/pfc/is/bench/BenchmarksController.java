@@ -49,6 +49,12 @@ public class BenchmarksController extends Controller {
     }    
 
     @Override
+    protected void initView() throws IOException {
+        showRunTab(null);
+    }
+    
+
+    @Override
     protected void initListeners() {
         BenchEventBus.get().register(this);
     }
