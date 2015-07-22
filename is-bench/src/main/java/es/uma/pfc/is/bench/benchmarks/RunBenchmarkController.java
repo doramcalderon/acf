@@ -334,7 +334,6 @@ public class RunBenchmarkController extends Controller {
             readerService.setFileName(historyName);
             historyProgressInd.visibleProperty().bind(readerService.runningProperty());
             txtHistoryArea.textProperty().bindBidirectional(readerService.contentFileProperty());
-            // piExecution.progressProperty().bind(reader.progressProperty());
             readerService.restart();
         }
     }

@@ -6,6 +6,7 @@ import es.uma.pfc.is.bench.events.MessageEvent;
 import es.uma.pfc.is.bench.events.NewBenchmarkEvent;
 import es.uma.pfc.is.bench.events.RunBenchmarkEvent;
 import es.uma.pfc.is.bench.i18n.I18n;
+import es.uma.pfc.is.bench.uitls.Animations;
 import es.uma.pfc.is.bench.uitls.Dialogs;
 import es.uma.pfc.is.bench.view.FXMLViews;
 import static es.uma.pfc.is.bench.view.FXMLViews.ABOUT_VIEW;
@@ -17,6 +18,8 @@ import java.util.Map;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
 import javafx.application.Platform;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
@@ -38,6 +41,7 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Paint;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 
 /**
  * Controller of Root Vieww.
@@ -156,6 +160,8 @@ public class MainLayoutController extends Controller {
     @Subscribe
     public void showMessage(MessageEvent event) {
         Platform.runLater(() -> {
+            lbStateBar.setVisible(true);
+            lbStateBar.setOpacity(1.0);
             lbStateBar.setText(event.getMessage());
             switch (event.getLevel()) {
                 case INFO:
@@ -172,8 +178,8 @@ public class MainLayoutController extends Controller {
                     break;
                     
             }
+            Animations.fadeOut(lbStateBar, 5000);
         });
-
     }
 
     /**
