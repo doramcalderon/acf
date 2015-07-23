@@ -259,7 +259,6 @@ public class RunBenchmarkController extends Controller {
 
         if (!valid) {
             publicMessage(message, MessageEvent.Level.ERROR);
-            // new Alert(Alert.AlertType.ERROR, message).show();
         }
         return valid;
     }

@@ -11,6 +11,7 @@ import es.uma.pfc.is.bench.config.UserConfig;
 import es.uma.pfc.is.bench.events.AlgorithmChangeEvent;
 import es.uma.pfc.is.bench.events.AlgorithmsSelectedEvent;
 import es.uma.pfc.is.bench.events.BenchEventBus;
+import es.uma.pfc.is.bench.events.MessageEvent;
 import es.uma.pfc.is.bench.i18n.BenchMessages;
 import es.uma.pfc.is.bench.i18n.I18n;
 import es.uma.pfc.is.bench.services.AlgorithmsLoadService;
@@ -141,14 +142,8 @@ public class NewBenchmarkController extends Controller {
      */
     @Override
     protected boolean validate() {
-        // si se produce un error por no seleccionar un algoritmo, y la siguiente vez ya se ha seleccionado,
-        // no se muestra el error anterior
-        // registrando un validator para el ListView, no detecta los cambios en  la lista
-//        getValidationSupport().getValidationResult().addErrorIf(algorithmsSelected, 
-//                                                              getI18nMessage(BenchMessages.EMPTY_ALGORITHM_LIST), 
-//                                                              algorithmsSelected.getItems().isEmpty());
         if(algorithmsSelected.getItems().isEmpty()) {
-            showAlert(Alert.AlertType.ERROR, null, getI18nMessage(BenchMessages.EMPTY_ALGORITHM_LIST));
+            publicMessage(getI18nMessage(BenchMessages.EMPTY_ALGORITHM_LIST), MessageEvent.Level.ERROR);
             return false;
         }
         

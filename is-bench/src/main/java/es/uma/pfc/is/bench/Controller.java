@@ -142,7 +142,7 @@ public abstract class Controller implements Initializable {
 
     ;
     /**
-     * Check the validation support status. If not is valid, show an alert with message errors.
+     * Check the validation support status. If not is valid, show the message errors in the state bar.
      * @return 
      */
     protected boolean validate() {
@@ -151,8 +151,7 @@ public abstract class Controller implements Initializable {
             StringBuilder sb = new StringBuilder();
             validationSupport.getValidationResult().getMessages().stream()
                             .forEach(msg -> sb.append(msg.getText()).append("\n"));
-
-            new Alert(Alert.AlertType.ERROR, sb.toString()).show();
+            publicMessage(sb.toString(), Level.ERROR);
             
         }
         return isValid;
