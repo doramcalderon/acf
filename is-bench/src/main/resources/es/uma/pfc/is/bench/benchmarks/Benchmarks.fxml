@@ -6,7 +6,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<TabPane fx:id="benchmarksTabPane" tabClosingPolicy="UNAVAILABLE" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="es.uma.pfc.is.bench.BenchmarksController">
+<TabPane fx:id="benchmarksTabPane" tabClosingPolicy="UNAVAILABLE" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="es.uma.pfc.is.bench.benchmarks.BenchmarksController">
     <tabs>
         <Tab fx:id="tabNew" text="Add">
             <content>
@@ -15,7 +15,7 @@
         </Tab>
         <Tab fx:id="tabRun" text="Run">
             <content>
-                <fx:include source="/fxml/RunBenchmark.fxml"/>
+                <fx:include source="/es/uma/pfc/is/bench/benchmarks/execution/RunBenchmark.fxml"/>
             </content>
         </Tab>
     </tabs>

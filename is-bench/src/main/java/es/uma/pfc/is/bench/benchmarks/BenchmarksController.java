@@ -3,9 +3,10 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package es.uma.pfc.is.bench;
+package es.uma.pfc.is.bench.benchmarks;
 
 import com.google.common.eventbus.Subscribe;
+import es.uma.pfc.is.bench.Controller;
 import es.uma.pfc.is.bench.events.BenchEventBus;
 import es.uma.pfc.is.bench.events.NewBenchmarkEvent;
 import es.uma.pfc.is.bench.events.RunBenchmarkEvent;

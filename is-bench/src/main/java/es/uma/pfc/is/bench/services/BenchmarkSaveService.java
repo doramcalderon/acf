@@ -6,7 +6,7 @@
 
 package es.uma.pfc.is.bench.services;
 
-import es.uma.pfc.is.bench.algorithmslist.view.AlgorithmsListController;
+import es.uma.pfc.is.bench.algorithmslist.AlgorithmsListController;
 import es.uma.pfc.is.bench.benchmarks.business.BenchmarksBean;
 import es.uma.pfc.is.bench.benchmarks.domain.Benchmark;
 import es.uma.pfc.is.bench.config.UserConfig;

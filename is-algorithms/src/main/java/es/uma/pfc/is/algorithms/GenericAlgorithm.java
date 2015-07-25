@@ -8,15 +8,19 @@ import es.uma.pfc.is.algorithms.util.ImplicationalSystems;
 import es.uma.pfc.is.logging.AlgorithmLogger;
 import fr.kbertet.lattice.ImplicationalSystem;
 import fr.kbertet.lattice.Rule;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.PrintStream;
 import java.nio.file.Files;
+import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * Algoritmo genérico que recibe como entrada una ruta de un fichero y como salida un sistema implicacional.
@@ -125,6 +129,15 @@ public abstract class GenericAlgorithm implements Algorithm<String, Implicationa
     
     @Override
     public Algorithm output(String file) {
+        Path filePath = Paths.get(file);
+        if(!Files.exists(filePath)) {
+            try {
+                Files.createFile(filePath);
+            } catch (IOException ex) {
+                Logger.getLogger(GenericAlgorithm.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        
         this.options.addOption(Options.OUTPUT.toString(), file);
         return this;
     }

@@ -1,6 +1,6 @@
 
 
-package es.uma.pfc.is.bench.algorithms.view;
+package es.uma.pfc.is.bench.algorithms;
 
 import es.uma.pfc.is.commons.strings.StringUtils;
 import javafx.beans.property.SimpleStringProperty;

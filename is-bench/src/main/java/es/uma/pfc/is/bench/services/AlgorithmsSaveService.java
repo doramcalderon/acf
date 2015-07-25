@@ -2,7 +2,7 @@ package es.uma.pfc.is.bench.services;
 
 import es.uma.pfc.is.algorithms.Algorithm;
 import es.uma.pfc.is.bench.algorithms.business.AlgorithmsBean;
-import es.uma.pfc.is.bench.algorithms.view.AlgorithmsModel;
+import es.uma.pfc.is.bench.algorithms.AlgorithmsModel;
 import es.uma.pfc.is.bench.algorithms.domain.AlgorithmEntity;
 import es.uma.pfc.is.bench.events.AlgorithmChangeEvent;
 import es.uma.pfc.is.bench.events.BenchEventBus;

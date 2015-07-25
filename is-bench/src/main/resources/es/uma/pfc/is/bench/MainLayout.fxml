@@ -74,9 +74,9 @@
                     <content>
                         <StackPane fx:id="centerContainer">
                             <children>
-                                <fx:include source="/es/uma/pfc/is/bench/benchmarks/Home.fxml"/>
-                                <fx:include source="/fxml/Benchmarks.fxml"/>
-                                <fx:include source="/es/uma/pfc/is/bench/benchmarks/results/view/Results.fxml"/>
+                                <fx:include source="/es/uma/pfc/is/bench/home/Home.fxml"/>
+                                <fx:include source="/es/uma/pfc/is/bench/benchmarks/Benchmarks.fxml"/>
+                                <fx:include source="/es/uma/pfc/is/bench/benchmarks/results/Results.fxml"/>
                             </children>
                         </StackPane>
                     </content>                    
@@ -86,7 +86,7 @@
             <bottom>
                 <AnchorPane fx:id="stateBar" minHeight="40.0" BorderPane.alignment="CENTER">
                <children>
-                  <Label layoutX="36.0" layoutY="12.0" text="lbStateBar" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" fx:id="lbStateBar" />
+                  <Label layoutX="36.0" layoutY="12.0" text="" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" fx:id="lbStateBar" />
                </children></AnchorPane>
             </bottom>
         </BorderPane>

@@ -8,19 +8,19 @@ package es.uma.pfc.is.bench.view;
 public interface FXMLViews {
     /** Root view.**/
     // String ROOT_VIEW = "/fxml/Root.fxml";
-    String ROOT_VIEW = "/fxml/MainLayout.fxml";
+    String ROOT_VIEW = "/es/uma/pfc/is/bench/MainLayout.fxml";
     
     /** Benchmarks dashboard view. **/
-    String BENCHMARKS_DASHBOARD_VIEW = "/es/uma/pfc/is/bench/benchmarks/Home.fxml";
+    String BENCHMARKS_DASHBOARD_VIEW = "/es/uma/pfc/is/bench/home/Home.fxml";
     
     /** Run Benchmark view. **/
-    String RUN_BENCHMARK_VIEW = "/fxml/RunBenchmark.fxml";
+    String RUN_BENCHMARK_VIEW = "/es/uma/pfc/is/bench/benchmarks/execution/RunBenchmark.fxml";
     
     /** Algorithms view. **/
-    String ALGORITHMS_VIEW = "/es/uma/pfc/is/bench/algorithms/view/Algorithms.fxml";
+    String ALGORITHMS_VIEW = "/es/uma/pfc/is/bench/algorithms/Algorithms.fxml";
     
     /** Algorithms List. **/
-    String ALGORITHMS_LIST_VIEW = "/es/uma/pfc/is/bench/algorithmslist/view/AlgorithmsList.fxml";
+    String ALGORITHMS_LIST_VIEW = "/es/uma/pfc/is/bench/algorithmslist/AlgorithmsList.fxml";
     
     /** New Benchamrk view.**/
     String NEW_ALGORITHM_VIEW = "/es/uma/pfc/is/bench/benchmarks/newbm/NewBenchmark.fxml";
@@ -32,10 +32,10 @@ public interface FXMLViews {
     /**
      * Results view.
      */
-    String RESULTS_VIEW = "/es/uma/pfc/is/bench/benchmarks/results/view/Results.fxml";
+    String RESULTS_VIEW = "/es/uma/pfc/is/bench/benchmarks/results/Results.fxml";
     
     /** User Preferences view. **/
-    String USER_CONFIG_VIEW = "/fxml/UserConfig.fxml";
+    String USER_CONFIG_VIEW = "/es/uma/pfc/is/bench/config/UserConfig.fxml";
     /** About view. **/
-    String ABOUT_VIEW = "/fxml/About.fxml";
+    String ABOUT_VIEW = "/es/uma/pfc/is/bench/About.fxml";
 }

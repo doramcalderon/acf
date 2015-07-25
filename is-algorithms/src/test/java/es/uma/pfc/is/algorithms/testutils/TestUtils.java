@@ -20,4 +20,7 @@ public class TestUtils {
         String path = Paths.get(System.getProperty("user.dir"), "src", "test", "resources", file).toString();
         return new ImplicationalSystem(path);
     }
+    public static String getTestResourcePath(String filename) {
+        return Paths.get(System.getProperty("user.dir"), "src", "test", "resources", filename).toString();
+    }
 }

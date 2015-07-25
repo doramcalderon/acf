@@ -58,13 +58,19 @@ public class AlgorithmLogger {
     private AlgorithmOptions options;
 
     private long startTime;
-    /** Date format for time outputs.**/
+    /**
+     * Date format for time outputs.*
+     */
     private final SimpleDateFormat df = new SimpleDateFormat("HH:mm:ss:SSS");
-    /** Algorithm name. **/
+    /**
+     * Algorithm name. *
+     */
     private final String algorithmName;
-    /** Output name. **/
+    /**
+     * Output name. *
+     */
     private String output;
-    
+
     /**
      * Logging context.
      */
@@ -72,6 +78,7 @@ public class AlgorithmLogger {
 
     /**
      * Constructor.
+     *
      * @param algorithmName Algorithm name.
      */
     public AlgorithmLogger(String algorithmName, AlgorithmOptions options) {
@@ -83,14 +90,13 @@ public class AlgorithmLogger {
         this.messages = AlgMessages.get();
     }
 
-    
     /**
      * Configure logging context.
      */
-    protected final void configure(String configFile)  {
+    protected final void configure(String configFile) {
         try {
             InputStream configFileStream = AlgorithmLoggerFactory.class.getResourceAsStream(configFile);
-            
+
             loggerContext = (LoggerContext) LoggerFactory.getILoggerFactory();
             JoranConfigurator configurator = new JoranConfigurator();
             loggerContext.reset();
@@ -100,31 +106,34 @@ public class AlgorithmLogger {
             throw new RuntimeException(ex);
         }
     }
-    
+
     /**
      * Return the output base name for history and statistics logs.<br/>
      * If the output file name is configured in algorithm options, this will be the output name for logs.<br/>
      * Otherwise, the ouput name will be the algorithm name.
+     *
      * @return Output name.
      */
     protected final String getOutputName() {
         String outputName = algorithmName;
-        if(options != null) {
+        if (options != null) {
             String outputBaseName = options.getOutputBaseName();
-            if(outputBaseName != null && ! outputBaseName.isEmpty()) {
+            if (outputBaseName != null && !outputBaseName.isEmpty()) {
                 outputName = outputBaseName;
             }
         }
         return outputName;
     }
-    
+
     /**
      * Testing usage.
+     *
      * @return Dateformat.
      */
     protected DateFormat getDf() {
         return df;
     }
+
     /**
      * Si el modo {@link Mode#PERFORMANCE} está habilitado.
      *
@@ -156,7 +165,6 @@ public class AlgorithmLogger {
         this.options = options;
         this.output = getOutputName();
     }
-
 
     /**
      * Return a marker of a mode.
@@ -191,9 +199,13 @@ public class AlgorithmLogger {
      * @param time HOra de inicio.
      */
     public void startTime() {
+        startTime(System.currentTimeMillis());
+    }
+
+    public void startTime(long time) {
 
         if (isPerformanceEnabled()) {
-            startTime = System.currentTimeMillis();
+            startTime = time;
             log(Mode.PERFORMANCE, messages.getMessage(PERFORMANCE_INIT), df.format(new Date(startTime)));
         }
     }
@@ -203,13 +215,19 @@ public class AlgorithmLogger {
      *
      * @param time Hora de fin.
      */
-    public void endTime() {
+    public void endTime(long time) {
         if (isPerformanceEnabled()) {
-            long time = System.currentTimeMillis();
             long total = time - startTime;
             log(Mode.PERFORMANCE, messages.getMessage(PERFORMANCE_END), df.format(new Date(time)));
             log(Mode.PERFORMANCE, messages.getMessage(PERFORMANCE_TOTAL), total);
         }
+    }
+
+    /**
+     * Escribe la hora de fin y la diferencia entre el inicio y el fin.
+     */
+    public void endTime() {
+        endTime(System.currentTimeMillis());
     }
 
     /**
@@ -226,13 +244,14 @@ public class AlgorithmLogger {
 
     /**
      * Write a message with Statistics Appender.
+     *
      * @param values Values of row.
      */
     public void statistics(Object... values) {
         if (isStatisticsEnabled()) {
             StringBuilder sb = new StringBuilder();
-            if(values != null) {
-                for(Object value : values) {
+            if (values != null) {
+                for (Object value : values) {
                     sb.append(",");
                     sb.append(String.valueOf(value));
                 }
@@ -243,46 +262,45 @@ public class AlgorithmLogger {
     }
 
     public void freeResources() {
-        
+
     }
-    
+
     public void traceOutputs(Map<Mode, List<PrintStream>> outputsByMode) {
         if (outputsByMode != null && !outputsByMode.isEmpty()) {
             List<PrintStream> outputs;
             for (Mode mode : outputsByMode.keySet()) {
                 outputs = outputsByMode.get(mode);
-                
-                if(outputs != null && !outputs.isEmpty()) {
-                    for(PrintStream ps : outputs) {
+
+                if (outputs != null && !outputs.isEmpty()) {
+                    for (PrintStream ps : outputs) {
                         addAppender("", ps);
                     }
                 }
             }
         }
     }
+
     public void addAppender(String name, PrintStream output) {
-            OutputStreamAppender appender = new OutputStreamAppender();
-            appender.setContext(loggerContext);
-            
-            PatternLayoutEncoder layoutEncoder = new PatternLayoutEncoder();
-            layoutEncoder.setContext(loggerContext);
-            layoutEncoder.setPattern("%m%n");
-            layoutEncoder.start();
-            appender.setEncoder(layoutEncoder);
-            
-            ModeFilter filter = new ModeFilter();
-            filter.setMarkers("HISTORY, PERFORMANCE");
-            filter.start();
-            appender.addFilter(filter);
-            
-            appender.setOutputStream(output);
-            appender.start();
-            
-            
-            ch.qos.logback.classic.Logger lbLogger = (ch.qos.logback.classic.Logger) logger;
-            lbLogger.addAppender(appender);
-            lbLogger.setAdditive(true); 
-            
-        
+        OutputStreamAppender appender = new OutputStreamAppender();
+        appender.setContext(loggerContext);
+
+        PatternLayoutEncoder layoutEncoder = new PatternLayoutEncoder();
+        layoutEncoder.setContext(loggerContext);
+        layoutEncoder.setPattern("%m%n");
+        layoutEncoder.start();
+        appender.setEncoder(layoutEncoder);
+
+        ModeFilter filter = new ModeFilter();
+        filter.setMarkers("HISTORY, PERFORMANCE");
+        filter.start();
+        appender.addFilter(filter);
+
+        appender.setOutputStream(output);
+        appender.start();
+
+        ch.qos.logback.classic.Logger lbLogger = (ch.qos.logback.classic.Logger) logger;
+        lbLogger.addAppender(appender);
+        lbLogger.setAdditive(true);
+
     }
 }

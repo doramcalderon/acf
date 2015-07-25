@@ -7,7 +7,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<StackPane xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="es.uma.pfc.is.bench.benchmarks.RunBenchmarkController">
+<StackPane xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="es.uma.pfc.is.bench.benchmarks.execution.RunBenchmarkController">
    <children>
       <BorderPane fx:id="rootPane" minHeight="600.0" minWidth="800.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <top>
@@ -108,7 +108,7 @@
                                     <Label layoutX="10.0" layoutY="17.0" text="%output" GridPane.rowIndex="1" />
                                     <Button fx:id="btnSelectInput" mnemonicParsing="false" onAction="#handleSelectInputAction" text="..." GridPane.columnIndex="2" />
                                     <Button fx:id="btnSelectOutput" mnemonicParsing="false" onAction="#handleSelectOutputAction" text="..." GridPane.columnIndex="2" GridPane.rowIndex="1" />
-                                    <TextField fx:id="txtInput" GridPane.columnIndex="1">
+                                    <TextField fx:id="txtInput" promptText="%lb.benchmarks.select.input" GridPane.columnIndex="1">
                                        <padding>
                                           <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                                        </padding>
@@ -116,7 +116,7 @@
                                           <Insets left="5.0" right="5.0" />
                                        </GridPane.margin>
                                     </TextField>
-                                    <TextField fx:id="txtOutput" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                                    <TextField fx:id="txtOutput" promptText="%lb.benchmarks.select.output" GridPane.columnIndex="1" GridPane.rowIndex="1">
                                        <padding>
                                           <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                                        </padding>

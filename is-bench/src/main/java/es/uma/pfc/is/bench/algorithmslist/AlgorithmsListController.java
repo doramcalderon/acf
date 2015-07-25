@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package es.uma.pfc.is.bench.algorithmslist.view;
+package es.uma.pfc.is.bench.algorithmslist;
 
 import es.uma.pfc.is.algorithms.Algorithm;
 import es.uma.pfc.is.bench.Controller;

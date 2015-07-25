@@ -1,7 +1,6 @@
 
 package es.uma.pfc.is.bench.algorithms;
 
-import es.uma.pfc.is.bench.algorithms.view.AlgorithmsModel;
 import javafx.beans.property.SimpleStringProperty;
 import org.junit.Test;
 import static org.junit.Assert.*;

@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package es.uma.pfc.is.bench.benchmarks;
+package es.uma.pfc.is.bench.home;
 
 import es.uma.pfc.is.bench.Controller;
 import es.uma.pfc.is.bench.events.BenchEventBus;

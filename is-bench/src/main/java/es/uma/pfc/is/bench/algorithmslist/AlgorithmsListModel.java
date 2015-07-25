@@ -1,5 +1,5 @@
 
-package es.uma.pfc.is.bench.algorithmslist.view;
+package es.uma.pfc.is.bench.algorithmslist;
 
 import es.uma.pfc.is.algorithms.Algorithm;
 import java.util.ArrayList;

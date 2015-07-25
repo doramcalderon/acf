@@ -1,10 +1,11 @@
-package es.uma.pfc.is.bench.benchmarks;
+package es.uma.pfc.is.bench.benchmarks.execution;
 
 import com.google.common.eventbus.Subscribe;
 import es.uma.pfc.is.algorithms.Algorithm;
 import es.uma.pfc.is.algorithms.AlgorithmOptions.Mode;
 import es.uma.pfc.is.algorithms.exceptions.AlgorithmException;
 import es.uma.pfc.is.bench.Controller;
+import es.uma.pfc.is.bench.benchmarks.RunBenchmarkModel;
 import es.uma.pfc.is.bench.benchmarks.domain.Benchmark;
 import es.uma.pfc.is.bench.config.UserConfig;
 import es.uma.pfc.is.bench.events.BenchEventBus;

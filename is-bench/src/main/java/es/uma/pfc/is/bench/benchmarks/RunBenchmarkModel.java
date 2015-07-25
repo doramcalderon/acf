@@ -89,10 +89,11 @@ public class RunBenchmarkModel {
      */
     public List<Algorithm> getSelectedAlgorithms() {
         List<Algorithm> selectedAlgorithms = new ArrayList();
-        if (selectedBenchmark != null) {
-            selectedAlgorithms = selectedBenchmark.getAlgorithms();
-        } else if (selectedAlgorithm != null) {
+        
+        if (selectedAlgorithm != null) {
             selectedAlgorithms.add(selectedAlgorithm);
+        } else if (selectedBenchmark != null) {
+            selectedAlgorithms = selectedBenchmark.getAlgorithms();    
         }
         return selectedAlgorithms;
     }
