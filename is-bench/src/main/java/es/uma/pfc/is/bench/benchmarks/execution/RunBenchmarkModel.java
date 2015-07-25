@@ -1,4 +1,4 @@
-package es.uma.pfc.is.bench.benchmarks;
+package es.uma.pfc.is.bench.benchmarks.execution;
 
 import es.uma.pfc.is.algorithms.Algorithm;
 import es.uma.pfc.is.bench.benchmarks.domain.Benchmark;

@@ -3,7 +3,7 @@ package es.uma.pfc.is.bench.services;
 
 import es.uma.pfc.is.algorithms.Algorithm;
 import es.uma.pfc.is.algorithms.AlgorithmExecutor;
-import es.uma.pfc.is.bench.benchmarks.RunBenchmarkModel;
+import es.uma.pfc.is.bench.benchmarks.execution.RunBenchmarkModel;
 import es.uma.pfc.is.bench.events.BenchEventBus;
 import es.uma.pfc.is.bench.events.MessageEvent;
 import java.nio.file.Paths;

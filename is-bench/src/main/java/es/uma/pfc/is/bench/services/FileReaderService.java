@@ -1,6 +1,6 @@
 package es.uma.pfc.is.bench.services;
 
-import java.io.IOException;
+import java.io.File;
 import java.io.RandomAccessFile;
 import java.nio.ByteBuffer;
 import java.nio.channels.FileChannel;
@@ -19,7 +19,7 @@ public class FileReaderService extends Service<StringBuilder> {
     /**
      * File name.
      */
-    private String fileName;
+    private File file;
     /**
      * Property that contains content file.
      */
@@ -37,8 +37,8 @@ public class FileReaderService extends Service<StringBuilder> {
      *
      * @param fileName File name.
      */
-    public void setFileName(String fileName) {
-        this.fileName = fileName;
+    public void setFile(File fileName) {
+        this.file = fileName;
     }
 
     /**
@@ -58,7 +58,7 @@ public class FileReaderService extends Service<StringBuilder> {
             protected StringBuilder call() throws Exception {
                 StringBuilder fileContent = new StringBuilder();
 
-                try (RandomAccessFile readFile = new RandomAccessFile(fileName, "r");
+                try (RandomAccessFile readFile = new RandomAccessFile(file, "r");
                         FileChannel inChannel = readFile.getChannel()) {
 
                     ByteBuffer buffer = ByteBuffer.allocate(1024);

@@ -1,9 +1,9 @@
 
 package es.uma.pfc.is.bench.benchmarks;
 
-import es.uma.pfc.is.algorithms.Algorithm;
 import es.uma.pfc.is.algorithms.GenericAlgorithm;
 import es.uma.pfc.is.bench.benchmarks.domain.Benchmark;
+import es.uma.pfc.is.bench.benchmarks.execution.RunBenchmarkModel;
 import java.nio.file.Paths;
 import java.util.Arrays;
 import static org.junit.Assert.assertEquals;

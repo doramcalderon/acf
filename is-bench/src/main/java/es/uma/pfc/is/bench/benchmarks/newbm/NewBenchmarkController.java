@@ -193,6 +193,19 @@ public class NewBenchmarkController extends Controller {
         }
     }
     
+
+    /**
+     * When there is a double click in selected algorithms list, the selection is remove from algorithms selected.
+     * @param mouseEvent Mouse event.
+     */
+    @FXML
+    protected void handleSelectedListDoubleClick(MouseEvent mouseEvent) {
+        if (mouseEvent.getClickCount() == 2) {
+            Object unselectedItem = algorithmsSelected.getSelectionModel().getSelectedItem();
+            this.algorithmsSelected.getItems().remove(unselectedItem);
+        }
+    }
+    
    
    
     @FXML

@@ -10,10 +10,8 @@ import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
@@ -66,6 +64,7 @@ public class AlgorithmsController extends Controller {
     /**
      * View initialization.
      */
+    @Override
     protected void initView() {
         support = new ValidationSupport();
 
@@ -74,6 +73,7 @@ public class AlgorithmsController extends Controller {
     /**
      * Initialize the model.
      */
+    @Override
     protected void initModel() {
         model = new AlgorithmsModel();
     }
@@ -103,6 +103,7 @@ public class AlgorithmsController extends Controller {
      *
      * @return {@code true} if validation is succeeded, {@code false} otherwise.
      */
+    @Override
     protected boolean validate() {
         boolean valid = !support.isInvalid();
         if (!valid) {
@@ -148,13 +149,7 @@ public class AlgorithmsController extends Controller {
     protected void save() {
         if (validate()) {
             AlgorithmsSaveService saveService = new AlgorithmsSaveService(model);
-            saveService.setOnSucceeded(new EventHandler() {
-
-                @Override
-                public void handle(Event event) {
-                    close();
-                }
-            });
+            saveService.setOnSucceeded((Event event) -> {close();});
             saveService.restart();
         }
     }

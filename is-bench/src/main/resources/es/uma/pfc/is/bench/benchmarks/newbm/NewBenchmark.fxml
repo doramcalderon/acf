@@ -47,7 +47,7 @@
             <HBox prefHeight="100.0" prefWidth="200.0" spacing="10.0" GridPane.hgrow="ALWAYS" GridPane.rowIndex="4" GridPane.vgrow="ALWAYS">
                <children>
                   <ListView fx:id="algorithmsList" onMouseClicked="#handleListDoubleClick" prefHeight="200.0" prefWidth="200.0" HBox.hgrow="ALWAYS" />
-                  <ListView fx:id="algorithmsSelected" prefHeight="200.0" prefWidth="200.0" HBox.hgrow="ALWAYS" />
+                  <ListView fx:id="algorithmsSelected" onMouseClicked="#handleSelectedListDoubleClick" prefHeight="200.0" prefWidth="200.0" HBox.hgrow="ALWAYS" />
                </children>
             </HBox>
          </children>

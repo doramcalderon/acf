@@ -5,7 +5,6 @@ import es.uma.pfc.is.algorithms.Algorithm;
 import es.uma.pfc.is.algorithms.AlgorithmOptions.Mode;
 import es.uma.pfc.is.algorithms.exceptions.AlgorithmException;
 import es.uma.pfc.is.bench.Controller;
-import es.uma.pfc.is.bench.benchmarks.RunBenchmarkModel;
 import es.uma.pfc.is.bench.benchmarks.domain.Benchmark;
 import es.uma.pfc.is.bench.config.UserConfig;
 import es.uma.pfc.is.bench.events.BenchEventBus;
@@ -24,6 +23,7 @@ import es.uma.pfc.is.javafx.TreeItemPredicate;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -37,7 +37,9 @@ import javafx.concurrent.WorkerStateEvent;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ProgressIndicator;
 import javafx.scene.control.TableView;
@@ -47,6 +49,7 @@ import javafx.scene.control.TreeItem;
 import javafx.scene.control.TreeView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.Pane;
 import javafx.stage.FileChooser;
 import javafx.stage.Window;
 import org.controlsfx.validation.ValidationMessage;
@@ -268,6 +271,12 @@ public class RunBenchmarkController extends Controller {
         initModel();
     }
 
+    @Override
+    protected Pane getRootPane() {
+        return rootPane;
+    }
+
+    
     /**
      * /**
      * Añade al modelo la activación de un modo de ejecución.
@@ -324,18 +333,41 @@ public class RunBenchmarkController extends Controller {
         if(model.getSelectedAlgorithm() != null) {
             showHistory();
             showStatistics();
+        } else {
+            showOpenOutputDir();
         }
     }
+    /**
+     * Shows a confirm alert for open the output folder.
+     */
+    protected void showOpenOutputDir() {
+        boolean open = showAlert(Alert.AlertType.CONFIRMATION, "Open results", "Would you like see the results?")
+                        .filter(response -> response.equals(ButtonType.OK)).isPresent();
+        if(open) {
+            File resultFile = Chooser.openFileChooser(getRootPane().getScene().getWindow(), 
+                                                      Chooser.FileChooserMode.OPEN, "Results", 
+                                                      Paths.get(model.getOutput()).toFile());
+            if(resultFile != null) {
+                showHistory(resultFile.getName(), resultFile);
+            }
+        }
+        
+    }
+    
     protected void showHistory() {
         if (chkTime.isSelected() || chkHistory.isSelected()) {
             String outputname = model.getOutput();
             String historyName = outputname.substring(0, outputname.lastIndexOf(".")).concat("_history.log");
 
-            readerService.setFileName(historyName);
-            historyProgressInd.visibleProperty().bind(readerService.runningProperty());
-            txtHistoryArea.textProperty().bindBidirectional(readerService.contentFileProperty());
-            readerService.restart();
+            showHistory("History", Paths.get(historyName).toFile());
         }
+        
+    }
+    protected void showHistory(String title, File file) {
+        readerService.setFile(file);
+        historyProgressInd.visibleProperty().bind(readerService.runningProperty());
+        txtHistoryArea.textProperty().bindBidirectional(readerService.contentFileProperty());
+        readerService.restart();
     }
 
     protected void showStatistics() {
