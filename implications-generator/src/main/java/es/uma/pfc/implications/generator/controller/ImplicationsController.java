@@ -11,6 +11,7 @@ import es.uma.pfc.implications.generator.io.GeneratorImplicationalSystemIO;
 import es.uma.pfc.implications.generator.model.ImplicationsModel;
 import es.uma.pfc.implications.generator.model.AttributeType;
 import es.uma.pfc.implications.generator.model.ResultValidation;
+import es.uma.pfc.implications.generator.validation.IntegerTextParser;
 import es.uma.pfc.implications.generator.view.GenerateService;
 import fr.kbertet.lattice.ImplicationalSystem;
 import java.io.File;
@@ -21,6 +22,8 @@ import java.util.List;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.concurrent.Task;
 import javafx.concurrent.WorkerStateEvent;
 import javafx.event.ActionEvent;
@@ -32,10 +35,14 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.ProgressIndicator;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import javafx.scene.control.TextFormatter;
+import javafx.scene.input.InputMethodEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.FileChooser;
 import javafx.stage.FileChooser.ExtensionFilter;
 import javafx.stage.Window;
+import org.controlsfx.validation.ValidationMessage;
+import org.controlsfx.validation.ValidationSupport;
 
 /**
  * FXML Controller class
@@ -51,13 +58,13 @@ public class ImplicationsController implements Initializable {
     @FXML
     private TextField txtImplications;
     @FXML
-    private TextField txtMinLongLeft;
+    private TextField txtMinLongPremisse;
     @FXML
-    private TextField txtMaxLongLeft;
+    private TextField txtMaxLongPremisse;
     @FXML
-    private TextField txtMinLongRight;
+    private TextField txtMinLongConclusion;
     @FXML
-    private TextField txtMaxLongRight;
+    private TextField txtMaxLongConclusion;
     @FXML
     private Button btnSave;
     @FXML
@@ -80,9 +87,16 @@ public class ImplicationsController implements Initializable {
     /**
      * Sistema generado.*
      */
-    List<ImplicationalSystem> implicationSystems;
+    private List<ImplicationalSystem> implicationSystems;
+    /**
+     * Model.
+     */
+    private ImplicationsModel model;
 
-    ImplicationsModel model;
+    /**
+     * Validation support.
+     */
+    private ValidationSupport validationSupport;
 
 //    @FXML
 //    private ResourceBundle resources;
@@ -94,10 +108,48 @@ public class ImplicationsController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        initView();
+        initValidation();
+        initListeners();
+        ImplicationsFactory.initialize();
+    }
+
+    protected void initView() {
         this.cbNodeType.getItems().addAll(AttributeType.NUMBER, AttributeType.LETTER, AttributeType.INDEXED_LETTER);
         this.cbNodeType.getSelectionModel().select(AttributeType.NUMBER);
-
-        ImplicationsFactory.initialize();
+        
+        IntegerTextParser parser = new IntegerTextParser();
+        txtNodes.setTextFormatter(new TextFormatter<>(parser));
+        txtImplications.setTextFormatter(new TextFormatter<>(parser));
+        txtMaxLongPremisse.setTextFormatter(new TextFormatter<>(parser));
+        txtMinLongPremisse.setTextFormatter(new TextFormatter<>(parser));
+        txtMaxLongConclusion.setTextFormatter(new TextFormatter<>(parser));
+        txtMinLongConclusion.setTextFormatter(new TextFormatter<>(parser));
+        txtSystemsNumber.setTextFormatter(new TextFormatter<>(parser));
+    }
+    /**
+     * Initializes the listeners.
+     */
+    protected void initListeners() {
+        txtMinLongPremisse.textProperty().addListener((
+                ObservableValue<? extends String> observable, String oldValue, String newValue) -> {
+                    handlePremisseSizeChange();
+                });
+        txtMaxLongPremisse.textProperty().addListener((
+                ObservableValue<? extends String> observable, String oldValue, String newValue) -> {
+                    handlePremisseSizeChange();
+                });
+        txtMinLongConclusion.textProperty().addListener((
+                ObservableValue<? extends String> observable, String oldValue, String newValue) -> {
+                    handleConclusionSizeChange();
+                });
+        txtMaxLongConclusion.textProperty().addListener((
+                ObservableValue<? extends String> observable, String oldValue, String newValue) -> {
+                    handleConclusionSizeChange();
+                });
+    }
+    protected void initValidation() {
+        validationSupport = new ValidationSupport();
     }
 
     /**
@@ -120,6 +172,21 @@ public class ImplicationsController implements Initializable {
     @FXML
     public void handleNodeTypeSelection(ActionEvent event) {
         nodeType = (AttributeType) cbNodeType.getSelectionModel().getSelectedItem();
+    }
+
+    /**
+     * Cleans the decorators of max and min premisse length.
+     */
+    public void handlePremisseSizeChange() {
+        validationSupport.getValidationDecorator().removeDecorations(txtMinLongPremisse);
+        validationSupport.getValidationDecorator().removeDecorations(txtMaxLongPremisse);
+    }
+    /**
+     * Cleans the decorators of max and min conclusion length.
+     */
+    public void handleConclusionSizeChange() {
+        validationSupport.getValidationDecorator().removeDecorations(txtMinLongConclusion);
+        validationSupport.getValidationDecorator().removeDecorations(txtMaxLongConclusion);
     }
 
     /**
@@ -202,7 +269,7 @@ public class ImplicationsController implements Initializable {
             };
             generationProgressInd.visibleProperty().bind(saveTask.runningProperty());
             saveTask.run();
-            
+
         }
     }
 
@@ -262,10 +329,24 @@ public class ImplicationsController implements Initializable {
      */
     public void validate() {
         ResultValidation validation = ResultValidation.OK;
-        if (model != null) {
-            validation = model.validate().getResult();
+        if (validationSupport.isInvalid()) {
+            validation = ResultValidation.ZERO_NODES;
+        } else {
+            if (model != null) {
+                validation = model.validate().getResult();
+            }
         }
         if (!validation.isValid()) {
+            String message = validation.toString();
+            if(ResultValidation.INVALID_PREMISE_LENGTH.equals(validation)) {
+                validationSupport.getValidationDecorator().applyValidationDecoration(ValidationMessage.error(txtMaxLongPremisse, message));
+                validationSupport.getValidationDecorator().applyValidationDecoration(ValidationMessage.error(txtMinLongPremisse, message));
+                
+            }else if(ResultValidation.INVALID_CONCLUSION_LENGTH.equals(validation)) {
+                validationSupport.getValidationDecorator().applyValidationDecoration(ValidationMessage.error(txtMaxLongConclusion, message));
+                validationSupport.getValidationDecorator().applyValidationDecoration(ValidationMessage.error(txtMinLongConclusion, message));
+                
+            }
             throw new RuntimeException("Error de validación: " + validation.toString());
         }
     }
@@ -276,10 +357,10 @@ public class ImplicationsController implements Initializable {
     public void viewToModel() {
         String strRulesNumber = txtImplications.getText();
         String strNodesNumber = txtNodes.getText();
-        String strMinPremise = txtMinLongLeft.getText();
-        String strMaxPremise = txtMaxLongLeft.getText();
-        String strMinConclusion = txtMinLongRight.getText();
-        String strMaxConclusion = txtMaxLongRight.getText();
+        String strMinPremise = txtMinLongPremisse.getText();
+        String strMaxPremise = txtMaxLongPremisse.getText();
+        String strMinConclusion = txtMinLongConclusion.getText();
+        String strMaxConclusion = txtMaxLongConclusion.getText();
         String strSystemsNumber = txtSystemsNumber.getText();
 
         Integer nodesNumber = (!Strings.isNullOrEmpty(strNodesNumber)) ? new Integer(strNodesNumber) : null;
@@ -308,10 +389,10 @@ public class ImplicationsController implements Initializable {
 //        imageViewer.setImage(null);
         this.cbNodeType.getSelectionModel().clearSelection();
         this.cbNodeType.getSelectionModel().select(AttributeType.NUMBER);
-        this.txtMinLongLeft.clear();
-        this.txtMaxLongLeft.clear();
-        this.txtMinLongRight.clear();
-        this.txtMaxLongRight.clear();
+        this.txtMinLongPremisse.clear();
+        this.txtMaxLongPremisse.clear();
+        this.txtMinLongConclusion.clear();
+        this.txtMaxLongConclusion.clear();
         this.txtSystemsNumber.clear();
         textViewer.setText("<No implications generated>");
         btnSave.setDisable(true);

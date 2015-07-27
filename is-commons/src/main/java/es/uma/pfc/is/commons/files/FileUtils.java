@@ -63,7 +63,7 @@ public class FileUtils {
             int splitsCount = nameSplits.length;
             
             if(splitsCount > 1) {
-                fileName = nameSplits[0] + "_" + String.valueOf(index) + nameSplits[1];
+                fileName = nameSplits[0] + "_" + String.valueOf(index) + "." + nameSplits[1];
             } else {
                 fileName = name + "_" + String.valueOf(index);
             }
@@ -91,12 +91,12 @@ public class FileUtils {
      * @param fileName File name.
      * @return Name and extension.
      */
-    protected static String[] splitNameAndExtension(String fileName) {
+    public static String[] splitNameAndExtension(String fileName) {
         String[] nameSplits = null;
         if(!StringUtils.isEmpty(fileName)) {
             int indexLastPoint = fileName.lastIndexOf(".");
             if(indexLastPoint >= 0) {
-                nameSplits = new String[]{fileName.substring(0, indexLastPoint), fileName.substring(indexLastPoint)};
+                nameSplits = new String[]{fileName.substring(0, indexLastPoint), fileName.substring(indexLastPoint + 1)};
             } else {
                 nameSplits = new String[]{};
             }

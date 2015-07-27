@@ -38,6 +38,7 @@ public class GeneratorImplicationalSystemIOTest {
     }
     /**
      * Test of write method, of class ImplicationalSystemWriterProlog.
+     * @throws java.lang.Exception
      */
     @Test
     public void testWritePl_List() throws Exception {

@@ -43,12 +43,12 @@
                                  <padding>
                                     <Insets top="5.0" />
                                  </padding></Label>
-                              <TextField fx:id="txtMinLongLeft" prefHeight="20.0" prefWidth="43.0" promptText="-" text="1" />
+                              <TextField fx:id="txtMinLongPremisse" prefHeight="20.0" prefWidth="43.0" promptText="-" text="1" />
                               <Label layoutX="145.0" layoutY="181.0" text="%label.max">
                                  <padding>
                                     <Insets top="5.0" />
                                  </padding></Label>
-                              <TextField fx:id="txtMaxLongLeft" prefHeight="20.0" prefWidth="43.0" promptText="-" />
+                              <TextField fx:id="txtMaxLongPremisse" onInputMethodTextChanged="#handlePremisseSizeChange" prefHeight="20.0" prefWidth="43.0" promptText="-" />
                            </children>
                            <opaqueInsets>
                               <Insets />
@@ -63,12 +63,12 @@
                                  <padding>
                                     <Insets top="5.0" />
                                  </padding></Label>
-                              <TextField fx:id="txtMinLongRight" prefHeight="20.0" prefWidth="43.0" promptText="-" text="1" />
+                              <TextField fx:id="txtMinLongConclusion" prefHeight="20.0" prefWidth="43.0" promptText="-" text="1" />
                               <Label layoutX="145.0" layoutY="181.0" text="%label.max">
                                  <padding>
                                     <Insets top="5.0" />
                                  </padding></Label>
-                              <TextField fx:id="txtMaxLongRight" prefHeight="20.0" prefWidth="43.0" promptText="-" />
+                              <TextField fx:id="txtMaxLongConclusion" prefHeight="20.0" prefWidth="43.0" promptText="-" />
                            </children>
                            <opaqueInsets>
                               <Insets />
@@ -99,7 +99,7 @@
             </AnchorPane>
           <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="598.0" prefWidth="515.0">
                <children>
-                  <SplitPane dividerPositions="0.5" focusTraversable="true" layoutX="21.0" orientation="VERTICAL" prefHeight="398.0" prefWidth="417.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                  <SplitPane focusTraversable="true" layoutX="21.0" orientation="VERTICAL" prefHeight="398.0" prefWidth="417.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                     <items>
                       <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="596.0" prefWidth="456.0">
                            <children>

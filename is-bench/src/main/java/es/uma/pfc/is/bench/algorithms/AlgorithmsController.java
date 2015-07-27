@@ -6,8 +6,11 @@ import es.uma.pfc.is.bench.i18n.BenchMessages;
 import es.uma.pfc.is.bench.services.AlgorithmsSaveService;
 import es.uma.pfc.is.bench.validators.ClassNameValidator;
 import es.uma.pfc.is.bench.validators.EmptyStringValidator;
+import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.fxml.FXML;
@@ -17,7 +20,6 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
-import org.controlsfx.validation.ValidationSupport;
 
 /**
  * Algorithms FXML Controller class.
@@ -37,7 +39,6 @@ public class AlgorithmsController extends Controller {
     @FXML
     private Label lbErrorMessages;
 
-    ValidationSupport support;
     private AlgorithmsModel model;
     /**
      * Algorithms business logic.
@@ -52,23 +53,19 @@ public class AlgorithmsController extends Controller {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        super.initialize(url, rb);
-        initView();
-        initModel();
-        initBindings();
-
-        algorithmsBean = new AlgorithmsBean();
-
-    }
-
-    /**
-     * View initialization.
-     */
-    @Override
-    protected void initView() {
-        support = new ValidationSupport();
+        try {
+            super.initialize(url, rb);
+            initView();
+            initModel();
+            initBindings();
+            
+            algorithmsBean = new AlgorithmsBean();
+        } catch (IOException ex) {
+            Logger.getLogger(AlgorithmsController.class.getName()).log(Level.SEVERE, null, ex);
+        }
 
     }
+
 
     /**
      * Initialize the model.
@@ -88,9 +85,9 @@ public class AlgorithmsController extends Controller {
 
         EmptyStringValidator emptyStringValidator = new EmptyStringValidator();
 
-        support.registerValidator(txtAlgName, emptyStringValidator);
-        support.registerValidator(txtAlgShortName, emptyStringValidator);
-        support.registerValidator(txtAlgClass, new ClassNameValidator());
+        getValidationSupport().registerValidator(txtAlgName, emptyStringValidator);
+        getValidationSupport().registerValidator(txtAlgShortName, emptyStringValidator);
+        getValidationSupport().registerValidator(txtAlgClass, new ClassNameValidator());
     }
 
     @Override
@@ -105,10 +102,10 @@ public class AlgorithmsController extends Controller {
      */
     @Override
     protected boolean validate() {
-        boolean valid = !support.isInvalid();
+        boolean valid = !getValidationSupport().isInvalid();
         if (!valid) {
             StringBuilder sb = new StringBuilder();
-            support.getValidationResult().getMessages().stream().forEach(msg -> sb.append(msg.getText()).append("\n"));
+            getValidationSupport().getValidationResult().getMessages().stream().forEach(msg -> sb.append(msg.getText()).append("\n"));
             lbErrorMessages.setText(sb.toString());
         } else {
             boolean existsName = algorithmsBean.existsName(model.getName());

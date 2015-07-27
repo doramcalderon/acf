@@ -9,7 +9,7 @@ import es.uma.pfc.implications.generator.i18n.I18n;
  */
 public enum ResultValidation {
     OK, KO,
-    ZERO_NODES, INVALID_PREMISE_LENGTH;
+    ZERO_NODES, INVALID_PREMISE_LENGTH, INVALID_CONCLUSION_LENGTH;
     
     /**
      * Si la validación es correcta.

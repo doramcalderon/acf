@@ -1,5 +1,6 @@
 package es.uma.pfc.is.commons.persistence;
 
+import es.uma.pfc.is.commons.files.FileUtils;
 import es.uma.pfc.is.commons.strings.StringUtils;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -42,10 +43,7 @@ public class PropertiesPersistence {
     public static Properties load(String propertyFile) throws IOException {
         Properties properties = null;
         if(!StringUtils.isEmpty(propertyFile)) {
-            Path filePath = Paths.get(propertyFile);
-            if(!Files.exists(filePath)) {
-                Files.createFile(filePath);
-            }
+            FileUtils.createIfNoExists(propertyFile);
             properties = new Properties();
             try(FileInputStream is = new FileInputStream(propertyFile)) {
                 properties.load(is);

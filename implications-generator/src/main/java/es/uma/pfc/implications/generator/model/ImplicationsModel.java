@@ -233,12 +233,10 @@ public class ImplicationsModel {
     public ResultModelValidation validate() {
         ResultModelValidation result;
         
-        if (nodes == null || nodes == 0) {
-            result = new ResultModelValidation(ResultValidation.ZERO_NODES);
-        } else if (maxPremiseLength != null && minPremiseLength != null && maxPremiseLength < minPremiseLength) {
+        if (maxPremiseLength != null && minPremiseLength != null && maxPremiseLength < minPremiseLength) {
             result = new ResultModelValidation(ResultValidation.INVALID_PREMISE_LENGTH);   
-        } else  if (minPremiseLength != null && maxPremiseLength != null && minPremiseLength > maxPremiseLength) {
-            result = new ResultModelValidation(ResultValidation.INVALID_PREMISE_LENGTH);   
+        } else  if (maxConclusionLength != null && minConclusionLength != null && maxConclusionLength < minConclusionLength) {
+            result = new ResultModelValidation(ResultValidation.INVALID_CONCLUSION_LENGTH);   
         } else {
             result = new ResultModelValidation(ResultValidation.OK);
         }
