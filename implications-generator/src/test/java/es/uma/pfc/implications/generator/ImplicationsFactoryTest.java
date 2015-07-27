@@ -208,4 +208,4 @@ public class ImplicationsFactoryTest {
         ImplicationsFactory.getRandomInt(minValue, maxValue);
         fail("Se esperaba IllegalArgumentException");
     }
-}
+        }

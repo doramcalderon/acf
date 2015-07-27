@@ -9,7 +9,7 @@ import es.uma.pfc.implications.generator.i18n.I18n;
  */
 public enum ResultValidation {
     OK, KO,
-    ZERO_NODES, INVALID_PREMISE_LENGTH, INVALID_CONCLUSION_LENGTH;
+    ZERO_NODES, INVALID_IMPLICATIONS_NUM, INVALID_PREMISE_LENGTH, INVALID_CONCLUSION_LENGTH;
     
     /**
      * Si la validación es correcta.
@@ -27,8 +27,14 @@ public enum ResultValidation {
             case ZERO_NODES:
                 message = I18n.INVALID_ATTRIBUTES_NUM;
                 break;
+            case INVALID_IMPLICATIONS_NUM:
+                message = I18n.INVALID_IMPLICATIONS_NUM;
+                break;
             case INVALID_PREMISE_LENGTH:
                 message = I18n.INVALID_PREMISE_LENGTH;
+                break;
+            case INVALID_CONCLUSION_LENGTH:
+                message = I18n.INVALID_CONCLUSION_LENGTH;
                 break;
             default:
                 message = super.toString();

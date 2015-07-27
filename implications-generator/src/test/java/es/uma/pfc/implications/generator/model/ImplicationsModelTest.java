@@ -143,6 +143,59 @@ public class ImplicationsModelTest {
         assertEquals(ResultValidation.INVALID_PREMISE_LENGTH, validation.getResult());
     }
 
+    @Test
+    public void testValidateMinConclusionLength() {
+        Integer minConclusionLength = 7;
+        Integer maxConclusionLength = 10;
+
+        ImplicationsModel model = new ImplicationsModel(10, 4);
+        model.setMinConclusionLength(minConclusionLength);
+        model.setMaxConclusionLength(maxConclusionLength);
+
+        ResultModelValidation validation = model.validate();
+        
+        assertNotNull(validation);
+        assertEquals(ResultValidation.OK, validation.getResult());
+    }
+
+    @Test
+    public void testFailValidateMinConclusionLength() {
+        Integer minConclusionLength = 10;
+        Integer maxConclusionLength = 7;
+
+        ImplicationsModel model = new ImplicationsModel(5, 4);
+        model.setMinConclusionLength(minConclusionLength);
+        model.setMaxConclusionLength(maxConclusionLength);
+
+        ResultModelValidation validation = model.validate();
+        assertNotNull(validation);
+        assertEquals(ResultValidation.INVALID_CONCLUSION_LENGTH, validation.getResult());
+    }
+    @Test
+    public void testValidateNodesLength() {
+        Integer numNodes = 7;
+
+        ImplicationsModel model = new ImplicationsModel(numNodes, 4);
+
+        ResultModelValidation validation = model.validate();
+        
+        assertNotNull(validation);
+        assertEquals(ResultValidation.OK, validation.getResult());
+    }
+    @Test
+    public void testFailValidateNodesLength() {
+        Integer numNodes = null;
+
+        ImplicationsModel model = new ImplicationsModel(numNodes, 4);
+
+        ResultModelValidation validation = model.validate();
+        
+        assertNotNull(validation);
+        assertEquals(ResultValidation.ZERO_NODES, validation.getResult());
+    }
+
+    
+
     /**
      * Test of getMaxConclusionLength method, of class ImplicationsModel.
      */

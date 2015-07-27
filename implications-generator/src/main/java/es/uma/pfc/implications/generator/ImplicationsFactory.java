@@ -32,10 +32,13 @@ public class ImplicationsFactory {
      */
     public static List<ImplicationalSystem> getImplicationalSystems(ImplicationsModel implicationsModel) {
         List<ImplicationalSystem> systems = new ArrayList();
-        int n = implicationsModel.getNum();
+        Integer n = implicationsModel.getNum();
         
-        for (int i = 0; i < n; i++) {
-            systems.add(getImplicationalSystem(implicationsModel));
+        if(n != null && n > 0) {
+            for (int i = 0; i < n; i++) {
+                systems.add(getImplicationalSystem(implicationsModel));
+            }
+            
         }
         
         return systems;
@@ -82,14 +85,21 @@ public class ImplicationsFactory {
      * @param minLength Número mínimo de nodos.
      * @param maxLength Número máximo de nodos.
      * @return Conclusiones.
+     * @throws RuntimeException if {@code maxLength} is greater than syste attributes size.
      */
     protected static ComparableSet getConclusion(ImplicationalSystem system, Integer minLength, Integer maxLength) {
         ComparableSet conclusion = new ComparableSet();
         int maxIndex = system.getSet().size() - 1;
+        if(maxLength != null && (maxLength > maxIndex)) {
+            throw new RuntimeException("The length can't be greater than number or attributes.");
+        }
+        
         int minSize = (minLength != null && minLength > 0) ? minLength : 0;
         int maxSize = (maxLength != null && maxLength > 0) ? getRandomInt(minSize, maxLength) : getRandomInt(minSize, maxIndex);
         int choice;
         List nodesList = new ArrayList(system.getSet());
+        
+        
         
         while (conclusion.size() < maxSize) {
             choice = getRandomInt(maxIndex);

@@ -1,8 +1,4 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package es.uma.pfc.implications.generator.controller;
 
 import com.google.common.base.Strings;
@@ -131,6 +127,12 @@ public class ImplicationsController implements Initializable {
      * Initializes the listeners.
      */
     protected void initListeners() {
+        txtNodes.textProperty().addListener((ObservableValue<? extends String> observable, String oldValue, String newValue) -> {
+            validationSupport.getValidationDecorator().removeDecorations(txtNodes);
+        });
+        txtImplications.textProperty().addListener((ObservableValue<? extends String> observable, String oldValue, String newValue) -> {
+            validationSupport.getValidationDecorator().removeDecorations(txtImplications);
+        });
         txtMinLongPremisse.textProperty().addListener((
                 ObservableValue<? extends String> observable, String oldValue, String newValue) -> {
                     handlePremisseSizeChange();
@@ -329,20 +331,25 @@ public class ImplicationsController implements Initializable {
      */
     public void validate() {
         ResultValidation validation = ResultValidation.OK;
-        if (validationSupport.isInvalid()) {
-            validation = ResultValidation.ZERO_NODES;
-        } else {
-            if (model != null) {
-                validation = model.validate().getResult();
-            }
+        
+        if (model != null) {
+            validation = model.validate().getResult();
         }
+        
         if (!validation.isValid()) {
             String message = validation.toString();
-            if(ResultValidation.INVALID_PREMISE_LENGTH.equals(validation)) {
+            
+            if(ResultValidation.ZERO_NODES.equals(validation)) {
+                validationSupport.getValidationDecorator().applyValidationDecoration(ValidationMessage.error(txtNodes, message));
+                
+            } else if(ResultValidation.INVALID_IMPLICATIONS_NUM.equals(validation)) {
+                validationSupport.getValidationDecorator().applyValidationDecoration(ValidationMessage.error(txtImplications, message));
+                
+            } else if (ResultValidation.INVALID_PREMISE_LENGTH.equals(validation)) {
                 validationSupport.getValidationDecorator().applyValidationDecoration(ValidationMessage.error(txtMaxLongPremisse, message));
                 validationSupport.getValidationDecorator().applyValidationDecoration(ValidationMessage.error(txtMinLongPremisse, message));
                 
-            }else if(ResultValidation.INVALID_CONCLUSION_LENGTH.equals(validation)) {
+            } else if (ResultValidation.INVALID_CONCLUSION_LENGTH.equals(validation)) {
                 validationSupport.getValidationDecorator().applyValidationDecoration(ValidationMessage.error(txtMaxLongConclusion, message));
                 validationSupport.getValidationDecorator().applyValidationDecoration(ValidationMessage.error(txtMinLongConclusion, message));
                 
