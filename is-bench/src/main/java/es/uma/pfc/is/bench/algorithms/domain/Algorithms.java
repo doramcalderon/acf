@@ -7,7 +7,9 @@ package es.uma.pfc.is.bench.algorithms.domain;
 
 import es.uma.pfc.is.algorithms.Algorithm;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlElements;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -58,4 +60,32 @@ public class Algorithms {
         }
         return algorithmsObjects;
     }
+
+    @Override
+    public int hashCode() {
+        int hash = 5;
+        hash = 79 * hash + Objects.hashCode(this.algorithms);
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Algorithms other = (Algorithms) obj;
+        if(this.algorithms == null && other.algorithms != null) {
+            return false;
+        }
+        if(this.algorithms != null && other.algorithms == null) {
+            return false;
+        }
+        return Arrays.equals(this.algorithms.toArray(new AlgorithmEntity[]{}), 
+                other.algorithms.toArray(new AlgorithmEntity[]{}));
+    }
+    
+    
 }

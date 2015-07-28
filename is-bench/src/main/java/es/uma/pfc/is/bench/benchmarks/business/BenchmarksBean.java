@@ -7,12 +7,15 @@ import es.uma.pfc.is.bench.algorithms.business.AlgorithmsPersistence;
 import es.uma.pfc.is.bench.algorithms.domain.AlgorithmEntity;
 import es.uma.pfc.is.bench.algorithms.domain.Algorithms;
 import es.uma.pfc.is.bench.benchmarks.domain.Benchmark;
+import es.uma.pfc.is.bench.benchmarks.domain.BenchmarkEntity;
+import es.uma.pfc.is.bench.benchmarks.domain.Benchmarks;
+import es.uma.pfc.is.bench.config.UserConfig;
 import es.uma.pfc.is.commons.strings.StringUtils;
-import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -60,8 +63,15 @@ public class BenchmarksBean {
             benchmark.getAlgorithms().stream().forEach((alg) -> {
                 algsEntities.add(new AlgorithmEntity(alg));
             });
-            Algorithms algs = new Algorithms(algsEntities);
-            algorithmsPersistence.create(benchmark.getBenchmarkPath(), algs);
+            //Algorithms algs = new Algorithms(algsEntities);
+            // algorithmsPersistence.create(benchmark.getBenchmarkPath(), algs);
+            Benchmarks benchs = new Benchmarks();
+            BenchmarkEntity benchEntity = new BenchmarkEntity(benchmark.getName());
+            //benchEntity.setInput(benchmark.getInput());
+            benchEntity.setAlgorithms(new Algorithms(algsEntities));
+            benchs.setBenchmarks(Arrays.asList(benchEntity));
+            
+            persistence.create(benchmark.getBenchmarkPath(), benchs);
         }
         
     }

@@ -3,7 +3,8 @@ package es.uma.pfc.is.bench.benchmarks.business;
 import es.uma.pfc.is.bench.algorithms.domain.AlgorithmEntity;
 import es.uma.pfc.is.bench.algorithms.domain.Algorithms;
 import es.uma.pfc.is.bench.benchmarks.domain.Benchmark;
-import es.uma.pfc.is.bench.config.UserConfig;
+import es.uma.pfc.is.bench.benchmarks.domain.Benchmarks;
+import es.uma.pfc.is.commons.files.FileUtils;
 import es.uma.pfc.is.commons.strings.StringUtils;
 import java.io.File;
 import java.io.IOException;
@@ -13,7 +14,12 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.xml.bind.JAXB;
+import javax.xml.bind.JAXBContext;
+import javax.xml.bind.JAXBException;
+import javax.xml.bind.Marshaller;
 
 /**
  * Persist the benchmarks into an XML file entities using JAXB.
@@ -49,12 +55,30 @@ public class BenchmarksPersistence {
     }
 
     /**
-     * Initialize the algorithms file with {@code algorithms} param.
+     * Initialize the benchmarks file with {@code benchmarks} param.
      *
-     * @param algorithms Algorithms.
+     * @param path Path of benchmarks.xml.
+     * @param benchmarks Algorithms.
      */
-    public void create(Algorithms algorithms) {
-        
+    public void create(String path, Benchmarks benchmarks) {
+        try {
+            if (benchmarks == null) {
+                throw new IllegalArgumentException("benchmarks argument can't be null.");
+            }
+            Path algorithmsFilePath = Paths.get(path, "benchmarks.xml");
+            String algorithmsFile =  algorithmsFilePath.toString();
+            try {
+                FileUtils.createIfNoExists(algorithmsFile);
+            } catch (IOException ex) {
+                throw new RuntimeException("Error creating algorithms file.", ex);
+            }
+            JAXBContext context = JAXBContext.newInstance(Benchmarks.class);
+            Marshaller marshaller = context.createMarshaller();
+            marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
+            marshaller.marshal(benchmarks, algorithmsFilePath.toFile());
+        } catch (JAXBException ex) {
+            Logger.getLogger(BenchmarksPersistence.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
    
 

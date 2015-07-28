@@ -23,7 +23,10 @@ public class FileUtils {
         if(path != null && !path.isEmpty()) {
             file = new File(path);
             if (!file.exists()) {
-                file.getParentFile().mkdirs();
+                File parentFile = file.getParentFile();
+                if(parentFile != null) {
+                    parentFile.mkdirs();
+                }
                 file.createNewFile();
             }
             

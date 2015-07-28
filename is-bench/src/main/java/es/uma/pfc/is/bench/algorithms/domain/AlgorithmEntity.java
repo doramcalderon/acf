@@ -120,7 +120,7 @@ public class AlgorithmEntity {
             if(!shortName.trim().equalsIgnoreCase(StringUtils.trim(other.shortName))) {
                 return false;
             }
-        } else if (other.shortName == null) {
+        } else if (other.shortName != null) {
             return false;
         }
         
