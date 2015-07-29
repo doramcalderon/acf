@@ -6,30 +6,66 @@
 package es.uma.pfc.is.bench.benchmarks.domain;
 
 import es.uma.pfc.is.algorithms.Algorithm;
+import es.uma.pfc.is.algorithms.optbasis.DirectOptimalBasis;
 import es.uma.pfc.is.bench.config.UserConfig;
 import es.uma.pfc.is.commons.strings.StringUtils;
-import java.io.File;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.List;
+import javax.xml.bind.JAXBContext;
+import javax.xml.bind.JAXBException;
+import javax.xml.bind.Marshaller;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlAttribute;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlElementWrapper;
+import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
+import javax.xml.bind.annotation.XmlType;
 
 /**
  *
  * @since @author Dora Calderón
  */
+@XmlType(propOrder = {"name", "workspace", "input", "algorithmsClasses"})
+@XmlRootElement(name = "benchmark")
+@XmlAccessorType(XmlAccessType.FIELD)
 public class Benchmark {
 
     /**
      * Workspace.
      */
+    @XmlAttribute
     private String workspace;
     /**
      * Name.
      */
+    @XmlAttribute
     private String name;
+    /**
+     * Input implicational system file path.
+     */
+    @XmlElement
+    private String input;
+    
+    @XmlElementWrapper( name = "algorithms")
+    @XmlElement(name = "algorithm")
+    private List<Class<? extends Algorithm>> algorithmsClasses;
+    
     /**
      * Algorithms.
      */
+    @XmlTransient
     private List<Algorithm> algorithms;
+
+    /**
+     * Constructor.
+     */
+    public Benchmark() {
+    }
+    
+    
 
     /**
      * Constructor.
@@ -49,6 +85,13 @@ public class Benchmark {
         this.name = name;
         this.workspace = workspace;
         this.algorithms = setAlgorithmsOutput(algorithms);
+        if(algorithms != null) {
+            algorithmsClasses = new ArrayList<>();
+            for(Algorithm alg : algorithms) {
+                algorithmsClasses.add(alg.getClass());
+            }
+        }
+        
     }
 
     /**
@@ -76,14 +119,20 @@ public class Benchmark {
         return algorithms;
     }
     
+        /**
+     * Input implicational system file path.
+     * @return the input
+     */
+    public String getInput() {
+        return input;
+    }
+
     /**
      * Sets the algorithms input.
      * @param inputFilePath Input file path.
      */
     public void setInput(String inputFilePath) {
-        if(!StringUtils.isEmpty(inputFilePath) && algorithms != null) {
-            algorithms.forEach((alg) -> {alg.input(inputFilePath);});
-        }
+        this.input = inputFilePath;
     }
 
     /**
@@ -95,6 +144,10 @@ public class Benchmark {
         return name;
     }
 
+    
+    public List<Class <? extends Algorithm>> getAlgorithmsClasses() {
+        return algorithmsClasses;
+    }
     /**
      * Algorithms.
      *
@@ -102,6 +155,18 @@ public class Benchmark {
      */
     public List<Algorithm> getAlgorithms() {
         return algorithms;
+    }
+    public static void main(String[] args) throws JAXBException {
+        List<Algorithm> algs = new ArrayList<>();
+        algs.add(new DirectOptimalBasis());
+        Benchmark b = new Benchmark("BENCH 1", algs);
+        b.setInput("C:\\input.txt");
+        JAXBContext ctx = JAXBContext.newInstance(Benchmark.class);
+        Marshaller m = ctx.createMarshaller();
+        m.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
+        m.marshal(b, System.out);
+        
+        
     }
 
     /**
@@ -158,5 +223,6 @@ public class Benchmark {
     public String toString() {
         return getName();
     }
+
 
 }

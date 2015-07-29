@@ -1,9 +1,9 @@
 package es.uma.pfc.is.bench.benchmarks.business;
 
+import es.uma.pfc.is.bench.Persistence;
 import es.uma.pfc.is.bench.algorithms.domain.AlgorithmEntity;
 import es.uma.pfc.is.bench.algorithms.domain.Algorithms;
 import es.uma.pfc.is.bench.benchmarks.domain.Benchmark;
-import es.uma.pfc.is.bench.benchmarks.domain.Benchmarks;
 import es.uma.pfc.is.commons.files.FileUtils;
 import es.uma.pfc.is.commons.strings.StringUtils;
 import java.io.File;
@@ -26,7 +26,7 @@ import javax.xml.bind.Marshaller;
  *
  * @author Dora Calderón
  */
-public class BenchmarksPersistence {
+public class BenchmarksPersistence extends Persistence {
     
 
     /**
@@ -58,24 +58,15 @@ public class BenchmarksPersistence {
      * Initialize the benchmarks file with {@code benchmarks} param.
      *
      * @param path Path of benchmarks.xml.
-     * @param benchmarks Algorithms.
+     * @param benchmark Algorithms.
      */
-    public void create(String path, Benchmarks benchmarks) {
+    public void create(Benchmark benchmark) {
         try {
-            if (benchmarks == null) {
+            if (benchmark == null) {
                 throw new IllegalArgumentException("benchmarks argument can't be null.");
             }
-            Path algorithmsFilePath = Paths.get(path, "benchmarks.xml");
-            String algorithmsFile =  algorithmsFilePath.toString();
-            try {
-                FileUtils.createIfNoExists(algorithmsFile);
-            } catch (IOException ex) {
-                throw new RuntimeException("Error creating algorithms file.", ex);
-            }
-            JAXBContext context = JAXBContext.newInstance(Benchmarks.class);
-            Marshaller marshaller = context.createMarshaller();
-            marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
-            marshaller.marshal(benchmarks, algorithmsFilePath.toFile());
+            String benchmarksFilePath = Paths.get(benchmark.getWorkspace(), "benchmarks.xml").toString();
+            persist(benchmark, benchmarksFilePath, true);
         } catch (JAXBException ex) {
             Logger.getLogger(BenchmarksPersistence.class.getName()).log(Level.SEVERE, null, ex);
         }
