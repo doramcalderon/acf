@@ -87,9 +87,7 @@ public class Benchmark {
         this.algorithms = setAlgorithmsOutput(algorithms);
         if(algorithms != null) {
             algorithmsClasses = new ArrayList<>();
-            for(Algorithm alg : algorithms) {
-                algorithmsClasses.add(alg.getClass());
-            }
+            algorithms.stream().forEach((alg) -> {algorithmsClasses.add(alg.getClass());});
         }
         
     }
@@ -156,18 +154,7 @@ public class Benchmark {
     public List<Algorithm> getAlgorithms() {
         return algorithms;
     }
-    public static void main(String[] args) throws JAXBException {
-        List<Algorithm> algs = new ArrayList<>();
-        algs.add(new DirectOptimalBasis());
-        Benchmark b = new Benchmark("BENCH 1", algs);
-        b.setInput("C:\\input.txt");
-        JAXBContext ctx = JAXBContext.newInstance(Benchmark.class);
-        Marshaller m = ctx.createMarshaller();
-        m.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
-        m.marshal(b, System.out);
-        
-        
-    }
+
 
     /**
      * Workspace.

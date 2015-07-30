@@ -130,7 +130,7 @@ public abstract class GenericAlgorithm implements Algorithm<String, Implicationa
     @Override
     public Algorithm output(String file) {
         Path filePath = Paths.get(file);
-        if(!Files.exists(filePath)) {
+        if(!Files.exists(filePath) && !Files.isDirectory(filePath)) {
             try {
                 Files.createFile(filePath);
             } catch (IOException ex) {

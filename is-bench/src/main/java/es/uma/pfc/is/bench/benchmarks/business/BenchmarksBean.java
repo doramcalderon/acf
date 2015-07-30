@@ -3,12 +3,14 @@
 package es.uma.pfc.is.bench.benchmarks.business;
 
 
-import es.uma.pfc.is.bench.algorithms.business.AlgorithmsPersistence;
 import es.uma.pfc.is.bench.benchmarks.domain.Benchmark;
 import es.uma.pfc.is.commons.strings.StringUtils;
+import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
+import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -19,11 +21,9 @@ import java.util.logging.Logger;
  */
 public class BenchmarksBean {
     private BenchmarksPersistence persistence;
-    private final AlgorithmsPersistence algorithmsPersistence;
 
     public BenchmarksBean() {
         persistence = BenchmarksPersistence.get();
-        algorithmsPersistence = AlgorithmsPersistence.get();
     }
     
     /**
@@ -49,9 +49,17 @@ public class BenchmarksBean {
      */
     public void create(Benchmark benchmark) throws IOException {
         if(benchmark != null) {            
-            Files.createDirectories(Paths.get(benchmark.getBenchmarkPath(), "input"));
             Files.createDirectories(Paths.get(benchmark.getBenchmarkPath(), "output"));
-
+            File inputFile = new File(benchmark.getInput());
+            Path targetInputFile = Paths.get(benchmark.getBenchmarkPath(), inputFile.getName());
+            
+            if(inputFile.exists()) {
+                Files.copy(inputFile.toPath(), targetInputFile, 
+                            StandardCopyOption.COPY_ATTRIBUTES, StandardCopyOption.REPLACE_EXISTING);
+                benchmark.setInput(targetInputFile.toString());
+            } else {
+                throw new RuntimeException("The input system not exists.");
+            }
             persistence.create(benchmark);
         }
         

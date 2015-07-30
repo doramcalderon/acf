@@ -39,19 +39,19 @@ public class BenchmarksBeanTest {
     public void testCreate() throws IOException, JAXBException {
         Benchmark benchmark = null;
         try {
-            String workspace = System.getProperty("user.dir") + File.separator + "src" + File.separator + "test";
+            String workspace = Paths.get(System.getProperty("user.dir"), "src", "test").toString();
             Algorithm alg = mock(Algorithm.class);
             when(alg.getName()).thenReturn("Alg1");
             when(alg.getDefaultOutputFileName()).thenReturn("a1_output.txt");
 
             benchmark = new Benchmark(workspace, "Bench1", Arrays.asList(alg));
-            benchmark.setInput("");
+            benchmark.setInput(Paths.get(System.getProperty("user.dir"), "src", "test", "resources","implications.txt").toString());
             BenchmarksBean bean = new BenchmarksBean();
             bean.create(benchmark);
 
             
             assertTrue(Files.exists(Paths.get(benchmark.getBenchmarkPath())));
-            assertTrue(Files.exists(Paths.get(benchmark.getBenchmarkPath(), "input")));
+            assertTrue(Files.exists(Paths.get(benchmark.getBenchmarkPath(), new File(benchmark.getInput()).getName())));
             assertTrue(Files.exists(Paths.get(benchmark.getBenchmarkPath(), "output")));
             assertTrue(Files.exists(Paths.get(benchmark.getWorkspace(), "benchmarks.xml")));
             
@@ -60,6 +60,7 @@ public class BenchmarksBeanTest {
                     .createUnmarshaller().unmarshal(Paths.get(benchmark.getWorkspace(), "benchmarks.xml").toFile());
             assertNotNull(unmarshalBench);
             assertEquals(benchmark.getName(), unmarshalBench.getName());
+            assertEquals(benchmark.getInput(), unmarshalBench.getInput());
             assertEquals(benchmark.getBenchmarkPath(), unmarshalBench.getBenchmarkPath());
             assertArrayEquals(benchmark.getAlgorithmsClasses().toArray(), unmarshalBench.getAlgorithmsClasses().toArray());
             
@@ -67,7 +68,7 @@ public class BenchmarksBeanTest {
             if(benchmark != null) {
                 try {
                     Files.deleteIfExists(Paths.get(benchmark.getWorkspace(), "benchmarks.xml"));
-                    Files.deleteIfExists(Paths.get(benchmark.getBenchmarkPath(), "input"));
+                    Files.deleteIfExists(Paths.get(benchmark.getInput()));
                     Files.deleteIfExists(Paths.get(benchmark.getBenchmarkPath(), "output"));
                     Files.deleteIfExists(Paths.get(benchmark.getBenchmarkPath()));
                 } catch (IOException ex) {

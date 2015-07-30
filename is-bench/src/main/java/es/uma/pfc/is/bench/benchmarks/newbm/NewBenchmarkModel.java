@@ -28,6 +28,10 @@ public class NewBenchmarkModel {
      */
     private StringProperty nameProperty;
     /**
+     * Input file path.
+     */
+    private StringProperty inputProperty;
+    /**
      * Algorithms list.
      */
     private ListProperty<Algorithm> algorithmsSelectedProperty;
@@ -37,6 +41,7 @@ public class NewBenchmarkModel {
      */
     public NewBenchmarkModel() {
         nameProperty = new SimpleStringProperty("");
+        inputProperty = new SimpleStringProperty("");
         algorithmsSelectedProperty = new SimpleListProperty<>(FXCollections.observableArrayList());
         algorithmsListProperty = new SimpleListProperty<>(FXCollections.observableArrayList());
         algorithmsFilteredList = new FilteredList(algorithmsListProperty, p -> true);
@@ -73,6 +78,20 @@ public class NewBenchmarkModel {
      */
     public StringProperty nameProperty() {
         return nameProperty;
+    }
+    /**
+     * Input file path.
+     * @return Input file path.
+     */
+    public String getInput() {
+        return (inputProperty != null) ? inputProperty.get() : null;
+    }
+    /**
+     * Input file path property.
+     * @return the inputProperty
+     */
+    public StringProperty inputProperty() {
+        return inputProperty;
     }
 
 

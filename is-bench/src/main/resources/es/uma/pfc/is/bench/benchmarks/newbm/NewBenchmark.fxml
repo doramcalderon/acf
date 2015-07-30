@@ -16,11 +16,13 @@
         <rowConstraints>
           <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="NEVER" />
           <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="NEVER" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="NEVER" />
           <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="NEVER" />
             <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="NEVER" />
             <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="NEVER" />
         </rowConstraints>
          <children>
+            
             <HBox prefHeight="100.0" prefWidth="200.0" spacing="5.0">
                <children>
                   <Button fx:id="btnSave" mnemonicParsing="false" onAction="#handleSaveButton" text="%btn.save" />
@@ -33,7 +35,19 @@
                   <TextField fx:id="txtName" HBox.hgrow="ALWAYS" />
                </children>
             </HBox>
-            <StackPane alignment="CENTER_LEFT" GridPane.rowIndex="2">
+            <HBox prefHeight="100.0" prefWidth="200.0" spacing="5.0" GridPane.rowIndex="2">
+               <children>
+                  <Label text="%input" />
+                  <TextField fx:id="txtInput" promptText="%lb.benchmarks.select.input" HBox.hgrow="ALWAYS" />
+                  <SplitMenuButton fx:id="inputButton" mnemonicParsing="false" onAction="#handleSelectInputFile" text="...">
+                    <items>
+                      <MenuItem fx:id="fileOption" mnemonicParsing="false" onAction="#handleSelectInputFile" text="File" />
+                      <MenuItem fx:id="randomOption" mnemonicParsing="false" onAction="#handleGenerateSystem" text="Random" />
+                    </items>
+                  </SplitMenuButton>
+               </children>
+            </HBox>
+            <StackPane alignment="CENTER_LEFT" GridPane.rowIndex="3">
                <children>
                   <Label text="%algorithms" GridPane.hgrow="ALWAYS" GridPane.rowIndex="2" GridPane.vgrow="NEVER">
                      <font>
@@ -43,8 +57,8 @@
                   <Label fx:id="lbErrorMessages" style="-fx-border-color: red;" text="lbErrorMessages" textFill="#fc0909" visible="false" />
                </children>
             </StackPane>
-            <TextField fx:id="txtFilter" maxWidth="-Infinity" prefWidth="285.0" GridPane.hgrow="NEVER" GridPane.rowIndex="3" />
-            <HBox prefHeight="100.0" prefWidth="200.0" spacing="10.0" GridPane.hgrow="ALWAYS" GridPane.rowIndex="4" GridPane.vgrow="ALWAYS">
+            <TextField fx:id="txtFilter" maxWidth="-Infinity" prefWidth="285.0" GridPane.hgrow="NEVER" GridPane.rowIndex="4" />
+            <HBox prefHeight="100.0" prefWidth="200.0" spacing="10.0" GridPane.hgrow="ALWAYS" GridPane.rowIndex="5" GridPane.vgrow="ALWAYS">
                <children>
                   <ListView fx:id="algorithmsList" onMouseClicked="#handleListDoubleClick" prefHeight="200.0" prefWidth="200.0" HBox.hgrow="ALWAYS" />
                   <ListView fx:id="algorithmsSelected" onMouseClicked="#handleSelectedListDoubleClick" prefHeight="200.0" prefWidth="200.0" HBox.hgrow="ALWAYS" />

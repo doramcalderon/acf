@@ -16,11 +16,14 @@ import es.uma.pfc.is.bench.i18n.BenchMessages;
 import es.uma.pfc.is.bench.i18n.I18n;
 import es.uma.pfc.is.bench.services.AlgorithmsLoadService;
 import es.uma.pfc.is.bench.services.BenchmarkSaveService;
+import es.uma.pfc.is.bench.uitls.Chooser;
 import es.uma.pfc.is.bench.uitls.Dialogs;
 import es.uma.pfc.is.bench.view.FXMLViews;
 import es.uma.pfc.is.commons.strings.StringUtils;
+import java.io.File;
 import java.io.IOException;
 import java.net.URL;
+import java.nio.file.Paths;
 import java.util.List;
 import java.util.Optional;
 import java.util.ResourceBundle;
@@ -29,16 +32,21 @@ import java.util.logging.Logger;
 import javafx.collections.FXCollections;
 import javafx.concurrent.WorkerStateEvent;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
+import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.ListView;
+import javafx.scene.control.SplitMenuButton;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
+import javafx.stage.FileChooser;
 import org.controlsfx.validation.Validator;
 
 /**
@@ -47,9 +55,14 @@ import org.controlsfx.validation.Validator;
  * @author Dora Calderón
  */
 public class NewBenchmarkController extends Controller {
+
     @FXML
     private TextField txtName;
-     /**
+    @FXML
+    private TextField txtInput;
+    @FXML
+    private SplitMenuButton inputButton;
+    /**
      * Algorithms filter.
      */
     @FXML
@@ -61,12 +74,11 @@ public class NewBenchmarkController extends Controller {
 
     @FXML
     private AnchorPane rootPane;
-    
+
     /**
      * Model.
-    */
+     */
     private NewBenchmarkModel model;
-    
 
     /**
      * Initializes the controller class.
@@ -89,6 +101,7 @@ public class NewBenchmarkController extends Controller {
         }
     }
 
+   
 
     @Override
     protected void initModel() {
@@ -97,68 +110,70 @@ public class NewBenchmarkController extends Controller {
         loadService.setOnSucceeded((WorkerStateEvent event) -> {
             List<Algorithm> algorithms = (List<Algorithm>) event.getSource().getValue();
             model.algorithmsListProperty().clear();
-            if(algorithms != null) {
-                 model.algorithmsListProperty().set(FXCollections.observableArrayList(algorithms));
+            if (algorithms != null) {
+                model.algorithmsListProperty().set(FXCollections.observableArrayList(algorithms));
             }
             modelToView();
         });
         loadService.restart();
     }
-    
-     @Override
+
+    @Override
     protected void initBinding() {
         txtName.textProperty().bindBidirectional(model.nameProperty());
+        txtInput.textProperty().bindBidirectional(model.inputProperty());
         algorithmsSelected.itemsProperty().bindBidirectional(model.algorithmsSelectedProperty());
     }
-    
+
     @Override
     protected void initListeners() {
         BenchEventBus.get().register(this);
-        
+
         txtFilter.textProperty().addListener(
-                (observable, oldValue, newValue) -> { 
+                (observable, oldValue, newValue) -> {
                     model.getAlgorithmsFilteredList().setPredicate(algorithm -> {
                         return (StringUtils.isEmpty(newValue) || StringUtils.containsIgnoreCase(algorithm.getName(), newValue));
                     });
                 });
-        
+
     }
-    
+
     @Override
     protected void initValidation() {
-       getValidationSupport().registerValidator(txtName, 
-                                    Validator.createEmptyValidator(getI18nMessage(BenchMessages.EMPTY_ALGORITHM_NAME)));
+        getValidationSupport().registerValidator(txtName,
+                Validator.createEmptyValidator(getI18nMessage(BenchMessages.EMPTY_ALGORITHM_NAME)));
     }
-    
+
     @Override
     protected void modelToView() {
         algorithmsList.setItems(model.getAlgorithmsFilteredList());
     }
-    
+
     /**
      * Form validations.
-     * @return {@code true} if there is one algorithm selected at least, and the benchmark name not exists or user
-     * wants override it, and parent validations is succeeded. {@code false} otherwise.
+     *
+     * @return {@code true} if there is one algorithm selected at least, and the benchmark name not exists or user wants
+     * override it, and parent validations is succeeded. {@code false} otherwise.
      */
     @Override
     protected boolean validate() {
-        if(algorithmsSelected.getItems().isEmpty()) {
+        if (algorithmsSelected.getItems().isEmpty()) {
             publicMessage(getI18nMessage(BenchMessages.EMPTY_ALGORITHM_LIST), MessageEvent.Level.ERROR);
             return false;
         }
-        
+
         boolean validBenchmarkName = !new BenchmarksBean().exists(model.getName(), UserConfig.get().getDefaultWorkspace());
-        if(!validBenchmarkName) {
-            Optional<ButtonType> confirm = 
-                    showAlert(Alert.AlertType.CONFIRMATION, null, getI18nMessage(BenchMessages.DUPLICATED_BENCHMARK));
-           
-           if(confirm.isPresent() && confirm.get().equals(ButtonType.CANCEL)) {
-               return false;
-           };
+        if (!validBenchmarkName) {
+            Optional<ButtonType> confirm
+                    = showAlert(Alert.AlertType.CONFIRMATION, null, getI18nMessage(BenchMessages.DUPLICATED_BENCHMARK));
+
+            if (confirm.isPresent() && confirm.get().equals(ButtonType.CANCEL)) {
+                return false;
+            }
         }
         return super.validate();
     }
-    
+
     protected void reload() {
         initModel();
     }
@@ -167,23 +182,46 @@ public class NewBenchmarkController extends Controller {
     protected Pane getRootPane() {
         return rootPane;
     }
-    
- 
+
     @Subscribe
     public void algorithmsSelected(AlgorithmsSelectedEvent event) {
         if (event.getAlgorithmsSelection() != null) {
             algorithmsSelected.getItems().addAll(event.getAlgorithmsSelection());
         }
     }
-    
-     
+
     @Subscribe
     public void handleAlgorithmChanges(AlgorithmChangeEvent event) {
         reload();
     }
 
     /**
+     * Shows a file chooser for select the input system file.
+     * @param event Action event.
+     */
+    @FXML
+    public void handleSelectInputFile(ActionEvent event) {
+        File resultFile = Chooser.openFileChooser(getRootPane().getScene().getWindow(),
+                Chooser.FileChooserMode.OPEN, "Input system", UserConfig.get().getDefaultInputDir(),
+                new FileChooser.ExtensionFilter(getI18nLabel(I18n.TEXT_FILE), "*.txt"),
+                new FileChooser.ExtensionFilter(getI18nLabel(I18n.PROLOG_FILE), "*.pl"));
+        if (resultFile != null) {
+            txtInput.setText(resultFile.getAbsolutePath());
+        }
+    }
+
+    /**
+     * Shows the generator panel for generate a random system.
+     * @param event Action event.
+     */
+    @FXML
+    public void handleGenerateSystem(ActionEvent event) {
+        //TODO
+    }
+    
+    /**
      * When there is a double click in algorithms list, the selection is added to algorithms selected.
+     *
      * @param mouseEvent Mouse event.
      */
     @FXML
@@ -192,10 +230,10 @@ public class NewBenchmarkController extends Controller {
             BenchEventBus.get().post(new AlgorithmsSelectedEvent(algorithmsList.getSelectionModel().getSelectedItems()));
         }
     }
-    
 
     /**
      * When there is a double click in selected algorithms list, the selection is remove from algorithms selected.
+     *
      * @param mouseEvent Mouse event.
      */
     @FXML
@@ -205,25 +243,26 @@ public class NewBenchmarkController extends Controller {
             this.algorithmsSelected.getItems().remove(unselectedItem);
         }
     }
-    
-   
-   
+
     @FXML
     protected void handleSaveButton(ActionEvent event) {
-        if(validate()) {
+        if (validate()) {
             Benchmark benchmark = new Benchmark(model.getName(), model.getAlgorithmsSelectedList());
+            benchmark.setInput(model.getInput());
             BenchmarkSaveService service = new BenchmarkSaveService(benchmark);
-            service.setOnSucceeded((WorkerStateEvent event1) -> {clear();});
+            service.setOnSucceeded((WorkerStateEvent event1) -> {
+                clear();
+            });
             service.restart();
         }
     }
-    
+
     @FXML
     protected void handleClearButton(ActionEvent event) {
         clear();
-        
+
     }
-    
+
     @FXML
     public void handleAddAlgAction(ActionEvent event) {
         try {
@@ -235,9 +274,9 @@ public class NewBenchmarkController extends Controller {
         }
     }
 
-    
     protected void clear() {
         txtName.clear();
+        txtInput.clear();
         algorithmsSelected.getItems().clear();
     }
 }
