@@ -1,10 +1,15 @@
 package es.uma.pfc.is.bench.business;
 
 
+
+import es.uma.pfc.is.bench.domain.AlgorithmEntity;
 import es.uma.pfc.is.bench.domain.Workspace;
 import es.uma.pfc.is.commons.files.FileUtils;
 import java.io.IOException;
 import java.nio.file.Paths;
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Set;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -24,7 +29,19 @@ public class WorkspaceBean {
      * Directorio de salidas por defecto dentro del workspace.
      */
     public static final String DEFAULT_OUTPUT_PATH = "output";
+    /**
+     * Persistence.
+     */
+    private WorkspacePersistence persistence;
 
+    /**
+     * Constructor.
+     */
+    public WorkspaceBean() {
+        this.persistence = WorkspacePersistence.get();
+    }
+
+    
     public void createIfNoExists(Workspace workspace) {
         if(workspace != null && getWorkspace(workspace.getPath()) == null) {
             create(workspace);
@@ -48,7 +65,31 @@ public class WorkspaceBean {
     }
 
     public Workspace getWorkspace(String path) {
-        return WorkspacePersistence.getWorkspace(path);
+        return persistence.getWorkspace(path);
     }
 
+    /**
+     * Update a workspace adding new algorithms.
+     * @param path Workspace path.
+     * @param algorithms Algorithms to add.
+     */
+    public void addAlgorithms(String path, AlgorithmEntity ... algorithms) {
+        if (algorithms == null) {
+            throw new IllegalArgumentException("algorithms argument can't be null.");
+        }
+        Workspace ws = getWorkspace(path);
+        if(ws == null) {
+            throw new RuntimeException("Thew workspace not exits in " + path);
+        }    
+        ws.addAlgorithms(algorithms);
+        WorkspacePersistence.update(ws);
+    }
+    
+    /**
+     * For test usage.
+     * @param p 
+     */
+    protected void setPersistence(WorkspacePersistence p) {
+        this.persistence = p;
+    }
 }

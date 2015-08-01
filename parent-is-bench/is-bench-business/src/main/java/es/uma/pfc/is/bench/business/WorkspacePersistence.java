@@ -1,8 +1,12 @@
 package es.uma.pfc.is.bench.business;
 
+import es.uma.pfc.is.bench.domain.AlgorithmEntity;
 import es.uma.pfc.is.bench.domain.Workspace;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Set;
 import javax.xml.bind.JAXBException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -13,7 +17,14 @@ import org.slf4j.LoggerFactory;
  */
 public class WorkspacePersistence extends Persistence {
     protected static final Logger LOGGER = LoggerFactory.getLogger(WorkspacePersistence.class);
+    private static WorkspacePersistence me;
     
+    public static WorkspacePersistence get() {
+        if(me == null) {
+            me = new WorkspacePersistence();
+        }
+        return me;
+    }
     
     /**
      * Persist a workspace in workspace.xml file.
@@ -30,13 +41,18 @@ public class WorkspacePersistence extends Persistence {
             LOGGER.error("Error creating a workspace.", ex);
         }
     }
+    
+    public static void update(Workspace ws) {
+        create(ws);
+    }
 
     /**
      * Gets a workspace from a file path.
      * @param path Path.
      * @return Workspace.
      */
-    public static Workspace getWorkspace(String path) {
+    public Workspace getWorkspace(String path) {
         return read(Paths.get(path, "workspace.xml").toString(), Workspace.class);
     }
+    
 }

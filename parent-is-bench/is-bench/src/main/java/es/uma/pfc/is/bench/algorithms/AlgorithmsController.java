@@ -1,7 +1,8 @@
 package es.uma.pfc.is.bench.algorithms;
 
 import es.uma.pfc.is.bench.Controller;
-import es.uma.pfc.is.bench.algorithms.business.AlgorithmsBean;
+import es.uma.pfc.is.bench.business.AlgorithmsBean;
+import es.uma.pfc.is.bench.config.UserConfig;
 import es.uma.pfc.is.bench.i18n.BenchMessages;
 import es.uma.pfc.is.bench.services.AlgorithmsSaveService;
 import es.uma.pfc.is.bench.validators.ClassNameValidator;
@@ -59,7 +60,7 @@ public class AlgorithmsController extends Controller {
             initModel();
             initBindings();
             
-            algorithmsBean = new AlgorithmsBean();
+            algorithmsBean = new AlgorithmsBean(UserConfig.get().getDefaultWorkspace());
         } catch (IOException ex) {
             Logger.getLogger(AlgorithmsController.class.getName()).log(Level.SEVERE, null, ex);
         }

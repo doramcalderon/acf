@@ -6,6 +6,7 @@ import es.uma.pfc.is.commons.strings.StringUtils;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
@@ -19,7 +20,7 @@ import javax.xml.bind.annotation.XmlType;
  *
  * @since @author Dora Calderón
  */
-@XmlType(propOrder = {"name", "workspace", "input", "algorithmsClasses"})
+@XmlType(propOrder = {"name", "workspace", "input", "algorithmsEntities"})
 @XmlRootElement(name = "benchmark")
 @XmlAccessorType(XmlAccessType.FIELD)
 public class Benchmark {
@@ -42,7 +43,7 @@ public class Benchmark {
 
     @XmlElementWrapper(name = "algorithms")
     @XmlElement(name = "algorithm")
-    private List<Class<? extends Algorithm>> algorithmsClasses;
+    private List<AlgorithmEntity> algorithmsEntities;
 
     /**
      * Algorithms.
@@ -64,6 +65,7 @@ public class Benchmark {
      * @param algorithms Algorithms.
      * @throws IllegalArgumentException if name or algorithms list is empty.
      */
+    @Deprecated
     public Benchmark(String workspace, String name, List<Algorithm> algorithms) {
         if (StringUtils.isEmpty(name)) {
             throw new IllegalArgumentException("The name is required.");
@@ -75,9 +77,9 @@ public class Benchmark {
         this.workspace = workspace;
 
         this.algorithms = setAlgorithmsOutput(algorithms);
-        algorithmsClasses = new ArrayList<>();
+        algorithmsEntities = new ArrayList<>();
         for (Algorithm alg : algorithms) {
-            algorithmsClasses.add(alg.getClass());
+            algorithmsEntities.add(new AlgorithmEntity(alg));
         }
 
     }
@@ -97,10 +99,7 @@ public class Benchmark {
             throw new IllegalArgumentException("The list algorithms is required.");
         }
         this.name = name;
-//        this.workspace = UserConfig.get().getDefaultWorkspace();
-         
-        algorithmsClasses = new ArrayList<>();
-        algorithms.stream().forEach((alg) -> { algorithmsClasses.add(alg.getType());});
+        this.algorithmsEntities = algorithms;
     }
 
     /**
@@ -145,8 +144,8 @@ public class Benchmark {
         return name;
     }
 
-    public List<Class<? extends Algorithm>> getAlgorithmsClasses() {
-        return algorithmsClasses;
+    public List<AlgorithmEntity> getAlgorithmsEntities() {
+        return algorithmsEntities;
     }
 
     /**
@@ -154,6 +153,7 @@ public class Benchmark {
      *
      * @return the algorithms
      */
+    @Deprecated
     public List<Algorithm> getAlgorithms() {
         return algorithms;
     }
@@ -212,6 +212,28 @@ public class Benchmark {
     @Override
     public String toString() {
         return getName();
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 5;
+        hash = 47 * hash + Objects.hashCode(this.name);
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Benchmark other = (Benchmark) obj;
+        if (!Objects.equals(this.name, other.name)) {
+            return false;
+        }
+        return true;
     }
 
     

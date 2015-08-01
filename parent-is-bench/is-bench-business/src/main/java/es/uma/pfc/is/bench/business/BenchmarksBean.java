@@ -1,9 +1,10 @@
 
 
-package es.uma.pfc.is.bench.benchmarks.business;
+package es.uma.pfc.is.bench.business;
 
 
-import es.uma.pfc.is.bench.benchmarks.domain.Benchmark;
+import es.uma.pfc.is.bench.domain.Benchmark;
+import es.uma.pfc.is.bench.domain.Benchmarks;
 import es.uma.pfc.is.commons.strings.StringUtils;
 import java.io.File;
 import java.io.IOException;
@@ -33,13 +34,16 @@ public class BenchmarksBean {
      * @throws java.lang.Exception
      */
     public List<Benchmark> getBenchmarks(String workspace) throws Exception {
-        List<Benchmark> benchmarks = null;
+        List<Benchmark> benchmarksList = null;
         try {
-            benchmarks = persistence.getBenchmarks(workspace);
+            Benchmarks benchmarks = persistence.getBenchmarks(workspace);
+            if(benchmarks != null) {
+                benchmarksList = benchmarks.getBenchmarks();
+            }
         } catch (Exception ex) {
             Logger.getLogger(BenchmarksBean.class.getName()).log(Level.SEVERE, "Error consulting benchmarks.", ex);
         }
-        return benchmarks;
+        return benchmarksList;
     }
     
     /**
@@ -47,8 +51,8 @@ public class BenchmarksBean {
      * @param benchmark Benchmark.
      * @throws java.io.IOException
      */
-    public void create(Benchmark benchmark) throws IOException {
-        if(benchmark != null) {            
+    public void update(Benchmark benchmark) throws IOException {
+        if(benchmark != null) {        
             Files.createDirectories(Paths.get(benchmark.getBenchmarkPath(), "output"));
             File inputFile = new File(benchmark.getInput());
             Path targetInputFile = Paths.get(benchmark.getBenchmarkPath(), inputFile.getName());
@@ -60,10 +64,12 @@ public class BenchmarksBean {
             } else {
                 throw new RuntimeException("The input system not exists.");
             }
-            persistence.create(benchmark);
+
+            persistence.update(benchmark);
         }
         
     }
+    
 
     /**
      * If exists a benchmark with the name argument in a workspace.

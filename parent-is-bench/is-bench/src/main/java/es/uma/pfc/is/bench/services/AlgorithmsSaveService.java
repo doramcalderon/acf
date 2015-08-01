@@ -1,8 +1,10 @@
 package es.uma.pfc.is.bench.services;
 
 import es.uma.pfc.is.algorithms.Algorithm;
-import es.uma.pfc.is.bench.algorithms.business.AlgorithmsBean;
+import es.uma.pfc.is.bench.business.AlgorithmsBean;
 import es.uma.pfc.is.bench.algorithms.AlgorithmsModel;
+import es.uma.pfc.is.bench.business.WorkspaceBean;
+import es.uma.pfc.is.bench.config.UserConfig;
 import es.uma.pfc.is.bench.domain.AlgorithmEntity;
 import es.uma.pfc.is.bench.events.AlgorithmChangeEvent;
 import es.uma.pfc.is.bench.events.BenchEventBus;
@@ -18,7 +20,7 @@ public class AlgorithmsSaveService extends Service {
      * Model.
      */
     AlgorithmsModel model;
-    AlgorithmsBean algorithmsBean;
+    WorkspaceBean workspaceBean;
 
     /**
      * Constructor.
@@ -26,7 +28,7 @@ public class AlgorithmsSaveService extends Service {
      */
     public AlgorithmsSaveService(AlgorithmsModel model) {
         this.model = model;
-        algorithmsBean = new AlgorithmsBean();
+        workspaceBean = new WorkspaceBean();
     }
 
     @Override
@@ -41,7 +43,7 @@ public class AlgorithmsSaveService extends Service {
                 entity.setShortName(model.getShortName());
                 entity.setType((Class<? extends Algorithm>) Class.forName(model.getClassName()));
                 
-                algorithmsBean.insert(entity);
+                workspaceBean.addAlgorithms(UserConfig.get().getDefaultWorkspace(), entity);
                 
                 return null;
             }

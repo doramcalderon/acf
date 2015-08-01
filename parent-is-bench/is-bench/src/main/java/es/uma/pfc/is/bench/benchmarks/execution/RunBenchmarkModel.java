@@ -1,11 +1,13 @@
 package es.uma.pfc.is.bench.benchmarks.execution;
 
-import es.uma.pfc.is.algorithms.Algorithm;
-import es.uma.pfc.is.bench.benchmarks.domain.Benchmark;
+import es.uma.pfc.is.bench.domain.Benchmark;
 import es.uma.pfc.is.bench.config.UserConfig;
+import es.uma.pfc.is.bench.domain.AlgorithmEntity;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
+import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 
@@ -27,7 +29,7 @@ public class RunBenchmarkModel {
     /**
      * When the selection is an algorithm.
      */
-    private Algorithm selectedAlgorithm;
+    private AlgorithmEntity selectedAlgorithm;
     /**
      * Path input file property.
      */
@@ -37,6 +39,18 @@ public class RunBenchmarkModel {
      * Path output file property.*
      */
     private final StringProperty outputProperty;
+    /**
+     * If the history mode is checked.
+     */
+    private final BooleanProperty historyChecked;
+    /**
+     * If the Time mode is checked.
+     */
+    private final BooleanProperty timeChecked;
+    /**
+     * If the Statistics mode is checked.
+     */
+    private final BooleanProperty statisticsChecked;
 
     private final UserConfig userConfig;
 
@@ -48,6 +62,9 @@ public class RunBenchmarkModel {
         userConfig = UserConfig.get();
         inputProperty = new SimpleStringProperty();
         outputProperty = new SimpleStringProperty();
+        historyChecked = new SimpleBooleanProperty();
+        timeChecked = new SimpleBooleanProperty();
+        statisticsChecked = new SimpleBooleanProperty();
     }
 
 
@@ -69,7 +86,7 @@ public class RunBenchmarkModel {
         this.benchmarks = benchmarks;
     }
 
-    public void setSelectedAlgorithm(Algorithm selectedAlgorithm) {
+    public void setSelectedAlgorithm(AlgorithmEntity selectedAlgorithm) {
         this.selectedAlgorithm = selectedAlgorithm;
     }
 
@@ -78,7 +95,7 @@ public class RunBenchmarkModel {
      *
      * @return Algorithms list.
      */
-    public Algorithm getSelectedAlgorithm() {
+    public AlgorithmEntity getSelectedAlgorithm() {
         return selectedAlgorithm;
     }
 
@@ -87,13 +104,13 @@ public class RunBenchmarkModel {
      *
      * @return List of selected algorithms.
      */
-    public List<Algorithm> getSelectedAlgorithms() {
-        List<Algorithm> selectedAlgorithms = new ArrayList();
+    public List<AlgorithmEntity> getSelectedAlgorithms() {
+        List<AlgorithmEntity> selectedAlgorithms = new ArrayList();
         
         if (selectedAlgorithm != null) {
             selectedAlgorithms.add(selectedAlgorithm);
         } else if (selectedBenchmark != null) {
-            selectedAlgorithms = selectedBenchmark.getAlgorithms();    
+            selectedAlgorithms = selectedBenchmark.getAlgorithmsEntities();    
         }
         return selectedAlgorithms;
     }
@@ -133,7 +150,51 @@ public class RunBenchmarkModel {
     public String getOutput() {
         return (outputProperty != null) ? outputProperty.get() : null;
     }
+    
+        /**
+     * If the history mode is checked.
+     * @return the historyChecked
+     */
+    public BooleanProperty historyCheckedProperty() {
+        return historyChecked;
+    }
+    /**
+     * If the history mode is checked.
+     * @return {@code true} if the history mode is checked, {@code false} otherwise.
+     */
+    public boolean isHistoryChecked() {
+        return (historyChecked != null) ? historyChecked.get() : false;
+    }
 
+    /**
+     * If the Time mode is checked.
+     * @return the timeChecked
+     */
+    public BooleanProperty timeCheckedProperty() {
+        return timeChecked;
+    }
+    /**
+     * If the Time mode is checked.
+     * @return {@code true} if the Time mode is checked, {@code false} otherwise.
+     */
+    public boolean isTimeChecked() {
+        return (timeChecked != null) ? timeChecked.get() : false;
+    }
+    /**
+     * If the Statistics mode is checked.
+     * @return the statisticsChecked
+     */
+    public BooleanProperty statisticsCheckedProperty() {
+        return statisticsChecked;
+    }
+    
+/**
+     * If the Statistics mode is checked.
+     * @return {@code true} if the statistics mode is checked, {@code false} otherwise.
+     */
+    public boolean isStatisticsChecked() {
+        return (statisticsChecked != null) ? statisticsChecked.get() : false;
+    }
     /**
      * Sets the selected benchmark.
      *
@@ -149,7 +210,7 @@ public class RunBenchmarkModel {
      * @param alg Algorithm.
      * @return Default output file.
      */
-    public String getDefaultOutput(Algorithm alg) {
+    public String getDefaultOutput(AlgorithmEntity alg) {
         String output;
 
         String workspace = (selectedBenchmark != null) ? selectedBenchmark.getOutputDir()
@@ -161,5 +222,7 @@ public class RunBenchmarkModel {
         }
         return output;
     }
+
+
 
 }

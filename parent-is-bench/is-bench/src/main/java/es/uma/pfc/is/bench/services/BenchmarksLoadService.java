@@ -6,8 +6,8 @@
 
 package es.uma.pfc.is.bench.services;
 
-import es.uma.pfc.is.bench.benchmarks.business.BenchmarksBean;
-import es.uma.pfc.is.bench.benchmarks.domain.Benchmark;
+import es.uma.pfc.is.bench.business.BenchmarksBean;
+import es.uma.pfc.is.bench.domain.Benchmark;
 import es.uma.pfc.is.bench.config.UserConfig;
 import java.util.List;
 import javafx.concurrent.Service;

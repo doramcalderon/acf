@@ -1,7 +1,7 @@
 package es.uma.pfc.is.bench.config;
 
-import es.uma.pfc.is.bench.algorithms.business.AlgorithmsBean;
-import es.uma.pfc.is.bench.algorithms.domain.Algorithms;
+import es.uma.pfc.is.bench.business.AlgorithmsBean;
+import es.uma.pfc.is.bench.domain.Algorithms;
 import es.uma.pfc.is.bench.business.WorkspaceBean;
 import static es.uma.pfc.is.bench.business.WorkspaceBean.DEFAULT_INPUT_PATH;
 import static es.uma.pfc.is.bench.business.WorkspaceBean.DEFAULT_OUTPUT_PATH;
@@ -89,11 +89,10 @@ public class UserConfig implements UserConfigProperties {
         String defaultWsPath = config.getProperty(DEFAULT_WORKSPACE_PROPERTY);
         if (defaultWsPath == null || defaultWsPath.trim().length() == 0) {
             defaultWsPath = DEFAULT_WORKSPACE_PATH;
+            wsBean.createIfNoExists(new Workspace(defaultWsPath));
+            config.setProperty(DEFAULT_WORKSPACE_PROPERTY, defaultWsPath);
+            save();
         }
-
-        wsBean.create(new Workspace(defaultWsPath));
-        config.setProperty(DEFAULT_WORKSPACE_PROPERTY, defaultWsPath);
-        save();
     }
 
     /**
@@ -150,11 +149,7 @@ public class UserConfig implements UserConfigProperties {
      */
     @Deprecated
     public File getAlgorithmsFile() {
-        Path path = Paths.get(getDefaultWorkspace(), ALGORITHMS_FILE);
-        if (!Files.exists(path)) {
-            new AlgorithmsBean().create(new Algorithms());
-        }
-        return path.toFile();
+        return null;
     }
 
     /**

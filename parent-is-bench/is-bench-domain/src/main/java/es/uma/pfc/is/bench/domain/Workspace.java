@@ -1,7 +1,7 @@
-
 package es.uma.pfc.is.bench.domain;
 
-
+import java.util.Arrays;
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 import javax.xml.bind.annotation.XmlAccessType;
@@ -25,38 +25,38 @@ public class Workspace {
     @XmlElementWrapper(name = "algorithms")
     @XmlElement(name = "algorithm")
     private Set<AlgorithmEntity> algorithms;
-    
+
 //    @XmlElementWrapper(name = "benchmarks")
 //    @XmlElement(name = "benchmark")
 //    private List<Benchmark> benchmarks;
-    
-    
     /**
      * Constructor.
      */
-     public Workspace() {
-        
+    public Workspace() {
+
     }
-     /**
-      * Constructor.
-      * @param path Path.
-      */
+
+    /**
+     * Constructor.
+     *
+     * @param path Path.
+     */
     public Workspace(String path) {
         this.path = path;
     }
-     
-     
 
-
-     /**
-      * Workspace absolute path.
-      * @return Absolute path.
-      */
+    /**
+     * Workspace absolute path.
+     *
+     * @return Absolute path.
+     */
     public String getPath() {
         return path;
     }
+
     /**
      * Sets the workspace absolute path.
+     *
      * @param path Absolute path.
      */
     public void setPath(String path) {
@@ -94,6 +94,7 @@ public class Workspace {
 
     /**
      * Algorithms catalog.
+     *
      * @return the algorithms
      */
     public Set<AlgorithmEntity> getAlgorithms() {
@@ -102,19 +103,26 @@ public class Workspace {
 
     /**
      * Sets the algorithms catalog.
+     *
      * @param algorithms the algorithms to set
      */
     public void setAlgorithms(Set<AlgorithmEntity> algorithms) {
         this.algorithms = algorithms;
     }
-    
-    public void addAlgorithm(AlgorithmEntity algorithm) {
-        if(algorithm != null) {
-            if(algorithms == null) {
-                algorithms = new HashSet<>();
-            }
-            algorithms.add(algorithm);
+
+    public void addAlgorithms(AlgorithmEntity... newAlgorithms) {
+        if (newAlgorithms != null) {
+            addAllAlgorithms(Arrays.asList(newAlgorithms));
         }
     }
-    
+
+    public void addAllAlgorithms(Collection<AlgorithmEntity> newAlgorithms) {
+        if (newAlgorithms != null) {
+            if (this.algorithms == null) {
+                this.algorithms = new HashSet<>();
+            }
+            this.algorithms.addAll(newAlgorithms);
+        }
+    }
+
 }

@@ -1,12 +1,12 @@
 package es.uma.pfc.is.bench.benchmarks.execution;
 
 import com.google.common.eventbus.Subscribe;
-import es.uma.pfc.is.algorithms.Algorithm;
 import es.uma.pfc.is.algorithms.AlgorithmOptions.Mode;
 import es.uma.pfc.is.algorithms.exceptions.AlgorithmException;
 import es.uma.pfc.is.bench.Controller;
-import es.uma.pfc.is.bench.benchmarks.domain.Benchmark;
+import es.uma.pfc.is.bench.domain.Benchmark;
 import es.uma.pfc.is.bench.config.UserConfig;
+import es.uma.pfc.is.bench.domain.AlgorithmEntity;
 import es.uma.pfc.is.bench.events.BenchEventBus;
 import es.uma.pfc.is.bench.events.BenchmarksChangeEvent;
 import es.uma.pfc.is.bench.events.MessageEvent;
@@ -87,6 +87,8 @@ public class RunBenchmarkController extends Controller {
     private Button btnRun;
     @FXML
     private Button btnSelectOutput;
+    @FXML
+    private Button btnSelectInput;
 
     @FXML
     private BorderPane rootPane;
@@ -164,9 +166,15 @@ public class RunBenchmarkController extends Controller {
                 return ((selectedItem != null) && (selectedItem.getValue() instanceof Benchmark));
             }
         };
+        txtOutput.disableProperty().bind(isBenchmark);
         btnSelectOutput.disableProperty().bind(isBenchmark);
+        txtInput.disableProperty().bind(isBenchmark);
+        btnSelectInput.disableProperty().bind(isBenchmark);
         model.inputProperty().bind(txtInput.textProperty());
         model.outputProperty().bind(txtOutput.textProperty());
+        model.timeCheckedProperty().bind(chkTime.selectedProperty());
+        model.historyCheckedProperty().bind(chkHistory.selectedProperty());
+        model.statisticsCheckedProperty().bind(chkStatistics.selectedProperty());
     }
 
     /**
@@ -200,9 +208,9 @@ public class RunBenchmarkController extends Controller {
 
             model.getBenchmarks().stream().forEach((bench) -> {
                 FilterableTreeItem benchItem = new FilterableTreeItem(bench);
-                if (bench.getAlgorithms() != null) {
+                if (bench.getAlgorithmsEntities() != null) {
                     final List<TreeItem> algItems = new ArrayList();
-                    bench.getAlgorithms().stream().forEach(algorithm -> algItems.add(new TreeItem(algorithm)));
+                    bench.getAlgorithmsEntities().stream().forEach(algorithm -> algItems.add(new TreeItem(algorithm)));
                     benchItem.getInternalChildren().addAll(algItems);
                 }
                 root.getInternalChildren().add(benchItem);
@@ -221,21 +229,6 @@ public class RunBenchmarkController extends Controller {
         }
     }
 
-    /**
-     * Actualiza el modelo con los valores de la vista.
-     */
-    protected void viewToModel() {
-
-        if (chkTime.isSelected()) {
-            addModeToModel(Mode.PERFORMANCE);
-        }
-        if (chkHistory.isSelected()) {
-            addModeToModel(Mode.HISTORY);
-        }
-        if (chkStatistics.isSelected()) {
-            addModeToModel(Mode.STATISTICS);
-        }
-    }
    
     /**
      * Validate the fields values.
@@ -277,17 +270,6 @@ public class RunBenchmarkController extends Controller {
     }
 
     
-    /**
-     * /**
-     * Añade al modelo la activación de un modo de ejecución.
-     *
-     * @param mode Modo.
-     */
-    protected void addModeToModel(Mode mode) {
-        if (model.getSelectedAlgorithms() != null) {
-            model.getSelectedAlgorithms().forEach(alg -> alg.enable(mode));
-        }
-    }
 
     /**
      * Manejador del evento ActionEvent del botón <i>Run</i>.<br/>
@@ -300,7 +282,6 @@ public class RunBenchmarkController extends Controller {
         clearTraces();
 
         if (validate()) {
-            viewToModel();
             executeBenchmark(model.getSelectedAlgorithms());
         }
     }
@@ -310,7 +291,7 @@ public class RunBenchmarkController extends Controller {
      *
      * @param algs Algorithms to execute.
      */
-    protected void executeBenchmark(List<Algorithm> algs) {
+    protected void executeBenchmark(List<AlgorithmEntity> algs) {
         try {
             AlgorithmExecService service = new AlgorithmExecService(model);
             service.setOnRunning((Event event) -> {busyLayer.setVisible(true);});
@@ -452,7 +433,7 @@ public class RunBenchmarkController extends Controller {
      * Clear the model and the view.
      */
     protected void clear() {
-//        model.clear();
+        benchmarksTree.getSelectionModel().clearSelection();
         chkTime.setSelected(true);
         chkHistory.setSelected(false);
         chkStatistics.setSelected(false);
@@ -477,8 +458,10 @@ public class RunBenchmarkController extends Controller {
 
         @Override
         public void changed(ObservableValue<? extends TreeItem> observable, TreeItem oldItem, TreeItem newItem) {
-            //btnRun.setDisable(newItem == null);
             if (newItem != null) {
+                txtHistoryArea.clear();
+                tableStatistics.getColumns().clear();
+                
                 Benchmark selectedBenchmark;
                 boolean isBenchmark = (newItem.getValue() instanceof Benchmark);
                 
@@ -486,19 +469,19 @@ public class RunBenchmarkController extends Controller {
                     selectedBenchmark = (Benchmark) newItem.getValue();
                     model.setSelectedBenchmark(selectedBenchmark);
                     model.setSelectedAlgorithm(null);
+                    txtInput.setText(selectedBenchmark.getInput());
                     txtOutput.setText(model.getDefaultOutput(null));
                     
                 } else {
                     selectedBenchmark = (Benchmark) newItem.getParent().getValue();
-                    Algorithm alg = (Algorithm) newItem.getValue();
+                    AlgorithmEntity alg = (AlgorithmEntity) newItem.getValue();
                     model.setSelectedBenchmark(selectedBenchmark);
                     model.setSelectedAlgorithm(alg);
-                    
+                    txtInput.clear();
                     txtOutput.setText(model.getDefaultOutput(alg));
                     
                 }
                 
-                txtOutput.setDisable(isBenchmark);
                 chkTime.setSelected(true);
                 chkHistory.setSelected(!isBenchmark && chkHistory.isSelected());
                 chkHistory.setDisable(isBenchmark);

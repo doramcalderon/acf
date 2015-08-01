@@ -2,6 +2,7 @@
 package es.uma.pfc.is.bench.algorithms.domain;
 
 
+import es.uma.pfc.is.bench.domain.Algorithms;
 import es.uma.pfc.is.algorithms.optbasis.DirectOptimalBasis;
 import es.uma.pfc.is.bench.domain.AlgorithmEntity;
 import java.io.File;

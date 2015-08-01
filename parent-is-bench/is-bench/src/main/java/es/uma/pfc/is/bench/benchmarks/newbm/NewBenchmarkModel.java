@@ -2,6 +2,7 @@
 package es.uma.pfc.is.bench.benchmarks.newbm;
 
 import es.uma.pfc.is.algorithms.Algorithm;
+import es.uma.pfc.is.bench.domain.AlgorithmEntity;
 import java.util.ArrayList;
 import java.util.List;
 import javafx.beans.property.ListProperty;
@@ -20,8 +21,8 @@ public class NewBenchmarkModel {
     /**
      * Algorithms list.
      */
-    private ListProperty<Algorithm> algorithmsListProperty;
-    private FilteredList<Algorithm> algorithmsFilteredList;
+    private ListProperty<AlgorithmEntity> algorithmsListProperty;
+    private FilteredList<AlgorithmEntity> algorithmsFilteredList;
 
     /**
      * Name.
@@ -34,7 +35,7 @@ public class NewBenchmarkModel {
     /**
      * Algorithms list.
      */
-    private ListProperty<Algorithm> algorithmsSelectedProperty;
+    private ListProperty<AlgorithmEntity> algorithmsSelectedProperty;
 
     /**
      * Constructor.
@@ -46,7 +47,7 @@ public class NewBenchmarkModel {
         algorithmsListProperty = new SimpleListProperty<>(FXCollections.observableArrayList());
         algorithmsFilteredList = new FilteredList(algorithmsListProperty, p -> true);
     }
-    public FilteredList<Algorithm> getAlgorithmsFilteredList() {
+    public FilteredList<AlgorithmEntity> getAlgorithmsFilteredList() {
         return algorithmsFilteredList;
     }
     /**
@@ -61,7 +62,7 @@ public class NewBenchmarkModel {
      * Algorihtms list property.
      * @return Algorithms ListProperty.
      */
-    public ListProperty<Algorithm> algorithmsListProperty() {
+    public ListProperty<AlgorithmEntity> algorithmsListProperty() {
         return algorithmsListProperty;
     }
 
@@ -99,14 +100,14 @@ public class NewBenchmarkModel {
      * Algorithms list.
      * @return Algorithms list.
      */
-    public List<Algorithm> getAlgorithmsSelectedList() {
+    public List<AlgorithmEntity> getAlgorithmsSelectedList() {
         return (algorithmsSelectedProperty != null) ? new ArrayList(algorithmsSelectedProperty) : null;
     }
     /**
      * Algorithms list property.
      * @return the algorithmsSelectedProperty
      */
-    public ListProperty<Algorithm> algorithmsSelectedProperty() {
+    public ListProperty<AlgorithmEntity> algorithmsSelectedProperty() {
         return algorithmsSelectedProperty;
     }
 
@@ -114,7 +115,7 @@ public class NewBenchmarkModel {
      * Algorithms list.
      * @param algorithmsListProperty the algorithmsSelectedProperty to set
      */
-    public void setAlgorithmsSelectedProperty(ListProperty<Algorithm> algorithmsListProperty) {
+    public void setAlgorithmsSelectedProperty(ListProperty<AlgorithmEntity> algorithmsListProperty) {
         this.algorithmsSelectedProperty = algorithmsListProperty;
     }
     

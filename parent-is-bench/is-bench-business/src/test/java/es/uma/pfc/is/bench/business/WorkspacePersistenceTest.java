@@ -59,7 +59,7 @@ public class WorkspacePersistenceTest {
             ws.setPath(path);
 
             WorkspacePersistence.create(ws);
-            Workspace unmarshallWs = WorkspacePersistence.getWorkspace(path);
+            Workspace unmarshallWs = WorkspacePersistence.get().getWorkspace(path);
 
             assertNotNull(unmarshallWs);
             assertEquals(path, ws.getPath());

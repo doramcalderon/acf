@@ -26,7 +26,7 @@ public class WorkspaceTest {
    
 
     /**
-     * Test of addAlgorithm method, of class Workspace.
+     * Test of addAlgorithms method, of class Workspace.
      */
     @Test
     public void testAddAlgorithm() {
@@ -35,7 +35,7 @@ public class WorkspaceTest {
        
         
         Workspace ws = new Workspace();
-        ws.addAlgorithm(alg);
+        ws.addAlgorithms(alg);
         
         assertEquals(1, ws.getAlgorithms().size());
         assertEquals(alg, ws.getAlgorithms().iterator().next());
@@ -51,8 +51,8 @@ public class WorkspaceTest {
        
         
         Workspace ws = new Workspace();
-        ws.addAlgorithm(alg);
-        ws.addAlgorithm(null);
+        ws.addAlgorithms(alg);
+        ws.addAlgorithms(null);
         
         assertEquals(1, ws.getAlgorithms().size());
         assertEquals(alg, ws.getAlgorithms().iterator().next());
@@ -69,8 +69,8 @@ public class WorkspaceTest {
 
             Workspace ws = new Workspace();
             ws.setPath(path);
-            ws.addAlgorithm(alg);
-            ws.addAlgorithm(alg2);
+            ws.addAlgorithms(alg);
+            ws.addAlgorithms(alg2);
 
             String file = Paths.get(path, "workspace.xml").toString();
             JAXB.marshal(ws, file);

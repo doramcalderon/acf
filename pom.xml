@@ -7,8 +7,8 @@
     <packaging>pom</packaging>
     <modules>
         <module>is-algorithms</module>
-        <module>is-bench</module>
         <module>is-commons</module>
+        <module>parent-is-bench</module>
     </modules>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>

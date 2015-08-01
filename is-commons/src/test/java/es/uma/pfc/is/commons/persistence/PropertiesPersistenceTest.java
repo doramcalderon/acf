@@ -3,15 +3,14 @@ package es.uma.pfc.is.commons.persistence;
 
 import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.Properties;
+import org.junit.After;
 import org.junit.Test;
 import static org.junit.Assert.*;
-import org.junit.BeforeClass;
 
 /**
  *
@@ -20,11 +19,6 @@ import org.junit.BeforeClass;
 public class PropertiesPersistenceTest {
     
     public PropertiesPersistenceTest() {
-    }
-
-    @BeforeClass
-    public static void tearDown() throws IOException {
-        Files.deleteIfExists(Paths.get("test.properties"));
     }
 
     /**
@@ -58,7 +52,7 @@ public class PropertiesPersistenceTest {
 
         try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
             assertTrue(reader.lines().anyMatch(line -> line.equals("name=test")));
-        }
+        } 
     }
     /**
      * Test of load method, of class PropertiesPersistence.

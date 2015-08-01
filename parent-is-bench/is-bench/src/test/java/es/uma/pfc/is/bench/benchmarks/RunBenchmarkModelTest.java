@@ -2,8 +2,9 @@
 package es.uma.pfc.is.bench.benchmarks;
 
 import es.uma.pfc.is.algorithms.GenericAlgorithm;
-import es.uma.pfc.is.bench.benchmarks.domain.Benchmark;
+import es.uma.pfc.is.bench.domain.Benchmark;
 import es.uma.pfc.is.bench.benchmarks.execution.RunBenchmarkModel;
+import es.uma.pfc.is.bench.domain.AlgorithmEntity;
 import java.nio.file.Paths;
 import java.util.Arrays;
 import static org.junit.Assert.assertEquals;
@@ -27,10 +28,11 @@ public class RunBenchmarkModelTest {
     public void testGetDefaultOutput() {
         String workspace = Paths.get(System.getProperty("user.dir"), "src","test").toString();
         
-        GenericAlgorithm alg = mock(GenericAlgorithm.class);
+        AlgorithmEntity alg = mock(AlgorithmEntity.class);
         when(alg.getShortName()).thenReturn("do");
-        when(alg.getDefaultOutputFileName()).thenCallRealMethod();
-        Benchmark selectedBenchmark = new Benchmark(workspace, "Test Bench", Arrays.asList(alg));
+        
+        Benchmark selectedBenchmark = new Benchmark("Test Bench", Arrays.asList(alg));
+        selectedBenchmark.setWorkspace(workspace);
         String outputExpected = Paths.get(selectedBenchmark.getOutputDir(), "do_output.txt").toString();
                 
         RunBenchmarkModel model = new RunBenchmarkModel();
