@@ -7,7 +7,7 @@ package es.uma.pfc.is.bench.benchmarks;
 
 import com.google.common.eventbus.Subscribe;
 import es.uma.pfc.is.bench.Controller;
-import es.uma.pfc.is.bench.events.BenchEventBus;
+import es.uma.pfc.is.commons.eventbus.Eventbus;
 import es.uma.pfc.is.bench.events.NewBenchmarkEvent;
 import es.uma.pfc.is.bench.events.RunBenchmarkEvent;
 import java.io.IOException;
@@ -57,7 +57,7 @@ public class BenchmarksController extends Controller {
 
     @Override
     protected void initListeners() {
-        BenchEventBus.get().register(this);
+        Eventbus.register(this);
     }
     
     @Subscribe

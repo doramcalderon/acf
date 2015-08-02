@@ -6,20 +6,16 @@
 package es.uma.pfc.implications.generator.controller;
 
 import es.uma.pfc.implications.generator.view.FXMLViews;
-import es.uma.pfc.implications.generator.view.MessagesResourceBundle;
 import java.io.IOException;
 import java.util.Locale;
-import java.util.PropertyResourceBundle;
 import java.util.ResourceBundle;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
-import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
 /**
@@ -66,7 +62,7 @@ public class ImplicationsGeneratorApp extends Application {
      */
     protected void showImplicationsForm() {
         try {
-            AnchorPane implicationsForm = FXMLLoader.load(
+            Pane implicationsForm = FXMLLoader.load(
                     Thread.currentThread().getContextClassLoader().getResource(FXMLViews.IMPLICATIONS_VIEW), bundle);
             root.setCenter(implicationsForm);
         } catch (IOException ex) {

@@ -7,7 +7,7 @@ import es.uma.pfc.is.bench.Controller;
 import es.uma.pfc.is.bench.domain.Benchmark;
 import es.uma.pfc.is.bench.config.UserConfig;
 import es.uma.pfc.is.bench.domain.AlgorithmEntity;
-import es.uma.pfc.is.bench.events.BenchEventBus;
+import es.uma.pfc.is.commons.eventbus.Eventbus;
 import es.uma.pfc.is.bench.events.BenchmarksChangeEvent;
 import es.uma.pfc.is.bench.events.MessageEvent;
 import es.uma.pfc.is.bench.i18n.I18n;
@@ -182,7 +182,7 @@ public class RunBenchmarkController extends Controller {
      */
     @Override
     protected void initListeners() {
-        BenchEventBus.get().register(this);
+        Eventbus.register(this);
         benchmarksTree.getSelectionModel().selectedItemProperty().addListener(new BenchmarkSelectionListener());
     }
    

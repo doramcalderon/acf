@@ -1,7 +1,11 @@
 package es.uma.pfc.implications.generator.model;
 
-import es.uma.pfc.implications.generator.i18n.I18n;
 import es.uma.pfc.implications.generator.exception.ModelException;
+import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.SimpleBooleanProperty;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
+import javafx.beans.property.StringPropertyBase;
 
 /**
  * Clase que representa las características de un sistema de implicaciones.
@@ -47,12 +51,16 @@ public class ImplicationsModel {
      * Número de conjuntos a generar*
      */
     private Integer num;
+    
+    private BooleanProperty systemCreated;
+
 
     /**
      * Constructor.
      */
     public ImplicationsModel() {
         this.showImage = Boolean.FALSE;
+        this.systemCreated = new SimpleBooleanProperty(Boolean.FALSE);
     }
 
     /**
@@ -67,6 +75,13 @@ public class ImplicationsModel {
         this.implications = implications;
     }
 
+    public BooleanProperty systemCreatedProperty() {
+        return systemCreated;
+    }
+    public Boolean isSystemCreated() {
+        return (systemCreated == null) ? Boolean.FALSE : systemCreated.get();
+    }
+    
     /**
      * Número de nodos.
      *
@@ -269,6 +284,7 @@ public class ImplicationsModel {
          * Limpia los valores de las propiedades.
          */
     public void clean() {
+        systemCreatedProperty().set(false);
         setImplications(0);
         setMaxConclusionLength(0);
         setMaxPremiseLength(0);

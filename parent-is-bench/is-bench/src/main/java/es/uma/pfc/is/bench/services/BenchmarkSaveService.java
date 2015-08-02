@@ -10,7 +10,7 @@ import es.uma.pfc.is.bench.algorithmslist.AlgorithmsListController;
 import es.uma.pfc.is.bench.business.BenchmarksBean;
 import es.uma.pfc.is.bench.domain.Benchmark;
 import es.uma.pfc.is.bench.config.UserConfig;
-import es.uma.pfc.is.bench.events.BenchEventBus;
+import es.uma.pfc.is.commons.eventbus.Eventbus;
 import es.uma.pfc.is.bench.events.BenchmarksChangeEvent;
 import es.uma.pfc.is.bench.events.MessageEvent;
 import es.uma.pfc.is.bench.i18n.BenchMessages;
@@ -62,13 +62,13 @@ public class BenchmarkSaveService extends Service<Benchmark>{
     protected void failed() {
         String message = BenchMessages.get().getMessage(BenchMessages.BENCHMARK_CREATION_ERROR, getException().getMessage());
         Logger.getLogger(AlgorithmsListController.class.getName()).log(Level.SEVERE, message, getException());
-        BenchEventBus.get().post(new MessageEvent(message, MessageEvent.Level.ERROR));
+        Eventbus.post(new MessageEvent(message, MessageEvent.Level.ERROR));
     }
 
     @Override
     protected void succeeded() {
-        BenchEventBus.get().post(new BenchmarksChangeEvent());
-        BenchEventBus.get().post(new MessageEvent(BenchMessages.get().getMessage(BenchMessages.BENCHMARK_CREATION_SUCCEEDED), MessageEvent.Level.SUCCEEDED));
+        Eventbus.post(new BenchmarksChangeEvent());
+        Eventbus.post(new MessageEvent(BenchMessages.get().getMessage(BenchMessages.BENCHMARK_CREATION_SUCCEEDED), MessageEvent.Level.SUCCEEDED));
     }
 
     

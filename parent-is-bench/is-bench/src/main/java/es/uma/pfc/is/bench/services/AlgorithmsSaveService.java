@@ -7,7 +7,7 @@ import es.uma.pfc.is.bench.business.WorkspaceBean;
 import es.uma.pfc.is.bench.config.UserConfig;
 import es.uma.pfc.is.bench.domain.AlgorithmEntity;
 import es.uma.pfc.is.bench.events.AlgorithmChangeEvent;
-import es.uma.pfc.is.bench.events.BenchEventBus;
+import es.uma.pfc.is.commons.eventbus.Eventbus;
 import javafx.concurrent.Service;
 import javafx.concurrent.Task;
 
@@ -53,7 +53,7 @@ public class AlgorithmsSaveService extends Service {
 
     @Override
     protected void succeeded() {
-        BenchEventBus.get().post(new AlgorithmChangeEvent());
+        Eventbus.post(new AlgorithmChangeEvent());
     }
     
 }

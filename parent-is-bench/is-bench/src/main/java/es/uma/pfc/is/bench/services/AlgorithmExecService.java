@@ -5,7 +5,7 @@ import es.uma.pfc.is.algorithms.AlgorithmExecutor;
 import es.uma.pfc.is.algorithms.AlgorithmOptions;
 import es.uma.pfc.is.bench.benchmarks.execution.RunBenchmarkModel;
 import es.uma.pfc.is.bench.domain.AlgorithmEntity;
-import es.uma.pfc.is.bench.events.BenchEventBus;
+import es.uma.pfc.is.commons.eventbus.Eventbus;
 import es.uma.pfc.is.bench.events.MessageEvent;
 import java.nio.file.Paths;
 import java.util.ArrayList;
@@ -129,12 +129,12 @@ public class AlgorithmExecService extends Service {
 
     @Override
     protected void failed() {
-        BenchEventBus.get().post(new MessageEvent("The execution has failed.", MessageEvent.Level.ERROR));
+        Eventbus.post(new MessageEvent("The execution has failed.", MessageEvent.Level.ERROR));
     }
 
     @Override
     protected void succeeded() {
-        BenchEventBus.get().post(new MessageEvent("The execution has finished succeeded.", MessageEvent.Level.SUCCEEDED));
+        Eventbus.post(new MessageEvent("The execution has finished succeeded.", MessageEvent.Level.SUCCEEDED));
     }
 
 }

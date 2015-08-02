@@ -1,7 +1,7 @@
 package es.uma.pfc.is.bench;
 
 import com.google.common.eventbus.Subscribe;
-import es.uma.pfc.is.bench.events.BenchEventBus;
+import es.uma.pfc.is.commons.eventbus.Eventbus;
 import es.uma.pfc.is.bench.events.MessageEvent;
 import es.uma.pfc.is.bench.events.NewBenchmarkEvent;
 import es.uma.pfc.is.bench.events.RunBenchmarkEvent;
@@ -139,7 +139,7 @@ public class MainLayoutController extends Controller {
 
     @Override
     protected void initListeners() {
-        BenchEventBus.get().register(this);
+        Eventbus.register(this);
     }
 
     @Subscribe

@@ -1,6 +1,8 @@
 package es.uma.pfc.is.bench.benchmarks.newbm;
 
 import com.google.common.eventbus.Subscribe;
+import es.uma.pfc.implications.generator.controller.ImplicationsController;
+import es.uma.pfc.implications.generator.events.SystemSaved;
 import es.uma.pfc.is.algorithms.Algorithm;
 import es.uma.pfc.is.bench.Controller;
 import es.uma.pfc.is.bench.ISBenchApp;
@@ -12,7 +14,7 @@ import es.uma.pfc.is.bench.config.UserConfig;
 import es.uma.pfc.is.bench.domain.AlgorithmEntity;
 import es.uma.pfc.is.bench.events.AlgorithmChangeEvent;
 import es.uma.pfc.is.bench.events.AlgorithmsSelectedEvent;
-import es.uma.pfc.is.bench.events.BenchEventBus;
+import es.uma.pfc.is.commons.eventbus.Eventbus;
 import es.uma.pfc.is.bench.events.MessageEvent;
 import es.uma.pfc.is.bench.i18n.BenchMessages;
 import es.uma.pfc.is.bench.i18n.I18n;
@@ -75,7 +77,7 @@ public class NewBenchmarkController extends Controller {
 
     @FXML
     private AnchorPane rootPane;
-    
+
     /**
      * Model.
      */
@@ -101,7 +103,7 @@ public class NewBenchmarkController extends Controller {
             Logger.getLogger(AlgorithmsListController.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
+
     @Override
     protected void initModel() {
         model = new NewBenchmarkModel();
@@ -126,7 +128,7 @@ public class NewBenchmarkController extends Controller {
 
     @Override
     protected void initListeners() {
-        BenchEventBus.get().register(this);
+        Eventbus.register(this);
 
         txtFilter.textProperty().addListener(
                 (observable, oldValue, newValue) -> {
@@ -195,7 +197,18 @@ public class NewBenchmarkController extends Controller {
     }
 
     /**
+     * Handles the {@link SystemSaved} event, copying the path of system into input field.
+     *
+     * @param event Event.
+     */
+    @Subscribe
+    public void handleSystemSaved(SystemSaved event) {
+        txtInput.setText(event.getPath());
+    }
+
+    /**
      * Shows a file chooser for select the input system file.
+     *
      * @param event Action event.
      */
     @FXML
@@ -211,14 +224,15 @@ public class NewBenchmarkController extends Controller {
 
     /**
      * Shows the generator panel for generate a random system.
+     *
      * @param event Action event.
      */
     @FXML
     public void handleGenerateSystem(ActionEvent event) {
-         try {
+        try {
             Pane generatorForm = FXMLLoader.load(
-                ISBenchApp.class.getResource("/" + es.uma.pfc.implications.generator.view.FXMLViews.IMPLICATIONS_VIEW),
-                ResourceBundle.getBundle("es.uma.pfc.implications.generator.i18n.labels", Locale.getDefault()));
+                    ISBenchApp.class.getResource("/" + es.uma.pfc.implications.generator.view.FXMLViews.IMPLICATIONS_VIEW),
+                    ResourceBundle.getBundle("es.uma.pfc.implications.generator.i18n.labels", Locale.getDefault()));
             String title = getI18nLabel("Implications Generator"); // TODO crear label
             Dialogs.showModalDialog(title, generatorForm, rootPane.getScene().getWindow());
         } catch (IOException ex) {
@@ -226,7 +240,7 @@ public class NewBenchmarkController extends Controller {
         }
 
     }
-    
+
     /**
      * When there is a double click in algorithms list, the selection is added to algorithms selected.
      *
@@ -235,7 +249,7 @@ public class NewBenchmarkController extends Controller {
     @FXML
     protected void handleListDoubleClick(MouseEvent mouseEvent) {
         if (mouseEvent.getClickCount() == 2) {
-            BenchEventBus.get().post(new AlgorithmsSelectedEvent(algorithmsList.getSelectionModel().getSelectedItems()));
+            Eventbus.post(new AlgorithmsSelectedEvent(algorithmsList.getSelectionModel().getSelectedItems()));
         }
     }
 

@@ -1,14 +1,16 @@
-
 package es.uma.pfc.implications.generator.controller;
 
 import com.google.common.base.Strings;
 import es.uma.pfc.implications.generator.ImplicationsFactory;
+import es.uma.pfc.implications.generator.events.SystemSaved;
 import es.uma.pfc.implications.generator.io.GeneratorImplicationalSystemIO;
 import es.uma.pfc.implications.generator.model.ImplicationsModel;
 import es.uma.pfc.implications.generator.model.AttributeType;
 import es.uma.pfc.implications.generator.model.ResultValidation;
 import es.uma.pfc.implications.generator.validation.IntegerTextParser;
 import es.uma.pfc.implications.generator.view.GenerateService;
+import es.uma.pfc.is.commons.eventbus.Eventbus;
+import es.uma.pfc.is.commons.strings.StringUtils;
 import fr.kbertet.lattice.ImplicationalSystem;
 import java.io.File;
 import java.io.IOException;
@@ -18,6 +20,10 @@ import java.util.List;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javafx.beans.binding.BooleanBinding;
+import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.BooleanPropertyBase;
+import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.concurrent.Task;
@@ -32,7 +38,7 @@ import javafx.scene.control.ProgressIndicator;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TextFormatter;
-import javafx.scene.input.InputMethodEvent;
+import javafx.scene.control.TreeItem;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.FileChooser;
 import javafx.stage.FileChooser.ExtensionFilter;
@@ -71,6 +77,8 @@ public class ImplicationsController implements Initializable {
     @FXML
     private TextArea textViewer;
     @FXML
+    private TextField txtInput;
+    @FXML
     private AnchorPane implicationsPane;
 
     @FXML
@@ -105,15 +113,22 @@ public class ImplicationsController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         initView();
+        initModel();
         initValidation();
         initListeners();
         ImplicationsFactory.initialize();
+    }
+    /**
+     * Initializes the model.
+     */
+    protected void initModel() {
+        model = new ImplicationsModel();
     }
 
     protected void initView() {
         this.cbNodeType.getItems().addAll(AttributeType.NUMBER, AttributeType.LETTER, AttributeType.INDEXED_LETTER);
         this.cbNodeType.getSelectionModel().select(AttributeType.NUMBER);
-        
+
         IntegerTextParser parser = new IntegerTextParser();
         txtNodes.setTextFormatter(new TextFormatter<>(parser));
         txtImplications.setTextFormatter(new TextFormatter<>(parser));
@@ -123,6 +138,7 @@ public class ImplicationsController implements Initializable {
         txtMinLongConclusion.setTextFormatter(new TextFormatter<>(parser));
         txtSystemsNumber.setTextFormatter(new TextFormatter<>(parser));
     }
+
     /**
      * Initializes the listeners.
      */
@@ -149,7 +165,22 @@ public class ImplicationsController implements Initializable {
                 ObservableValue<? extends String> observable, String oldValue, String newValue) -> {
                     handleConclusionSizeChange();
                 });
+        model.systemCreatedProperty().addListener(new ChangeListener<Boolean>() {
+
+            @Override
+            public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
+                btnSave.setDisable(!newValue || StringUtils.isEmpty(txtInput.getText()));
+            }
+        });
+        txtInput.textProperty().addListener(new ChangeListener<String>(){
+
+            @Override
+            public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+                btnSave.setDisable(!model.isSystemCreated() || StringUtils.isEmpty(newValue));
+            }
+        });
     }
+
     protected void initValidation() {
         validationSupport = new ValidationSupport();
     }
@@ -183,6 +214,7 @@ public class ImplicationsController implements Initializable {
         validationSupport.getValidationDecorator().removeDecorations(txtMinLongPremisse);
         validationSupport.getValidationDecorator().removeDecorations(txtMaxLongPremisse);
     }
+
     /**
      * Cleans the decorators of max and min conclusion length.
      */
@@ -231,11 +263,21 @@ public class ImplicationsController implements Initializable {
         if (systems != null && !systems.isEmpty()) {
             if (systems.size() == 1) {
                 showText(systems.get(0));
-                btnSave.setDisable(false);
+                model.systemCreatedProperty().set(true);
             } else {
                 save();
                 clean(null);
             }
+        }
+    }
+
+    @FXML
+    public void handleInputAction(ActionEvent event) {
+        File selectedFile = showSaveDialog();
+        if (selectedFile != null) {
+            txtInput.setText(selectedFile.getAbsolutePath());
+        } else {
+            txtInput.clear();
         }
     }
 
@@ -254,7 +296,7 @@ public class ImplicationsController implements Initializable {
      * Guarda los conjuntos generados.
      */
     protected void save() {
-        File selectedFile = showSaveDialog();
+        String selectedFile = txtInput.getText();
 
         if (selectedFile != null) {
             Task saveTask = new Task<Void>() {
@@ -262,14 +304,21 @@ public class ImplicationsController implements Initializable {
                 @Override
                 protected Void call() throws Exception {
                     try {
-                        GeneratorImplicationalSystemIO.save(implicationSystems, selectedFile.getAbsolutePath());
+                        GeneratorImplicationalSystemIO.save(implicationSystems, selectedFile);
                     } catch (IOException ex) {
                         Logger.getLogger(ImplicationsController.class.getName()).log(Level.SEVERE, null, ex);
                     }
                     return null;
                 }
+
+                @Override
+                protected void succeeded() {
+                    Eventbus.post(new SystemSaved(selectedFile));
+                }
+
             };
             generationProgressInd.visibleProperty().bind(saveTask.runningProperty());
+
             saveTask.run();
 
         }
@@ -331,28 +380,28 @@ public class ImplicationsController implements Initializable {
      */
     public void validate() {
         ResultValidation validation = ResultValidation.OK;
-        
+
         if (model != null) {
             validation = model.validate().getResult();
         }
-        
+
         if (!validation.isValid()) {
             String message = validation.toString();
-            
-            if(ResultValidation.ZERO_NODES.equals(validation)) {
+
+            if (ResultValidation.ZERO_NODES.equals(validation)) {
                 validationSupport.getValidationDecorator().applyValidationDecoration(ValidationMessage.error(txtNodes, message));
-                
-            } else if(ResultValidation.INVALID_IMPLICATIONS_NUM.equals(validation)) {
+
+            } else if (ResultValidation.INVALID_IMPLICATIONS_NUM.equals(validation)) {
                 validationSupport.getValidationDecorator().applyValidationDecoration(ValidationMessage.error(txtImplications, message));
-                
+
             } else if (ResultValidation.INVALID_PREMISE_LENGTH.equals(validation)) {
                 validationSupport.getValidationDecorator().applyValidationDecoration(ValidationMessage.error(txtMaxLongPremisse, message));
                 validationSupport.getValidationDecorator().applyValidationDecoration(ValidationMessage.error(txtMinLongPremisse, message));
-                
+
             } else if (ResultValidation.INVALID_CONCLUSION_LENGTH.equals(validation)) {
                 validationSupport.getValidationDecorator().applyValidationDecoration(ValidationMessage.error(txtMaxLongConclusion, message));
                 validationSupport.getValidationDecorator().applyValidationDecoration(ValidationMessage.error(txtMinLongConclusion, message));
-                
+
             }
             throw new RuntimeException("Error de validación: " + validation.toString());
         }
@@ -401,8 +450,8 @@ public class ImplicationsController implements Initializable {
         this.txtMinLongConclusion.clear();
         this.txtMaxLongConclusion.clear();
         this.txtSystemsNumber.clear();
+        this.txtInput.clear();
         textViewer.setText("<No implications generated>");
-        btnSave.setDisable(true);
     }
 
     /**

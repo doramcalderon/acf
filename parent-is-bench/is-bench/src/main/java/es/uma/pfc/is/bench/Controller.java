@@ -5,7 +5,7 @@
  */
 package es.uma.pfc.is.bench;
 
-import es.uma.pfc.is.bench.events.BenchEventBus;
+import es.uma.pfc.is.commons.eventbus.Eventbus;
 import es.uma.pfc.is.bench.events.MessageEvent;
 import es.uma.pfc.is.bench.events.MessageEvent.Level;
 import es.uma.pfc.is.bench.i18n.BenchMessages;
@@ -169,6 +169,6 @@ public abstract class Controller implements Initializable {
     }
     
     protected void publicMessage(String message, Level level) {
-        BenchEventBus.get().post(new MessageEvent(message, level));
+        Eventbus.post(new MessageEvent(message, level));
     }
 }

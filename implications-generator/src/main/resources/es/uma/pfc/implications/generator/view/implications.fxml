@@ -6,119 +6,141 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane id="AnchorPane" fx:id="implicationsPane" prefHeight="600.0" prefWidth="800.0" styleClass="mainFxmlClass" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="es.uma.pfc.implications.generator.controller.ImplicationsController">
-    <stylesheets>
-        <URL value="@/styles/implications.css" />
-    </stylesheets>
-   <children>
-      <SplitPane dividerPositions="0.29797979797979796" focusTraversable="true" layoutX="378.0" layoutY="126.0" prefHeight="470.0" prefWidth="693.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-        <items>
-          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
-               <children>
-                  <GridPane layoutX="33.0" layoutY="14.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="10.0">
-                    <columnConstraints>
-                      <ColumnConstraints hgrow="SOMETIMES" maxWidth="179.0" minWidth="10.0" prefWidth="69.0" />
-                      <ColumnConstraints hgrow="SOMETIMES" maxWidth="159.0" minWidth="10.0" prefWidth="156.0" />
-                    </columnConstraints>
-                    <rowConstraints>
-                      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                        <RowConstraints maxHeight="42.0" minHeight="10.0" prefHeight="31.0" vgrow="SOMETIMES" />
-                        <RowConstraints maxHeight="44.0" minHeight="10.0" prefHeight="29.0" vgrow="SOMETIMES" />
-                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                    </rowConstraints>
+
+<BorderPane prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="es.uma.pfc.implications.generator.controller.ImplicationsController">
+   <center>
+      <AnchorPane BorderPane.alignment="CENTER">
+         <children>
+            <SplitPane dividerPositions="0.29797979797979796" focusTraversable="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+              <items>
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefWidth="100.0">
                      <children>
-                        <Label text="%label.attributes.num" />
-                        <Label text="%label.implications.num" GridPane.rowIndex="1" />
-                        <TextField fx:id="txtNodes" alignment="CENTER_RIGHT" promptText="0" GridPane.columnIndex="1" />
-                        <TextField fx:id="txtImplications" alignment="CENTER_RIGHT" promptText="0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-                        <ComboBox fx:id="cbNodeType" onAction="#handleNodeTypeSelection" prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-                        <Label text="%label.attributes.type" GridPane.rowIndex="2" />
-                        <Label text="%label.premise" GridPane.rowIndex="3" GridPane.valignment="CENTER" />
-                        <Label prefHeight="17.0" prefWidth="140.0" text="%label.conclusion" GridPane.columnSpan="2" GridPane.rowIndex="4" />
-                        <HBox prefHeight="24.0" prefWidth="140.0" GridPane.columnIndex="1" GridPane.rowIndex="3">
+                        <GridPane layoutX="33.0" layoutY="14.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="10.0">
+                          <columnConstraints>
+                            <ColumnConstraints hgrow="SOMETIMES" maxWidth="179.0" minWidth="10.0" prefWidth="69.0" />
+                            <ColumnConstraints hgrow="SOMETIMES" maxWidth="159.0" minWidth="10.0" prefWidth="156.0" />
+                          </columnConstraints>
+                          <rowConstraints>
+                            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                              <RowConstraints maxHeight="42.0" minHeight="10.0" prefHeight="31.0" vgrow="SOMETIMES" />
+                              <RowConstraints maxHeight="44.0" minHeight="10.0" prefHeight="29.0" vgrow="SOMETIMES" />
+                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                          </rowConstraints>
                            <children>
-                              <Label text="%label.min" GridPane.columnIndex="1" GridPane.rowIndex="3">
+                              <Label text="%label.attributes.num" />
+                              <Label text="%label.implications.num" GridPane.rowIndex="1" />
+                              <TextField fx:id="txtNodes" alignment="CENTER_RIGHT" promptText="0" GridPane.columnIndex="1" />
+                              <TextField fx:id="txtImplications" alignment="CENTER_RIGHT" promptText="0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                              <ComboBox fx:id="cbNodeType" onAction="#handleNodeTypeSelection" prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                              <Label text="%label.attributes.type" GridPane.rowIndex="2" />
+                              <Label text="%label.premise" GridPane.rowIndex="3" GridPane.valignment="CENTER" />
+                              <Label prefHeight="17.0" prefWidth="140.0" text="%label.conclusion" GridPane.columnSpan="2" GridPane.rowIndex="4" />
+                              <HBox prefHeight="24.0" prefWidth="140.0" GridPane.columnIndex="1" GridPane.rowIndex="3">
+                                 <children>
+                                    <Label text="%label.min" GridPane.columnIndex="1" GridPane.rowIndex="3">
+                                       <padding>
+                                          <Insets top="5.0" />
+                                       </padding>
+                                    </Label>
+                                    <TextField fx:id="txtMinLongPremisse" prefHeight="20.0" prefWidth="43.0" promptText="-" text="1" />
+                                    <Label layoutX="145.0" layoutY="181.0" text="%label.max">
+                                       <padding>
+                                          <Insets top="5.0" />
+                                       </padding>
+                                    </Label>
+                                    <TextField fx:id="txtMaxLongPremisse" onInputMethodTextChanged="#handlePremisseSizeChange" prefHeight="20.0" prefWidth="43.0" promptText="-" />
+                                 </children>
+                                 <opaqueInsets>
+                                    <Insets />
+                                 </opaqueInsets>
                                  <padding>
-                                    <Insets top="5.0" />
-                                 </padding></Label>
-                              <TextField fx:id="txtMinLongPremisse" prefHeight="20.0" prefWidth="43.0" promptText="-" text="1" />
-                              <Label layoutX="145.0" layoutY="181.0" text="%label.max">
+                                    <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                 </padding>
+                              </HBox>
+                              <HBox GridPane.columnIndex="1" GridPane.rowIndex="4">
+                                 <children>
+                                    <Label prefHeight="20.0" prefWidth="26.0" text="%label.min" GridPane.columnIndex="1" GridPane.rowIndex="3">
+                                       <padding>
+                                          <Insets top="5.0" />
+                                       </padding>
+                                    </Label>
+                                    <TextField fx:id="txtMinLongConclusion" prefHeight="20.0" prefWidth="43.0" promptText="-" text="1" />
+                                    <Label layoutX="145.0" layoutY="181.0" text="%label.max">
+                                       <padding>
+                                          <Insets top="5.0" />
+                                       </padding>
+                                    </Label>
+                                    <TextField fx:id="txtMaxLongConclusion" prefHeight="20.0" prefWidth="43.0" promptText="-" />
+                                 </children>
+                                 <opaqueInsets>
+                                    <Insets />
+                                 </opaqueInsets>
                                  <padding>
-                                    <Insets top="5.0" />
-                                 </padding></Label>
-                              <TextField fx:id="txtMaxLongPremisse" onInputMethodTextChanged="#handlePremisseSizeChange" prefHeight="20.0" prefWidth="43.0" promptText="-" />
+                                    <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                 </padding>
+                              </HBox>
+                              <Label text="%label.sets" GridPane.rowIndex="5" />
+                              <HBox spacing="5.0" GridPane.columnIndex="1" GridPane.rowIndex="5">
+                                 <children>
+                                    <TextField fx:id="txtSystemsNumber" prefHeight="25.0" prefWidth="69.0" promptText="1" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+                                 </children>
+                                 <padding>
+                                    <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                 </padding>
+                              </HBox>
                            </children>
-                           <opaqueInsets>
-                              <Insets />
-                           </opaqueInsets>
-                           <padding>
-                              <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-                           </padding>
-                        </HBox>
-                        <HBox GridPane.columnIndex="1" GridPane.rowIndex="4">
-                           <children>
-                              <Label prefHeight="20.0" prefWidth="26.0" text="%label.min" GridPane.columnIndex="1" GridPane.rowIndex="3">
-                                 <padding>
-                                    <Insets top="5.0" />
-                                 </padding></Label>
-                              <TextField fx:id="txtMinLongConclusion" prefHeight="20.0" prefWidth="43.0" promptText="-" text="1" />
-                              <Label layoutX="145.0" layoutY="181.0" text="%label.max">
-                                 <padding>
-                                    <Insets top="5.0" />
-                                 </padding></Label>
-                              <TextField fx:id="txtMaxLongConclusion" prefHeight="20.0" prefWidth="43.0" promptText="-" />
-                           </children>
-                           <opaqueInsets>
-                              <Insets />
-                           </opaqueInsets>
-                           <padding>
-                              <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-                           </padding>
-                        </HBox>
-                        <Label text="%label.sets" GridPane.rowIndex="5" />
-                        <HBox spacing="5.0" GridPane.columnIndex="1" GridPane.rowIndex="5">
-                           <children>
-                              <TextField fx:id="txtSystemsNumber" prefHeight="25.0" prefWidth="69.0" promptText="1" GridPane.columnIndex="1" GridPane.rowIndex="5" />
-                           </children>
-                           <padding>
-                              <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-                           </padding>
-                        </HBox>
+                        </GridPane>
                      </children>
-                  </GridPane>
-                  <HBox layoutX="87.0" layoutY="401.0" spacing="5.0" AnchorPane.bottomAnchor="5.0" AnchorPane.rightAnchor="5.0">
+                  </AnchorPane>
+                <AnchorPane fx:id="implicationsPane">
                      <children>
-                        <Button fx:id="btnGenerate" layoutX="87.0" layoutY="401.0" mnemonicParsing="false" onAction="#handleGenerateButton" text="%btn.generate" />
-                        <Button fx:id="btnSave" disable="true" mnemonicParsing="false" onAction="#handleSaveButton" text="%btn.save" />
-                        <Button fx:id="btnClean" cancelButton="true" layoutX="154.0" layoutY="401.0" mnemonicParsing="false" onAction="#clean" text="%btn.clean" />
-                     </children>
-                  </HBox>
-               </children>
-            </AnchorPane>
-          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="598.0" prefWidth="515.0">
-               <children>
-                  <SplitPane focusTraversable="true" layoutX="21.0" orientation="VERTICAL" prefHeight="398.0" prefWidth="417.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-                    <items>
-                      <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="596.0" prefWidth="456.0">
+                        <GridPane AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                           <columnConstraints>
+                              <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" />
+                           </columnConstraints>
+                           <rowConstraints>
+                              <RowConstraints minHeight="10.0" percentHeight="5.0" vgrow="SOMETIMES" />
+                              <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
+                           </rowConstraints>
                            <children>
-                              <StackPane prefHeight="596.0" prefWidth="555.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                              <HBox spacing="5.0">
+                                 <children>
+                                    <Label text="Input:" />
+                                    <TextField fx:id="txtInput" HBox.hgrow="ALWAYS" />
+                                    <Button fx:id="btnInput" mnemonicParsing="false" onAction="#handleInputAction" text="..." />
+                                 </children>
+                                 <padding>
+                                    <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                 </padding>
+                              </HBox>
+                              <StackPane AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" GridPane.rowIndex="1">
                                  <children>
                                     <TextArea fx:id="textViewer" editable="false" layoutX="233.0" layoutY="263.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" StackPane.alignment="CENTER">
                                        <StackPane.margin>
                                           <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-                                       </StackPane.margin></TextArea>
+                                       </StackPane.margin>
+                                    </TextArea>
                                     <ProgressIndicator fx:id="generationProgressInd" maxHeight="50.0" maxWidth="50.0" visible="false" StackPane.alignment="CENTER" />
                                  </children>
                               </StackPane>
                            </children>
-                        </AnchorPane>
-                    </items>
-                  </SplitPane>
-               </children>
-            </AnchorPane>
+                        </GridPane>
+                     </children>
+                  </AnchorPane>
+              </items>
+            </SplitPane>
+         </children>
+      </AnchorPane>
+   </center>
+   <top>
+      <ToolBar prefHeight="40.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+        <items>
+            <Button fx:id="btnGenerate" defaultButton="true" mnemonicParsing="false" onAction="#handleGenerateButton" prefHeight="80.0" prefWidth="80.0" text="%btn.generate" />
+            <Button fx:id="btnSave" disable="true" mnemonicParsing="false" onAction="#handleSaveButton" prefHeight="80.0" prefWidth="80.0" text="%btn.save" />
+            <Button fx:id="btnClean" cancelButton="true" mnemonicParsing="false" onAction="#clean" prefHeight="80.0" prefWidth="80.0" text="%btn.clean" />
         </items>
-      </SplitPane>
-   </children>
-</AnchorPane>
+      </ToolBar>
+   </top>
+</BorderPane>

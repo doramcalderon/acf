@@ -8,7 +8,7 @@ package es.uma.pfc.is.bench.algorithmslist;
 import es.uma.pfc.is.algorithms.Algorithm;
 import es.uma.pfc.is.bench.Controller;
 import es.uma.pfc.is.bench.events.AlgorithmsSelectedEvent;
-import es.uma.pfc.is.bench.events.BenchEventBus;
+import es.uma.pfc.is.commons.eventbus.Eventbus;
 import es.uma.pfc.is.bench.services.AlgorithmsLoadService;
 import java.io.IOException;
 import java.net.URL;
