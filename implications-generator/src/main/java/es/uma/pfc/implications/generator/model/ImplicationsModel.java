@@ -53,6 +53,7 @@ public class ImplicationsModel {
     private Integer num;
     
     private BooleanProperty systemCreated;
+    private StringProperty output;
 
 
     /**
@@ -61,6 +62,7 @@ public class ImplicationsModel {
     public ImplicationsModel() {
         this.showImage = Boolean.FALSE;
         this.systemCreated = new SimpleBooleanProperty(Boolean.FALSE);
+        this.output = new SimpleStringProperty();
     }
 
     /**
@@ -74,6 +76,22 @@ public class ImplicationsModel {
         this.nodes = nodes;
         this.implications = implications;
     }
+    
+    /**
+     * Output property.
+     * @return Output property.
+     */
+    public StringProperty outputProperty() {
+        return output;
+    }
+    /**
+     * Output file path.
+     * @return Ouptut file path.
+     */
+    public String getOutput() {
+        return (output != null) ? output.get() : null;
+    }
+    
 
     public BooleanProperty systemCreatedProperty() {
         return systemCreated;

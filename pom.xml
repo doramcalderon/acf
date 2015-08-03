@@ -9,6 +9,7 @@
         <module>is-algorithms</module>
         <module>is-commons</module>
         <module>parent-is-bench</module>
+        <module>implications-generator</module>
     </modules>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>

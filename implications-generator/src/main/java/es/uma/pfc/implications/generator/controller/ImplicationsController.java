@@ -77,7 +77,7 @@ public class ImplicationsController implements Initializable {
     @FXML
     private TextArea textViewer;
     @FXML
-    private TextField txtInput;
+    private TextField txtOutput;
     @FXML
     private AnchorPane implicationsPane;
 
@@ -114,17 +114,28 @@ public class ImplicationsController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         initView();
         initModel();
+        initBinding();
         initValidation();
         initListeners();
         ImplicationsFactory.initialize();
     }
+    
     /**
      * Initializes the model.
      */
     protected void initModel() {
         model = new ImplicationsModel();
     }
-
+    
+    public void setOutput(String outputPath) {
+        txtOutput.setText(outputPath);
+    }
+    /**
+     * Inititalizes bindings.
+     */
+    protected void initBinding() {
+        txtOutput.textProperty().bindBidirectional(model.outputProperty());
+    }
     protected void initView() {
         this.cbNodeType.getItems().addAll(AttributeType.NUMBER, AttributeType.LETTER, AttributeType.INDEXED_LETTER);
         this.cbNodeType.getSelectionModel().select(AttributeType.NUMBER);
@@ -169,10 +180,10 @@ public class ImplicationsController implements Initializable {
 
             @Override
             public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
-                btnSave.setDisable(!newValue || StringUtils.isEmpty(txtInput.getText()));
+                btnSave.setDisable(!newValue || StringUtils.isEmpty(txtOutput.getText()));
             }
         });
-        txtInput.textProperty().addListener(new ChangeListener<String>(){
+        txtOutput.textProperty().addListener(new ChangeListener<String>(){
 
             @Override
             public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
@@ -275,9 +286,9 @@ public class ImplicationsController implements Initializable {
     public void handleInputAction(ActionEvent event) {
         File selectedFile = showSaveDialog();
         if (selectedFile != null) {
-            txtInput.setText(selectedFile.getAbsolutePath());
+            txtOutput.setText(selectedFile.getAbsolutePath());
         } else {
-            txtInput.clear();
+            txtOutput.clear();
         }
     }
 
@@ -296,7 +307,7 @@ public class ImplicationsController implements Initializable {
      * Guarda los conjuntos generados.
      */
     protected void save() {
-        String selectedFile = txtInput.getText();
+        String selectedFile = txtOutput.getText();
 
         if (selectedFile != null) {
             Task saveTask = new Task<Void>() {
@@ -450,7 +461,7 @@ public class ImplicationsController implements Initializable {
         this.txtMinLongConclusion.clear();
         this.txtMaxLongConclusion.clear();
         this.txtSystemsNumber.clear();
-        this.txtInput.clear();
+        this.txtOutput.clear();
         textViewer.setText("<No implications generated>");
     }
 

@@ -6,7 +6,6 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-
 <BorderPane prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="es.uma.pfc.implications.generator.controller.ImplicationsController">
    <center>
       <AnchorPane BorderPane.alignment="CENTER">
@@ -107,8 +106,8 @@
                            <children>
                               <HBox spacing="5.0">
                                  <children>
-                                    <Label text="Input:" />
-                                    <TextField fx:id="txtInput" HBox.hgrow="ALWAYS" />
+                                    <Label text="%label.output" />
+                                    <TextField fx:id="txtOutput" HBox.hgrow="ALWAYS" />
                                     <Button fx:id="btnInput" mnemonicParsing="false" onAction="#handleInputAction" text="..." />
                                  </children>
                                  <padding>

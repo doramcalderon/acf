@@ -3,7 +3,6 @@ package es.uma.pfc.is.bench.benchmarks.newbm;
 import com.google.common.eventbus.Subscribe;
 import es.uma.pfc.implications.generator.controller.ImplicationsController;
 import es.uma.pfc.implications.generator.events.SystemSaved;
-import es.uma.pfc.is.algorithms.Algorithm;
 import es.uma.pfc.is.bench.Controller;
 import es.uma.pfc.is.bench.ISBenchApp;
 import es.uma.pfc.is.bench.MainLayoutController;
@@ -27,7 +26,7 @@ import es.uma.pfc.is.commons.strings.StringUtils;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
-import java.util.List;
+import java.nio.file.Paths;
 import java.util.Locale;
 import java.util.Optional;
 import java.util.ResourceBundle;
@@ -45,7 +44,6 @@ import javafx.scene.control.ButtonType;
 import javafx.scene.control.ListView;
 import javafx.scene.control.SplitMenuButton;
 import javafx.scene.control.TextField;
-import javafx.scene.control.TitledPane;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
@@ -230,9 +228,12 @@ public class NewBenchmarkController extends Controller {
     @FXML
     public void handleGenerateSystem(ActionEvent event) {
         try {
-            Pane generatorForm = FXMLLoader.load(
-                    ISBenchApp.class.getResource("/" + es.uma.pfc.implications.generator.view.FXMLViews.IMPLICATIONS_VIEW),
+            String implicationsPath = Paths.get(UserConfig.get().getDefaultWorkspace(), model.getName(), "implications.txt").toString();
+            FXMLLoader loader = new FXMLLoader(ISBenchApp.class.getResource("/" + es.uma.pfc.implications.generator.view.FXMLViews.IMPLICATIONS_VIEW),
                     ResourceBundle.getBundle("es.uma.pfc.implications.generator.i18n.labels", Locale.getDefault()));
+            
+            Pane generatorForm = loader.load();
+            loader.<ImplicationsController>getController().setOutput(implicationsPath);
             String title = getI18nLabel("Implications Generator"); // TODO crear label
             Dialogs.showModalDialog(title, generatorForm, rootPane.getScene().getWindow());
         } catch (IOException ex) {
