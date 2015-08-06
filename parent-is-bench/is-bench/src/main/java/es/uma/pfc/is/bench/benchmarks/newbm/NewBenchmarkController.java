@@ -228,7 +228,7 @@ public class NewBenchmarkController extends Controller {
     @FXML
     public void handleGenerateSystem(ActionEvent event) {
         try {
-            String implicationsPath = Paths.get(UserConfig.get().getDefaultWorkspace(), model.getName(), "implications.txt").toString();
+            String implicationsPath = Paths.get(UserConfig.get().getDefaultWorkspace(), "benchmarks", model.getName(), "implications.txt").toString();
             FXMLLoader loader = new FXMLLoader(ISBenchApp.class.getResource("/" + es.uma.pfc.implications.generator.view.FXMLViews.IMPLICATIONS_VIEW),
                     ResourceBundle.getBundle("es.uma.pfc.implications.generator.i18n.labels", Locale.getDefault()));
             

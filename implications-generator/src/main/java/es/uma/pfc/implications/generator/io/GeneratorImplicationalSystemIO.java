@@ -30,6 +30,7 @@ public class GeneratorImplicationalSystemIO {
     public static void save(List<ImplicationalSystem> systems, String fileName) throws IOException {
         if (systems != null) {
             if (systems.size() == 1) {
+                FileUtils.createIfNoExists(fileName);
                 systems.get(0).save(fileName);
             } else {
                 int i = 1;

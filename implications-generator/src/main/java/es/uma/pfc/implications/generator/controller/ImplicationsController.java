@@ -20,6 +20,7 @@ import java.util.List;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javafx.application.Platform;
 import javafx.beans.binding.BooleanBinding;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.BooleanPropertyBase;
@@ -140,7 +141,9 @@ public class ImplicationsController implements Initializable {
 
             @Override
             protected boolean computeValue() {
-                return !model.isSystemCreated() || StringUtils.isEmpty(txtOutput.getText());
+                // TODO no se ejecuta el listener cuando se establece la propiedad systemcreated
+                //return !model.isSystemCreated() || StringUtils.isEmpty(txtOutput.getText());
+                return StringUtils.isEmpty(txtOutput.getText());
             }
         };
         btnSave.disableProperty().bind(systemCreatedBinding);
