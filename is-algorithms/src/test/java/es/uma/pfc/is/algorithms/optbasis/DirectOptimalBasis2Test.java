@@ -38,10 +38,7 @@ public class DirectOptimalBasis2Test {
         ImplicationalSystem expectedSystem = TestUtils.getSystemFromFile("do_ej_olomouc_nunit_resul.txt");
 
         DirectOptimalBasis2 alg = (DirectOptimalBasis2) new DirectOptimalBasis2();
-        ImplicationalSystem algResult = alg.input(TestUtils.getTestResourcePath("do_ej_olomouc_nunit.txt"))
-                                            .output(TestUtils.getTestResourcePath("do_ej_olomouc_nunit_output.txt"))
-                                            .enable(AlgorithmOptions.Mode.HISTORY)
-                                            .execute();
+        ImplicationalSystem algResult = alg.execute(TestUtils.getTestResourcePath("do_ej_olomouc_nunit.txt"), new AlgorithmOptions());
 
         assertTrue("Expected: \n" + expectedSystem + "\n Alg result:\n" + algResult, 
                     ImplicationalSystems.equals(expectedSystem, algResult));
@@ -54,10 +51,7 @@ public class DirectOptimalBasis2Test {
         ImplicationalSystem expectedSystem = TestUtils.getSystemFromFile("ej_saedian3_result.txt");
 
         DirectOptimalBasis2 alg = (DirectOptimalBasis2) new DirectOptimalBasis2();
-        ImplicationalSystem algResult = alg.input(TestUtils.getTestResourcePath("ej_saedian3.txt"))
-                                            .output(TestUtils.getTestResourcePath("ej_saedian3_output.txt"))
-                                            .enable(AlgorithmOptions.Mode.HISTORY)
-                                            .execute();
+        ImplicationalSystem algResult = alg.execute(TestUtils.getTestResourcePath("ej_saedian3.txt"), new AlgorithmOptions());
 
         assertTrue("Expected: \n" + expectedSystem + "\n Alg result:\n" + algResult, 
                     ImplicationalSystems.equals(expectedSystem, algResult));
@@ -102,10 +96,7 @@ public class DirectOptimalBasis2Test {
         ImplicationalSystem expectedSystem = TestUtils.getSystemFromFile("exp15-1_resul.txt");
 
         DirectOptimalBasis2 alg = (DirectOptimalBasis2) new DirectOptimalBasis2();
-        ImplicationalSystem algResult = alg.input(TestUtils.getTestResourcePath("exp15-1.txt"))
-                                            .output(TestUtils.getTestResourcePath("exp15-1_output.txt"))
-                                            .enable(AlgorithmOptions.Mode.HISTORY)
-                                            .execute(); 
+        ImplicationalSystem algResult = alg.execute(TestUtils.getTestResourcePath("exp15-1.txt"), new AlgorithmOptions()); 
         
         assertTrue("Expected: \n" + expectedSystem + "\n Alg result:\n" + algResult, 
                     ImplicationalSystems.equals(expectedSystem, algResult));

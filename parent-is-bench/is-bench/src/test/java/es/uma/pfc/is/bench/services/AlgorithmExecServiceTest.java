@@ -5,14 +5,13 @@
  */
 package es.uma.pfc.is.bench.services;
 
+import es.uma.pfc.is.algorithms.AlgorithmOptions;
 import es.uma.pfc.is.algorithms.AlgorithmOptions.Mode;
-import es.uma.pfc.is.algorithms.AlgorithmOptions.Options;
 import es.uma.pfc.is.algorithms.GenericAlgorithm;
 import es.uma.pfc.is.bench.benchmarks.execution.RunBenchmarkModel;
 import es.uma.pfc.is.bench.domain.AlgorithmEntity;
 import fr.kbertet.lattice.ImplicationalSystem;
 import java.nio.file.Paths;
-import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.*;
 import org.junit.Test;
 
@@ -44,7 +43,7 @@ public class AlgorithmExecServiceTest {
      */
     @Test
     public void testSetOutput() {
-        String output = Paths.get(System.getProperty("user.dir"), "src", "test", "resources", "result.txt").toString();
+        String outputExpected = Paths.get(System.getProperty("user.dir"), "src", "test", "resources", "result.txt").toString();
         GenericAlgorithm alg = new GenericAlgorithm() {
 
             @Override
@@ -55,12 +54,12 @@ public class AlgorithmExecServiceTest {
         
         RunBenchmarkModel model = new RunBenchmarkModel();
         model.setSelectedAlgorithm(new AlgorithmEntity());
-        model.outputProperty().setValue(output);
+        model.outputProperty().setValue(outputExpected);
         
         AlgorithmExecService service = new AlgorithmExecService(model);
-        service.setOutput(alg);
+        String output = service.getOutput(alg);
         
-        assertEquals(output, alg.getOptions().getOption(Options.OUTPUT.toString()));
+        assertEquals(outputExpected, output);
     }
     @Test
     public void testSetOutput_InBenchmark() {
@@ -76,23 +75,23 @@ public class AlgorithmExecServiceTest {
                 throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
             }
         };
-        String output = Paths.get(System.getProperty("user.dir"), "src", "test", "resources").toString();
+        String outputExpected = Paths.get(System.getProperty("user.dir"), "src", "test", "resources").toString();
         
         RunBenchmarkModel model = new RunBenchmarkModel();
-        model.outputProperty().setValue(output);
+        model.outputProperty().setValue(outputExpected);
         
         AlgorithmExecService service = new AlgorithmExecService(model);
-        service.setOutput(alg);
+        String output = service.getOutput(alg);
         
         String expectedOutput = Paths.get(model.getOutput(), alg.getDefaultOutputFileName()).toString();
-        assertEquals(expectedOutput, alg.getOptions().getOption(Options.OUTPUT.toString()));
+        assertEquals(expectedOutput, output);
     }
 
     /**
-     * Test of setModes method, of class AlgorithmExecService.
+     * Test of getOptions method, of class AlgorithmExecService.
      */
     @Test
-    public void testSetModes_History() {
+    public void testGetOptions_History() {
         RunBenchmarkModel model = new RunBenchmarkModel();
         model.historyCheckedProperty().setValue(Boolean.TRUE);
         
@@ -104,14 +103,15 @@ public class AlgorithmExecServiceTest {
         };
         
         AlgorithmExecService service = new AlgorithmExecService(model);
-        service.setModes(alg);
+        AlgorithmOptions options = service.getOptions();
         
-        assertTrue(alg.getOptions().getOption(Mode.HISTORY.toString()));
-        assertNull(alg.getOptions().getOption(Mode.PERFORMANCE.toString()));
-        assertNull(alg.getOptions().getOption(Mode.STATISTICS.toString()));
+        assertNotNull(options);
+        assertTrue(options.getOption(Mode.HISTORY.toString()));
+        assertNull(options.getOption(Mode.PERFORMANCE.toString()));
+        assertNull(options.getOption(Mode.STATISTICS.toString()));
     }
     @Test
-    public void testSetModes_Time() {
+    public void testGetOptions_Time() {
         RunBenchmarkModel model = new RunBenchmarkModel();
         model.timeCheckedProperty().setValue(Boolean.TRUE);
         
@@ -123,14 +123,15 @@ public class AlgorithmExecServiceTest {
         };
         
         AlgorithmExecService service = new AlgorithmExecService(model);
-        service.setModes(alg);
+        AlgorithmOptions options = service.getOptions();
         
-        assertNull(alg.getOptions().getOption(Mode.HISTORY.toString()));
-        assertTrue(alg.getOptions().getOption(Mode.PERFORMANCE.toString()));
-        assertNull(alg.getOptions().getOption(Mode.STATISTICS.toString()));
+        assertNotNull(options);
+        assertNull(options.getOption(Mode.HISTORY.toString()));
+        assertTrue(options.getOption(Mode.PERFORMANCE.toString()));
+        assertNull(options.getOption(Mode.STATISTICS.toString()));
     }
     @Test
-    public void testSetModes_Statistics() {
+    public void testGetOptions_Statistics() {
         RunBenchmarkModel model = new RunBenchmarkModel();
         model.statisticsCheckedProperty().setValue(Boolean.TRUE);
         
@@ -142,11 +143,12 @@ public class AlgorithmExecServiceTest {
         };
         
         AlgorithmExecService service = new AlgorithmExecService(model);
-        service.setModes(alg);
+        AlgorithmOptions options = service.getOptions();
         
-        assertNull(alg.getOptions().getOption(Mode.HISTORY.toString()));
-        assertNull(alg.getOptions().getOption(Mode.PERFORMANCE.toString()));
-        assertTrue(alg.getOptions().getOption(Mode.STATISTICS.toString()));
+        assertNotNull(options);
+        assertNull(options.getOption(Mode.HISTORY.toString()));
+        assertNull(options.getOption(Mode.PERFORMANCE.toString()));
+        assertTrue(options.getOption(Mode.STATISTICS.toString()));
     }
 
     /**

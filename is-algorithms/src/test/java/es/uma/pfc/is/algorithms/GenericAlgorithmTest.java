@@ -15,6 +15,8 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import org.junit.Test;
 import static org.junit.Assert.*;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 /**
  *
@@ -25,94 +27,9 @@ public class GenericAlgorithmTest {
     public GenericAlgorithmTest() {
     }
 
-    /**
-     * Test of execute method, of class GenericAlgorithm.
-     */
-    @Test
-    public void testExecute_AlgorithmOptions() {
-    }
-
-    /**
-     * Test of execute method, of class GenericAlgorithm.
-     */
-    @Test
-    public void testExecute_AlgorithmOptions_OutputStream() {
-    }
-
-    /**
-     * Test of execute method, of class GenericAlgorithm.
-     */
-    @Test
-    public void testExecute() {
-    }
-
-    /**
-     * Test of input method, of class GenericAlgorithm.
-     */
-    @Test
-    public void testInput_String() throws IOException {
-        GenericAlgorithm alg = new GenericAlgorithmImpl();
-        String input = Files.createTempFile("temp", null).toString();
-        alg = alg.input(input);
-        
-        assertNotNull(alg);
-        assertEquals(input, alg.getInput());
-    }
-
-    /**
-     * Test of input method, of class GenericAlgorithm.
-     */
-    @Test(expected = InvalidPathException.class)
-    public void testBadInput_String() {
-        GenericAlgorithm alg = new GenericAlgorithmImpl();
-        String input = "aa";
-        alg.input(input);
-        fail("Se esperaba InvalidPathException.");
-    }
-
-    /**
-     * Test of input method, of class GenericAlgorithm.
-     */
-    @Test
-    public void testInput_InputStream() {
-    }
-
- 
-    /**
-     * Test of traceOutput method, of class GenericAlgorithm.
-     */
-    @Test
-    public void testOutput_OutputStream() throws IOException {
-        GenericAlgorithm alg = new GenericAlgorithmImpl();
-        Path path = Files.createTempFile("temp", null);
-        OutputStream output = new FileOutputStream(path.toString());
-        
-        alg = alg.traceOutput(Mode.HISTORY, output);
-        
-        assertNotNull(alg);
-        assertTrue(alg.getOutputs() != null && !alg.getOutputs().isEmpty());
-        assertNotNull(alg.getOutputs().get(Mode.HISTORY).get(0));
-    }
-
-     @Test
-    public void testOption() {
-        GenericAlgorithm alg = new GenericAlgorithmImpl();
-        alg = alg.option("config", 1);
-        
-        assertEquals(new Integer(1), alg.getOptions().<Integer>getOption("config"));
-    }
-    @Test
-    public void testEnable() {
-        GenericAlgorithm alg = new GenericAlgorithmImpl();
-        alg.enable(AlgorithmOptions.Mode.HISTORY);
-        assertTrue(alg.getOptions().getOption(AlgorithmOptions.Mode.HISTORY.toString()));
-    }
-    @Test
-    public void testDisable() {
-        GenericAlgorithm alg = new GenericAlgorithmImpl();
-        alg.disable(AlgorithmOptions.Mode.HISTORY);
-        assertFalse(alg.getOptions().getOption(AlgorithmOptions.Mode.HISTORY.toString()));
-    }
+     
+    
+    
     
     /**
      * Test of execute method, of class GenericAlgorithm.
@@ -131,21 +48,22 @@ public class GenericAlgorithmTest {
             public String getName() {
                 return "GenericAlgImpl";
             }
-    }
 
+        @Override
+        public String getShortName() {
+            return "do";
+        }
+            
+                
+    }
     
-    /**
-     * Test of getDefaultOutputFileName method, of class GenericAlgorithm.
-     */
+    
     @Test
     public void testDefaultOutputPath() {
-        GenericAlgorithm alg = new GenericAlgorithmImpl();
-        alg.setShortName("do");
+        Algorithm alg = new GenericAlgorithmImpl();
         String defaultOutput = alg.getDefaultOutputFileName();
-        
         assertEquals("do_output.txt", defaultOutput);
     }
 
-
-    
+  
 }

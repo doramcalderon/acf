@@ -76,7 +76,7 @@ public class Benchmark {
         this.name = name;
         this.workspace = workspace;
 
-        this.algorithms = setAlgorithmsOutput(algorithms);
+//        this.algorithms = setAlgorithmsOutput(algorithms);
         algorithmsEntities = new ArrayList<>();
         for (Algorithm alg : algorithms) {
             algorithmsEntities.add(new AlgorithmEntity(alg));
@@ -101,21 +101,21 @@ public class Benchmark {
         this.name = name;
         this.algorithmsEntities = algorithms;
     }
-
-    /**
-     * Sets the algorithms output to the default output file in the benchmark output dir.
-     *
-     * @param algorithms Algorithms.
-     * @return List of algorithms.
-     */
-    protected final List<Algorithm> setAlgorithmsOutput(List<Algorithm> algorithms) {
-        if (algorithms != null) {
-            algorithms.forEach((alg) -> {
-                alg.output(Paths.get(getOutputDir(), alg.getDefaultOutputFileName()).toString());
-            });
-        }
-        return algorithms;
-    }
+//
+//    /**
+//     * Sets the algorithms output to the default output file in the benchmark output dir.
+//     *
+//     * @param algorithms Algorithms.
+//     * @return List of algorithms.
+//     */
+//    protected final List<Algorithm> setAlgorithmsOutput(List<Algorithm> algorithms) {
+//        if (algorithms != null) {
+//            algorithms.forEach((alg) -> {
+//                alg.output(Paths.get(getOutputDir(), alg.getDefaultOutputFileName()).toString());
+//            });
+//        }
+//        return algorithms;
+//    }
 
     /**
      * Input implicational system file path.
@@ -175,7 +175,7 @@ public class Benchmark {
      */
     public void setWorkspace(String workspace) {
         this.workspace = workspace;
-        setAlgorithmsOutput(algorithms);
+//        setAlgorithmsOutput(algorithms);
     }
 
     /**

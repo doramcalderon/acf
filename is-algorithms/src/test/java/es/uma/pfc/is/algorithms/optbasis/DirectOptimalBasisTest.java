@@ -66,7 +66,7 @@ public class DirectOptimalBasisTest {
     public void testOptimize_ImplicationalSystem() throws IOException {
         ImplicationalSystem system = getSystemFromFile("test_1_strong_smplified.txt");
         ImplicationalSystem systemExpected = getSystemFromFile("test_1_optimized.txt");
-        DirectOptimalBasis alg = (DirectOptimalBasis) new DirectOptimalBasis().enable(Mode.HISTORY);
+        DirectOptimalBasis alg = (DirectOptimalBasis) new DirectOptimalBasis();
         
         ImplicationalSystem optimizedSystem = alg.optimize(system);
         

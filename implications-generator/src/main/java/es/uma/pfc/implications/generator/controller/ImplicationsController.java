@@ -135,6 +135,15 @@ public class ImplicationsController implements Initializable {
      */
     protected void initBinding() {
         txtOutput.textProperty().bindBidirectional(model.outputProperty());
+        BooleanBinding systemCreatedBinding = new BooleanBinding() {
+            {super.bind(model.systemCreatedProperty(), txtOutput.textProperty());}
+
+            @Override
+            protected boolean computeValue() {
+                return !model.isSystemCreated() || StringUtils.isEmpty(txtOutput.getText());
+            }
+        };
+        btnSave.disableProperty().bind(systemCreatedBinding);
     }
     protected void initView() {
         this.cbNodeType.getItems().addAll(AttributeType.NUMBER, AttributeType.LETTER, AttributeType.INDEXED_LETTER);
@@ -176,20 +185,7 @@ public class ImplicationsController implements Initializable {
                 ObservableValue<? extends String> observable, String oldValue, String newValue) -> {
                     handleConclusionSizeChange();
                 });
-        model.systemCreatedProperty().addListener(new ChangeListener<Boolean>() {
-
-            @Override
-            public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
-                btnSave.setDisable(!newValue || StringUtils.isEmpty(txtOutput.getText()));
-            }
-        });
-        txtOutput.textProperty().addListener(new ChangeListener<String>(){
-
-            @Override
-            public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
-                btnSave.setDisable(!model.isSystemCreated() || StringUtils.isEmpty(newValue));
-            }
-        });
+        
     }
 
     protected void initValidation() {
@@ -274,7 +270,7 @@ public class ImplicationsController implements Initializable {
         if (systems != null && !systems.isEmpty()) {
             if (systems.size() == 1) {
                 showText(systems.get(0));
-                model.systemCreatedProperty().set(true);
+                model.systemCreatedProperty().setValue(true);
             } else {
                 save();
                 clean(null);

@@ -3,6 +3,7 @@ package es.uma.pfc.is.bench.services;
 import es.uma.pfc.is.algorithms.Algorithm;
 import es.uma.pfc.is.algorithms.AlgorithmExecutor;
 import es.uma.pfc.is.algorithms.AlgorithmOptions;
+import es.uma.pfc.is.algorithms.AlgorithmOptions.Options;
 import es.uma.pfc.is.bench.benchmarks.execution.RunBenchmarkModel;
 import es.uma.pfc.is.bench.domain.AlgorithmEntity;
 import es.uma.pfc.is.commons.eventbus.Eventbus;
@@ -10,8 +11,6 @@ import es.uma.pfc.is.bench.events.MessageEvent;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javafx.concurrent.Service;
 import javafx.concurrent.Task;
 import javafx.concurrent.WorkerStateEvent;
@@ -28,6 +27,7 @@ public class AlgorithmExecService extends Service {
      */
     private List<Algorithm> algs;
     private RunBenchmarkModel model;
+    
 
     public AlgorithmExecService(List<Algorithm> algs) {
         this.algs = algs;
@@ -58,12 +58,10 @@ public class AlgorithmExecService extends Service {
     //TODO junit
     protected Algorithm instanceAlgorithm(AlgorithmEntity entity) {
         try {
+            
             Algorithm alg = entity.getType().newInstance();
             alg.setName(entity.getName());
             alg.setShortName(entity.getShortName());
-            alg.input(model.getInput());
-            setOutput(alg);
-            setModes(alg);
             return alg;
 
         } catch (InstantiationException | IllegalAccessException ex) {
@@ -73,29 +71,35 @@ public class AlgorithmExecService extends Service {
     /**
      * Sets the output of an algorithm.
      * @param alg Algorithm.
+     * @return Output path.
      */
-    protected void setOutput(Algorithm alg) {
+    protected String getOutput(Algorithm alg) {
+        String output;
         if (model.getSelectedAlgorithm() != null) {
-            alg.output(model.getOutput());
+            output = model.getOutput();
         } else {
-            alg.output(Paths.get(model.getOutput(), alg.getDefaultOutputFileName()).toString());
+            output = Paths.get(model.getOutput(), alg.getDefaultOutputFileName()).toString();
         }
+        return output;
     }
 
     /**
      * Sets the active modes in the model to the algorithm.
      * @param alg Algorithm.
      */
-    protected void setModes(Algorithm alg) {
+    protected AlgorithmOptions getOptions() {
+        AlgorithmOptions options = new AlgorithmOptions();
+        
         if (model.isHistoryChecked()) {
-            alg.enable(AlgorithmOptions.Mode.HISTORY);
+            options.enable(AlgorithmOptions.Mode.HISTORY);
         }
         if (model.isTimeChecked()) {
-            alg.enable(AlgorithmOptions.Mode.PERFORMANCE);
+            options.enable(AlgorithmOptions.Mode.PERFORMANCE);
         }
         if (model.isStatisticsChecked()) {
-            alg.enable(AlgorithmOptions.Mode.STATISTICS);
+            options.enable(AlgorithmOptions.Mode.STATISTICS);
         }
+        return options;
     }
 
     @Override
@@ -107,8 +111,11 @@ public class AlgorithmExecService extends Service {
             protected Object call() throws Exception {
                 instanceAlgorithms();
                 if (algs != null) {
-                    AlgorithmExecutor executor = new AlgorithmExecutor();
-                    algs.forEach(alg -> executor.execute(alg));
+                    AlgorithmExecutor exec = new AlgorithmExecutor().input(model.getInput()).options(getOptions());
+                    algs.stream().filter((alg) -> (alg != null)).forEach((alg) -> {
+                        exec.output(getOutput(alg)).execute(alg);
+                    });
+                    
                 }
                 return null;
             }
@@ -129,7 +136,7 @@ public class AlgorithmExecService extends Service {
 
     @Override
     protected void failed() {
-        Eventbus.post(new MessageEvent("The execution has failed.", MessageEvent.Level.ERROR));
+        Eventbus.post(new MessageEvent("The execution has failed: " + getException().getMessage(), MessageEvent.Level.ERROR));
     }
 
     @Override
