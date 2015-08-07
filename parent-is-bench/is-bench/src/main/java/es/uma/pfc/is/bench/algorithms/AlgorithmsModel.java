@@ -2,11 +2,14 @@
 
 package es.uma.pfc.is.bench.algorithms;
 
+import es.uma.pfc.is.algorithms.Algorithm;
 import es.uma.pfc.is.commons.strings.StringUtils;
+import java.util.List;
+import javafx.beans.property.ListProperty;
+import javafx.beans.property.SimpleListProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
-import javafx.beans.property.StringPropertyBase;
-import javax.xml.bind.annotation.XmlRootElement;
+import javafx.collections.FXCollections;
 
 /**
  * Model form Algorithms view.
@@ -25,11 +28,18 @@ public class AlgorithmsModel {
      * Full qualified name of algorithm implementation.
      */
     private StringProperty className;
+    
+    /**
+     * Algorithms list.
+     */
+    private ListProperty<Class<? extends Algorithm>> algorithmsProperty;
+    
 
     public AlgorithmsModel() {
         this.name = new SimpleStringProperty();    
         this.shortName = new SimpleStringProperty();
         this.className = new SimpleStringProperty();
+        this.algorithmsProperty = new SimpleListProperty<>();
     }
     
     
@@ -126,6 +136,22 @@ public class AlgorithmsModel {
             value = property.get();
         }
         return value;
+    }
+    
+    /**
+     * Algorithms list.
+     * @return the algorithms
+     */
+    public ListProperty<Class<? extends Algorithm>> algorithmsProperty() {
+        return algorithmsProperty;
+    }
+
+    /**
+     * Algorithms list.
+     * @param algorithms the algorithms to set
+     */
+    public void setAlgorithms(List<Class<? extends Algorithm>> algorithms) {
+        algorithmsProperty.set(FXCollections.observableList(algorithms));
     }
     
     

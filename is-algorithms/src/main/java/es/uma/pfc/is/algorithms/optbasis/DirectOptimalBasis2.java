@@ -2,6 +2,7 @@ package es.uma.pfc.is.algorithms.optbasis;
 
 import es.uma.pfc.is.algorithms.AlgMessages;
 import es.uma.pfc.is.algorithms.GenericAlgorithm;
+import es.uma.pfc.is.algorithms.annotations.Algorithm;
 import es.uma.pfc.is.algorithms.util.ImplicationalSystems;
 import es.uma.pfc.is.algorithms.util.Sets;
 import fr.kbertet.lattice.ImplicationalSystem;
@@ -12,6 +13,7 @@ import java.util.TreeSet;
  *
  * @since @author Dora Calderón
  */
+@Algorithm
 public class DirectOptimalBasis2 extends GenericAlgorithm {
 
     public DirectOptimalBasis2() {

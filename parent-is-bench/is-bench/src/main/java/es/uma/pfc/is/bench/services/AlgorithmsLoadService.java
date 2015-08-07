@@ -1,6 +1,4 @@
-
 package es.uma.pfc.is.bench.services;
-
 
 import es.uma.pfc.is.bench.business.AlgorithmsBean;
 import es.uma.pfc.is.bench.config.UserConfig;
@@ -26,7 +24,7 @@ public class AlgorithmsLoadService extends Service<Set<AlgorithmEntity>>{
     public AlgorithmsLoadService() {
         algorithmsBean = new AlgorithmsBean(UserConfig.get().getDefaultWorkspace());
     }
-    
+
     
 
     @Override
@@ -36,20 +34,8 @@ public class AlgorithmsLoadService extends Service<Set<AlgorithmEntity>>{
             @Override
             protected Set<AlgorithmEntity> call() throws Exception {
                 return algorithmsBean.getAlgorithms();
-//                if(algsEntities != null) {
-//                        for(AlgorithmEntity entity : algsEntities) {
-//                            if(entity != null) {
-//                                Algorithm alg = entity.getType().newInstance();
-//                                alg.setName(entity.getName());
-//                                alg.setShortName(entity.getShortName());
-//                                algorithms.add(alg);
-//                                
-//                            }
-//                        }
-//                }
-//                return algorithms;
             }
-            
+
         };
     }
 
