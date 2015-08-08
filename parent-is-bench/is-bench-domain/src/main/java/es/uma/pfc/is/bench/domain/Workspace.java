@@ -125,4 +125,15 @@ public class Workspace {
         }
     }
 
+    public void removeAlgorithms(String ... algNames) {
+        if(algNames != null) {
+            Set<AlgorithmEntity> auxAlgs = new HashSet<>(algorithms);
+            for(String name : algNames) {
+                algorithms.stream().filter((alg) -> (alg.getName().equals(name))).forEach((alg) -> {
+                    auxAlgs.remove(alg);
+                });
+            }
+            this.algorithms = auxAlgs;
+        }
+    }
 }

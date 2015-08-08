@@ -8,8 +8,8 @@ import es.uma.pfc.is.commons.files.FileUtils;
 import java.io.IOException;
 import java.nio.file.Paths;
 import java.util.Arrays;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.List;
+import java.util.stream.Collectors;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -69,7 +69,8 @@ public class WorkspaceBean {
     }
 
     /**
-     * Update a workspace adding new algorithms.
+     * Update a workspace adding new algorithms.<br/>
+     * If any algorithms exists in the workspace, this is overrided.
      * @param path Workspace path.
      * @param algorithms Algorithms to add.
      */
@@ -81,6 +82,12 @@ public class WorkspaceBean {
         if(ws == null) {
             throw new RuntimeException("Thew workspace not exits in " + path);
         }    
+        
+        String [] names = Arrays.asList(algorithms).stream()
+                                            .map((AlgorithmEntity t) -> {return (t != null) ? t.getName() : null;})
+                                            .collect(Collectors.toList())
+                                            .toArray(new String[]{});
+        ws.removeAlgorithms(names);
         ws.addAlgorithms(algorithms);
         WorkspacePersistence.update(ws);
     }

@@ -14,8 +14,10 @@ import java.util.List;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
+import javafx.collections.FXCollections;
 import javafx.concurrent.WorkerStateEvent;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
@@ -115,7 +117,8 @@ public class AlgorithmsController extends Controller {
 
             @Override
             public void handle(Event event) {
-                if (model.algorithmsProperty().isEmpty()) {
+                if (model.algorithmsProperty().isNull().get()) {
+                    algorithmsCombo.disarm();
                     loadAlgorithmsClasses();
                 } else {
                     algorithmsCombo.removeEventHandler(EventType.ROOT, this);
@@ -138,9 +141,12 @@ public class AlgorithmsController extends Controller {
     private void loadAlgorithmsClasses() {
         AlgorithmsClassLoadService loadService = new AlgorithmsClassLoadService();
         loadService.setOnSucceeded((WorkerStateEvent ev) -> {
+            algorithmsCombo.hide();
             model.setAlgorithms((List<String>) ev.getSource().getValue());
+            algorithmsCombo.show();
+            //algorithmsCombo.setItems(FXCollections.observableArrayList(model.algorithmsProperty()));
         });
-        algorithmsCombo.disableProperty().bind(loadService.runningProperty());
+        loadingIndicator.getParent().visibleProperty().bind(loadService.runningProperty());
         loadingIndicator.visibleProperty().bind(loadService.runningProperty());
         loadService.restart();
     }

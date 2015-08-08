@@ -8,6 +8,8 @@ package es.uma.pfc.is.bench.domain;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.HashSet;
+import java.util.Set;
 import javax.xml.bind.JAXB;
 import javax.xml.bind.JAXBException;
 import org.junit.Test;
@@ -82,6 +84,87 @@ public class WorkspaceTest {
         } finally {
             Files.deleteIfExists(Paths.get(path, "workspace.xml"));
         }
+    }
+
+    /**
+     * Test of getPath method, of class Workspace.
+     */
+    @Test
+    public void testGetPath() {
+    }
+
+    /**
+     * Test of setPath method, of class Workspace.
+     */
+    @Test
+    public void testSetPath() {
+    }
+
+    /**
+     * Test of getAlgorithms method, of class Workspace.
+     */
+    @Test
+    public void testGetAlgorithms() {
+    }
+
+    /**
+     * Test of setAlgorithms method, of class Workspace.
+     */
+    @Test
+    public void testSetAlgorithms() {
+    }
+
+    /**
+     * Test of addAlgorithms method, of class Workspace.
+     */
+    @Test
+    public void testAddAlgorithms() {
+    }
+
+    /**
+     * Test of addAllAlgorithms method, of class Workspace.
+     */
+    @Test
+    public void testAddAllAlgorithms() {
+    }
+
+    /**
+     * Test of removeAlgorithms method, of class Workspace.
+     */
+    @Test
+    public void testRemoveAlgorithms() {
+        AlgorithmEntity alg1 = new AlgorithmEntity();
+        alg1.setName("Alg1");
+        AlgorithmEntity alg2 = new AlgorithmEntity();
+        alg2.setName("Alg2");
+        
+        Set<AlgorithmEntity> algs = new HashSet<>();
+        algs.add(alg1);
+        algs.add(alg2);
+        
+        Workspace ws = new Workspace();
+        ws.setAlgorithms(algs);
+        ws.removeAlgorithms("Alg1");
+        
+        assertEquals(1, ws.getAlgorithms().size());
+        assertTrue(ws.getAlgorithms().contains(alg2));
+    }
+    @Test
+    public void testRemoveAllAlgorithms() {
+        AlgorithmEntity alg1 = new AlgorithmEntity();
+        alg1.setName("Alg1");
+        AlgorithmEntity alg2 = new AlgorithmEntity();
+        alg2.setName("Alg2");
+        
+        Set<AlgorithmEntity> algs = new HashSet<>();
+        algs.add(alg1);
+        algs.add(alg2);
+        
+        Workspace ws = new Workspace();
+        ws.setAlgorithms(algs);
+        ws.removeAlgorithms("Alg1", "Alg2");
+        
+        assertEquals(0, ws.getAlgorithms().size());
     }
     
 }
