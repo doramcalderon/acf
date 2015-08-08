@@ -1,6 +1,5 @@
 package es.uma.pfc.is.bench.algorithms;
 
-import es.uma.pfc.is.algorithms.Algorithm;
 import es.uma.pfc.is.bench.Controller;
 import es.uma.pfc.is.bench.business.AlgorithmsBean;
 import es.uma.pfc.is.bench.config.UserConfig;
@@ -15,16 +14,20 @@ import java.util.List;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.concurrent.WorkerStateEvent;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
+import javafx.event.EventHandler;
+import javafx.event.EventType;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
-import javafx.scene.control.ListView;
+import javafx.scene.control.ProgressIndicator;
 import javafx.scene.control.TextField;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 
@@ -42,12 +45,12 @@ public class AlgorithmsController extends Controller {
     @FXML
     private TextField txtAlgShortName;
     @FXML
-    private TextField txtAlgClass;
+    private ComboBox<String> algorithmsCombo;
+    @FXML
+    private ProgressIndicator loadingIndicator;
     @FXML
     private Label lbErrorMessages;
-    @FXML
-    private ListView algorithmsList;
-
+    
     private AlgorithmsModel model;
     /**
      * Algorithms business logic.
@@ -66,15 +69,16 @@ public class AlgorithmsController extends Controller {
             super.initialize(url, rb);
             initView();
             initModel();
-//            initBindings();
-            
+            initBindings();
+            initListeners();
+
             algorithmsBean = new AlgorithmsBean(UserConfig.get().getDefaultWorkspace());
         } catch (IOException ex) {
             Logger.getLogger(AlgorithmsController.class.getName()).log(Level.SEVERE, null, ex);
         }
 
     }
-
+    
 
     /**
      * Initialize the model.
@@ -82,13 +86,6 @@ public class AlgorithmsController extends Controller {
     @Override
     protected void initModel() {
         model = new AlgorithmsModel();
-        AlgorithmsClassLoadService loadService = new AlgorithmsClassLoadService();
-        loadService.setOnSucceeded((WorkerStateEvent event) -> {
-            model.setAlgorithms((List<Class<? extends Algorithm>>) event.getSource().getValue());
-            initBindings();
-        });
-        
-        loadService.restart();
     }
 
     /**
@@ -97,20 +94,55 @@ public class AlgorithmsController extends Controller {
     protected void initBindings() {
         txtAlgName.textProperty().bindBidirectional(model.getNameProperty());
         txtAlgShortName.textProperty().bindBidirectional(model.getShortNameProperty());
-        model.getClassNameProperty().bind(algorithmsList.getSelectionModel().selectedItemProperty().asString());
-        txtAlgClass.textProperty().bind(model.getClassNameProperty());
-        algorithmsList.itemsProperty().bind(model.algorithmsProperty());
-        
+        algorithmsCombo.itemsProperty().bind(model.algorithmsProperty());
+        model.getClassNameProperty().bind( algorithmsCombo.getEditor().textProperty());
+
         EmptyStringValidator emptyStringValidator = new EmptyStringValidator();
 
         getValidationSupport().registerValidator(txtAlgName, emptyStringValidator);
         getValidationSupport().registerValidator(txtAlgShortName, emptyStringValidator);
-        getValidationSupport().registerValidator(txtAlgClass, new ClassNameValidator());
+        getValidationSupport().registerValidator(algorithmsCombo.getEditor(), new ClassNameValidator());
+    }
+
+    /**
+     * @see Controller#initListeners() 
+     * Initializes a text change listener for the algorithms combo.<br/>
+     * This listener only executes once time.
+     */
+    @Override
+    protected void initListeners() {
+        EventHandler<Event> listener = new EventHandler<Event>() {
+
+            @Override
+            public void handle(Event event) {
+                if (model.algorithmsProperty().isEmpty()) {
+                    loadAlgorithmsClasses();
+                } else {
+                    algorithmsCombo.removeEventHandler(EventType.ROOT, this);
+                }
+
+            }
+
+        };
+        algorithmsCombo.setOnShowing(listener);
     }
 
     @Override
     public Pane getRootPane() {
         return gridPane;
+    }
+
+    /**
+     * Searchs the algorithms implementations in the classpath, and loads it into the model.
+     */
+    private void loadAlgorithmsClasses() {
+        AlgorithmsClassLoadService loadService = new AlgorithmsClassLoadService();
+        loadService.setOnSucceeded((WorkerStateEvent ev) -> {
+            model.setAlgorithms((List<String>) ev.getSource().getValue());
+        });
+        algorithmsCombo.disableProperty().bind(loadService.runningProperty());
+        loadingIndicator.visibleProperty().bind(loadService.runningProperty());
+        loadService.restart();
     }
 
     /**
@@ -128,11 +160,11 @@ public class AlgorithmsController extends Controller {
         } else {
             boolean existsName = algorithmsBean.existsName(model.getName());
             boolean existsShortName = algorithmsBean.existsShortName(model.getShortName());
-            
+
             if (existsName || existsShortName) {
-                String attribute = (existsName) ? getI18nMessage(BenchMessages.ALGORITHM_NAME) 
-                                                :  getI18nMessage(BenchMessages.ALGORITHM_SHORT_NAME);
-                
+                String attribute = (existsName) ? getI18nMessage(BenchMessages.ALGORITHM_NAME)
+                        : getI18nMessage(BenchMessages.ALGORITHM_SHORT_NAME);
+
                 Alert a = new Alert(Alert.AlertType.CONFIRMATION, getI18nMessage(BenchMessages.ALGORITHM_EXISTS, attribute));
                 valid = a.showAndWait().filter(response -> response.equals(ButtonType.OK)).isPresent();
 
@@ -160,12 +192,13 @@ public class AlgorithmsController extends Controller {
     public void handleSaveAction(ActionEvent action) {
         save();
     }
-    
 
     protected void save() {
         if (validate()) {
             AlgorithmsSaveService saveService = new AlgorithmsSaveService(model);
-            saveService.setOnSucceeded((Event event) -> {close();});
+            saveService.setOnSucceeded((Event event) -> {
+                close();
+            });
             saveService.restart();
         }
     }

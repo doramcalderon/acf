@@ -7,6 +7,7 @@
 package es.uma.pfc.is.commons.reflection;
 
 import java.lang.reflect.Field;
+import java.lang.reflect.Modifier;
 
 /**
  *
@@ -75,4 +76,13 @@ public class ReflectionUtil {
 		}
 	}
 
+        /**
+         * Returns {@code true} if the class is an implementation, that is, the class it is not an interface, and it is not
+         * an abstract class.
+         * @param clazz Type.
+         * @return {@code ture}  if the class is an implementation, {@code false} otherwise.
+         */
+        public static boolean isImplementation(Class clazz) {
+            return !(Modifier.isAbstract(clazz.getModifiers()) || Modifier.isInterface(clazz.getModifiers()));
+        }
 }

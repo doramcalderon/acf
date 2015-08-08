@@ -32,7 +32,7 @@ public class AlgorithmsModel {
     /**
      * Algorithms list.
      */
-    private ListProperty<Class<? extends Algorithm>> algorithmsProperty;
+    private ListProperty<String> algorithmsProperty;
     
 
     public AlgorithmsModel() {
@@ -142,7 +142,7 @@ public class AlgorithmsModel {
      * Algorithms list.
      * @return the algorithms
      */
-    public ListProperty<Class<? extends Algorithm>> algorithmsProperty() {
+    public ListProperty<String> algorithmsProperty() {
         return algorithmsProperty;
     }
 
@@ -150,7 +150,7 @@ public class AlgorithmsModel {
      * Algorithms list.
      * @param algorithms the algorithms to set
      */
-    public void setAlgorithms(List<Class<? extends Algorithm>> algorithms) {
+    public void setAlgorithms(List<String> algorithms) {
         algorithmsProperty.set(FXCollections.observableList(algorithms));
     }
     
