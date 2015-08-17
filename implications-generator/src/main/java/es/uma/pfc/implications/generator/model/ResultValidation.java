@@ -1,6 +1,7 @@
 
 package es.uma.pfc.implications.generator.model;
 
+import es.uma.pfc.implications.generator.i18n.GeneratorMessages;
 import es.uma.pfc.implications.generator.i18n.I18n;
 
 /**
@@ -21,20 +22,20 @@ public enum ResultValidation {
 
     @Override
     public String toString() {
-        String message = null;
+        String message;
         
         switch (this) {
             case ZERO_NODES:
-                message = I18n.INVALID_ATTRIBUTES_NUM;
+                message = GeneratorMessages.get().getMessage(I18n.INVALID_ATTRIBUTES_NUM);
                 break;
             case INVALID_IMPLICATIONS_NUM:
-                message = I18n.INVALID_IMPLICATIONS_NUM;
+                message =  GeneratorMessages.get().getMessage(I18n.INVALID_IMPLICATIONS_NUM);
                 break;
             case INVALID_PREMISE_LENGTH:
-                message = I18n.INVALID_PREMISE_LENGTH;
+                message =  GeneratorMessages.get().getMessage(I18n.INVALID_PREMISE_LENGTH);
                 break;
             case INVALID_CONCLUSION_LENGTH:
-                message = I18n.INVALID_CONCLUSION_LENGTH;
+                message =  GeneratorMessages.get().getMessage(I18n.INVALID_CONCLUSION_LENGTH);
                 break;
             default:
                 message = super.toString();

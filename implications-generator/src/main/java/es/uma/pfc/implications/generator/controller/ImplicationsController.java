@@ -3,6 +3,8 @@ package es.uma.pfc.implications.generator.controller;
 import com.google.common.base.Strings;
 import es.uma.pfc.implications.generator.ImplicationsFactory;
 import es.uma.pfc.implications.generator.events.SystemSaved;
+import es.uma.pfc.implications.generator.i18n.GeneratorMessages;
+import es.uma.pfc.implications.generator.i18n.I18n;
 import es.uma.pfc.implications.generator.io.GeneratorImplicationalSystemIO;
 import es.uma.pfc.implications.generator.model.ImplicationsModel;
 import es.uma.pfc.implications.generator.model.AttributeType;
@@ -20,12 +22,7 @@ import java.util.List;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javafx.application.Platform;
 import javafx.beans.binding.BooleanBinding;
-import javafx.beans.property.BooleanProperty;
-import javafx.beans.property.BooleanPropertyBase;
-import javafx.beans.property.SimpleBooleanProperty;
-import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.concurrent.Task;
 import javafx.concurrent.WorkerStateEvent;
@@ -33,13 +30,14 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Cursor;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.ProgressIndicator;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TextFormatter;
-import javafx.scene.control.TreeItem;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.FileChooser;
 import javafx.stage.FileChooser.ExtensionFilter;
@@ -70,6 +68,8 @@ public class ImplicationsController implements Initializable {
     private TextField txtMaxLongConclusion;
     @FXML
     private Button btnSave;
+    @FXML
+    private Button btnGenerate;
     @FXML
     private ComboBox cbNodeType;
     @FXML
@@ -135,6 +135,19 @@ public class ImplicationsController implements Initializable {
      * Inititalizes bindings.
      */
     protected void initBinding() {
+        
+        BooleanBinding nSystemsBinding = new BooleanBinding() {
+            {super.bind(txtSystemsNumber.textProperty(), txtOutput.textProperty());}
+            
+            @Override
+            protected boolean computeValue() {
+                final int systemNumbers = (StringUtils.isNumeric(txtSystemsNumber.getText())) ? 
+                                    Integer.valueOf(txtSystemsNumber.getText()) : 0;
+                return (systemNumbers > 1) && StringUtils.isEmpty(txtOutput.getText());
+            }
+            
+        };
+        btnGenerate.disableProperty().bind(nSystemsBinding);
         txtOutput.textProperty().bindBidirectional(model.outputProperty());
         BooleanBinding systemCreatedBinding = new BooleanBinding() {
             {super.bind(model.systemCreatedProperty(), txtOutput.textProperty());}
@@ -276,7 +289,6 @@ public class ImplicationsController implements Initializable {
                 model.systemCreatedProperty().setValue(true);
             } else {
                 save();
-                clean(null);
             }
         }
     }
@@ -323,6 +335,10 @@ public class ImplicationsController implements Initializable {
 
                 @Override
                 protected void succeeded() {
+                    String path = txtOutput.getText(0, txtOutput.getText().lastIndexOf(File.separator)).replace(File.separator, "\\\\");
+                    String message = GeneratorMessages.get().getMessage(I18n.SYSTEM_GENERATED,  txtSystemsNumber.getText(), path);
+                    new Alert(AlertType.INFORMATION, message).showAndWait();
+                    clean(null);
                     Eventbus.post(new SystemSaved(selectedFile));
                 }
 

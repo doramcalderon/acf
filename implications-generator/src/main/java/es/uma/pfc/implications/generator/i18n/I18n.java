@@ -10,5 +10,6 @@ public interface I18n {
     String INVALID_IMPLICATIONS_NUM = "implications.invalid.num";
     String INVALID_PREMISE_LENGTH = "premise.invalid.num";
     String INVALID_CONCLUSION_LENGTH = "conclusion.invalid.num";
+    String SYSTEM_GENERATED = "system.generated";
     
 }

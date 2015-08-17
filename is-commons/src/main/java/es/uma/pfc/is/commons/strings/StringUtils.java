@@ -21,6 +21,15 @@ public class StringUtils {
     }
     
     /**
+     * If a string is a numeric value.
+     * @param str String.
+     * @return {@code true} if a string is a numeric value, {@code false} otherwise.
+     */
+    public static boolean isNumeric(String str) {
+        return !(isEmpty(str)) && str.matches("^(0|[1-9][0-9]*)$");
+    }
+    
+    /**
      * Reemplaza los argumentos
      * @param message
      * @param token

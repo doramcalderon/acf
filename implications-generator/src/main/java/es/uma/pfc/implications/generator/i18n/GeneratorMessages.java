@@ -7,7 +7,7 @@ import java.util.ResourceBundle;
  *
  * @since @author Dora Calderón
  */
-public class GeneratorMessages extends Messages {
+public class GeneratorMessages extends Messages implements I18n {
 
     private static GeneratorMessages me;
 
