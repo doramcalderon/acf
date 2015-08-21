@@ -18,6 +18,7 @@ import es.uma.pfc.is.bench.services.StatisticsReaderService;
 import es.uma.pfc.is.bench.uitls.Animations;
 import es.uma.pfc.is.bench.uitls.Chooser;
 import es.uma.pfc.is.bench.validators.FilePathValidator;
+import es.uma.pfc.is.commons.strings.StringUtils;
 import es.uma.pfc.is.javafx.FilterableTreeItem;
 import es.uma.pfc.is.javafx.TreeItemPredicate;
 import java.io.File;
@@ -228,7 +229,8 @@ public class RunBenchmarkController extends Controller {
                 if (filterField.getText() == null || filterField.getText().isEmpty()) {
                     return null;
                 }
-                return TreeItemPredicate.create(benchmark -> benchmark.toString().contains(filterField.getText()));
+                return TreeItemPredicate.create(
+                        benchmark -> StringUtils.containsIgnoreCase(benchmark.toString(), filterField.getText()));
             }, filterField.textProperty()));
 
             benchmarksTree.setRoot(root);
@@ -352,8 +354,8 @@ public class RunBenchmarkController extends Controller {
         }
         
     }
-    protected void showHistory(String title, File file) {
-        readerService.setFile(file);
+    protected void showHistory(String title, File file) { 
+       readerService.setFile(file);
         historyProgressInd.visibleProperty().bind(readerService.runningProperty());
         txtHistoryArea.textProperty().bindBidirectional(readerService.contentFileProperty());
         readerService.restart();
@@ -475,9 +477,9 @@ public class RunBenchmarkController extends Controller {
                 
                 if (isBenchmark) {
                     selectedBenchmark = (Benchmark) newItem.getValue();
+                    txtInput.setText(selectedBenchmark.getInput());
                     model.setSelectedBenchmark(selectedBenchmark);
                     model.setSelectedAlgorithm(null);
-                    txtInput.setText(selectedBenchmark.getInput());
                     txtOutput.setText(model.getDefaultOutput(null));
                     
                 } else {
@@ -485,7 +487,7 @@ public class RunBenchmarkController extends Controller {
                     AlgorithmEntity alg = (AlgorithmEntity) newItem.getValue();
                     model.setSelectedBenchmark(selectedBenchmark);
                     model.setSelectedAlgorithm(alg);
-                    txtInput.clear();
+                    txtInput.setText(selectedBenchmark.getInput());
                     txtOutput.setText(model.getDefaultOutput(alg));
                     
                 }
