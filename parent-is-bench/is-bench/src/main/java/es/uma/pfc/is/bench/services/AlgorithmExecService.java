@@ -136,6 +136,7 @@ public class AlgorithmExecService extends Service {
 
     @Override
     protected void failed() {
+        getException().printStackTrace();
         Eventbus.post(new MessageEvent("The execution has failed: " + getException().getMessage(), MessageEvent.Level.ERROR));
     }
 

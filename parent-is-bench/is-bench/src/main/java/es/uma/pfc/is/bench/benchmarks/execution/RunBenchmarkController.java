@@ -170,6 +170,12 @@ public class RunBenchmarkController extends Controller {
         btnSelectOutput.disableProperty().bind(isBenchmark);
         txtInput.disableProperty().bind(isBenchmark);
         btnSelectInput.disableProperty().bind(isBenchmark);
+        initModelBinding();
+    }
+    /**
+     * Initialize the bindings with the model.
+     */
+    protected void initModelBinding() {
         model.inputProperty().bind(txtInput.textProperty());
         model.outputProperty().bind(txtOutput.textProperty());
         model.timeCheckedProperty().bind(chkTime.selectedProperty());
@@ -210,7 +216,8 @@ public class RunBenchmarkController extends Controller {
                 FilterableTreeItem benchItem = new FilterableTreeItem(bench);
                 if (bench.getAlgorithmsEntities() != null) {
                     final List<TreeItem> algItems = new ArrayList();
-                    bench.getAlgorithmsEntities().stream().forEach(algorithm -> algItems.add(new TreeItem(algorithm)));
+                    bench.getAlgorithmsEntities().stream().forEach(algorithm -> 
+                            algItems.add(new TreeItem(algorithm)));
                     benchItem.getInternalChildren().addAll(algItems);
                 }
                 root.getInternalChildren().add(benchItem);
@@ -262,6 +269,7 @@ public class RunBenchmarkController extends Controller {
 
     protected void reload() {
         initModel();
+        initModelBinding();
     }
 
     @Override

@@ -20,8 +20,8 @@ import javax.xml.bind.annotation.XmlType;
  *
  * @since @author Dora Calderón
  */
-@XmlType(propOrder = {"name", "workspace", "input", "algorithmsEntities"})
-@XmlRootElement(name = "benchmark")
+@XmlType(propOrder={"name", "workspace", "input", "algorithmsEntities"})
+@XmlRootElement(name="benchmark")
 @XmlAccessorType(XmlAccessType.FIELD)
 public class Benchmark {
 
@@ -45,11 +45,6 @@ public class Benchmark {
     @XmlElement(name = "algorithm")
     private List<AlgorithmEntity> algorithmsEntities;
 
-    /**
-     * Algorithms.
-     */
-    @XmlTransient
-    private List<Algorithm> algorithms;
 
     /**
      * Constructor.
@@ -57,32 +52,7 @@ public class Benchmark {
     public Benchmark() {
     }
 
-    /**
-     * Constructor.
-     *
-     * @param workspace
-     * @param name Name.
-     * @param algorithms Algorithms.
-     * @throws IllegalArgumentException if name or algorithms list is empty.
-     */
-    @Deprecated
-    public Benchmark(String workspace, String name, List<Algorithm> algorithms) {
-        if (StringUtils.isEmpty(name)) {
-            throw new IllegalArgumentException("The name is required.");
-        }
-        if (algorithms == null || algorithms.isEmpty()) {
-            throw new IllegalArgumentException("The list algorithms is required.");
-        }
-        this.name = name;
-        this.workspace = workspace;
-
-//        this.algorithms = setAlgorithmsOutput(algorithms);
-        algorithmsEntities = new ArrayList<>();
-        for (Algorithm alg : algorithms) {
-            algorithmsEntities.add(new AlgorithmEntity(alg));
-        }
-
-    }
+    
 
     /**
      * Constructor.
@@ -101,21 +71,7 @@ public class Benchmark {
         this.name = name;
         this.algorithmsEntities = algorithms;
     }
-//
-//    /**
-//     * Sets the algorithms output to the default output file in the benchmark output dir.
-//     *
-//     * @param algorithms Algorithms.
-//     * @return List of algorithms.
-//     */
-//    protected final List<Algorithm> setAlgorithmsOutput(List<Algorithm> algorithms) {
-//        if (algorithms != null) {
-//            algorithms.forEach((alg) -> {
-//                alg.output(Paths.get(getOutputDir(), alg.getDefaultOutputFileName()).toString());
-//            });
-//        }
-//        return algorithms;
-//    }
+
 
     /**
      * Input implicational system file path.
@@ -148,16 +104,6 @@ public class Benchmark {
         return algorithmsEntities;
     }
 
-    /**
-     * Algorithms.
-     *
-     * @return the algorithms
-     */
-    @Deprecated
-    public List<Algorithm> getAlgorithms() {
-        return algorithms;
-    }
-
 
     /**
      * Workspace.
@@ -188,7 +134,7 @@ public class Benchmark {
             throw new RuntimeException("The workspace isn't established.");
         }
 
-        return Paths.get(workspace, "benchmarks", name).toString();
+        return Paths.get(workspace, name).toString();
     }
 
     /**

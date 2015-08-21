@@ -56,7 +56,7 @@
                         <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                     </FlowPane.margin>
                 </ToggleButton>
-                <ToggleButton fx:id="btnGenerator" minHeight="100.0" minWidth="200.0" mnemonicParsing="false" text="Generator">
+                <ToggleButton fx:id="btnGenerator" minHeight="100.0" minWidth="200.0" mnemonicParsing="false" text="Generator" visible="false" >
                     <font>
                         <Font size="18.0" />
                     </font>

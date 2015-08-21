@@ -67,7 +67,6 @@ public class RunBenchmarkModel {
         statisticsChecked = new SimpleBooleanProperty();
     }
 
-
     /**
      * Available algorithms.
      *
@@ -106,11 +105,11 @@ public class RunBenchmarkModel {
      */
     public List<AlgorithmEntity> getSelectedAlgorithms() {
         List<AlgorithmEntity> selectedAlgorithms = new ArrayList();
-        
+
         if (selectedAlgorithm != null) {
             selectedAlgorithms.add(selectedAlgorithm);
         } else if (selectedBenchmark != null) {
-            selectedAlgorithms = selectedBenchmark.getAlgorithmsEntities();    
+            selectedAlgorithms = selectedBenchmark.getAlgorithmsEntities();
         }
         return selectedAlgorithms;
     }
@@ -150,16 +149,19 @@ public class RunBenchmarkModel {
     public String getOutput() {
         return (outputProperty != null) ? outputProperty.get() : null;
     }
-    
-        /**
+
+    /**
      * If the history mode is checked.
+     *
      * @return the historyChecked
      */
     public BooleanProperty historyCheckedProperty() {
         return historyChecked;
     }
+
     /**
      * If the history mode is checked.
+     *
      * @return {@code true} if the history mode is checked, {@code false} otherwise.
      */
     public boolean isHistoryChecked() {
@@ -168,33 +170,40 @@ public class RunBenchmarkModel {
 
     /**
      * If the Time mode is checked.
+     *
      * @return the timeChecked
      */
     public BooleanProperty timeCheckedProperty() {
         return timeChecked;
     }
+
     /**
      * If the Time mode is checked.
+     *
      * @return {@code true} if the Time mode is checked, {@code false} otherwise.
      */
     public boolean isTimeChecked() {
         return (timeChecked != null) ? timeChecked.get() : false;
     }
+
     /**
      * If the Statistics mode is checked.
+     *
      * @return the statisticsChecked
      */
     public BooleanProperty statisticsCheckedProperty() {
         return statisticsChecked;
     }
-    
-/**
+
+    /**
      * If the Statistics mode is checked.
+     *
      * @return {@code true} if the statistics mode is checked, {@code false} otherwise.
      */
     public boolean isStatisticsChecked() {
         return (statisticsChecked != null) ? statisticsChecked.get() : false;
     }
+
     /**
      * Sets the selected benchmark.
      *
@@ -223,6 +232,5 @@ public class RunBenchmarkModel {
         return output;
     }
 
-
-
-}
+        
+    }

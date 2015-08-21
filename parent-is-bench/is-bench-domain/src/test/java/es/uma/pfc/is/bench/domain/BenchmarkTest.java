@@ -3,6 +3,7 @@ package es.uma.pfc.is.bench.domain;
 
 import es.uma.pfc.is.algorithms.Algorithm;
 import java.io.File;
+import java.nio.file.Paths;
 import java.util.Arrays;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
@@ -59,7 +60,7 @@ public class BenchmarkTest {
         Benchmark b = new Benchmark("bench1", Arrays.asList(alg));
         b.setWorkspace(workspace);
         
-        String pathExpected = workspace + File.separator + "benchmarks" + File.separator + b.getName();
+        String pathExpected = Paths.get(workspace, b.getName()).toString();
         String benchmarkPath = b.getBenchmarkPath();
         
         assertEquals(pathExpected, benchmarkPath);

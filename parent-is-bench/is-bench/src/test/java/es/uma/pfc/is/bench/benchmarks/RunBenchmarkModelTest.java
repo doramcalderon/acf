@@ -49,11 +49,11 @@ public class RunBenchmarkModelTest {
     @Test
     public void testGetDefaultOutput_Benchmark() {
         String workspace = Paths.get(System.getProperty("user.dir"), "src","test").toString();
-        GenericAlgorithm alg = mock(GenericAlgorithm.class);
-        when(alg.getDefaultOutputFileName()).thenCallRealMethod();
+        AlgorithmEntity alg = mock(AlgorithmEntity.class);
         
-        Benchmark selectedBenchmark = new Benchmark(workspace, "Test Bench", Arrays.asList(alg));
-        String outputExpected = Paths.get(workspace, "benchmarks", "Test Bench", "output").toString();
+        Benchmark selectedBenchmark = new Benchmark("Test Bench", Arrays.asList(alg));
+        selectedBenchmark.setWorkspace(workspace);
+        String outputExpected = Paths.get(workspace, "Test Bench", "output").toString();
                 
         RunBenchmarkModel model = new RunBenchmarkModel();
         model.setSelectedBenchmark(selectedBenchmark);

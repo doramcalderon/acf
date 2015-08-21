@@ -134,7 +134,7 @@ public class AlgorithmExecutor {
      */
     public AlgorithmExecutor input(String fileName) {
         if (fileName == null || !Files.exists(Paths.get(fileName))) {
-            throw new InvalidPathException("El fichero de entrada no existe.");
+            throw new InvalidPathException("El fichero de entrada no existe: " + fileName);
         }
         this.input = fileName;
         return this;

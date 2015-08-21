@@ -84,7 +84,7 @@ public class BenchmarksBeanTest {
         String workspace = Paths.get(System.getProperty("user.dir"), "src", "test").toString();
         String name = "BENCH1";
         try {
-            Files.createDirectories(Paths.get(workspace, "benchmarks", name));
+            Files.createDirectories(Paths.get(workspace, name));
 
             BenchmarksBean bean = new BenchmarksBean();
             assertTrue(bean.exists(name, workspace));
