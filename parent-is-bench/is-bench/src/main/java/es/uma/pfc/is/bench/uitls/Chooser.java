@@ -6,7 +6,7 @@
 
 package es.uma.pfc.is.bench.uitls;
 
-import es.uma.pfc.is.bench.config.UserConfig;
+import es.uma.pfc.is.bench.config.ConfigManager;
 import java.io.File;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.FileChooser;

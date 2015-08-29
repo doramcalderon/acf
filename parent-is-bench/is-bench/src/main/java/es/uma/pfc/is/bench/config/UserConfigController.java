@@ -4,18 +4,21 @@ package es.uma.pfc.is.bench.config;
 import es.uma.pfc.is.bench.Controller;
 import es.uma.pfc.is.bench.i18n.I18n;
 import es.uma.pfc.is.bench.uitls.Chooser;
+import es.uma.pfc.is.commons.workspace.Workspace;
+import es.uma.pfc.is.commons.workspace.WorkspaceManager;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javafx.beans.binding.ObjectBinding;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
-import javafx.stage.Stage;
 import javafx.stage.Window;
 
 /**
@@ -27,9 +30,13 @@ public class UserConfigController extends Controller {
     @FXML
     private AnchorPane wsAnchorPane;
     @FXML
-    private TextField txtDefaultWorkspace;
-
-    private UserConfig userConfig;
+    private TextField txtCurrentWorkspace;
+    @FXML
+    private ComboBox<Workspace> cbWorkspaces;
+    private UserConfigModel model;
+    private ConfigManager userConfig;
+    private WorkspaceManager wsManager;
+    
     
     
     /**
@@ -38,7 +45,10 @@ public class UserConfigController extends Controller {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         super.initialize(url, rb);
-        userConfig = UserConfig.get();
+        userConfig = ConfigManager.get();
+        wsManager = WorkspaceManager.get();
+        initModel();
+        initBinding();
         modelToView();
     }    
 
@@ -46,6 +56,29 @@ public class UserConfigController extends Controller {
     public Pane getRootPane() {
         return wsAnchorPane;
     }
+
+    @Override
+    protected void initModel() {
+        model = new UserConfigModel();
+        model.setWorkspacesList(wsManager.registeredWorkspaces());
+    }
+
+    @Override
+    protected void initBinding() {
+        cbWorkspaces.itemsProperty().bind(model.workspacesListProperty());
+        txtCurrentWorkspace.textProperty().bind(cbWorkspaces.selectionModelProperty().asString());
+        
+        
+        ObjectBinding<Workspace> selectedWsBinding = new ObjectBinding<Workspace>() {
+
+            @Override
+            protected Workspace computeValue() {
+                return cbWorkspaces.getSelectionModel().selectedItemProperty().get();
+            }
+        };
+        
+    }
+    
     
     
     
@@ -58,13 +91,14 @@ public class UserConfigController extends Controller {
         }
     }
     
-    protected void modelToView() {
-        txtDefaultWorkspace.setText(userConfig.getDefaultWorkspace());
-    }
     protected void viewToModel() {
-        userConfig.setDefaultWorkspace(txtDefaultWorkspace.getText());
+        userConfig.setDefaultWorkspace(wsManager.currentWorkspace().getLocation());
     }
     
+    @FXML
+    protected void changeWorkspace(ActionEvent event) {
+        txtCurrentWorkspace.setText(model.getWorkspaceSelected().getName());
+    }
     
     @FXML
     protected void handleSelectWorkspace(ActionEvent event) {
@@ -73,7 +107,8 @@ public class UserConfigController extends Controller {
         File selectedDir = Chooser.openDirectoryChooser(mainStage, getI18nLabel(I18n.SELECT_WORKSPACE_DIALOG_TITLE), 
                                                         new File(userConfig.getDefaultWorkspace()));
         if(selectedDir != null) {
-            txtDefaultWorkspace.setText(selectedDir.getPath());
+            
+            //txtDefaultWorkspace.setText(selectedDir.getPath());
         }
         
     }

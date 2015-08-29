@@ -8,7 +8,7 @@ package es.uma.pfc.is.bench.services;
 
 import es.uma.pfc.is.bench.business.BenchmarksBean;
 import es.uma.pfc.is.bench.domain.Benchmark;
-import es.uma.pfc.is.bench.config.UserConfig;
+import es.uma.pfc.is.bench.config.ConfigManager;
 import java.util.List;
 import javafx.concurrent.Service;
 import javafx.concurrent.Task;
@@ -26,7 +26,7 @@ public class BenchmarksLoadService extends Service<List<Benchmark>> {
 
             @Override
             protected List<Benchmark> call() throws Exception {
-                return new BenchmarksBean().getBenchmarks(UserConfig.get().getDefaultWorkspace());
+                return new BenchmarksBean().getBenchmarks(ConfigManager.get().getDefaultWorkspace());
             }
         };
     }

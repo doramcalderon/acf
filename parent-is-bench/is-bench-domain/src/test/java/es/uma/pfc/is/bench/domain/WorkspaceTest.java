@@ -166,5 +166,18 @@ public class WorkspaceTest {
         
         assertEquals(0, ws.getAlgorithms().size());
     }
+
+    /**
+     * Test of addPreference method, of class Workspace.
+     */
+    @Test
+    public void testAddPreference() {
+         Workspace ws = new Workspace();
+         ws.addPreference(new Preference("language", "ES"));
+         
+         assertNotNull(ws.getPreferences());
+         assertEquals("language", ws.getPreferences().get(0).getKey());
+         assertEquals("ES", ws.getPreferences().get(0).getValue());
+    }
     
 }

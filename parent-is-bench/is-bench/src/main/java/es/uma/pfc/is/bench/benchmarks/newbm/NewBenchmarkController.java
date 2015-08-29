@@ -9,7 +9,7 @@ import es.uma.pfc.is.bench.MainLayoutController;
 import es.uma.pfc.is.bench.algorithmslist.AlgorithmsListController;
 import es.uma.pfc.is.bench.business.BenchmarksBean;
 import es.uma.pfc.is.bench.domain.Benchmark;
-import es.uma.pfc.is.bench.config.UserConfig;
+import es.uma.pfc.is.bench.config.ConfigManager;
 import es.uma.pfc.is.bench.domain.AlgorithmEntity;
 import es.uma.pfc.is.bench.events.AlgorithmChangeEvent;
 import es.uma.pfc.is.bench.events.AlgorithmsSelectedEvent;
@@ -161,7 +161,7 @@ public class NewBenchmarkController extends Controller {
             return false;
         }
 
-        boolean validBenchmarkName = !new BenchmarksBean().exists(model.getName(), UserConfig.get().getDefaultWorkspace());
+        boolean validBenchmarkName = !new BenchmarksBean().exists(model.getName(), ConfigManager.get().getDefaultWorkspace());
         if (!validBenchmarkName) {
             Optional<ButtonType> confirm
                     = showAlert(Alert.AlertType.CONFIRMATION, null, getI18nMessage(BenchMessages.DUPLICATED_BENCHMARK));
@@ -212,7 +212,7 @@ public class NewBenchmarkController extends Controller {
     @FXML
     public void handleSelectInputFile(ActionEvent event) {
         File resultFile = Chooser.openFileChooser(getRootPane().getScene().getWindow(),
-                Chooser.FileChooserMode.OPEN, "Input system", UserConfig.get().getDefaultInputDir(),
+                Chooser.FileChooserMode.OPEN, "Input system", ConfigManager.get().getDefaultInputDir(),
                 new FileChooser.ExtensionFilter(getI18nLabel(I18n.TEXT_FILE), "*.txt"),
                 new FileChooser.ExtensionFilter(getI18nLabel(I18n.PROLOG_FILE), "*.pl"));
         if (resultFile != null) {
@@ -228,7 +228,7 @@ public class NewBenchmarkController extends Controller {
     @FXML
     public void handleGenerateSystem(ActionEvent event) {
         try {
-            String implicationsPath = Paths.get(UserConfig.get().getDefaultWorkspace(), model.getName(), "implications.txt").toString();
+            String implicationsPath = Paths.get(ConfigManager.get().getDefaultWorkspace(), model.getName(), "implications.txt").toString();
             FXMLLoader loader = new FXMLLoader(ISBenchApp.class.getResource("/" + es.uma.pfc.implications.generator.view.FXMLViews.IMPLICATIONS_VIEW),
                     ResourceBundle.getBundle("es.uma.pfc.implications.generator.i18n.labels", Locale.getDefault()));
             

@@ -5,7 +5,7 @@ import es.uma.pfc.is.algorithms.AlgorithmOptions.Mode;
 import es.uma.pfc.is.algorithms.exceptions.AlgorithmException;
 import es.uma.pfc.is.bench.Controller;
 import es.uma.pfc.is.bench.domain.Benchmark;
-import es.uma.pfc.is.bench.config.UserConfig;
+import es.uma.pfc.is.bench.config.ConfigManager;
 import es.uma.pfc.is.bench.domain.AlgorithmEntity;
 import es.uma.pfc.is.commons.eventbus.Eventbus;
 import es.uma.pfc.is.bench.events.BenchmarksChangeEvent;
@@ -393,7 +393,7 @@ public class RunBenchmarkController extends Controller {
     public void handleSelectInputAction(ActionEvent event) {
         Window mainStage = rootPane.getScene().getWindow();
         File selectedFile = Chooser.openFileChooser(mainStage, Chooser.FileChooserMode.OPEN,
-                getI18nLabel(I18n.SELECT_INPUT_DIALOG_TITLE), UserConfig.get().getDefaultInputDir(),
+                getI18nLabel(I18n.SELECT_INPUT_DIALOG_TITLE), ConfigManager.get().getDefaultInputDir(),
                 new FileChooser.ExtensionFilter(getI18nLabel(I18n.TEXT_FILE), "*.txt"),
                 new FileChooser.ExtensionFilter(getI18nLabel(I18n.PROLOG_FILE), "*.pl"));
         if (selectedFile != null) {
@@ -412,7 +412,7 @@ public class RunBenchmarkController extends Controller {
         Window mainStage = rootPane.getScene().getWindow();
 
         File selectedFile = Chooser.openFileChooser(mainStage, Chooser.FileChooserMode.OPEN,
-                getI18nLabel(I18n.SELECT_OUTPUT_DIALOG_TITLE), UserConfig.get().getDefaultOutputDir(),
+                getI18nLabel(I18n.SELECT_OUTPUT_DIALOG_TITLE), ConfigManager.get().getDefaultOutputDir(),
                 new FileChooser.ExtensionFilter(getI18nLabel(I18n.TEXT_FILE), "*.txt"),
                 new FileChooser.ExtensionFilter(getI18nLabel(I18n.PROLOG_FILE), "*.pl"));
         if (selectedFile != null) {

@@ -1,7 +1,7 @@
 package es.uma.pfc.is.bench.benchmarks.execution;
 
 import es.uma.pfc.is.bench.domain.Benchmark;
-import es.uma.pfc.is.bench.config.UserConfig;
+import es.uma.pfc.is.bench.config.ConfigManager;
 import es.uma.pfc.is.bench.domain.AlgorithmEntity;
 import java.nio.file.Paths;
 import java.util.ArrayList;
@@ -52,14 +52,14 @@ public class RunBenchmarkModel {
      */
     private final BooleanProperty statisticsChecked;
 
-    private final UserConfig userConfig;
+    private final ConfigManager userConfig;
 
     /**
      * Constructor.
      */
     public RunBenchmarkModel() {
         benchmarks = new ArrayList();
-        userConfig = UserConfig.get();
+        userConfig = ConfigManager.get();
         inputProperty = new SimpleStringProperty();
         outputProperty = new SimpleStringProperty();
         historyChecked = new SimpleBooleanProperty();

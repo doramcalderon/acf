@@ -1,8 +1,11 @@
 package es.uma.pfc.is.bench.domain;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -25,6 +28,10 @@ public class Workspace {
     @XmlElementWrapper(name = "algorithms")
     @XmlElement(name = "algorithm")
     private Set<AlgorithmEntity> algorithms;
+    
+    @XmlElementWrapper(name = "preferences")
+    @XmlElement(name = "preference")
+    private List<Preference> preferences;
 
 //    @XmlElementWrapper(name = "benchmarks")
 //    @XmlElement(name = "benchmark")
@@ -33,7 +40,7 @@ public class Workspace {
      * Constructor.
      */
     public Workspace() {
-
+        preferences = new ArrayList();
     }
 
     /**
@@ -45,6 +52,23 @@ public class Workspace {
         this.path = path;
     }
 
+    /**
+     * Add a preference.
+     * @param p Preference.
+     */
+    public void addPreference (Preference p) {
+        if(p != null) {
+            preferences.add(p);
+        }
+    }
+    
+    /**
+     * Preferences.
+     * @return Unmodifiable preferences.
+     */
+    public List<Preference> getPreferences() {
+        return Collections.unmodifiableList(preferences);
+    }
     /**
      * Workspace absolute path.
      *

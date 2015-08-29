@@ -1,6 +1,8 @@
 
 package es.uma.pfc.is.commons.workspace;
 
+import es.uma.pfc.is.commons.strings.StringUtils;
+
 /**
  * Workspace.
  * @author Dora Calderón
@@ -19,6 +21,12 @@ public class Workspace {
      */
     private String location;
 
+    public Workspace(String name) {
+        this();
+        this.name = name;
+    }
+
+    
     /**
      * Constructor.
      */
@@ -35,11 +43,12 @@ public class Workspace {
     }
 
     /**
-     * Name.
+     * Name.<br/>
+     * If the name contains blanks, these are removed.
      * @param name the name to set
      */
     public void setName(String name) {
-        this.name = name;
+        this.name = (StringUtils.isEmpty(name)) ? name : name.replaceAll(" ", "");
     }
 
     /**
@@ -72,6 +81,11 @@ public class Workspace {
      */
     public void setLocation(String location) {
         this.location = location;
+    }
+
+    @Override
+    public String toString() {
+        return location;
     }
     
     

@@ -9,7 +9,7 @@ package es.uma.pfc.is.bench.services;
 import es.uma.pfc.is.bench.algorithmslist.AlgorithmsListController;
 import es.uma.pfc.is.bench.business.BenchmarksBean;
 import es.uma.pfc.is.bench.domain.Benchmark;
-import es.uma.pfc.is.bench.config.UserConfig;
+import es.uma.pfc.is.bench.config.ConfigManager;
 import es.uma.pfc.is.commons.eventbus.Eventbus;
 import es.uma.pfc.is.bench.events.BenchmarksChangeEvent;
 import es.uma.pfc.is.bench.events.MessageEvent;
@@ -50,7 +50,7 @@ public class BenchmarkSaveService extends Service<Benchmark>{
             protected Benchmark call() throws Exception {
                 
                 BenchmarksBean benchamrksBean = new BenchmarksBean();
-                benchmark.setWorkspace(UserConfig.get().getDefaultWorkspace());
+                benchmark.setWorkspace(ConfigManager.get().getDefaultWorkspace());
                 benchamrksBean.update(benchmark);
                 
                 return benchmark;

@@ -1,7 +1,7 @@
 package es.uma.pfc.is.bench.services;
 
 import es.uma.pfc.is.bench.business.AlgorithmsBean;
-import es.uma.pfc.is.bench.config.UserConfig;
+import es.uma.pfc.is.bench.config.ConfigManager;
 import es.uma.pfc.is.bench.domain.AlgorithmEntity;
 import java.util.Set;
 import java.util.logging.Logger;
@@ -22,7 +22,7 @@ public class AlgorithmsLoadService extends Service<Set<AlgorithmEntity>>{
      * Constructor.
      */
     public AlgorithmsLoadService() {
-        algorithmsBean = new AlgorithmsBean(UserConfig.get().getDefaultWorkspace());
+        algorithmsBean = new AlgorithmsBean(ConfigManager.get().getDefaultWorkspace());
     }
 
     

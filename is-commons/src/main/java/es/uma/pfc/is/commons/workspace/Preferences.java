@@ -2,12 +2,9 @@
 package es.uma.pfc.is.commons.workspace;
 
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.util.Properties;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
@@ -16,12 +13,17 @@ import org.slf4j.LoggerFactory;
  */
 public class Preferences  extends Properties {
     /**
+     * Language prefrerence name.
+     */
+    public static final String LANGUAGE = "language";
+    /**
      * Logger.
      */
     private static final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(Preferences.class);
 
     public Preferences() {
     }
+    
     
     public Preferences(Path p) {
         this();

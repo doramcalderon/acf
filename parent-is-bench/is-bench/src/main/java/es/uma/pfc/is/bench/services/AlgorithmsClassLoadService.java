@@ -2,7 +2,7 @@
 package es.uma.pfc.is.bench.services;
 
 import es.uma.pfc.is.algorithms.Algorithm;
-import es.uma.pfc.is.bench.config.UserConfig;
+import es.uma.pfc.is.bench.config.ConfigManager;
 import es.uma.pfc.is.commons.files.FileUtils;
 import es.uma.pfc.is.commons.reflection.ReflectionUtil;
 import java.io.IOException;
@@ -47,7 +47,7 @@ public class AlgorithmsClassLoadService extends Service<List<String>> {
 
             @Override
             protected List<String> call() throws Exception {
-                List<Class<?>> classes = getAlgorithmsImpl(Paths.get(UserConfig.get().getDefaultWorkspace(), "lib"));
+                List<Class<?>> classes = getAlgorithmsImpl(Paths.get(ConfigManager.get().getDefaultWorkspace(), "lib"));
                 return getClassesName((Collection<Class<?>>) classes);
             }
 

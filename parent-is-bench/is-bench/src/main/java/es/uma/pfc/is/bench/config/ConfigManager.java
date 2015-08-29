@@ -22,7 +22,7 @@ import java.util.Properties;
  *
  * @author Dora Calderón
  */
-public class UserConfig implements UserConfigProperties {
+public class ConfigManager implements UserConfigProperties {
 
     /**
      * Path del archivo de configruación.*
@@ -43,7 +43,7 @@ public class UserConfig implements UserConfigProperties {
     /**
      * Instancia única.
      */
-    protected static UserConfig me;
+    protected static ConfigManager me;
     /**
      * Configuración.
      */
@@ -57,7 +57,7 @@ public class UserConfig implements UserConfigProperties {
      *
      * @throws ConfigurationException Si se produce algún error al cargar el archivo de configuración.
      */
-    protected UserConfig() {
+    protected ConfigManager() {
         wsBean = new WorkspaceBean();
         try {
             initConfig();
@@ -96,13 +96,13 @@ public class UserConfig implements UserConfigProperties {
     }
 
     /**
-     * Devuelve una instancia única de UserConfig.
+     * Devuelve una instancia única de ConfigManager.
      *
      * @return Configuración del usuario.
      */
-    public static UserConfig get() {
+    public static ConfigManager get() {
         if (me == null) {
-            me = new UserConfig();
+            me = new ConfigManager();
         }
         return me;
     }
