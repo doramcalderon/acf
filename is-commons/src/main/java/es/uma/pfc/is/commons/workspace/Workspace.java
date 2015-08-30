@@ -21,9 +21,10 @@ public class Workspace {
      */
     private String location;
 
-    public Workspace(String name) {
+    public Workspace(String name, String location) {
         this();
         this.name = name;
+        this.location = location;
     }
 
     

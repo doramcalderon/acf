@@ -36,7 +36,7 @@
                                  </GridPane.margin>
                               </Button>
                               <AnchorPane GridPane.columnIndex="1" GridPane.rowIndex="1" />
-                              <ComboBox fx:id="cbWorkspaces" editable="true" onAction="#changeWorkspace" prefHeight="29.0" prefWidth="442.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                              <ComboBox fx:id="cbWorkspaces" editable="true" prefHeight="29.0" prefWidth="442.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
                               <TableView fx:id="preferencesTable" GridPane.columnSpan="3" GridPane.rowIndex="2">
                                 <columns>
                                   <TableColumn fx:id="nameColumn" prefWidth="137.0" text="%column.pref.name" />

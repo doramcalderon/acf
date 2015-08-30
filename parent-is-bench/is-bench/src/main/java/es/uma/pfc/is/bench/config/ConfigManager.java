@@ -1,19 +1,15 @@
 package es.uma.pfc.is.bench.config;
 
-import es.uma.pfc.is.bench.business.AlgorithmsBean;
-import es.uma.pfc.is.bench.domain.Algorithms;
-import es.uma.pfc.is.bench.business.WorkspaceBean;
-import static es.uma.pfc.is.bench.business.WorkspaceBean.DEFAULT_INPUT_PATH;
-import static es.uma.pfc.is.bench.business.WorkspaceBean.DEFAULT_OUTPUT_PATH;
-import es.uma.pfc.is.bench.domain.Workspace;
+
 import es.uma.pfc.is.bench.exception.ConfigurationException;
 import es.uma.pfc.is.commons.files.FileUtils;
+import es.uma.pfc.is.commons.workspace.Workspace;
+import es.uma.pfc.is.commons.workspace.WorkspaceManager;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.nio.file.Files;
-import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Properties;
 
@@ -22,6 +18,7 @@ import java.util.Properties;
  *
  * @author Dora Calderón
  */
+@Deprecated
 public class ConfigManager implements UserConfigProperties {
 
     /**
@@ -34,7 +31,11 @@ public class ConfigManager implements UserConfigProperties {
      */
     public static final String DEFAULT_WORKSPACE_PATH = Paths.get(System.getProperty("user.home"),
             ".isbench", "default").toString();
-
+    /**
+     * Default workspace name.
+     */
+    public static final String DEFAULT_WORKSPACE_NAME = "default";
+    
     /**
      * File that contains the algorithms to load.
      */
@@ -48,7 +49,7 @@ public class ConfigManager implements UserConfigProperties {
      * Configuración.
      */
     private Properties config;
-    private WorkspaceBean wsBean;
+    private WorkspaceManager wsManager;
 
     /**
      * Constructor.<br/>
@@ -58,7 +59,7 @@ public class ConfigManager implements UserConfigProperties {
      * @throws ConfigurationException Si se produce algún error al cargar el archivo de configuración.
      */
     protected ConfigManager() {
-        wsBean = new WorkspaceBean();
+        wsManager = WorkspaceManager.get();
         try {
             initConfig();
             initDefaultWorkspace();
@@ -89,9 +90,7 @@ public class ConfigManager implements UserConfigProperties {
         String defaultWsPath = config.getProperty(DEFAULT_WORKSPACE_PROPERTY);
         if (defaultWsPath == null || defaultWsPath.trim().length() == 0) {
             defaultWsPath = DEFAULT_WORKSPACE_PATH;
-            wsBean.createIfNoExists(new Workspace(defaultWsPath));
-            config.setProperty(DEFAULT_WORKSPACE_PROPERTY, defaultWsPath);
-            save();
+            wsManager.create(new Workspace(DEFAULT_WORKSPACE_NAME, defaultWsPath), true);
         }
     }
 
@@ -122,7 +121,7 @@ public class ConfigManager implements UserConfigProperties {
      * @param workspace Path del workspace.
      */
     public void setDefaultWorkspace(String workspace) {
-        wsBean.createIfNoExists(new Workspace(workspace));
+//        wsManager.createIfNoExists(new Workspace(workspace));
         config.setProperty(DEFAULT_WORKSPACE_PROPERTY, workspace);
     }
 

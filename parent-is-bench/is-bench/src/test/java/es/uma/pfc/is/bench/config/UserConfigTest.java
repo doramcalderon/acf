@@ -10,11 +10,13 @@ import java.nio.file.Paths;
 import java.util.Properties;
 import org.junit.Test;
 import static org.junit.Assert.*;
+import org.junit.Ignore;
 
 /**
  *
  * @author Dora Calderón
  */
+@Ignore
 public class UserConfigTest {
     @Test
     public void testGet() {

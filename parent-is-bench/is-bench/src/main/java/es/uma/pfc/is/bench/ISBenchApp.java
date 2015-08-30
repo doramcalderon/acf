@@ -1,6 +1,5 @@
 package es.uma.pfc.is.bench;
 
-import es.uma.pfc.is.bench.config.ConfigManager;
 import es.uma.pfc.is.bench.view.FXMLViews;
 import java.io.IOException;
 import java.util.Locale;
@@ -12,7 +11,6 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
 
@@ -26,9 +24,9 @@ public class ISBenchApp extends Application {
     @Override
     public void start(Stage primaryStage) throws IOException {
 //        System.setProperty("log4j.configurationFile", "es/uma/pfc/is/bench/log4j2.xml");
-        System.setProperty("isbench.output.dir", ConfigManager.get().getDefaultOutputDir().getPath());
-        Locale.setDefault(Locale.UK);
-        loadResources(new Locale("en", "GB"));
+//        System.setProperty("isbench.output.dir", ConfigManager.get().getDefaultOutputDir().getPath());
+        Locale.setDefault(new Locale("en", "GB"));
+        loadResources(Locale.getDefault());
         loadRootLayout();
         showStage(primaryStage);
     }
