@@ -3,27 +3,27 @@ package es.uma.pfc.is.bench.config;
 import es.uma.pfc.is.bench.Controller;
 import es.uma.pfc.is.bench.i18n.I18n;
 import es.uma.pfc.is.bench.uitls.Chooser;
-import es.uma.pfc.is.commons.workspace.Preference;
 import es.uma.pfc.is.commons.workspace.Workspace;
 import es.uma.pfc.is.commons.workspace.WorkspaceManager;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
-import java.util.Map;
+import java.util.Optional;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.beans.binding.StringBinding;
+import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
-import javafx.scene.control.cell.MapValueFactory;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.stage.Window;
+import javafx.util.StringConverter;
 
 /**
  * FXML Controller class
@@ -39,11 +39,11 @@ public class UserConfigController extends Controller {
     @FXML
     private ComboBox<Workspace> cbWorkspaces;
     @FXML
-    private TableView<Preference> preferencesTable;
+    private TableView<PreferenceModel> preferencesTable;
     @FXML
-    private TableColumn<Preference, String> nameColumn;
+    private TableColumn<PreferenceModel, String> nameColumn;
     @FXML
-    private TableColumn<Preference, String> valueColumn;
+    private TableColumn<PreferenceModel, String> valueColumn;
     private UserConfigModel model;
     private ConfigManager userConfig;
     private WorkspaceManager wsManager;
@@ -60,6 +60,7 @@ public class UserConfigController extends Controller {
             initView();
             initModel();
             initBinding();
+            initListeners();
             modelToView();
         } catch (IOException ex) {
             Logger.getLogger(UserConfigController.class.getName()).log(Level.SEVERE, null, ex);
@@ -73,10 +74,34 @@ public class UserConfigController extends Controller {
 
     @Override
     protected void initView() throws IOException {
-//        preferencesTable.setRowFactory(new call);
+        nameColumn.setCellValueFactory(cellData -> cellData.getValue().getName());
+        valueColumn.setCellValueFactory(cellData -> cellData.getValue().getValue());
+
+        cbWorkspaces.setConverter(new StringConverter<Workspace>() {
+            @Override
+            public String toString(Workspace workspace) {
+                if (workspace == null) {
+                    return null;
+                } else {
+                    return workspace.getLocation();
+                }
+            }
+
+            @Override
+            public Workspace fromString(String workspaceString) {
+                Workspace ws = null;
+                if(model.workspacesListProperty().get() != null) {
+                    Optional<Workspace> result = model.workspacesListProperty().get()
+                                                .filtered(w -> workspaceString.equals(w.getLocation())).stream()
+                                                .findFirst();
+                    if (result.isPresent()) {
+                        ws = result.get();
+                    }
+                }
+                return ws;
+            }
+        });
     }
-    
-    
 
     @Override
     protected void initModel() {
@@ -89,23 +114,27 @@ public class UserConfigController extends Controller {
     protected void initBinding() {
         cbWorkspaces.itemsProperty().bind(model.workspacesListProperty());
         cbWorkspaces.valueProperty().bindBidirectional(model.workspaceSelected());
-        
+        preferencesTable.itemsProperty().bindBidirectional(model.preferencesProperty());
+
         StringBinding wsNameBinding = new StringBinding() {
-            {
-                super.bind(cbWorkspaces.selectionModelProperty().get().selectedItemProperty());
-            }
+            {super.bind(cbWorkspaces.valueProperty());}
 
             @Override
             protected String computeValue() {
-                Workspace selected = cbWorkspaces.getSelectionModel().getSelectedItem();
+                Workspace selected = cbWorkspaces.getValue();
                 return (selected != null) ? selected.getName() : "";
-            }
+            }  
         };
         txtCurrentWorkspace.textProperty().bind(wsNameBinding);
-
         
     }
-
+    
+    @Override
+    protected void initListeners() {
+//        model.workspaceSelected().addListener((ObservableValue<? extends Workspace> observable, Workspace oldValue, Workspace newValue) -> {
+//            txtCurrentWorkspace.setText((newValue != null) ? newValue.getName() : "");
+//        });
+    }
 
     public void save() {
         viewToModel();
@@ -119,11 +148,6 @@ public class UserConfigController extends Controller {
     protected void viewToModel() {
         userConfig.setDefaultWorkspace(wsManager.currentWorkspace().getLocation());
     }
-//    
-//    @FXML
-//    protected void changeWorkspace(ActionEvent event) {
-//        txtCurrentWorkspace.setText(model.getWorkspaceSelected().getName());
-//    }
 
     @FXML
     protected void handleSelectWorkspace(ActionEvent event) {
