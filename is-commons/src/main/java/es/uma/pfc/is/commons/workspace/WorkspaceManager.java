@@ -95,6 +95,7 @@ public class WorkspaceManager {
         if (current == null) {
             createDefaultWorkspace();
         }
+        commitPendingChanges();
     }
     
      /**
@@ -115,6 +116,7 @@ public class WorkspaceManager {
      */
     protected void setConfig(Properties config) {
         this.config = config;
+        current = null;
     }
 /**
      * Only for testing usage.
@@ -167,7 +169,7 @@ public class WorkspaceManager {
     }
 
     /**
-     * Mark a workspace as current. The change will take effect with {@link #commitChange() }.
+     * Mark a workspace as current. The change will take effect with {@link #commitPendingChanges() }.
      *
      * @param ws Workspace.
      */
@@ -180,18 +182,18 @@ public class WorkspaceManager {
     /**
      * The workspace change takes effect.
      */
-    public void commitChange() {
-        current = new Workspace();
-        String currentWs = config.getProperty(WORKSPACE_CHANGE);
-        if (!StringUtils.isEmpty(currentWs)) {
-            String path = config.getProperty(currentWs);
+    public void commitPendingChanges() throws IOException {
+        String wsChange = config.getProperty(WORKSPACE_CHANGE);
+        if (!StringUtils.isEmpty(wsChange)) {
+            current = new Workspace();
+            String path = config.getProperty(wsChange);
             current.setLocation(path);
-            current.setName(currentWs);
+            current.setName(wsChange);
             current.setPreferences(new Preferences(Paths.get(path, "preferences.properties")));
 
-            config.setProperty(CURRENT_WORKSPACE, currentWs);
+            config.setProperty(CURRENT_WORKSPACE, wsChange);
             config.remove(WORKSPACE_CHANGE);
-            
+            config.store(new FileOutputStream(new File(configPath)), "");
         }
     }
 

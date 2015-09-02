@@ -46,7 +46,7 @@ public class WorkspaceManagerTest {
         ws.setName(name);
         ws.setLocation(location);
         
-        WorkspaceManager manager = WorkspaceManager.get();
+        WorkspaceManager manager = new WorkspaceManager();
         manager.setConfig(config);
         manager.setConfigPath(configPath);
         manager.create(ws, false);
@@ -93,7 +93,7 @@ public class WorkspaceManagerTest {
         ws.setName(name);
         ws.setLocation(location);
         
-        WorkspaceManager manager = WorkspaceManager.get();
+        WorkspaceManager manager = new WorkspaceManager();
         manager.setConfig(config);
         manager.setConfigPath(configPath);
         manager.saveWorkspace(ws, false);
@@ -114,7 +114,7 @@ public class WorkspaceManagerTest {
         ws.setName(name);
         ws.setLocation(location);
         
-        WorkspaceManager manager = WorkspaceManager.get();
+        WorkspaceManager manager = new WorkspaceManager();
         manager.setConfig(config);
         manager.setConfigPath(configPath);
         manager.saveWorkspace(ws, true);
@@ -132,7 +132,7 @@ public class WorkspaceManagerTest {
         Workspace ws = new Workspace();
         ws.setName("newWs");
         
-        WorkspaceManager manager = WorkspaceManager.get();
+        WorkspaceManager manager = new WorkspaceManager();
         manager.setConfig(config);
         manager.change(ws);
         
@@ -141,7 +141,7 @@ public class WorkspaceManagerTest {
     }
 
     /**
-     * Test of commitChange method, of class WorkspaceManager.
+     * Test of commitPendingChanges method, of class WorkspaceManager.
      * @throws java.io.IOException
      */
     @Test
@@ -155,9 +155,9 @@ public class WorkspaceManagerTest {
         config.setProperty( name, location);
         config.setProperty(WorkspaceManager.WORKSPACE_CHANGE ,  name);
         
-        WorkspaceManager manager = WorkspaceManager.get();
+        WorkspaceManager manager = new WorkspaceManager();
         manager.setConfig(config);
-        manager.commitChange();
+        manager.commitPendingChanges();
         
         assertEquals( name, config.getProperty(WorkspaceManager.CURRENT_WORKSPACE));
         assertNull(config.getProperty(WorkspaceManager.WORKSPACE_CHANGE));

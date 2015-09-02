@@ -9,14 +9,16 @@ import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.nio.file.Paths;
+import java.util.List;
 import java.util.Optional;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.beans.binding.StringBinding;
-import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -135,11 +137,23 @@ public class UserConfigController extends Controller {
     }
 
     public void save() {
-        viewToModel();
-        try {
-            userConfig.save();
-        } catch (IOException ex) {
-            Logger.getLogger(UserConfigController.class.getName()).log(Level.SEVERE, null, ex);
+        List<Workspace> workspaces = model.workspacesListProperty().get();
+        boolean newWs;
+        if (workspaces != null) {
+            newWs = !workspaces.stream()
+                                .filter(w -> w.getLocation().equals(model.workspaceSelected().getValue().getLocation()))
+                                .findFirst().isPresent();
+        } else {
+            newWs = true;
+        }
+        if(newWs) {
+            Optional<ButtonType> result = this.showAlert(Alert.AlertType.CONFIRMATION, "Default Workspace", "Would you like set the new workspace as the current?");
+            boolean current = result.orElse(ButtonType.CANCEL).equals(ButtonType.OK);
+            wsManager.create(model.getWorkspaceSelected(), current);
+            
+            if(current) {
+                showAlert(Alert.AlertType.INFORMATION, "Default Workspace", "The change of workspace will do effective the next startup of the application.");
+            }
         }
     }
 
@@ -152,10 +166,10 @@ public class UserConfigController extends Controller {
         Window mainStage = wsAnchorPane.getScene().getWindow();
 
         File selectedDir = Chooser.openDirectoryChooser(mainStage, getI18nLabel(I18n.SELECT_WORKSPACE_DIALOG_TITLE),
-                new File(userConfig.getDefaultWorkspace()));
+                new File(wsManager.currentWorkspace().getLocation()));
         if (selectedDir != null) {
-
-            //txtDefaultWorkspace.setText(selectedDir.getPath());
+            Workspace ws = new Workspace(selectedDir.getName(), selectedDir.getPath());
+            cbWorkspaces.setValue(ws);
         }
 
     }
