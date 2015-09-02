@@ -62,20 +62,28 @@ public class Preferences  extends Properties {
     public String getPreference(String preference) {
         return this.getProperty(preference);
     }
+
+    @Override
+    public synchronized Object put(Object key, Object value) {
+        return setPreference(String.valueOf(key), String.valueOf(value));
+    }
+    
     /**
      * Sets the value of a preference. If value is null, remove the preference if exists.
      * @param key Name of preference.
      * @param value Value.
      */
-    public void setPreference(String key, String value) {
+    public String setPreference(String key, String value) {
+        Object r;
         Preference pref = new Preference(key, value);
         if(value == null) {
-            this.remove(key);
+            r = super.remove(key);
             preferencesList.remove(pref);
         } else {
-            this.put(key, value);
+            r = super.put(key, value);
             preferencesList.add(pref);
         }
+        return String.valueOf(r);
     }
 
     public List<Preference> getPreferencesList() {

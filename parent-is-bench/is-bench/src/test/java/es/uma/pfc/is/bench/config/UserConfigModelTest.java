@@ -1,6 +1,7 @@
 
 package es.uma.pfc.is.bench.config;
 
+import es.uma.pfc.is.commons.workspace.Preferences;
 import es.uma.pfc.is.commons.workspace.Workspace;
 import java.util.Arrays;
 import java.util.List;
@@ -49,6 +50,26 @@ public class UserConfigModelTest {
         assertTrue(list.contains(ws1));
         assertTrue(list.contains(ws2));
         assertTrue(list.contains(ws3));
+    }
+
+
+    /**
+     * Test of updatePreferences method, of class UserConfigModel.
+     */
+    @Test
+    public void testUpdatePreferences() {
+        Preferences preferences = new Preferences();
+        preferences.put("default", "true");
+        
+        Workspace ws = new Workspace("myws", "");
+        ws.setPreferences(preferences);
+        
+        UserConfigModel model = new UserConfigModel();
+        model.setWorkspaceSelected(ws);
+        
+        assertNotNull(model.preferencesProperty().get());
+        assertEquals(1, model.preferencesProperty().size());
+        assertEquals("true", model.preferencesProperty().get(0).getValue().get());
     }
     
 }

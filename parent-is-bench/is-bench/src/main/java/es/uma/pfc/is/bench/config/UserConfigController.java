@@ -8,6 +8,7 @@ import es.uma.pfc.is.commons.workspace.WorkspaceManager;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
+import java.nio.file.Paths;
 import java.util.Optional;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
@@ -96,6 +97,10 @@ public class UserConfigController extends Controller {
                                                 .findFirst();
                     if (result.isPresent()) {
                         ws = result.get();
+                    } else {
+                        ws = new Workspace();
+                        ws.setLocation(workspaceString);
+                        ws.setName(Paths.get(workspaceString).getFileName().toString());
                     }
                 }
                 return ws;
@@ -127,13 +132,6 @@ public class UserConfigController extends Controller {
         };
         txtCurrentWorkspace.textProperty().bind(wsNameBinding);
         
-    }
-    
-    @Override
-    protected void initListeners() {
-//        model.workspaceSelected().addListener((ObservableValue<? extends Workspace> observable, Workspace oldValue, Workspace newValue) -> {
-//            txtCurrentWorkspace.setText((newValue != null) ? newValue.getName() : "");
-//        });
     }
 
     public void save() {

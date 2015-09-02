@@ -2,7 +2,6 @@
 
 package es.uma.pfc.is.bench.config;
 
-import es.uma.pfc.is.bench.domain.Preference;
 import es.uma.pfc.is.commons.workspace.Workspace;
 import java.util.List;
 import javafx.beans.property.ListProperty;
@@ -10,6 +9,7 @@ import javafx.beans.property.ObjectPropertyBase;
 import javafx.beans.property.Property;
 import javafx.beans.property.SimpleListProperty;
 import javafx.beans.property.SimpleObjectProperty;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 
 /**
@@ -35,6 +35,9 @@ public class UserConfigModel {
         workspacesList = new SimpleListProperty<>(FXCollections.observableArrayList());
         preferences = new SimpleListProperty<>(FXCollections.observableArrayList());
         workspaceSelected = new SimpleObjectProperty<>();
+        workspaceSelected.addListener((ObservableValue<? extends Workspace> observable, Workspace oldValue, Workspace newValue) -> {
+            updatePreferences();
+        });
     }
     
     
@@ -79,11 +82,20 @@ public class UserConfigModel {
      */
     public void setWorkspaceSelected(Workspace workspaceSelected) {
         this.workspaceSelected.set(workspaceSelected);
-        if(workspaceSelected != null && workspaceSelected.getPreferences() != null) {
-            workspaceSelected.getPreferences().getPreferencesList().forEach(p -> preferences.get().add(new PreferenceModel(p.getName(), p.getValue())));
-        }
     }
 
+    /**
+     * Updates the preferences with the selected workspace's preferences.
+     */
+    protected final void updatePreferences() {
+        Workspace wsSelected = workspaceSelected.get();
+        preferences.get().clear();
+        
+        if(wsSelected != null && wsSelected.getPreferences() != null) {
+            wsSelected.getPreferences().getPreferencesList().forEach(p -> preferences.get().add(new PreferenceModel(p.getName(), p.getValue())));
+        }
+        
+    }
     
     
     
