@@ -27,16 +27,16 @@ public class PreferenceModel {
         return name;
     }
 
-    public void setName(StringProperty name) {
-        this.name = name;
+    public void setName(String name) {
+        this.name.set(name);
     }
 
     public StringProperty getValue() {
         return value;
     }
 
-    public void setValue(StringProperty value) {
-        this.value = value;
+    public void setValue(String value) {
+        this.value.set(value);
     }
     
     

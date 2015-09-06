@@ -1,5 +1,6 @@
 package es.uma.pfc.is.algorithms;
 
+import es.uma.pfc.is.logging.AlgorithmLogger;
 import fr.kbertet.lattice.ImplicationalSystem;
 
 /**
@@ -8,15 +9,6 @@ import fr.kbertet.lattice.ImplicationalSystem;
  * @author Dora Calderón
  */
 public interface Algorithm {
-
-
-    /**
-     * Executes the algorithm with the implicational system in the input path.
-     *
-     * @param input Path of the file wich contains the implicational system.
-     * @return Implicational System.
-     */
-    ImplicationalSystem execute(String input, AlgorithmOptions options);
 
     /**
      * Executes the algorithm with the implicational system arg.
@@ -60,5 +52,11 @@ public interface Algorithm {
      * @param shortName Shrot name.
      */
     void setShortName(String shortName);
+    
+    /**
+     * Logger.
+     * @return AlgorithmLogger. 
+     */
+    AlgorithmLogger getLogger();
 
 }

@@ -103,7 +103,8 @@ public class AlgorithmExecutor {
                 logger = new AlgorithmLogger(algorithm.getName(), options);
 
                 logger.startTime();
-                outputSystem = algorithm.execute(input, options);
+                algorithm.getLogger().setOptions(options);
+                outputSystem = algorithm.execute(new ImplicationalSystem(input));
                 logger.endTime();
                 if (outputSystem != null) {
                     outputSystem.save(options.<String>getOption(AlgorithmOptions.Options.OUTPUT.toString()));

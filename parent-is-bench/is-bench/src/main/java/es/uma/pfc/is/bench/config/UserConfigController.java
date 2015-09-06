@@ -23,6 +23,8 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
+import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.stage.Window;
@@ -79,7 +81,7 @@ public class UserConfigController extends Controller {
     protected void initView() throws IOException {
         nameColumn.setCellValueFactory(cellData -> cellData.getValue().getName());
         valueColumn.setCellValueFactory(cellData -> cellData.getValue().getValue());
-
+        
         cbWorkspaces.setConverter(new StringConverter<Workspace>() {
             @Override
             public String toString(Workspace workspace) {

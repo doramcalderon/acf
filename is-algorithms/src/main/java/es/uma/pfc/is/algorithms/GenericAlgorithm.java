@@ -9,16 +9,27 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
- * Algoritmo genérico que recibe como entrada una ruta de un fichero y como salida un sistema implicacional.
+ * Generic algorithm wich receive as input a file input and returns an implicational system.
  *
  * @author Dora Calderón
  */
 public abstract class GenericAlgorithm implements Algorithm {
-
+    /**
+     * Logger.
+     */
     private AlgorithmLogger logger;
     
+    /**
+     * Name.
+     */
     private String name;
+    /**
+     * Short name.
+     */
     private String shortName;
+    /**
+     * I18n messages.
+     */
     protected AlgMessages messages;
 
     /**
@@ -30,25 +41,12 @@ public abstract class GenericAlgorithm implements Algorithm {
     }
     
 
-    @Override
-    public ImplicationalSystem execute(String inputPath, AlgorithmOptions options) {
-        ImplicationalSystem output = null;
-        try {
-            logger.setOptions(options);
-            ImplicationalSystem input = new ImplicationalSystem(inputPath);
-            output = execute(input);
-        } catch (IOException ex) {
-            Logger.getLogger(GenericAlgorithm.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return output;
-    }
-
     
     /**
      * Logger.
      * @return Logger. 
      */
-    protected AlgorithmLogger getLogger() {
+    public AlgorithmLogger getLogger() {
         return logger;
     }
 
@@ -99,7 +97,6 @@ public abstract class GenericAlgorithm implements Algorithm {
      * Removes rules for implicational system, and print trace in the history.
      * @param system Implicational system.
      * @param rule Rule.
-     * @param modes Mode.
      */
     protected void removeRule(ImplicationalSystem system, Rule rule) {
         if(system != null && rule != null) {
@@ -115,7 +112,6 @@ public abstract class GenericAlgorithm implements Algorithm {
      * Adds rules for implicational system, and print trace in the history.
      * @param system Implicational system.
      * @param rule Rule.
-     * @param modes Mode.
      */
     protected void addRule(ImplicationalSystem system, Rule rule) {
         if(system != null && rule != null) {
@@ -128,7 +124,7 @@ public abstract class GenericAlgorithm implements Algorithm {
      * Adds rules for implicational system, and print trace in the history.
      * @param system Implicational system.
      * @param rule Rule.
-     * @param modes Mode.
+     * @return Implicational system.
      */
     protected ImplicationalSystem addRuleAndElements(ImplicationalSystem system, Rule rule) {
         return addRuleAndElements(system, rule, true);
@@ -138,7 +134,8 @@ public abstract class GenericAlgorithm implements Algorithm {
      * Adds rules for implicational system, and print trace in the history.
      * @param system Implicational system.
      * @param rule Rule.
-     * @param modes Mode.
+     * @param trace
+     * @return 
      */
     protected ImplicationalSystem addRuleAndElements(ImplicationalSystem system, Rule rule, boolean trace) {
 

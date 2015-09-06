@@ -38,7 +38,8 @@ public class DirectOptimalBasis2Test {
         ImplicationalSystem expectedSystem = TestUtils.getSystemFromFile("do_ej_olomouc_nunit_resul.txt");
 
         DirectOptimalBasis2 alg = (DirectOptimalBasis2) new DirectOptimalBasis2();
-        ImplicationalSystem algResult = alg.execute(TestUtils.getTestResourcePath("do_ej_olomouc_nunit.txt"), new AlgorithmOptions());
+        alg.getLogger().setOptions( new AlgorithmOptions());
+        ImplicationalSystem algResult = alg.execute(new ImplicationalSystem(TestUtils.getTestResourcePath("do_ej_olomouc_nunit.txt")));
 
         assertTrue("Expected: \n" + expectedSystem + "\n Alg result:\n" + algResult, 
                     ImplicationalSystems.equals(expectedSystem, algResult));
@@ -51,7 +52,8 @@ public class DirectOptimalBasis2Test {
         ImplicationalSystem expectedSystem = TestUtils.getSystemFromFile("ej_saedian3_result.txt");
 
         DirectOptimalBasis2 alg = (DirectOptimalBasis2) new DirectOptimalBasis2();
-        ImplicationalSystem algResult = alg.execute(TestUtils.getTestResourcePath("ej_saedian3.txt"), new AlgorithmOptions());
+        alg.getLogger().setOptions(new AlgorithmOptions());
+        ImplicationalSystem algResult = alg.execute(new ImplicationalSystem(TestUtils.getTestResourcePath("ej_saedian3.txt")));
 
         assertTrue("Expected: \n" + expectedSystem + "\n Alg result:\n" + algResult, 
                     ImplicationalSystems.equals(expectedSystem, algResult));
@@ -96,7 +98,8 @@ public class DirectOptimalBasis2Test {
         ImplicationalSystem expectedSystem = TestUtils.getSystemFromFile("exp15-1_resul.txt");
 
         DirectOptimalBasis2 alg = (DirectOptimalBasis2) new DirectOptimalBasis2();
-        ImplicationalSystem algResult = alg.execute(TestUtils.getTestResourcePath("exp15-1.txt"), new AlgorithmOptions()); 
+        alg.getLogger().setOptions( new AlgorithmOptions());
+        ImplicationalSystem algResult = alg.execute(new ImplicationalSystem(TestUtils.getTestResourcePath("exp15-1.txt"))); 
         
         assertTrue("Expected: \n" + expectedSystem + "\n Alg result:\n" + algResult, 
                     ImplicationalSystems.equals(expectedSystem, algResult));
