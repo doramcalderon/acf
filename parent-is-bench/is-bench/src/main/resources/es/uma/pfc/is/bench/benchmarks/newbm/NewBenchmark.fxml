@@ -57,7 +57,12 @@
                   <Label fx:id="lbErrorMessages" style="-fx-border-color: red;" text="lbErrorMessages" textFill="#fc0909" visible="false" />
                </children>
             </StackPane>
-            <TextField fx:id="txtFilter" maxWidth="-Infinity" prefWidth="285.0" GridPane.hgrow="NEVER" GridPane.rowIndex="4" />
+            <HBox prefWidth="200.0" spacing="5.0" GridPane.rowIndex="4">
+               <children>
+                  <TextField fx:id="txtFilter" maxWidth="-Infinity" GridPane.hgrow="NEVER" GridPane.rowIndex="4" />
+                  <Button mnemonicParsing="false" onAction="#handleNewAlgorithm" text="%btn.new" />
+               </children>
+            </HBox>
             <HBox prefHeight="100.0" prefWidth="200.0" spacing="10.0" GridPane.hgrow="ALWAYS" GridPane.rowIndex="5" GridPane.vgrow="ALWAYS">
                <children>
                   <ListView fx:id="algorithmsList" onMouseClicked="#handleListDoubleClick" prefHeight="200.0" prefWidth="200.0" HBox.hgrow="ALWAYS" />

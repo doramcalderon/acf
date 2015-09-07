@@ -207,6 +207,17 @@ public class NewBenchmarkController extends Controller {
     public void handleSystemSaved(SystemSaved event) {
         txtInput.setText(event.getPath());
     }
+    
+    @FXML
+    private void handleNewAlgorithm(ActionEvent event) {
+        try {
+            Parent algorithmsPane = FXMLLoader.load(MainLayoutController.class.getResource(FXMLViews.ALGORITHMS_VIEW), getBundle());
+            String title = getI18nLabel(I18n.ALGORITHMS_DIALOG_TITLE);
+            Dialogs.showModalDialog(title, algorithmsPane, rootPane.getScene().getWindow());
+        } catch (IOException ex) {
+            Logger.getLogger(MainLayoutController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
 
     /**
      * Shows a file chooser for select the input system file.
