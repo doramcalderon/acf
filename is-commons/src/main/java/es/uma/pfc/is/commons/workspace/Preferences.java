@@ -15,11 +15,8 @@ import org.slf4j.LoggerFactory;
  * User preferences.
  * @author Dora Calderón
  */
-public class Preferences  extends Properties {
-    /**
-     * Language prefrerence name.
-     */
-    public static final String LANGUAGE = "language";
+public class Preferences  extends Properties implements PreferencesNames {
+    
     /**
      * Logger.
      */

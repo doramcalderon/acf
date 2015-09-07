@@ -16,7 +16,7 @@ import static org.mockito.Mockito.*;
  * @author Dora Calderón
  */
 public class AlgorithmsBeanTest {
-    private final String workspacePath = Paths.get(System.getProperty("user.dir"), "target").toString();
+    private final String algorithmsPath = Paths.get(System.getProperty("user.dir"), "target", "algorithsm.xml").toString();
     
     public AlgorithmsBeanTest() {
     }
@@ -48,8 +48,7 @@ public class AlgorithmsBeanTest {
     @Test
     public void testExists() {
         Set<AlgorithmEntity> algsConfigured = new HashSet<>();
-        Workspace ws = new Workspace("");
-        
+                
         AlgorithmEntity alg = new AlgorithmEntity();
         alg.setName("Direct Optimal");
         alg.setShortName("DO");
@@ -61,12 +60,12 @@ public class AlgorithmsBeanTest {
         alg.setShortName("DO2");
         alg.setType(DirectOptimalBasis.class);
         algsConfigured.add(alg);
-        ws.addAllAlgorithms(algsConfigured);
         
-        WorkspacePersistence persistence = mock(WorkspacePersistence.class);
-        when(persistence.getWorkspace(workspacePath)).thenReturn(ws);
         
-        AlgorithmsBean bean = new AlgorithmsBean(workspacePath);
+        AlgorithmsPersistence persistence = mock(AlgorithmsPersistence.class);
+        when(persistence.getAlgorithmsCatalog()).thenReturn(algsConfigured);
+        
+        AlgorithmsBean bean = new AlgorithmsBean(algorithmsPath);
         bean.setPersistence(persistence);
         
         assertTrue(bean.exists(alg));
@@ -78,7 +77,6 @@ public class AlgorithmsBeanTest {
      */
     @Test
     public void testExists_False() {
-        Workspace ws = new Workspace("");
         Set<AlgorithmEntity> algsConfigured = new HashSet<>();
 
         AlgorithmEntity alg = new AlgorithmEntity();
@@ -92,12 +90,11 @@ public class AlgorithmsBeanTest {
         alg.setShortName("DO2");
         alg.setType(DirectOptimalBasis.class);
         algsConfigured.add(alg);
-        ws.addAllAlgorithms(algsConfigured);
         
-        WorkspacePersistence persistence = mock(WorkspacePersistence.class);
-        when(persistence.getWorkspace(workspacePath)).thenReturn(ws);
+        AlgorithmsPersistence persistence = mock(AlgorithmsPersistence.class);
+        when(persistence.getAlgorithmsCatalog()).thenReturn(algsConfigured);
         
-        AlgorithmsBean bean = new AlgorithmsBean(workspacePath);
+        AlgorithmsBean bean = new AlgorithmsBean(algorithmsPath);
         bean.setPersistence(persistence);
         
         AlgorithmEntity otherAlg = new AlgorithmEntity();
@@ -115,7 +112,6 @@ public class AlgorithmsBeanTest {
      */
     @Test
     public void testExistsName() {
-        Workspace ws = new Workspace(workspacePath);
         Set<AlgorithmEntity> algsConfigured = new HashSet<>();
 
         AlgorithmEntity alg = new AlgorithmEntity();
@@ -129,12 +125,11 @@ public class AlgorithmsBeanTest {
         alg.setShortName("DO2");
         alg.setType(DirectOptimalBasis.class);
         algsConfigured.add(alg);
-        ws.addAllAlgorithms(algsConfigured);
         
-        WorkspacePersistence persistence = mock(WorkspacePersistence.class);
-        when(persistence.getWorkspace(workspacePath)).thenReturn(ws);
+        AlgorithmsPersistence persistence = mock(AlgorithmsPersistence.class);
+        when(persistence.getAlgorithmsCatalog()).thenReturn(algsConfigured);
         
-        AlgorithmsBean bean = new AlgorithmsBean(workspacePath);
+        AlgorithmsBean bean = new AlgorithmsBean(algorithmsPath);
         bean.setPersistence(persistence);
         
         assertTrue(bean.existsName("Direct Optimal"));
@@ -142,7 +137,6 @@ public class AlgorithmsBeanTest {
      
     @Test
     public void testExistsName_False() {
-        Workspace ws = new Workspace(workspacePath);
         Set<AlgorithmEntity> algsConfigured = new HashSet<>();
 
         AlgorithmEntity alg = new AlgorithmEntity();
@@ -156,12 +150,11 @@ public class AlgorithmsBeanTest {
         alg.setShortName("DO2");
         alg.setType(DirectOptimalBasis.class);
         algsConfigured.add(alg);
-        ws.addAllAlgorithms(algsConfigured);
         
-        WorkspacePersistence persistence = mock(WorkspacePersistence.class);
-        when(persistence.getWorkspace(workspacePath)).thenReturn(ws);
+        AlgorithmsPersistence persistence = mock(AlgorithmsPersistence.class);
+        when(persistence.getAlgorithmsCatalog()).thenReturn(algsConfigured);
         
-        AlgorithmsBean bean = new AlgorithmsBean(workspacePath);
+        AlgorithmsBean bean = new AlgorithmsBean(algorithmsPath);
         bean.setPersistence(persistence);
        
         
@@ -173,7 +166,6 @@ public class AlgorithmsBeanTest {
      */
     @Test
     public void testExistsShortName() {
-        Workspace ws = new Workspace(workspacePath);
         Set<AlgorithmEntity> algsConfigured = new HashSet<>();
 
         AlgorithmEntity alg = new AlgorithmEntity();
@@ -187,19 +179,17 @@ public class AlgorithmsBeanTest {
         alg.setShortName("DO2");
         alg.setType(DirectOptimalBasis.class);
         algsConfigured.add(alg);
-        ws.addAllAlgorithms(algsConfigured);
         
-        WorkspacePersistence persistence = mock(WorkspacePersistence.class);
-        when(persistence.getWorkspace(workspacePath)).thenReturn(ws);
+        AlgorithmsPersistence persistence = mock(AlgorithmsPersistence.class);
+        when(persistence.getAlgorithmsCatalog()).thenReturn(algsConfigured);
         
-        AlgorithmsBean bean = new AlgorithmsBean(workspacePath);
+        AlgorithmsBean bean = new AlgorithmsBean(algorithmsPath);
         bean.setPersistence(persistence);
         
         assertTrue(bean.existsShortName("DO"));
     }
     @Test
     public void testExistsShortName_False() {
-        Workspace ws = new Workspace(workspacePath);
         Set<AlgorithmEntity> algsConfigured = new HashSet<>();
 
         AlgorithmEntity alg = new AlgorithmEntity();
@@ -213,12 +203,11 @@ public class AlgorithmsBeanTest {
         alg.setShortName("DO2");
         alg.setType(DirectOptimalBasis.class);
         algsConfigured.add(alg);
-        ws.addAllAlgorithms(algsConfigured);
         
-        WorkspacePersistence persistence = mock(WorkspacePersistence.class);
-        when(persistence.getWorkspace(workspacePath)).thenReturn(ws);
+        AlgorithmsPersistence persistence = mock(AlgorithmsPersistence.class);
+        when(persistence.getAlgorithmsCatalog()).thenReturn(algsConfigured);
         
-        AlgorithmsBean bean = new AlgorithmsBean(workspacePath);
+        AlgorithmsBean bean = new AlgorithmsBean(algorithmsPath);
         bean.setPersistence(persistence);
         
         assertFalse(bean.existsShortName("DOnnn"));

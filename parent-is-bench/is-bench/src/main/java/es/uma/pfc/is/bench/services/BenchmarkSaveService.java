@@ -9,17 +9,16 @@ package es.uma.pfc.is.bench.services;
 import es.uma.pfc.is.bench.algorithmslist.AlgorithmsListController;
 import es.uma.pfc.is.bench.business.BenchmarksBean;
 import es.uma.pfc.is.bench.domain.Benchmark;
-import es.uma.pfc.is.bench.config.ConfigManager;
 import es.uma.pfc.is.commons.eventbus.Eventbus;
 import es.uma.pfc.is.bench.events.BenchmarksChangeEvent;
 import es.uma.pfc.is.bench.events.MessageEvent;
 import es.uma.pfc.is.bench.i18n.BenchMessages;
+import es.uma.pfc.is.commons.workspace.WorkspaceManager;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.concurrent.Service;
 import javafx.concurrent.Task;
-import javafx.scene.control.Alert;
 
 /**
  *
@@ -50,7 +49,7 @@ public class BenchmarkSaveService extends Service<Benchmark>{
             protected Benchmark call() throws Exception {
                 
                 BenchmarksBean benchamrksBean = new BenchmarksBean();
-                benchmark.setWorkspace(ConfigManager.get().getDefaultWorkspace());
+                benchmark.setWorkspace(WorkspaceManager.get().currentWorkspace().getLocation());
                 benchamrksBean.update(benchmark);
                 
                 return benchmark;

@@ -50,7 +50,7 @@ public class UserConfigController extends Controller {
     @FXML
     private TableColumn<PreferenceModel, String> valueColumn;
     private UserConfigModel model;
-    private ConfigManager userConfig;
+
     private WorkspaceManager wsManager;
 
     /**
@@ -60,7 +60,6 @@ public class UserConfigController extends Controller {
     public void initialize(URL url, ResourceBundle rb) {
         try {
             super.initialize(url, rb);
-            userConfig = ConfigManager.get();
             wsManager = WorkspaceManager.get();
             initView();
             initModel();
@@ -149,19 +148,16 @@ public class UserConfigController extends Controller {
             newWs = true;
         }
         if(newWs) {
-            Optional<ButtonType> result = this.showAlert(Alert.AlertType.CONFIRMATION, "Default Workspace", "Would you like set the new workspace as the current?");
+            Optional<ButtonType> result = this.showAlert(Alert.AlertType.CONFIRMATION, "Current Workspace", "Would you like set the new workspace as the current?");
             boolean current = result.orElse(ButtonType.CANCEL).equals(ButtonType.OK);
             wsManager.create(model.getWorkspaceSelected(), current);
             
             if(current) {
-                showAlert(Alert.AlertType.INFORMATION, "Default Workspace", "The change of workspace will do effective the next startup of the application.");
+                showAlert(Alert.AlertType.INFORMATION, "Current Workspace", "The change of workspace will do effective the next startup of the application.");
             }
         }
     }
 
-    protected void viewToModel() {
-        userConfig.setDefaultWorkspace(wsManager.currentWorkspace().getLocation());
-    }
 
     @FXML
     protected void handleSelectWorkspace(ActionEvent event) {

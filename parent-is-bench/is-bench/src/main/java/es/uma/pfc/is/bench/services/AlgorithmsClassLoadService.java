@@ -1,10 +1,11 @@
 
 package es.uma.pfc.is.bench.services;
 
+import com.sun.javafx.scene.control.skin.VirtualFlow;
 import es.uma.pfc.is.algorithms.Algorithm;
-import es.uma.pfc.is.bench.config.ConfigManager;
 import es.uma.pfc.is.commons.files.FileUtils;
 import es.uma.pfc.is.commons.reflection.ReflectionUtil;
+import es.uma.pfc.is.commons.workspace.WorkspaceManager;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -14,6 +15,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 import java.util.logging.Level;
@@ -47,7 +49,10 @@ public class AlgorithmsClassLoadService extends Service<List<String>> {
 
             @Override
             protected List<String> call() throws Exception {
-                List<Class<?>> classes = getAlgorithmsImpl(Paths.get(ConfigManager.get().getDefaultWorkspace(), "lib"));
+                List<Class<?>> classesInClasspath = getAlgorithmsImplInClasspath();
+                List<Class<?>> classes = getAlgorithmsImpl(Paths.get(WorkspaceManager.get().currentWorkspace().getLocation(), "lib"));
+                classes.addAll(classesInClasspath);
+                
                 return getClassesName((Collection<Class<?>>) classes);
             }
 
@@ -58,6 +63,25 @@ public class AlgorithmsClassLoadService extends Service<List<String>> {
     protected void failed() {
         Logger.getLogger(getClass().getName()).severe(getException().getMessage());
         getException().printStackTrace();
+    }
+
+    /**
+     * Searches the algorithms implementations that contains the jars into current workspace lib folder.
+     * @param libPath Directory that contains libraries.
+     * @return List of algorithm classes.
+     * @throws IOException 
+     * @throws IllegalArgumentException When {@code libsPath} is null or empty.
+     */
+    protected List<Class<?>> getAlgorithmsImplInClasspath() throws IOException {
+        List<Class<?>> algorithmsClasses = null;
+        Reflections r = new Reflections();
+        Set<Class<? extends Algorithm>> classes = r.getSubTypesOf(Algorithm.class);
+        
+        if (classes != null) {
+            algorithmsClasses = classes.stream().filter(clazz -> ReflectionUtil.isImplementation(clazz))
+                                                .collect(Collectors.toList());   
+        }
+        return (algorithmsClasses != null) ? algorithmsClasses : new ArrayList<>();
     }
 
     /**
@@ -81,7 +105,7 @@ public class AlgorithmsClassLoadService extends Service<List<String>> {
             algorithmsClasses = classes.stream().filter(clazz -> ReflectionUtil.isImplementation(clazz))
                                                 .collect(Collectors.toList());   
         }
-        return algorithmsClasses;
+        return (algorithmsClasses != null) ? algorithmsClasses : new ArrayList<>();
     }
     
     /**

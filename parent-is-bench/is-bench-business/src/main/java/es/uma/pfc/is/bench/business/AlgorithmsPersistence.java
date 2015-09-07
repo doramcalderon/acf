@@ -1,112 +1,138 @@
-//package es.uma.pfc.is.bench.business;
-//
-//import es.uma.pfc.is.bench.domain.AlgorithmEntity;
-//import es.uma.pfc.is.bench.domain.Algorithms;
-//import es.uma.pfc.is.bench.domain.Workspace;
-//import es.uma.pfc.is.commons.files.FileUtils;
-//import java.io.IOException;
-//import java.nio.file.Paths;
-//import java.util.Arrays;
-//import java.util.HashSet;
-//import java.util.Set;
-//import javax.xml.bind.JAXB;
-//
-///**
-// * Persist the algorithms into an XML file entities using JAXB.
-// *
-// * @author Dora Calderón
-// */
-//public class AlgorithmsPersistence {
-//    
-//
-//    /**
-//     * Single instance.
-//     */
-//    private static AlgorithmsPersistence me;
-//
-//    /**
-//     * Constructor.
-//     */
-//    private AlgorithmsPersistence() {
-//    }
-//
-//    /**
-//     * Get a single instance of AlgorithmsPersistence.
-//     *
-//     * @return AlgorithmsPersistence.
-//     */
-//    public static AlgorithmsPersistence get() {
-//        synchronized(AlgorithmsPersistence.class) {
-//            if (me == null) {
-//                me = new AlgorithmsPersistence();
-//            }
-//        }
-//        return me;
-//    }
-//
-//   
-//
-//    /**
-//     * Add the algorithms of {@code algorithms} param to algorithms file.
-//     *
-//     * @param workspace Workspace path.
-//     * @param algorithms
-//     */
-//    public void insert(String workspace, AlgorithmEntity ... algorithms) {
-//        if (algorithms == null) {
-//            throw new IllegalArgumentException("algorithms argument can't be null.");
-//        }
-//        
-//        Set<AlgorithmEntity> algs = getAlgorithmsCatalog(workspace);
-//        if (algs == null) {
-//            algs = new HashSet<>();
-//        }
-//        algs.addAll(Arrays.asList(algorithms));
-//        
-//        
-////        
-////TODO        JAXB.marshal(algs, UserConfig.get().getAlgorithmsFile());
-//    }
-//
-//    
-//    
-//    
-//    /**
-//     * Delete an algorithm from algorithms file.
-//     *
-//     * @param algorithm Algorithm.
-//     */
-//    public void delete(AlgorithmEntity algorithm) {
-//        if (algorithm == null) {
-//            throw new IllegalArgumentException("algorithm param can't be null.");
-//        }
-//        //TODO
-////        Algorithms algs = getAlgorithms();
-////        if(algs.getAlgorithms() != null) {
-////            algs.getAlgorithms().remove(algorithm);
-////        }
-////        create(algs);
-//    }
-//    
-//    public void clear() {
-////        create(new Algorithms());
-//    }
-//
-//    
-//    /**
-//     * Returns the algorithms catalog of a workspace.
-//     * @param workspacePath Workspace path.
-//     * @return Algorithms catalog of a workspace.<br/> {@code null} if the workspacePath not exists or algorithms 
-//     * in workspace not found.
-//     */
-//    protected Set<AlgorithmEntity> getAlgorithmsCatalog(String workspacePath) {
-//        Set<AlgorithmEntity> algorithms = null;
-//        Workspace ws = WorkspacePersistence.getWorkspace(workspacePath);
-//        if(ws != null) {
-//            algorithms = ws.getAlgorithms();
-//        }
-//        return algorithms;
-//                
-//    }
-//
-//}
+package es.uma.pfc.is.bench.business;
+
+import static es.uma.pfc.is.bench.business.Persistence.read;
+import es.uma.pfc.is.bench.domain.AlgorithmEntity;
+import es.uma.pfc.is.bench.domain.Algorithms;
+import java.nio.file.Paths;
+import java.util.Arrays;
+import java.util.Set;
+import javax.xml.bind.JAXBException;
+import org.slf4j.LoggerFactory;
+
+/**
+ * Persist the algorithms into an XML file entities using JAXB.
+ *
+ * @author Dora Calderón
+ */
+public class AlgorithmsPersistence extends Persistence {
+    /** Logger. **/
+    protected static final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(AlgorithmsPersistence.class);
+    /**
+     * Single instance.
+     */
+    private static AlgorithmsPersistence me;
+    private final String algorithmsFile;
+
+    /**
+     * Constructor.
+     */
+    private AlgorithmsPersistence(String algorithmsFile) {
+        this.algorithmsFile = algorithmsFile;
+    }
+
+    /**
+     * Get a single instance of AlgorithmsPersistence.
+     *
+     * @param algorithmsFilePath
+     * @return AlgorithmsPersistence.
+     */
+    public static AlgorithmsPersistence get(String algorithmsFilePath) {
+        synchronized(AlgorithmsPersistence.class) {
+            if (me == null) {
+                me = new AlgorithmsPersistence(algorithmsFilePath);
+            }
+        }
+        return me;
+    }
+
+   
+    /**
+     * Gets an Algorithms entity from a file path.
+     * @return Algorithms.
+     */
+    public Algorithms getAlgorithms() {
+        return read(Paths.get(algorithmsFile).toString(), Algorithms.class);
+    }
+
+    /**
+     * Add the algorithms of {@code algorithms} param to algorithms file.
+     * @param algorithms Algorithms to add.
+     */
+    public void insert(AlgorithmEntity ... algorithms) {
+        if (algorithms == null) {
+            throw new IllegalArgumentException("algorithms argument can't be null.");
+        }
+        Algorithms algs = getAlgorithms();
+        
+        if (algs == null) {
+            algs = new Algorithms();
+        }
+        algs.addAll(Arrays.asList(algorithms));
+        
+        try {
+            persist(algs, algorithmsFile, true);
+        } catch (JAXBException ex) {
+            LOGGER.error("Error adding algorithms.", ex);
+        }
+    }
+
+    
+    
+    
+    /**
+     * Delete an algorithm from algorithms file.
+     *
+     * @param algorithm Algorithm.
+     */
+    public void delete(AlgorithmEntity algorithm) {
+        if (algorithm == null) {
+            throw new IllegalArgumentException("algorithm param can't be null.");
+        }
+        Algorithms algs = getAlgorithms();
+        
+        if (algs != null) {
+            try {
+                algs.removeAlgorithms(algorithm.getName());
+                persist(algs, algorithmsFile, true);
+            } catch (JAXBException ex) {
+                LOGGER.error("Error deleting algorithms.", ex);
+            }
+        }
+    }
+    /**
+     * Clear the algorithms file.
+     */
+    public void clear() {
+        try {
+            persist(new Algorithms(), algorithmsFile, false);
+        } catch (JAXBException ex) {
+            LOGGER.error("Error restarting algorithms.", ex);
+        }
+    }
+    /**
+     * Update the algorithms.
+     * @param algorithms Algorithms.
+     */
+    public void update(Algorithms algorithms) {
+        try {
+            Persistence.persist(algorithms, algorithmsFile, true);
+        } catch (JAXBException ex) {
+            LOGGER.error("Error updating algorithms.");
+        }
+    }
+    
+    /**
+     * Returns the algorithms catalog.
+     * @return Algorithms catalog.
+     */
+    protected Set<AlgorithmEntity> getAlgorithmsCatalog() {
+        Set<AlgorithmEntity> algorithms = null;
+        Algorithms algs = getAlgorithms();
+        if(algs != null) {
+            algorithms = algs.getAlgorithms();
+        }
+        return algorithms;
+                
+    }
+
+}

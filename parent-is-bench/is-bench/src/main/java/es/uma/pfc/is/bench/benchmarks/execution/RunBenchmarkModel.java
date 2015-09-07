@@ -1,8 +1,9 @@
 package es.uma.pfc.is.bench.benchmarks.execution;
 
 import es.uma.pfc.is.bench.domain.Benchmark;
-import es.uma.pfc.is.bench.config.ConfigManager;
 import es.uma.pfc.is.bench.domain.AlgorithmEntity;
+import es.uma.pfc.is.commons.workspace.Preferences;
+import es.uma.pfc.is.commons.workspace.WorkspaceManager;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
@@ -52,14 +53,11 @@ public class RunBenchmarkModel {
      */
     private final BooleanProperty statisticsChecked;
 
-    private final ConfigManager userConfig;
-
     /**
      * Constructor.
      */
     public RunBenchmarkModel() {
         benchmarks = new ArrayList();
-        userConfig = ConfigManager.get();
         inputProperty = new SimpleStringProperty();
         outputProperty = new SimpleStringProperty();
         historyChecked = new SimpleBooleanProperty();
@@ -221,9 +219,9 @@ public class RunBenchmarkModel {
      */
     public String getDefaultOutput(AlgorithmEntity alg) {
         String output;
-
+        String defaultOutputDir = WorkspaceManager.get().getPreferenceAsFile(Preferences.DEFAULT_OUTPUT_DIR).toString();
         String workspace = (selectedBenchmark != null) ? selectedBenchmark.getOutputDir()
-                : userConfig.getDefaultOutputDir().toString();
+                : defaultOutputDir;
         if (alg != null) {
             output = Paths.get(workspace, alg.getShortName() + "_output.txt").toString();
         } else {

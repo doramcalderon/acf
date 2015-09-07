@@ -1,13 +1,13 @@
 package es.uma.pfc.is.bench.services;
 
 import es.uma.pfc.is.algorithms.Algorithm;
-import es.uma.pfc.is.bench.business.AlgorithmsBean;
 import es.uma.pfc.is.bench.algorithms.AlgorithmsModel;
-import es.uma.pfc.is.bench.business.WorkspaceBean;
-import es.uma.pfc.is.bench.config.ConfigManager;
+import es.uma.pfc.is.bench.business.AlgorithmsBean;
 import es.uma.pfc.is.bench.domain.AlgorithmEntity;
 import es.uma.pfc.is.bench.events.AlgorithmChangeEvent;
 import es.uma.pfc.is.commons.eventbus.Eventbus;
+import es.uma.pfc.is.commons.workspace.Preferences;
+import es.uma.pfc.is.commons.workspace.WorkspaceManager;
 import javafx.concurrent.Service;
 import javafx.concurrent.Task;
 
@@ -19,16 +19,24 @@ public class AlgorithmsSaveService extends Service {
     /**
      * Model.
      */
-    AlgorithmsModel model;
-    WorkspaceBean workspaceBean;
-
+    private final AlgorithmsModel model;
+    /**
+     * Algorithms bean.
+     */
+    private final AlgorithmsBean algorithmsBean;
+    /**
+     * Workspace manager.
+     */
+    private final WorkspaceManager wsManager;
+    
     /**
      * Constructor.
      * @param model Model. 
      */
     public AlgorithmsSaveService(AlgorithmsModel model) {
         this.model = model;
-        workspaceBean = new WorkspaceBean();
+        this.wsManager = WorkspaceManager.get();
+        algorithmsBean = new AlgorithmsBean(WorkspaceManager.get().getPreference(Preferences.ALGORITHMS_FILE));
     }
 
     @Override
@@ -43,7 +51,7 @@ public class AlgorithmsSaveService extends Service {
                 entity.setShortName(model.getShortName());
                 entity.setType((Class<? extends Algorithm>) Class.forName(model.getClassName()));
                 
-                workspaceBean.addAlgorithms(ConfigManager.get().getDefaultWorkspace(), entity);
+                algorithmsBean.addAlgorithms(entity);
                 
                 return null;
             }

@@ -9,7 +9,6 @@ import es.uma.pfc.is.bench.MainLayoutController;
 import es.uma.pfc.is.bench.algorithmslist.AlgorithmsListController;
 import es.uma.pfc.is.bench.business.BenchmarksBean;
 import es.uma.pfc.is.bench.domain.Benchmark;
-import es.uma.pfc.is.bench.config.ConfigManager;
 import es.uma.pfc.is.bench.domain.AlgorithmEntity;
 import es.uma.pfc.is.bench.events.AlgorithmChangeEvent;
 import es.uma.pfc.is.bench.events.AlgorithmsSelectedEvent;
@@ -23,6 +22,7 @@ import es.uma.pfc.is.bench.uitls.Chooser;
 import es.uma.pfc.is.bench.uitls.Dialogs;
 import es.uma.pfc.is.bench.view.FXMLViews;
 import es.uma.pfc.is.commons.strings.StringUtils;
+import es.uma.pfc.is.commons.workspace.WorkspaceManager;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
@@ -80,6 +80,10 @@ public class NewBenchmarkController extends Controller {
      * Model.
      */
     private NewBenchmarkModel model;
+    /**
+     * Workspace manager.
+     */
+    private WorkspaceManager wsManager;
 
     /**
      * Initializes the controller class.
@@ -161,7 +165,7 @@ public class NewBenchmarkController extends Controller {
             return false;
         }
 
-        boolean validBenchmarkName = !new BenchmarksBean().exists(model.getName(), ConfigManager.get().getDefaultWorkspace());
+        boolean validBenchmarkName = !new BenchmarksBean().exists(model.getName(), wsManager.currentWorkspace().getLocation());
         if (!validBenchmarkName) {
             Optional<ButtonType> confirm
                     = showAlert(Alert.AlertType.CONFIRMATION, null, getI18nMessage(BenchMessages.DUPLICATED_BENCHMARK));
@@ -211,8 +215,10 @@ public class NewBenchmarkController extends Controller {
      */
     @FXML
     public void handleSelectInputFile(ActionEvent event) {
+        File defaultInputDir = wsManager.getPreferenceAsFile("input.default");
+        
         File resultFile = Chooser.openFileChooser(getRootPane().getScene().getWindow(),
-                Chooser.FileChooserMode.OPEN, "Input system", ConfigManager.get().getDefaultInputDir(),
+                Chooser.FileChooserMode.OPEN, "Input system", defaultInputDir,
                 new FileChooser.ExtensionFilter(getI18nLabel(I18n.TEXT_FILE), "*.txt"),
                 new FileChooser.ExtensionFilter(getI18nLabel(I18n.PROLOG_FILE), "*.pl"));
         if (resultFile != null) {
@@ -228,7 +234,7 @@ public class NewBenchmarkController extends Controller {
     @FXML
     public void handleGenerateSystem(ActionEvent event) {
         try {
-            String implicationsPath = Paths.get(ConfigManager.get().getDefaultWorkspace(), model.getName(), "implications.txt").toString();
+            String implicationsPath = Paths.get(wsManager.currentWorkspace().getLocation(), model.getName(), "implications.txt").toString();
             FXMLLoader loader = new FXMLLoader(ISBenchApp.class.getResource("/" + es.uma.pfc.implications.generator.view.FXMLViews.IMPLICATIONS_VIEW),
                     ResourceBundle.getBundle("es.uma.pfc.implications.generator.i18n.labels", Locale.getDefault()));
             

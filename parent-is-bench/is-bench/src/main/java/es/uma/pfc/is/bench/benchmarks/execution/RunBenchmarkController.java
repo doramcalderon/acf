@@ -1,11 +1,9 @@
 package es.uma.pfc.is.bench.benchmarks.execution;
 
 import com.google.common.eventbus.Subscribe;
-import es.uma.pfc.is.algorithms.AlgorithmOptions.Mode;
 import es.uma.pfc.is.algorithms.exceptions.AlgorithmException;
 import es.uma.pfc.is.bench.Controller;
 import es.uma.pfc.is.bench.domain.Benchmark;
-import es.uma.pfc.is.bench.config.ConfigManager;
 import es.uma.pfc.is.bench.domain.AlgorithmEntity;
 import es.uma.pfc.is.commons.eventbus.Eventbus;
 import es.uma.pfc.is.bench.events.BenchmarksChangeEvent;
@@ -19,6 +17,7 @@ import es.uma.pfc.is.bench.uitls.Animations;
 import es.uma.pfc.is.bench.uitls.Chooser;
 import es.uma.pfc.is.bench.validators.FilePathValidator;
 import es.uma.pfc.is.commons.strings.StringUtils;
+import es.uma.pfc.is.commons.workspace.WorkspaceManager;
 import es.uma.pfc.is.javafx.FilterableTreeItem;
 import es.uma.pfc.is.javafx.TreeItemPredicate;
 import java.io.File;
@@ -392,10 +391,13 @@ public class RunBenchmarkController extends Controller {
     @FXML
     public void handleSelectInputAction(ActionEvent event) {
         Window mainStage = rootPane.getScene().getWindow();
+        File defaultInputDir = WorkspaceManager.get().getPreferenceAsFile("input.default");
+        
         File selectedFile = Chooser.openFileChooser(mainStage, Chooser.FileChooserMode.OPEN,
-                getI18nLabel(I18n.SELECT_INPUT_DIALOG_TITLE), ConfigManager.get().getDefaultInputDir(),
+                getI18nLabel(I18n.SELECT_INPUT_DIALOG_TITLE), defaultInputDir,
                 new FileChooser.ExtensionFilter(getI18nLabel(I18n.TEXT_FILE), "*.txt"),
                 new FileChooser.ExtensionFilter(getI18nLabel(I18n.PROLOG_FILE), "*.pl"));
+        
         if (selectedFile != null) {
             txtInput.setText(selectedFile.getPath());
         }
@@ -408,11 +410,11 @@ public class RunBenchmarkController extends Controller {
      */
     @FXML
     public void handleSelectOutputAction(ActionEvent event) {
-
         Window mainStage = rootPane.getScene().getWindow();
+        File defaultOutputDir = WorkspaceManager.get().getPreferenceAsFile("output.default");
 
         File selectedFile = Chooser.openFileChooser(mainStage, Chooser.FileChooserMode.OPEN,
-                getI18nLabel(I18n.SELECT_OUTPUT_DIALOG_TITLE), ConfigManager.get().getDefaultOutputDir(),
+                getI18nLabel(I18n.SELECT_OUTPUT_DIALOG_TITLE), defaultOutputDir,
                 new FileChooser.ExtensionFilter(getI18nLabel(I18n.TEXT_FILE), "*.txt"),
                 new FileChooser.ExtensionFilter(getI18nLabel(I18n.PROLOG_FILE), "*.pl"));
         if (selectedFile != null) {

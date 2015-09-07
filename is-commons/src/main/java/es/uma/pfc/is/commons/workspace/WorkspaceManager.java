@@ -4,10 +4,9 @@ import es.uma.pfc.is.commons.files.FileUtils;
 import es.uma.pfc.is.commons.strings.StringUtils;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.nio.file.Files;
+import java.nio.file.InvalidPathException;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -84,6 +83,19 @@ public class WorkspaceManager {
         }
     }
 
+    /**
+     * Constructor.
+     */
+    protected WorkspaceManager(String configPath, Properties config) {
+//        try {
+            this.configPath = configPath;
+            this.config = config;
+//            initialize();
+//        } catch (IOException ex) {
+//            LOGGER.error("Error initializing the config file.");
+//        }
+    }
+
      /**
      * Initialize the workspacemanager.<br/>
      * If no exists the config file, creates it.<br/>
@@ -91,8 +103,8 @@ public class WorkspaceManager {
      */
     protected final void initialize() throws IOException {
         initConfig();
-        Workspace current = currentWorkspace();
-        if (current == null) {
+
+        if (currentWorkspace() == null) {
             createDefaultWorkspace();
         }
         commitPendingChanges();
@@ -109,23 +121,7 @@ public class WorkspaceManager {
         config.load(new FileInputStream(configFile));
     }
 
-    /**
-     * Only for testing usage.
-     *
-     * @param config Config.
-     */
-    protected void setConfig(Properties config) {
-        this.config = config;
-        current = null;
-    }
-/**
-     * Only for testing usage.
-     *
-     * @param configPath Config path.
-     */
-    protected void setConfigPath(String configPath) {
-        this.configPath = configPath;
-    }
+  
     /**
      *
      * @return Single instance of WorkspaceManager.
@@ -137,8 +133,13 @@ public class WorkspaceManager {
         return me;
     }
 
-   
-
+   /**
+    * Only for testing purpose.
+    * @param ws 
+    */
+    protected void setCurrentWorkspace(Workspace ws) {
+        current = ws;
+    }
     /**
      * Create the default workspace.
      */
@@ -234,7 +235,38 @@ public class WorkspaceManager {
         }
         return workspaces;
     }
-
+    /**
+     * Gets a preference value.
+     * @param name Name.
+     * @return Preference value. {@code null} if the preference not exists.
+     */
+    public String getPreference(String name) {
+        return (current != null) ? current.getPreferences().getPreference(name) : null;
+    }
+    
+    /**
+     * 
+     * @param name
+     * @return 
+     * @throws InvalidPathException  if the path string cannot be converted to a Path
+     */
+    public File getPreferenceAsFile(String name) {
+        File preferenceValue = null;
+        
+        if(!StringUtils.isEmpty(name)) {
+            String stringValue = getPreference(name);
+            if(!StringUtils.isEmpty(stringValue)) {
+                preferenceValue = Paths.get(stringValue).toFile();
+            }
+        }
+        return preferenceValue;
+    }
+    
+    /**
+     * Adds a new preference.
+     * @param name Name.
+     * @param value Value.
+     */
     public void addPreference(String name, String value) {
         try {
             current.getPreferences().setPreference(name, value);
@@ -261,7 +293,7 @@ public class WorkspaceManager {
             p = new Preferences();
         }
         if (p.size() == 0) {
-            p = createDefaultPreferences();
+            p = createDefaultPreferences(wsLocation);
         }
         p.store(new FileOutputStream(Paths.get(wsLocation, "preferences.properties").toFile()), "");
     }
@@ -271,10 +303,13 @@ public class WorkspaceManager {
      *
      * @return Prefrences.
      */
-    public Preferences createDefaultPreferences() {
+    public Preferences createDefaultPreferences(String wsLocation) {
         Preferences p = new Preferences();
         Locale lc = new Locale(System.getProperty("user.language"), System.getProperty("user.country"));
         p.setPreference(Preferences.LANGUAGE, lc.toString());
+        p.setPreference(Preferences.ALGORITHMS_FILE, Paths.get(wsLocation, "algorithms.xml").toString());
+        p.setPreference(Preferences.DEFAULT_INPUT_DIR, Paths.get(wsLocation, "input").toString());
+        p.setPreference(Preferences.DEFAULT_OUTPUT_DIR, Paths.get(wsLocation, "output").toString());
         return p;
     }
 

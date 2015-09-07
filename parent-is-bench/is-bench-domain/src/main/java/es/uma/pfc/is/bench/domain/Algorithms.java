@@ -5,12 +5,14 @@
  */
 package es.uma.pfc.is.bench.domain;
 
-import es.uma.pfc.is.bench.domain.AlgorithmEntity;
 import es.uma.pfc.is.algorithms.Algorithm;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
+import java.util.Set;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlElements;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -22,29 +24,69 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement(name = "algorithms")
 public class Algorithms {
 
-    private List<AlgorithmEntity> algorithms;
+    private Set<AlgorithmEntity> algorithms;
 
     public Algorithms() {
-        algorithms = new ArrayList();
+        algorithms = new HashSet<>();
     }
 
-    public Algorithms(List<AlgorithmEntity> algorithms) {
+    public Algorithms(Set<AlgorithmEntity> algorithms) {
         this.algorithms = algorithms;
     }
 
     @XmlElements({
         @XmlElement(name = "algorithm")})
-    public List<AlgorithmEntity> getAlgorithms() {
+    public Set<AlgorithmEntity> getAlgorithms() {
         return algorithms;
     }
 
+    /**
+     * Adds an algorithm.
+     * @param algEntity Algorithm.
+     */
     public void add(AlgorithmEntity algEntity) {
         algorithms.add(algEntity);
     }
 
-    public void addAll(Algorithms algorithms) {
-        if (algorithms != null && algorithms.getAlgorithms() != null) {
-            this.algorithms.addAll(algorithms.getAlgorithms());
+    /**
+     * Adds new  algorithms.
+     * @param newAlgorithms New algorithms.
+     */
+    public void addAll(AlgorithmEntity... newAlgorithms) {
+        if (newAlgorithms != null) {
+            addAll(Arrays.asList(newAlgorithms));
+        }
+    }
+
+    /**
+     * Adds new  algorithms.
+     * @param newAlgorithms New algorithms.
+     */
+    public void addAll(Collection<AlgorithmEntity> newAlgorithms) {
+        if (newAlgorithms != null) {
+            if (this.algorithms == null) {
+                this.algorithms = new HashSet<>();
+            }
+            this.algorithms.addAll(newAlgorithms);
+        }
+    }
+
+    /**
+     * Removes algorithms.
+     * @param algNames Algorithms names.
+     */
+    public void removeAlgorithms(String ... algNames) {
+        if(algNames != null) {
+            Set<AlgorithmEntity> auxAlgs = new HashSet<>();
+            if(algorithms != null) {
+                auxAlgs.addAll(algorithms);
+            }
+            for(String name : algNames) {
+                algorithms.stream().filter((alg) -> (alg.getName().equals(name))).forEach((alg) -> {
+                    auxAlgs.remove(alg);
+                });
+            }
+            this.algorithms = auxAlgs;
         }
     }
 

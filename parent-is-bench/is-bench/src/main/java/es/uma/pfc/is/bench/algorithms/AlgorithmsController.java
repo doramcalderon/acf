@@ -2,22 +2,18 @@ package es.uma.pfc.is.bench.algorithms;
 
 import es.uma.pfc.is.bench.Controller;
 import es.uma.pfc.is.bench.business.AlgorithmsBean;
-import es.uma.pfc.is.bench.config.ConfigManager;
 import es.uma.pfc.is.bench.i18n.BenchMessages;
 import es.uma.pfc.is.bench.services.AlgorithmsClassLoadService;
 import es.uma.pfc.is.bench.services.AlgorithmsSaveService;
 import es.uma.pfc.is.bench.validators.ClassNameValidator;
 import es.uma.pfc.is.bench.validators.EmptyStringValidator;
+import es.uma.pfc.is.commons.workspace.WorkspaceManager;
 import java.io.IOException;
 import java.net.URL;
 import java.util.List;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javafx.application.Platform;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
-import javafx.collections.FXCollections;
 import javafx.concurrent.WorkerStateEvent;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
@@ -74,7 +70,7 @@ public class AlgorithmsController extends Controller {
             initBindings();
             initListeners();
 
-            algorithmsBean = new AlgorithmsBean(ConfigManager.get().getDefaultWorkspace());
+            algorithmsBean = new AlgorithmsBean(WorkspaceManager.get().currentWorkspace().getLocation());
         } catch (IOException ex) {
             Logger.getLogger(AlgorithmsController.class.getName()).log(Level.SEVERE, null, ex);
         }

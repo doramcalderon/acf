@@ -10,7 +10,6 @@
         <module>is-commons</module>
         <module>parent-is-bench</module>
         <module>implications-generator</module>
-        <module>classloader-poc</module>
     </modules>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>

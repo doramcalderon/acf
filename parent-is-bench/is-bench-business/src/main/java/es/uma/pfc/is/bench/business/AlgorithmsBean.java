@@ -1,9 +1,11 @@
 package es.uma.pfc.is.bench.business;
 
 import es.uma.pfc.is.bench.domain.AlgorithmEntity;
-import es.uma.pfc.is.bench.domain.Workspace;
+import es.uma.pfc.is.bench.domain.Algorithms;
 import es.uma.pfc.is.commons.strings.StringUtils;
+import java.util.Arrays;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 /**
  * Business logic for insert, modify and delete algorithms.
@@ -11,19 +13,15 @@ import java.util.Set;
  * @author Dora Calderón
  */
 public class AlgorithmsBean {
-    /**
-     * Workspace path.
-     */
-    private final String workspacePath;
-    private WorkspacePersistence persistence;
+    
+    private AlgorithmsPersistence persistence;
 
     /**
      * Consturctor.
-     * @param workspacePath Workspace path.
+     * @param algorithmsFilePath Workspace path.
      */
-    public AlgorithmsBean(String workspacePath) {
-        this.workspacePath = workspacePath;
-        this.persistence = WorkspacePersistence.get();
+    public AlgorithmsBean(String algorithmsFilePath) {
+        this.persistence = AlgorithmsPersistence.get(algorithmsFilePath);
     }
 
     /**
@@ -31,12 +29,28 @@ public class AlgorithmsBean {
      * @return Algorithm Entities list.
      */
     public Set<AlgorithmEntity> getAlgorithms() {
-        Set<AlgorithmEntity> algorithms = null;
-        Workspace ws = persistence.getWorkspace(workspacePath);
-        if (ws != null) {
-            algorithms = ws.getAlgorithms();
+        return persistence.getAlgorithmsCatalog();
+    }
+    
+    /**
+     * Update a workspace adding new algorithms.<br/>
+     * If any algorithms exists in the workspace, this is overrided.
+     * @param path Workspace path.
+     * @param algorithms Algorithms to add.
+     */
+    public void addAlgorithms(AlgorithmEntity ... algorithms) {
+        if (algorithms == null) {
+            throw new IllegalArgumentException("algorithms argument can't be null.");
         }
-        return algorithms;
+        Algorithms algs = new Algorithms(persistence.getAlgorithmsCatalog());
+        
+        String [] names = Arrays.asList(algorithms).stream()
+                                            .map((AlgorithmEntity t) -> {return (t != null) ? t.getName() : null;})
+                                            .collect(Collectors.toList())
+                                            .toArray(new String[]{});
+        algs.removeAlgorithms(names);
+        algs.addAll(algorithms);
+        persistence.update(algs);
     }
 
     /**
@@ -44,9 +58,7 @@ public class AlgorithmsBean {
      * @param algorithm Algorithm.
      */
     public void delete(AlgorithmEntity algorithm) {
-        Workspace ws = persistence.getWorkspace(workspacePath);
-        ws.getAlgorithms().remove(algorithm);
-        WorkspacePersistence.update(ws);
+      persistence.delete(algorithm);
     }
 
     /**
@@ -111,7 +123,7 @@ public class AlgorithmsBean {
      * For testing usage.
      * @param persistence 
      */
-    protected void setPersistence(WorkspacePersistence persistence) {
+    protected void setPersistence(AlgorithmsPersistence persistence) {
         this.persistence = persistence;
     }
 
