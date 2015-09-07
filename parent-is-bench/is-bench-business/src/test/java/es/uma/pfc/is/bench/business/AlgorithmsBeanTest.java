@@ -3,7 +3,6 @@ package es.uma.pfc.is.bench.business;
 
 import es.uma.pfc.is.algorithms.optbasis.DirectOptimalBasis;
 import es.uma.pfc.is.bench.domain.AlgorithmEntity;
-import es.uma.pfc.is.bench.domain.Workspace;
 import java.nio.file.Paths;
 import java.util.HashSet;
 import java.util.Set;

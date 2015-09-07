@@ -73,7 +73,7 @@ public class WorkspaceManagerTest {
         assertTrue(Files.exists(Paths.get(location)));
         assertTrue(Files.exists(Paths.get(location, WorkspaceManager.DEFAULT_INPUT_PATH)));
         assertTrue(Files.exists(Paths.get(location, WorkspaceManager.DEFAULT_OUTPUT_PATH)));
-        assertEquals(name.replace(" ", ""), config.getProperty(WorkspaceManager.CURRENT_WORKSPACE));
+        assertEquals(name.replace(" ", ""), config.getProperty(WorkspaceManager.WORKSPACE_CHANGE));
     }
       /**
      * Test of saveWorkspace method, of class WorkspaceManager.
@@ -93,7 +93,7 @@ public class WorkspaceManagerTest {
         manager.saveWorkspace(ws, false);
         
         assertEquals(location, config.get( name));
-        assertEquals(name, config.getProperty(WorkspaceManager.WORKSPACE_CHANGE));
+        assertNull(config.getProperty(WorkspaceManager.WORKSPACE_CHANGE));
         assertFalse(name.equals(config.getProperty(WorkspaceManager.CURRENT_WORKSPACE)));
         
     }
@@ -112,19 +112,20 @@ public class WorkspaceManagerTest {
         manager.saveWorkspace(ws, true);
         
         assertEquals(location, config.get(name));
-        assertEquals(name, config.getProperty(WorkspaceManager.CURRENT_WORKSPACE));
+        assertEquals(name, config.getProperty(WorkspaceManager.WORKSPACE_CHANGE));
         
     }
     
     @Test
     public void testChange() {
+        String configPath = Paths.get(System.getProperty("user.dir"), "target", "isbench", "isbench.properties").toString();
         Properties config = new Properties();
         config.setProperty(WorkspaceManager.CURRENT_WORKSPACE, "default");
         
         Workspace ws = new Workspace();
         ws.setName("newWs");
         
-        WorkspaceManager manager = new WorkspaceManager(null, config);
+        WorkspaceManager manager = new WorkspaceManager(configPath, config);
         manager.change(ws);
         
         assertEquals("default", config.getProperty(WorkspaceManager.CURRENT_WORKSPACE));

@@ -14,6 +14,7 @@ import java.util.Enumeration;
 import java.util.List;
 import java.util.Locale;
 import java.util.Properties;
+import java.util.logging.Level;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -182,7 +183,12 @@ public class WorkspaceManager {
      */
     public void change(Workspace ws) {
         if (ws != null && !StringUtils.isEmpty(ws.getName())) {
-            config.setProperty(WORKSPACE_CHANGE, ws.getName());
+            try {
+                config.setProperty(WORKSPACE_CHANGE, ws.getName());
+                saveConfig();
+            } catch (IOException ex) {
+                LOGGER.error("Error saving config.", ex);
+            }
         }
     }
 
@@ -326,16 +332,19 @@ public class WorkspaceManager {
      * @param current If sets this workspace to the current.
      * @throws IOException
      */
-    protected void saveWorkspace(Workspace ws, boolean current) throws IOException {
+    protected void saveWorkspace(Workspace ws, boolean current)  {
 
         String wsNameProperty = ws.getName();
         config.setProperty(wsNameProperty, ws.getLocation());
         if (current) {
-            config.setProperty(CURRENT_WORKSPACE, wsNameProperty);
-            config.remove(WORKSPACE_CHANGE);
-        } else {
             config.setProperty(WORKSPACE_CHANGE, wsNameProperty);
         }
+    }
+    /**
+     * Save the config in the file.
+     * @throws IOException 
+     */
+    protected void saveConfig() throws IOException {
         config.store(new FileOutputStream(new File(configPath)), "");
     }
 }

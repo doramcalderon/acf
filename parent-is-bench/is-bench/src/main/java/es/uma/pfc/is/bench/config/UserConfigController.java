@@ -23,8 +23,6 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
-import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.stage.Window;
@@ -140,21 +138,27 @@ public class UserConfigController extends Controller {
     public void save() {
         List<Workspace> workspaces = model.workspacesListProperty().get();
         boolean newWs;
+        boolean changeWs = false;
+        
+        Workspace wsSelected = model.workspaceSelected().getValue();
         if (workspaces != null) {
             newWs = !workspaces.stream()
-                                .filter(w -> w.getLocation().equals(model.workspaceSelected().getValue().getLocation()))
+                                .filter(w -> w.getLocation().equals(wsSelected.getLocation()))
                                 .findFirst().isPresent();
         } else {
             newWs = true;
         }
         if(newWs) {
             Optional<ButtonType> result = this.showAlert(Alert.AlertType.CONFIRMATION, "Current Workspace", "Would you like set the new workspace as the current?");
-            boolean current = result.orElse(ButtonType.CANCEL).equals(ButtonType.OK);
-            wsManager.create(model.getWorkspaceSelected(), current);
+            changeWs = result.orElse(ButtonType.CANCEL).equals(ButtonType.OK);
+            wsManager.create(wsSelected, changeWs);
             
-            if(current) {
-                showAlert(Alert.AlertType.INFORMATION, "Current Workspace", "The change of workspace will do effective the next startup of the application.");
-            }
+        } else if (!wsManager.currentWorkspace().getName().equals(wsSelected.getName())){
+            wsManager.change(wsSelected);
+            changeWs = true;
+        }
+        if(changeWs) {
+            showAlert(Alert.AlertType.INFORMATION, "Current Workspace", "The change of workspace will do effective the next startup of the application.");
         }
     }
 

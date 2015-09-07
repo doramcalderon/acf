@@ -51,7 +51,11 @@ public class AlgorithmsPersistence extends Persistence {
      * @return Algorithms.
      */
     public Algorithms getAlgorithms() {
-        return read(Paths.get(algorithmsFile).toString(), Algorithms.class);
+        Algorithms algs = null;
+        if(algorithmsFile != null) {
+            algs = read(Paths.get(algorithmsFile).toString(), Algorithms.class);
+        }
+        return algs;
     }
 
     /**
