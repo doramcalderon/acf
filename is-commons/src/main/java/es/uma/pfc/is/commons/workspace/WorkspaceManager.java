@@ -159,9 +159,15 @@ public class WorkspaceManager {
      */
     public void create(Workspace ws, boolean current) {
         try {
-            FileUtils.createDirIfNoExists(ws.getLocation());
-            FileUtils.createDirIfNoExists(Paths.get(ws.getLocation(), DEFAULT_INPUT_PATH).toString());
-            FileUtils.createDirIfNoExists(Paths.get(ws.getLocation(), DEFAULT_OUTPUT_PATH).toString());
+            String location = ws.getLocation();
+            FileUtils.createDirIfNoExists(location);
+            String inputDir = (String) ws.getPreferences().getOrDefault(Preferences.DEFAULT_INPUT_DIR, 
+                                                                    Paths.get(location, DEFAULT_INPUT_PATH).toString());
+            String outputDir = (String) ws.getPreferences().getOrDefault(Preferences.DEFAULT_OUTPUT_DIR, 
+                                                                    Paths.get(location, DEFAULT_OUTPUT_PATH).toString());
+
+            FileUtils.createDirIfNoExists(inputDir);
+            FileUtils.createDirIfNoExists(outputDir);
             savePreferences(ws.getPreferences(), ws.getLocation());
             saveWorkspace(ws, current);
         } catch (IOException ex) {

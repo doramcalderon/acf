@@ -42,6 +42,7 @@ public class Algorithms {
 
     /**
      * Adds an algorithm.
+     *
      * @param algEntity Algorithm.
      */
     public void add(AlgorithmEntity algEntity) {
@@ -49,7 +50,8 @@ public class Algorithms {
     }
 
     /**
-     * Adds new  algorithms.
+     * Adds new algorithms.
+     *
      * @param newAlgorithms New algorithms.
      */
     public void addAll(AlgorithmEntity... newAlgorithms) {
@@ -59,7 +61,8 @@ public class Algorithms {
     }
 
     /**
-     * Adds new  algorithms.
+     * Adds new algorithms.
+     *
      * @param newAlgorithms New algorithms.
      */
     public void addAll(Collection<AlgorithmEntity> newAlgorithms) {
@@ -73,18 +76,19 @@ public class Algorithms {
 
     /**
      * Removes algorithms.
+     *
      * @param algNames Algorithms names.
      */
-    public void removeAlgorithms(String ... algNames) {
-        if(algNames != null) {
+    public void removeAlgorithms(String... algNames) {
+        if (algNames != null) {
             Set<AlgorithmEntity> auxAlgs = new HashSet<>();
-            if(algorithms != null) {
+            if (algorithms != null) {
                 auxAlgs.addAll(algorithms);
-            }
-            for(String name : algNames) {
-                algorithms.stream().filter((alg) -> (alg.getName().equals(name))).forEach((alg) -> {
-                    auxAlgs.remove(alg);
-                });
+                for (String name : algNames) {
+                    algorithms.stream().filter((alg) -> (alg.getName().equals(name))).forEach((alg) -> {
+                        auxAlgs.remove(alg);
+                    });
+                }
             }
             this.algorithms = auxAlgs;
         }
@@ -120,15 +124,14 @@ public class Algorithms {
             return false;
         }
         final Algorithms other = (Algorithms) obj;
-        if(this.algorithms == null && other.algorithms != null) {
+        if (this.algorithms == null && other.algorithms != null) {
             return false;
         }
-        if(this.algorithms != null && other.algorithms == null) {
+        if (this.algorithms != null && other.algorithms == null) {
             return false;
         }
-        return Arrays.equals(this.algorithms.toArray(new AlgorithmEntity[]{}), 
+        return Arrays.equals(this.algorithms.toArray(new AlgorithmEntity[]{}),
                 other.algorithms.toArray(new AlgorithmEntity[]{}));
     }
-    
-    
+
 }
