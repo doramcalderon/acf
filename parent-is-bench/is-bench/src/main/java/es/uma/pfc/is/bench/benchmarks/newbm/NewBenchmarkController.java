@@ -95,6 +95,7 @@ public class NewBenchmarkController extends Controller {
     public void initialize(URL url, ResourceBundle rb) {
         try {
             super.initialize(url, rb);
+            wsManager = WorkspaceManager.get();
             initView();
             initModel();
             initBinding();
