@@ -5,7 +5,7 @@ import com.sun.javafx.scene.control.skin.VirtualFlow;
 import es.uma.pfc.is.algorithms.Algorithm;
 import es.uma.pfc.is.commons.files.FileUtils;
 import es.uma.pfc.is.commons.reflection.ReflectionUtil;
-import es.uma.pfc.is.commons.workspace.WorkspaceManager;
+import es.uma.pfc.is.bench.domain.ws.WorkspaceManager;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;

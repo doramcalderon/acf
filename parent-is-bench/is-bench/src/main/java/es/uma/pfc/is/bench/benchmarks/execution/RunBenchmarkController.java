@@ -17,7 +17,7 @@ import es.uma.pfc.is.bench.uitls.Animations;
 import es.uma.pfc.is.bench.uitls.Chooser;
 import es.uma.pfc.is.bench.validators.FilePathValidator;
 import es.uma.pfc.is.commons.strings.StringUtils;
-import es.uma.pfc.is.commons.workspace.WorkspaceManager;
+import es.uma.pfc.is.bench.domain.ws.WorkspaceManager;
 import es.uma.pfc.is.javafx.FilterableTreeItem;
 import es.uma.pfc.is.javafx.TreeItemPredicate;
 import java.io.File;

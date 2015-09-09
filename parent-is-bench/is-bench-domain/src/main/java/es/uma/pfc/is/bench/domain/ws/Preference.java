@@ -1,5 +1,5 @@
 
-package es.uma.pfc.is.commons.workspace;
+package es.uma.pfc.is.bench.domain.ws;
 
 import java.util.Objects;
 

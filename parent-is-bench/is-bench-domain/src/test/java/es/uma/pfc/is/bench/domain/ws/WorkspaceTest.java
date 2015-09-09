@@ -3,8 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package es.uma.pfc.is.commons.workspace;
+package es.uma.pfc.is.bench.domain.ws;
 
+import es.uma.pfc.is.bench.domain.ws.Workspace;
 import org.junit.Test;
 import static org.junit.Assert.*;
 

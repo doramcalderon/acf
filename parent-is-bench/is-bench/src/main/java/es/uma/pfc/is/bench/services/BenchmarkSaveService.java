@@ -13,7 +13,7 @@ import es.uma.pfc.is.commons.eventbus.Eventbus;
 import es.uma.pfc.is.bench.events.BenchmarksChangeEvent;
 import es.uma.pfc.is.bench.events.MessageEvent;
 import es.uma.pfc.is.bench.i18n.BenchMessages;
-import es.uma.pfc.is.commons.workspace.WorkspaceManager;
+import es.uma.pfc.is.bench.domain.ws.WorkspaceManager;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;

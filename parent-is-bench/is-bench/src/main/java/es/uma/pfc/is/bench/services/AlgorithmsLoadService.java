@@ -2,8 +2,8 @@ package es.uma.pfc.is.bench.services;
 
 import es.uma.pfc.is.bench.business.AlgorithmsBean;
 import es.uma.pfc.is.bench.domain.AlgorithmEntity;
-import es.uma.pfc.is.commons.workspace.Preferences;
-import es.uma.pfc.is.commons.workspace.WorkspaceManager;
+import es.uma.pfc.is.bench.domain.ws.Preferences;
+import es.uma.pfc.is.bench.domain.ws.WorkspaceManager;
 import java.util.Set;
 import java.util.logging.Logger;
 import javafx.concurrent.Service;

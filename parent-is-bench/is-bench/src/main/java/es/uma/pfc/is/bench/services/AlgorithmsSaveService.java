@@ -6,8 +6,8 @@ import es.uma.pfc.is.bench.business.AlgorithmsBean;
 import es.uma.pfc.is.bench.domain.AlgorithmEntity;
 import es.uma.pfc.is.bench.events.AlgorithmChangeEvent;
 import es.uma.pfc.is.commons.eventbus.Eventbus;
-import es.uma.pfc.is.commons.workspace.Preferences;
-import es.uma.pfc.is.commons.workspace.WorkspaceManager;
+import es.uma.pfc.is.bench.domain.ws.Preferences;
+import es.uma.pfc.is.bench.domain.ws.WorkspaceManager;
 import javafx.concurrent.Service;
 import javafx.concurrent.Task;
 

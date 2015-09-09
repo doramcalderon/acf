@@ -1,4 +1,4 @@
-package es.uma.pfc.is.commons.workspace;
+package es.uma.pfc.is.bench.domain.ws;
 
 import es.uma.pfc.is.commons.files.FileUtils;
 import es.uma.pfc.is.commons.strings.StringUtils;

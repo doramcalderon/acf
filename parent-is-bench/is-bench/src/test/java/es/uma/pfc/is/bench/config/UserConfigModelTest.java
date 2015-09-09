@@ -1,8 +1,8 @@
 
 package es.uma.pfc.is.bench.config;
 
-import es.uma.pfc.is.commons.workspace.Preferences;
-import es.uma.pfc.is.commons.workspace.Workspace;
+import es.uma.pfc.is.bench.domain.ws.Preferences;
+import es.uma.pfc.is.bench.domain.ws.Workspace;
 import java.util.Arrays;
 import java.util.List;
 import javafx.beans.property.ListProperty;

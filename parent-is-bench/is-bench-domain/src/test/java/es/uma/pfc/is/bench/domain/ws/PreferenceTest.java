@@ -1,9 +1,5 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-package es.uma.pfc.is.bench.domain;
+
+package es.uma.pfc.is.bench.domain.ws;
 
 import java.io.StringReader;
 import java.io.StringWriter;
@@ -29,7 +25,7 @@ public class PreferenceTest {
         Preference unmarshalPreference = JAXB.<Preference>unmarshal(new StringReader(sw.toString()), Preference.class);
         
         Assert.assertNotNull(unmarshalPreference);
-        Assert.assertEquals(p.getKey(), unmarshalPreference.getKey());
+        Assert.assertEquals(p.getName(), unmarshalPreference.getName());
         Assert.assertEquals(p.getValue(), unmarshalPreference.getValue());
     }
     

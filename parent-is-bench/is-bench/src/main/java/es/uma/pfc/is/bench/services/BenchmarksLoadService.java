@@ -3,7 +3,7 @@ package es.uma.pfc.is.bench.services;
 
 import es.uma.pfc.is.bench.business.BenchmarksBean;
 import es.uma.pfc.is.bench.domain.Benchmark;
-import es.uma.pfc.is.commons.workspace.WorkspaceManager;
+import es.uma.pfc.is.bench.domain.ws.WorkspaceManager;
 import java.util.List;
 import javafx.concurrent.Service;
 import javafx.concurrent.Task;

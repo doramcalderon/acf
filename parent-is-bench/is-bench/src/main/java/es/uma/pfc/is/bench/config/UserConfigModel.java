@@ -2,7 +2,7 @@
 
 package es.uma.pfc.is.bench.config;
 
-import es.uma.pfc.is.commons.workspace.Workspace;
+import es.uma.pfc.is.bench.domain.ws.Workspace;
 import java.util.List;
 import javafx.beans.property.ListProperty;
 import javafx.beans.property.ObjectPropertyBase;

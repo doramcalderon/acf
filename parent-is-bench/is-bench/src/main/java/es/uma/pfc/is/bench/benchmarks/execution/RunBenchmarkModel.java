@@ -2,8 +2,8 @@ package es.uma.pfc.is.bench.benchmarks.execution;
 
 import es.uma.pfc.is.bench.domain.Benchmark;
 import es.uma.pfc.is.bench.domain.AlgorithmEntity;
-import es.uma.pfc.is.commons.workspace.Preferences;
-import es.uma.pfc.is.commons.workspace.WorkspaceManager;
+import es.uma.pfc.is.bench.domain.ws.Preferences;
+import es.uma.pfc.is.bench.domain.ws.WorkspaceManager;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;

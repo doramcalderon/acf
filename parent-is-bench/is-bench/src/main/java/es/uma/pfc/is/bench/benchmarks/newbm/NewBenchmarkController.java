@@ -22,7 +22,7 @@ import es.uma.pfc.is.bench.uitls.Chooser;
 import es.uma.pfc.is.bench.uitls.Dialogs;
 import es.uma.pfc.is.bench.view.FXMLViews;
 import es.uma.pfc.is.commons.strings.StringUtils;
-import es.uma.pfc.is.commons.workspace.WorkspaceManager;
+import es.uma.pfc.is.bench.domain.ws.WorkspaceManager;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
