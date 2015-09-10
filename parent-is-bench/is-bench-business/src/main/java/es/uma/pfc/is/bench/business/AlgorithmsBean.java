@@ -33,9 +33,8 @@ public class AlgorithmsBean {
     }
     
     /**
-     * Update a workspace adding new algorithms.<br/>
-     * If any algorithms exists in the workspace, this is overrided.
-     * @param path Workspace path.
+     * Updates the algorithms file adding new algorithms.<br/>
+     * If any algorithms exists, this is overrided.
      * @param algorithms Algorithms to add.
      */
     public void addAlgorithms(AlgorithmEntity ... algorithms) {
@@ -54,7 +53,7 @@ public class AlgorithmsBean {
     }
 
     /**
-     * Remove an algorithm from workspace.
+     * Removes an algorithm from algorithms file.
      * @param algorithm Algorithm.
      */
     public void delete(AlgorithmEntity algorithm) {

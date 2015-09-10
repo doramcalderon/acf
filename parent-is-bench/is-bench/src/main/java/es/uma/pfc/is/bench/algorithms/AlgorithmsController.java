@@ -175,15 +175,6 @@ public class AlgorithmsController extends Controller {
         return valid;
     }
 
-    /**
-     * Show the Classes search.
-     *
-     * @param action Action Event.
-     */
-    @FXML
-    public void handleClassesSearch(ActionEvent action) {
-
-    }
 
     @FXML
     public void handleCancelAction(ActionEvent action) {

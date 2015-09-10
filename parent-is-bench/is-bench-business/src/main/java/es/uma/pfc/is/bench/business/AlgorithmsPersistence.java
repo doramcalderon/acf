@@ -50,7 +50,7 @@ public class AlgorithmsPersistence extends Persistence {
      * Gets an Algorithms entity from a file path.
      * @return Algorithms.
      */
-    public Algorithms getAlgorithms() {
+    protected Algorithms getAlgorithms() {
         Algorithms algs = null;
         if(algorithmsFile != null) {
             algs = read(Paths.get(algorithmsFile).toString(), Algorithms.class);

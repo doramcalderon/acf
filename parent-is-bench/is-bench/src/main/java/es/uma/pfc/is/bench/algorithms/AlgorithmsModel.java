@@ -2,7 +2,6 @@
 
 package es.uma.pfc.is.bench.algorithms;
 
-import es.uma.pfc.is.algorithms.Algorithm;
 import es.uma.pfc.is.commons.strings.StringUtils;
 import java.util.List;
 import javafx.beans.property.ListProperty;
@@ -12,7 +11,7 @@ import javafx.beans.property.StringProperty;
 import javafx.collections.FXCollections;
 
 /**
- * Model form Algorithms view.
+ * Model of Algorithms view.
  * @author Dora Calderón
  */
 public class AlgorithmsModel {
