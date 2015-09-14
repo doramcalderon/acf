@@ -85,6 +85,7 @@ public abstract class Controller implements Initializable {
      * Return internazionalized value.
      *
      * @param key Key.
+     * @param args
      * @return Internazionalized value if exists, key otherwise.
      */
     public String getI18nMessage(String key, Object... args) {

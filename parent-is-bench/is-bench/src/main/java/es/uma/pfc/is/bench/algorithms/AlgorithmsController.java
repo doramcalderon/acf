@@ -189,9 +189,10 @@ public class AlgorithmsController extends Controller {
     protected void save() {
         if (validate()) {
             AlgorithmsSaveService saveService = new AlgorithmsSaveService(model);
-            saveService.setOnSucceeded((Event event) -> {
+            saveService.setOnSucceeded((WorkerStateEvent event) -> {
                 close();
             });
+           
             saveService.restart();
         }
     }

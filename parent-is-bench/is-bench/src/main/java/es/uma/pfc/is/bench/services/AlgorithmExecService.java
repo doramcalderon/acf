@@ -25,12 +25,12 @@ public class AlgorithmExecService extends Service {
     /**
      * Algorithms to execute.
      */
-    private List<Algorithm> algs;
+    private List<Algorithm> algorithms;
     private RunBenchmarkModel model;
     
 
     public AlgorithmExecService(List<Algorithm> algs) {
-        this.algs = algs;
+        this.algorithms = algs;
     }
 
     public AlgorithmExecService(RunBenchmarkModel model) {
@@ -41,11 +41,11 @@ public class AlgorithmExecService extends Service {
      * Creates the instances of the benchmark algorithms.
      */
     protected void instanceAlgorithms() {
-        if (algs == null) {
-            algs = new ArrayList<>();
+        if (algorithms == null) {
+            algorithms = new ArrayList<>();
         }
         model.getSelectedAlgorithms().stream().forEach(algEnt -> {
-            algs.add(instanceAlgorithm(algEnt));
+            algorithms.add(instanceAlgorithm(algEnt));
         });
     }
 
@@ -110,9 +110,9 @@ public class AlgorithmExecService extends Service {
             @Override
             protected Object call() throws Exception {
                 instanceAlgorithms();
-                if (algs != null) {
+                if (algorithms != null) {
                     AlgorithmExecutor exec = new AlgorithmExecutor().input(model.getInput()).options(getOptions());
-                    algs.stream().filter((alg) -> (alg != null)).forEach((alg) -> {
+                    algorithms.stream().filter((alg) -> (alg != null)).forEach((alg) -> {
                         exec.output(getOutput(alg)).execute(alg);
                     });
                     

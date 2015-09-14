@@ -52,7 +52,7 @@ public class StatisticsReaderService extends Service<CSVParser> {
 
     @Override
     protected Task<CSVParser> createTask() {
-        return new Task <CSVParser>() {
+        return new Task<CSVParser>() {
             @Override
             protected CSVParser call() throws Exception {
                 return CSVParser.parse(new File(csvFileName), Charset.defaultCharset(), CSVFormat.DEFAULT);
@@ -75,17 +75,17 @@ public class StatisticsReaderService extends Service<CSVParser> {
                 Logger.getLogger(StatisticsReaderService.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
-}
+    }
 
-/**
- * Print the headers as columns.
- *
- * @param parser CSV Parser.
- */
-protected void printHeaders(final CSVParser parser) {
-        for(CSVRecord headers : parser) {
+    /**
+     * Print the headers as columns.
+     *
+     * @param parser CSV Parser.
+     */
+    protected void printHeaders(final CSVParser parser) {
+        for (CSVRecord headers : parser) {
             int i = 0;
-            for(String header : headers) {
+            for (String header : headers) {
                 table.getColumns().add(createColumn(i, header));
                 i++;
             }
@@ -95,10 +95,11 @@ protected void printHeaders(final CSVParser parser) {
 
     /**
      * Print the records as new rows.
+     *
      * @param parser CSV Parser.
      */
     protected void printRecords(CSVParser parser) {
-        for(CSVRecord record : parser) {
+        for (CSVRecord record : parser) {
             // Add additional columns if necessary:
             for (int columnIndex = table.getColumns().size(); columnIndex < record.size(); columnIndex++) {
                 table.getColumns().add(createColumn(columnIndex, ""));
@@ -116,6 +117,7 @@ protected void printHeaders(final CSVParser parser) {
 
     /**
      * Create a new column in the TableView.
+     *
      * @param columnIndex Index of column.
      * @param columnTitle Title of column.
      * @return A new column.

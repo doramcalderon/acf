@@ -1,14 +1,10 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package es.uma.pfc.is.bench.home;
 
 import es.uma.pfc.is.bench.Controller;
 import es.uma.pfc.is.commons.eventbus.Eventbus;
-import es.uma.pfc.is.bench.events.NewBenchmarkEvent;
-import es.uma.pfc.is.bench.events.RunBenchmarkEvent;
+import es.uma.pfc.is.bench.events.NavigationEvent;
+import es.uma.pfc.is.bench.view.FXMLViews;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
@@ -33,12 +29,12 @@ public class HomeController extends Controller implements Initializable {
     
     @FXML
     public void handleRunAction(ActionEvent event) {
-        Eventbus.post(new RunBenchmarkEvent());
+        Eventbus.post(new NavigationEvent(FXMLViews.RUN_BENCHMARK_VIEW));
     }
     
     @FXML
     public void handleNewAction(ActionEvent event) {
-        Eventbus.post(new NewBenchmarkEvent());
+        Eventbus.post(new NavigationEvent(FXMLViews.NEW_BENCHMARK_VIEW));
     }
     
 }

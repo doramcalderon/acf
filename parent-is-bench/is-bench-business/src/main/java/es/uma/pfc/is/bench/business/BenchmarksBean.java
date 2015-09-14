@@ -28,8 +28,8 @@ public class BenchmarksBean {
     }
     
     /**
-     * Return the algorithms defined in the algorithms file.
-     * @param workspace
+     * Returns a workspace registered benchmarks.
+     * @param workspace Workspace path.
      * @return Algorithm Entities list.
      * @throws java.lang.Exception
      */

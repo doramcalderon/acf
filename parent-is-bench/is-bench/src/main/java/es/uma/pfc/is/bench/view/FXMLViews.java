@@ -19,15 +19,10 @@ public interface FXMLViews {
     /** Algorithms view. **/
     String ALGORITHMS_VIEW = "/es/uma/pfc/is/bench/algorithms/Algorithms.fxml";
     
-    /** Algorithms List. **/
-    String ALGORITHMS_LIST_VIEW = "/es/uma/pfc/is/bench/algorithmslist/AlgorithmsList.fxml";
-    
-    /** New Benchamrk view.**/
-    String NEW_ALGORITHM_VIEW = "/es/uma/pfc/is/bench/benchmarks/newbm/NewBenchmark.fxml";
-    /**
-     * New Algorithm form.
-     */
-    String NEW_ALGORITHM_FORM = "/es/uma/pfc/is/bench/benchmarks/newbm/NewBenchForm.fxml";
+    /** New Benchmark view.**/
+    String NEW_BENCHMARK_VIEW = "/es/uma/pfc/is/bench/benchmarks/newbm/NewBenchmark.fxml";
+
+
     
     /**
      * Results view.

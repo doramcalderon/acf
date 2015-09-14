@@ -1,15 +1,11 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package es.uma.pfc.is.bench.benchmarks;
 
 import com.google.common.eventbus.Subscribe;
 import es.uma.pfc.is.bench.Controller;
 import es.uma.pfc.is.commons.eventbus.Eventbus;
-import es.uma.pfc.is.bench.events.NewBenchmarkEvent;
-import es.uma.pfc.is.bench.events.RunBenchmarkEvent;
+import es.uma.pfc.is.bench.events.NavigationEvent;
+import es.uma.pfc.is.bench.view.FXMLViews;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -51,7 +47,7 @@ public class BenchmarksController extends Controller {
 
     @Override
     protected void initView() throws IOException {
-        showRunTab(null);
+        showTab(new NavigationEvent(FXMLViews.RUN_BENCHMARK_VIEW));
     }
     
 
@@ -61,14 +57,15 @@ public class BenchmarksController extends Controller {
     }
     
     @Subscribe
-    public void showNewTab(NewBenchmarkEvent event) {
-        benchmarksTabPane.getSelectionModel().select(tabNew);
+    public void showTab(NavigationEvent event) {
+        String viewTo = event.getView();
+        if(FXMLViews.NEW_BENCHMARK_VIEW.equals(viewTo)) {
+            benchmarksTabPane.getSelectionModel().select(tabNew);
+        } else if (FXMLViews.RUN_BENCHMARK_VIEW.equals(viewTo)) {
+            benchmarksTabPane.getSelectionModel().select(tabRun);
+        }
     }
     
-    @Subscribe
-    public void showRunTab(RunBenchmarkEvent event) {
-        benchmarksTabPane.getSelectionModel().select(tabRun);
-    }
     
     
 }

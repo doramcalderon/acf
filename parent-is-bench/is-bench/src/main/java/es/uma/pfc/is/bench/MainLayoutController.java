@@ -3,8 +3,7 @@ package es.uma.pfc.is.bench;
 import com.google.common.eventbus.Subscribe;
 import es.uma.pfc.is.commons.eventbus.Eventbus;
 import es.uma.pfc.is.bench.events.MessageEvent;
-import es.uma.pfc.is.bench.events.NewBenchmarkEvent;
-import es.uma.pfc.is.bench.events.RunBenchmarkEvent;
+import es.uma.pfc.is.bench.events.NavigationEvent;
 import es.uma.pfc.is.bench.i18n.I18n;
 import es.uma.pfc.is.bench.uitls.Animations;
 import es.uma.pfc.is.bench.uitls.Dialogs;
@@ -138,15 +137,21 @@ public class MainLayoutController extends Controller {
     protected void initListeners() {
         Eventbus.register(this);
     }
-
+    
     @Subscribe
-    public void runBenchmark(RunBenchmarkEvent event) {
-        btnBenchmarks.setSelected(true);
-    }
-
-    @Subscribe
-    public void newBenchmark(NewBenchmarkEvent event) {
-        btnBenchmarks.setSelected(true);
+    public void newBenchmark(NavigationEvent event) {
+        String viewTo = event.getView();
+        switch(viewTo) {
+            case FXMLViews.NEW_BENCHMARK_VIEW:
+                btnBenchmarks.setSelected(true);
+                break;
+            case FXMLViews.RUN_BENCHMARK_VIEW:
+                btnBenchmarks.setSelected(true);
+                break;
+            default:
+                break;
+        }
+        
     }
 
     /**

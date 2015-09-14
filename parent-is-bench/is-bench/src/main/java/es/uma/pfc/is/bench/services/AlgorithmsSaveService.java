@@ -15,7 +15,7 @@ import javafx.concurrent.Task;
  *
  *@author Dora Calderón
  */
-public class AlgorithmsSaveService extends Service {
+public class AlgorithmsSaveService extends Service<Void> {
     /**
      * Model.
      */
@@ -24,10 +24,6 @@ public class AlgorithmsSaveService extends Service {
      * Algorithms bean.
      */
     private final AlgorithmsBean algorithmsBean;
-    /**
-     * Workspace manager.
-     */
-    private final WorkspaceManager wsManager;
     
     /**
      * Constructor.
@@ -35,16 +31,15 @@ public class AlgorithmsSaveService extends Service {
      */
     public AlgorithmsSaveService(AlgorithmsModel model) {
         this.model = model;
-        this.wsManager = WorkspaceManager.get();
         algorithmsBean = new AlgorithmsBean(WorkspaceManager.get().getPreference(Preferences.ALGORITHMS_FILE));
     }
 
     @Override
-    protected Task createTask() {
-        return new Task() {
+    protected Task<Void> createTask() {
+        return new Task<Void>() {
 
             @Override
-            protected Object call() throws Exception {
+            protected Void call() throws Exception {
                 
                 AlgorithmEntity entity = new AlgorithmEntity();
                 entity.setName(model.getName());
@@ -52,7 +47,6 @@ public class AlgorithmsSaveService extends Service {
                 entity.setType((Class<? extends Algorithm>) Class.forName(model.getClassName()));
                 
                 algorithmsBean.addAlgorithms(entity);
-                
                 return null;
             }
 

@@ -1,7 +1,6 @@
 
 package es.uma.pfc.is.bench.services;
 
-import com.sun.javafx.scene.control.skin.VirtualFlow;
 import es.uma.pfc.is.algorithms.Algorithm;
 import es.uma.pfc.is.commons.files.FileUtils;
 import es.uma.pfc.is.commons.reflection.ReflectionUtil;
@@ -15,7 +14,6 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 import java.util.logging.Level;
@@ -66,8 +64,7 @@ public class AlgorithmsClassLoadService extends Service<List<String>> {
     }
 
     /**
-     * Searches the algorithms implementations that contains the jars into current workspace lib folder.
-     * @param libPath Directory that contains libraries.
+     * Searches the algorithms implementations in the application classpath.
      * @return List of algorithm classes.
      * @throws IOException 
      * @throws IllegalArgumentException When {@code libsPath} is null or empty.
