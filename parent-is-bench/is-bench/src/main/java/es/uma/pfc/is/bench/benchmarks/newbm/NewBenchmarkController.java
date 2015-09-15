@@ -6,7 +6,6 @@ import es.uma.pfc.implications.generator.events.SystemSaved;
 import es.uma.pfc.is.bench.Controller;
 import es.uma.pfc.is.bench.ISBenchApp;
 import es.uma.pfc.is.bench.MainLayoutController;
-import es.uma.pfc.is.bench.algorithmslist.AlgorithmsListController;
 import es.uma.pfc.is.bench.business.BenchmarksBean;
 import es.uma.pfc.is.bench.domain.Benchmark;
 import es.uma.pfc.is.bench.domain.AlgorithmEntity;
@@ -103,7 +102,7 @@ public class NewBenchmarkController extends Controller {
             initValidation();
             modelToView();
         } catch (IOException ex) {
-            Logger.getLogger(AlgorithmsListController.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(NewBenchmarkController.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 

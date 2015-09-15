@@ -1,12 +1,6 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 
 package es.uma.pfc.is.bench.services;
 
-import es.uma.pfc.is.bench.algorithmslist.AlgorithmsListController;
 import es.uma.pfc.is.bench.business.BenchmarksBean;
 import es.uma.pfc.is.bench.domain.Benchmark;
 import es.uma.pfc.is.commons.eventbus.Eventbus;
@@ -29,6 +23,10 @@ public class BenchmarkSaveService extends Service<Benchmark>{
      * Benchmark to save.
      */
     private Benchmark benchmark;
+    /**
+     * Benchmarks logic.
+     */
+    private BenchmarksBean benchmarksBean;
     
     /**
      * Constructor.
@@ -36,6 +34,7 @@ public class BenchmarkSaveService extends Service<Benchmark>{
      */
     public BenchmarkSaveService(Benchmark benchmark) {
         this.benchmark = benchmark;
+        this.benchmarksBean = new BenchmarksBean();
     }
     
     
@@ -46,10 +45,8 @@ public class BenchmarkSaveService extends Service<Benchmark>{
 
             @Override
             protected Benchmark call() throws Exception {
-                
-                BenchmarksBean benchamrksBean = new BenchmarksBean();
                 benchmark.setWorkspace(WorkspaceManager.get().currentWorkspace().getLocation());
-                benchamrksBean.update(benchmark);
+                benchmarksBean.update(benchmark);
                 
                 return benchmark;
             }
@@ -59,7 +56,7 @@ public class BenchmarkSaveService extends Service<Benchmark>{
     @Override
     protected void failed() {
         String message = BenchMessages.get().getMessage(BenchMessages.BENCHMARK_CREATION_ERROR, getException().getMessage());
-        Logger.getLogger(AlgorithmsListController.class.getName()).log(Level.SEVERE, message, getException());
+        Logger.getLogger(BenchmarkSaveService.class.getName()).log(Level.SEVERE, message, getException());
         Eventbus.post(new MessageEvent(message, MessageEvent.Level.ERROR));
     }
 
