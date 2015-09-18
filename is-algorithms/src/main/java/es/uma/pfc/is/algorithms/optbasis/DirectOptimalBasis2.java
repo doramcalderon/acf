@@ -21,8 +21,11 @@ public class DirectOptimalBasis2 extends GenericAlgorithm {
     }
 
     
-    
-
+    /**
+     * Executes the Direct Optimal Basis algorithm.
+     * @param system Input system.
+     * @return 
+     */
     @Override
     public ImplicationalSystem execute(ImplicationalSystem system) {
         ImplicationalSystem directOptimalBasis = new ImplicationalSystem(system);
@@ -32,34 +35,41 @@ public class DirectOptimalBasis2 extends GenericAlgorithm {
         history("**************************************************************************************");
         
         // Stage 1 : Generation of sigma-r by reduction of sigma
-        reduce(directOptimalBasis);
+        directOptimalBasis = reduce(directOptimalBasis);
 
         // Stage 2: Generation of sigma-sr by simplification (left+right) + composition of sigma-r
-        simplify(directOptimalBasis);
-
+        directOptimalBasis = simplify(directOptimalBasis);
+        
         // Stage 3: Generation of sigma-dsr by completion of sigma-sr
-        strongSimplification(directOptimalBasis);
+        directOptimalBasis = strongSimplification(directOptimalBasis);
 
         // Stage 4: Composition of sigma-dsr
         composition(directOptimalBasis);
         
 
         // Stage 5: Generation of sigma-do by optimization of sigma-dsr
-        optimize(directOptimalBasis);
+        directOptimalBasis = optimize(directOptimalBasis);
 
         return directOptimalBasis;
     }
     
-    public void reduce(ImplicationalSystem system) {
+    public ImplicationalSystem reduce(ImplicationalSystem system) {
         history("**************************************************************************************");
         history(messages.getMessage(AlgMessages.REDUCE));
         history("**************************************************************************************");
-        system.makeProper();
+        system.makeProper(); // TODO se puede implementar con lambda expressions
+        
         
         history("\n" + String.valueOf(system));
+        return system;
     }
 
-    public void simplify(ImplicationalSystem system) {
+    /**
+     * Generation of IS simplificated by simplification(left+right+composition) of reduced IS
+     * @param system Reduced system.
+     * @return Simplified system.
+     */
+    public ImplicationalSystem simplify(ImplicationalSystem system) {
         history("**************************************************************************************");
         history("Generation of IS simplificated by simplification(left+right+composition) of reduced IS");
         history("**************************************************************************************");
@@ -68,11 +78,13 @@ public class DirectOptimalBasis2 extends GenericAlgorithm {
         ImplicationalSystem simplified;
         ImplicationalSystem gamma = new ImplicationalSystem();
         ImplicationalSystem sigma = new ImplicationalSystem(system);
+        boolean changed;
         
         history("--------------------------------------------------------------------------------------");
         history("Initial Simplificated: {}", sigma.toString());
-
+        
         do {
+            changed = false;
             simplified = new ImplicationalSystem(sigma);
             sigma.init();
 
@@ -81,6 +93,7 @@ public class DirectOptimalBasis2 extends GenericAlgorithm {
                 b = new TreeSet(ab.getConclusion());
                 gamma.init();
                 Rule saveAB;
+                Rule newRule;
                 
                 history("--------------------------------------------------------------------------------------");
                 history("Sigma: {}", (sigma.sizeRules() == 0) ? "{}" : sigma.toString());
@@ -88,31 +101,29 @@ public class DirectOptimalBasis2 extends GenericAlgorithm {
                 for (Rule cd : sigma.getRules()) {
                     c = cd.getPremise();
                     d = cd.getConclusion();
+                    saveAB = new Rule(a, b);
 
                     if ((a.containsAll(c) && Sets.union(c, d).containsAll(a)) || (c.containsAll(a) && Sets.union(a, b).containsAll(c))) {
                         a = Sets.intersection(a, c);
                         b = Sets.union(b, d);
                         
-                        history("({}) + ({}) ==> A = A intersec C, B = B U D ==> {} -> {}", new Rule(a, b), cd, a, b);
+                        history("({}) + ({}) ==> A = A intersec C, B = B U D ==> {} -> {}", saveAB, cd, a, b);
                     } else {
                         if (a.containsAll(c)) {
-                            saveAB = new Rule(a, b);
                             a.removeAll(d);
                             b.removeAll(d);
-                            ImplicationalSystems.addRuleAndElements(gamma, new Rule(c, d));
+                            ImplicationalSystems.addRuleAndElements(gamma, cd);
                             
                             history("({}) + ({}) ==> A = A-D, B = B-D ==> {} -> {}", saveAB, cd, a, b);
                             history("                                 add C -> D to gamma ==> add {}", cd);
                         } else if (c.containsAll(a)) {
                             if (!b.containsAll(d)) {
-                                saveAB = new Rule(a, b);
-                                Rule newRule = new Rule(Sets.difference(c, b), Sets.difference(d, b));
-                                ImplicationalSystems.addRuleAndElements(gamma, newRule);
+                                newRule = new Rule(Sets.difference(c, b), Sets.difference(d, b));
+                                changed = ImplicationalSystems.addRuleAndElements(gamma, newRule) || changed;
                                 
                                 history("({}) + ({}) ==> C-B -> D-B ==> {}", saveAB, cd, newRule);
                             }
                         } else {
-                             saveAB = new Rule(a, b);
                             ImplicationalSystems.addRuleAndElements(gamma, cd);
                             
                             history("({}) + ({}) ==> add C -> D ==> {}", saveAB, cd, cd);
@@ -122,52 +133,61 @@ public class DirectOptimalBasis2 extends GenericAlgorithm {
                 if (!b.isEmpty()) {
                     saveAB = new Rule(a, b);
                     ImplicationalSystems.addRuleAndElements(gamma, saveAB);
-                    
+                    changed = !ab.equals(saveAB);
                     history("({}) ==> add A -> B ==> {}", saveAB, ab, saveAB);
                 }
-                sigma = ImplicationalSystems.addAllRules(sigma, gamma.getRules());
+                sigma = ImplicationalSystems.addAllRules(new ImplicationalSystem(), gamma.getRules());
             }
 
-        } while (!ImplicationalSystems.equals(simplified, sigma));
-        system = simplified;
+        } while (changed);
         
-        history("\n" + String.valueOf(system));
+        history("\n" + String.valueOf(simplified));
+        return simplified;
     }
 
     /**
-     *
-     * @param system
+     * Generation of IS by completion of simplifacted IS --> Strong Simplification.
+     * @param system Simplified system.
+     * @return Strong simplified system.
      * @throws NullPointerException if system is null.
      */
-    public void strongSimplification(ImplicationalSystem system) {
+    public ImplicationalSystem strongSimplification(ImplicationalSystem system) {
         history("**************************************************************************************");
         history("Generation of IS by completion of simplifacted IS --> Strong Simplification");
         history("**************************************************************************************");
         
+        history("\n" + String.valueOf(system));
+        
         TreeSet<Comparable> a, b, c, d;
+        ImplicationalSystem simplified = new ImplicationalSystem(system);
         ImplicationalSystem save;
+        boolean changed;
+        
+        do {
+            changed = false;
+            save = new ImplicationalSystem(simplified);
+            for (Rule ab : save.getRules()) {
+                a = ab.getPremise();
+                b = ab.getConclusion();
 
-        save = new ImplicationalSystem(system);
-        for (Rule ab : save.getRules()) {
-            a = ab.getPremise();
-            b = ab.getConclusion();
+                for (Rule cd : save.getRules()) {
+                    c = cd.getPremise();
+                    d = cd.getConclusion();
 
-            for (Rule cd : save.getRules()) {
-                c = cd.getPremise();
-                d = cd.getConclusion();
-
-                if (!Sets.intersection(b, c).isEmpty() && !Sets.difference(d, Sets.union(a, b)).isEmpty()) {
-                    Rule newRule = new Rule(Sets.difference(Sets.union(a, c), b), Sets.difference(d, Sets.union(a, b)));
-                    ImplicationalSystems.addRuleAndElements(system, newRule);
-                    getLogger().history("({}) + ({})  --->  ({})", ab, cd, newRule);
+                    if (!Sets.intersection(b, c).isEmpty() && !Sets.difference(d, Sets.union(a, b)).isEmpty()) {
+                        Rule newRule = new Rule(Sets.difference(Sets.union(a, c), b), Sets.difference(d, Sets.union(a, b)));
+                        changed = ImplicationalSystems.addRuleAndElements(simplified, newRule) || changed;
+                        getLogger().history("({}) + ({})  --->  ({})", ab, cd, newRule);
+                    }
                 }
             }
-        }
+        } while(changed);
         
-        history("\n" + system.toString());
+        history("\n" + simplified.toString());
+        return simplified;
     }
 
-    public void composition(ImplicationalSystem system) {
+    public ImplicationalSystem composition(ImplicationalSystem system) {
         history("**************************************************************************************");
         history("Composition of IS");
         history("**************************************************************************************");
@@ -197,46 +217,54 @@ public class DirectOptimalBasis2 extends GenericAlgorithm {
 //            }
 //        }
         history("\n" + system.toString());
+        return system;
     }
 
-    public void optimize(ImplicationalSystem system) {
+    public ImplicationalSystem optimize(ImplicationalSystem system) {
         history("**************************************************************************************");
         history("Generation of optimized IS ");
         history("**************************************************************************************");
+        history("\n" + system.toString());
         
         TreeSet<Comparable> a, b, c, d;
-        ImplicationalSystem save;
+        ImplicationalSystem optimized =new ImplicationalSystem();
+        ImplicationalSystem save =new ImplicationalSystem(system);
 
-        do {
-            save = new ImplicationalSystem(system);
-            system.init();
+        boolean changed;
+        
+        changed = false;
+        for (Rule ab : save.getRules()) {
+            a = ab.getPremise();
+            b = ab.getConclusion();
 
-            for (Rule ab : save.getRules()) {
-                a = ab.getPremise();
-                b = ab.getConclusion();
+            for (Rule cd : save.getRules()) {
+                if (!ab.equals(cd)) {
+                    c = cd.getPremise();
+                    d = cd.getConclusion();
 
-                for (Rule cd : save.getRules()) {
-                    if (!ab.equals(cd)) {
-                        c = cd.getPremise();
-                        d = cd.getConclusion();
-
-                        if (c.equals(a)) {
-                            b = Sets.union(b, d);
-                            history("({}) + ({}):  C = A ==> B = B U D = {}", ab, cd, b);
-                        }
-                        if (a.containsAll(c)) {
-                            b = Sets.difference(b, d);
-                            history("({}) + ({}): C subcjto A ==> B = B-D = {}", ab, cd, b);
-                        }
+                    if (c.equals(a)) {
+                        b = Sets.union(b, d);
+                        history("({}) + ({}):  C = A ==> B = B U D = {}", ab, cd, b);
+                    } else if (a.containsAll(c)) {
+                        b = Sets.difference(b, d);
+                        history("({}) + ({}): C subcjto A ==> B = B-D = {}", ab, cd, b);
                     }
                 }
-                if (!b.isEmpty()) {
-                    ImplicationalSystems.addRuleAndElements(system, new Rule(a, b));
-                    history("B not empty ==> add({})", new Rule(a, b));
-                }
             }
-        } while (!ImplicationalSystems.equals(system, save));
-        history("\n" + system.toString());
+            Rule newAB = new Rule(a, b);
+            if (!b.isEmpty()) {
+                boolean added = ImplicationalSystems.addRuleAndElements(optimized, newAB);
+                changed = changed || added;
+                history("B not empty ==> add({})", newAB);
+            } else {
+                history("B empty ==> not added({})", newAB);
+                
+            }
+        }
+            
+            save = new ImplicationalSystem(optimized);
+            history("\n" + optimized.toString());
+        return optimized;
     }
 
     /**

@@ -5,7 +5,7 @@
  */
 package es.uma.pfc.is.algorithms.util;
 
-import es.uma.pfc.is.algorithms.optbasis.DirectOptimalBasis;
+import es.uma.pfc.is.algorithms.optbasis.DirectOptimalBasis2;
 import fr.kbertet.lattice.ImplicationalSystem;
 import fr.kbertet.lattice.Rule;
 import java.io.File;

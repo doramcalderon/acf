@@ -57,14 +57,16 @@ public class ImplicationalSystems {
      * Añade una regla y sus elementos a un sistema.
      * @param system Sistema implicacional.
      * @param rule Regla.
+     * @return {@code true} if the rule is added.
      * @trhows NullPointerExcetpion If system is null.
      */
-    public static final void addRuleAndElements(ImplicationalSystem system, final Rule rule) {
-        
+    public static final boolean addRuleAndElements(ImplicationalSystem system, final Rule rule) {
+        boolean added = false;
         if(rule != null) {
             system.addAllElements(Rules.getElements(rule));
-            system.addRule(rule);
+            added = system.addRule(rule);
         }
+        return added;
     }
 
     /**

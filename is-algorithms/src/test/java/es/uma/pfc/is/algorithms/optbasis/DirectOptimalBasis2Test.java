@@ -4,7 +4,11 @@ import es.uma.pfc.is.algorithms.AlgorithmOptions;
 import es.uma.pfc.is.algorithms.testutils.TestUtils;
 import es.uma.pfc.is.algorithms.util.ImplicationalSystems;
 import fr.kbertet.lattice.ImplicationalSystem;
+import fr.kbertet.lattice.Rule;
 import java.io.IOException;
+import java.nio.file.Paths;
+import java.util.Arrays;
+import java.util.TreeSet;
 import org.junit.Test;
 import static org.junit.Assert.*;
 import org.junit.Ignore;
@@ -18,6 +22,45 @@ public class DirectOptimalBasis2Test {
     public DirectOptimalBasis2Test() {
     }
 
+    @Test
+    public void testReduce() {
+        ImplicationalSystem system = new ImplicationalSystem();
+        TreeSet<Comparable> elements = new TreeSet<>();
+        elements.addAll(Arrays.asList(0,1,2,3,4));
+        
+        system.addAllElements(elements);
+        Rule r = new Rule();
+        r.addAllToPremise(Arrays.asList(0,1));
+        r.addAllToConclusion(Arrays.asList(1,2));
+        system.addRule(r);
+        
+        DirectOptimalBasis2 alg = new DirectOptimalBasis2();
+        alg.reduce(system);
+        
+        assertEquals(5, system.sizeElements());
+        assertEquals(1, system.sizeRules());
+        assertTrue(system.getRules().first().getPremise().containsAll(Arrays.asList(0, 1)));
+        assertFalse(system.getRules().first().getConclusion().contains(1));
+        assertTrue(system.getRules().first().getConclusion().contains(2));
+    }
+    @Test
+    public void testReduce_EmptyConclusion() {
+        ImplicationalSystem system = new ImplicationalSystem();
+        TreeSet<Comparable> elements = new TreeSet<>();
+        elements.addAll(Arrays.asList(0,1,2,3,4));
+        
+        system.addAllElements(elements);
+        Rule r = new Rule();
+        r.addAllToPremise(Arrays.asList(0,1));
+        r.addAllToConclusion(Arrays.asList(1));
+        system.addRule(r);
+        
+        DirectOptimalBasis2 alg = new DirectOptimalBasis2();
+        alg.reduce(system);
+        
+        assertEquals(5, system.sizeElements());
+        assertEquals(0, system.sizeRules());
+    }
     
     @Test
     public void testExecute_1() throws IOException {
@@ -34,25 +77,32 @@ public class DirectOptimalBasis2Test {
     
     @Test @Ignore
     public void testExecute_2() throws IOException {
-//        ImplicationalSystem system = TestUtils.getSystemFromFile("do_ej_olomouc_nunit.txt");
-        ImplicationalSystem expectedSystem = TestUtils.getSystemFromFile("do_ej_olomouc_nunit_resul.txt");
+        ImplicationalSystem inputSystem = TestUtils.getSystemFromFile("do2_ej_olomouc_nunit.txt");
+        ImplicationalSystem expectedSystem = TestUtils.getSystemFromFile("do2_ej_olomouc_nunit_resul.txt");
 
         DirectOptimalBasis2 alg = (DirectOptimalBasis2) new DirectOptimalBasis2();
-        alg.getLogger().setOptions( new AlgorithmOptions());
-        ImplicationalSystem algResult = alg.execute(new ImplicationalSystem(TestUtils.getTestResourcePath("do_ej_olomouc_nunit.txt")));
+        AlgorithmOptions o = new AlgorithmOptions();
+        o.addOption(AlgorithmOptions.Options.OUTPUT.toString(), Paths.get(System.getProperty("user.dir"), "do2_ej_olomouc_nunit.log").toString());
+        o.enable(AlgorithmOptions.Mode.HISTORY);
+        alg.getLogger().setOptions(o);
+        
+        ImplicationalSystem algResult = alg.execute(inputSystem);
 
         assertTrue("Expected: \n" + expectedSystem + "\n Alg result:\n" + algResult, 
                     ImplicationalSystems.equals(expectedSystem, algResult));
     }
 
     
-    @Test @Ignore
+    @Test
     public void testExecute_3() throws IOException {
         ImplicationalSystem system = TestUtils.getSystemFromFile("ej_saedian3.txt");
         ImplicationalSystem expectedSystem = TestUtils.getSystemFromFile("ej_saedian3_result.txt");
 
         DirectOptimalBasis2 alg = (DirectOptimalBasis2) new DirectOptimalBasis2();
-        alg.getLogger().setOptions(new AlgorithmOptions());
+        AlgorithmOptions o = new AlgorithmOptions();
+        o.addOption(AlgorithmOptions.Options.OUTPUT.toString(), Paths.get(System.getProperty("user.dir"), "ej_saedian3.log").toString());
+        o.enable(AlgorithmOptions.Mode.HISTORY);
+        alg.getLogger().setOptions(o);
         ImplicationalSystem algResult = alg.execute(new ImplicationalSystem(TestUtils.getTestResourcePath("ej_saedian3.txt")));
 
         assertTrue("Expected: \n" + expectedSystem + "\n Alg result:\n" + algResult, 
@@ -92,17 +142,6 @@ public class DirectOptimalBasis2Test {
         assertTrue("Expected: \n" + expectedSystem + "\n Alg result:\n" + algResult, 
                     ImplicationalSystems.equals(expectedSystem, algResult));
     }
-    @Test @Ignore
-    public void testExecute_7() throws IOException {
-        ImplicationalSystem system = TestUtils.getSystemFromFile("exp15-1.txt");
-        ImplicationalSystem expectedSystem = TestUtils.getSystemFromFile("exp15-1_resul.txt");
-
-        DirectOptimalBasis2 alg = (DirectOptimalBasis2) new DirectOptimalBasis2();
-        alg.getLogger().setOptions( new AlgorithmOptions());
-        ImplicationalSystem algResult = alg.execute(new ImplicationalSystem(TestUtils.getTestResourcePath("exp15-1.txt"))); 
-        
-        assertTrue("Expected: \n" + expectedSystem + "\n Alg result:\n" + algResult, 
-                    ImplicationalSystems.equals(expectedSystem, algResult));
-    }
+    
 
 }
