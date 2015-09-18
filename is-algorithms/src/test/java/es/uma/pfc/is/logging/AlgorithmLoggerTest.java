@@ -17,7 +17,6 @@ import java.util.Date;
 import org.junit.After;
 import org.junit.Test;
 import static org.junit.Assert.*;
-import org.junit.Ignore;
 
 /**
  *
@@ -126,7 +125,7 @@ public class AlgorithmLoggerTest {
         AlgorithmOptions options = new AlgorithmOptions();
         options.enable(AlgorithmOptions.Mode.PERFORMANCE);
         options.addOption(Options.OUTPUT.toString(), "output.txt");
-        AlgorithmLogger logger = new AlgorithmLogger("alg", options);
+        AlgorithmLogger logger = new AlgorithmLogger("alg", options, true);
         logger.configure("testlogback.xml");
         Date start = new Date(System.currentTimeMillis());
         logger.startTime();
@@ -236,7 +235,7 @@ public class AlgorithmLoggerTest {
         options.enable(AlgorithmOptions.Mode.HISTORY);
         options.enable(AlgorithmOptions.Mode.STATISTICS);
         options.addOption(Options.OUTPUT.toString(), "output.log");
-        AlgorithmLogger logger = new AlgorithmLogger("alg", options);
+        AlgorithmLogger logger = new AlgorithmLogger("alg", options, true);
         logger.configure("testlogback.xml");
         
         logger.history("History message {}", 1);
@@ -273,7 +272,7 @@ public class AlgorithmLoggerTest {
         options.enable(AlgorithmOptions.Mode.STATISTICS);
         options.addOption(Options.OUTPUT.toString(), "output.txt");
         
-        AlgorithmLogger logger = new AlgorithmLogger("alg", options);
+        AlgorithmLogger logger = new AlgorithmLogger("alg", options, true);
         logger.configure("testlogback.xml");
         String header = "rule,old size,new size";
         

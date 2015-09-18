@@ -95,15 +95,16 @@ public class DirectOptimalBasis2Test {
     
     @Test
     public void testExecute_3() throws IOException {
-        ImplicationalSystem system = TestUtils.getSystemFromFile("ej_saedian3.txt");
+        ImplicationalSystem inputSystem = TestUtils.getSystemFromFile("ej_saedian3.txt");
         ImplicationalSystem expectedSystem = TestUtils.getSystemFromFile("ej_saedian3_result.txt");
 
         DirectOptimalBasis2 alg = (DirectOptimalBasis2) new DirectOptimalBasis2();
         AlgorithmOptions o = new AlgorithmOptions();
         o.addOption(AlgorithmOptions.Options.OUTPUT.toString(), Paths.get(System.getProperty("user.dir"), "ej_saedian3.log").toString());
         o.enable(AlgorithmOptions.Mode.HISTORY);
+        o.enable(AlgorithmOptions.Mode.PERFORMANCE);
         alg.getLogger().setOptions(o);
-        ImplicationalSystem algResult = alg.execute(new ImplicationalSystem(TestUtils.getTestResourcePath("ej_saedian3.txt")));
+        ImplicationalSystem algResult = alg.execute(inputSystem);
 
         assertTrue("Expected: \n" + expectedSystem + "\n Alg result:\n" + algResult, 
                     ImplicationalSystems.equals(expectedSystem, algResult));

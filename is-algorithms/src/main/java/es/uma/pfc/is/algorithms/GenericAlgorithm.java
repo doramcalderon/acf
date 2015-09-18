@@ -46,6 +46,7 @@ public abstract class GenericAlgorithm implements Algorithm {
      * Logger.
      * @return Logger. 
      */
+    @Override
     public AlgorithmLogger getLogger() {
         return logger;
     }

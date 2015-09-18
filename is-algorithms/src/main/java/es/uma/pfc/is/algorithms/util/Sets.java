@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 
 package es.uma.pfc.is.algorithms.util;
 
@@ -10,14 +5,12 @@ import java.util.Set;
 import java.util.TreeSet;
 
 /**
- *
- * @since 
+ * Sets utilities.
  * @author Dora Calderón
  */
 public class Sets {
     /**
      * Unión de dos conjuntos.
-     * @param <T> Tipo de los conjuntos.
      * @param set1 Conjunto.
      * @param set2 Conjunto.
      * @return Conjunto con los elementos de los dos conjuntos pasados como parámetro. Si uno de los dos es nulo,
@@ -56,7 +49,6 @@ public class Sets {
     }
     /**
      * Diferencia de dos conjuntos.
-     * @param <T> Tipo de conjunto.
      * @param set1 Conjunto.
      * @param set2 Conjunto.
      * @return Diferencia de dos conjuntos.<br/>

@@ -1,7 +1,6 @@
 package es.uma.pfc.is.logging;
 
 import ch.qos.logback.classic.LoggerContext;
-import ch.qos.logback.classic.PatternLayout;
 import ch.qos.logback.classic.encoder.PatternLayoutEncoder;
 import ch.qos.logback.classic.joran.JoranConfigurator;
 import ch.qos.logback.core.OutputStreamAppender;
@@ -10,11 +9,11 @@ import es.uma.pfc.is.algorithms.AlgorithmOptions;
 import es.uma.pfc.is.algorithms.AlgorithmOptions.Mode;
 import es.uma.pfc.is.algorithms.AlgMessages;
 import static es.uma.pfc.is.algorithms.AlgMessages.*;
-import java.io.IOException;
 import java.io.InputStream;
 import java.io.PrintStream;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -51,7 +50,7 @@ public class AlgorithmLogger {
     /**
      * I18n messages.
      */
-    private AlgMessages messages;
+    private AlgMessages i18nMessages;
     /**
      * Algorithm options.
      */
@@ -75,23 +74,46 @@ public class AlgorithmLogger {
      * Logging context.
      */
     private LoggerContext loggerContext;
-
+    /**
+     * Log messages.
+     */
+    private List<MessageLog> messages;
+    /**
+     * If the messages flush to loggers immediately.
+     */
+    private boolean immediateFlush;
+    
     /**
      * Constructor.
      *
      * @param algorithmName Algorithm name.
+     * @param options
      */
     public AlgorithmLogger(String algorithmName, AlgorithmOptions options) {
+        this(algorithmName, options, false);
+    }
+    
+    /**
+     * Constructor.
+     *
+     * @param algorithmName Algorithm name.
+     * @param options
+     * @param immediateFlush If the messages flush to loggers immediately.
+     */
+    public AlgorithmLogger(String algorithmName, AlgorithmOptions options, boolean immediateFlush) {
         configure("logback.xml");
-        this.algorithmName = algorithmName;
+        messages = new ArrayList<>();
         logger = LoggerFactory.getLogger(algorithmName);
+        this.algorithmName = algorithmName;
         this.options = options;
         this.output = getOutputName();
-        this.messages = AlgMessages.get();
+        this.i18nMessages = AlgMessages.get();
+        this.immediateFlush = immediateFlush;
     }
-
+    
     /**
      * Configure logging context.
+     * @param configFile
      */
     protected final void configure(String configFile) {
         try {
@@ -187,16 +209,43 @@ public class AlgorithmLogger {
         }
         return marker;
     }
-
+    /**
+     * Flush the messages to loggers.
+     */
+    public void flush() {
+       if(i18nMessages != null) {
+           messages.stream().filter(msg -> msg != null)
+                   .forEach(msg -> logFile(msg.getMode(), msg.getMessage(), msg.getArgs()));
+           messages.clear();
+       }
+        
+    }
+    /**
+     * Adds a message to log.
+     * @param mode Mode.
+     * @param message Message.
+     * @param args Arguments.
+     */
     public void log(Mode mode, String message, Object... args) {
+        if(immediateFlush) {
+            logFile(mode, message, args);
+        } else {
+            messages.add(new MessageLog(mode, message, args));
+        }
+    }
+    /**
+     * 
+     * @param mode
+     * @param message
+     * @param args 
+     */
+    public void logFile(Mode mode, String message, Object... args) {
         MDC.put("outputAlg", output);
         logger.info(getMarker(mode), message, args);
     }
 
     /**
      * Escribe la hora de comienzo.
-     *
-     * @param time HOra de inicio.
      */
     public void startTime() {
         startTime(System.currentTimeMillis());
@@ -206,7 +255,7 @@ public class AlgorithmLogger {
 
         if (isPerformanceEnabled()) {
             startTime = time;
-            log(Mode.PERFORMANCE, messages.getMessage(PERFORMANCE_INIT), df.format(new Date(startTime)));
+            log(Mode.PERFORMANCE, i18nMessages.getMessage(PERFORMANCE_INIT), df.format(new Date(startTime)));
         }
     }
 
@@ -218,8 +267,8 @@ public class AlgorithmLogger {
     public void endTime(long time) {
         if (isPerformanceEnabled()) {
             long total = time - startTime;
-            log(Mode.PERFORMANCE, messages.getMessage(PERFORMANCE_END), df.format(new Date(time)));
-            log(Mode.PERFORMANCE, messages.getMessage(PERFORMANCE_TOTAL), total);
+            log(Mode.PERFORMANCE, i18nMessages.getMessage(PERFORMANCE_END), df.format(new Date(time)));
+            log(Mode.PERFORMANCE, i18nMessages.getMessage(PERFORMANCE_TOTAL), total);
         }
     }
 
@@ -262,7 +311,7 @@ public class AlgorithmLogger {
     }
 
     public void freeResources() {
-
+        messages.clear();
     }
 
     public void traceOutputs(Map<Mode, List<PrintStream>> outputsByMode) {

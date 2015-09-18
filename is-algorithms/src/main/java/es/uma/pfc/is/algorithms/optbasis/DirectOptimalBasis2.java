@@ -7,6 +7,7 @@ import es.uma.pfc.is.algorithms.util.ImplicationalSystems;
 import es.uma.pfc.is.algorithms.util.Sets;
 import fr.kbertet.lattice.ImplicationalSystem;
 import fr.kbertet.lattice.Rule;
+import java.util.Set;
 import java.util.TreeSet;
 
 /**
@@ -50,6 +51,7 @@ public class DirectOptimalBasis2 extends GenericAlgorithm {
         // Stage 5: Generation of sigma-do by optimization of sigma-dsr
         directOptimalBasis = optimize(directOptimalBasis);
 
+        getLogger().flush();
         return directOptimalBasis;
     }
     
@@ -162,6 +164,8 @@ public class DirectOptimalBasis2 extends GenericAlgorithm {
         ImplicationalSystem simplified = new ImplicationalSystem(system);
         ImplicationalSystem save;
         boolean changed;
+        Rule newRule;
+        Set unionAB;
         
         do {
             changed = false;
@@ -169,13 +173,14 @@ public class DirectOptimalBasis2 extends GenericAlgorithm {
             for (Rule ab : save.getRules()) {
                 a = ab.getPremise();
                 b = ab.getConclusion();
+                unionAB = Sets.union(a, b);
 
                 for (Rule cd : save.getRules()) {
                     c = cd.getPremise();
                     d = cd.getConclusion();
-
-                    if (!Sets.intersection(b, c).isEmpty() && !Sets.difference(d, Sets.union(a, b)).isEmpty()) {
-                        Rule newRule = new Rule(Sets.difference(Sets.union(a, c), b), Sets.difference(d, Sets.union(a, b)));
+                          
+                    if (!Sets.intersection(b, c).isEmpty() && !Sets.difference(d, unionAB).isEmpty()) {
+                        newRule = new Rule(Sets.difference(Sets.union(a, c), b), Sets.difference(d, unionAB));
                         changed = ImplicationalSystems.addRuleAndElements(simplified, newRule) || changed;
                         getLogger().history("({}) + ({})  --->  ({})", ab, cd, newRule);
                     }
@@ -186,40 +191,25 @@ public class DirectOptimalBasis2 extends GenericAlgorithm {
         history("\n" + simplified.toString());
         return simplified;
     }
-
+    /**
+     * Composition of implications of a sistem.
+     * @param system Implicational System.
+     * @return Implicational System with composition applied.
+     */
     public ImplicationalSystem composition(ImplicationalSystem system) {
         history("**************************************************************************************");
         history("Composition of IS");
         history("**************************************************************************************");
         system.makeCompact();
-//        ImplicationalSystem save;
-//        TreeSet<Comparable> a, b, c, d;
-//
-//        save = new ImplicationalSystem(system);
-//
-//        for (Rule ab : save.getRules()) {
-//            a = ab.getPremise();
-//            b = ab.getConclusion();
-//
-//            for (Rule cd : save.getRules()) {
-//                c = cd.getPremise();
-//                d = cd.getConclusion();
-//
-//                if (!ab.equals(cd)) {
-//                    if (a.equals(c)) {
-//                        Rule newRule = new Rule(a, Sets.union(b, d));
-//                        system.replaceRule(ab, newRule);
-//                        system.removeRule(cd);
-//                        
-//                         history("({}) + ({}):  C = A ==> A = BD = {}", ab, cd, newRule);
-//                    }
-//                }
-//            }
-//        }
         history("\n" + system.toString());
         return system;
     }
 
+    /**
+     * Generation of optimized IS.
+     * @param system Simplified Implicational System.
+     * @return Optimized system.
+     */
     public ImplicationalSystem optimize(ImplicationalSystem system) {
         history("**************************************************************************************");
         history("Generation of optimized IS ");
@@ -235,7 +225,7 @@ public class DirectOptimalBasis2 extends GenericAlgorithm {
         changed = false;
         for (Rule ab : save.getRules()) {
             a = ab.getPremise();
-            b = ab.getConclusion();
+            b = new TreeSet<>(ab.getConclusion());
 
             for (Rule cd : save.getRules()) {
                 if (!ab.equals(cd)) {
@@ -243,11 +233,14 @@ public class DirectOptimalBasis2 extends GenericAlgorithm {
                     d = cd.getConclusion();
 
                     if (c.equals(a)) {
-                        b = Sets.union(b, d);
+                        b.addAll(d);
                         history("({}) + ({}):  C = A ==> B = B U D = {}", ab, cd, b);
                     } else if (a.containsAll(c)) {
                         b = Sets.difference(b, d);
                         history("({}) + ({}): C subcjto A ==> B = B-D = {}", ab, cd, b);
+//                        if(b.isEmpty()) {
+//                            break;
+//                        }
                     }
                 }
             }
