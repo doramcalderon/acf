@@ -1,0 +1,142 @@
+[32m% input/exp10-2.txt compiled 0.00 sec, 12 clauses
+[0m
+-- SIMPLIFICATION MIX -  DO2SIMP -----------------
+:- dynamic implication_temp/2.
+
+implication_temp([a5], [a1, a2]).
+implication_temp([a6], [a5, a9]).
+implication_temp([a2, a8], [a4, a5, a6, a9]).
+implication_temp([a3], [a0, a6]).
+implication_temp([a0, a1, a5], [a2, a3, a6, a7, a8, a9]).
+implication_temp([a8], [a0, a6]).
+implication_temp([a0, a3, a9], [a2, a4, a5, a6, a7, a8]).
+implication_temp([a9], [a0, a3]).
+implication_temp([a5], [a2, a4]).
+implication_temp([a5, a6, a9], [a0, a1, a2, a3, a4, a7]).
+
+
+------------- Preparing the input for Simplification:---
+------------- Reduction:---
+
+------------- Composition:---
+
+* Composition: 
+ implication_temp([a5],[a1,a2]) FD removed 
+
+ implication_temp([a5],[a2,a4]) FD removed 
+
+------------- REAL INPUT ------------------------------------
+:- dynamic implication_temp/2.
+
+implication_temp([a6], [a5, a9]).
+implication_temp([a2, a8], [a4, a5, a6, a9]).
+implication_temp([a3], [a0, a6]).
+implication_temp([a0, a1, a5], [a2, a3, a6, a7, a8, a9]).
+implication_temp([a8], [a0, a6]).
+implication_temp([a0, a3, a9], [a2, a4, a5, a6, a7, a8]).
+implication_temp([a9], [a0, a3]).
+implication_temp([a5, a6, a9], [a0, a1, a2, a3, a4, a7]).
+implication_temp([a5], [a1, a2, a4]).
+
+
+
+
+ Equivalence  -   Simplification and Simplification + Axiom: 
+implication_temp([a6],[a5,a9]) + implication_temp([a5,a6,a9],[a0,a1,a2,a3,a4,a7]) --->  implication_temp([a6],[a0,a1,a2,a3,a4,a7])
+
+ implication_temp([a5,a6,a9],[a0,a1,a2,a3,a4,a7]) Implication removed 
+
+ implication_temp([a6],[a0,a1,a2,a3,a4,a7]) Implciation composed with implication_temp([a6],[a5,a9]) 
+implication_temp([a6],[a0,a1,a2,a3,a4,a5,a7,a9]) Implication added 
+
+ Equivalence  -   Simplification and Simplification + Axiom: 
+implication_temp([a3],[a0,a6]) + implication_temp([a0,a3,a9],[a2,a4,a5,a6,a7,a8]) --->  implication_temp([a3,a9],[a2,a4,a5,a7,a8])
+
+ implication_temp([a0,a3,a9],[a2,a4,a5,a6,a7,a8]) Implication removed 
+
+ implication_temp([a3,a9],[a2,a4,a5,a7,a8]) Implication added 
+
+ Equivalence  -   Simplification and Simplification + Axiom: 
+implication_temp([a8],[a0,a6]) + implication_temp([a2,a8],[a4,a5,a6,a9]) --->  implication_temp([a2,a8],[a4,a5,a9])
+
+ implication_temp([a2,a8],[a4,a5,a6,a9]) Implication removed 
+
+ implication_temp([a2,a8],[a4,a5,a9]) Implication added 
+
+ Equivalence  -   Simplification and Simplification + Axiom: 
+implication_temp([a9],[a0,a3]) + implication_temp([a3,a9],[a2,a4,a5,a7,a8]) --->  implication_temp([a9],[a2,a4,a5,a7,a8])
+
+ implication_temp([a3,a9],[a2,a4,a5,a7,a8]) Implication removed 
+
+ implication_temp([a9],[a2,a4,a5,a7,a8]) Implciation composed with implication_temp([a9],[a0,a3]) 
+implication_temp([a9],[a0,a2,a3,a4,a5,a7,a8]) Implication added 
+
+ Equivalence  -   Simplification and Simplification + Axiom: 
+implication_temp([a5],[a1,a2,a4]) + implication_temp([a0,a1,a5],[a2,a3,a6,a7,a8,a9]) --->  implication_temp([a0,a5],[a3,a6,a7,a8,a9])
+
+ implication_temp([a0,a1,a5],[a2,a3,a6,a7,a8,a9]) Implication removed 
+
+ implication_temp([a0,a5],[a3,a6,a7,a8,a9]) Implication added 
+Rule : sSimp 
+sigma([a9],[a0,a2,a3,a4,a5,a7,a8]) + sigma([a0,a5],[a3,a6,a7,a8,a9]) --->  gamma([a9],[a6])
+
+Rule : sSimp 
+sigma([a9],[a0,a2,a3,a4,a5,a7,a8]) + sigma([a5],[a1,a2,a4]) --->  gamma([a9],[a1])
+
+Rule : sSimp 
+sigma([a2,a8],[a4,a5,a9]) + sigma([a0,a5],[a3,a6,a7,a8,a9]) --->  gamma([a0,a2,a8],[a3,a6,a7])
+
+Rule : sSimp 
+sigma([a2,a8],[a4,a5,a9]) + sigma([a9],[a0,a2,a3,a4,a5,a7,a8]) --->  gamma([a2,a8],[a0,a3,a7])
+
+Rule : sSimp 
+sigma([a2,a8],[a4,a5,a9]) + sigma([a5],[a1,a2,a4]) --->  gamma([a2,a8],[a1])
+
+Rule : sSimp 
+sigma([a6],[a0,a1,a2,a3,a4,a5,a7,a9]) + sigma([a0,a5],[a3,a6,a7,a8,a9]) --->  gamma([a6],[a8])
+
+Rule : sSimp 
+sigma([a5],[a1,a2,a4]) + sigma([a2,a8],[a4,a5,a9]) --->  gamma([a5,a8],[a9])
+
+Rule : sSimp 
+sigma([a8],[a0,a6]) + sigma([a0,a5],[a3,a6,a7,a8,a9]) --->  gamma([a5,a8],[a3,a7,a9])
+
+Rule : sSimp 
+sigma([a8],[a0,a6]) + sigma([a6],[a0,a1,a2,a3,a4,a5,a7,a9]) --->  gamma([a8],[a1,a2,a3,a4,a5,a7,a9])
+
+Rule : sSimp 
+sigma([a3],[a0,a6]) + sigma([a0,a5],[a3,a6,a7,a8,a9]) --->  gamma([a3,a5],[a7,a8,a9])
+
+Rule : sSimp 
+sigma([a3],[a0,a6]) + sigma([a6],[a0,a1,a2,a3,a4,a5,a7,a9]) --->  gamma([a3],[a1,a2,a4,a5,a7,a9])
+
+Rule : sSimp 
+sigma([a0,a2,a8],[a3,a6,a7]) + sigma([a3],[a0,a1,a2,a4,a5,a6,a7,a9]) --->  gamma([a0,a2,a8],[a1,a4,a5,a9])
+
+Rule : sSimp 
+sigma([a5,a8],[a3,a7,a9]) + sigma([a9],[a0,a1,a2,a3,a4,a5,a6,a7,a8]) --->  gamma([a5,a8],[a0,a1,a2,a4,a6])
+
+Rule : sSimp 
+sigma([a2,a8],[a0,a1,a3,a4,a5,a7,a9]) + sigma([a0,a5],[a3,a6,a7,a8,a9]) --->  gamma([a2,a8],[a6])
+
+
+*******    END SLsSimp ************
+[32m% 48,774 inferences, 0.014 CPU in 0.038 seconds (37% CPU, 3444492 Lips)
+[0m
+------------- OUTPUT --------------------
+:- dynamic implication_temp2/2.
+
+implication_temp2([a2, a8], [a0, a1, a3, a4, a5, a6, a7, a9]).
+implication_temp2([a8], [a0, a1, a2, a3, a4, a5, a6, a7, a9]).
+implication_temp2([a6], [a0, a1, a2, a3, a4, a5, a7, a8, a9]).
+implication_temp2([a9], [a0, a1, a2, a3, a4, a5, a6, a7, a8]).
+implication_temp2([a0, a5], [a3, a6, a7, a8, a9]).
+implication_temp2([a3], [a0, a1, a2, a4, a5, a6, a7, a8, a9]).
+implication_temp2([a5], [a1, a2, a4]).
+
+
+
+7 ** Implications:
+
+61 the size of DOBasis
+
