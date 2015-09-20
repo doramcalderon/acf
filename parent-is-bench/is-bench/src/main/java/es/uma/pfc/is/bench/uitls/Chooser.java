@@ -2,6 +2,7 @@
 package es.uma.pfc.is.bench.uitls;
 
 import java.io.File;
+import java.util.List;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.FileChooser;
 import javafx.stage.Window;
@@ -26,7 +27,26 @@ public class Chooser {
      * @param filters Filtros que se aplica a los archivos a mostrar en el cuadro de diálogo.
      * @return Directorio seleccionado.
      */
-    public static File openFileChooser(Window owner, FileChooserMode mode, String title, File initialDirectory, FileChooser.ExtensionFilter ... filters) {
+    public static List<File> openMultipleFileChooser(Window owner, FileChooserMode mode, String title, File initialDirectory, 
+                                       FileChooser.ExtensionFilter ... filters) {
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle(title);
+        fileChooser.setInitialDirectory(initialDirectory);
+        fileChooser.getExtensionFilters().addAll(filters);
+        
+        return fileChooser.showOpenMultipleDialog(owner);
+    }
+    /**
+     * Abre un selector de directorio y devuelve la selección del usuario.
+     * @param owner Ventana padre.
+     * @param mode Modo de apertura: OPEN, SAVE.
+     * @param title Título de la ventana.
+     * @param initialDirectory Directorio inicial con el que se abre.
+     * @param filters Filtros que se aplica a los archivos a mostrar en el cuadro de diálogo.
+     * @return Directorio seleccionado.
+     */
+    public static File openFileChooser(Window owner, FileChooserMode mode, String title, File initialDirectory, 
+                                       FileChooser.ExtensionFilter ... filters) {
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle(title);
         fileChooser.setInitialDirectory(initialDirectory);

@@ -1,5 +1,7 @@
-package es.uma.pfc.is.bench.domain.ws;
+package es.uma.pfc.is.bench.config;
 
+import es.uma.pfc.is.bench.domain.ws.Preferences;
+import es.uma.pfc.is.bench.domain.ws.Workspace;
 import es.uma.pfc.is.commons.files.FileUtils;
 import es.uma.pfc.is.commons.strings.StringUtils;
 import java.io.File;
@@ -14,7 +16,6 @@ import java.util.Enumeration;
 import java.util.List;
 import java.util.Locale;
 import java.util.Properties;
-import java.util.logging.Level;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

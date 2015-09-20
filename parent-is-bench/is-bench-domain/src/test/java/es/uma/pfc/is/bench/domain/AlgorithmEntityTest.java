@@ -3,7 +3,7 @@ package es.uma.pfc.is.bench.domain;
 
 
 import es.uma.pfc.is.bench.domain.AlgorithmEntity;
-import es.uma.pfc.is.algorithms.optbasis.DirectOptimalBasis;
+import es.uma.pfc.is.algorithms.optbasis.DirectOptimalBasis2;
 import java.io.File;
 import javax.xml.bind.JAXB;
 import static org.junit.Assert.*;
@@ -25,7 +25,7 @@ public class AlgorithmEntityTest {
         AlgorithmEntity alg = new AlgorithmEntity();
         alg.setName("Direct Optimal");
         alg.setShortName("DO");
-        alg.setType(DirectOptimalBasis.class);
+        alg.setType(DirectOptimalBasis2.class);
 
         File xmlFile = new File(path + "algorithms.xml");
 
@@ -40,12 +40,12 @@ public class AlgorithmEntityTest {
         AlgorithmEntity alg = new AlgorithmEntity();
         alg.setName("Direct Optimal");
         alg.setShortName("DO");
-        alg.setType(DirectOptimalBasis.class);
+        alg.setType(DirectOptimalBasis2.class);
         
         AlgorithmEntity otherAlg = new AlgorithmEntity();
         otherAlg.setName("Direct Optimal");
         otherAlg.setShortName("DO");
-        otherAlg.setType(DirectOptimalBasis.class);
+        otherAlg.setType(DirectOptimalBasis2.class);
 
         assertEquals(alg, otherAlg);
     }
@@ -55,12 +55,12 @@ public class AlgorithmEntityTest {
         AlgorithmEntity alg = new AlgorithmEntity();
         alg.setName("Direct Optimal   ");
         alg.setShortName("DO");
-        alg.setType(DirectOptimalBasis.class);
+        alg.setType(DirectOptimalBasis2.class);
         
         AlgorithmEntity otherAlg = new AlgorithmEntity();
         otherAlg.setName("   Direct Optimal");
         otherAlg.setShortName("DO");
-        otherAlg.setType(DirectOptimalBasis.class);
+        otherAlg.setType(DirectOptimalBasis2.class);
 
         assertEquals(alg, otherAlg);
     }
@@ -69,12 +69,12 @@ public class AlgorithmEntityTest {
         AlgorithmEntity alg = new AlgorithmEntity();
         alg.setName("Direct Optimal");
         alg.setShortName("   DO");
-        alg.setType(DirectOptimalBasis.class);
+        alg.setType(DirectOptimalBasis2.class);
         
         AlgorithmEntity otherAlg = new AlgorithmEntity();
         otherAlg.setName("Direct OPTIMAL");
         otherAlg.setShortName("DO   ");
-        otherAlg.setType(DirectOptimalBasis.class);
+        otherAlg.setType(DirectOptimalBasis2.class);
 
         assertEquals(alg, otherAlg);
     }
@@ -83,12 +83,12 @@ public class AlgorithmEntityTest {
         AlgorithmEntity alg = new AlgorithmEntity();
         alg.setName("Direct Optimal");
         alg.setShortName("   DO");
-        alg.setType(DirectOptimalBasis.class);
+        alg.setType(DirectOptimalBasis2.class);
         
         AlgorithmEntity otherAlg = new AlgorithmEntity();
         otherAlg.setName("Direct Optimal");
         otherAlg.setShortName("DO   ");
-        otherAlg.setType(DirectOptimalBasis.class);
+        otherAlg.setType(DirectOptimalBasis2.class);
 
         assertEquals(alg, otherAlg);
     }
@@ -97,12 +97,12 @@ public class AlgorithmEntityTest {
         AlgorithmEntity alg = new AlgorithmEntity();
         alg.setName("Direct Optimal");
         alg.setShortName("dO");
-        alg.setType(DirectOptimalBasis.class);
+        alg.setType(DirectOptimalBasis2.class);
         
         AlgorithmEntity otherAlg = new AlgorithmEntity();
         otherAlg.setName("Direct Optimal");
         otherAlg.setShortName("DO   ");
-        otherAlg.setType(DirectOptimalBasis.class);
+        otherAlg.setType(DirectOptimalBasis2.class);
 
         assertEquals(alg, otherAlg);
     }

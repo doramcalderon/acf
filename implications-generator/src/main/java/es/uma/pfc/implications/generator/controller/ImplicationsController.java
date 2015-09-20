@@ -12,6 +12,7 @@ import es.uma.pfc.implications.generator.model.ResultValidation;
 import es.uma.pfc.implications.generator.validation.IntegerTextParser;
 import es.uma.pfc.implications.generator.view.GenerateService;
 import es.uma.pfc.is.commons.eventbus.Eventbus;
+import es.uma.pfc.is.commons.files.FileUtils;
 import es.uma.pfc.is.commons.strings.StringUtils;
 import fr.kbertet.lattice.ImplicationalSystem;
 import java.io.File;
@@ -294,7 +295,7 @@ public class ImplicationsController implements Initializable {
     }
 
     @FXML
-    public void handleInputAction(ActionEvent event) {
+    public void handleOutputAction(ActionEvent event) {
         File selectedFile = showSaveDialog();
         if (selectedFile != null) {
             txtOutput.setText(selectedFile.getAbsolutePath());
@@ -304,8 +305,7 @@ public class ImplicationsController implements Initializable {
     }
 
     /**
-     * Guarda las implicaciones generadas en un archivo.<br/>
-     * Muestra un cuadro de diálogo para que el usuario seleccione la carpeta destino.
+     * Guarda las implicaciones generadas en el archivo introducido en el campo txtOutput.<br/>
      *
      * @param event ActionEvent.
      */
@@ -338,8 +338,8 @@ public class ImplicationsController implements Initializable {
                     String path = txtOutput.getText(0, txtOutput.getText().lastIndexOf(File.separator)).replace(File.separator, "\\\\");
                     String message = GeneratorMessages.get().getMessage(I18n.SYSTEM_GENERATED,  txtSystemsNumber.getText(), path);
                     new Alert(AlertType.INFORMATION, message).showAndWait();
+                    publicSystemsGenerated(selectedFile);
                     clean(null);
-                    Eventbus.post(new SystemSaved(selectedFile));
                 }
 
             };
@@ -350,6 +350,20 @@ public class ImplicationsController implements Initializable {
         }
     }
 
+    protected void publicSystemsGenerated(String selectedFile) {
+        SystemSaved event = new SystemSaved();
+        if (model.getNum() == 1) {
+            event.setPath(selectedFile);
+        } else {
+            String [] paths = new String[model.getNum()];
+            for(int i = 1; i <= model.getNum(); i++) {
+                paths[i-1] = FileUtils.getFileName(selectedFile, i);
+            }
+            event.setPath(paths);
+        }
+        Eventbus.post(event);
+        
+    }
     /**
      * Muestra el cuadro de diálogo "Guardar" y devuelve la ruta seleccionada.
      *
@@ -367,7 +381,7 @@ public class ImplicationsController implements Initializable {
     }
 
     /**
-     * Muestra la representación en texto del sistema generado.
+     * Muestra en el visor la representación en texto de un sistema implicacional.
      *
      * @param system Sistema de implicaciones.
      */
@@ -378,7 +392,7 @@ public class ImplicationsController implements Initializable {
     }
 
     /**
-     * Muestra el sistema guardado en un archivo.
+     * Muestra en el visor el sistema guardado en un archivo.
      *
      * @param implicationsFile Sistema de implicaciones.
      */
@@ -404,7 +418,7 @@ public class ImplicationsController implements Initializable {
      *
      * @throw RuntimeException Si hay algún error de validación.
      */
-    public void validate() {
+    protected void validate() {
         ResultValidation validation = ResultValidation.OK;
 
         if (model != null) {
@@ -436,7 +450,7 @@ public class ImplicationsController implements Initializable {
     /**
      * Lee las propiedades de la vista y las guarda en el modelo.
      */
-    public void viewToModel() {
+    protected void viewToModel() {
         String strRulesNumber = txtImplications.getText();
         String strNodesNumber = txtNodes.getText();
         String strMinPremise = txtMinLongPremisse.getText();

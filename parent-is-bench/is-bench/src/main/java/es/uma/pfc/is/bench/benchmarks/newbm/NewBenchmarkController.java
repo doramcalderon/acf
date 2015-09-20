@@ -21,17 +21,24 @@ import es.uma.pfc.is.bench.uitls.Chooser;
 import es.uma.pfc.is.bench.uitls.Dialogs;
 import es.uma.pfc.is.bench.view.FXMLViews;
 import es.uma.pfc.is.commons.strings.StringUtils;
-import es.uma.pfc.is.bench.domain.ws.WorkspaceManager;
+import es.uma.pfc.is.bench.config.WorkspaceManager;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Locale;
 import java.util.Optional;
 import java.util.ResourceBundle;
 import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javafx.beans.binding.BooleanBinding;
+import javafx.beans.binding.StringBinding;
 import javafx.collections.FXCollections;
 import javafx.concurrent.WorkerStateEvent;
 import javafx.event.ActionEvent;
@@ -40,9 +47,10 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
+import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
-import javafx.scene.control.SplitMenuButton;
 import javafx.scene.control.TextField;
+import javafx.scene.control.TitledPane;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
@@ -59,9 +67,13 @@ public class NewBenchmarkController extends Controller {
     @FXML
     private TextField txtName;
     @FXML
-    private TextField txtInput;
+    private TitledPane inputsTitledPane;
     @FXML
-    private SplitMenuButton inputButton;
+    private Label lbSelectedFiles;
+    @FXML
+    private ListView inputsList;
+    
+   
     /**
      * Algorithms filter.
      */
@@ -105,6 +117,7 @@ public class NewBenchmarkController extends Controller {
             Logger.getLogger(NewBenchmarkController.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
+    
 
     @Override
     protected void initModel() {
@@ -124,14 +137,32 @@ public class NewBenchmarkController extends Controller {
     @Override
     protected void initBinding() {
         txtName.textProperty().bindBidirectional(model.nameProperty());
-        txtInput.textProperty().bindBidirectional(model.inputProperty());
+        inputsList.itemsProperty().bind(model.inputFilesListProperty());
+        inputsList.disableProperty().bind(new BooleanBinding() {
+                {super.bind(inputsList.itemsProperty());}
+            @Override
+            protected boolean computeValue() {
+                return (inputsList.getItems().size() == 0);
+            }
+        });
+        lbSelectedFiles.textProperty().bind(new StringBinding() {
+                {super.bind(inputsList.itemsProperty());}
+            @Override
+            protected String computeValue() {
+                return BenchMessages.get().getMessage(I18n.SELECTED_FILES_COUNT, inputsList.getItems().size());
+            }
+        });
         algorithmsSelected.itemsProperty().bindBidirectional(model.algorithmsSelectedProperty());
     }
 
     @Override
     protected void initListeners() {
         Eventbus.register(this);
-
+        txtName.textProperty().addListener((observable, oldValue, newValue) -> {
+            inputsTitledPane.setDisable(StringUtils.isEmpty(newValue));
+            String inputDir = Paths.get(wsManager.currentWorkspace().getLocation(), newValue, "input").toString();
+            model.inputProperty().set(inputDir);
+        });
         txtFilter.textProperty().addListener(
                 (observable, oldValue, newValue) -> {
                     model.getAlgorithmsFilteredList().setPredicate(algorithm -> {
@@ -205,11 +236,15 @@ public class NewBenchmarkController extends Controller {
      */
     @Subscribe
     public void handleSystemSaved(SystemSaved event) {
-        txtInput.setText(event.getPath());
+        String[] paths = event.getPaths();
+        if (paths != null) {
+            Arrays.stream(paths)
+                  .forEach(path -> model.inputFilesListProperty().get().add(Paths.get(path).toFile()));
+        }
     }
-    
+   
     @FXML
-    private void handleNewAlgorithm(ActionEvent event) {
+    protected void handleNewAlgorithm(ActionEvent event) {
         try {
             Parent algorithmsPane = FXMLLoader.load(MainLayoutController.class.getResource(FXMLViews.ALGORITHMS_VIEW), getBundle());
             String title = getI18nLabel(I18n.ALGORITHMS_DIALOG_TITLE);
@@ -225,15 +260,17 @@ public class NewBenchmarkController extends Controller {
      * @param event Action event.
      */
     @FXML
-    public void handleSelectInputFile(ActionEvent event) {
-        File defaultInputDir = wsManager.getPreferenceAsFile("input.default");
-        
-        File resultFile = Chooser.openFileChooser(getRootPane().getScene().getWindow(),
+    protected void handleSelectInputDir(ActionEvent event) {
+        File defaultInputDir = Paths.get(wsManager.currentWorkspace().getLocation()).toFile();
+
+        List<File> resultFile = Chooser.openMultipleFileChooser(getRootPane().getScene().getWindow(),
                 Chooser.FileChooserMode.OPEN, "Input system", defaultInputDir,
                 new FileChooser.ExtensionFilter(getI18nLabel(I18n.TEXT_FILE), "*.txt"),
                 new FileChooser.ExtensionFilter(getI18nLabel(I18n.PROLOG_FILE), "*.pl"));
-        if (resultFile != null) {
-            txtInput.setText(resultFile.getAbsolutePath());
+        if(resultFile != null) {
+            List<File> selectedFiles = new ArrayList(model.getInputFilesList());
+            selectedFiles.addAll(resultFile);
+            model.inputFilesListProperty().setValue(FXCollections.observableArrayList(selectedFiles));
         }
     }
 
@@ -245,7 +282,7 @@ public class NewBenchmarkController extends Controller {
     @FXML
     public void handleGenerateSystem(ActionEvent event) {
         try {
-            String implicationsPath = Paths.get(wsManager.currentWorkspace().getLocation(), model.getName(), "implications.txt").toString();
+            String implicationsPath = Paths.get(model.getInputDir(), "implications.txt").toString();
             FXMLLoader loader = new FXMLLoader(ISBenchApp.class.getResource("/" + es.uma.pfc.implications.generator.view.FXMLViews.IMPLICATIONS_VIEW),
                     ResourceBundle.getBundle("es.uma.pfc.implications.generator.i18n.labels", Locale.getDefault()));
             
@@ -288,7 +325,8 @@ public class NewBenchmarkController extends Controller {
     protected void handleSaveButton(ActionEvent event) {
         if (validate()) {
             Benchmark benchmark = new Benchmark(model.getName(), model.getAlgorithmsSelectedList());
-            benchmark.setInput(model.getInput());
+            benchmark.setInputsDir(model.getInputDir());
+            benchmark.setInputFiles(model.getInputFilesList());
             BenchmarkSaveService service = new BenchmarkSaveService(benchmark);
             service.setOnSucceeded((WorkerStateEvent event1) -> {
                 clear();
@@ -316,7 +354,6 @@ public class NewBenchmarkController extends Controller {
 
     protected void clear() {
         txtName.clear();
-        txtInput.clear();
         algorithmsSelected.getItems().clear();
     }
 }

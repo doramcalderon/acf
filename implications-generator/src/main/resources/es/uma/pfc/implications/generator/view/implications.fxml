@@ -108,7 +108,7 @@
                                  <children>
                                     <Label text="%label.output" />
                                     <TextField fx:id="txtOutput" HBox.hgrow="ALWAYS" />
-                                    <Button fx:id="btnInput" mnemonicParsing="false" onAction="#handleInputAction" text="..." />
+                                    <Button fx:id="btnOutput" mnemonicParsing="false" onAction="#handleOutputAction" text="..." />
                                  </children>
                                  <padding>
                                     <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />

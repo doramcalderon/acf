@@ -4,7 +4,6 @@ import es.uma.pfc.is.bench.Controller;
 import es.uma.pfc.is.bench.i18n.I18n;
 import es.uma.pfc.is.bench.uitls.Chooser;
 import es.uma.pfc.is.bench.domain.ws.Workspace;
-import es.uma.pfc.is.bench.domain.ws.WorkspaceManager;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;

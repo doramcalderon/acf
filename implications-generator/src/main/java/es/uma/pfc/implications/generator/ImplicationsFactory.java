@@ -9,26 +9,33 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- *
+ * Factoría de sistemas implicacionales.
  * @author Dora Calderón
  */
 public class ImplicationsFactory {
-    
+    /**
+     * Inicialización.
+     */
     public static void initialize() {
         ImplicationalSystemWriterProlog.register();
     }
-
+    /**
+     * Genera un sistema aleatorio con el número de nodos e implicaciones pasados como parámetro.
+     * @param nodesNumber Número de nodos.
+     * @param rulesNumber Número de implicaciones.
+     * @return Sistema implicacional.
+     */
     public static ImplicationalSystem getImplicationalSystem(int nodesNumber, int rulesNumber) {
         return ImplicationalSystem.random(nodesNumber, rulesNumber);
     }
 
 
     /**
-     * Devuelve n conjuntos aleatorios de implicaciones cumpliendo las restricciones establecidas en el parámetro
+     * Devuelve n sistemas aleatorios de implicaciones cumpliendo las restricciones establecidas en el parámetro
      * {@code implicationsModel}.
      *
      * @param implicationsModel Restricciones para los sistemas de implicaciones a generar.
-     * @return Lista de conjuntos de implicaciones aleatorios.
+     * @return Lista de sistemas de implicaciones aleatorios.
      */
     public static List<ImplicationalSystem> getImplicationalSystems(ImplicationsModel implicationsModel) {
         List<ImplicationalSystem> systems = new ArrayList();
@@ -46,7 +53,7 @@ public class ImplicationsFactory {
 
 
     /**
-     * Devuelve un conjunto aleatorio de implicaciones cumpliendo las restricciones establecidas en el parámetro
+     * Devuelve un sistema aleatorio de implicaciones cumpliendo las restricciones establecidas en el parámetro
      * {@code implicationsModel}.
      *
      * @param implicationsModel Restricciones para el sistema de implicaciones a generar.
@@ -78,14 +85,14 @@ public class ImplicationsFactory {
     }
 
     /**
-     * Devuelve una conclusion con un número máximo de nodos. Si {@code maxLength} es nulo 0 menor que 0, el número de
-     * nodos máximo es el número de nodos del sistema.
+     * Devuelve una conclusion con un número máximo de nodos. Si {@code maxLength} es nulo o menor o igual que 0, 
+     * el número de nodos máximo es el número de nodos del sistema.
      *
      * @param system Sistema.
      * @param minLength Número mínimo de nodos.
      * @param maxLength Número máximo de nodos.
      * @return Conclusiones.
-     * @throws RuntimeException if {@code maxLength} is greater than syste attributes size.
+     * @throws RuntimeException if {@code maxLength} is greater than system attributes size.
      */
     protected static ComparableSet getConclusion(ImplicationalSystem system, Integer minLength, Integer maxLength) {
         ComparableSet conclusion = new ComparableSet();
@@ -113,7 +120,7 @@ public class ImplicationsFactory {
      * Si {@code maxLength} es nulo 0 menor que 0, el número de nodos máximo es el número de nodos del sistema.
      *
      * @param system Sistema.
-     * @param minLength
+     * @param minLength Número mínimo de nodos.
      * @param maxLength Número máximo de nodos.
      * @return Premisas.
      */
@@ -135,7 +142,7 @@ public class ImplicationsFactory {
     /**
      * Devuelve un entero aleatorio, entre 0 y el valor pasado como parámetro.
      *
-     * @param maxValue Válor máximo.
+     * @param maxValue Valor máximo.
      * @return Valor entero.
      */
     protected static int getRandomInt(int maxValue) {
@@ -143,10 +150,10 @@ public class ImplicationsFactory {
     }
 
     /**
-     * Devuelve un entero aleatorio, entre 0 y el valor pasado como parámetro.
+     * Devuelve un entero aleatorio, entre un valor mínimo y un valor máximo pasados como parámetro.
      *
-     * @param minValue Válor mínimo.
-     * @param maxValue Válor máximo.
+     * @param minValue Valor mínimo.
+     * @param maxValue Valor máximo.
      * @return Valor entero.
      */
     protected static int getRandomInt(int minValue, int maxValue) {

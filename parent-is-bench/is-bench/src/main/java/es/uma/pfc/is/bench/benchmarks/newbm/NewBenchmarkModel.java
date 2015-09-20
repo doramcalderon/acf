@@ -3,6 +3,7 @@ package es.uma.pfc.is.bench.benchmarks.newbm;
 
 import es.uma.pfc.is.algorithms.Algorithm;
 import es.uma.pfc.is.bench.domain.AlgorithmEntity;
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import javafx.beans.property.ListProperty;
@@ -21,17 +22,24 @@ public class NewBenchmarkModel {
     /**
      * Algorithms list.
      */
-    private ListProperty<AlgorithmEntity> algorithmsListProperty;
-    private FilteredList<AlgorithmEntity> algorithmsFilteredList;
+    private final ListProperty<AlgorithmEntity> algorithmsListProperty;
+    /**
+     * Algorhtms filtered list.
+     */
+    private final FilteredList<AlgorithmEntity> algorithmsFilteredList;
 
     /**
      * Name.
      */
-    private StringProperty nameProperty;
+    private final StringProperty nameProperty;
     /**
      * Input file path.
      */
-    private StringProperty inputProperty;
+    private final StringProperty inputDirProperty;
+    /**
+     * Input files list.
+     */
+    private ListProperty<File> inputFilesProperty;
     /**
      * Algorithms list.
      */
@@ -42,7 +50,8 @@ public class NewBenchmarkModel {
      */
     public NewBenchmarkModel() {
         nameProperty = new SimpleStringProperty("");
-        inputProperty = new SimpleStringProperty("");
+        inputDirProperty = new SimpleStringProperty("");
+        inputFilesProperty = new SimpleListProperty<>(FXCollections.observableArrayList());
         algorithmsSelectedProperty = new SimpleListProperty<>(FXCollections.observableArrayList());
         algorithmsListProperty = new SimpleListProperty<>(FXCollections.observableArrayList());
         algorithmsFilteredList = new FilteredList(algorithmsListProperty, p -> true);
@@ -65,6 +74,21 @@ public class NewBenchmarkModel {
     public ListProperty<AlgorithmEntity> algorithmsListProperty() {
         return algorithmsListProperty;
     }
+    /**
+     * Input files list.
+     * @return Algorithms list.
+     */
+    public List<File> getInputFilesList() {
+        return (inputFilesProperty != null) ? new ArrayList(inputFilesProperty) : null;
+    }
+    
+    /**
+     * Input files list property.
+     * @return Input files ListProperty.
+     */
+    public ListProperty<File> inputFilesListProperty() {
+        return inputFilesProperty;
+    }
 
     /**
      * Name.
@@ -81,18 +105,18 @@ public class NewBenchmarkModel {
         return nameProperty;
     }
     /**
-     * Input file path.
-     * @return Input file path.
+     * Input dir path.
+     * @return Input dir path.
      */
-    public String getInput() {
-        return (inputProperty != null) ? inputProperty.get() : null;
+    public String getInputDir() {
+        return (inputDirProperty != null) ? inputDirProperty.get() : null;
     }
     /**
-     * Input file path property.
+     * Input dir path property.
      * @return the inputProperty
      */
     public StringProperty inputProperty() {
-        return inputProperty;
+        return inputDirProperty;
     }
 
 

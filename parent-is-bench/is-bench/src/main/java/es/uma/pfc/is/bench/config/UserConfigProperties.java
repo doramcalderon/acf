@@ -2,7 +2,7 @@
 package es.uma.pfc.is.bench.config;
 
 /**
- * Config constants.
+ * Nombres de propiedades de configuración.
  * @author Dora Calderón
  */
 public interface UserConfigProperties {

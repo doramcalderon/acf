@@ -1,10 +1,9 @@
 
 package es.uma.pfc.is.bench.domain;
 
-import es.uma.pfc.is.algorithms.Algorithm;
 import es.uma.pfc.is.commons.strings.StringUtils;
+import java.io.File;
 import java.nio.file.Paths;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import javax.xml.bind.annotation.XmlAccessType;
@@ -20,7 +19,7 @@ import javax.xml.bind.annotation.XmlType;
  *
  * @since @author Dora Calderón
  */
-@XmlType(propOrder={"name", "workspace", "input", "algorithmsEntities"})
+@XmlType(propOrder={"name", "workspace", "inputsDir", "algorithmsEntities"})
 @XmlRootElement(name="benchmark")
 @XmlAccessorType(XmlAccessType.FIELD)
 public class Benchmark {
@@ -36,10 +35,16 @@ public class Benchmark {
     @XmlAttribute
     private String name;
     /**
-     * Input implicational system file path.
+     * Input implicational systems dir path.
      */
     @XmlElement
-    private String input;
+    private String inputsDir;
+    
+    /**
+     * Input files wich will be copied to input dir.
+     */
+    @XmlTransient
+    private List<File> inputFiles;
 
     @XmlElementWrapper(name = "algorithms")
     @XmlElement(name = "algorithm")
@@ -72,23 +77,24 @@ public class Benchmark {
         this.algorithmsEntities = algorithms;
     }
 
+    
 
     /**
-     * Input implicational system file path.
+     * Input implicational system dir path.
      *
      * @return the input
      */
-    public String getInput() {
-        return input;
+    public String getInputsDir() {
+        return inputsDir;
     }
 
     /**
      * Sets the algorithms input.
      *
-     * @param inputFilePath Input file path.
+     * @param inputFilePath Input dir path.
      */
-    public void setInput(String inputFilePath) {
-        this.input = inputFilePath;
+    public void setInputsDir(String inputFilePath) {
+        this.inputsDir = inputFilePath;
     }
 
     /**
@@ -180,6 +186,22 @@ public class Benchmark {
             return false;
         }
         return true;
+    }
+
+    /**
+     * Input files wich will be copied to input dir.
+     * @return the inputFiles
+     */
+    public List<File> getInputFiles() {
+        return inputFiles;
+    }
+
+    /**
+     * Input files wich will be copied to input dir.
+     * @param inputFiles the inputFiles to set
+     */
+    public void setInputFiles(List<File> inputFiles) {
+        this.inputFiles = inputFiles;
     }
 
     

@@ -1,6 +1,8 @@
 
 package es.uma.pfc.implications.generator.events;
 
+import java.util.Arrays;
+
 /**
  *
  * @since 
@@ -10,30 +12,32 @@ public class SystemSaved {
     /**
      * Path of system saved.
      */
-    private String path;
+    private String [] paths;
 
     /**
      * Constructor.
-     * @param path Path of system saved.
+     * @param paths Paths of systems saved.
      */
-    public SystemSaved(String path) {
-        this.path = path;
+    public SystemSaved(String ... paths) {
+        if(paths != null) {
+            this.paths = Arrays.copyOf(paths, paths.length);
+        }
     }
 
     /**
      * Path of system saved.
      * @return the path
      */
-    public String getPath() {
-        return path;
+    public String[] getPaths() {
+        return paths;
     }
 
     /**
-     * Path of system saved.
+     * Paths of systems saved.
      * @param path the path to set
      */
-    public void setPath(String path) {
-        this.path = path;
+    public void setPath(String ... paths) {
+        this.paths = paths;
     }
     
     

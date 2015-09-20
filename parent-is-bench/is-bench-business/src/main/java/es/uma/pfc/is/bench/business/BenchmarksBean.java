@@ -1,10 +1,8 @@
-
-
 package es.uma.pfc.is.bench.business;
-
 
 import es.uma.pfc.is.bench.domain.Benchmark;
 import es.uma.pfc.is.bench.domain.Benchmarks;
+import es.uma.pfc.is.commons.files.FileUtils;
 import es.uma.pfc.is.commons.strings.StringUtils;
 import java.io.File;
 import java.io.IOException;
@@ -18,17 +16,20 @@ import java.util.logging.Logger;
 
 /**
  * Business logic for insert, modify and delete algorithms.
+ *
  * @author Dora Calderón
  */
 public class BenchmarksBean {
+
     private BenchmarksPersistence persistence;
 
     public BenchmarksBean() {
         persistence = BenchmarksPersistence.get();
     }
-    
+
     /**
      * Returns a workspace registered benchmarks.
+     *
      * @param workspace Workspace path.
      * @return Algorithm Entities list.
      * @throws java.lang.Exception
@@ -37,7 +38,7 @@ public class BenchmarksBean {
         List<Benchmark> benchmarksList = null;
         try {
             Benchmarks benchmarks = persistence.getBenchmarks(workspace);
-            if(benchmarks != null) {
+            if (benchmarks != null) {
                 benchmarksList = benchmarks.getBenchmarks();
             }
         } catch (Exception ex) {
@@ -45,53 +46,61 @@ public class BenchmarksBean {
         }
         return benchmarksList;
     }
-    
+
     /**
      * Create the directory tree of benchmark.
+     *
      * @param benchmark Benchmark.
      * @throws java.io.IOException
      */
     public void update(Benchmark benchmark) throws IOException {
-        if(benchmark != null) {        
+        if (benchmark != null) {
+            String inputDir = benchmark.getInputsDir();
             Files.createDirectories(Paths.get(benchmark.getBenchmarkPath(), "output"));
-            File inputFile = new File(benchmark.getInput());
-            Path targetInputFile = Paths.get(benchmark.getBenchmarkPath(), inputFile.getName());
-            
-            if(inputFile.exists()) {
-                Files.copy(inputFile.toPath(), targetInputFile, 
-                            StandardCopyOption.COPY_ATTRIBUTES, StandardCopyOption.REPLACE_EXISTING);
-                benchmark.setInput(targetInputFile.toString());
-            } else {
-                throw new RuntimeException("The input system not exists.");
+            FileUtils.createDirIfNoExists(inputDir);
+
+            Path targetInputFile, inputFilePath;
+
+            for (File inputFile : benchmark.getInputFiles()) {
+                inputFilePath = inputFile.toPath();
+                targetInputFile = Paths.get(inputDir, inputFile.getName());
+
+                if (inputFile.exists()) {
+                    if (!Files.isSameFile(inputFilePath, targetInputFile)) {
+                        Files.copy(inputFilePath, targetInputFile,
+                                StandardCopyOption.COPY_ATTRIBUTES, StandardCopyOption.REPLACE_EXISTING);
+                    }
+                } else {
+                    throw new RuntimeException("The input system not exists.");
+                }
             }
 
             persistence.update(benchmark);
         }
-        
+
     }
-    
 
     /**
      * If exists a benchmark with the name argument in a workspace.
+     *
      * @param name Benchmark name.
      * @param workspace Workspace path.
      * @return {@code true} if exists a benchmark with the name argument, {@code false} otherwise.
      */
     public boolean exists(String name, String workspace) {
         boolean exists = false;
-        
-        if(!StringUtils.isEmpty(name) && !StringUtils.isEmpty(workspace)) {
+
+        if (!StringUtils.isEmpty(name) && !StringUtils.isEmpty(workspace)) {
             exists = Files.exists(Paths.get(workspace, name));
         }
-        
+
         return exists;
     }
-    
- 
-    
+
     /**
      * For testing usage.
-     * @param persistence 
+     *
+     * @param persistence
      */
     protected void setPersistence(BenchmarksPersistence persistence) {
         this.persistence = persistence;

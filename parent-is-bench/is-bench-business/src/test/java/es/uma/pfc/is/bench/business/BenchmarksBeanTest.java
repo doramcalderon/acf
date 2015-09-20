@@ -51,14 +51,15 @@ public class BenchmarksBeanTest {
 
         benchmark = new Benchmark("Bench1", Arrays.asList(alg));
         benchmark.setWorkspace(workspace);
-        benchmark.setInput(Paths.get(System.getProperty("user.dir"), "src", "test", "resources","implications.txt").toString());
+        benchmark.setInputsDir(Paths.get(System.getProperty("user.dir"), "src", "test", "resources").toString());
+        benchmark.setInputFiles(Arrays.asList(Paths.get(System.getProperty("user.dir"), "src", "test", "resources","implications.txt").toFile()));
         BenchmarksBean bean = new BenchmarksBean();
         bean.update(benchmark);
 
 
         Path benchmarksPath = Paths.get(benchmark.getWorkspace(), "benchmarks.xml");
         assertTrue(Files.exists(Paths.get(benchmark.getBenchmarkPath())));
-        assertTrue(Files.exists(Paths.get(benchmark.getBenchmarkPath(), new File(benchmark.getInput()).getName())));
+        assertTrue(Files.exists(Paths.get(benchmark.getInputsDir())));
         assertTrue(Files.exists(Paths.get(benchmark.getBenchmarkPath(), "output")));
         assertTrue(Files.exists(benchmarksPath));
 
@@ -69,7 +70,7 @@ public class BenchmarksBeanTest {
         Benchmark unmarshalBench = unmarshalBenchs.getBenchmarks().get(0);
         assertNotNull(unmarshalBench);
         assertEquals(benchmark.getName(), unmarshalBench.getName());
-        assertEquals(benchmark.getInput(), unmarshalBench.getInput());
+        assertEquals(benchmark.getInputsDir(), unmarshalBench.getInputsDir());
         assertEquals(benchmark.getBenchmarkPath(), unmarshalBench.getBenchmarkPath());
         assertArrayEquals(benchmark.getAlgorithmsEntities().toArray(), unmarshalBench.getAlgorithmsEntities().toArray());
 

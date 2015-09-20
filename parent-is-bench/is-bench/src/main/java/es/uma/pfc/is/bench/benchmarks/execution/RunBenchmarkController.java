@@ -17,7 +17,7 @@ import es.uma.pfc.is.bench.uitls.Animations;
 import es.uma.pfc.is.bench.uitls.Chooser;
 import es.uma.pfc.is.bench.validators.FilePathValidator;
 import es.uma.pfc.is.commons.strings.StringUtils;
-import es.uma.pfc.is.bench.domain.ws.WorkspaceManager;
+import es.uma.pfc.is.bench.config.WorkspaceManager;
 import es.uma.pfc.is.javafx.FilterableTreeItem;
 import es.uma.pfc.is.javafx.TreeItemPredicate;
 import java.io.File;
@@ -479,7 +479,7 @@ public class RunBenchmarkController extends Controller {
                 
                 if (isBenchmark) {
                     selectedBenchmark = (Benchmark) newItem.getValue();
-                    txtInput.setText(selectedBenchmark.getInput());
+                    txtInput.setText(selectedBenchmark.getInputsDir());
                     model.setSelectedBenchmark(selectedBenchmark);
                     model.setSelectedAlgorithm(null);
                     txtOutput.setText(model.getDefaultOutput(null));
@@ -489,7 +489,7 @@ public class RunBenchmarkController extends Controller {
                     AlgorithmEntity alg = (AlgorithmEntity) newItem.getValue();
                     model.setSelectedBenchmark(selectedBenchmark);
                     model.setSelectedAlgorithm(alg);
-                    txtInput.setText(selectedBenchmark.getInput());
+                    txtInput.setText(selectedBenchmark.getInputsDir());
                     txtOutput.setText(model.getDefaultOutput(alg));
                     
                 }

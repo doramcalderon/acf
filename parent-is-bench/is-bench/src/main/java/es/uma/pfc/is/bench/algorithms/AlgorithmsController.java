@@ -7,7 +7,7 @@ import es.uma.pfc.is.bench.services.AlgorithmsClassLoadService;
 import es.uma.pfc.is.bench.services.AlgorithmsSaveService;
 import es.uma.pfc.is.bench.validators.ClassNameValidator;
 import es.uma.pfc.is.bench.validators.EmptyStringValidator;
-import es.uma.pfc.is.bench.domain.ws.WorkspaceManager;
+import es.uma.pfc.is.bench.config.WorkspaceManager;
 import java.io.IOException;
 import java.net.URL;
 import java.util.List;

@@ -2,6 +2,7 @@ package es.uma.pfc.is.algorithms;
 
 import es.uma.pfc.is.algorithms.exceptions.AlgorithmException;
 import es.uma.pfc.is.algorithms.exceptions.InvalidPathException;
+import es.uma.pfc.is.algorithms.util.ImplicationalSystems;
 import es.uma.pfc.is.logging.AlgorithmLogger;
 import fr.kbertet.lattice.ImplicationalSystem;
 import java.io.IOException;
@@ -104,8 +105,10 @@ public class AlgorithmExecutor {
 
                 logger.startTime();
                 algorithm.getLogger().setOptions(options);
-                outputSystem = algorithm.execute(new ImplicationalSystem(input));
+                ImplicationalSystem inputSystem = new ImplicationalSystem(input);
+                outputSystem = algorithm.execute(inputSystem);
                 logger.endTime();
+                logger.statistics(ImplicationalSystems.getSize(outputSystem), ImplicationalSystems.getCardinality(outputSystem));
                 if (outputSystem != null) {
                     outputSystem.save(options.<String>getOption(AlgorithmOptions.Options.OUTPUT.toString()));
                 }

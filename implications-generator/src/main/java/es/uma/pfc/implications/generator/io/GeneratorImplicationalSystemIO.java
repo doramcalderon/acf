@@ -1,12 +1,6 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 
 package es.uma.pfc.implications.generator.io;
 
-import com.google.common.base.Strings;
 import es.uma.pfc.is.commons.files.FileUtils;
 import fr.kbertet.lattice.ImplicationalSystem;
 import java.io.IOException;
@@ -16,13 +10,13 @@ import java.nio.file.Paths;
 import java.util.List;
 
 /**
- *
- * @since 
+ * Implementa los métodos para guardar sistemas implicacionales en archivos.
  * @author Dora Calderón
  */
 public class GeneratorImplicationalSystemIO {
     /**
-      * Guarda n sistemas en n ficheros con el nombre filename_1, filename_2, ..., filename_n.
+      * Guarda n sistemas en n ficheros con el nombre filename_1, filename_2, ..., filename_n.<br/>
+      * Si la lista sólo contiene un elemento, se guarda el sistema en el archivo con el nombre pasado en el parámetro {@code fileName}.
      * @param systems Sistemas de implicaciones.
      * @param fileName Prefijo del nombre de los ficheros. 
      * @throws IOException Error en la lectura / escritura de los ficheros.
@@ -52,6 +46,7 @@ public class GeneratorImplicationalSystemIO {
     protected static void checkFile(String fileName) throws IOException {
         Path path = Paths.get(fileName);
         if (!Files.exists(path)) {
+            FileUtils.createDirIfNoExists(path.getParent().toString());
             Files.createFile(path);
         }
     }

@@ -1,9 +1,11 @@
 
-package es.uma.pfc.is.bench.domain.ws;
+package es.uma.pfc.is.bench.config;
 
 import es.uma.pfc.is.bench.domain.ws.Preferences;
 import es.uma.pfc.is.bench.domain.ws.Workspace;
-import es.uma.pfc.is.bench.domain.ws.WorkspaceManager;
+import es.uma.pfc.is.bench.config.WorkspaceManager;
+import es.uma.pfc.is.bench.domain.ws.Preferences;
+import es.uma.pfc.is.bench.domain.ws.Workspace;
 import es.uma.pfc.is.commons.files.FileUtils;
 import java.io.File;
 import java.io.FileReader;
