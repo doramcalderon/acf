@@ -152,15 +152,7 @@ public class Benchmark {
         return Paths.get(getBenchmarkPath(), "output").toString();
     }
 
-    /**
-     * Path of input dir of benchmark.
-     *
-     * @return Path.
-     */
-    public String getInputDir() {
-        return Paths.get(getBenchmarkPath(), "input").toString();
-    }
-
+  
     @Override
     public String toString() {
         return getName();

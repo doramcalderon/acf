@@ -1,8 +1,10 @@
 package es.uma.pfc.is.algorithms;
 
+import static es.uma.pfc.is.algorithms.AlgorithmOptions.Options.OUTPUT;
 import es.uma.pfc.is.algorithms.exceptions.AlgorithmException;
 import es.uma.pfc.is.algorithms.exceptions.InvalidPathException;
 import es.uma.pfc.is.algorithms.util.ImplicationalSystems;
+import es.uma.pfc.is.commons.files.FileUtils;
 import es.uma.pfc.is.logging.AlgorithmLogger;
 import fr.kbertet.lattice.ImplicationalSystem;
 import java.io.IOException;
@@ -33,15 +35,14 @@ public class AlgorithmExecutor {
     private AlgorithmOptions options;
 
     /**
-     * Path of input system.
+     * Path of inputs system.
      */
-    private String input;
+    private String[] inputs;
 
     /**
      * I18n messages.
      */
     protected AlgMessages messages;
-
 
     /**
      * Constructor.
@@ -52,7 +53,6 @@ public class AlgorithmExecutor {
         options = new AlgorithmOptions();
         messages = AlgMessages.get();
     }
-
 
     /**
      * Constructor.
@@ -68,20 +68,21 @@ public class AlgorithmExecutor {
         logger = new AlgorithmLogger(algorithm.getName(), options);
     }
 
-    public ImplicationalSystem execute(Algorithm alg) {
+    public void execute(Algorithm alg) {
         this.algorithm = alg;
-        return execute();
+        execute();
     }
+
     /**
      * Ejecuta un algoritnmo pasando por tres fases: inicialización, ejecución, finalización.
+     *
      * @param alg Algoritmo.
      * @return Resultado de la ejecución.
      */
-    public ImplicationalSystem execute() {
+    public void execute() {
         init();
-        ImplicationalSystem outputSystem = run();
+        run();
         stop();
-        return outputSystem;
     }
 
     /**
@@ -93,33 +94,49 @@ public class AlgorithmExecutor {
 
     /**
      * Ejecuta el algoritmo.
-     * @return Resultado del algoritmo.
      */
-    protected ImplicationalSystem run() {
-        ImplicationalSystem outputSystem = null;
+    protected void run() {
         if (algorithm == null) {
             throw new IllegalArgumentException("Algorithm can't be null");
         } else {
-            try {
-                logger = new AlgorithmLogger(algorithm.getName(), options);
-
-                logger.startTime();
-                algorithm.getLogger().setOptions(options);
-                ImplicationalSystem inputSystem = new ImplicationalSystem(input);
-                outputSystem = algorithm.execute(inputSystem);
-                logger.endTime();
-                logger.statistics(ImplicationalSystems.getSize(outputSystem), ImplicationalSystems.getCardinality(outputSystem));
-                if (outputSystem != null) {
-                    outputSystem.save(options.<String>getOption(AlgorithmOptions.Options.OUTPUT.toString()));
-                }
-                
-            } catch (Exception ex) {
-                ex.printStackTrace();
-                throw new AlgorithmException("Error en la ejecución de " + toString(), ex);
-            } finally {
-                logger.freeResources();
+            for (String input : inputs) {
+                run(input);
             }
         }
+    }
+
+    /**
+     * Ejecuta el algoritmo.
+     *
+     * @return Resultado del algoritmo.
+     */
+    protected ImplicationalSystem run(String input) {
+        ImplicationalSystem outputSystem = null;
+
+        try {
+            logger = new AlgorithmLogger(algorithm.getName(), options);
+
+            logger.startTime();
+            algorithm.getLogger().setOptions(options);
+            ImplicationalSystem inputSystem = new ImplicationalSystem(input);
+            outputSystem = algorithm.execute(inputSystem);
+            logger.endTime();
+            logger.statistics(ImplicationalSystems.getSize(outputSystem), ImplicationalSystems.getCardinality(outputSystem));
+            
+            if (outputSystem != null) {
+                String [] outputParts = FileUtils.splitNameAndExtension(options.<String>getOption(OUTPUT.toString()));
+                String [] inputtParts = FileUtils.splitNameAndExtension(Paths.get(input).getFileName().toString());
+                String outputFile = outputParts[0] + "_" + inputtParts[0] + "." +  outputParts[1];
+                outputSystem.save(outputFile);
+            }
+
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            throw new AlgorithmException("Error en la ejecución de " + toString(), ex);
+        } finally {
+            logger.freeResources();
+        }
+
         return outputSystem;
     }
 
@@ -131,26 +148,35 @@ public class AlgorithmExecutor {
     }
 
     /**
-     * Sets the path of the input system.
+     * Sets the path of the inputs system.
      *
-     * @param fileName Path of the input system.
-     * @return AlgorithmExecuter with input system setted.
+     * @param fileNames Additionals inputs.
+     * @return AlgorithmExecuter with inputs system setted.
      */
-    public AlgorithmExecutor input(String fileName) {
-        if (fileName == null || !Files.exists(Paths.get(fileName))) {
-            throw new InvalidPathException("El fichero de entrada no existe: " + fileName);
+    public AlgorithmExecutor inputs(String ... fileNames) {
+        if(fileNames == null) {
+            throw new InvalidPathException("El fichero de entrada es nulo.");
+            
         }
-        this.input = fileName;
+        
+        for (String name : fileNames) {
+            if (name == null || !Files.exists(Paths.get(name))) {
+                throw new InvalidPathException("El fichero de entrada no existe: " + name);
+            }
+
+        }
+
+        this.inputs = fileNames;
         return this;
     }
 
     /**
-     * Returns the input path.
+     * Returns the inputs path.
      *
      * @return Input path.
      */
-    public String getInput() {
-        return input;
+    public String[] getInputs() {
+        return inputs;
     }
 
     /**
@@ -181,7 +207,6 @@ public class AlgorithmExecutor {
     public String getOutput() {
         return options.getOption(AlgorithmOptions.Options.OUTPUT.toString());
     }
-
 
     /**
      * Enables an execution mode.
@@ -216,8 +241,10 @@ public class AlgorithmExecutor {
         this.options.addOption(name, value);
         return this;
     }
+
     /**
      * Sets an execution options.
+     *
      * @param options Execution options.
      * @return AlgorithmExecutor with an execution option setted.
      */

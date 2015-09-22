@@ -3,11 +3,12 @@ package es.uma.pfc.is.bench.services;
 import es.uma.pfc.is.algorithms.Algorithm;
 import es.uma.pfc.is.algorithms.AlgorithmExecutor;
 import es.uma.pfc.is.algorithms.AlgorithmOptions;
-import es.uma.pfc.is.algorithms.AlgorithmOptions.Options;
 import es.uma.pfc.is.bench.benchmarks.execution.RunBenchmarkModel;
 import es.uma.pfc.is.bench.domain.AlgorithmEntity;
 import es.uma.pfc.is.commons.eventbus.Eventbus;
 import es.uma.pfc.is.bench.events.MessageEvent;
+import java.io.File;
+import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
@@ -111,7 +112,11 @@ public class AlgorithmExecService extends Service {
             protected Object call() throws Exception {
                 instanceAlgorithms();
                 if (algorithms != null) {
-                    AlgorithmExecutor exec = new AlgorithmExecutor().input(model.getInput()).options(getOptions());
+                    List<String> inputs = new ArrayList<>();
+                    Files.list(Paths.get(model.getSelectedBenchmark().getInputsDir())).forEach(p -> inputs.add(p.toString()));
+                    AlgorithmExecutor exec = new AlgorithmExecutor()
+                                                .inputs(inputs.toArray(new String[]{}))
+                                                .options(getOptions());
                     algorithms.stream().filter((alg) -> (alg != null)).forEach((alg) -> {
                         exec.output(getOutput(alg)).execute(alg);
                     });

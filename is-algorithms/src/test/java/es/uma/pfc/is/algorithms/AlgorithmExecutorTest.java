@@ -8,6 +8,7 @@ package es.uma.pfc.is.algorithms;
 import es.uma.pfc.is.algorithms.exceptions.InvalidPathException;
 import java.io.IOException;
 import java.nio.file.Files;
+import org.junit.Assert;
 import org.junit.Test;
 import static org.junit.Assert.*;
 import static org.mockito.Mockito.mock;
@@ -51,23 +52,38 @@ public class AlgorithmExecutorTest {
     }
 
     /**
-     * Test of input method, of class AlgorithmExecutor.
+     * Test of inputs method, of class AlgorithmExecutor.
      */
     @Test
-    public void testInput() throws IOException {
+    public void testInputs() throws IOException {
         Algorithm alg = mock(Algorithm.class);
         when(alg.getName()).thenReturn("Alg 1");
 
         AlgorithmExecutor exec = new AlgorithmExecutor(alg);
         String input = Files.createTempFile("temp", null).toString();
-        exec = exec.input(input);
+        exec = exec.inputs(input);
 
         assertNotNull(exec);
-        assertEquals(input, exec.getInput());
+        assertEquals(input, exec.getInputs()[0]);
+    }
+
+    @Test
+    public void testInputs_N() throws IOException {
+        Algorithm alg = mock(Algorithm.class);
+        when(alg.getName()).thenReturn("Alg 1");
+
+        AlgorithmExecutor exec = new AlgorithmExecutor(alg);
+        String input = Files.createTempFile("temp", null).toString();
+        String input2 = Files.createTempFile("temp2", null).toString();
+        String[] inputsExpected = new String[]{input, input2};
+        exec = exec.inputs(input, input2);
+
+        assertNotNull(exec);
+        Assert.assertArrayEquals(inputsExpected, exec.getInputs());
     }
 
     /**
-     * Test of input method, when the input path not exists.
+     * Test of inputs method, when the inputs path not exists.
      */
     @Test(expected = InvalidPathException.class)
     public void testBadInput_String() {
@@ -77,7 +93,7 @@ public class AlgorithmExecutorTest {
         AlgorithmExecutor exec = new AlgorithmExecutor(alg);
 
         String input = "aa";
-        exec.input(input);
+        exec.inputs(input);
         fail("Se esperaba InvalidPathException.");
     }
 

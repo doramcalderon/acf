@@ -7,10 +7,15 @@ import es.uma.pfc.is.bench.config.WorkspaceManager;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
+import javafx.beans.binding.ObjectBinding;
 import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.ListProperty;
 import javafx.beans.property.SimpleBooleanProperty;
+import javafx.beans.property.SimpleListProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 
 /**
  * Benchmarks execution model.
@@ -110,6 +115,10 @@ public class RunBenchmarkModel {
             selectedAlgorithms = selectedBenchmark.getAlgorithmsEntities();
         }
         return selectedAlgorithms;
+    }
+    
+    public Benchmark getSelectedBenchmark() {
+        return selectedBenchmark;
     }
 
     /**

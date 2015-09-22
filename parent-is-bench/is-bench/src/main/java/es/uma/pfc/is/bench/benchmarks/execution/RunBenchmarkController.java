@@ -176,7 +176,6 @@ public class RunBenchmarkController extends Controller {
      * Initialize the bindings with the model.
      */
     protected void initModelBinding() {
-        model.inputProperty().bind(txtInput.textProperty());
         model.outputProperty().bind(txtOutput.textProperty());
         model.timeCheckedProperty().bind(chkTime.selectedProperty());
         model.historyCheckedProperty().bind(chkHistory.selectedProperty());
