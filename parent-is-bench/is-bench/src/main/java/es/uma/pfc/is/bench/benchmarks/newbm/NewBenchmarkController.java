@@ -22,9 +22,12 @@ import es.uma.pfc.is.bench.uitls.Dialogs;
 import es.uma.pfc.is.bench.view.FXMLViews;
 import es.uma.pfc.is.commons.strings.StringUtils;
 import es.uma.pfc.is.bench.config.WorkspaceManager;
+import es.uma.pfc.is.commons.files.FileUtils;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
+import java.nio.file.DirectoryStream;
+import java.nio.file.DirectoryStream.Filter;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -35,11 +38,13 @@ import java.util.Locale;
 import java.util.Optional;
 import java.util.ResourceBundle;
 import java.util.Set;
+import java.util.function.Predicate;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.beans.binding.BooleanBinding;
 import javafx.beans.binding.StringBinding;
 import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.concurrent.WorkerStateEvent;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -49,6 +54,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
+import javafx.scene.control.SelectionMode;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TitledPane;
 import javafx.scene.input.MouseEvent;
@@ -72,8 +78,7 @@ public class NewBenchmarkController extends Controller {
     private Label lbSelectedFiles;
     @FXML
     private ListView inputsList;
-    
-   
+
     /**
      * Algorithms filter.
      */
@@ -95,6 +100,10 @@ public class NewBenchmarkController extends Controller {
      * Workspace manager.
      */
     private WorkspaceManager wsManager;
+    /**
+     * Delegate.
+     */
+    private BenchmarksDelegate benchmarksDelegate;
 
     /**
      * Initializes the controller class.
@@ -107,6 +116,7 @@ public class NewBenchmarkController extends Controller {
         try {
             super.initialize(url, rb);
             wsManager = WorkspaceManager.get();
+            benchmarksDelegate = new BenchmarksDelegate();
             initView();
             initModel();
             initBinding();
@@ -117,7 +127,11 @@ public class NewBenchmarkController extends Controller {
             Logger.getLogger(NewBenchmarkController.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
+
+    @Override
+    protected void initView() throws IOException {
+        inputsList.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
+    }
 
     @Override
     protected void initModel() {
@@ -139,14 +153,20 @@ public class NewBenchmarkController extends Controller {
         txtName.textProperty().bindBidirectional(model.nameProperty());
         inputsList.itemsProperty().bind(model.inputFilesListProperty());
         inputsList.disableProperty().bind(new BooleanBinding() {
-                {super.bind(inputsList.itemsProperty());}
+            {
+                super.bind(inputsList.itemsProperty());
+            }
+
             @Override
             protected boolean computeValue() {
                 return (inputsList.getItems().size() == 0);
             }
         });
         lbSelectedFiles.textProperty().bind(new StringBinding() {
-                {super.bind(inputsList.itemsProperty());}
+            {
+                super.bind(inputsList.itemsProperty());
+            }
+
             @Override
             protected String computeValue() {
                 return BenchMessages.get().getMessage(I18n.SELECTED_FILES_COUNT, inputsList.getItems().size());
@@ -158,6 +178,22 @@ public class NewBenchmarkController extends Controller {
     @Override
     protected void initListeners() {
         Eventbus.register(this);
+        txtName.focusedProperty().addListener((observable, oldFocused, focused) -> {
+            if (!focused) {
+                try {
+                    Benchmark b = benchmarksDelegate.getBenchmark(model.getName());
+                    if (b != null) {
+                        File inputsDir = Paths.get(b.getInputsDir()).toFile();
+                        model.inputFilesListProperty().set(FXCollections.observableArrayList(inputsDir.listFiles()));
+                        model.algorithmsSelectedProperty().set(FXCollections.observableArrayList(b.getAlgorithmsEntities()));
+
+                    }
+                } catch (Exception ex) {
+                    Logger.getLogger(NewBenchmarkController.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+        });
+
         txtName.textProperty().addListener((observable, oldValue, newValue) -> {
             inputsTitledPane.setDisable(StringUtils.isEmpty(newValue));
             String inputDir = Paths.get(wsManager.currentWorkspace().getLocation(), newValue, "input").toString();
@@ -239,10 +275,10 @@ public class NewBenchmarkController extends Controller {
         String[] paths = event.getPaths();
         if (paths != null) {
             Arrays.stream(paths)
-                  .forEach(path -> model.inputFilesListProperty().get().add(Paths.get(path).toFile()));
+                    .forEach(path -> model.inputFilesListProperty().get().add(Paths.get(path).toFile()));
         }
     }
-   
+
     @FXML
     protected void handleNewAlgorithm(ActionEvent event) {
         try {
@@ -267,7 +303,7 @@ public class NewBenchmarkController extends Controller {
                 Chooser.FileChooserMode.OPEN, "Input system", defaultInputDir,
                 new FileChooser.ExtensionFilter(getI18nLabel(I18n.TEXT_FILE), "*.txt"),
                 new FileChooser.ExtensionFilter(getI18nLabel(I18n.PROLOG_FILE), "*.pl"));
-        if(resultFile != null) {
+        if (resultFile != null) {
             List<File> selectedFiles = new ArrayList(model.getInputFilesList());
             selectedFiles.addAll(resultFile);
             model.inputFilesListProperty().setValue(FXCollections.observableArrayList(selectedFiles));
@@ -285,7 +321,7 @@ public class NewBenchmarkController extends Controller {
             String implicationsPath = Paths.get(model.getInputDir(), "implications.txt").toString();
             FXMLLoader loader = new FXMLLoader(ISBenchApp.class.getResource("/" + es.uma.pfc.implications.generator.view.FXMLViews.IMPLICATIONS_VIEW),
                     ResourceBundle.getBundle("es.uma.pfc.implications.generator.i18n.labels", Locale.getDefault()));
-            
+
             Pane generatorForm = loader.load();
             loader.<ImplicationsController>getController().setOutput(implicationsPath);
             String title = getI18nLabel("Implications Generator"); // TODO crear label
@@ -342,7 +378,7 @@ public class NewBenchmarkController extends Controller {
     }
 
     @FXML
-    public void handleAddAlgAction(ActionEvent event) {
+    protected void handleAddAlgAction(ActionEvent event) {
         try {
             Parent algorithmsPane = FXMLLoader.load(MainLayoutController.class.getResource(FXMLViews.ALGORITHMS_VIEW), getBundle());
             String title = getI18nLabel(I18n.ALGORITHMS_DIALOG_TITLE);
@@ -352,8 +388,42 @@ public class NewBenchmarkController extends Controller {
         }
     }
 
+    /**
+     * Delete the current selection in the inputs list.
+     *
+     * @param event Action event.
+     */
+    @FXML
+    protected void handleDeleteInputAction(ActionEvent event) {
+         Optional<ButtonType> confirm
+                    = showAlert(Alert.AlertType.CONFIRMATION, null, getI18nMessage(BenchMessages.DELETE_INPUTS_CONFIRM));
+         
+         if(confirm.isPresent() && confirm.get().equals(ButtonType.OK)) {
+            ObservableList<File> selectedInputs = FXCollections.observableArrayList(inputsList.getSelectionModel().getSelectedItems());
+            if (selectedInputs != null) {
+                final String[] fileNames = new String[selectedInputs.size()];
+                int i = 0;
+                for(File f : selectedInputs) {
+                    fileNames[i++] = f.getAbsolutePath();
+                }
+                Arrays.stream(fileNames).forEach(f -> {
+                    try {
+                        Files.delete(Paths.get(f));
+                    } catch (IOException ex) {
+                        Logger.getLogger(NewBenchmarkController.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                });
+
+                inputsList.getItems().removeAll(selectedInputs);
+            } 
+         }
+
+    }
+
     protected void clear() {
         txtName.clear();
+        inputsList.getItems().clear();
         algorithmsSelected.getItems().clear();
     }
+
 }

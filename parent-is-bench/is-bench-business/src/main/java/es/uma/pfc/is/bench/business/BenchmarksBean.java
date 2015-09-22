@@ -11,6 +11,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.util.List;
+import java.util.Optional;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -46,6 +47,30 @@ public class BenchmarksBean {
         }
         return benchmarksList;
     }
+    /**
+     * Returns a benchmark registered in a workspace. {@code null} if no exists.
+     *
+     * @param name Benchmark name.
+     * @param workspace Workspace path.
+     * @return Algorithm Entities list.
+     * @throws java.lang.Exception
+     */
+    public Benchmark getBenchmark(String name, String workspace) throws Exception {
+        Benchmark benchmark = null;
+        List<Benchmark> benchmarksList;
+        try {
+            Benchmarks benchmarks = persistence.getBenchmarks(workspace);
+            if (benchmarks != null) {
+                benchmarksList = benchmarks.getBenchmarks();
+                benchmark = benchmarksList.stream()
+                                          .filter(b -> b.getName().equals(name))
+                                          .findFirst().orElse(null);
+            }
+        } catch (Exception ex) {
+            Logger.getLogger(BenchmarksBean.class.getName()).log(Level.SEVERE, "Error consulting benchmarks.", ex);
+        }
+        return benchmark;
+    }
 
     /**
      * Create the directory tree of benchmark.
@@ -66,7 +91,7 @@ public class BenchmarksBean {
                 targetInputFile = Paths.get(inputDir, inputFile.getName());
 
                 if (inputFile.exists()) {
-                    if (!Files.isSameFile(inputFilePath, targetInputFile)) {
+                    if (!inputFilePath.toString().equals(targetInputFile.toString())) {
                         Files.copy(inputFilePath, targetInputFile,
                                 StandardCopyOption.COPY_ATTRIBUTES, StandardCopyOption.REPLACE_EXISTING);
                     }

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.input.*?>
 <?import javafx.scene.effect.*?>
 <?import javafx.scene.text.*?>
 <?import javafx.geometry.*?>
@@ -75,7 +76,14 @@
                               <Insets left="5.0" right="5.0" />
                            </padding>
                         </AnchorPane>
-                        <ListView fx:id="inputsList" disable="true" prefHeight="100.0" GridPane.rowIndex="3" />
+                        <ListView fx:id="inputsList" disable="true" prefHeight="100.0" GridPane.rowIndex="3">
+                           <contextMenu>
+                              <ContextMenu fx:id="ctxMnuDeleteInput" onAction="#handleDeleteInputAction">
+                                <items>
+                                  <MenuItem mnemonicParsing="false" text="%item.remove" />
+                                </items>
+                              </ContextMenu>
+                           </contextMenu></ListView>
                      </children>
                   </VBox>
                </content>

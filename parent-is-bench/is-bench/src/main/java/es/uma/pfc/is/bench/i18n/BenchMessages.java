@@ -51,6 +51,10 @@ public class BenchMessages extends Messages {
      * Creation benchmark error.
      */
     public static final String BENCHMARK_CREATION_SUCCEEDED = "msg.benchmarks.creation.succeeded";
+    /**
+     * Deleted inputs files confirmation.
+     */
+    public static final String DELETE_INPUTS_CONFIRM = "msg.benchmarks.delete.inputs.confirm";
             
             
 /**

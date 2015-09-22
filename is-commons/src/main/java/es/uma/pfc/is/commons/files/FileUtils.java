@@ -3,6 +3,11 @@ package es.uma.pfc.is.commons.files;
 import es.uma.pfc.is.commons.strings.StringUtils;
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.DirectoryStream;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.function.Predicate;
 
 /**
  * Utilidades con ficheros.
@@ -52,6 +57,27 @@ public class FileUtils {
         }
         return configFile;
     }
+    /**
+     * Crea las carpetas y archivo de un path si no existe.
+     * @param path Path.
+     * @return Fichero.
+     * @throws IOException 
+     */
+    public static File createDirOrResetIfExists(String path) throws IOException {
+        File configFile = null;
+        
+        if(path != null && !path.isEmpty()) {
+            configFile = new File(path);
+            if(configFile.exists()) {
+                configFile.delete();
+            }
+
+            configFile.mkdirs();
+            
+        }
+        return configFile;
+    }
+    
     
     /**
      * Devuelve el nombre añadiéndole el sufijo "_index".
