@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.*?>
 <?import javafx.scene.effect.*?>
 <?import java.lang.*?>
 <?import javafx.geometry.*?>
@@ -93,29 +94,19 @@
                      <children>
                         <BorderPane layoutX="199.0" layoutY="27.0" prefHeight="538.0" prefWidth="515.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="0.0">
                            <top>
-                              <GridPane BorderPane.alignment="CENTER">
+                              <GridPane minHeight="200.0" prefHeight="226.0" prefWidth="485.0" BorderPane.alignment="CENTER">
                                 <columnConstraints>
                                   <ColumnConstraints hgrow="SOMETIMES" percentWidth="10.0" />
                                     <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" />
-                                    <ColumnConstraints hgrow="SOMETIMES" maxWidth="30.0" minWidth="0.0" percentWidth="5.0" prefWidth="30.0" />
+                                    <ColumnConstraints hgrow="SOMETIMES" maxWidth="30.0" minWidth="0.0" percentWidth="5.0" />
                                 </columnConstraints>
                                 <rowConstraints>
-                                  <RowConstraints maxHeight="42.0" minHeight="10.0" prefHeight="31.0" vgrow="SOMETIMES" />
-                                  <RowConstraints maxHeight="40.0" minHeight="10.0" prefHeight="29.0" vgrow="SOMETIMES" />
+                                  <RowConstraints percentHeight="70.0" />
+                                  <RowConstraints minHeight="0.0" percentHeight="30.0" />
                                 </rowConstraints>
                                  <children>
-                                    <Label text="%input" />
                                     <Label layoutX="10.0" layoutY="17.0" text="%output" GridPane.rowIndex="1" />
-                                    <Button fx:id="btnSelectInput" mnemonicParsing="false" onAction="#handleSelectInputAction" text="..." GridPane.columnIndex="2" />
                                     <Button fx:id="btnSelectOutput" mnemonicParsing="false" onAction="#handleSelectOutputAction" text="..." GridPane.columnIndex="2" GridPane.rowIndex="1" />
-                                    <TextField fx:id="txtInput" promptText="%lb.benchmarks.select.input" GridPane.columnIndex="1">
-                                       <padding>
-                                          <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-                                       </padding>
-                                       <GridPane.margin>
-                                          <Insets left="5.0" right="5.0" />
-                                       </GridPane.margin>
-                                    </TextField>
                                     <TextField fx:id="txtOutput" promptText="%lb.benchmarks.select.output" GridPane.columnIndex="1" GridPane.rowIndex="1">
                                        <padding>
                                           <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
@@ -124,6 +115,37 @@
                                           <Insets left="5.0" right="5.0" />
                                        </GridPane.margin>
                                     </TextField>
+                                    <TitledPane collapsible="false" text="Input Files" GridPane.columnSpan="3">
+                                       <content>
+                                          <VBox spacing="5.0" GridPane.columnIndex="1">
+                                             <children>
+                                                <AnchorPane>
+                                                   <children>
+                                                      <SplitMenuButton fx:id="inputButton" mnemonicParsing="false" onAction="#handleSelectInputAction" prefHeight="25.0" prefWidth="114.0" text="Select Input" AnchorPane.leftAnchor="0.0">
+                                                         <items>
+                                                            <MenuItem fx:id="fileOption" mnemonicParsing="false" onAction="#handleSelectInputAction" text="File" />
+                                                            <MenuItem fx:id="randomOption" mnemonicParsing="false" onAction="#handleGenerateSystem" text="Random" />
+                                                         </items>
+                                                      </SplitMenuButton>
+                                                      <Label fx:id="lbSelectedFiles" alignment="CENTER_RIGHT" contentDisplay="RIGHT" layoutX="119.0" nodeOrientation="RIGHT_TO_LEFT" text="5 seleccionados" textAlignment="RIGHT" AnchorPane.rightAnchor="0.0" />
+                                                   </children>
+                                                   <padding>
+                                                      <Insets left="5.0" right="5.0" />
+                                                   </padding>
+                                                </AnchorPane>
+                                                <ListView fx:id="inputsList" prefHeight="100.0" GridPane.rowIndex="3">
+                                                   <contextMenu>
+                                                      <ContextMenu fx:id="ctxMnuDeleteInput" onAction="#handleDeleteInputAction">
+                                                         <items>
+                                                            <MenuItem mnemonicParsing="false" text="%item.remove" />
+                                                         </items>
+                                                      </ContextMenu>
+                                                   </contextMenu>
+                                                </ListView>
+                                             </children>
+                                          </VBox>
+                                       </content>
+                                    </TitledPane>
                                  </children>
                               </GridPane>
                            </top>

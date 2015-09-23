@@ -7,7 +7,6 @@ import es.uma.pfc.is.bench.config.WorkspaceManager;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
-import javafx.beans.binding.ObjectBinding;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.ListProperty;
 import javafx.beans.property.SimpleBooleanProperty;
@@ -15,7 +14,6 @@ import javafx.beans.property.SimpleListProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 
 /**
  * Benchmarks execution model.
@@ -36,15 +34,16 @@ public class RunBenchmarkModel {
      * When the selection is an algorithm.
      */
     private AlgorithmEntity selectedAlgorithm;
+    
     /**
-     * Path input file property.
+     * Input files list property.
      */
-    private final StringProperty inputProperty;
+    private final ListProperty<String> selectedInputFilesListProperty;
 
     /**
      * Path output file property.*
      */
-    private final StringProperty outputProperty;
+    private final StringProperty outputDirProperty;
     /**
      * If the history mode is checked.
      */
@@ -63,8 +62,8 @@ public class RunBenchmarkModel {
      */
     public RunBenchmarkModel() {
         benchmarks = new ArrayList();
-        inputProperty = new SimpleStringProperty();
-        outputProperty = new SimpleStringProperty();
+        selectedInputFilesListProperty = new SimpleListProperty(FXCollections.observableArrayList());
+        outputDirProperty = new SimpleStringProperty();
         historyChecked = new SimpleBooleanProperty();
         timeChecked = new SimpleBooleanProperty();
         statisticsChecked = new SimpleBooleanProperty();
@@ -126,26 +125,22 @@ public class RunBenchmarkModel {
      *
      * @return StringProperty.
      */
-    public StringProperty inputProperty() {
-        return inputProperty;
+    public ListProperty<String> selectedInputFilesListProperty() {
+        return selectedInputFilesListProperty;
+    }
+    
+    public List<String> getSelectedInputFiles() {
+        return (selectedInputFilesListProperty != null) ? selectedInputFilesListProperty.get() : null;
     }
 
-    /**
-     * Path input file.
-     *
-     * @return the input.
-     */
-    public String getInput() {
-        return (inputProperty != null) ? inputProperty.get() : null;
-    }
 
     /**
-     * Path input file property.
+     * Path output file property.
      *
      * @return StringProperty.
      */
-    public StringProperty outputProperty() {
-        return outputProperty;
+    public StringProperty outputDirProperty() {
+        return outputDirProperty;
     }
 
     /**
@@ -153,8 +148,8 @@ public class RunBenchmarkModel {
      *
      * @return the outputFile
      */
-    public String getOutput() {
-        return (outputProperty != null) ? outputProperty.get() : null;
+    public String getOutputDir() {
+        return (outputDirProperty != null) ? outputDirProperty.get() : null;
     }
 
     /**
@@ -218,25 +213,6 @@ public class RunBenchmarkModel {
      */
     public void setSelectedBenchmark(Benchmark benchmark) {
         this.selectedBenchmark = benchmark;
-    }
-
-    /**
-     * Default output file for an algorithm.
-     *
-     * @param alg Algorithm.
-     * @return Default output file.
-     */
-    public String getDefaultOutput(AlgorithmEntity alg) {
-        String output;
-        String defaultOutputDir = WorkspaceManager.get().getPreferenceAsFile(Preferences.DEFAULT_OUTPUT_DIR).toString();
-        String workspace = (selectedBenchmark != null) ? selectedBenchmark.getOutputDir()
-                : defaultOutputDir;
-        if (alg != null) {
-            output = Paths.get(workspace, alg.getShortName() + "_output.txt").toString();
-        } else {
-            output = workspace;
-        }
-        return output;
     }
 
         

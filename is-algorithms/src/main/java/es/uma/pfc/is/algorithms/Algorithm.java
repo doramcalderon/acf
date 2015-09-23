@@ -39,13 +39,7 @@ public interface Algorithm {
      */
     String getShortName();
 
-    /**
-     * Default output file path.
-     *
-     * @return File path.
-     */
-    String getDefaultOutputFileName();
-
+   
     /**
      * Set the short name.
      *

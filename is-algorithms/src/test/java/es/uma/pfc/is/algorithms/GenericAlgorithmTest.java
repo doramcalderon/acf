@@ -5,18 +5,8 @@
  */
 package es.uma.pfc.is.algorithms;
 
-import es.uma.pfc.is.algorithms.AlgorithmOptions.Mode;
-import es.uma.pfc.is.algorithms.exceptions.InvalidPathException;
 import fr.kbertet.lattice.ImplicationalSystem;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.OutputStream;
-import java.nio.file.Files;
-import java.nio.file.Path;
 import org.junit.Test;
-import static org.junit.Assert.*;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
 
 /**
  *
@@ -57,13 +47,6 @@ public class GenericAlgorithmTest {
                 
     }
     
-    
-    @Test
-    public void testDefaultOutputPath() {
-        Algorithm alg = new GenericAlgorithmImpl();
-        String defaultOutput = alg.getDefaultOutputFileName();
-        assertEquals("do_output.txt", defaultOutput);
-    }
 
   
 }

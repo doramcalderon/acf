@@ -5,8 +5,10 @@ import es.uma.pfc.is.algorithms.exceptions.AlgorithmException;
 import es.uma.pfc.is.algorithms.exceptions.InvalidPathException;
 import es.uma.pfc.is.algorithms.util.ImplicationalSystems;
 import es.uma.pfc.is.commons.files.FileUtils;
+import es.uma.pfc.is.commons.strings.StringUtils;
 import es.uma.pfc.is.logging.AlgorithmLogger;
 import fr.kbertet.lattice.ImplicationalSystem;
+import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -99,8 +101,16 @@ public class AlgorithmExecutor {
         if (algorithm == null) {
             throw new IllegalArgumentException("Algorithm can't be null");
         } else {
-            for (String input : inputs) {
-                run(input);
+            try {
+                String outputDirName = options.<String>getOption(OUTPUT.toString());
+                FileUtils.createDirIfNoExists(outputDirName);
+                
+                for (String input : inputs) {
+                    run(input, outputDirName);
+                }
+            } catch (IOException ex) {
+                Logger.getLogger(AlgorithmExecutor.class.getName()).log(Level.SEVERE, null, ex);
+                throw new AlgorithmException("Error creting the output dir.", ex);
             }
         }
     }
@@ -110,7 +120,7 @@ public class AlgorithmExecutor {
      *
      * @return Resultado del algoritmo.
      */
-    protected ImplicationalSystem run(String input) {
+    protected ImplicationalSystem run(String input, String outputDir) {
         ImplicationalSystem outputSystem = null;
 
         try {
@@ -124,10 +134,11 @@ public class AlgorithmExecutor {
             logger.statistics(ImplicationalSystems.getSize(outputSystem), ImplicationalSystems.getCardinality(outputSystem));
             
             if (outputSystem != null) {
-                String [] outputParts = FileUtils.splitNameAndExtension(options.<String>getOption(OUTPUT.toString()));
-                String [] inputtParts = FileUtils.splitNameAndExtension(Paths.get(input).getFileName().toString());
-                String outputFile = outputParts[0] + "_" + inputtParts[0] + "." +  outputParts[1];
-                outputSystem.save(outputFile);
+                String outputType = options.<String>getOption("OUTPUT_TYPE");
+                if(StringUtils.isEmpty(outputType)) { outputType = "txt";}
+                String outputFilename = algorithm.getShortName() + "_" + FileUtils.getName(input) + "." + outputType;
+                
+                outputSystem.save(Paths.get(outputDir, outputFilename).toString());
             }
 
         } catch (Exception ex) {
@@ -186,15 +197,6 @@ public class AlgorithmExecutor {
      * @return AlgorithmExecuter with output system setted.
      */
     public AlgorithmExecutor output(String file) {
-        Path filePath = Paths.get(file);
-        if (!Files.exists(filePath) && !Files.isDirectory(filePath)) {
-            try {
-                Files.createFile(filePath);
-            } catch (IOException ex) {
-                Logger.getLogger(GenericAlgorithm.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        }
-
         this.options.addOption(AlgorithmOptions.Options.OUTPUT.toString(), file);
         return this;
     }

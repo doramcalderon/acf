@@ -78,5 +78,22 @@ public class StringUtilsTest {
         String substr = "dos";
         assertFalse(StringUtils.containsIgnoreCase(str, substr));
     }
+
+    /**
+     * Test of isNumeric method, of class StringUtils.
+     */
+    @Test
+    public void testIsNumeric() {
+    }
+
+    /**
+     * Test of deleteSpaces method, of class StringUtils.
+     */
+    @Test
+    public void testDeleteSpaces() {
+        String strWithSpaces = " hello World ";
+        String strWithoutSpaces = StringUtils.deleteSpaces(strWithSpaces);
+        assertEquals("helloWorld", strWithoutSpaces);
+    }
     
 }

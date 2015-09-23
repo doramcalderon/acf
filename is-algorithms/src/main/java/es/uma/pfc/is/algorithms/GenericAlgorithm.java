@@ -77,12 +77,6 @@ public abstract class GenericAlgorithm implements Algorithm {
         this.shortName = shortName;
     }
     
-    
-    @Override
-    public String getDefaultOutputFileName() {
-        return getShortName() + "_output.txt";
-    }
-
 /**
      * For testing usage.
      * @param logger Logger.

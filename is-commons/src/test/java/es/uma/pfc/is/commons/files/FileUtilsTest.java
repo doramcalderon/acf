@@ -81,5 +81,24 @@ public class FileUtilsTest {
          assertEquals("test", nameExtension[0]);
          assertEquals("txt", nameExtension[1]);
     }
+
+    /**
+     * Test of createDirOrResetIfExists method, of class FileUtils.
+     */
+    @Test
+    public void testCreateDirOrResetIfExists() throws Exception {
+    }
+
+    /**
+     * Test of getName method, of class FileUtils.
+     */
+    @Test
+    public void testGetName() {
+         String file = "test.txt";
+         
+         String name = FileUtils.getName(file);
+         
+         assertEquals("test", name);
+    }
     
 }

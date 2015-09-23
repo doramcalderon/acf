@@ -69,20 +69,7 @@ public class AlgorithmExecService extends Service {
             throw new RuntimeException("Error runing the benchmark.", ex);
         }
     }
-    /**
-     * Sets the output of an algorithm.
-     * @param alg Algorithm.
-     * @return Output path.
-     */
-    protected String getOutput(Algorithm alg) {
-        String output;
-        if (model.getSelectedAlgorithm() != null) {
-            output = model.getOutput();
-        } else {
-            output = Paths.get(model.getOutput(), alg.getDefaultOutputFileName()).toString();
-        }
-        return output;
-    }
+    
 
     /**
      * Sets the active modes in the model to the algorithm.
@@ -112,13 +99,13 @@ public class AlgorithmExecService extends Service {
             protected Object call() throws Exception {
                 instanceAlgorithms();
                 if (algorithms != null) {
-                    List<String> inputs = new ArrayList<>();
-                    Files.list(Paths.get(model.getSelectedBenchmark().getInputsDir())).forEach(p -> inputs.add(p.toString()));
+                    String [] inputs = model.getSelectedInputFiles().toArray(new String[]{});
+
                     AlgorithmExecutor exec = new AlgorithmExecutor()
-                                                .inputs(inputs.toArray(new String[]{}))
+                                                .inputs(inputs)
                                                 .options(getOptions());
                     algorithms.stream().filter((alg) -> (alg != null)).forEach((alg) -> {
-                        exec.output(getOutput(alg)).execute(alg);
+                        exec.output(model.getOutputDir()).execute(alg);
                     });
                     
                 }

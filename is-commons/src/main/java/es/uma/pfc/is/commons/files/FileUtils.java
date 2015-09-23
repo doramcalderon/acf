@@ -101,10 +101,30 @@ public class FileUtils {
         return fileName;
     }
     
+    /**
+     * Returns the file name without extension.
+     * @param fileName File path.
+     * @return File name without extension.
+     */
+    public static String getName(String fileName) {
+        String name = "";
+        if(!StringUtils.isEmpty(fileName)) {
+            
+            String[] nameSplits = splitNameAndExtension(Paths.get(fileName).getFileName().toString());
+            int splitsCount = nameSplits.length;
+            
+            if(splitsCount > 0) {
+                name = nameSplits[0];
+            }
+            
+        }
+        return name;
+    }
+    
     public static String getExtension(String fileName) {
         String extension = "";
         if(!StringUtils.isEmpty(fileName)) {
-            String[] nameSplits = splitNameAndExtension(fileName);
+            String[] nameSplits = splitNameAndExtension(Paths.get(fileName).getFileName().toString());
             int splitsCount = nameSplits.length;
             
             if(splitsCount > 1) {

@@ -63,7 +63,18 @@ public class StringUtils {
         }
         return strTrimmed;
     }
-    
+    /**
+     * Delete all spaces in a string.
+     * @param str String.
+     * @return String without spaces.
+     */
+    public static String deleteSpaces(String str) {
+        String newStr = trim(str);
+        if(!isEmpty(newStr)) {
+            newStr = newStr.replaceAll(" ", "");
+        }
+        return newStr;
+    }
     /**
      * If a string contains a substring with case insensitive.
      * @param str String.

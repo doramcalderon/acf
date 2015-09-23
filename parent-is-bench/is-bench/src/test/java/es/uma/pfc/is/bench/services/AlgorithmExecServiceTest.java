@@ -38,55 +38,8 @@ public class AlgorithmExecServiceTest {
     public void testInstanceAlgorithm() {
     }
 
-    /**
-     * Test of setOutput method, of class AlgorithmExecService.
-     */
-    @Test
-    public void testSetOutput() {
-        String outputExpected = Paths.get(System.getProperty("user.dir"), "src", "test", "resources", "result.txt").toString();
-        GenericAlgorithm alg = new GenericAlgorithm() {
-
-            @Override
-            public ImplicationalSystem execute(ImplicationalSystem system) {
-                throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-            }
-        };
-        
-        RunBenchmarkModel model = new RunBenchmarkModel();
-        model.setSelectedAlgorithm(new AlgorithmEntity());
-        model.outputProperty().setValue(outputExpected);
-        
-        AlgorithmExecService service = new AlgorithmExecService(model);
-        String output = service.getOutput(alg);
-        
-        assertEquals(outputExpected, output);
-    }
-    @Test
-    public void testSetOutput_InBenchmark() {
-        GenericAlgorithm alg = new GenericAlgorithm() {
-
-            @Override
-            public String getShortName() {
-                return "short";
-            }
-
-            @Override
-            public ImplicationalSystem execute(ImplicationalSystem system) {
-                throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-            }
-        };
-        String outputExpected = Paths.get(System.getProperty("user.dir"), "src", "test", "resources").toString();
-        
-        RunBenchmarkModel model = new RunBenchmarkModel();
-        model.outputProperty().setValue(outputExpected);
-        
-        AlgorithmExecService service = new AlgorithmExecService(model);
-        String output = service.getOutput(alg);
-        
-        String expectedOutput = Paths.get(model.getOutput(), alg.getDefaultOutputFileName()).toString();
-        assertEquals(expectedOutput, output);
-    }
-
+    
+   
     /**
      * Test of getOptions method, of class AlgorithmExecService.
      */
