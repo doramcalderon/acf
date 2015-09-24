@@ -9,8 +9,11 @@ import es.uma.pfc.is.algorithms.AlgorithmOptions;
 import es.uma.pfc.is.algorithms.AlgorithmOptions.Mode;
 import es.uma.pfc.is.algorithms.AlgMessages;
 import static es.uma.pfc.is.algorithms.AlgMessages.*;
+import es.uma.pfc.is.algorithms.AlgorithmOptions.Options;
+import es.uma.pfc.is.algorithms.util.StringUtils;
 import java.io.InputStream;
 import java.io.PrintStream;
+import java.nio.file.Paths;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -139,10 +142,13 @@ public class AlgorithmLogger {
     protected final String getOutputName() {
         String outputName = algorithmName;
         if (options != null) {
-            String outputBaseName = options.getOutputBaseName();
-            if (outputBaseName != null && !outputBaseName.isEmpty()) {
-                outputName = outputBaseName;
-            }
+            String outputDir = options.getOption(Options.OUTPUT);
+            if (outputDir == null) {outputDir = "";};
+            
+            String logBaseName = options.getOption(Options.LOG_BASE_NAME);
+            if (logBaseName == null) {logBaseName = algorithmName;};
+            
+            outputName = Paths.get(outputDir, logBaseName).toString();
         }
         return outputName;
     }

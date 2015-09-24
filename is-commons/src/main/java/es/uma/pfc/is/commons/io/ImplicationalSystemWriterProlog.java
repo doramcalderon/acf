@@ -1,10 +1,6 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 
-package es.uma.pfc.implications.generator.io;
+
+package es.uma.pfc.is.commons.io;
 
 import fr.kbertet.lattice.ImplicationalSystem;
 import fr.kbertet.lattice.Rule;
@@ -16,7 +12,6 @@ import java.util.SortedSet;
 
 /**
  * Define la forma de guardar un ImplicationalSystem en un archivo Prolog.
- * @since 1.0.0
  * @author Dora Calderón
  */
 public class ImplicationalSystemWriterProlog implements ImplicationalSystemWriter {

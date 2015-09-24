@@ -3,13 +3,11 @@ package es.uma.pfc.is.bench.services;
 import es.uma.pfc.is.algorithms.Algorithm;
 import es.uma.pfc.is.algorithms.AlgorithmExecutor;
 import es.uma.pfc.is.algorithms.AlgorithmOptions;
+import es.uma.pfc.is.algorithms.AlgorithmOptions.Options;
 import es.uma.pfc.is.bench.benchmarks.execution.RunBenchmarkModel;
 import es.uma.pfc.is.bench.domain.AlgorithmEntity;
 import es.uma.pfc.is.commons.eventbus.Eventbus;
 import es.uma.pfc.is.bench.events.MessageEvent;
-import java.io.File;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 import javafx.concurrent.Service;
@@ -87,6 +85,7 @@ public class AlgorithmExecService extends Service {
         if (model.isStatisticsChecked()) {
             options.enable(AlgorithmOptions.Mode.STATISTICS);
         }
+        options.addOption(Options.OUTPUT_TYPE, model.getOutputFileType());
         return options;
     }
 

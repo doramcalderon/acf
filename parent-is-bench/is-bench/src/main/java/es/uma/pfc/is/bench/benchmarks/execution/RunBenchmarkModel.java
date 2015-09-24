@@ -2,14 +2,13 @@ package es.uma.pfc.is.bench.benchmarks.execution;
 
 import es.uma.pfc.is.bench.domain.Benchmark;
 import es.uma.pfc.is.bench.domain.AlgorithmEntity;
-import es.uma.pfc.is.bench.domain.ws.Preferences;
-import es.uma.pfc.is.bench.config.WorkspaceManager;
-import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.ListProperty;
 import javafx.beans.property.SimpleBooleanProperty;
+import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleListProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
@@ -34,7 +33,7 @@ public class RunBenchmarkModel {
      * When the selection is an algorithm.
      */
     private AlgorithmEntity selectedAlgorithm;
-    
+
     /**
      * Input files list property.
      */
@@ -56,6 +55,10 @@ public class RunBenchmarkModel {
      * If the Statistics mode is checked.
      */
     private final BooleanProperty statisticsChecked;
+    /**
+     * Output file type selected.
+     */
+    private final IntegerProperty outputTypeProperty;
 
     /**
      * Constructor.
@@ -64,6 +67,7 @@ public class RunBenchmarkModel {
         benchmarks = new ArrayList();
         selectedInputFilesListProperty = new SimpleListProperty(FXCollections.observableArrayList());
         outputDirProperty = new SimpleStringProperty();
+        outputTypeProperty = new SimpleIntegerProperty();
         historyChecked = new SimpleBooleanProperty();
         timeChecked = new SimpleBooleanProperty();
         statisticsChecked = new SimpleBooleanProperty();
@@ -115,7 +119,7 @@ public class RunBenchmarkModel {
         }
         return selectedAlgorithms;
     }
-    
+
     public Benchmark getSelectedBenchmark() {
         return selectedBenchmark;
     }
@@ -128,14 +132,13 @@ public class RunBenchmarkModel {
     public ListProperty<String> selectedInputFilesListProperty() {
         return selectedInputFilesListProperty;
     }
-    
+
     public List<String> getSelectedInputFiles() {
         return (selectedInputFilesListProperty != null) ? selectedInputFilesListProperty.get() : null;
     }
 
-
     /**
-     * Path output file property.
+     * Path output dir property.
      *
      * @return StringProperty.
      */
@@ -150,6 +153,37 @@ public class RunBenchmarkModel {
      */
     public String getOutputDir() {
         return (outputDirProperty != null) ? outputDirProperty.get() : null;
+    }
+
+    /**
+     * Output type property.
+     *
+     * @return StringProperty.
+     */
+    public IntegerProperty outputTypeProperty() {
+        return outputTypeProperty;
+    }
+
+    /**
+     * Output file type.
+     *
+     * @return the output type.
+     */
+    public Integer getOutputType() {
+        return (outputTypeProperty() != null) ? outputTypeProperty.get() : null;
+    }
+    
+    /**
+     * Returns the file type from the selected output type.
+     * @return File Type.
+     */
+    public String getOutputFileType() {
+        String type = "txt";
+        Integer value = getOutputType();
+        if (value != null && value == 1) {
+            type = "pl";
+        }
+        return type;
     }
 
     /**
@@ -215,5 +249,4 @@ public class RunBenchmarkModel {
         this.selectedBenchmark = benchmark;
     }
 
-        
-    }
+}

@@ -108,7 +108,8 @@ public class FileReaderService extends Service<StringBuilder> {
 
     @Override
     protected void failed() {
-        System.out.println("ERROR!!");
+        System.out.println("ERROR: " + getException().getMessage());
+        getException().printStackTrace();
     }
 
 }

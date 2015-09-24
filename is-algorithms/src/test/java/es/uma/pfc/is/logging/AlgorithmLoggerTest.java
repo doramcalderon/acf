@@ -124,7 +124,7 @@ public class AlgorithmLoggerTest {
     public void testStartTime() throws IOException {
         AlgorithmOptions options = new AlgorithmOptions();
         options.enable(AlgorithmOptions.Mode.PERFORMANCE);
-        options.addOption(Options.OUTPUT.toString(), "output.txt");
+//        options.addOption(Options.OUTPUT.toString(), "output.txt");
         AlgorithmLogger logger = new AlgorithmLogger("alg", options, true);
         logger.configure("testlogback.xml");
         Date start = new Date(System.currentTimeMillis());
@@ -137,7 +137,7 @@ public class AlgorithmLoggerTest {
         File history = null;
         BufferedReader reader = null;
         try {
-            history = new File("output_history.log");
+            history = new File("alg_history.log");
             assertTrue(history.exists());
 
             reader = new BufferedReader(new FileReader(history));
@@ -234,7 +234,6 @@ public class AlgorithmLoggerTest {
         AlgorithmOptions options = new AlgorithmOptions();
         options.enable(AlgorithmOptions.Mode.HISTORY);
         options.enable(AlgorithmOptions.Mode.STATISTICS);
-        options.addOption(Options.OUTPUT.toString(), "output.log");
         AlgorithmLogger logger = new AlgorithmLogger("alg", options, true);
         logger.configure("testlogback.xml");
         
@@ -244,7 +243,7 @@ public class AlgorithmLoggerTest {
         File history = null;
         BufferedReader reader = null;
         try {
-            history = new File("output_history.log");
+            history = new File("alg_history.log");
             assertTrue(history.exists());
 
             reader = new BufferedReader(new FileReader(history));
@@ -270,7 +269,6 @@ public class AlgorithmLoggerTest {
     public void testStatistics() throws IOException {
         AlgorithmOptions options = new AlgorithmOptions();
         options.enable(AlgorithmOptions.Mode.STATISTICS);
-        options.addOption(Options.OUTPUT.toString(), "output.txt");
         
         AlgorithmLogger logger = new AlgorithmLogger("alg", options, true);
         logger.configure("testlogback.xml");
@@ -281,7 +279,7 @@ public class AlgorithmLoggerTest {
         File stats = null;
         BufferedReader reader = null;
         try {
-            stats = new File("output.csv");
+            stats = new File("alg.csv");
             assertTrue(stats.exists());
             reader = new BufferedReader(new FileReader(stats));
             

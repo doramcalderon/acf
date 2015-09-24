@@ -42,7 +42,7 @@ public class AlgorithmOptionsTest {
     @Test(expected = InvalidKeyException.class)
     public void testAddOptionNullKey() {
         AlgorithmOptions algOptions = new AlgorithmOptions();
-        algOptions.addOption(null, 1);
+        algOptions.addOption((String) null, 1);
         fail("Se esperaba NullPointerException");
     }
 

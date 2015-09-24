@@ -4,9 +4,6 @@ import es.uma.pfc.is.algorithms.util.ImplicationalSystems;
 import es.uma.pfc.is.logging.AlgorithmLogger;
 import fr.kbertet.lattice.ImplicationalSystem;
 import fr.kbertet.lattice.Rule;
-import java.io.IOException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  * Generic algorithm wich receive as input a file input and returns an implicational system.

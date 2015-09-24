@@ -24,15 +24,19 @@ public class AlgorithmOptions {
         /** Entrada del algoritmo.**/
         INPUT,
         /** Directorio de salida.**/
-        OUTPUT
+        OUTPUT,
+        /** Tipo de archivos de salida. **/
+        OUTPUT_TYPE,
+        /**
+         * Nombre base de los archivos del logger.
+         */
+        LOG_BASE_NAME,
     }
     
     /**
      * Opciones.
      */
     private final Map<String, Object> options;
-    
-    private String outputBaseName;
 
     public AlgorithmOptions() {
         options = new HashMap();
@@ -67,10 +71,17 @@ public class AlgorithmOptions {
      */
     public Object addOption(String key, Object value) {
         checkKey(key);
-        if(Options.OUTPUT.toString().equalsIgnoreCase(key)) {
-            setOutputBaseName((String) value);
-        }
         return options.put(key, value);
+    }
+    /**
+     * Añade una nueva opción.
+     * @param option Nombre de la opción.
+     * @param value Valor.
+     * @return Valor anterior.
+     * @throws InvalidKeyException Cuando la clave es nula o vacía.
+     */
+    public Object addOption(Options option, Object value) {
+        return options.put(option.toString(), value);
     }
     
     /**
@@ -80,9 +91,6 @@ public class AlgorithmOptions {
      */
     public Object removeOption(String key) {
         checkKey(key);
-        if(Options.OUTPUT.toString().equalsIgnoreCase(key)) {
-            setOutputBaseName(null);
-        }
         return options.remove(key);
     }
     /**
@@ -95,6 +103,16 @@ public class AlgorithmOptions {
     public <T> T getOption(String key) {
         checkKey(key);
         return (T) options.get(key);
+    }
+    /**
+     * Devuelve el valor de una opción.
+     * @param <T> Tipo del valor.
+     * @param key Nombre.
+     * @return Valor de la opción. <br/> {@code null} si no existe.
+     * @throws ClassCastException si el tipo de la opción no es T.
+     */
+    public <T> T getOption(Options key) {
+        return (T) options.get(key.toString());
     }
     /**
      * Habilita un modo de ejecución.
@@ -159,14 +177,6 @@ public class AlgorithmOptions {
             throw new InvalidKeyException("The mode can't be null");
         }
     }
-    public String getOutputBaseName() {
-        return outputBaseName;
-    }
-    protected void setOutputBaseName(String outputname) {
-        outputBaseName = null;
-        if (outputname != null && !outputname.trim().isEmpty()) {
-            outputBaseName = outputname.substring(0, outputname.lastIndexOf("."));
-        }
-    }
+  
 
 }

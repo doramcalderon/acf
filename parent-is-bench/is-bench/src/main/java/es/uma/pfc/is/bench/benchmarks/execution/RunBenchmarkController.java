@@ -9,6 +9,7 @@ import es.uma.pfc.is.bench.ISBenchApp;
 import es.uma.pfc.is.bench.MainLayoutController;
 import es.uma.pfc.is.bench.benchmarks.newbm.BenchmarksDelegate;
 import es.uma.pfc.is.bench.benchmarks.newbm.NewBenchmarkController;
+import es.uma.pfc.is.bench.config.WorkspaceManager;
 import es.uma.pfc.is.bench.domain.Benchmark;
 import es.uma.pfc.is.bench.domain.AlgorithmEntity;
 import es.uma.pfc.is.commons.eventbus.Eventbus;
@@ -29,6 +30,7 @@ import es.uma.pfc.is.javafx.TreeItemPredicate;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
+import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -51,9 +53,11 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.CheckBox;
+import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.ProgressIndicator;
+import javafx.scene.control.SelectionMode;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
@@ -96,7 +100,8 @@ public class RunBenchmarkController extends Controller {
     
     @FXML
     private BorderPane rootPane;
-
+    @FXML
+    private ChoiceBox<String> cbOutputType;
     @FXML
     private TextArea txtHistoryArea;
     @FXML
@@ -137,6 +142,14 @@ public class RunBenchmarkController extends Controller {
         } catch (IOException ex) {
             Logger.getLogger(RunBenchmarkController.class.getName()).log(Level.SEVERE, null, ex);
         }
+    }
+    
+    @Override
+    protected void initView() throws IOException {
+        inputsList.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
+        cbOutputType.getItems().add(0, getI18nLabel(I18n.TEXT_FILE));
+        cbOutputType.getItems().add(1, getI18nLabel(I18n.PROLOG_FILE));
+        cbOutputType.getSelectionModel().select(0);
     }
 
        /**
@@ -179,6 +192,7 @@ public class RunBenchmarkController extends Controller {
         model.timeCheckedProperty().bind(chkTime.selectedProperty());
         model.historyCheckedProperty().bind(chkHistory.selectedProperty());
         model.statisticsCheckedProperty().bind(chkStatistics.selectedProperty());
+        model.outputTypeProperty().bind(cbOutputType.getSelectionModel().selectedIndexProperty());
     }
 
     
@@ -326,10 +340,9 @@ public class RunBenchmarkController extends Controller {
     
     protected void showHistory() {
         if (chkTime.isSelected() || chkHistory.isSelected()) {
-            String outputname = model.getOutputDir();
-            String historyName = outputname.substring(0, outputname.lastIndexOf(".")).concat("_history.log");
+            Path historyPath = Paths.get(model.getOutputDir(), model.getSelectedAlgorithm().getShortName() + "_history.log");
 
-            showHistory("History", Paths.get(historyName).toFile());
+            showHistory("History", historyPath.toFile());
         }
         
     }
@@ -494,14 +507,17 @@ public class RunBenchmarkController extends Controller {
                     selectedBenchmark = (Benchmark) newItem.getValue();
                     model.setSelectedBenchmark(selectedBenchmark);
                     model.setSelectedAlgorithm(null);
-                    model.outputDirProperty().setValue(selectedBenchmark.getOutputDir());
+                    model.outputDirProperty().setValue(
+                            Paths.get(selectedBenchmark.getOutputDir()).toString());
                     
                 } else {
                     selectedBenchmark = (Benchmark) newItem.getParent().getValue();
                     AlgorithmEntity alg = (AlgorithmEntity) newItem.getValue();
                     model.setSelectedBenchmark(selectedBenchmark);
                     model.setSelectedAlgorithm(alg);
-                    model.outputDirProperty().setValue(Paths.get(selectedBenchmark.getOutputDir(), alg.getName()).toString());
+                    model.outputDirProperty().setValue(Paths.get(WorkspaceManager.get().currentWorkspace().getLocation(),
+                                                                 selectedBenchmark.getName(), 
+                                                                 alg.getName(), "output").toString());
                     
                 }
                 
