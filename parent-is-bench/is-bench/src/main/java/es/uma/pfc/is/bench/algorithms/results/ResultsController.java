@@ -42,7 +42,7 @@ public class ResultsController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
         try {
-            initChart();
+//            initChart();
         } catch (Exception ex) {
             System.out.println("ERror: " + ex.getMessage());
         }

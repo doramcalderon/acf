@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 
 package es.uma.pfc.is.logging.layout;
 
@@ -10,11 +5,13 @@ import ch.qos.logback.classic.spi.ILoggingEvent;
 import ch.qos.logback.core.LayoutBase;
 
 /**
- *
- * @since 
+ * Layout for CSV appenders.
  * @author Dora Calderón
  */
 public class CSVLayout extends LayoutBase<ILoggingEvent>{
+    /**
+     * Headers.
+     */
     private String headers;
     
     @Override

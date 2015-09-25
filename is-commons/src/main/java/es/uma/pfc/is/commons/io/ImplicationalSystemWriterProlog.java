@@ -72,7 +72,7 @@ public class ImplicationalSystemWriterProlog implements ImplicationalSystemWrite
      * @param system Sistema de implicaciones.
      * @return Sistema parseado.
      */
-    protected String getSystemInPrologFormat(ImplicationalSystem system) {
+    public String getSystemInPrologFormat(ImplicationalSystem system) {
         StringBuilder sb = new StringBuilder();
         sb.append(":-dynamic(implication/2),dynamic(attributes/1),dynamic(dfimplied/1).")
                 .append(NEW_LINE).append(NEW_LINE)
@@ -86,7 +86,7 @@ public class ImplicationalSystemWriterProlog implements ImplicationalSystemWrite
      * @param nodes Nodos.
      * @return Declaración de nodos en el formato: {@code attribute([a,b,c,d,e])}.
      */
-    protected String parseNodes(SortedSet<Comparable> nodes) {
+    public String parseNodes(SortedSet<Comparable> nodes) {
         return "attributes(" + parseAttributes(nodes) + ").";
     }
     /**
@@ -94,7 +94,7 @@ public class ImplicationalSystemWriterProlog implements ImplicationalSystemWrite
      * @param implications Implicaciones.
      * @return Implicaciones en el formato: {@code implication([a,b],[c]).}.
      */
-    protected String parseImplications(SortedSet<Rule> implications) {
+    public String parseImplications(SortedSet<Rule> implications) {
         StringBuilder sb = new StringBuilder();
         
         if(implications != null && !implications.isEmpty()) {
@@ -115,7 +115,7 @@ public class ImplicationalSystemWriterProlog implements ImplicationalSystemWrite
      * @param attributes Atributos.
      * @return String que representa un conjunto de atributos en el formato: {@code [a,b,c,d]}.
      */
-    protected String parseAttributes(SortedSet<Comparable> attributes) {
+    public String parseAttributes(SortedSet<Comparable> attributes) {
         StringBuilder sb = new StringBuilder();
         
         sb.append("[");

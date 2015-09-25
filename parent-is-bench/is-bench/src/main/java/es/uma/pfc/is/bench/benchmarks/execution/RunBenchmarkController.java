@@ -47,6 +47,7 @@ import javafx.collections.FXCollections;
 import javafx.concurrent.WorkerStateEvent;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Alert;
@@ -297,7 +298,7 @@ public class RunBenchmarkController extends Controller {
     protected void executeBenchmark(List<AlgorithmEntity> algs) {
         try {
             AlgorithmExecService service = new AlgorithmExecService(model);
-            service.setOnRunning((Event event) -> {busyLayer.setVisible(true);});
+            service.setOnRunning((WorkerStateEvent event) -> {busyLayer.setVisible(true);});
             service.setOnFinished((WorkerStateEvent event) -> {finishAlgExecution();});
 
             execurtionIndicator.visibleProperty().bind(service.runningProperty());
@@ -314,9 +315,9 @@ public class RunBenchmarkController extends Controller {
     protected void finishAlgExecution() {
         Animations.fadeOut(busyLayer);
         
+        showStatistics();
         if(model.getSelectedAlgorithm() != null) {
             showHistory();
-            showStatistics();
         } else {
             showOpenOutputDir();
         }
@@ -355,10 +356,10 @@ public class RunBenchmarkController extends Controller {
 
     protected void showStatistics() {
         if (chkStatistics.isSelected()) {
-            String outputname = model.getOutputDir();
+            String outputname = Paths.get(model.getOutputDir(), model.getSelectedBenchmark().getName() + ".csv").toString();
             if (outputname != null) {
                 StatisticsReaderService statisticsReader
-                        = new StatisticsReaderService(outputname.substring(0, outputname.lastIndexOf(".")).concat(".csv"), tableStatistics);
+                        = new StatisticsReaderService(outputname, tableStatistics);
                 statsProgressInd.visibleProperty().bind(statisticsReader.runningProperty());
                 statisticsReader.restart();
             }

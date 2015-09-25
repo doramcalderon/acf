@@ -4,17 +4,17 @@ import es.uma.pfc.is.algorithms.AlgorithmOptions.Options;
 import static es.uma.pfc.is.algorithms.AlgorithmOptions.Options.OUTPUT;
 import es.uma.pfc.is.algorithms.exceptions.AlgorithmException;
 import es.uma.pfc.is.algorithms.exceptions.InvalidPathException;
-import es.uma.pfc.is.algorithms.util.ImplicationalSystems;
 import es.uma.pfc.is.commons.files.FileUtils;
 import es.uma.pfc.is.commons.io.ImplicationalSystemWriterProlog;
 import es.uma.pfc.is.commons.strings.StringUtils;
 import es.uma.pfc.is.logging.AlgorithmLogger;
 import fr.kbertet.lattice.ImplicationalSystem;
-import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -71,9 +71,9 @@ public class AlgorithmExecutor {
 //        logger = new AlgorithmLogger(algorithm.getName(), options);
     }
 
-    public void execute(Algorithm alg) {
+    public List<AlgorithmResult> execute(Algorithm alg) {
         this.algorithm = alg;
-        execute();
+        return execute();
     }
 
     /**
@@ -82,10 +82,11 @@ public class AlgorithmExecutor {
      * @param alg Algoritmo.
      * @return Resultado de la ejecución.
      */
-    public void execute() {
+    public  List<AlgorithmResult> execute() {
         init();
-        run();
+        List<AlgorithmResult> result = run();
         stop();
+        return result;
     }
 
     /**
@@ -97,11 +98,15 @@ public class AlgorithmExecutor {
 
     /**
      * Ejecuta el algoritmo.
+     * @return 
      */
-    protected void run() {
+    protected List<AlgorithmResult> run() {
+        List<AlgorithmResult> results = null;
+        
         if (algorithm == null) {
             throw new IllegalArgumentException("Algorithm can't be null");
         } else {
+            results = new ArrayList<>();
             try {
                 String outputDirName = Paths.get(options.<String>getOption(OUTPUT), getCurrentDateString())
                                             .toString();
@@ -110,15 +115,18 @@ public class AlgorithmExecutor {
                 options.addOption(Options.LOG_BASE_NAME, algorithm.getShortName());
                 algorithm.getLogger().setOptions(options);
                 AlgorithmLogger logger = new AlgorithmLogger(algorithm.getClass().getName(), options, true);
+                ImplicationalSystem systemResult;
                 
                 for (String input : inputs) {
-                    run(input, outputDirName, logger);
+                    systemResult = run(input, outputDirName, logger);
+                    results.add(new AlgorithmResult(input, systemResult, algorithm.getClass()));
                 }
             } catch (IOException ex) {
                 Logger.getLogger(AlgorithmExecutor.class.getName()).log(Level.SEVERE, null, ex);
                 throw new AlgorithmException("Error creting the output dir.", ex);
             }
         }
+        return results;
     }
 
     protected String getCurrentDateString() {
@@ -147,7 +155,7 @@ public class AlgorithmExecutor {
             ImplicationalSystem inputSystem = new ImplicationalSystem(input);
             outputSystem = algorithm.execute(inputSystem);
             logger.endTime();
-            logger.statistics(ImplicationalSystems.getSize(outputSystem), ImplicationalSystems.getCardinality(outputSystem));
+//            logger.statistics(ImplicationalSystems.getSize(outputSystem), ImplicationalSystems.getCardinality(outputSystem));
 
             if (outputSystem != null) {
                 String outputType = options.<String>getOption(Options.OUTPUT_TYPE);

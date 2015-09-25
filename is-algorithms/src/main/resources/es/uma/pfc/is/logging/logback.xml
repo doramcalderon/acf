@@ -30,7 +30,7 @@
                 <append>false</append>
                 <encoder class="ch.qos.logback.core.encoder.LayoutWrappingEncoder">
                     <layout class="es.uma.pfc.is.logging.layout.CSVLayout">
-                        <headers>rule,old size,new size</headers>
+                        <headers>Algorithm, Initial Size, Initial Cardinality, Size, Cardinality</headers>
                     </layout>
                 </encoder>
                 <filter class="es.uma.pfc.is.logging.ModeFilter">

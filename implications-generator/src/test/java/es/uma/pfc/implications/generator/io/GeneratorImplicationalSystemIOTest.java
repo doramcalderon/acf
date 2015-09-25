@@ -1,6 +1,7 @@
 
 package es.uma.pfc.implications.generator.io;
 
+import es.uma.pfc.is.commons.io.ImplicationalSystemWriterProlog;
 import fr.kbertet.lattice.ImplicationalSystem;
 import fr.kbertet.lattice.Rule;
 import fr.kbertet.lattice.io.ImplicationalSystemWriterFactory;

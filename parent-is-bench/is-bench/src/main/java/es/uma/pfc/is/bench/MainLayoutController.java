@@ -62,10 +62,7 @@ public class MainLayoutController extends Controller {
 
     @FXML
     private BorderPane rootPane;
-//    @FXML
-//    private StackPane centerContainer;
-//    @FXML
-//    ToggleButton btnHome, btnBenchmarks, btnResults, btnGenerator;
+
     @FXML
     private Label lbStateBar;
 
@@ -81,57 +78,7 @@ public class MainLayoutController extends Controller {
 
     }
 
-    @Override
-    protected void initView() throws IOException {
-        initButtons();
-//        initGeneratorPane();
-        initVisibilityPanes();
-    }
 
-    /**
-     * Loads the generator pane.
-     *
-     * @throws IOException
-     */
-//    protected void initGeneratorPane() throws IOException {
-//        Pane generatorForm = FXMLLoader.load(ISBenchApp.class.getResource("/" + es.uma.pfc.implications.generator.view.FXMLViews.IMPLICATIONS_VIEW),
-//                ResourceBundle.getBundle("es.uma.pfc.implications.generator.i18n.labels", Locale.getDefault()));
-//        centerContainer.getChildren().add(generatorForm);
-//    }
-
-    /**
-     * Initializes the visibility of panes.
-     */
-    protected void initVisibilityPanes() {
-//        centerContainer.getChildren().get(HOME_PANE_INDEX).setVisible(true);
-//        centerContainer.getChildren().get(BENCHMARKS_PANE_INDEX).setVisible(false);
-//        centerContainer.getChildren().get(RESULTS_PANE_INDEX).setVisible(false);
-//        centerContainer.getChildren().get(GENERATOR_PANE_INDEX).setVisible(false);
-    }
-
-    /**
-     * Initializes the buttons.
-     */
-    protected void initButtons() {
-//        ToggleGroup group = new ToggleGroup();
-//        btnHome.setToggleGroup(group);
-//        btnBenchmarks.setToggleGroup(group);
-//        btnResults.setToggleGroup(group);
-//        btnGenerator.setToggleGroup(group);
-//
-//        panes.put(btnHome.getId(), HOME_PANE_INDEX);
-//        panes.put(btnBenchmarks.getId(), BENCHMARKS_PANE_INDEX);
-//        panes.put(btnResults.getId(), RESULTS_PANE_INDEX);
-//        panes.put(btnGenerator.getId(), GENERATOR_PANE_INDEX);
-//
-//        group.selectedToggleProperty().addListener((ObservableValue<? extends Toggle> observable, Toggle oldValue, Toggle selectedToggle) -> {
-//            String buttonId = null;
-//            if (selectedToggle != null) {
-//                buttonId = ((ToggleButton) selectedToggle).getId();
-//            }
-//            selectPane(panes.get(buttonId));
-//        });
-    }
 
     @Override
     protected void initListeners() {
