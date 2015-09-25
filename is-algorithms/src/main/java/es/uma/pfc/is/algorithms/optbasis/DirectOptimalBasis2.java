@@ -30,28 +30,30 @@ public class DirectOptimalBasis2 extends GenericAlgorithm {
     @Override
     public ImplicationalSystem execute(ImplicationalSystem system) {
         ImplicationalSystem directOptimalBasis = new ImplicationalSystem(system);
-        history("**************************************************************************************");
-        history(messages.getMessage("INPUT:"));
-        history(system.toString());
-        history("**************************************************************************************");
-        
-        // Stage 1 : Generation of sigma-r by reduction of sigma
-        directOptimalBasis = reduce(directOptimalBasis);
+        try {
+            history("**************************************************************************************");
+            history(messages.getMessage("INPUT:"));
+            history(system.toString());
+            history("**************************************************************************************");
 
-        // Stage 2: Generation of sigma-sr by simplification (left+right) + composition of sigma-r
-        directOptimalBasis = simplify(directOptimalBasis);
-        
-        // Stage 3: Generation of sigma-dsr by completion of sigma-sr
-        directOptimalBasis = strongSimplification(directOptimalBasis);
+            // Stage 1 : Generation of sigma-r by reduction of sigma
+            directOptimalBasis = reduce(directOptimalBasis);
 
-        // Stage 4: Composition of sigma-dsr
-        composition(directOptimalBasis);
-        
+            // Stage 2: Generation of sigma-sr by simplification (left+right) + composition of sigma-r
+            directOptimalBasis = simplify(directOptimalBasis);
 
-        // Stage 5: Generation of sigma-do by optimization of sigma-dsr
-        directOptimalBasis = optimize(directOptimalBasis);
+            // Stage 3: Generation of sigma-dsr by completion of sigma-sr
+            directOptimalBasis = strongSimplification(directOptimalBasis);
 
-        getLogger().flush();
+            // Stage 4: Composition of sigma-dsr
+            composition(directOptimalBasis);
+
+            // Stage 5: Generation of sigma-do by optimization of sigma-dsr
+            directOptimalBasis = optimize(directOptimalBasis);
+        } finally {
+            getLogger().flush();
+            getLogger().freeResources();;
+        }
         return directOptimalBasis;
     }
     

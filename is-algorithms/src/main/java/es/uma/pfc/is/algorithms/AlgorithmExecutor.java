@@ -108,7 +108,8 @@ public class AlgorithmExecutor {
                 FileUtils.createDirIfNoExists(outputDirName);
                 options.addOption(Options.OUTPUT, outputDirName);
                 options.addOption(Options.LOG_BASE_NAME, algorithm.getShortName());
-                AlgorithmLogger logger = new AlgorithmLogger(algorithm.getClass().getName(), options);
+                algorithm.getLogger().setOptions(options);
+                AlgorithmLogger logger = new AlgorithmLogger(algorithm.getClass().getName(), options, true);
                 
                 for (String input : inputs) {
                     run(input, outputDirName, logger);

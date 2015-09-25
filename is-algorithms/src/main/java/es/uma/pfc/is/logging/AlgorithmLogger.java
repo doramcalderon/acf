@@ -143,13 +143,15 @@ public class AlgorithmLogger {
         String outputName = algorithmName;
         if (options != null) {
             String outputDir = options.getOption(Options.OUTPUT);
-            if (outputDir == null) {outputDir = "";};
+            if (outputDir == null) {outputDir = "";}
             
             String logBaseName = options.getOption(Options.LOG_BASE_NAME);
-            if (logBaseName == null) {logBaseName = algorithmName;};
+            System.out.println("[AlgorithmLogger] LOG_BASE_NAME: " + logBaseName);
+            if (logBaseName == null) {logBaseName = algorithmName;}
             
             outputName = Paths.get(outputDir, logBaseName).toString();
         }
+        System.out.println("[AlgorithmLogger] outputName: " + outputName);
         return outputName;
     }
 
