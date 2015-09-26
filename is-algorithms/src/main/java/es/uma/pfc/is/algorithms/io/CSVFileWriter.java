@@ -104,6 +104,7 @@ public class CSVFileWriter {
      */
     public void printRecord(Object... fields) throws IOException {
         csvFilePrinter.printRecord(fields);
+        csvFilePrinter.flush();
     }
     
     
@@ -114,6 +115,7 @@ public class CSVFileWriter {
     public void finish() {
         if(csvFilePrinter != null) {
             try {
+                csvFilePrinter.flush();
                 csvFilePrinter.close();
             } catch (IOException e) {
                 System.out.println("Error while flushing/closing fileWriter/csvPrinter !!!");
