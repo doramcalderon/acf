@@ -116,17 +116,17 @@
                                        <children>
                                           <TabPane prefHeight="200.0" prefWidth="200.0" tabClosingPolicy="UNAVAILABLE" GridPane.columnSpan="3" GridPane.rowIndex="1">
                                             <tabs>
-                                              <Tab text="%history">
+                                              <Tab text="%tab.results">
                                                    <content>
                                                       <StackPane>
                                                          <children>
                                                             <ProgressIndicator fx:id="historyProgressInd" layoutX="812.0" layoutY="401.0" maxHeight="50.0" maxWidth="50.0" visible="false" AnchorPane.leftAnchor="400.0" AnchorPane.topAnchor="300.0" />
                                                             <TreeTableView fx:id="tableResults" prefHeight="200.0" prefWidth="200.0" tableMenuButtonVisible="true">
                                                               <columns>
-                                                                  <TreeTableColumn fx:id="nameColumn" minWidth="75.0" prefWidth="-1.0" text="Name" />
+                                                                  <TreeTableColumn fx:id="nameColumn" minWidth="150.0" prefWidth="-1.0" text="Name" />
+                                                                  <TreeTableColumn fx:id="timeColumn" prefWidth="75.0" text="Time" />
                                                                 <TreeTableColumn fx:id="inputColumn" editable="false" minWidth="200.0" prefWidth="-1.0" text="Input" />
                                                                 <TreeTableColumn fx:id="outputColumn" editable="false" minWidth="200.0" prefWidth="-1.0" text="Output" />
-                                                                  <TreeTableColumn fx:id="logColumn" editable="false" minWidth="200.0" prefWidth="-1.0" text="Log" />
                                                               </columns>
                                                             </TreeTableView>
                                                          </children>

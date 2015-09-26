@@ -1,6 +1,8 @@
 package es.uma.pfc.is.javafx;
 
+import es.uma.pfc.is.algorithms.AlgorithmResult;
 import es.uma.pfc.is.bench.MainLayoutController;
+import es.uma.pfc.is.bench.algorithms.results.ResutlsViewerController;
 import es.uma.pfc.is.bench.benchmarks.execution.BenchmarkResultsModel;
 import es.uma.pfc.is.bench.benchmarks.execution.FileViewerController;
 import es.uma.pfc.is.bench.uitls.Dialogs;
@@ -53,19 +55,49 @@ public class FileCellFactory implements Callback<TreeTableColumn, TreeTableCell>
             }
 
             private String getString() {
-                return getItem() == null ? "" : getItem();
+                return getItem() == null ? "" : Paths.get(getItem()).getFileName().toString();
             }
         };
 
+//        cell.addEventFilter(MouseEvent.MOUSE_CLICKED, (MouseEvent event) -> {
+//            if (event.getClickCount() > 1) {
+//                TreeTableCell<BenchmarkResultsModel, String> c = 
+//                        (TreeTableCell<BenchmarkResultsModel, String>) event.getSource();
+//                
+//                showHistory(c.getText(), Paths.get(c.getItem()).toFile());
+//            }
+//        });
         cell.addEventFilter(MouseEvent.MOUSE_CLICKED, (MouseEvent event) -> {
             if (event.getClickCount() > 1) {
-                TreeTableCell c = (TreeTableCell) event.getSource();
-                showHistory(c.getText(), Paths.get(c.getText()).toFile());
+                TreeTableCell<BenchmarkResultsModel, String> c = 
+                        (TreeTableCell<BenchmarkResultsModel, String>) event.getSource();
+                BenchmarkResultsModel item = c.getTreeTableRow().getItem();
+                show(item);
             }
         });
         return cell;
     }
     
+    /**
+     * Shows a file content into a text area in a modal window.
+     * @param title Title.
+     * @param file File to show.
+     */
+    protected void show(BenchmarkResultsModel item) {
+        AlgorithmResult r = new AlgorithmResult(item.inputProperty().get(), 
+                                                item.outputProperty().get(), null, null);
+        r.setExecutionTime(item.executionTimeProperty().get());
+        r.setLogFile(item.logProperty().get());
+        
+        try {
+            FXMLLoader loader = new FXMLLoader(ResutlsViewerController.class.getResource(FXMLViews.RESULTS_VIEWER_VIEW), rb);
+            loader.setControllerFactory((Class<?> param) -> new ResutlsViewerController(r));
+            Parent fileViewer = loader.load();
+            Dialogs.showModalDialog("Results viewer", fileViewer, rootPane.getScene().getWindow());
+        } catch (IOException ex) {
+            Logger.getLogger(MainLayoutController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
     /**
      * Shows a file content into a text area in a modal window.
      * @param title Title.

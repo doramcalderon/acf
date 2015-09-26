@@ -55,6 +55,10 @@ public class BenchMessages extends Messages {
      * Deleted inputs files confirmation.
      */
     public static final String DELETE_INPUTS_CONFIRM = "msg.benchmarks.delete.inputs.confirm";
+    /**
+     * Algorithm execution time.
+     */
+    public static final String ALGORITHM_EXECUTION_TIME = "msg.results.execution.time";
             
             
 /**

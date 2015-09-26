@@ -272,19 +272,21 @@ public class AlgorithmLogger {
      *
      * @param time Hora de fin.
      */
-    public void endTime(long time) {
+    public long endTime(long time) {
+        long total = 0;
         if (isPerformanceEnabled()) {
-            long total = time - startTime;
+            total = time - startTime;
             log(Mode.PERFORMANCE, i18nMessages.getMessage(PERFORMANCE_END), df.format(new Date(time)));
             log(Mode.PERFORMANCE, i18nMessages.getMessage(PERFORMANCE_TOTAL), total);
         }
+        return total;
     }
 
     /**
      * Escribe la hora de fin y la diferencia entre el inicio y el fin.
      */
-    public void endTime() {
-        endTime(System.currentTimeMillis());
+    public long endTime() {
+        return endTime(System.currentTimeMillis());
     }
 
     /**

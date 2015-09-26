@@ -18,6 +18,8 @@ public interface FXMLViews {
     
     /** File viewer view.**/
     String FILE_VIEWER_VIEW = "/es/uma/pfc/is/bench/benchmarks/execution/FileViewer.fxml";
+    /** Results viewer view.**/
+    String RESULTS_VIEWER_VIEW = "/es/uma/pfc/is/bench/benchmarks/results/ResultsViewer.fxml";
     
     /** Algorithms view. **/
     String ALGORITHMS_VIEW = "/es/uma/pfc/is/bench/algorithms/Algorithms.fxml";

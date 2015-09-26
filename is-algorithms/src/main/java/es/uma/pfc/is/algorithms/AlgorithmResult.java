@@ -1,7 +1,6 @@
 
 package es.uma.pfc.is.algorithms;
 
-import es.uma.pfc.is.algorithms.Algorithm;
 import es.uma.pfc.is.algorithms.util.ImplicationalSystems;
 import fr.kbertet.lattice.ImplicationalSystem;
 
@@ -10,7 +9,18 @@ import fr.kbertet.lattice.ImplicationalSystem;
  * @author Dora Calderón
  */
 public class AlgorithmResult {
+    /**
+     * Implicational system input file.
+     */
     private final String inputFile;
+    /**
+     * Implicational system output file.
+     */
+    private final String outputFile;
+    /**
+     * Log file.
+     */
+    private String logFile;
     /**
      * Algorithm output system.
      */
@@ -27,14 +37,21 @@ public class AlgorithmResult {
      * Implicational System cardinality.
      */
     private int cardinality;
+    /**
+     * Execution time.
+     */
+    private long executionTime;
     
     /**
      * Constructor.
+     * @param inputFile
+     * @param outputFile
      * @param resultSystem
      * @param algorithmClass 
      */
-    public AlgorithmResult(String inputFile, ImplicationalSystem resultSystem, Class<? extends Algorithm> algorithmClass) {
+    public AlgorithmResult(String inputFile, String outputFile, ImplicationalSystem resultSystem, Class<? extends Algorithm> algorithmClass) {
         this.inputFile = inputFile;
+        this.outputFile = outputFile;
         this.resultSystem = resultSystem;
         this.algorithmClass = algorithmClass;
         size = 0;
@@ -81,11 +98,54 @@ public class AlgorithmResult {
     }
 
     /**
+     * Implicational system input file.
      * @return the inputFile
      */
     public String getInputFile() {
         return inputFile;
     }
+
+    /**
+     * Implicational system output file.
+     * @return the outputFile
+     */
+    public String getOutputFile() {
+        return outputFile;
+    }
+
+    /**
+     * Log file.
+     * @return the logFile
+     */
+    public String getLogFile() {
+        return logFile;
+    }
+
+    /**
+     * Log file.
+     * @param logFile the logFile to set
+     */
+    public void setLogFile(String logFile) {
+        this.logFile = logFile;
+    }
+
+    /**
+     * Execution time.
+     * @return the executionTime
+     */
+    public long getExecutionTime() {
+        return executionTime;
+    }
+
+    /**
+     * Execution time.
+     * @param executionTime the executionTime to set
+     */
+    public void setExecutionTime(long executionTime) {
+        this.executionTime = executionTime;
+    }
+
+    
     
     
 }

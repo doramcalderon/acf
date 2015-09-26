@@ -13,7 +13,6 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -68,7 +67,6 @@ public class AlgorithmExecutor {
             throw new IllegalArgumentException("Algorithm can't be null");
         }
         this.algorithm = algorithm;
-//        logger = new AlgorithmLogger(algorithm.getName(), options);
     }
 
     public List<AlgorithmResult> execute(Algorithm alg) {
@@ -108,18 +106,16 @@ public class AlgorithmExecutor {
         } else {
             results = new ArrayList<>();
             try {
-                String outputDirName = Paths.get(options.<String>getOption(OUTPUT), getCurrentDateString())
-                                            .toString();
+                String outputDirName = options.<String>getOption(OUTPUT);
                 FileUtils.createDirIfNoExists(outputDirName);
-                options.addOption(Options.OUTPUT, outputDirName);
+                
                 options.addOption(Options.LOG_BASE_NAME, algorithm.getShortName());
                 algorithm.getLogger().setOptions(options);
                 AlgorithmLogger logger = new AlgorithmLogger(algorithm.getClass().getName(), options, true);
-                ImplicationalSystem systemResult;
                 
                 for (String input : inputs) {
-                    systemResult = run(input, outputDirName, logger);
-                    results.add(new AlgorithmResult(input, systemResult, algorithm.getClass()));
+                    AlgorithmResult result = run(input, outputDirName, logger);
+                    results.add(result);
                 }
             } catch (IOException ex) {
                 Logger.getLogger(AlgorithmExecutor.class.getName()).log(Level.SEVERE, null, ex);
@@ -129,24 +125,15 @@ public class AlgorithmExecutor {
         return results;
     }
 
-    protected String getCurrentDateString() {
-        Calendar cal = Calendar.getInstance();
-        String currentInstantDir = String.valueOf(cal.get(Calendar.YEAR))
-                + String.valueOf(cal.get(Calendar.MONTH))
-                + String.valueOf(cal.get(Calendar.DAY_OF_MONTH))
-                + String.valueOf(cal.get(Calendar.HOUR_OF_DAY))
-                + String.valueOf(cal.get(Calendar.MINUTE))
-                + String.valueOf(cal.get(Calendar.SECOND));
-        return currentInstantDir;
-    }
-
+    
     /**
      * Ejecuta el algoritmo.
      *
      * @return Resultado del algoritmo.
      */
-    protected ImplicationalSystem run(String input, String outputDir, AlgorithmLogger logger) {
-        ImplicationalSystem outputSystem = null;
+    protected AlgorithmResult run(String input, String outputDir, AlgorithmLogger logger) {
+        AlgorithmResult result = null;
+        ImplicationalSystem outputSystem;
         
         try {
 
@@ -154,8 +141,7 @@ public class AlgorithmExecutor {
 
             ImplicationalSystem inputSystem = new ImplicationalSystem(input);
             outputSystem = algorithm.execute(inputSystem);
-            logger.endTime();
-//            logger.statistics(ImplicationalSystems.getSize(outputSystem), ImplicationalSystems.getCardinality(outputSystem));
+            long executionTime = logger.endTime();
 
             if (outputSystem != null) {
                 String outputType = options.<String>getOption(Options.OUTPUT_TYPE);
@@ -164,7 +150,12 @@ public class AlgorithmExecutor {
                 }
                 
                 String outputFilename = algorithm.getShortName() + "_" + FileUtils.getName(input) + "." + outputType;
-                outputSystem.save(Paths.get(outputDir, outputFilename).toString());
+                String outputFile = Paths.get(outputDir, outputFilename).toString();
+                outputSystem.save(outputFile);
+                
+                result = new AlgorithmResult(input, outputFile, outputSystem, algorithm.getClass());
+                result.setExecutionTime(executionTime);
+                result.setLogFile(Paths.get(outputDir, options.getOption(Options.LOG_BASE_NAME) + "_trace.log").toString());
             }
 
         } catch (Exception ex) {
@@ -174,7 +165,7 @@ public class AlgorithmExecutor {
             logger.freeResources();
         }
 
-        return outputSystem;
+        return result;
     }
 
     /**

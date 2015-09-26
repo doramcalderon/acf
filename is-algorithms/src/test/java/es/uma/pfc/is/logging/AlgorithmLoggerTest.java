@@ -29,7 +29,7 @@ public class AlgorithmLoggerTest {
     
     @After
    public void tearDown() throws IOException {
-       Files.deleteIfExists(Paths.get("output_history.txt"));
+       Files.deleteIfExists(Paths.get("output_trace.txt"));
    }
 
 
@@ -137,7 +137,7 @@ public class AlgorithmLoggerTest {
         File history = null;
         BufferedReader reader = null;
         try {
-            history = new File("alg_history.log");
+            history = new File("alg_trace.log");
             assertTrue(history.exists());
 
             reader = new BufferedReader(new FileReader(history));
@@ -243,7 +243,7 @@ public class AlgorithmLoggerTest {
         File history = null;
         BufferedReader reader = null;
         try {
-            history = new File("alg_history.log");
+            history = new File("alg_trace.log");
             assertTrue(history.exists());
 
             reader = new BufferedReader(new FileReader(history));

@@ -26,15 +26,14 @@ import es.uma.pfc.is.bench.uitls.Animations;
 import es.uma.pfc.is.bench.uitls.Chooser;
 import es.uma.pfc.is.bench.uitls.Dialogs;
 import es.uma.pfc.is.bench.validators.FilePathValidator;
-import es.uma.pfc.is.bench.view.FXMLViews;
 import es.uma.pfc.is.commons.strings.StringUtils;
 import es.uma.pfc.is.javafx.FileCellFactory;
 import es.uma.pfc.is.javafx.FilterableTreeItem;
+import es.uma.pfc.is.javafx.NoZeroLongCellFactory;
 import es.uma.pfc.is.javafx.TreeItemPredicate;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
-import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -51,36 +50,28 @@ import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.concurrent.WorkerStateEvent;
 import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
-import javafx.scene.control.ButtonType;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.ProgressIndicator;
 import javafx.scene.control.SelectionMode;
-import javafx.scene.control.TableCell;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TreeItem;
-import javafx.scene.control.TreeTableCell;
 import javafx.scene.control.TreeTableColumn;
 import javafx.scene.control.TreeTableView;
 import javafx.scene.control.TreeView;
 import javafx.scene.control.cell.TreeItemPropertyValueFactory;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 import javafx.stage.FileChooser;
 import javafx.stage.Window;
-import javafx.util.Callback;
 
 public class RunBenchmarkController extends Controller {
 
@@ -133,6 +124,8 @@ public class RunBenchmarkController extends Controller {
 
     @FXML
     private TreeTableView tableResults;
+    @FXML
+    private TreeTableColumn nameColumn, timeColumn, inputColumn, outputColumn;
 
     /**
      * Service for read a file.
@@ -156,14 +149,7 @@ public class RunBenchmarkController extends Controller {
             Logger.getLogger(RunBenchmarkController.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    @FXML
-    private TreeTableColumn nameColumn;
-    @FXML
-    private TreeTableColumn inputColumn;
-    @FXML
-    private TreeTableColumn outputColumn;
-    @FXML
-    private TreeTableColumn logColumn;
+  
 
     @Override
     protected void initView() throws IOException {
@@ -172,13 +158,14 @@ public class RunBenchmarkController extends Controller {
         cbOutputType.getItems().add(1, getI18nLabel(I18n.PROLOG_FILE));
         cbOutputType.getSelectionModel().select(0);
 
+        tableResults.setShowRoot(false);
         nameColumn.setCellValueFactory(new TreeItemPropertyValueFactory("name"));
+        timeColumn.setCellValueFactory(new TreeItemPropertyValueFactory("executionTime"));
+        timeColumn.setCellFactory(new NoZeroLongCellFactory());
         inputColumn.setCellValueFactory(new TreeItemPropertyValueFactory("input"));
         inputColumn.setCellFactory(new FileCellFactory(getBundle(), getRootPane()));
         outputColumn.setCellValueFactory(new TreeItemPropertyValueFactory("output"));
         outputColumn.setCellFactory(new FileCellFactory(getBundle(), getRootPane()));
-        logColumn.setCellValueFactory(new TreeItemPropertyValueFactory("log"));
-        logColumn.setCellFactory(new FileCellFactory(getBundle(), getRootPane()));
         
 
     }
@@ -479,6 +466,7 @@ public class RunBenchmarkController extends Controller {
         filterField.clear();
         inputsList.getItems().clear();
         txtOutput.clear();
+        tableResults.getRoot().getChildren().clear();
         clearTraces();
 
     }
@@ -560,6 +548,11 @@ public class RunBenchmarkController extends Controller {
         }
     }
 
+    /**
+     * Loads the benchmark results into a TreeTableView hierarchy.
+     * @param benchResult Benchmark results.
+     * @return TreeItem<BenchmarkResultsModel> 
+     */
     private TreeItem<BenchmarkResultsModel> getData(BenchmarkResult benchResult) {
         Map<Class, List<AlgorithmResult>> results = benchResult.groupByAlgorithm();
         BenchmarkResultsModel node;
@@ -569,17 +562,22 @@ public class RunBenchmarkController extends Controller {
         List<TreeItem<BenchmarkResultsModel>> resultItems = new ArrayList<>();
 
         for (Class algClass : results.keySet()) {
+            resultItems.clear();
+            List<AlgorithmResult> algResults = results.getOrDefault(algClass, new ArrayList<>());
+            
             node = new BenchmarkResultsModel();
             node.setName(algClass.getSimpleName());
+            if(algResults != null && !algResults.isEmpty()){
+                node.setLog(algResults.get(0).getLogFile());
+            }
             TreeItem<BenchmarkResultsModel> algorithmItem = new TreeItem<>(node);
-
-            List<AlgorithmResult> algResults = results.getOrDefault(algClass, new ArrayList<>());
 
             for (AlgorithmResult r : algResults) {
                 BenchmarkResultsModel resultNode = new BenchmarkResultsModel();
+                resultNode.setExecutionTime(r.getExecutionTime());
                 resultNode.setInput(r.getInputFile());
-                resultNode.setOutput("output");
-                resultNode.setLog("output");
+                resultNode.setOutput(r.getOutputFile());
+                resultNode.setLog(r.getLogFile());
                 resultItems.add(new TreeItem<>(resultNode));
 
             }

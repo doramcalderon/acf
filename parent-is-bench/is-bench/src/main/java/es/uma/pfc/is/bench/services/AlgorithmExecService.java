@@ -12,14 +12,13 @@ import es.uma.pfc.is.bench.domain.BenchmarkResult;
 import es.uma.pfc.is.commons.eventbus.Eventbus;
 import es.uma.pfc.is.bench.events.MessageEvent;
 import es.uma.pfc.is.bench.io.BenchmarkCSVWriter;
+import es.uma.pfc.is.commons.strings.date.DateUtils;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javafx.concurrent.Service;
 import javafx.concurrent.Task;
 import javafx.concurrent.WorkerStateEvent;
@@ -96,6 +95,8 @@ public class AlgorithmExecService extends Service<BenchmarkResult> {
             options.enable(AlgorithmOptions.Mode.STATISTICS);
         }
         options.addOption(Options.OUTPUT_TYPE, model.getOutputFileType());
+        String outputDirName = Paths.get(model.getOutputDir(), DateUtils.getCurrentDateString()).toString();               
+        options.addOption(Options.OUTPUT, outputDirName);
         return options;
     }
     

@@ -6,6 +6,8 @@
 
 package es.uma.pfc.is.bench.benchmarks.execution;
 
+import javafx.beans.property.LongProperty;
+import javafx.beans.property.SimpleLongProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 
@@ -16,6 +18,7 @@ import javafx.beans.property.StringProperty;
  */
 public class BenchmarkResultsModel {
     private StringProperty name;
+    private LongProperty executionTime;
     private StringProperty input;
     private StringProperty output;
     private StringProperty log;
@@ -29,6 +32,7 @@ public class BenchmarkResultsModel {
 
     public BenchmarkResultsModel() {
         name = new SimpleStringProperty();
+        executionTime = new SimpleLongProperty();
         input = new SimpleStringProperty();
         output = new SimpleStringProperty();
         log = new SimpleStringProperty();
@@ -64,6 +68,14 @@ public class BenchmarkResultsModel {
 
     public void setLog(String log) {
         this.log.set(log);
+    }
+
+    public LongProperty executionTimeProperty() {
+        return executionTime;
+    }
+
+    public void setExecutionTime(Long time) {
+        this.executionTime.setValue(time);
     }
     
     

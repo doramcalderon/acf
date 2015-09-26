@@ -7,7 +7,7 @@
         </discriminator>
         <sift>
             <appender name="HISTORY-${outputAlg}" class="ch.qos.logback.core.FileAppender">
-                <file>${outputAlg}_history.log</file>
+                <file>${outputAlg}_trace.log</file>
                 <layout class="ch.qos.logback.classic.PatternLayout">
                     <pattern>%m%n</pattern>
                 </layout>
