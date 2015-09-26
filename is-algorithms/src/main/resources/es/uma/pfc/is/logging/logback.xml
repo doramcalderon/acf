@@ -19,7 +19,7 @@
         </sift>
     </appender>
 
-    <appender name="STATISTICS" class="ch.qos.logback.classic.sift.SiftingAppender">
+<!--    <appender name="STATISTICS" class="ch.qos.logback.classic.sift.SiftingAppender">
         <discriminator>
             <key>outputAlg</key>
             <defaultValue>unknown</defaultValue>
@@ -38,7 +38,7 @@
                 </filter>
             </appender>
         </sift>
-    </appender>    
+    </appender>    -->
     
     <appender name="ASYNC" class="ch.qos.logback.classic.AsyncAppender">
         <appender-ref ref="HISTORY" />
@@ -56,6 +56,6 @@
     <root level="INFO">
         <appender-ref ref="ASYNC" />
         <!--<appender-ref ref="STDOUT" />-->
-        <appender-ref ref="STATISTICS" />
+        <!--<appender-ref ref="STATISTICS" />-->
     </root>
 </configuration>
