@@ -6,7 +6,6 @@ import es.uma.pfc.is.bench.domain.BenchmarkResult;
 import es.uma.pfc.is.commons.files.FileUtils;
 import java.io.IOException;
 import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -33,8 +32,7 @@ public class BenchmarkCSVWriter {
      */
     public static void print(BenchmarkResult result, Path outputPath) throws IOException {
         if (result != null) {
-             Map<Class, List<AlgorithmResult>> resultsGrouped = result.getAlgorithmResults().stream()
-                .collect(Collectors.groupingBy(AlgorithmResult::getAlgorithmClass));
+             Map<Class, List<AlgorithmResult>> resultsGrouped = result.groupByAlgorithm();
             int inputsCount = resultsGrouped.values().stream().findFirst().get().size();
             
             csvWriter = new CSVFileWriter(outputPath);

@@ -5,12 +5,15 @@ package es.uma.pfc.is.bench.domain;
 import es.uma.pfc.is.algorithms.AlgorithmResult;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 /**
  *
  * @author Dora Calderón
  */
 public class BenchmarkResult {
+    private Benchmark benchmark;
     /**
      * Algorithm results.
      */
@@ -25,11 +28,13 @@ public class BenchmarkResult {
      * @param algorithmResults
      * @param timestamp 
      */
-    public BenchmarkResult(List<AlgorithmResult> algorithmResults, Date timestamp) {
+    public BenchmarkResult(Benchmark b, List<AlgorithmResult> algorithmResults, Date timestamp) {
+        this.benchmark = b;
         this.algorithmResults = algorithmResults;
         this.timestamp = timestamp;
     }
 
+    
     /**
      * Algorithm results.
      * @return the algorithmResults
@@ -46,5 +51,23 @@ public class BenchmarkResult {
         return timestamp;
     }
     
+    public Map<Class, List<AlgorithmResult>> groupByAlgorithm() {
+        return getAlgorithmResults().stream()
+                .collect(Collectors.groupingBy(AlgorithmResult::getAlgorithmClass));
+    }
+
+    /**
+     * @return the benchmark
+     */
+    public Benchmark getBenchmark() {
+        return benchmark;
+    }
+
+    /**
+     * @param benchmark the benchmark to set
+     */
+    public void setBenchmark(Benchmark benchmark) {
+        this.benchmark = benchmark;
+    }
     
 }

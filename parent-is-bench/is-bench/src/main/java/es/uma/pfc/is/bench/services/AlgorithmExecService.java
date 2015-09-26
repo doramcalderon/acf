@@ -136,7 +136,7 @@ public class AlgorithmExecService extends Service<BenchmarkResult> {
                         results.addAll(exec.execute(alg));
                     });
                     
-                    benchmarkResult = new BenchmarkResult(results, timeStamp);
+                    benchmarkResult = new BenchmarkResult(model.getSelectedBenchmark(), results, timeStamp);
                     if(options.isEnabled(Mode.STATISTICS)) {
                         printResults(benchmarkResult);
                     }

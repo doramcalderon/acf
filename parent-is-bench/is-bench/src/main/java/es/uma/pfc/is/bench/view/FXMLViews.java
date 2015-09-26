@@ -16,6 +16,9 @@ public interface FXMLViews {
     /** Run Benchmark view. **/
     String RUN_BENCHMARK_VIEW = "/es/uma/pfc/is/bench/benchmarks/execution/RunBenchmark.fxml";
     
+    /** File viewer view.**/
+    String FILE_VIEWER_VIEW = "/es/uma/pfc/is/bench/benchmarks/execution/FileViewer.fxml";
+    
     /** Algorithms view. **/
     String ALGORITHMS_VIEW = "/es/uma/pfc/is/bench/algorithms/Algorithms.fxml";
     
