@@ -6,6 +6,8 @@
 
 package es.uma.pfc.is.bench.benchmarks.execution;
 
+import java.text.DateFormat;
+import java.util.Date;
 import javafx.beans.property.LongProperty;
 import javafx.beans.property.SimpleLongProperty;
 import javafx.beans.property.SimpleStringProperty;
@@ -18,13 +20,15 @@ import javafx.beans.property.StringProperty;
  */
 public class BenchmarkResultsModel {
     private StringProperty name;
-    private LongProperty executionTime;
+    private StringProperty date;
     private StringProperty input;
     private StringProperty output;
+    private LongProperty executionTime;
     private StringProperty log;
 
     public BenchmarkResultsModel(String name) {
         this.name = new SimpleStringProperty(name);
+        date = new SimpleStringProperty();
         input = new SimpleStringProperty();
         output = new SimpleStringProperty();
         log = new SimpleStringProperty();
@@ -32,6 +36,7 @@ public class BenchmarkResultsModel {
 
     public BenchmarkResultsModel() {
         name = new SimpleStringProperty();
+        date = new SimpleStringProperty();
         executionTime = new SimpleLongProperty();
         input = new SimpleStringProperty();
         output = new SimpleStringProperty();
@@ -44,6 +49,20 @@ public class BenchmarkResultsModel {
 
     public void setName(String name) {
         this.name.set(name);
+    }
+    
+    public StringProperty dateProperty() {
+        return date;
+    }
+    public void setDate(String date) {
+        this.date.set(date);
+    }
+    public void setDate(Date date) {
+        String formattedDate = null;
+        if(date != null) {
+            formattedDate = DateFormat.getDateInstance(DateFormat.LONG).format(date);
+        }
+        this.date.set(formattedDate);
     }
 
     public StringProperty inputProperty() {

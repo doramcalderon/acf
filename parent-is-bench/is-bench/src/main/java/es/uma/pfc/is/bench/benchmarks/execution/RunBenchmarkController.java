@@ -155,7 +155,6 @@ public class RunBenchmarkController extends Controller {
             Logger.getLogger(RunBenchmarkController.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-  
 
     @Override
     protected void initView() throws IOException {
@@ -172,10 +171,8 @@ public class RunBenchmarkController extends Controller {
         inputColumn.setCellFactory(new AlgorithmResultCellFactory(getBundle(), getRootPane()));
         outputColumn.setCellValueFactory(new TreeItemPropertyValueFactory("output"));
         outputColumn.setCellFactory(new AlgorithmResultCellFactory(getBundle(), getRootPane()));
-        
 
     }
-
 
     /**
      * Inicializa el modelo.
@@ -322,7 +319,7 @@ public class RunBenchmarkController extends Controller {
                 busyLayer.setVisible(true);
             });
             service.setOnFinished((WorkerStateEvent event) -> {
-                finishAlgExecution(service.getValue());
+                finishAlgExecution((BenchmarkResult) event.getSource().getValue(), event.getSource().getException());
             });
 
             execurtionIndicator.visibleProperty().bind(service.runningProperty());
@@ -335,13 +332,16 @@ public class RunBenchmarkController extends Controller {
 
     /**
      * Show the traces if are checked.
+     * @param r Benchmark result.
+     * @param ex Exception.
      */
-    protected void finishAlgExecution(BenchmarkResult r) {
+    protected void finishAlgExecution(BenchmarkResult r, Throwable ex) {
         Animations.fadeOut(busyLayer);
-        
-        model.setLastExecutionResult(r);
-        tableResults.setRoot(getData(r));
-        showStatistics();
+        if (ex == null) {
+            model.setLastExecutionResult(r);
+            tableResults.setRoot(getData(r));
+            showStatistics();
+        }
     }
 
     /**
@@ -443,7 +443,6 @@ public class RunBenchmarkController extends Controller {
             txtOutput.setText(selectedFile.getPath());
         }
     }
-
 
     @FXML
     public void clearStatistics(ActionEvent event) {
@@ -552,8 +551,9 @@ public class RunBenchmarkController extends Controller {
 
     /**
      * Loads the benchmark results into a TreeTableView hierarchy.
+     *
      * @param benchResult Benchmark results.
-     * @return TreeItem<BenchmarkResultsModel> 
+     * @return TreeItem<BenchmarkResultsModel>
      */
     private TreeItem<BenchmarkResultsModel> getData(BenchmarkResult benchResult) {
         Map<AlgorithmInfo, List<AlgorithmResult>> results = benchResult.groupByAlgorithm();
@@ -566,10 +566,10 @@ public class RunBenchmarkController extends Controller {
         for (AlgorithmInfo algorithm : results.keySet()) {
             resultItems.clear();
             List<AlgorithmResult> algResults = results.getOrDefault(algorithm, new ArrayList<>());
-            
+
             node = new BenchmarkResultsModel();
             node.setName(algorithm.getName());
-           
+
             TreeItem<BenchmarkResultsModel> algorithmItem = new TreeItem<>(node);
 
             for (AlgorithmResult r : algResults) {

@@ -20,7 +20,7 @@
             <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
          </padding>
          <rowConstraints>
-            <RowConstraints minHeight="10.0" percentHeight="25.0" prefHeight="0.0" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="90.0" minHeight="10.0" prefHeight="90.0" vgrow="SOMETIMES" />
             <RowConstraints minHeight="10.0" percentHeight="25.0" vgrow="SOMETIMES" />
             <RowConstraints minHeight="10.0" percentHeight="25.0" vgrow="SOMETIMES" />
             <RowConstraints minHeight="10.0" percentHeight="25.0" vgrow="SOMETIMES" />
@@ -50,10 +50,11 @@
             </TableView>
             <TreeTableView fx:id="tableResults" GridPane.columnSpan="2" GridPane.rowIndex="1">
               <columns>
-                <TreeTableColumn prefWidth="116.0" text="Name" />
-                <TreeTableColumn prefWidth="113.0" text="Date" />
-                  <TreeTableColumn prefWidth="75.0" text="Input" />
-                  <TreeTableColumn prefWidth="75.0" text="Output" />
+                <TreeTableColumn fx:id="nameColumn" editable="false" prefWidth="116.0" text="Name" />
+                <TreeTableColumn fx:id="dateColumn" editable="false" prefWidth="126.0" text="Date" />
+                  <TreeTableColumn fx:id="timeColumn" editable="false" prefWidth="62.0" text="Time (ms)" />
+                  <TreeTableColumn fx:id="inputColumn" editable="false" prefWidth="174.0" text="Input" />
+                  <TreeTableColumn fx:id="outputColumn" editable="false" minWidth="0.0" prefWidth="164.0" text="Output" />
               </columns>
             </TreeTableView>
             <ToolBar GridPane.columnSpan="2">

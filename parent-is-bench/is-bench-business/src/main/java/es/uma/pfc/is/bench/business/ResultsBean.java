@@ -39,7 +39,7 @@ public class ResultsBean {
         resultsPersistence.save(result, path);
     }
     /**
-     * Returns all results saving in the path.
+     * Returns all saved results of the registered benchmarks in the path.
      * @param path.
      * @return Results saved.
      */

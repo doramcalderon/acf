@@ -16,36 +16,43 @@ import javax.xml.bind.annotation.XmlRootElement;
  * @author Dora Calderón
  */
 @XmlRootElement
-@XmlAccessorType(XmlAccessType.PUBLIC_MEMBER)
+@XmlAccessorType(XmlAccessType.FIELD)
 public class AlgorithmResult {
      /**
      * Info of the executed algorithm.
      */
+    @XmlElement
     private AlgorithmInfo algorithmInfo;
     /**
      * Implicational system input file.
      */
+    @XmlElement
     private String inputFile;
     /**
      * Implicational system output file.
      */
+    @XmlElement
     private String outputFile;
     /**
      * Log file.
      */
+    @XmlElement
     private String logFile;
    
     /**
      * Implicational System size.
      */
+    @XmlElement
     private Integer size;
     /**
      * Implicational System cardinality.
      */
+    @XmlElement
     private Integer cardinality;
     /**
      * Execution time.
      */
+    @XmlElement
     private long executionTime;
 
     /**
@@ -86,7 +93,6 @@ public class AlgorithmResult {
      * Implicational System size.
      * @return size.
      */
-    @XmlElement
     public Integer getSize() {
         if(size == null) {
             try {
@@ -103,7 +109,6 @@ public class AlgorithmResult {
      * Implicational System cardinality.
      * @return cardinality.
      */
-    @XmlElement
     public Integer getCardinality() {
         if(cardinality == null) {
             try {
@@ -121,7 +126,6 @@ public class AlgorithmResult {
      * Info of the executed algorithm.
      * @return the algorithmClass
      */
-    @XmlElement
     public AlgorithmInfo getAlgorithmInfo() {
         return algorithmInfo;
     }
@@ -130,7 +134,6 @@ public class AlgorithmResult {
      * Implicational system input file.
      * @return the inputFile
      */
-    @XmlElement
     public String getInputFile() {
         return inputFile;
     }
@@ -139,7 +142,6 @@ public class AlgorithmResult {
      * Implicational system output file.
      * @return the outputFile
      */
-    @XmlElement
     public String getOutputFile() {
         return outputFile;
     }
@@ -164,7 +166,6 @@ public class AlgorithmResult {
      * Execution time.
      * @return the executionTime
      */
-    @XmlElement
     public long getExecutionTime() {
         return executionTime;
     }
