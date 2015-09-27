@@ -2,6 +2,7 @@ package es.uma.pfc.is.bench.benchmarks.execution;
 
 import es.uma.pfc.is.bench.domain.Benchmark;
 import es.uma.pfc.is.algorithms.AlgorithmInfo;
+import es.uma.pfc.is.bench.domain.BenchmarkResult;
 import java.util.ArrayList;
 import java.util.List;
 import javafx.beans.property.BooleanProperty;
@@ -59,7 +60,10 @@ public class RunBenchmarkModel {
      * Output file type selected.
      */
     private final IntegerProperty outputTypeProperty;
-
+    /**
+     * Last execution result.
+     */
+    private BenchmarkResult lastExecutionResult;
     /**
      * Constructor.
      */
@@ -249,4 +253,21 @@ public class RunBenchmarkModel {
         this.selectedBenchmark = benchmark;
     }
 
+    /**
+     * Last execution result.
+     * @return the lastExecutionResult
+     */
+    public BenchmarkResult getLastExecutionResult() {
+        return lastExecutionResult;
+    }
+
+    /**
+     * Last execution result.
+     * @param lastExecutionResult the lastExecutionResult to set
+     */
+    public void setLastExecutionResult(BenchmarkResult lastExecutionResult) {
+        this.lastExecutionResult = lastExecutionResult;
+    }
+
+    
 }

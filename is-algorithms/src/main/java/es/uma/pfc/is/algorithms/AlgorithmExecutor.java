@@ -108,7 +108,7 @@ public class AlgorithmExecutor {
                 
                 options.addOption(Options.LOG_BASE_NAME, algorithm.getShortName());
                 algorithm.getLogger().setOptions(options);
-                AlgorithmLogger logger = new AlgorithmLogger(algorithm.getClass().getName(), options, true);
+                AlgorithmLogger logger = new AlgorithmLogger(algorithm.getClass().getName(), options, false);
                 
                 for (String input : inputs) {
                     AlgorithmResult result = run(input, outputDirName, logger);
@@ -117,7 +117,7 @@ public class AlgorithmExecutor {
             } catch (IOException ex) {
                 Logger.getLogger(AlgorithmExecutor.class.getName()).log(Level.SEVERE, null, ex);
                 throw new AlgorithmException("Error creting the output dir.", ex);
-            }
+            } 
         }
         return results;
     }
@@ -134,9 +134,9 @@ public class AlgorithmExecutor {
         
         try {
 
-            logger.startTime();
 
             ImplicationalSystem inputSystem = new ImplicationalSystem(input);
+            logger.startTime();
             outputSystem = algorithm.execute(inputSystem);
             long executionTime = logger.endTime();
 
@@ -159,6 +159,7 @@ public class AlgorithmExecutor {
             ex.printStackTrace();
             throw new AlgorithmException("Error en la ejecución de " + toString(), ex);
         } finally {
+            logger.flush();
             logger.freeResources();
         }
 

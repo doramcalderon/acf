@@ -4,6 +4,7 @@ package es.uma.pfc.is.bench.domain;
 
 import es.uma.pfc.is.algorithms.AlgorithmInfo;
 import es.uma.pfc.is.algorithms.AlgorithmResult;
+import java.nio.file.Paths;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -70,5 +71,16 @@ public class BenchmarkResult {
     public void setBenchmark(Benchmark benchmark) {
         this.benchmark = benchmark;
     }
-    
+ 
+    /**
+     * Returns the path dir of results.
+     * @return Path output dir.
+     */
+    public String getOutputDir() {
+        String outputDir = "";
+        if (algorithmResults != null && !algorithmResults.isEmpty()) {
+            outputDir = Paths.get(algorithmResults.get(0).getOutputFile()).getParent().toString();
+        }
+        return outputDir;
+    }
 }

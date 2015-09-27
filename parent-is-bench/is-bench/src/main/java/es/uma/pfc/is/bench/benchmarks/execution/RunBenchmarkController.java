@@ -31,9 +31,13 @@ import es.uma.pfc.is.javafx.AlgorithmResultCellFactory;
 import es.uma.pfc.is.javafx.FilterableTreeItem;
 import es.uma.pfc.is.javafx.NoZeroLongCellFactory;
 import es.uma.pfc.is.javafx.TreeItemPredicate;
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileReader;
 import java.io.IOException;
 import java.net.URL;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -72,6 +76,8 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 import javafx.stage.FileChooser;
 import javafx.stage.Window;
+import org.apache.commons.csv.CSVFormat;
+import org.apache.commons.csv.CSVParser;
 
 public class RunBenchmarkController extends Controller {
 
@@ -332,6 +338,8 @@ public class RunBenchmarkController extends Controller {
      */
     protected void finishAlgExecution(BenchmarkResult r) {
         Animations.fadeOut(busyLayer);
+        
+        model.setLastExecutionResult(r);
         tableResults.setRoot(getData(r));
         showStatistics();
     }
@@ -436,10 +444,6 @@ public class RunBenchmarkController extends Controller {
         }
     }
 
-    @FXML
-    public void clearHistory(ActionEvent event) {
-//        txtHistoryArea.textProperty().set("");
-    }
 
     @FXML
     public void clearStatistics(ActionEvent event) {
@@ -451,7 +455,6 @@ public class RunBenchmarkController extends Controller {
      * Clear the textareas content.
      */
     protected void clearTraces() {
-        clearHistory(null);
         clearStatistics(null);
     }
 
@@ -468,7 +471,7 @@ public class RunBenchmarkController extends Controller {
         txtOutput.clear();
         tableResults.getRoot().getChildren().clear();
         clearTraces();
-
+        model.setLastExecutionResult(null);
     }
 
     /**
@@ -485,7 +488,6 @@ public class RunBenchmarkController extends Controller {
         @Override
         public void changed(ObservableValue<? extends TreeItem> observable, TreeItem oldItem, TreeItem newItem) {
             if (newItem != null) {
-//                txtHistoryArea.clear();
                 tableStatistics.getColumns().clear();
 
                 Benchmark selectedBenchmark;

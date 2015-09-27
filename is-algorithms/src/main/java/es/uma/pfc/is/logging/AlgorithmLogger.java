@@ -221,12 +221,9 @@ public class AlgorithmLogger {
      * Flush the messages to loggers.
      */
     public void flush() {
-       if(i18nMessages != null) {
-           messages.stream().filter(msg -> msg != null)
-                   .forEach(msg -> logFile(msg.getMode(), msg.getMessage(), msg.getArgs()));
-           messages.clear();
-       }
-        
+       messages.stream().filter(msg -> msg != null)
+               .forEach(msg -> logFile(msg.getMode(), msg.getMessage(), msg.getArgs()));
+       messages.clear();
     }
     /**
      * Adds a message to log.
