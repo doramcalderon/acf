@@ -2,7 +2,7 @@ package es.uma.pfc.is.bench.domain;
 
 
 
-import es.uma.pfc.is.bench.domain.AlgorithmEntity;
+import es.uma.pfc.is.algorithms.AlgorithmInfo;
 import es.uma.pfc.is.algorithms.optbasis.DirectOptimalBasis2;
 import java.io.File;
 import javax.xml.bind.JAXB;
@@ -22,7 +22,7 @@ public class AlgorithmEntityTest {
 
     @Test
     public void fromXML() {
-        AlgorithmEntity alg = new AlgorithmEntity();
+        AlgorithmInfo alg = new AlgorithmInfo();
         alg.setName("Direct Optimal");
         alg.setShortName("DO");
         alg.setType(DirectOptimalBasis2.class);
@@ -30,19 +30,19 @@ public class AlgorithmEntityTest {
         File xmlFile = new File(path + "algorithms.xml");
 
         javax.xml.bind.JAXB.marshal(alg, xmlFile);
-        AlgorithmEntity unmarshalAlg = JAXB.unmarshal(xmlFile, AlgorithmEntity.class);
+        AlgorithmInfo unmarshalAlg = JAXB.unmarshal(xmlFile, AlgorithmInfo.class);
 
         assertEquals(alg, unmarshalAlg);
     }
 
     @Test
     public void testEquals() {
-        AlgorithmEntity alg = new AlgorithmEntity();
+        AlgorithmInfo alg = new AlgorithmInfo();
         alg.setName("Direct Optimal");
         alg.setShortName("DO");
         alg.setType(DirectOptimalBasis2.class);
         
-        AlgorithmEntity otherAlg = new AlgorithmEntity();
+        AlgorithmInfo otherAlg = new AlgorithmInfo();
         otherAlg.setName("Direct Optimal");
         otherAlg.setShortName("DO");
         otherAlg.setType(DirectOptimalBasis2.class);
@@ -52,12 +52,12 @@ public class AlgorithmEntityTest {
 
     @Test
     public void testEqualsWithNameSpaces() {
-        AlgorithmEntity alg = new AlgorithmEntity();
+        AlgorithmInfo alg = new AlgorithmInfo();
         alg.setName("Direct Optimal   ");
         alg.setShortName("DO");
         alg.setType(DirectOptimalBasis2.class);
         
-        AlgorithmEntity otherAlg = new AlgorithmEntity();
+        AlgorithmInfo otherAlg = new AlgorithmInfo();
         otherAlg.setName("   Direct Optimal");
         otherAlg.setShortName("DO");
         otherAlg.setType(DirectOptimalBasis2.class);
@@ -66,12 +66,12 @@ public class AlgorithmEntityTest {
     }
     @Test
     public void testEqualsNameIgnoreUppercase() {
-        AlgorithmEntity alg = new AlgorithmEntity();
+        AlgorithmInfo alg = new AlgorithmInfo();
         alg.setName("Direct Optimal");
         alg.setShortName("   DO");
         alg.setType(DirectOptimalBasis2.class);
         
-        AlgorithmEntity otherAlg = new AlgorithmEntity();
+        AlgorithmInfo otherAlg = new AlgorithmInfo();
         otherAlg.setName("Direct OPTIMAL");
         otherAlg.setShortName("DO   ");
         otherAlg.setType(DirectOptimalBasis2.class);
@@ -80,12 +80,12 @@ public class AlgorithmEntityTest {
     }
     @Test
     public void testEqualsWithShrotNameSpaces() {
-        AlgorithmEntity alg = new AlgorithmEntity();
+        AlgorithmInfo alg = new AlgorithmInfo();
         alg.setName("Direct Optimal");
         alg.setShortName("   DO");
         alg.setType(DirectOptimalBasis2.class);
         
-        AlgorithmEntity otherAlg = new AlgorithmEntity();
+        AlgorithmInfo otherAlg = new AlgorithmInfo();
         otherAlg.setName("Direct Optimal");
         otherAlg.setShortName("DO   ");
         otherAlg.setType(DirectOptimalBasis2.class);
@@ -94,12 +94,12 @@ public class AlgorithmEntityTest {
     }
     @Test
     public void testEqualsShrotNameIgnoreUppercase() {
-        AlgorithmEntity alg = new AlgorithmEntity();
+        AlgorithmInfo alg = new AlgorithmInfo();
         alg.setName("Direct Optimal");
         alg.setShortName("dO");
         alg.setType(DirectOptimalBasis2.class);
         
-        AlgorithmEntity otherAlg = new AlgorithmEntity();
+        AlgorithmInfo otherAlg = new AlgorithmInfo();
         otherAlg.setName("Direct Optimal");
         otherAlg.setShortName("DO   ");
         otherAlg.setType(DirectOptimalBasis2.class);
@@ -108,42 +108,42 @@ public class AlgorithmEntityTest {
     }
 
     /**
-     * Test of getName method, of class AlgorithmEntity.
+     * Test of getName method, of class AlgorithmInfo.
      */
     @Test
     public void testGetName() {
     }
 
     /**
-     * Test of setName method, of class AlgorithmEntity.
+     * Test of setName method, of class AlgorithmInfo.
      */
     @Test
     public void testSetName() {
     }
 
     /**
-     * Test of getShortName method, of class AlgorithmEntity.
+     * Test of getShortName method, of class AlgorithmInfo.
      */
     @Test
     public void testGetShortName() {
     }
 
     /**
-     * Test of setShortName method, of class AlgorithmEntity.
+     * Test of setShortName method, of class AlgorithmInfo.
      */
     @Test
     public void testSetShortName() {
     }
 
     /**
-     * Test of getType method, of class AlgorithmEntity.
+     * Test of getType method, of class AlgorithmInfo.
      */
     @Test
     public void testGetType() {
     }
 
     /**
-     * Test of setType method, of class AlgorithmEntity.
+     * Test of setType method, of class AlgorithmInfo.
      */
     @Test
     public void testSetType() {

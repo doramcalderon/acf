@@ -7,7 +7,7 @@ import es.uma.pfc.is.algorithms.AlgorithmOptions.Mode;
 import es.uma.pfc.is.algorithms.AlgorithmOptions.Options;
 import es.uma.pfc.is.algorithms.AlgorithmResult;
 import es.uma.pfc.is.bench.benchmarks.execution.RunBenchmarkModel;
-import es.uma.pfc.is.bench.domain.AlgorithmEntity;
+import es.uma.pfc.is.algorithms.AlgorithmInfo;
 import es.uma.pfc.is.bench.domain.BenchmarkResult;
 import es.uma.pfc.is.commons.eventbus.Eventbus;
 import es.uma.pfc.is.bench.events.MessageEvent;
@@ -64,7 +64,7 @@ public class AlgorithmExecService extends Service<BenchmarkResult> {
      * @return Algorithm.
      */
     //TODO junit
-    protected Algorithm instanceAlgorithm(AlgorithmEntity entity) {
+    protected Algorithm instanceAlgorithm(AlgorithmInfo entity) {
         try {
             
             Algorithm alg = entity.getType().newInstance();

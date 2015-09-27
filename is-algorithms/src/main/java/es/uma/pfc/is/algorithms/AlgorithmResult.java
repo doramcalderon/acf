@@ -3,12 +3,19 @@ package es.uma.pfc.is.algorithms;
 
 import es.uma.pfc.is.algorithms.util.ImplicationalSystems;
 import fr.kbertet.lattice.ImplicationalSystem;
+import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * Algorithm result info.
  * @author Dora Calderón
  */
 public class AlgorithmResult {
+     /**
+     * Info of the executed algorithm.
+     */
+    private final AlgorithmInfo algorithmInfo;
     /**
      * Implicational system input file.
      */
@@ -21,22 +28,15 @@ public class AlgorithmResult {
      * Log file.
      */
     private String logFile;
-    /**
-     * Algorithm output system.
-     */
-    private final ImplicationalSystem resultSystem;
-    /**
-     * Algorithm type.
-     */
-    private final Class<? extends Algorithm> algorithmClass;
+   
     /**
      * Implicational System size.
      */
-    private int size;
+    private Integer size;
     /**
      * Implicational System cardinality.
      */
-    private int cardinality;
+    private Integer cardinality;
     /**
      * Execution time.
      */
@@ -44,23 +44,27 @@ public class AlgorithmResult {
     
     /**
      * Constructor.
-     * @param inputFile
-     * @param outputFile
-     * @param resultSystem
-     * @param algorithmClass 
+     * @param inputFile Input system file.
+     * @param outputFile Output system file.
+     * @param algorithmClass Algorithm class.
      */
-    public AlgorithmResult(String inputFile, String outputFile, ImplicationalSystem resultSystem, Class<? extends Algorithm> algorithmClass) {
+    public AlgorithmResult(String inputFile, String outputFile, AlgorithmInfo algorithmInfo) {
         this.inputFile = inputFile;
         this.outputFile = outputFile;
-        this.resultSystem = resultSystem;
-        this.algorithmClass = algorithmClass;
-        size = 0;
-        cardinality = 0;
+        this.algorithmInfo = algorithmInfo;
         
-        if(resultSystem != null) {
-            size = ImplicationalSystems.getSize(resultSystem);
-            cardinality = ImplicationalSystems.getCardinality(resultSystem);
-        }
+    }
+    
+    /**
+     * Constructor.
+     * @param inputFile Input system file.
+     * @param outputFile Output system file.
+     * @param algorithmClassName Algorithm class name.
+     */
+    public AlgorithmResult(String inputFile, String outputFile, Algorithm algorithm) {
+        this.inputFile = inputFile;
+        this.outputFile = outputFile;
+        this.algorithmInfo = new AlgorithmInfo(algorithm);
     }
     
     
@@ -70,6 +74,14 @@ public class AlgorithmResult {
      * @return size.
      */
     public int getSize() {
+        if(size == null) {
+            try {
+                ImplicationalSystem resultSystem = new ImplicationalSystem(outputFile);
+                size = ImplicationalSystems.getSize(resultSystem);
+            } catch (IOException ex) {
+                Logger.getLogger(AlgorithmResult.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
         return size;
     }
     
@@ -78,23 +90,24 @@ public class AlgorithmResult {
      * @return cardinality.
      */
     public int getCardinality() {
+        if(cardinality == null) {
+            try {
+                ImplicationalSystem resultSystem = new ImplicationalSystem(outputFile);
+                cardinality = ImplicationalSystems.getCardinality(resultSystem);
+            } catch (IOException ex) {
+                Logger.getLogger(AlgorithmResult.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
         return cardinality;
     }
 
-    /**
-     * Algorithm output system.
-     * @return the resultSystem
-     */
-    public ImplicationalSystem getResultSystem() {
-        return resultSystem;
-    }
 
     /**
-     * Algorithm type.
+     * Info of the executed algorithm.
      * @return the algorithmClass
      */
-    public Class<? extends Algorithm> getAlgorithmClass() {
-        return algorithmClass;
+    public AlgorithmInfo getAlgorithmInfo() {
+        return algorithmInfo;
     }
 
     /**

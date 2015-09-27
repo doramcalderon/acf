@@ -1,6 +1,7 @@
 
 package es.uma.pfc.is.bench.domain;
 
+import es.uma.pfc.is.algorithms.AlgorithmInfo;
 import es.uma.pfc.is.algorithms.Algorithm;
 import java.io.File;
 import java.nio.file.Paths;
@@ -54,7 +55,7 @@ public class BenchmarkTest {
     @Test
     public void testGetBenchmarkPath() {
         String workspace = System.getProperty("user.dir") + File.separator + "src" + File.separator + "test";
-        AlgorithmEntity alg = mock(AlgorithmEntity.class);
+        AlgorithmInfo alg = mock(AlgorithmInfo.class);
         when(alg.getName()).thenReturn("Alg1");
 //        when(alg.getDefaultOutputFileName()).thenReturn("a1_output.txt");
         Benchmark b = new Benchmark("bench1", Arrays.asList(alg));
@@ -70,7 +71,7 @@ public class BenchmarkTest {
         Algorithm alg = mock(Algorithm.class);
         when(alg.getName()).thenReturn("Alg1");
         
-        Benchmark b = new Benchmark("bench1", Arrays.asList(mock(AlgorithmEntity.class)));
+        Benchmark b = new Benchmark("bench1", Arrays.asList(mock(AlgorithmInfo.class)));
         b.getBenchmarkPath();
         
         fail("Expected RuntimeExcepton.");

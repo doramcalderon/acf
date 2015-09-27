@@ -3,7 +3,7 @@ package es.uma.pfc.is.bench.services;
 import es.uma.pfc.is.algorithms.Algorithm;
 import es.uma.pfc.is.bench.algorithms.AlgorithmsModel;
 import es.uma.pfc.is.bench.business.AlgorithmsBean;
-import es.uma.pfc.is.bench.domain.AlgorithmEntity;
+import es.uma.pfc.is.algorithms.AlgorithmInfo;
 import es.uma.pfc.is.bench.events.AlgorithmChangeEvent;
 import es.uma.pfc.is.commons.eventbus.Eventbus;
 import es.uma.pfc.is.bench.domain.ws.Preferences;
@@ -41,7 +41,7 @@ public class AlgorithmsSaveService extends Service<Void> {
             @Override
             protected Void call() throws Exception {
                 
-                AlgorithmEntity entity = new AlgorithmEntity();
+                AlgorithmInfo entity = new AlgorithmInfo();
                 entity.setName(model.getName());
                 entity.setShortName(model.getShortName());
                 entity.setType((Class<? extends Algorithm>) Class.forName(model.getClassName()));

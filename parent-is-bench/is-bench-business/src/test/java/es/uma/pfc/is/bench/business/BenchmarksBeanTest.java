@@ -1,7 +1,7 @@
 
 package es.uma.pfc.is.bench.business;
 
-import es.uma.pfc.is.bench.domain.AlgorithmEntity;
+import es.uma.pfc.is.algorithms.AlgorithmInfo;
 import es.uma.pfc.is.bench.domain.Benchmark;
 import es.uma.pfc.is.bench.domain.Benchmarks;
 import java.io.File;
@@ -45,7 +45,7 @@ public class BenchmarksBeanTest {
         Files.deleteIfExists(Paths.get(workspace, "benchmarks.xml"));
         
         Benchmark benchmark = null;
-        AlgorithmEntity alg = new AlgorithmEntity();
+        AlgorithmInfo alg = new AlgorithmInfo();
         alg.setName("Alg 1");
 
 

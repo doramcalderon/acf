@@ -1,6 +1,7 @@
 
 package es.uma.pfc.is.bench.domain;
 
+import es.uma.pfc.is.algorithms.AlgorithmInfo;
 import es.uma.pfc.is.commons.strings.StringUtils;
 import java.io.File;
 import java.nio.file.Paths;
@@ -48,7 +49,7 @@ public class Benchmark {
 
     @XmlElementWrapper(name = "algorithms")
     @XmlElement(name = "algorithm")
-    private List<AlgorithmEntity> algorithmsEntities;
+    private List<AlgorithmInfo> algorithmsEntities;
 
 
     /**
@@ -66,7 +67,7 @@ public class Benchmark {
      * @param algorithms Algorithms.
      * @throws IllegalArgumentException if name or algorithms list is empty.
      */
-    public Benchmark(String name, List<AlgorithmEntity> algorithms) {
+    public Benchmark(String name, List<AlgorithmInfo> algorithms) {
         if (StringUtils.isEmpty(name)) {
             throw new IllegalArgumentException("The name is required.");
         }
@@ -106,7 +107,7 @@ public class Benchmark {
         return name;
     }
 
-    public List<AlgorithmEntity> getAlgorithmsEntities() {
+    public List<AlgorithmInfo> getAlgorithmsEntities() {
         return algorithmsEntities;
     }
 

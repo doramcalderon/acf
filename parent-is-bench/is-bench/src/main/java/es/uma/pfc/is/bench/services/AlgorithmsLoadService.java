@@ -1,7 +1,7 @@
 package es.uma.pfc.is.bench.services;
 
 import es.uma.pfc.is.bench.business.AlgorithmsBean;
-import es.uma.pfc.is.bench.domain.AlgorithmEntity;
+import es.uma.pfc.is.algorithms.AlgorithmInfo;
 import es.uma.pfc.is.bench.domain.ws.Preferences;
 import es.uma.pfc.is.bench.config.WorkspaceManager;
 import java.util.Set;
@@ -13,7 +13,7 @@ import javafx.concurrent.Task;
  * Load the algorithms declared in algorithms.properties file in the actual workspace.
  * @author Dora Calderón
  */
-public class AlgorithmsLoadService extends Service<Set<AlgorithmEntity>>{
+public class AlgorithmsLoadService extends Service<Set<AlgorithmInfo>>{
     /**
      * Algorithms logic.
      */
@@ -29,11 +29,11 @@ public class AlgorithmsLoadService extends Service<Set<AlgorithmEntity>>{
     
 
     @Override
-    protected Task<Set<AlgorithmEntity>> createTask() {
-        return new Task<Set<AlgorithmEntity>>() {
+    protected Task<Set<AlgorithmInfo>> createTask() {
+        return new Task<Set<AlgorithmInfo>>() {
 
             @Override
-            protected Set<AlgorithmEntity> call() throws Exception {
+            protected Set<AlgorithmInfo> call() throws Exception {
                 return algorithmsBean.getAlgorithms();
             }
 

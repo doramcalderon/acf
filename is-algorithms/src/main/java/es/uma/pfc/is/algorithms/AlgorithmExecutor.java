@@ -28,10 +28,7 @@ public class AlgorithmExecutor {
      * Algorithm to execute.
      */
     private Algorithm algorithm;
-    /**
-     * Logger.
-     */
-//    private AlgorithmLogger logger;
+ 
     /**
      * Execution options.
      */
@@ -153,7 +150,7 @@ public class AlgorithmExecutor {
                 String outputFile = Paths.get(outputDir, outputFilename).toString();
                 outputSystem.save(outputFile);
                 
-                result = new AlgorithmResult(input, outputFile, outputSystem, algorithm.getClass());
+                result = new AlgorithmResult(input, outputFile, algorithm);
                 result.setExecutionTime(executionTime);
                 result.setLogFile(Paths.get(outputDir, options.getOption(Options.LOG_BASE_NAME) + "_trace.log").toString());
             }

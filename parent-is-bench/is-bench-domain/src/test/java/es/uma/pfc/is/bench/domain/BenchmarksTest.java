@@ -5,6 +5,7 @@
  */
 package es.uma.pfc.is.bench.domain;
 
+import es.uma.pfc.is.algorithms.AlgorithmInfo;
 import java.util.Arrays;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
@@ -47,8 +48,8 @@ public class BenchmarksTest {
     @Test
     public void testGetBenchmark() {
         Benchmarks benchs = new Benchmarks();
-        Benchmark b = new Benchmark("Bench 1", Arrays.asList(mock(AlgorithmEntity.class), mock(AlgorithmEntity.class)));
-        Benchmark b2 = new Benchmark("Bench 2", Arrays.asList(mock(AlgorithmEntity.class)));
+        Benchmark b = new Benchmark("Bench 1", Arrays.asList(mock(AlgorithmInfo.class), mock(AlgorithmInfo.class)));
+        Benchmark b2 = new Benchmark("Bench 2", Arrays.asList(mock(AlgorithmInfo.class)));
         benchs.addBenchmark(b);
         benchs.addBenchmark(b2);
         
@@ -58,8 +59,8 @@ public class BenchmarksTest {
     @Test
     public void testGetBenchmark_NotFound() {
         Benchmarks benchs = new Benchmarks();
-        Benchmark b = new Benchmark("Bench 1", Arrays.asList(mock(AlgorithmEntity.class), mock(AlgorithmEntity.class)));
-        Benchmark b2 = new Benchmark("Bench 2", Arrays.asList(mock(AlgorithmEntity.class)));
+        Benchmark b = new Benchmark("Bench 1", Arrays.asList(mock(AlgorithmInfo.class), mock(AlgorithmInfo.class)));
+        Benchmark b2 = new Benchmark("Bench 2", Arrays.asList(mock(AlgorithmInfo.class)));
         benchs.addBenchmark(b);
         benchs.addBenchmark(b2);
         
@@ -73,8 +74,8 @@ public class BenchmarksTest {
     @Test
     public void testRemoveBenchmark() {
         Benchmarks benchs = new Benchmarks();
-        Benchmark b = new Benchmark("Bench 1", Arrays.asList(mock(AlgorithmEntity.class), mock(AlgorithmEntity.class)));
-        Benchmark b2 = new Benchmark("Bench 2", Arrays.asList(mock(AlgorithmEntity.class)));
+        Benchmark b = new Benchmark("Bench 1", Arrays.asList(mock(AlgorithmInfo.class), mock(AlgorithmInfo.class)));
+        Benchmark b2 = new Benchmark("Bench 2", Arrays.asList(mock(AlgorithmInfo.class)));
         benchs.addBenchmark(b);
         benchs.addBenchmark(b2);
         
@@ -84,8 +85,8 @@ public class BenchmarksTest {
     @Test
     public void testRemoveBenchmark_NotFound() {
         Benchmarks benchs = new Benchmarks();
-        Benchmark b = new Benchmark("Bench 1", Arrays.asList(mock(AlgorithmEntity.class), mock(AlgorithmEntity.class)));
-        Benchmark b2 = new Benchmark("Bench 2", Arrays.asList(mock(AlgorithmEntity.class)));
+        Benchmark b = new Benchmark("Bench 1", Arrays.asList(mock(AlgorithmInfo.class), mock(AlgorithmInfo.class)));
+        Benchmark b2 = new Benchmark("Bench 2", Arrays.asList(mock(AlgorithmInfo.class)));
         benchs.addBenchmark(b);
         benchs.addBenchmark(b2);
         

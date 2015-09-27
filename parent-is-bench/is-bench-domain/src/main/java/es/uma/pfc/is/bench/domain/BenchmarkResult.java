@@ -2,6 +2,7 @@
 
 package es.uma.pfc.is.bench.domain;
 
+import es.uma.pfc.is.algorithms.AlgorithmInfo;
 import es.uma.pfc.is.algorithms.AlgorithmResult;
 import java.util.Date;
 import java.util.List;
@@ -51,9 +52,9 @@ public class BenchmarkResult {
         return timestamp;
     }
     
-    public Map<Class, List<AlgorithmResult>> groupByAlgorithm() {
+    public Map<AlgorithmInfo, List<AlgorithmResult>> groupByAlgorithm() {
         return getAlgorithmResults().stream()
-                .collect(Collectors.groupingBy(AlgorithmResult::getAlgorithmClass));
+                .collect(Collectors.groupingBy(AlgorithmResult::getAlgorithmInfo));
     }
 
     /**

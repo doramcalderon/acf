@@ -2,7 +2,7 @@
 package es.uma.pfc.is.bench.business;
 
 import es.uma.pfc.is.algorithms.optbasis.DirectOptimalBasis2;
-import es.uma.pfc.is.bench.domain.AlgorithmEntity;
+import es.uma.pfc.is.algorithms.AlgorithmInfo;
 import java.nio.file.Paths;
 import java.util.HashSet;
 import java.util.Set;
@@ -46,15 +46,15 @@ public class AlgorithmsBeanTest {
      */
     @Test
     public void testExists() {
-        Set<AlgorithmEntity> algsConfigured = new HashSet<>();
+        Set<AlgorithmInfo> algsConfigured = new HashSet<>();
                 
-        AlgorithmEntity alg = new AlgorithmEntity();
+        AlgorithmInfo alg = new AlgorithmInfo();
         alg.setName("Direct Optimal");
         alg.setShortName("DO");
         alg.setType(DirectOptimalBasis2.class);
         algsConfigured.add(alg);
 
-        alg = new AlgorithmEntity();
+        alg = new AlgorithmInfo();
         alg.setName("Direct Optimal 2");
         alg.setShortName("DO2");
         alg.setType(DirectOptimalBasis2.class);
@@ -76,15 +76,15 @@ public class AlgorithmsBeanTest {
      */
     @Test
     public void testExists_False() {
-        Set<AlgorithmEntity> algsConfigured = new HashSet<>();
+        Set<AlgorithmInfo> algsConfigured = new HashSet<>();
 
-        AlgorithmEntity alg = new AlgorithmEntity();
+        AlgorithmInfo alg = new AlgorithmInfo();
         alg.setName("Direct Optimal");
         alg.setShortName("DO");
         alg.setType(DirectOptimalBasis2.class);
         algsConfigured.add(alg);
 
-        alg = new AlgorithmEntity();
+        alg = new AlgorithmInfo();
         alg.setName("Direct Optimal 2");
         alg.setShortName("DO2");
         alg.setType(DirectOptimalBasis2.class);
@@ -96,7 +96,7 @@ public class AlgorithmsBeanTest {
         AlgorithmsBean bean = new AlgorithmsBean(algorithmsPath);
         bean.setPersistence(persistence);
         
-        AlgorithmEntity otherAlg = new AlgorithmEntity();
+        AlgorithmInfo otherAlg = new AlgorithmInfo();
         otherAlg.setName("Direct Optimal 3");
         otherAlg.setShortName("DO3");
         otherAlg.setType(DirectOptimalBasis2.class);
@@ -111,15 +111,15 @@ public class AlgorithmsBeanTest {
      */
     @Test
     public void testExistsName() {
-        Set<AlgorithmEntity> algsConfigured = new HashSet<>();
+        Set<AlgorithmInfo> algsConfigured = new HashSet<>();
 
-        AlgorithmEntity alg = new AlgorithmEntity();
+        AlgorithmInfo alg = new AlgorithmInfo();
         alg.setName("Direct Optimal");
         alg.setShortName("DO");
         alg.setType(DirectOptimalBasis2.class);
         algsConfigured.add(alg);
 
-        alg = new AlgorithmEntity();
+        alg = new AlgorithmInfo();
         alg.setName("Direct Optimal 2");
         alg.setShortName("DO2");
         alg.setType(DirectOptimalBasis2.class);
@@ -136,15 +136,15 @@ public class AlgorithmsBeanTest {
      
     @Test
     public void testExistsName_False() {
-        Set<AlgorithmEntity> algsConfigured = new HashSet<>();
+        Set<AlgorithmInfo> algsConfigured = new HashSet<>();
 
-        AlgorithmEntity alg = new AlgorithmEntity();
+        AlgorithmInfo alg = new AlgorithmInfo();
         alg.setName("Direct Optimal");
         alg.setShortName("DO");
         alg.setType(DirectOptimalBasis2.class);
         algsConfigured.add(alg);
 
-        alg = new AlgorithmEntity();
+        alg = new AlgorithmInfo();
         alg.setName("Direct Optimal 2");
         alg.setShortName("DO2");
         alg.setType(DirectOptimalBasis2.class);
@@ -165,15 +165,15 @@ public class AlgorithmsBeanTest {
      */
     @Test
     public void testExistsShortName() {
-        Set<AlgorithmEntity> algsConfigured = new HashSet<>();
+        Set<AlgorithmInfo> algsConfigured = new HashSet<>();
 
-        AlgorithmEntity alg = new AlgorithmEntity();
+        AlgorithmInfo alg = new AlgorithmInfo();
         alg.setName("Direct Optimal");
         alg.setShortName("DO");
         alg.setType(DirectOptimalBasis2.class);
         algsConfigured.add(alg);
 
-        alg = new AlgorithmEntity();
+        alg = new AlgorithmInfo();
         alg.setName("Direct Optimal 2");
         alg.setShortName("DO2");
         alg.setType(DirectOptimalBasis2.class);
@@ -189,15 +189,15 @@ public class AlgorithmsBeanTest {
     }
     @Test
     public void testExistsShortName_False() {
-        Set<AlgorithmEntity> algsConfigured = new HashSet<>();
+        Set<AlgorithmInfo> algsConfigured = new HashSet<>();
 
-        AlgorithmEntity alg = new AlgorithmEntity();
+        AlgorithmInfo alg = new AlgorithmInfo();
         alg.setName("Direct Optimal");
         alg.setShortName("DO");
         alg.setType(DirectOptimalBasis2.class);
         algsConfigured.add(alg);
 
-        alg = new AlgorithmEntity();
+        alg = new AlgorithmInfo();
         alg.setName("Direct Optimal 2");
         alg.setShortName("DO2");
         alg.setType(DirectOptimalBasis2.class);

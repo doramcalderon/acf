@@ -12,7 +12,7 @@ import es.uma.pfc.is.bench.benchmarks.newbm.BenchmarksDelegate;
 import es.uma.pfc.is.bench.benchmarks.newbm.NewBenchmarkController;
 import es.uma.pfc.is.bench.config.WorkspaceManager;
 import es.uma.pfc.is.bench.domain.Benchmark;
-import es.uma.pfc.is.bench.domain.AlgorithmEntity;
+import es.uma.pfc.is.algorithms.AlgorithmInfo;
 import es.uma.pfc.is.bench.domain.BenchmarkResult;
 import es.uma.pfc.is.commons.eventbus.Eventbus;
 import es.uma.pfc.is.bench.events.BenchmarksChangeEvent;
@@ -27,7 +27,7 @@ import es.uma.pfc.is.bench.uitls.Chooser;
 import es.uma.pfc.is.bench.uitls.Dialogs;
 import es.uma.pfc.is.bench.validators.FilePathValidator;
 import es.uma.pfc.is.commons.strings.StringUtils;
-import es.uma.pfc.is.javafx.FileCellFactory;
+import es.uma.pfc.is.javafx.AlgorithmResultCellFactory;
 import es.uma.pfc.is.javafx.FilterableTreeItem;
 import es.uma.pfc.is.javafx.NoZeroLongCellFactory;
 import es.uma.pfc.is.javafx.TreeItemPredicate;
@@ -163,9 +163,9 @@ public class RunBenchmarkController extends Controller {
         timeColumn.setCellValueFactory(new TreeItemPropertyValueFactory("executionTime"));
         timeColumn.setCellFactory(new NoZeroLongCellFactory());
         inputColumn.setCellValueFactory(new TreeItemPropertyValueFactory("input"));
-        inputColumn.setCellFactory(new FileCellFactory(getBundle(), getRootPane()));
+        inputColumn.setCellFactory(new AlgorithmResultCellFactory(getBundle(), getRootPane()));
         outputColumn.setCellValueFactory(new TreeItemPropertyValueFactory("output"));
-        outputColumn.setCellFactory(new FileCellFactory(getBundle(), getRootPane()));
+        outputColumn.setCellFactory(new AlgorithmResultCellFactory(getBundle(), getRootPane()));
         
 
     }
@@ -309,7 +309,7 @@ public class RunBenchmarkController extends Controller {
      *
      * @param algs Algorithms to execute.
      */
-    protected void executeBenchmark(List<AlgorithmEntity> algs) {
+    protected void executeBenchmark(List<AlgorithmInfo> algs) {
         try {
             AlgorithmExecService service = new AlgorithmExecService(model);
             service.setOnRunning((WorkerStateEvent event) -> {
@@ -500,7 +500,7 @@ public class RunBenchmarkController extends Controller {
 
                 } else {
                     selectedBenchmark = (Benchmark) newItem.getParent().getValue();
-                    AlgorithmEntity alg = (AlgorithmEntity) newItem.getValue();
+                    AlgorithmInfo alg = (AlgorithmInfo) newItem.getValue();
                     model.setSelectedBenchmark(selectedBenchmark);
                     model.setSelectedAlgorithm(alg);
                     model.outputDirProperty().setValue(Paths.get(WorkspaceManager.get().currentWorkspace().getLocation(),
@@ -554,22 +554,20 @@ public class RunBenchmarkController extends Controller {
      * @return TreeItem<BenchmarkResultsModel> 
      */
     private TreeItem<BenchmarkResultsModel> getData(BenchmarkResult benchResult) {
-        Map<Class, List<AlgorithmResult>> results = benchResult.groupByAlgorithm();
+        Map<AlgorithmInfo, List<AlgorithmResult>> results = benchResult.groupByAlgorithm();
         BenchmarkResultsModel node;
 
         TreeItem<BenchmarkResultsModel> rootItem = new TreeItem<>(new BenchmarkResultsModel(benchResult.getBenchmark().getName()));
         List<TreeItem<BenchmarkResultsModel>> algorithmItems = new ArrayList<>();
         List<TreeItem<BenchmarkResultsModel>> resultItems = new ArrayList<>();
 
-        for (Class algClass : results.keySet()) {
+        for (AlgorithmInfo algorithm : results.keySet()) {
             resultItems.clear();
-            List<AlgorithmResult> algResults = results.getOrDefault(algClass, new ArrayList<>());
+            List<AlgorithmResult> algResults = results.getOrDefault(algorithm, new ArrayList<>());
             
             node = new BenchmarkResultsModel();
-            node.setName(algClass.getSimpleName());
-            if(algResults != null && !algResults.isEmpty()){
-                node.setLog(algResults.get(0).getLogFile());
-            }
+            node.setName(algorithm.getName());
+           
             TreeItem<BenchmarkResultsModel> algorithmItem = new TreeItem<>(node);
 
             for (AlgorithmResult r : algResults) {

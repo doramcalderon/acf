@@ -1,5 +1,6 @@
 package es.uma.pfc.is.bench.io;
 
+import es.uma.pfc.is.algorithms.AlgorithmInfo;
 import es.uma.pfc.is.algorithms.AlgorithmResult;
 import es.uma.pfc.is.algorithms.io.CSVFileWriter;
 import es.uma.pfc.is.bench.domain.BenchmarkResult;
@@ -9,7 +10,6 @@ import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 /**
  * Writes to CSV a benchmarks results.
@@ -32,7 +32,7 @@ public class BenchmarkCSVWriter {
      */
     public static void print(BenchmarkResult result, Path outputPath) throws IOException {
         if (result != null) {
-             Map<Class, List<AlgorithmResult>> resultsGrouped = result.groupByAlgorithm();
+             Map<AlgorithmInfo, List<AlgorithmResult>> resultsGrouped = result.groupByAlgorithm();
             int inputsCount = resultsGrouped.values().stream().findFirst().get().size();
             
             csvWriter = new CSVFileWriter(outputPath);
@@ -69,16 +69,16 @@ public class BenchmarkCSVWriter {
      * @param resultsGrouped Benchmark results grouped by algorithm.
      * @throws IOException
      */
-    protected static void printResultsByAlgorithm(Map<Class, List<AlgorithmResult>> resultsGrouped) throws IOException {
+    protected static void printResultsByAlgorithm(Map<AlgorithmInfo, List<AlgorithmResult>> resultsGrouped) throws IOException {
         
         List<AlgorithmResult> currentResults;
         List<String> fields = new ArrayList<>();
 
-        for (Class algClass : resultsGrouped.keySet()) {
+        for (AlgorithmInfo algInfo : resultsGrouped.keySet()) {
             fields.clear();
-            fields.add(algClass.getSimpleName());
+            fields.add(algInfo.getName());
 
-            currentResults = resultsGrouped.get(algClass);
+            currentResults = resultsGrouped.get(algInfo);
             if (currentResults != null && !currentResults.isEmpty()) {
                 for (AlgorithmResult r : currentResults) {
                     fields.add(FileUtils.getName(r.getInputFile()));

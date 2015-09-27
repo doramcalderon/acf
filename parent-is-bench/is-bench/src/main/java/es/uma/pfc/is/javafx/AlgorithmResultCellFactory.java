@@ -1,10 +1,12 @@
 package es.uma.pfc.is.javafx;
 
+import es.uma.pfc.is.algorithms.AlgorithmInfo;
 import es.uma.pfc.is.algorithms.AlgorithmResult;
 import es.uma.pfc.is.bench.MainLayoutController;
-import es.uma.pfc.is.bench.algorithms.results.ResutlsViewerController;
+import es.uma.pfc.is.bench.algorithms.results.ResultsViewerController;
 import es.uma.pfc.is.bench.benchmarks.execution.BenchmarkResultsModel;
 import es.uma.pfc.is.bench.benchmarks.execution.FileViewerController;
+import es.uma.pfc.is.bench.i18n.BenchMessages;
 import es.uma.pfc.is.bench.uitls.Dialogs;
 import es.uma.pfc.is.bench.view.FXMLViews;
 import java.io.File;
@@ -17,6 +19,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.control.TreeTableCell;
 import javafx.scene.control.TreeTableColumn;
+import javafx.scene.control.TreeTableRow;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.util.Callback;
@@ -27,7 +30,7 @@ import javafx.util.Callback;
  *
  * @author Dora Calderón
  */
-public class FileCellFactory implements Callback<TreeTableColumn, TreeTableCell> {
+public class AlgorithmResultCellFactory implements Callback<TreeTableColumn, TreeTableCell> {
     /**
      * Resource Bundle.
      */
@@ -37,7 +40,7 @@ public class FileCellFactory implements Callback<TreeTableColumn, TreeTableCell>
      */
     private Pane rootPane;
     
-    public FileCellFactory(ResourceBundle bundle, Pane rootPane) {
+    public AlgorithmResultCellFactory(ResourceBundle bundle, Pane rootPane) {
         this.rb = bundle;
         this.rootPane = rootPane;
     }
@@ -59,20 +62,12 @@ public class FileCellFactory implements Callback<TreeTableColumn, TreeTableCell>
             }
         };
 
-//        cell.addEventFilter(MouseEvent.MOUSE_CLICKED, (MouseEvent event) -> {
-//            if (event.getClickCount() > 1) {
-//                TreeTableCell<BenchmarkResultsModel, String> c = 
-//                        (TreeTableCell<BenchmarkResultsModel, String>) event.getSource();
-//                
-//                showHistory(c.getText(), Paths.get(c.getItem()).toFile());
-//            }
-//        });
         cell.addEventFilter(MouseEvent.MOUSE_CLICKED, (MouseEvent event) -> {
             if (event.getClickCount() > 1) {
                 TreeTableCell<BenchmarkResultsModel, String> c = 
                         (TreeTableCell<BenchmarkResultsModel, String>) event.getSource();
-                BenchmarkResultsModel item = c.getTreeTableRow().getItem();
-                show(item);
+                
+                show(c.getTreeTableRow());
             }
         });
         return cell;
@@ -80,20 +75,28 @@ public class FileCellFactory implements Callback<TreeTableColumn, TreeTableCell>
     
     /**
      * Shows a file content into a text area in a modal window.
-     * @param title Title.
-     * @param file File to show.
+     * @param row Result row to show.
      */
-    protected void show(BenchmarkResultsModel item) {
+    protected void show(TreeTableRow<BenchmarkResultsModel> row) {
+        BenchmarkResultsModel parentItem = row.getTreeItem().getParent().getValue();
+        String algorithmName = parentItem.nameProperty().get();
+                
+        AlgorithmInfo algInfo = new AlgorithmInfo();
+        algInfo.setName(algorithmName);
+        
+        BenchmarkResultsModel item = row.getItem();
         AlgorithmResult r = new AlgorithmResult(item.inputProperty().get(), 
-                                                item.outputProperty().get(), null, null);
+                                                item.outputProperty().get(), 
+                                                algInfo);
         r.setExecutionTime(item.executionTimeProperty().get());
         r.setLogFile(item.logProperty().get());
         
         try {
-            FXMLLoader loader = new FXMLLoader(ResutlsViewerController.class.getResource(FXMLViews.RESULTS_VIEWER_VIEW), rb);
-            loader.setControllerFactory((Class<?> param) -> new ResutlsViewerController(r));
+            FXMLLoader loader = new FXMLLoader(ResultsViewerController.class.getResource(FXMLViews.RESULTS_VIEWER_VIEW), rb);
+            loader.setControllerFactory((Class<?> param) -> new ResultsViewerController(r));
             Parent fileViewer = loader.load();
-            Dialogs.showModalDialog("Results viewer", fileViewer, rootPane.getScene().getWindow());
+            Dialogs.showModalDialog(BenchMessages.get().getMessage(BenchMessages.RESULTS_VIEWER_TITLE, algorithmName), 
+                                    fileViewer, rootPane.getScene().getWindow());
         } catch (IOException ex) {
             Logger.getLogger(MainLayoutController.class.getName()).log(Level.SEVERE, null, ex);
         }

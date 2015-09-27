@@ -8,7 +8,7 @@ import es.uma.pfc.is.bench.ISBenchApp;
 import es.uma.pfc.is.bench.MainLayoutController;
 import es.uma.pfc.is.bench.business.BenchmarksBean;
 import es.uma.pfc.is.bench.domain.Benchmark;
-import es.uma.pfc.is.bench.domain.AlgorithmEntity;
+import es.uma.pfc.is.algorithms.AlgorithmInfo;
 import es.uma.pfc.is.bench.events.AlgorithmChangeEvent;
 import es.uma.pfc.is.bench.events.AlgorithmsSelectedEvent;
 import es.uma.pfc.is.commons.eventbus.Eventbus;
@@ -138,7 +138,7 @@ public class NewBenchmarkController extends Controller {
         model = new NewBenchmarkModel();
         AlgorithmsLoadService loadService = new AlgorithmsLoadService();
         loadService.setOnSucceeded((WorkerStateEvent event) -> {
-            Set<AlgorithmEntity> algorithms = (Set<AlgorithmEntity>) event.getSource().getValue();
+            Set<AlgorithmInfo> algorithms = (Set<AlgorithmInfo>) event.getSource().getValue();
             model.algorithmsListProperty().clear();
             if (algorithms != null) {
                 model.algorithmsListProperty().set(FXCollections.observableArrayList(algorithms));

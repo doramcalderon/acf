@@ -2,7 +2,7 @@ package es.uma.pfc.is.bench.business;
 
 
 
-import es.uma.pfc.is.bench.domain.AlgorithmEntity;
+import es.uma.pfc.is.algorithms.AlgorithmInfo;
 import es.uma.pfc.is.bench.domain.Algorithms;
 import es.uma.pfc.is.bench.domain.Benchmark;
 import es.uma.pfc.is.bench.domain.Benchmarks;
@@ -96,7 +96,7 @@ public class BenchmarksPersistence extends Persistence {
      *
      * @param algorithm Algorithm.
      */
-    public void insert(AlgorithmEntity algorithm) {
+    public void insert(AlgorithmInfo algorithm) {
     }
     
 

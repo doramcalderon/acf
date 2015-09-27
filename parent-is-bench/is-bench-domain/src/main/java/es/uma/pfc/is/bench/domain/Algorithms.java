@@ -5,6 +5,7 @@
  */
 package es.uma.pfc.is.bench.domain;
 
+import es.uma.pfc.is.algorithms.AlgorithmInfo;
 import es.uma.pfc.is.algorithms.Algorithm;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -24,19 +25,19 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement(name = "algorithms")
 public class Algorithms {
 
-    private Set<AlgorithmEntity> algorithms;
+    private Set<AlgorithmInfo> algorithms;
 
     public Algorithms() {
         algorithms = new HashSet<>();
     }
 
-    public Algorithms(Set<AlgorithmEntity> algorithms) {
+    public Algorithms(Set<AlgorithmInfo> algorithms) {
         this.algorithms = algorithms;
     }
 
     @XmlElements({
         @XmlElement(name = "algorithm")})
-    public Set<AlgorithmEntity> getAlgorithms() {
+    public Set<AlgorithmInfo> getAlgorithms() {
         return algorithms;
     }
 
@@ -45,7 +46,7 @@ public class Algorithms {
      *
      * @param algEntity Algorithm.
      */
-    public void add(AlgorithmEntity algEntity) {
+    public void add(AlgorithmInfo algEntity) {
         algorithms.add(algEntity);
     }
 
@@ -54,7 +55,7 @@ public class Algorithms {
      *
      * @param newAlgorithms New algorithms.
      */
-    public void addAll(AlgorithmEntity... newAlgorithms) {
+    public void addAll(AlgorithmInfo... newAlgorithms) {
         if (newAlgorithms != null) {
             addAll(Arrays.asList(newAlgorithms));
         }
@@ -65,7 +66,7 @@ public class Algorithms {
      *
      * @param newAlgorithms New algorithms.
      */
-    public void addAll(Collection<AlgorithmEntity> newAlgorithms) {
+    public void addAll(Collection<AlgorithmInfo> newAlgorithms) {
         if (newAlgorithms != null) {
             if (this.algorithms == null) {
                 this.algorithms = new HashSet<>();
@@ -81,7 +82,7 @@ public class Algorithms {
      */
     public void removeAlgorithms(String... algNames) {
         if (algNames != null) {
-            Set<AlgorithmEntity> auxAlgs = new HashSet<>();
+            Set<AlgorithmInfo> auxAlgs = new HashSet<>();
             if (algorithms != null) {
                 auxAlgs.addAll(algorithms);
                 for (String name : algNames) {
@@ -94,11 +95,11 @@ public class Algorithms {
         }
     }
 
-    public static List<Algorithm> convertAll(List<AlgorithmEntity> algs) throws Exception {
+    public static List<Algorithm> convertAll(List<AlgorithmInfo> algs) throws Exception {
         List<Algorithm> algorithmsObjects = null;
         if (algs != null) {
             algorithmsObjects = new ArrayList();
-            for (AlgorithmEntity entity : algs) {
+            for (AlgorithmInfo entity : algs) {
                 Algorithm alg = entity.getType().newInstance();
                 alg.setName(entity.getName());
                 alg.setShortName(entity.getShortName());
@@ -130,8 +131,8 @@ public class Algorithms {
         if (this.algorithms != null && other.algorithms == null) {
             return false;
         }
-        return Arrays.equals(this.algorithms.toArray(new AlgorithmEntity[]{}),
-                other.algorithms.toArray(new AlgorithmEntity[]{}));
+        return Arrays.equals(this.algorithms.toArray(new AlgorithmInfo[]{}),
+                other.algorithms.toArray(new AlgorithmInfo[]{}));
     }
 
 }

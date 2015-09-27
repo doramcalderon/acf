@@ -1,6 +1,6 @@
 
 
-package es.uma.pfc.is.bench.domain;
+package es.uma.pfc.is.algorithms;
 
 import es.uma.pfc.is.algorithms.Algorithm;
 import es.uma.pfc.is.commons.strings.StringUtils;
@@ -12,7 +12,7 @@ import javax.xml.bind.annotation.XmlRootElement;
  * @author Dora Calderón
  */
 @XmlRootElement(name="algorithm")
-public class AlgorithmEntity {
+public class AlgorithmInfo {
     /**
      * Name.
      */
@@ -26,10 +26,10 @@ public class AlgorithmEntity {
      */
     private Class<? extends Algorithm> type;
 
-    public AlgorithmEntity() {
+    public AlgorithmInfo() {
     }
 
-    public AlgorithmEntity(Algorithm alg) {
+    public AlgorithmInfo(Algorithm alg) {
         if(alg != null) {
             this.name = alg.getName();
             this.shortName = alg.getShortName();
@@ -114,7 +114,7 @@ public class AlgorithmEntity {
         if (getClass() != obj.getClass()) {
             return false;
         }
-        final AlgorithmEntity other = (AlgorithmEntity) obj;
+        final AlgorithmInfo other = (AlgorithmInfo) obj;
         
         if(name != null) {
             if(!name.trim().equalsIgnoreCase(StringUtils.trim(other.name))) {

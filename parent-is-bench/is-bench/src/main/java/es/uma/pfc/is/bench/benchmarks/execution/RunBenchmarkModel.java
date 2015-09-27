@@ -1,7 +1,7 @@
 package es.uma.pfc.is.bench.benchmarks.execution;
 
 import es.uma.pfc.is.bench.domain.Benchmark;
-import es.uma.pfc.is.bench.domain.AlgorithmEntity;
+import es.uma.pfc.is.algorithms.AlgorithmInfo;
 import java.util.ArrayList;
 import java.util.List;
 import javafx.beans.property.BooleanProperty;
@@ -32,7 +32,7 @@ public class RunBenchmarkModel {
     /**
      * When the selection is an algorithm.
      */
-    private AlgorithmEntity selectedAlgorithm;
+    private AlgorithmInfo selectedAlgorithm;
 
     /**
      * Input files list property.
@@ -91,7 +91,7 @@ public class RunBenchmarkModel {
         this.benchmarks = benchmarks;
     }
 
-    public void setSelectedAlgorithm(AlgorithmEntity selectedAlgorithm) {
+    public void setSelectedAlgorithm(AlgorithmInfo selectedAlgorithm) {
         this.selectedAlgorithm = selectedAlgorithm;
     }
 
@@ -100,7 +100,7 @@ public class RunBenchmarkModel {
      *
      * @return Algorithms list.
      */
-    public AlgorithmEntity getSelectedAlgorithm() {
+    public AlgorithmInfo getSelectedAlgorithm() {
         return selectedAlgorithm;
     }
 
@@ -109,8 +109,8 @@ public class RunBenchmarkModel {
      *
      * @return List of selected algorithms.
      */
-    public List<AlgorithmEntity> getSelectedAlgorithms() {
-        List<AlgorithmEntity> selectedAlgorithms = new ArrayList();
+    public List<AlgorithmInfo> getSelectedAlgorithms() {
+        List<AlgorithmInfo> selectedAlgorithms = new ArrayList();
 
         if (selectedAlgorithm != null) {
             selectedAlgorithms.add(selectedAlgorithm);

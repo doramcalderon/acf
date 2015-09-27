@@ -1,7 +1,7 @@
 package es.uma.pfc.is.bench.business;
 
 import static es.uma.pfc.is.bench.business.Persistence.read;
-import es.uma.pfc.is.bench.domain.AlgorithmEntity;
+import es.uma.pfc.is.algorithms.AlgorithmInfo;
 import es.uma.pfc.is.bench.domain.Algorithms;
 import java.nio.file.Paths;
 import java.util.Arrays;
@@ -62,7 +62,7 @@ public class AlgorithmsPersistence extends Persistence {
      * Add the algorithms of {@code algorithms} param to algorithms file.
      * @param algorithms Algorithms to add.
      */
-    public void insert(AlgorithmEntity ... algorithms) {
+    public void insert(AlgorithmInfo ... algorithms) {
         if (algorithms == null) {
             throw new IllegalArgumentException("algorithms argument can't be null.");
         }
@@ -88,7 +88,7 @@ public class AlgorithmsPersistence extends Persistence {
      *
      * @param algorithm Algorithm.
      */
-    public void delete(AlgorithmEntity algorithm) {
+    public void delete(AlgorithmInfo algorithm) {
         if (algorithm == null) {
             throw new IllegalArgumentException("algorithm param can't be null.");
         }
@@ -129,8 +129,8 @@ public class AlgorithmsPersistence extends Persistence {
      * Returns the algorithms catalog.
      * @return Algorithms catalog.
      */
-    protected Set<AlgorithmEntity> getAlgorithmsCatalog() {
-        Set<AlgorithmEntity> algorithms = null;
+    protected Set<AlgorithmInfo> getAlgorithmsCatalog() {
+        Set<AlgorithmInfo> algorithms = null;
         Algorithms algs = getAlgorithms();
         if(algs != null) {
             algorithms = algs.getAlgorithms();

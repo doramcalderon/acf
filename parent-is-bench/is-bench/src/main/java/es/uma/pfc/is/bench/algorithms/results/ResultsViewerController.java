@@ -35,7 +35,7 @@ import javafx.scene.layout.Pane;
  *
  * @author Dora Calderón
  */
-public class ResutlsViewerController extends Controller {
+public class ResultsViewerController extends Controller {
     private AlgorithmResult algorithmResult;
     @FXML
     private AnchorPane rootPane;
@@ -49,14 +49,14 @@ public class ResutlsViewerController extends Controller {
     /**
      * Constructor.
      */
-    public ResutlsViewerController() {
+    public ResultsViewerController() {
     }
 
     /**
      * Constructor.
      * @param algorithmResult Algorithm result to show.
      */
-    public ResutlsViewerController(AlgorithmResult algorithmResult) {
+    public ResultsViewerController(AlgorithmResult algorithmResult) {
         this.algorithmResult = algorithmResult;
     }
 
@@ -77,7 +77,7 @@ public class ResutlsViewerController extends Controller {
             initView();
             initBinding();
         } catch (IOException ex) {
-            Logger.getLogger(ResutlsViewerController.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(ResultsViewerController.class.getName()).log(Level.SEVERE, null, ex);
         }
     }    
 
@@ -109,7 +109,11 @@ public class ResutlsViewerController extends Controller {
             txtLog.textProperty().bindBidirectional(readerService.contentFileProperty());
             readerService.restart();
         }
-         lbTimeMessage.setText(getI18nMessage(BenchMessages.ALGORITHM_EXECUTION_TIME, "Algoritmo", algorithmResult.getExecutionTime()));
+         String algorithmName = (algorithmResult.getAlgorithmInfo() != null) ? 
+                                algorithmResult.getAlgorithmInfo().getName() : "Algorithm"; //TODO crear label
+         lbTimeMessage.setText(getI18nMessage(BenchMessages.ALGORITHM_EXECUTION_TIME, 
+                                              algorithmName, 
+                                              algorithmResult.getExecutionTime()));
     }
     
     
@@ -157,7 +161,7 @@ public class ResutlsViewerController extends Controller {
         String title = algorithmResult.getLogFile();
         
         try {
-            FXMLLoader loader = new FXMLLoader(ResutlsViewerController.class.getResource(FXMLViews.FILE_VIEWER_VIEW), getBundle());
+            FXMLLoader loader = new FXMLLoader(ResultsViewerController.class.getResource(FXMLViews.FILE_VIEWER_VIEW), getBundle());
             loader.setControllerFactory((Class<?> param) -> new FileViewerController(logFile));
             Parent fileViewer = loader.load();
             Dialogs.showModalDialog(title, fileViewer, getRootPane().getScene().getWindow());

@@ -59,6 +59,10 @@ public class BenchMessages extends Messages {
      * Algorithm execution time.
      */
     public static final String ALGORITHM_EXECUTION_TIME = "msg.results.execution.time";
+    /**
+     * Algorithm Results viewer title.
+     */
+    public static final String RESULTS_VIEWER_TITLE = "msg.results.viewer.title";
             
             
 /**

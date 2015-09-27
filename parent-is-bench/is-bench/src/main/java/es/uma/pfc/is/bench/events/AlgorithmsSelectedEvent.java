@@ -2,7 +2,7 @@
 
 package es.uma.pfc.is.bench.events;
 
-import es.uma.pfc.is.bench.domain.AlgorithmEntity;
+import es.uma.pfc.is.algorithms.AlgorithmInfo;
 import java.util.Arrays;
 import java.util.List;
 
@@ -11,20 +11,20 @@ import java.util.List;
  * @author Dora Calderón
  */
 public class AlgorithmsSelectedEvent {
-    List<AlgorithmEntity> algorithmsSelection;
+    List<AlgorithmInfo> algorithmsSelection;
 
     /**
      * Constructor.
      * @param algorithmsSelection Selected algorithms.
      */
-    public AlgorithmsSelectedEvent(List<AlgorithmEntity> algorithmsSelection) {
+    public AlgorithmsSelectedEvent(List<AlgorithmInfo> algorithmsSelection) {
         this.algorithmsSelection = algorithmsSelection;
     }
     /**
      * Constructor.
      * @param algorithms Selected algorithms.
      */
-    public AlgorithmsSelectedEvent(AlgorithmEntity ... algorithms) {
+    public AlgorithmsSelectedEvent(AlgorithmInfo ... algorithms) {
         algorithmsSelection = Arrays.asList(algorithms);
     }
 
@@ -32,7 +32,7 @@ public class AlgorithmsSelectedEvent {
      * Selected algorithms.
      * @return List of algorithms.
      */
-    public List<AlgorithmEntity> getAlgorithmsSelection() {
+    public List<AlgorithmInfo> getAlgorithmsSelection() {
         return algorithmsSelection;
     }
     

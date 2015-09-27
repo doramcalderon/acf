@@ -9,7 +9,7 @@ import es.uma.pfc.is.algorithms.AlgorithmOptions;
 import es.uma.pfc.is.algorithms.AlgorithmOptions.Mode;
 import es.uma.pfc.is.algorithms.GenericAlgorithm;
 import es.uma.pfc.is.bench.benchmarks.execution.RunBenchmarkModel;
-import es.uma.pfc.is.bench.domain.AlgorithmEntity;
+import es.uma.pfc.is.algorithms.AlgorithmInfo;
 import fr.kbertet.lattice.ImplicationalSystem;
 import java.nio.file.Paths;
 import static org.junit.Assert.*;

@@ -1,6 +1,6 @@
 package es.uma.pfc.is.bench.business;
 
-import es.uma.pfc.is.bench.domain.AlgorithmEntity;
+import es.uma.pfc.is.algorithms.AlgorithmInfo;
 import es.uma.pfc.is.bench.domain.Algorithms;
 import es.uma.pfc.is.commons.strings.StringUtils;
 import java.util.Arrays;
@@ -28,7 +28,7 @@ public class AlgorithmsBean {
      * Return the algorithms defined in the algorithms file.
      * @return Algorithm Entities list.
      */
-    public Set<AlgorithmEntity> getAlgorithms() {
+    public Set<AlgorithmInfo> getAlgorithms() {
         return persistence.getAlgorithmsCatalog();
     }
     
@@ -37,14 +37,14 @@ public class AlgorithmsBean {
      * If any algorithms exists, this is overrided.
      * @param algorithms Algorithms to add.
      */
-    public void addAlgorithms(AlgorithmEntity ... algorithms) {
+    public void addAlgorithms(AlgorithmInfo ... algorithms) {
         if (algorithms == null) {
             throw new IllegalArgumentException("algorithms argument can't be null.");
         }
         Algorithms algs = new Algorithms(persistence.getAlgorithmsCatalog());
         
         String [] names = Arrays.asList(algorithms).stream()
-                                            .map((AlgorithmEntity t) -> {return (t != null) ? t.getName() : null;})
+                                            .map((AlgorithmInfo t) -> {return (t != null) ? t.getName() : null;})
                                             .collect(Collectors.toList())
                                             .toArray(new String[]{});
         algs.removeAlgorithms(names);
@@ -56,7 +56,7 @@ public class AlgorithmsBean {
      * Removes an algorithm from algorithms file.
      * @param algorithm Algorithm.
      */
-    public void delete(AlgorithmEntity algorithm) {
+    public void delete(AlgorithmInfo algorithm) {
       persistence.delete(algorithm);
     }
 
@@ -66,11 +66,11 @@ public class AlgorithmsBean {
      * @param algorithm Algorithm.
      * @return {@code true} if an algorithm exists in algorithms file, {@code false} otherwise.
      */
-    public boolean exists(AlgorithmEntity algorithm) {
+    public boolean exists(AlgorithmInfo algorithm) {
         boolean exists = false;
         if (algorithm != null) {
 
-            Set<AlgorithmEntity> algs = getAlgorithms();
+            Set<AlgorithmInfo> algs = getAlgorithms();
             if (algs != null) {
                 exists = algs.contains(algorithm);
             }
@@ -89,7 +89,7 @@ public class AlgorithmsBean {
         boolean exists = false;
         if (!StringUtils.isEmpty(name)) {
             
-            Set<AlgorithmEntity> algs = getAlgorithms();
+            Set<AlgorithmInfo> algs = getAlgorithms();
             if(algs != null && !algs.isEmpty()) {
                 exists = algs.stream().filter(alg -> (name.equalsIgnoreCase(StringUtils.trim(alg.getName())))).count() > 0;
             }
@@ -109,7 +109,7 @@ public class AlgorithmsBean {
         boolean exists = false;
         if (!StringUtils.isEmpty(shortName)) {
 
-            Set<AlgorithmEntity> algs = getAlgorithms();
+            Set<AlgorithmInfo> algs = getAlgorithms();
             if(algs != null && !algs.isEmpty()) {
                 exists = algs.stream().filter(alg -> (shortName.equalsIgnoreCase(StringUtils.trim(alg.getShortName())))).count() > 0;
             }
