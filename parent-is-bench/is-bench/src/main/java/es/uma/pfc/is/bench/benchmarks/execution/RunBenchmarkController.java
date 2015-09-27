@@ -559,7 +559,7 @@ public class RunBenchmarkController extends Controller {
         Map<AlgorithmInfo, List<AlgorithmResult>> results = benchResult.groupByAlgorithm();
         BenchmarkResultsModel node;
 
-        TreeItem<BenchmarkResultsModel> rootItem = new TreeItem<>(new BenchmarkResultsModel(benchResult.getBenchmark().getName()));
+        TreeItem<BenchmarkResultsModel> rootItem = new TreeItem<>(new BenchmarkResultsModel(benchResult.getBenchmarkName()));
         List<TreeItem<BenchmarkResultsModel>> algorithmItems = new ArrayList<>();
         List<TreeItem<BenchmarkResultsModel>> resultItems = new ArrayList<>();
 

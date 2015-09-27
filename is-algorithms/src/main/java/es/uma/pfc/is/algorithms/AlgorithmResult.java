@@ -6,24 +6,30 @@ import fr.kbertet.lattice.ImplicationalSystem;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  * Algorithm result info.
  * @author Dora Calderón
  */
+@XmlRootElement
+@XmlAccessorType(XmlAccessType.PUBLIC_MEMBER)
 public class AlgorithmResult {
      /**
      * Info of the executed algorithm.
      */
-    private final AlgorithmInfo algorithmInfo;
+    private AlgorithmInfo algorithmInfo;
     /**
      * Implicational system input file.
      */
-    private final String inputFile;
+    private String inputFile;
     /**
      * Implicational system output file.
      */
-    private final String outputFile;
+    private String outputFile;
     /**
      * Log file.
      */
@@ -41,6 +47,13 @@ public class AlgorithmResult {
      * Execution time.
      */
     private long executionTime;
+
+    /**
+     * Constructor.
+     */
+    public AlgorithmResult() {
+    }
+    
     
     /**
      * Constructor.
@@ -73,7 +86,8 @@ public class AlgorithmResult {
      * Implicational System size.
      * @return size.
      */
-    public int getSize() {
+    @XmlElement
+    public Integer getSize() {
         if(size == null) {
             try {
                 ImplicationalSystem resultSystem = new ImplicationalSystem(outputFile);
@@ -89,7 +103,8 @@ public class AlgorithmResult {
      * Implicational System cardinality.
      * @return cardinality.
      */
-    public int getCardinality() {
+    @XmlElement
+    public Integer getCardinality() {
         if(cardinality == null) {
             try {
                 ImplicationalSystem resultSystem = new ImplicationalSystem(outputFile);
@@ -106,6 +121,7 @@ public class AlgorithmResult {
      * Info of the executed algorithm.
      * @return the algorithmClass
      */
+    @XmlElement
     public AlgorithmInfo getAlgorithmInfo() {
         return algorithmInfo;
     }
@@ -114,6 +130,7 @@ public class AlgorithmResult {
      * Implicational system input file.
      * @return the inputFile
      */
+    @XmlElement
     public String getInputFile() {
         return inputFile;
     }
@@ -122,6 +139,7 @@ public class AlgorithmResult {
      * Implicational system output file.
      * @return the outputFile
      */
+    @XmlElement
     public String getOutputFile() {
         return outputFile;
     }
@@ -146,6 +164,7 @@ public class AlgorithmResult {
      * Execution time.
      * @return the executionTime
      */
+    @XmlElement
     public long getExecutionTime() {
         return executionTime;
     }

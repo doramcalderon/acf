@@ -8,6 +8,7 @@ import es.uma.pfc.is.algorithms.AlgorithmOptions.Options;
 import es.uma.pfc.is.algorithms.AlgorithmResult;
 import es.uma.pfc.is.bench.benchmarks.execution.RunBenchmarkModel;
 import es.uma.pfc.is.algorithms.AlgorithmInfo;
+import es.uma.pfc.is.bench.business.ResultsBean;
 import es.uma.pfc.is.bench.domain.BenchmarkResult;
 import es.uma.pfc.is.commons.eventbus.Eventbus;
 import es.uma.pfc.is.bench.events.MessageEvent;
@@ -137,7 +138,10 @@ public class AlgorithmExecService extends Service<BenchmarkResult> {
                         results.addAll(exec.execute(alg));
                     });
                     
-                    benchmarkResult = new BenchmarkResult(model.getSelectedBenchmark(), results, timeStamp);
+                    benchmarkResult = new BenchmarkResult(model.getSelectedBenchmark().getName(), results, timeStamp);
+                    
+                    new ResultsBean().save(benchmarkResult, model.getSelectedBenchmark().getBenchmarkPath());
+                    
                     if(options.isEnabled(Mode.STATISTICS)) {
                         printResults(benchmarkResult);
                     }

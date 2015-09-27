@@ -1,82 +1,63 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package es.uma.pfc.is.bench.algorithms.results;
 
+import es.uma.pfc.is.bench.Controller;
 import java.io.IOException;
 import java.net.URL;
-import java.nio.charset.Charset;
-import java.nio.file.Paths;
-import java.util.Iterator;
 import java.util.ResourceBundle;
-import javafx.collections.FXCollections;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.fxml.FXML;
-import javafx.fxml.Initializable;
-import javafx.scene.chart.CategoryAxis;
-import javafx.scene.chart.LineChart;
-import javafx.scene.chart.NumberAxis;
-import javafx.scene.chart.XYChart;
-import javafx.scene.chart.XYChart.Data;
+import javafx.scene.control.TreeTableView;
 import javafx.scene.layout.AnchorPane;
-import org.apache.commons.csv.CSVFormat;
-import org.apache.commons.csv.CSVParser;
-import org.apache.commons.csv.CSVRecord;
+import javafx.scene.layout.Pane;
 
 /**
  * FXML Controller class
  *
  * @author Dora Calderón
  */
-public class ResultsController implements Initializable {
-    
-    private LineChart chart;
+public class ResultsController extends Controller {
     @FXML
-    private AnchorPane graphicsPane;
+    private AnchorPane rootPane;
+    @FXML
+    private TreeTableView tableResults;
 
-    /**
-     * Initializes the controller class.
-     */
+    
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        // TODO
         try {
-//            initChart();
-        } catch (Exception ex) {
-            System.out.println("ERror: " + ex.getMessage());
+            super.initialize(url, rb);
+            initView();
+            initModel();
+            modelToView();
+        } catch (IOException ex) {
+            Logger.getLogger(ResultsController.class.getName()).log(Level.SEVERE, null, ex);
         }
     }    
-    protected void initChart() throws IOException {
-         CSVParser parser = CSVParser.parse(Paths.get("C:\\Users\\Dorilla (Fakul)\\.isbench\\myworkspace\\benchmarks\\Basis\\output\\do_output.csv").toFile(), 
-                                    Charset.defaultCharset(), CSVFormat.DEFAULT);
-         
-         CategoryAxis xAxis = new CategoryAxis();
-         NumberAxis yAxis = new NumberAxis("Values for Y-Axis", 5, 20, 5);
-         XYChart.Series<String, Number> oldSizeSeries = new XYChart.Series<>();
-         XYChart.Series<String, Number> newSizeSeries = new XYChart.Series<>();
-         
-         for(CSVRecord r : parser.getRecords()) {
-             Iterator<String> recordIterator = r.iterator();
-             String rule = recordIterator.next();
-             String oldSizeStr = recordIterator.next();
-             String newSizeStr = recordIterator.next();
-             
-             if(!"rule".equals(rule.trim())) {
-                 xAxis.getCategories().add(rule);
-             }
-             
-             if (oldSizeStr.matches("-?\\d+(\\.\\d+)?")) {
-                 oldSizeSeries.getData().add(new Data<>(rule, Integer.valueOf(oldSizeStr)));
-             }
-             if (newSizeStr.matches("-?\\d+(\\.\\d+)?")) {
-                 newSizeSeries.getData().add(new Data<>(rule, Integer.valueOf(newSizeStr)));
-             }
-             
-         }
-        chart = new LineChart<>(xAxis, yAxis); 
-        chart.setData(FXCollections.observableArrayList(oldSizeSeries, newSizeSeries));
-        graphicsPane.getChildren().add(chart);
+
+    @Override
+    protected void initView() throws IOException {
+        super.initView(); //To change body of generated methods, choose Tools | Templates.
+        
     }
+
+    @Override
+    protected void initModel() {
+        super.initModel(); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    protected void modelToView() {
+        super.modelToView(); //To change body of generated methods, choose Tools | Templates.
+    }
+    
+    
+
+    @Override
+    protected Pane getRootPane() {
+        return rootPane;
+    }
+    
     
 }
