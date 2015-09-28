@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package es.uma.pfc.is.bench.algorithms.results;
 
 import com.google.common.eventbus.Subscribe;
@@ -12,6 +7,7 @@ import es.uma.pfc.is.bench.Controller;
 import es.uma.pfc.is.bench.MainLayoutController;
 import es.uma.pfc.is.bench.benchmarks.execution.FileViewerController;
 import es.uma.pfc.is.bench.events.AlgorithmResultSelection;
+import es.uma.pfc.is.bench.events.ViewFileActionEvent;
 import es.uma.pfc.is.bench.i18n.BenchMessages;
 import es.uma.pfc.is.bench.services.FileReaderService;
 import es.uma.pfc.is.bench.uitls.Dialogs;
@@ -23,10 +19,12 @@ import java.net.URL;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javafx.beans.binding.BooleanBinding;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ProgressIndicator;
 import javafx.scene.control.TextArea;
@@ -39,16 +37,19 @@ import javafx.scene.layout.Pane;
  * @author Dora Calderón
  */
 public class ResultsViewerController extends Controller {
+
     private AlgorithmResult algorithmResult;
     @FXML
     private AnchorPane rootPane;
     @FXML
-    private TextArea txtInputViewer, txtOutputViewer, txtLog;
+    private TextArea txtInputViewer, txtOutputViewer;
     @FXML
-    private ProgressIndicator loadingInputIndicator, loadingOutputIndicator, loadingLogIndicator;
+    private ProgressIndicator loadingInputIndicator, loadingOutputIndicator;
     @FXML
     private Label lbTimeMessage;
-    
+    @FXML
+    private Button btnLog;
+
     /**
      * Constructor.
      */
@@ -57,6 +58,7 @@ public class ResultsViewerController extends Controller {
 
     /**
      * Constructor.
+     *
      * @param algorithmResult Algorithm result to show.
      */
     public ResultsViewerController(AlgorithmResult algorithmResult) {
@@ -67,9 +69,7 @@ public class ResultsViewerController extends Controller {
     protected Pane getRootPane() {
         return rootPane;
     }
-    
-    
-    
+
     /**
      * Initializes the controller class.
      */
@@ -83,13 +83,13 @@ public class ResultsViewerController extends Controller {
         } catch (IOException ex) {
             Logger.getLogger(ResultsViewerController.class.getName()).log(Level.SEVERE, null, ex);
         }
-    }    
+    }
 
     @Override
     protected void initView() throws IOException {
-        if(algorithmResult != null) {
+        if (algorithmResult != null) {
             File inputFile = getInputFile();
-             if(inputFile != null && inputFile.exists()) {
+            if (inputFile != null && inputFile.exists()) {
                 FileReaderService readerService = new FileReaderService();
                 readerService.setFile(inputFile);
                 loadingInputIndicator.visibleProperty().bind(readerService.runningProperty());
@@ -98,7 +98,7 @@ public class ResultsViewerController extends Controller {
             }
 
             File outputFile = getOutputFile();
-             if(outputFile != null && outputFile.exists()) {
+            if (outputFile != null && outputFile.exists()) {
                 FileReaderService readerService = new FileReaderService();
                 readerService.setFile(outputFile);
                 loadingOutputIndicator.visibleProperty().bind(readerService.runningProperty());
@@ -106,38 +106,48 @@ public class ResultsViewerController extends Controller {
                 readerService.restart();
             }
 
-            File logFile = getLogFile();
-             if(logFile != null && logFile.exists()) {
-                FileReaderService readerService = new FileReaderService();
-                readerService.setFile(logFile);
-                loadingLogIndicator.visibleProperty().bind(readerService.runningProperty());
-                txtLog.textProperty().bindBidirectional(readerService.contentFileProperty());
-                readerService.restart();
-            }
-             String algorithmName = (algorithmResult.getAlgorithmInfo() != null) ? 
-                                    algorithmResult.getAlgorithmInfo().getName() : "Algorithm"; //TODO crear label
-             lbTimeMessage.setText(getI18nMessage(BenchMessages.ALGORITHM_EXECUTION_TIME, 
-                                                  algorithmName, 
-                                                  algorithmResult.getExecutionTime()));
-            
+           
+            String algorithmName = (algorithmResult.getAlgorithmInfo() != null)
+                    ? algorithmResult.getAlgorithmInfo().getName() : "Algorithm"; //TODO crear label
+            lbTimeMessage.setText(getI18nMessage(BenchMessages.ALGORITHM_EXECUTION_TIME,
+                    algorithmName,
+                    algorithmResult.getExecutionTime()));
         }
+    }
+
+    @Override
+    protected void initBinding() {
+        btnLog.disableProperty().bind(new BooleanBinding() {
+            {super.bind(txtInputViewer.textProperty());}
+
+            ;
+            @Override
+            protected boolean computeValue() {
+                return (algorithmResult == null);
+            }
+        });
     }
 
     @Override
     protected void initListeners() {
         Eventbus.register(this);
     }
-     
+
     @Subscribe
     public void showResultDetail(AlgorithmResultSelection result) {
         this.algorithmResult = result.getResult();
-        reload();
+        if (algorithmResult == null) {
+            clear();
+        } else {
+            reload();
+        }
     }
+
     /**
      * Reloads the view.
      */
     protected void reload() {
-         try {
+        try {
             initView();
             initBinding();
             initListeners();
@@ -145,56 +155,66 @@ public class ResultsViewerController extends Controller {
             Logger.getLogger(ResultsViewerController.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
+
+    /**
+     * Clear the textareas.
+     */
+    protected void clear() {
+        txtInputViewer.clear();
+        txtOutputViewer.clear();
+        lbTimeMessage.setText("");
+    }
+
     /**
      * Returns the input file.
+     *
      * @return File.
      */
     protected File getInputFile() {
         File file = null;
-        if(algorithmResult != null && !StringUtils.isEmpty(algorithmResult.getInputFile())) {
+        if (algorithmResult != null && !StringUtils.isEmpty(algorithmResult.getInputFile())) {
             file = new File(algorithmResult.getInputFile());
         }
         return file;
     }
+
     /**
      * Returns the output file.
+     *
      * @return File.
      */
     protected File getOutputFile() {
         File file = null;
-        if(algorithmResult != null && !StringUtils.isEmpty(algorithmResult.getOutputFile())) {
+        if (algorithmResult != null && !StringUtils.isEmpty(algorithmResult.getOutputFile())) {
             file = new File(algorithmResult.getOutputFile());
         }
         return file;
     }
+
     /**
      * Returns the output file.
+     *
      * @return File.
      */
     protected File getLogFile() {
         File file = null;
-        if(algorithmResult != null && !StringUtils.isEmpty(algorithmResult.getLogFile())) {
+        if (algorithmResult != null && !StringUtils.isEmpty(algorithmResult.getLogFile())) {
             file = new File(algorithmResult.getLogFile());
         }
         return file;
     }
- 
+
     /**
      * Shows the result log file.
+     *
      * @param event Action event.
      */
     @FXML
     protected void handleLogAction(ActionEvent event) {
-        File logFile = new File(algorithmResult.getLogFile());
-        String title = algorithmResult.getLogFile();
-        
-        try {
-            FXMLLoader loader = new FXMLLoader(ResultsViewerController.class.getResource(FXMLViews.FILE_VIEWER_VIEW), getBundle());
-            loader.setControllerFactory((Class<?> param) -> new FileViewerController(logFile));
-            Parent fileViewer = loader.load();
-            Dialogs.showModalDialog(title, fileViewer, getRootPane().getScene().getWindow());
-        } catch (IOException ex) {
-            Logger.getLogger(MainLayoutController.class.getName()).log(Level.SEVERE, null, ex);
+        if(!StringUtils.isEmpty(algorithmResult.getLogFile())) {
+            Eventbus.post(new ViewFileActionEvent(new File(algorithmResult.getLogFile()), 
+                                                    algorithmResult.getLogFile(), getRootPane().getScene().getWindow(), 
+                                                    getBundle()));
         }
     }
 }

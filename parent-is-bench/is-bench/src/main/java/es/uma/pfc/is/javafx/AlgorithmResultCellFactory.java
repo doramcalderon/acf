@@ -80,7 +80,7 @@ public class AlgorithmResultCellFactory implements Callback<TreeTableColumn, Tre
                 AlgorithmResult r = new AlgorithmResult(item.inputProperty().get(),
                         item.outputProperty().get(),
                         algInfo);
-
+                r.setExecutionTime(item.executionTimeProperty().get());
                 Eventbus.post(new AlgorithmResultSelection(r));
             }
         });

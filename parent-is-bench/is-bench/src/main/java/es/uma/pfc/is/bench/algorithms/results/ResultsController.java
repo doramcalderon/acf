@@ -21,6 +21,8 @@ import java.util.Map;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
 import javafx.scene.control.TitledPane;
 import javafx.scene.control.TreeItem;
@@ -42,7 +44,7 @@ public class ResultsController extends Controller {
     @FXML
     private TitledPane resultsTitledPane, statsTiltedPane;
     @FXML
-    private TreeTableView tableResults;
+    private TreeTableView<BenchmarkResultsModel> tableResults;
     @FXML
     private TreeTableColumn nameColumn, timeColumn, inputColumn, outputColumn;
 
@@ -86,6 +88,14 @@ public class ResultsController extends Controller {
     @Override
     protected void initListeners() {
         Eventbus.register(this);
+        tableResults.getSelectionModel().selectedItemProperty()
+                    .addListener((ObservableValue<? extends TreeItem<BenchmarkResultsModel>> observable, 
+                                  TreeItem<BenchmarkResultsModel> oldValue, TreeItem<BenchmarkResultsModel> newValue) -> {
+            if((newValue == null) || !newValue.getValue().isAlgorithmResult()) {
+                Eventbus.post(new AlgorithmResultSelection(null));
+            }
+        });
+        
     }
     
     
@@ -140,9 +150,5 @@ public class ResultsController extends Controller {
         return rootPane;
     }
     
-    @Subscribe
-    public void showResultDetail(AlgorithmResultSelection result) {
-        
-    }
 
 }

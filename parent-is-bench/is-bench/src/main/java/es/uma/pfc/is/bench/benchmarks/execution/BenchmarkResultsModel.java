@@ -6,6 +6,7 @@
 
 package es.uma.pfc.is.bench.benchmarks.execution;
 
+import es.uma.pfc.is.algorithms.util.StringUtils;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -99,5 +100,7 @@ public class BenchmarkResultsModel {
         this.executionTime.setValue(time);
     }
     
-    
+    public boolean isAlgorithmResult() {
+        return !StringUtils.isEmpty(input.get());
+    }
 }

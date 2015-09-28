@@ -1,6 +1,7 @@
 package es.uma.pfc.is.bench;
 
 import com.google.common.eventbus.Subscribe;
+import es.uma.pfc.is.bench.benchmarks.execution.FileViewerListener;
 import es.uma.pfc.is.commons.eventbus.Eventbus;
 import es.uma.pfc.is.bench.events.MessageEvent;
 import es.uma.pfc.is.bench.events.NavigationEvent;
@@ -83,6 +84,7 @@ public class MainLayoutController extends Controller {
     @Override
     protected void initListeners() {
         Eventbus.register(this);
+        Eventbus.register(new FileViewerListener());
     }
     
     @Subscribe

@@ -16,6 +16,7 @@ import es.uma.pfc.is.algorithms.AlgorithmInfo;
 import es.uma.pfc.is.bench.domain.BenchmarkResult;
 import es.uma.pfc.is.commons.eventbus.Eventbus;
 import es.uma.pfc.is.bench.events.BenchmarksChangeEvent;
+import es.uma.pfc.is.bench.events.ViewFileActionEvent;
 import es.uma.pfc.is.bench.i18n.BenchMessages;
 import es.uma.pfc.is.bench.i18n.I18n;
 import es.uma.pfc.is.bench.services.AlgorithmExecService;
@@ -31,13 +32,9 @@ import es.uma.pfc.is.javafx.AlgorithmResultCellFactory;
 import es.uma.pfc.is.javafx.FilterableTreeItem;
 import es.uma.pfc.is.javafx.NoZeroLongCellFactory;
 import es.uma.pfc.is.javafx.TreeItemPredicate;
-import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileReader;
 import java.io.IOException;
 import java.net.URL;
-import java.nio.file.Files;
-import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -54,13 +51,16 @@ import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.concurrent.WorkerStateEvent;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ChoiceBox;
+import javafx.scene.control.ContextMenu;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
+import javafx.scene.control.MenuItem;
 import javafx.scene.control.ProgressIndicator;
 import javafx.scene.control.SelectionMode;
 import javafx.scene.control.TableView;
@@ -76,8 +76,6 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 import javafx.stage.FileChooser;
 import javafx.stage.Window;
-import org.apache.commons.csv.CSVFormat;
-import org.apache.commons.csv.CSVParser;
 
 public class RunBenchmarkController extends Controller {
 
@@ -129,7 +127,7 @@ public class RunBenchmarkController extends Controller {
     private AnchorPane busyLayer;
 
     @FXML
-    private TreeTableView tableResults;
+    private TreeTableView<BenchmarkResultsModel> tableResults;
     @FXML
     private TreeTableColumn nameColumn, timeColumn, inputColumn, outputColumn;
 
@@ -163,6 +161,15 @@ public class RunBenchmarkController extends Controller {
         cbOutputType.getItems().add(1, getI18nLabel(I18n.PROLOG_FILE));
         cbOutputType.getSelectionModel().select(0);
 
+        MenuItem logItem = new MenuItem("Show log"); // TODO crear label
+        logItem.setOnAction(new EventHandler<ActionEvent>() {
+
+            @Override
+            public void handle(ActionEvent event) {
+                showLog();
+            }
+        });
+        tableResults.setContextMenu(new ContextMenu(logItem));
         tableResults.setShowRoot(false);
         nameColumn.setCellValueFactory(new TreeItemPropertyValueFactory("name"));
         timeColumn.setCellValueFactory(new TreeItemPropertyValueFactory("executionTime"));
@@ -172,6 +179,22 @@ public class RunBenchmarkController extends Controller {
         outputColumn.setCellValueFactory(new TreeItemPropertyValueFactory("output"));
         outputColumn.setCellFactory(new AlgorithmResultCellFactory(getBundle(), getRootPane()));
 
+    }
+
+    /**
+     * Shows the algorithm result selected log.
+     */
+    public void showLog() {
+        TreeItem<BenchmarkResultsModel> item = tableResults.getSelectionModel().getSelectedItem();
+        if (item != null && item.getValue().isAlgorithmResult()) {
+            String logFile = item.getValue().logProperty().get();
+            
+            if (!StringUtils.isEmpty(logFile)) {
+                Eventbus.post(new ViewFileActionEvent(new File(logFile), logFile,
+                                                      getRootPane().getScene().getWindow(),
+                                                      getBundle()));
+            }
+        }
     }
 
     /**
@@ -332,6 +355,7 @@ public class RunBenchmarkController extends Controller {
 
     /**
      * Show the traces if are checked.
+     *
      * @param r Benchmark result.
      * @param ex Exception.
      */
