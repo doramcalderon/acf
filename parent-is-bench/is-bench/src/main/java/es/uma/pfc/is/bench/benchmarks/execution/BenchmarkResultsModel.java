@@ -7,6 +7,7 @@
 package es.uma.pfc.is.bench.benchmarks.execution;
 
 import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import javafx.beans.property.LongProperty;
 import javafx.beans.property.SimpleLongProperty;
@@ -60,7 +61,8 @@ public class BenchmarkResultsModel {
     public void setDate(Date date) {
         String formattedDate = null;
         if(date != null) {
-            formattedDate = DateFormat.getDateInstance(DateFormat.LONG).format(date);
+            SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyyy HH:mm:SS");
+            formattedDate = df.format(date);
         }
         this.date.set(formattedDate);
     }

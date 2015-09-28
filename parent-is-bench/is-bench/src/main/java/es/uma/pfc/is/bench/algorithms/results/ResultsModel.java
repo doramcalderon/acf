@@ -5,6 +5,7 @@ import es.uma.pfc.is.bench.benchmarks.execution.BenchmarkResultsModel;
 import es.uma.pfc.is.bench.domain.BenchmarkResult;
 import es.uma.pfc.is.bench.domain.BenchmarkResultSet;
 import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,6 +15,7 @@ import java.util.List;
  * @author Dora Calderón
  */
 public class ResultsModel {
+    private static final  SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyyy HH:mm:SS");
 
     /**
      * All results.
@@ -66,8 +68,7 @@ public class ResultsModel {
 
         if (result != null) {
             node = new BenchmarkResultsModel();
-            //node.setDate(result.getDate());
-            node.setName(DateFormat.getDateInstance(DateFormat.FULL).format(result.getDate()));
+            node.setName(df.format(result.getDate()));
         }
 
         return node;

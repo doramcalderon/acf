@@ -6,9 +6,11 @@ import es.uma.pfc.is.bench.MainLayoutController;
 import es.uma.pfc.is.bench.algorithms.results.ResultsViewerController;
 import es.uma.pfc.is.bench.benchmarks.execution.BenchmarkResultsModel;
 import es.uma.pfc.is.bench.benchmarks.execution.FileViewerController;
+import es.uma.pfc.is.bench.events.AlgorithmResultSelection;
 import es.uma.pfc.is.bench.i18n.BenchMessages;
 import es.uma.pfc.is.bench.uitls.Dialogs;
 import es.uma.pfc.is.bench.view.FXMLViews;
+import es.uma.pfc.is.commons.eventbus.Eventbus;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Paths;
@@ -31,6 +33,7 @@ import javafx.util.Callback;
  * @author Dora Calderón
  */
 public class AlgorithmResultCellFactory implements Callback<TreeTableColumn, TreeTableCell> {
+
     /**
      * Resource Bundle.
      */
@@ -39,13 +42,11 @@ public class AlgorithmResultCellFactory implements Callback<TreeTableColumn, Tre
      * Root pane.
      */
     private Pane rootPane;
-    
+
     public AlgorithmResultCellFactory(ResourceBundle bundle, Pane rootPane) {
         this.rb = bundle;
         this.rootPane = rootPane;
     }
-    
-    
 
     @Override
     public TreeTableCell call(TreeTableColumn p) {
@@ -63,46 +64,62 @@ public class AlgorithmResultCellFactory implements Callback<TreeTableColumn, Tre
         };
 
         cell.addEventFilter(MouseEvent.MOUSE_CLICKED, (MouseEvent event) -> {
+            TreeTableCell<BenchmarkResultsModel, String> c
+                    = (TreeTableCell<BenchmarkResultsModel, String>) event.getSource();
             if (event.getClickCount() > 1) {
-                TreeTableCell<BenchmarkResultsModel, String> c = 
-                        (TreeTableCell<BenchmarkResultsModel, String>) event.getSource();
-                
+
                 show(c.getTreeTableRow());
+            } else {
+                BenchmarkResultsModel item = c.getTreeTableRow().getItem();
+                BenchmarkResultsModel parentItem = c.getTreeTableRow().getTreeItem().getParent().getValue();
+                String algorithmName = parentItem.nameProperty().get();
+
+                AlgorithmInfo algInfo = new AlgorithmInfo();
+                algInfo.setName(algorithmName);
+                
+                AlgorithmResult r = new AlgorithmResult(item.inputProperty().get(),
+                        item.outputProperty().get(),
+                        algInfo);
+
+                Eventbus.post(new AlgorithmResultSelection(r));
             }
         });
         return cell;
     }
-    
+
     /**
      * Shows a file content into a text area in a modal window.
+     *
      * @param row Result row to show.
      */
     protected void show(TreeTableRow<BenchmarkResultsModel> row) {
         BenchmarkResultsModel parentItem = row.getTreeItem().getParent().getValue();
         String algorithmName = parentItem.nameProperty().get();
-                
+
         AlgorithmInfo algInfo = new AlgorithmInfo();
         algInfo.setName(algorithmName);
-        
+
         BenchmarkResultsModel item = row.getItem();
-        AlgorithmResult r = new AlgorithmResult(item.inputProperty().get(), 
-                                                item.outputProperty().get(), 
-                                                algInfo);
+        AlgorithmResult r = new AlgorithmResult(item.inputProperty().get(),
+                item.outputProperty().get(),
+                algInfo);
         r.setExecutionTime(item.executionTimeProperty().get());
         r.setLogFile(item.logProperty().get());
-        
+
         try {
             FXMLLoader loader = new FXMLLoader(ResultsViewerController.class.getResource(FXMLViews.RESULTS_VIEWER_VIEW), rb);
             loader.setControllerFactory((Class<?> param) -> new ResultsViewerController(r));
             Parent fileViewer = loader.load();
-            Dialogs.showModalDialog(BenchMessages.get().getMessage(BenchMessages.RESULTS_VIEWER_TITLE, algorithmName), 
-                                    fileViewer, rootPane.getScene().getWindow());
+            Dialogs.showModalDialog(BenchMessages.get().getMessage(BenchMessages.RESULTS_VIEWER_TITLE, algorithmName),
+                    fileViewer, rootPane.getScene().getWindow());
         } catch (IOException ex) {
             Logger.getLogger(MainLayoutController.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
+
     /**
      * Shows a file content into a text area in a modal window.
+     *
      * @param title Title.
      * @param file File to show.
      */

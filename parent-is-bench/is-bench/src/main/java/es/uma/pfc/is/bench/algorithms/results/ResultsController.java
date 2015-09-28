@@ -1,5 +1,6 @@
 package es.uma.pfc.is.bench.algorithms.results;
 
+import com.google.common.eventbus.Subscribe;
 import es.uma.pfc.is.algorithms.AlgorithmInfo;
 import es.uma.pfc.is.algorithms.AlgorithmResult;
 import es.uma.pfc.is.bench.Controller;
@@ -8,6 +9,8 @@ import es.uma.pfc.is.bench.business.ResultsBean;
 import es.uma.pfc.is.bench.config.WorkspaceManager;
 import es.uma.pfc.is.bench.domain.BenchmarkResult;
 import es.uma.pfc.is.bench.domain.BenchmarkResultSet;
+import es.uma.pfc.is.bench.events.AlgorithmResultSelection;
+import es.uma.pfc.is.commons.eventbus.Eventbus;
 import es.uma.pfc.is.javafx.AlgorithmResultCellFactory;
 import es.uma.pfc.is.javafx.NoZeroLongCellFactory;
 import java.io.IOException;
@@ -19,6 +22,7 @@ import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.fxml.FXML;
+import javafx.scene.control.TitledPane;
 import javafx.scene.control.TreeItem;
 import javafx.scene.control.TreeTableColumn;
 import javafx.scene.control.TreeTableView;
@@ -36,9 +40,11 @@ public class ResultsController extends Controller {
     @FXML
     private AnchorPane rootPane;
     @FXML
+    private TitledPane resultsTitledPane, statsTiltedPane;
+    @FXML
     private TreeTableView tableResults;
     @FXML
-    private TreeTableColumn nameColumn, dateColumn, timeColumn, inputColumn, outputColumn;
+    private TreeTableColumn nameColumn, timeColumn, inputColumn, outputColumn;
 
     private ResultsModel model;
 
@@ -48,6 +54,7 @@ public class ResultsController extends Controller {
             super.initialize(url, rb);
             initView();
             initModel();
+            initListeners();
             modelToView();
         } catch (IOException ex) {
             Logger.getLogger(ResultsController.class.getName()).log(Level.SEVERE, null, ex);
@@ -56,9 +63,9 @@ public class ResultsController extends Controller {
 
     @Override
     protected void initView() throws IOException {
-         tableResults.setShowRoot(false);
+        statsTiltedPane.setExpanded(false);
+        tableResults.setShowRoot(false);
         nameColumn.setCellValueFactory(new TreeItemPropertyValueFactory("name"));
-        dateColumn.setCellValueFactory(new TreeItemPropertyValueFactory("date"));
         timeColumn.setCellValueFactory(new TreeItemPropertyValueFactory("executionTime"));
         timeColumn.setCellFactory(new NoZeroLongCellFactory());
         inputColumn.setCellValueFactory(new TreeItemPropertyValueFactory("input"));
@@ -75,6 +82,13 @@ public class ResultsController extends Controller {
         List<BenchmarkResultSet> allResults = resultsBean.getAllResults(WorkspaceManager.get().currentWorkspace().getLocation());
         model.setAllResults(allResults);
     }
+
+    @Override
+    protected void initListeners() {
+        Eventbus.register(this);
+    }
+    
+    
 
     @Override
     protected void modelToView() {
@@ -124,6 +138,11 @@ public class ResultsController extends Controller {
     @Override
     protected Pane getRootPane() {
         return rootPane;
+    }
+    
+    @Subscribe
+    public void showResultDetail(AlgorithmResultSelection result) {
+        
     }
 
 }

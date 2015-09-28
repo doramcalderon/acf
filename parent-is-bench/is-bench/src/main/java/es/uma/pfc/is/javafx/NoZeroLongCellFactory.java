@@ -1,6 +1,7 @@
 package es.uma.pfc.is.javafx;
 
 import es.uma.pfc.is.bench.benchmarks.execution.BenchmarkResultsModel;
+import javafx.geometry.Pos;
 import javafx.scene.control.TreeTableCell;
 import javafx.scene.control.TreeTableColumn;
 import javafx.util.Callback;
@@ -23,6 +24,7 @@ public class NoZeroLongCellFactory implements Callback<TreeTableColumn, TreeTabl
                 super.updateItem(item, empty);
                 setText(empty ? null : getString());
                 setGraphic(null);
+                setAlignment(Pos.CENTER_RIGHT);
             }
 
             private String getString() {

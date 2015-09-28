@@ -5,15 +5,18 @@
  */
 package es.uma.pfc.is.bench.algorithms.results;
 
+import com.google.common.eventbus.Subscribe;
 import es.uma.pfc.is.algorithms.AlgorithmResult;
 import es.uma.pfc.is.algorithms.util.StringUtils;
 import es.uma.pfc.is.bench.Controller;
 import es.uma.pfc.is.bench.MainLayoutController;
 import es.uma.pfc.is.bench.benchmarks.execution.FileViewerController;
+import es.uma.pfc.is.bench.events.AlgorithmResultSelection;
 import es.uma.pfc.is.bench.i18n.BenchMessages;
 import es.uma.pfc.is.bench.services.FileReaderService;
 import es.uma.pfc.is.bench.uitls.Dialogs;
 import es.uma.pfc.is.bench.view.FXMLViews;
+import es.uma.pfc.is.commons.eventbus.Eventbus;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
@@ -76,6 +79,7 @@ public class ResultsViewerController extends Controller {
         try {
             initView();
             initBinding();
+            initListeners();
         } catch (IOException ex) {
             Logger.getLogger(ResultsViewerController.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -83,40 +87,64 @@ public class ResultsViewerController extends Controller {
 
     @Override
     protected void initView() throws IOException {
-        File inputFile = getInputFile();
-         if(inputFile != null && inputFile.exists()) {
-            FileReaderService readerService = new FileReaderService();
-            readerService.setFile(inputFile);
-            loadingInputIndicator.visibleProperty().bind(readerService.runningProperty());
-            txtInputViewer.textProperty().bindBidirectional(readerService.contentFileProperty());
-            readerService.restart();
+        if(algorithmResult != null) {
+            File inputFile = getInputFile();
+             if(inputFile != null && inputFile.exists()) {
+                FileReaderService readerService = new FileReaderService();
+                readerService.setFile(inputFile);
+                loadingInputIndicator.visibleProperty().bind(readerService.runningProperty());
+                txtInputViewer.textProperty().bindBidirectional(readerService.contentFileProperty());
+                readerService.restart();
+            }
+
+            File outputFile = getOutputFile();
+             if(outputFile != null && outputFile.exists()) {
+                FileReaderService readerService = new FileReaderService();
+                readerService.setFile(outputFile);
+                loadingOutputIndicator.visibleProperty().bind(readerService.runningProperty());
+                txtOutputViewer.textProperty().bindBidirectional(readerService.contentFileProperty());
+                readerService.restart();
+            }
+
+            File logFile = getLogFile();
+             if(logFile != null && logFile.exists()) {
+                FileReaderService readerService = new FileReaderService();
+                readerService.setFile(logFile);
+                loadingLogIndicator.visibleProperty().bind(readerService.runningProperty());
+                txtLog.textProperty().bindBidirectional(readerService.contentFileProperty());
+                readerService.restart();
+            }
+             String algorithmName = (algorithmResult.getAlgorithmInfo() != null) ? 
+                                    algorithmResult.getAlgorithmInfo().getName() : "Algorithm"; //TODO crear label
+             lbTimeMessage.setText(getI18nMessage(BenchMessages.ALGORITHM_EXECUTION_TIME, 
+                                                  algorithmName, 
+                                                  algorithmResult.getExecutionTime()));
+            
         }
-         
-        File outputFile = getOutputFile();
-         if(outputFile != null && outputFile.exists()) {
-            FileReaderService readerService = new FileReaderService();
-            readerService.setFile(outputFile);
-            loadingOutputIndicator.visibleProperty().bind(readerService.runningProperty());
-            txtOutputViewer.textProperty().bindBidirectional(readerService.contentFileProperty());
-            readerService.restart();
-        }
-         
-        File logFile = getLogFile();
-         if(logFile != null && logFile.exists()) {
-            FileReaderService readerService = new FileReaderService();
-            readerService.setFile(logFile);
-            loadingLogIndicator.visibleProperty().bind(readerService.runningProperty());
-            txtLog.textProperty().bindBidirectional(readerService.contentFileProperty());
-            readerService.restart();
-        }
-         String algorithmName = (algorithmResult.getAlgorithmInfo() != null) ? 
-                                algorithmResult.getAlgorithmInfo().getName() : "Algorithm"; //TODO crear label
-         lbTimeMessage.setText(getI18nMessage(BenchMessages.ALGORITHM_EXECUTION_TIME, 
-                                              algorithmName, 
-                                              algorithmResult.getExecutionTime()));
     }
-    
-    
+
+    @Override
+    protected void initListeners() {
+        Eventbus.register(this);
+    }
+     
+    @Subscribe
+    public void showResultDetail(AlgorithmResultSelection result) {
+        this.algorithmResult = result.getResult();
+        reload();
+    }
+    /**
+     * Reloads the view.
+     */
+    protected void reload() {
+         try {
+            initView();
+            initBinding();
+            initListeners();
+        } catch (IOException ex) {
+            Logger.getLogger(ResultsViewerController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
     /**
      * Returns the input file.
      * @return File.
