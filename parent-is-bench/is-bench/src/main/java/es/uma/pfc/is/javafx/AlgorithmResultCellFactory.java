@@ -4,7 +4,7 @@ import es.uma.pfc.is.algorithms.AlgorithmInfo;
 import es.uma.pfc.is.algorithms.AlgorithmResult;
 import es.uma.pfc.is.bench.MainLayoutController;
 import es.uma.pfc.is.bench.algorithms.results.ResultsViewerController;
-import es.uma.pfc.is.bench.benchmarks.execution.BenchmarkResultsModel;
+import es.uma.pfc.is.bench.algorithms.results.treemodel.TreeResultModel;
 import es.uma.pfc.is.bench.benchmarks.execution.FileViewerController;
 import es.uma.pfc.is.bench.events.AlgorithmResultSelection;
 import es.uma.pfc.is.bench.i18n.BenchMessages;
@@ -50,7 +50,7 @@ public class AlgorithmResultCellFactory implements Callback<TreeTableColumn, Tre
 
     @Override
     public TreeTableCell call(TreeTableColumn p) {
-        TreeTableCell cell = new TreeTableCell<BenchmarkResultsModel, String>() {
+        TreeTableCell cell = new TreeTableCell<TreeResultModel, String>() {
             @Override
             public void updateItem(String item, boolean empty) {
                 super.updateItem(item, empty);
@@ -64,14 +64,14 @@ public class AlgorithmResultCellFactory implements Callback<TreeTableColumn, Tre
         };
 
         cell.addEventFilter(MouseEvent.MOUSE_CLICKED, (MouseEvent event) -> {
-            TreeTableCell<BenchmarkResultsModel, String> c
-                    = (TreeTableCell<BenchmarkResultsModel, String>) event.getSource();
+            TreeTableCell<TreeResultModel, String> c
+                    = (TreeTableCell<TreeResultModel, String>) event.getSource();
             if (event.getClickCount() > 1) {
 
                 show(c.getTreeTableRow());
             } else {
-                BenchmarkResultsModel item = c.getTreeTableRow().getItem();
-                BenchmarkResultsModel parentItem = c.getTreeTableRow().getTreeItem().getParent().getValue();
+                TreeResultModel item = c.getTreeTableRow().getItem();
+                TreeResultModel parentItem = c.getTreeTableRow().getTreeItem().getParent().getValue();
                 String algorithmName = parentItem.nameProperty().get();
 
                 AlgorithmInfo algInfo = new AlgorithmInfo();
@@ -92,14 +92,14 @@ public class AlgorithmResultCellFactory implements Callback<TreeTableColumn, Tre
      *
      * @param row Result row to show.
      */
-    protected void show(TreeTableRow<BenchmarkResultsModel> row) {
-        BenchmarkResultsModel parentItem = row.getTreeItem().getParent().getValue();
+    protected void show(TreeTableRow<TreeResultModel> row) {
+        TreeResultModel parentItem = row.getTreeItem().getParent().getValue();
         String algorithmName = parentItem.nameProperty().get();
 
         AlgorithmInfo algInfo = new AlgorithmInfo();
         algInfo.setName(algorithmName);
 
-        BenchmarkResultsModel item = row.getItem();
+        TreeResultModel item = row.getItem();
         AlgorithmResult r = new AlgorithmResult(item.inputProperty().get(),
                 item.outputProperty().get(),
                 algInfo);

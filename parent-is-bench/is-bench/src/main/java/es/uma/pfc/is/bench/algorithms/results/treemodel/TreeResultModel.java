@@ -3,8 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
-package es.uma.pfc.is.bench.benchmarks.execution;
+package es.uma.pfc.is.bench.algorithms.results.treemodel;
 
 import es.uma.pfc.is.algorithms.util.StringUtils;
 import java.text.DateFormat;
@@ -17,31 +16,35 @@ import javafx.beans.property.StringProperty;
 
 /**
  *
- * @since 
- * @author Dora Calderón
+ * @since @author Dora Calderón
  */
-public class BenchmarkResultsModel {
-    private StringProperty name;
-    private StringProperty date;
-    private StringProperty input;
-    private StringProperty output;
-    private LongProperty executionTime;
-    private StringProperty log;
+public class TreeResultModel {
 
-    public BenchmarkResultsModel(String name) {
+    private final StringProperty name;
+    private final StringProperty date;
+    private final StringProperty input;
+    private final StringProperty output;
+    private final LongProperty executionTime;
+    private final StringProperty statsFile;
+    private final StringProperty log;
+
+    public TreeResultModel(String name) {
         this.name = new SimpleStringProperty(name);
         date = new SimpleStringProperty();
+        executionTime = new SimpleLongProperty();
         input = new SimpleStringProperty();
         output = new SimpleStringProperty();
+        statsFile = new SimpleStringProperty();
         log = new SimpleStringProperty();
     }
 
-    public BenchmarkResultsModel() {
+    public TreeResultModel() {
         name = new SimpleStringProperty();
         date = new SimpleStringProperty();
         executionTime = new SimpleLongProperty();
         input = new SimpleStringProperty();
         output = new SimpleStringProperty();
+        statsFile = new SimpleStringProperty();
         log = new SimpleStringProperty();
     }
 
@@ -52,16 +55,18 @@ public class BenchmarkResultsModel {
     public void setName(String name) {
         this.name.set(name);
     }
-    
+
     public StringProperty dateProperty() {
         return date;
     }
+
     public void setDate(String date) {
         this.date.set(date);
     }
+
     public void setDate(Date date) {
         String formattedDate = null;
-        if(date != null) {
+        if (date != null) {
             SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyyy HH:mm:SS");
             formattedDate = df.format(date);
         }
@@ -92,6 +97,14 @@ public class BenchmarkResultsModel {
         this.log.set(log);
     }
 
+    public StringProperty statsFileProperty() {
+        return statsFile;
+    }
+
+    public void setStatsFile(String statsFile) {
+        this.statsFile.set(statsFile);
+    }
+
     public LongProperty executionTimeProperty() {
         return executionTime;
     }
@@ -99,7 +112,7 @@ public class BenchmarkResultsModel {
     public void setExecutionTime(Long time) {
         this.executionTime.setValue(time);
     }
-    
+
     public boolean isAlgorithmResult() {
         return !StringUtils.isEmpty(input.get());
     }

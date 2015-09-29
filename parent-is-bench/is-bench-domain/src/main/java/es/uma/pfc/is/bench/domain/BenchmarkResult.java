@@ -4,7 +4,9 @@ package es.uma.pfc.is.bench.domain;
 
 import es.uma.pfc.is.algorithms.AlgorithmInfo;
 import es.uma.pfc.is.algorithms.AlgorithmResult;
+import es.uma.pfc.is.algorithms.util.StringUtils;
 import java.nio.file.Paths;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -15,6 +17,7 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
@@ -121,6 +124,16 @@ public class BenchmarkResult {
      */
     public void setBenchmarkName(String benchmarkName) {
         this.benchmarkName = benchmarkName;
+    }
+    @XmlTransient
+    public String getStatisticsFileName() {
+        String statsFileName = null;
+        if(!StringUtils.isEmpty(getBenchmarkName()) && getDate() != null) {
+            SimpleDateFormat df = new SimpleDateFormat("yyyyMMddHHmmSS");
+            statsFileName = Paths.get(getOutputDir(), 
+                                      getBenchmarkName() + "_" + df.format(getDate()) + ".csv").toString();
+        }
+        return statsFileName;
     }
 
     @Override

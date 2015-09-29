@@ -1,7 +1,7 @@
 package es.uma.pfc.is.bench.algorithms.results;
 
 import es.uma.pfc.is.algorithms.AlgorithmResult;
-import es.uma.pfc.is.bench.benchmarks.execution.BenchmarkResultsModel;
+import es.uma.pfc.is.bench.algorithms.results.treemodel.TreeResultModel;
 import es.uma.pfc.is.bench.domain.BenchmarkResult;
 import es.uma.pfc.is.bench.domain.BenchmarkResultSet;
 import java.text.DateFormat;
@@ -53,31 +53,32 @@ public class ResultsModel {
      * @param resultSet Benchmark resultset.
      * @return Benchmark node.
      */
-    public BenchmarkResultsModel getBenchmarkNode(BenchmarkResultSet resultSet) {
-        BenchmarkResultsModel node = null;
+    public TreeResultModel getBenchmarkNode(BenchmarkResultSet resultSet) {
+        TreeResultModel node = null;
 
         if (resultSet != null) {
-            node = new BenchmarkResultsModel(resultSet.getName());
+            node = new TreeResultModel(resultSet.getName());
         }
 
         return node;
     }
 
-    public BenchmarkResultsModel getBenchmarkResultNode(BenchmarkResult result) {
-        BenchmarkResultsModel node = null;
+    public TreeResultModel getBenchmarkResultNode(BenchmarkResult result) {
+        TreeResultModel node = null;
 
         if (result != null) {
-            node = new BenchmarkResultsModel();
+            node = new TreeResultModel();
             node.setName(df.format(result.getDate()));
+            node.setStatsFile(result.getStatisticsFileName());
         }
 
         return node;
     }
 
-    public BenchmarkResultsModel getAlgorithmResultNode(AlgorithmResult result) {
-        BenchmarkResultsModel node = null;
+    public TreeResultModel getAlgorithmResultNode(AlgorithmResult result) {
+        TreeResultModel node = null;
         if (result != null) {
-            node = new BenchmarkResultsModel();
+            node = new TreeResultModel();
             node.setExecutionTime(result.getExecutionTime());
             node.setInput(result.getInputFile());
             node.setOutput(result.getOutputFile());

@@ -1,5 +1,6 @@
 package es.uma.pfc.is.bench.benchmarks.execution;
 
+import es.uma.pfc.is.bench.algorithms.results.treemodel.TreeResultModel;
 import com.google.common.eventbus.Subscribe;
 import es.uma.pfc.implications.generator.controller.ImplicationsController;
 import es.uma.pfc.implications.generator.events.SystemSaved;
@@ -16,6 +17,7 @@ import es.uma.pfc.is.algorithms.AlgorithmInfo;
 import es.uma.pfc.is.bench.domain.BenchmarkResult;
 import es.uma.pfc.is.commons.eventbus.Eventbus;
 import es.uma.pfc.is.bench.events.BenchmarksChangeEvent;
+import es.uma.pfc.is.bench.events.NewResultsEvent;
 import es.uma.pfc.is.bench.events.ViewFileActionEvent;
 import es.uma.pfc.is.bench.i18n.BenchMessages;
 import es.uma.pfc.is.bench.i18n.I18n;
@@ -127,7 +129,7 @@ public class RunBenchmarkController extends Controller {
     private AnchorPane busyLayer;
 
     @FXML
-    private TreeTableView<BenchmarkResultsModel> tableResults;
+    private TreeTableView<TreeResultModel> tableResults;
     @FXML
     private TreeTableColumn nameColumn, timeColumn, inputColumn, outputColumn;
 
@@ -185,7 +187,7 @@ public class RunBenchmarkController extends Controller {
      * Shows the algorithm result selected log.
      */
     public void showLog() {
-        TreeItem<BenchmarkResultsModel> item = tableResults.getSelectionModel().getSelectedItem();
+        TreeItem<TreeResultModel> item = tableResults.getSelectionModel().getSelectedItem();
         if (item != null && item.getValue().isAlgorithmResult()) {
             String logFile = item.getValue().logProperty().get();
             
@@ -364,19 +366,20 @@ public class RunBenchmarkController extends Controller {
         if (ex == null) {
             model.setLastExecutionResult(r);
             tableResults.setRoot(getData(r));
-            showStatistics();
+            showStatistics(r.getStatisticsFileName());
+            Eventbus.post(new NewResultsEvent());
         }
     }
 
     /**
      * Shows the result statistics into a table.
+     * @param statisticsFile Statistics file path.
      */
-    protected void showStatistics() {
+    protected void showStatistics(String statisticsFile) {
         if (chkStatistics.isSelected()) {
-            String outputname = Paths.get(model.getOutputDir(), model.getSelectedBenchmark().getName() + ".csv").toString();
-            if (outputname != null) {
+            if (!StringUtils.isEmpty(statisticsFile)) {
                 StatisticsReaderService statisticsReader
-                        = new StatisticsReaderService(outputname, tableStatistics);
+                        = new StatisticsReaderService(statisticsFile, tableStatistics);
                 statsProgressInd.visibleProperty().bind(statisticsReader.runningProperty());
                 statisticsReader.restart();
             }
@@ -579,25 +582,25 @@ public class RunBenchmarkController extends Controller {
      * @param benchResult Benchmark results.
      * @return TreeItem<BenchmarkResultsModel>
      */
-    private TreeItem<BenchmarkResultsModel> getData(BenchmarkResult benchResult) {
+    private TreeItem<TreeResultModel> getData(BenchmarkResult benchResult) {
         Map<AlgorithmInfo, List<AlgorithmResult>> results = benchResult.groupByAlgorithm();
-        BenchmarkResultsModel node;
+        TreeResultModel node;
 
-        TreeItem<BenchmarkResultsModel> rootItem = new TreeItem<>(new BenchmarkResultsModel(benchResult.getBenchmarkName()));
-        List<TreeItem<BenchmarkResultsModel>> algorithmItems = new ArrayList<>();
-        List<TreeItem<BenchmarkResultsModel>> resultItems = new ArrayList<>();
+        TreeItem<TreeResultModel> rootItem = new TreeItem<>(new TreeResultModel(benchResult.getBenchmarkName()));
+        List<TreeItem<TreeResultModel>> algorithmItems = new ArrayList<>();
+        List<TreeItem<TreeResultModel>> resultItems = new ArrayList<>();
 
         for (AlgorithmInfo algorithm : results.keySet()) {
             resultItems.clear();
             List<AlgorithmResult> algResults = results.getOrDefault(algorithm, new ArrayList<>());
 
-            node = new BenchmarkResultsModel();
+            node = new TreeResultModel();
             node.setName(algorithm.getName());
 
-            TreeItem<BenchmarkResultsModel> algorithmItem = new TreeItem<>(node);
+            TreeItem<TreeResultModel> algorithmItem = new TreeItem<>(node);
 
             for (AlgorithmResult r : algResults) {
-                BenchmarkResultsModel resultNode = new BenchmarkResultsModel();
+                TreeResultModel resultNode = new TreeResultModel();
                 resultNode.setExecutionTime(r.getExecutionTime());
                 resultNode.setInput(r.getInputFile());
                 resultNode.setOutput(r.getOutputFile());

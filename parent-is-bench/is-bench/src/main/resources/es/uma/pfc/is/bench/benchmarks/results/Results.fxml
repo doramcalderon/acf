@@ -52,7 +52,7 @@
                   </TitledPane>
                   <TitledPane fx:id="statsTiltedPane" text="%title.statistics">
                      <content>
-                        <TableView prefHeight="200.0" prefWidth="200.0" GridPane.columnSpan="2" GridPane.rowIndex="3">
+                        <TableView prefHeight="200.0" prefWidth="200.0" GridPane.columnSpan="2" GridPane.rowIndex="3" fx:id="tableStatistics">
                           <columns>
                             <TableColumn prefWidth="75.0" text="C1" />
                             <TableColumn prefWidth="75.0" text="C2" />

@@ -17,6 +17,7 @@ import es.uma.pfc.is.commons.strings.date.DateUtils;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -27,7 +28,7 @@ import javafx.event.EventHandler;
 
 /**
  *
- * @since @author Dora Calderón
+ * @author Dora Calderón
  */
 public class AlgorithmExecService extends Service<BenchmarkResult> {
 
@@ -107,7 +108,7 @@ public class AlgorithmExecService extends Service<BenchmarkResult> {
      * @throws IOException 
      */
     protected void printResults(BenchmarkResult result) throws IOException {
-        Path csvFile = Paths.get(model.getOutputDir(), model.getSelectedBenchmark().getName() + ".csv");
+        Path csvFile = Paths.get(result.getStatisticsFileName());
         BenchmarkCSVWriter.print(result, csvFile);
         Eventbus.post(new MessageEvent("The execution has finished succeeded.", MessageEvent.Level.SUCCEEDED));
     }

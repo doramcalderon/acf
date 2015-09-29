@@ -1,6 +1,6 @@
 package es.uma.pfc.is.javafx;
 
-import es.uma.pfc.is.bench.benchmarks.execution.BenchmarkResultsModel;
+import es.uma.pfc.is.bench.algorithms.results.treemodel.TreeResultModel;
 import javafx.geometry.Pos;
 import javafx.scene.control.TreeTableCell;
 import javafx.scene.control.TreeTableColumn;
@@ -18,7 +18,7 @@ public class NoZeroLongCellFactory implements Callback<TreeTableColumn, TreeTabl
     @Override
     public TreeTableCell call(TreeTableColumn p) {
         
-        TreeTableCell cell = new TreeTableCell<BenchmarkResultsModel, Long>() {
+        TreeTableCell cell = new TreeTableCell<TreeResultModel, Long>() {
             @Override
             public void updateItem(Long item, boolean empty) {
                 super.updateItem(item, empty);
