@@ -5,6 +5,9 @@ import es.uma.pfc.is.algorithms.AlgorithmInfo;
 import es.uma.pfc.is.algorithms.AlgorithmResult;
 import es.uma.pfc.is.algorithms.util.StringUtils;
 import es.uma.pfc.is.bench.Controller;
+import es.uma.pfc.is.bench.algorithms.results.treemodel.TreeAlgorithmModel;
+import es.uma.pfc.is.bench.algorithms.results.treemodel.TreeAlgorithmResultModel;
+import es.uma.pfc.is.bench.algorithms.results.treemodel.TreeBenchmarkResultModel;
 import es.uma.pfc.is.bench.algorithms.results.treemodel.TreeResultModel;
 import es.uma.pfc.is.bench.business.ResultsBean;
 import es.uma.pfc.is.bench.config.WorkspaceManager;
@@ -14,7 +17,6 @@ import es.uma.pfc.is.bench.events.AlgorithmResultSelection;
 import es.uma.pfc.is.bench.events.NewResultsEvent;
 import es.uma.pfc.is.bench.services.StatisticsReaderService;
 import es.uma.pfc.is.commons.eventbus.Eventbus;
-import es.uma.pfc.is.javafx.AlgorithmResultCellFactory;
 import es.uma.pfc.is.javafx.NoZeroLongCellFactory;
 import java.io.IOException;
 import java.net.URL;
@@ -70,15 +72,22 @@ public class ResultsController extends Controller {
 
     @Override
     protected void initView() throws IOException {
-        statsTiltedPane.setExpanded(false);
         tableResults.setShowRoot(false);
+        tableResults.getSelectionModel().selectedItemProperty()
+                .addListener((ObservableValue<? extends TreeItem<TreeResultModel>> observable,
+                                TreeItem<TreeResultModel> oldValue, TreeItem<TreeResultModel> newValue) -> {
+                    AlgorithmResult result = null;
+                    TreeResultModel value = (newValue != null) ? newValue.getValue() : null;
+                    if (value != null && (value instanceof TreeAlgorithmResultModel)) {
+                        result = ((TreeAlgorithmResultModel) value).getAlgorithmresult();
+                    }
+                    Eventbus.post(new AlgorithmResultSelection(result));
+                });
         nameColumn.setCellValueFactory(new TreeItemPropertyValueFactory("name"));
         timeColumn.setCellValueFactory(new TreeItemPropertyValueFactory("executionTime"));
         timeColumn.setCellFactory(new NoZeroLongCellFactory());
         inputColumn.setCellValueFactory(new TreeItemPropertyValueFactory("input"));
-        inputColumn.setCellFactory(new AlgorithmResultCellFactory(getBundle(), getRootPane()));
         outputColumn.setCellValueFactory(new TreeItemPropertyValueFactory("output"));
-        outputColumn.setCellFactory(new AlgorithmResultCellFactory(getBundle(), getRootPane()));
 
     }
 
@@ -96,15 +105,17 @@ public class ResultsController extends Controller {
         tableResults.getSelectionModel().selectedItemProperty()
                 .addListener((ObservableValue<? extends TreeItem<TreeResultModel>> observable,
                                 TreeItem<TreeResultModel> oldValue, TreeItem<TreeResultModel> newValue) -> {
-                    if ((newValue == null) || !newValue.getValue().isAlgorithmResult()) {
-                        Eventbus.post(new AlgorithmResultSelection(null));
-                    }
-                    if(newValue != null){
-                        String statsFile = newValue.getValue().statsFileProperty().get();
-                        if (!StringUtils.isEmpty(statsFile)) {
+                    AlgorithmResult result = null;
+                    TreeResultModel value = (newValue != null) ? newValue.getValue() : null;
+                    if (value != null) {
+                        if (value instanceof TreeAlgorithmResultModel) {
+                            result = ((TreeAlgorithmResultModel) value).getAlgorithmresult();
+                        } else if (value instanceof TreeBenchmarkResultModel) {
+                            String statsFile = ((TreeBenchmarkResultModel) value).getBenchmarkResult().getStatisticsFileName();
                             showStatistics(statsFile);
                         }
                     }
+                    Eventbus.post(new AlgorithmResultSelection(result));   
                 });
 
     }
@@ -121,7 +132,7 @@ public class ResultsController extends Controller {
                 TreeItem<TreeResultModel> benchItem = new TreeItem<>(new TreeResultModel(resultset.getName()));
 
                 for (BenchmarkResult benchResult : resultset.getResults()) {
-                    TreeItem<TreeResultModel> executionNode = new TreeItem<>(model.getBenchmarkResultNode(benchResult));
+                    TreeItem<TreeResultModel> executionNode = new TreeItem<>(new TreeBenchmarkResultModel(benchResult));
 
                     Map<AlgorithmInfo, List<AlgorithmResult>> results = benchResult.groupByAlgorithm();
                     List<TreeItem<TreeResultModel>> algorithmItems = new ArrayList<>();
@@ -131,12 +142,13 @@ public class ResultsController extends Controller {
                         resultItems.clear();
                         List<AlgorithmResult> algResults = results.getOrDefault(algorithm, new ArrayList<>());
 
-                        TreeResultModel node = new TreeResultModel(algorithm.getName());
+                        TreeResultModel node = new TreeAlgorithmModel(algorithm);
                         TreeItem<TreeResultModel> algorithmItem = new TreeItem<>(node);
 
-                        algResults.stream().map((r) -> model.getAlgorithmResultNode(r)).forEach((resultNode) -> {
-                            resultItems.add(new TreeItem<>(resultNode));
-                        });
+                        algResults.stream().map((r) -> new TreeAlgorithmResultModel(r))
+                                .forEach((resultNode) -> {
+                                    resultItems.add(new TreeItem<>(resultNode));
+                                });
                         algorithmItem.setExpanded(true);
                         algorithmItem.getChildren().addAll(resultItems);
                         algorithmItems.add(algorithmItem);
@@ -148,8 +160,11 @@ public class ResultsController extends Controller {
                 }
                 benchmarkItems.add(benchItem);
             }
+            if(benchmarkItems.size() > 0) {
+                benchmarkItems.get(0).setExpanded(true);
+            }
             rootItem.getChildren().addAll(benchmarkItems);
-
+            rootItem.setExpanded(true);
             tableResults.setRoot(rootItem);
         }
     }
@@ -164,12 +179,13 @@ public class ResultsController extends Controller {
         initModel();
         modelToView();
     }
-    
-     protected void clear() {
+
+    protected void clear() {
         Eventbus.post(new AlgorithmResultSelection(null));
         tableStatistics.getColumns().clear();
         tableStatistics.getItems().clear();
     }
+
     /**
      * Shows the result statistics into a table.
      *
@@ -178,19 +194,19 @@ public class ResultsController extends Controller {
     protected void showStatistics(String statisticsFile) {
         tableStatistics.getColumns().clear();
         tableStatistics.getItems().clear();
-        
+
         if (!StringUtils.isEmpty(statisticsFile)) {
             StatisticsReaderService statisticsReader
                     = new StatisticsReaderService(statisticsFile, tableStatistics);
             statisticsReader.restart();
         }
     }
-    
+
     @Subscribe
     public void handleNewResult(NewResultsEvent event) {
-        if(event != null) {
+        if (event != null) {
             reload();
         }
     }
-   
+
 }

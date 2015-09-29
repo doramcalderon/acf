@@ -57,7 +57,7 @@ public class ResultsPersistence extends Persistence {
                     benchResultSet.setName(result.getBenchmarkName());
                 }
                 
-                benchResultSet.getResults().add(result);
+                benchResultSet.getResults().add(0, result);
                 persist(benchResultSet, resultsPath, true);
             } catch (JAXBException ex) {
                 Logger.getLogger(ResultsPersistence.class.getName()).log(Level.SEVERE, null, ex);

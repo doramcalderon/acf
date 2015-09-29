@@ -5,10 +5,12 @@ import es.uma.pfc.is.bench.domain.BenchmarkResult;
 import es.uma.pfc.is.bench.domain.BenchmarkResultSet;
 import es.uma.pfc.is.bench.domain.Benchmarks;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
 /**
  * Results bean.
+ *
  * @author Dora Calderón
  */
 public class ResultsBean {
@@ -32,14 +34,17 @@ public class ResultsBean {
 
     /**
      * Save a benchmark result in results.xml file.
+     *
      * @param result Benchmark result.
      * @param path Directory of results.xml.
      */
     public void save(BenchmarkResult result, String path) {
         resultsPersistence.save(result, path);
     }
+
     /**
      * Returns all saved results of the registered benchmarks in the path.
+     *
      * @param path.
      * @return Results saved.
      */
@@ -48,12 +53,12 @@ public class ResultsBean {
         Benchmarks registeredBenchamrks = benchPersistence.getBenchmarks(path);
 
         if (registeredBenchamrks != null) {
-            
+
             allResults = new ArrayList<>();
             for (Benchmark b : registeredBenchamrks.getBenchmarks()) {
                 BenchmarkResultSet benchResult = resultsPersistence.getResults(b);
                 if (benchResult != null) {
-                    allResults.add(benchResult); 
+                    allResults.add(benchResult);
                 }
 
             }

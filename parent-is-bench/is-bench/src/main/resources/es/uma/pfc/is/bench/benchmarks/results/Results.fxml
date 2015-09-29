@@ -9,7 +9,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane xmlns:fx="http://javafx.com/fxml/1" id="AnchorPane" minWidth="800.0" xmlns="http://javafx.com/javafx/8" fx:controller="es.uma.pfc.is.bench.algorithms.results.ResultsController">
+<AnchorPane id="AnchorPane" minWidth="800.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="es.uma.pfc.is.bench.algorithms.results.ResultsController">
    <children>
       <GridPane AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <columnConstraints>
@@ -17,7 +17,7 @@
          </columnConstraints>
          <rowConstraints>
             <RowConstraints maxHeight="100.0" minHeight="10.0" vgrow="SOMETIMES" />
-            <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" percentHeight="80.0" vgrow="SOMETIMES" />
          </rowConstraints>
          <children>
             <VBox GridPane.rowIndex="1">
@@ -52,7 +52,7 @@
                   </TitledPane>
                   <TitledPane fx:id="statsTiltedPane" text="%title.statistics">
                      <content>
-                        <TableView prefHeight="200.0" prefWidth="200.0" GridPane.columnSpan="2" GridPane.rowIndex="3" fx:id="tableStatistics">
+                        <TableView fx:id="tableStatistics" tableMenuButtonVisible="true" GridPane.columnSpan="2" GridPane.rowIndex="3">
                           <columns>
                             <TableColumn prefWidth="75.0" text="C1" />
                             <TableColumn prefWidth="75.0" text="C2" />

@@ -4,7 +4,6 @@ import es.uma.pfc.is.algorithms.AlgorithmResult;
 import es.uma.pfc.is.bench.algorithms.results.treemodel.TreeResultModel;
 import es.uma.pfc.is.bench.domain.BenchmarkResult;
 import es.uma.pfc.is.bench.domain.BenchmarkResultSet;
-import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;

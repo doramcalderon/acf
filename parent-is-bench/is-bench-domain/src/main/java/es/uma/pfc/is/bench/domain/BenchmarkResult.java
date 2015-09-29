@@ -8,6 +8,7 @@ import es.uma.pfc.is.algorithms.util.StringUtils;
 import java.nio.file.Paths;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -92,8 +93,12 @@ public class BenchmarkResult {
         this.date = date;
     }
     public Map<AlgorithmInfo, List<AlgorithmResult>> groupByAlgorithm() {
-        return getAlgorithmResults().stream()
-                .collect(Collectors.groupingBy(AlgorithmResult::getAlgorithmInfo));
+        Map<AlgorithmInfo, List<AlgorithmResult>> groupedResults = new HashMap();
+        if(getAlgorithmResults() != null) {
+            groupedResults = getAlgorithmResults().stream()
+                            .collect(Collectors.groupingBy(AlgorithmResult::getAlgorithmInfo));
+        }
+        return groupedResults;
     }
 
     

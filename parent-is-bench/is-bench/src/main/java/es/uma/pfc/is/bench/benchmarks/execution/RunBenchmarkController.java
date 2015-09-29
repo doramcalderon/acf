@@ -14,6 +14,9 @@ import es.uma.pfc.is.bench.benchmarks.newbm.NewBenchmarkController;
 import es.uma.pfc.is.bench.config.WorkspaceManager;
 import es.uma.pfc.is.bench.domain.Benchmark;
 import es.uma.pfc.is.algorithms.AlgorithmInfo;
+import es.uma.pfc.is.bench.algorithms.results.treemodel.TreeAlgorithmModel;
+import es.uma.pfc.is.bench.algorithms.results.treemodel.TreeAlgorithmResultModel;
+import es.uma.pfc.is.bench.algorithms.results.treemodel.TreeBenchmarkResultModel;
 import es.uma.pfc.is.bench.domain.BenchmarkResult;
 import es.uma.pfc.is.commons.eventbus.Eventbus;
 import es.uma.pfc.is.bench.events.BenchmarksChangeEvent;
@@ -30,7 +33,6 @@ import es.uma.pfc.is.bench.uitls.Chooser;
 import es.uma.pfc.is.bench.uitls.Dialogs;
 import es.uma.pfc.is.bench.validators.FilePathValidator;
 import es.uma.pfc.is.commons.strings.StringUtils;
-import es.uma.pfc.is.javafx.AlgorithmResultCellFactory;
 import es.uma.pfc.is.javafx.FilterableTreeItem;
 import es.uma.pfc.is.javafx.NoZeroLongCellFactory;
 import es.uma.pfc.is.javafx.TreeItemPredicate;
@@ -69,10 +71,12 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TreeItem;
+import javafx.scene.control.TreeTableCell;
 import javafx.scene.control.TreeTableColumn;
 import javafx.scene.control.TreeTableView;
 import javafx.scene.control.TreeView;
 import javafx.scene.control.cell.TreeItemPropertyValueFactory;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
@@ -177,9 +181,7 @@ public class RunBenchmarkController extends Controller {
         timeColumn.setCellValueFactory(new TreeItemPropertyValueFactory("executionTime"));
         timeColumn.setCellFactory(new NoZeroLongCellFactory());
         inputColumn.setCellValueFactory(new TreeItemPropertyValueFactory("input"));
-        inputColumn.setCellFactory(new AlgorithmResultCellFactory(getBundle(), getRootPane()));
         outputColumn.setCellValueFactory(new TreeItemPropertyValueFactory("output"));
-        outputColumn.setCellFactory(new AlgorithmResultCellFactory(getBundle(), getRootPane()));
 
     }
 
@@ -250,6 +252,24 @@ public class RunBenchmarkController extends Controller {
     protected void initListeners() {
         Eventbus.register(this);
         benchmarksTree.getSelectionModel().selectedItemProperty().addListener(new BenchmarkSelectionListener());
+        tableResults.addEventFilter(MouseEvent.MOUSE_CLICKED, (MouseEvent event) -> {
+
+            if (event.getClickCount() > 1) {
+                TreeTableView<TreeResultModel> table = (TreeTableView<TreeResultModel>) event.getSource();
+                TreeResultModel value = table.getSelectionModel().getSelectedItem().getValue();
+                
+                if (value instanceof TreeAlgorithmResultModel) {
+                    TreeAlgorithmResultModel resultItem = (TreeAlgorithmResultModel) value;
+                    AlgorithmResult algorithmResult = resultItem.getAlgorithmresult();
+                    
+                    if (!es.uma.pfc.is.algorithms.util.StringUtils.isEmpty(algorithmResult.getLogFile())) {
+                        Eventbus.post(new ViewFileActionEvent(new File(algorithmResult.getLogFile()),
+                                algorithmResult.getLogFile(), rootPane.getScene().getWindow(),
+                                null));
+                    }
+                }
+            }
+        });
     }
 
     @Subscribe
@@ -584,30 +604,19 @@ public class RunBenchmarkController extends Controller {
      */
     private TreeItem<TreeResultModel> getData(BenchmarkResult benchResult) {
         Map<AlgorithmInfo, List<AlgorithmResult>> results = benchResult.groupByAlgorithm();
-        TreeResultModel node;
 
-        TreeItem<TreeResultModel> rootItem = new TreeItem<>(new TreeResultModel(benchResult.getBenchmarkName()));
+        TreeItem<TreeResultModel> rootItem = new TreeItem<>(new TreeBenchmarkResultModel(benchResult));
         List<TreeItem<TreeResultModel>> algorithmItems = new ArrayList<>();
         List<TreeItem<TreeResultModel>> resultItems = new ArrayList<>();
 
         for (AlgorithmInfo algorithm : results.keySet()) {
             resultItems.clear();
             List<AlgorithmResult> algResults = results.getOrDefault(algorithm, new ArrayList<>());
+            TreeItem<TreeResultModel> algorithmItem = new TreeItem<>(new TreeAlgorithmModel(algorithm));
 
-            node = new TreeResultModel();
-            node.setName(algorithm.getName());
-
-            TreeItem<TreeResultModel> algorithmItem = new TreeItem<>(node);
-
-            for (AlgorithmResult r : algResults) {
-                TreeResultModel resultNode = new TreeResultModel();
-                resultNode.setExecutionTime(r.getExecutionTime());
-                resultNode.setInput(r.getInputFile());
-                resultNode.setOutput(r.getOutputFile());
-                resultNode.setLog(r.getLogFile());
+            algResults.stream().map((r) -> new TreeAlgorithmResultModel(r)).forEach((resultNode) -> {
                 resultItems.add(new TreeItem<>(resultNode));
-
-            }
+            });
             algorithmItem.setExpanded(true);
             algorithmItem.getChildren().addAll(resultItems);
             algorithmItems.add(algorithmItem);
