@@ -69,7 +69,7 @@ import org.controlsfx.validation.Validator;
  * @author Dora Calderón
  */
 public class NewBenchmarkController extends Controller {
-
+    
     @FXML
     private TextField txtName;
     @FXML
@@ -88,7 +88,7 @@ public class NewBenchmarkController extends Controller {
     private ListView algorithmsList;
     @FXML
     private ListView algorithmsSelected;
-
+    
     @FXML
     private AnchorPane rootPane;
 
@@ -127,12 +127,12 @@ public class NewBenchmarkController extends Controller {
             Logger.getLogger(NewBenchmarkController.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-
+    
     @Override
     protected void initView() throws IOException {
         inputsList.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
     }
-
+    
     @Override
     protected void initModel() {
         model = new NewBenchmarkModel();
@@ -147,7 +147,7 @@ public class NewBenchmarkController extends Controller {
         });
         loadService.restart();
     }
-
+    
     @Override
     protected void initBinding() {
         txtName.textProperty().bindBidirectional(model.nameProperty());
@@ -156,7 +156,7 @@ public class NewBenchmarkController extends Controller {
             {
                 super.bind(inputsList.itemsProperty());
             }
-
+            
             @Override
             protected boolean computeValue() {
                 return (inputsList.getItems().size() == 0);
@@ -166,7 +166,7 @@ public class NewBenchmarkController extends Controller {
             {
                 super.bind(inputsList.itemsProperty());
             }
-
+            
             @Override
             protected String computeValue() {
                 return BenchMessages.get().getMessage(I18n.SELECTED_FILES_COUNT, inputsList.getItems().size());
@@ -174,7 +174,7 @@ public class NewBenchmarkController extends Controller {
         });
         algorithmsSelected.itemsProperty().bindBidirectional(model.algorithmsSelectedProperty());
     }
-
+    
     @Override
     protected void initListeners() {
         Eventbus.register(this);
@@ -186,7 +186,7 @@ public class NewBenchmarkController extends Controller {
                         File inputsDir = Paths.get(b.getInputsDir()).toFile();
                         model.inputFilesListProperty().set(FXCollections.observableArrayList(inputsDir.listFiles()));
                         model.algorithmsSelectedProperty().set(FXCollections.observableArrayList(b.getAlgorithmsEntities()));
-
+                        
                     }
                 } catch (Exception ex) {
                     Logger.getLogger(NewBenchmarkController.class.getName()).log(Level.SEVERE, null, ex);
@@ -195,9 +195,12 @@ public class NewBenchmarkController extends Controller {
         });
 
         txtName.textProperty().addListener((observable, oldValue, newValue) -> {
-            inputsTitledPane.setDisable(StringUtils.isEmpty(newValue));
-            String inputDir = Paths.get(wsManager.currentWorkspace().getLocation(), newValue, "input").toString();
-            model.inputProperty().set(inputDir);
+            boolean isEmpty = StringUtils.isEmpty(newValue);
+            inputsTitledPane.setDisable(isEmpty);
+            if(!isEmpty) {
+                String inputDir = Paths.get(wsManager.currentWorkspace().getLocation(), newValue.trim(), "input").toString();
+                model.inputProperty().set(inputDir);
+            }
         });
         txtFilter.textProperty().addListener(
                 (observable, oldValue, newValue) -> {
@@ -205,15 +208,15 @@ public class NewBenchmarkController extends Controller {
                         return (StringUtils.isEmpty(newValue) || StringUtils.containsIgnoreCase(algorithm.getName(), newValue));
                     });
                 });
-
+        
     }
-
+    
     @Override
     protected void initValidation() {
         getValidationSupport().registerValidator(txtName,
                 Validator.createEmptyValidator(getI18nMessage(BenchMessages.EMPTY_ALGORITHM_NAME)));
     }
-
+    
     @Override
     protected void modelToView() {
         algorithmsList.setItems(model.getAlgorithmsFilteredList());
@@ -231,35 +234,35 @@ public class NewBenchmarkController extends Controller {
             publicMessage(getI18nMessage(BenchMessages.EMPTY_ALGORITHM_LIST), MessageEvent.Level.ERROR);
             return false;
         }
-
+        
         boolean validBenchmarkName = !new BenchmarksBean().exists(model.getName(), wsManager.currentWorkspace().getLocation());
         if (!validBenchmarkName) {
             Optional<ButtonType> confirm
                     = showAlert(Alert.AlertType.CONFIRMATION, null, getI18nMessage(BenchMessages.DUPLICATED_BENCHMARK));
-
+            
             if (confirm.isPresent() && confirm.get().equals(ButtonType.CANCEL)) {
                 return false;
             }
         }
         return super.validate();
     }
-
+    
     protected void reload() {
         initModel();
     }
-
+    
     @Override
     protected Pane getRootPane() {
         return rootPane;
     }
-
+    
     @Subscribe
     public void algorithmsSelected(AlgorithmsSelectedEvent event) {
         if (event.getAlgorithmsSelection() != null) {
             algorithmsSelected.getItems().addAll(event.getAlgorithmsSelection());
         }
     }
-
+    
     @Subscribe
     public void handleAlgorithmChanges(AlgorithmChangeEvent event) {
         reload();
@@ -278,7 +281,7 @@ public class NewBenchmarkController extends Controller {
                     .forEach(path -> model.inputFilesListProperty().get().add(Paths.get(path).toFile()));
         }
     }
-
+    
     @FXML
     protected void handleNewAlgorithm(ActionEvent event) {
         try {
@@ -298,7 +301,7 @@ public class NewBenchmarkController extends Controller {
     @FXML
     protected void handleSelectInputDir(ActionEvent event) {
         File defaultInputDir = Paths.get(wsManager.currentWorkspace().getLocation()).toFile();
-
+        
         List<File> resultFile = Chooser.openMultipleFileChooser(getRootPane().getScene().getWindow(),
                 Chooser.FileChooserMode.OPEN, "Input system", defaultInputDir,
                 new FileChooser.ExtensionFilter(getI18nLabel(I18n.TEXT_FILE), "*.txt"),
@@ -321,7 +324,7 @@ public class NewBenchmarkController extends Controller {
             String implicationsPath = Paths.get(model.getInputDir(), "implications.txt").toString();
             FXMLLoader loader = new FXMLLoader(ISBenchApp.class.getResource("/" + es.uma.pfc.implications.generator.view.FXMLViews.IMPLICATIONS_VIEW),
                     ResourceBundle.getBundle("es.uma.pfc.implications.generator.i18n.labels", Locale.getDefault()));
-
+            
             Pane generatorForm = loader.load();
             loader.<ImplicationsController>getController().setOutput(implicationsPath);
             String title = getI18nLabel("Implications Generator"); // TODO crear label
@@ -329,7 +332,7 @@ public class NewBenchmarkController extends Controller {
         } catch (IOException ex) {
             Logger.getLogger(MainLayoutController.class.getName()).log(Level.SEVERE, null, ex);
         }
-
+        
     }
 
     /**
@@ -356,7 +359,7 @@ public class NewBenchmarkController extends Controller {
             this.algorithmsSelected.getItems().remove(unselectedItem);
         }
     }
-
+    
     @FXML
     protected void handleSaveButton(ActionEvent event) {
         if (validate()) {
@@ -370,13 +373,13 @@ public class NewBenchmarkController extends Controller {
             service.restart();
         }
     }
-
+    
     @FXML
     protected void handleClearButton(ActionEvent event) {
         clear();
-
+        
     }
-
+    
     @FXML
     protected void handleAddAlgAction(ActionEvent event) {
         try {
@@ -395,15 +398,15 @@ public class NewBenchmarkController extends Controller {
      */
     @FXML
     protected void handleDeleteInputAction(ActionEvent event) {
-         Optional<ButtonType> confirm
-                    = showAlert(Alert.AlertType.CONFIRMATION, null, getI18nMessage(BenchMessages.DELETE_INPUTS_CONFIRM));
-         
-         if(confirm.isPresent() && confirm.get().equals(ButtonType.OK)) {
+        Optional<ButtonType> confirm
+                = showAlert(Alert.AlertType.CONFIRMATION, null, getI18nMessage(BenchMessages.DELETE_INPUTS_CONFIRM));
+        
+        if (confirm.isPresent() && confirm.get().equals(ButtonType.OK)) {
             ObservableList<File> selectedInputs = FXCollections.observableArrayList(inputsList.getSelectionModel().getSelectedItems());
             if (selectedInputs != null) {
                 final String[] fileNames = new String[selectedInputs.size()];
                 int i = 0;
-                for(File f : selectedInputs) {
+                for (File f : selectedInputs) {
                     fileNames[i++] = f.getAbsolutePath();
                 }
                 Arrays.stream(fileNames).forEach(f -> {
@@ -413,17 +416,17 @@ public class NewBenchmarkController extends Controller {
                         Logger.getLogger(NewBenchmarkController.class.getName()).log(Level.SEVERE, null, ex);
                     }
                 });
-
+                
                 inputsList.getItems().removeAll(selectedInputs);
-            } 
-         }
-
+            }            
+        }
+        
     }
-
+    
     protected void clear() {
         txtName.clear();
         inputsList.getItems().clear();
         algorithmsSelected.getItems().clear();
     }
-
+    
 }

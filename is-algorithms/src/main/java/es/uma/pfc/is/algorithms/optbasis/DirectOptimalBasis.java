@@ -15,9 +15,9 @@ import java.util.TreeSet;
  * @since @author Dora Calderón
  */
 @Algorithm
-public class DirectOptimalBasis2 extends GenericAlgorithm {
+public class DirectOptimalBasis extends GenericAlgorithm {
 
-    public DirectOptimalBasis2() {
+    public DirectOptimalBasis() {
         setName("Direct Optimal Basis II");
     }
 
@@ -37,19 +37,19 @@ public class DirectOptimalBasis2 extends GenericAlgorithm {
             history("**************************************************************************************");
 
             // Stage 1 : Generation of sigma-r by reduction of sigma
-            directOptimalBasis = reduce(directOptimalBasis);
+            directOptimalBasis = SimplificationLogic.reduce(directOptimalBasis, getLogger());
 
             // Stage 2: Generation of sigma-sr by simplification (left+right) + composition of sigma-r
             directOptimalBasis = simplify(directOptimalBasis);
 
             // Stage 3: Generation of sigma-dsr by completion of sigma-sr
-            directOptimalBasis = strongSimplification(directOptimalBasis);
+            directOptimalBasis = SimplificationLogic.strongSimplification(directOptimalBasis, getLogger());
 
             // Stage 4: Composition of sigma-dsr
-            composition(directOptimalBasis);
+            SimplificationLogic.composition(directOptimalBasis, getLogger());
 
             // Stage 5: Generation of sigma-do by optimization of sigma-dsr
-            directOptimalBasis = optimize(directOptimalBasis);
+            directOptimalBasis = SimplificationLogic.optimize(directOptimalBasis, getLogger());
         } finally {
             getLogger().flush();
             getLogger().freeResources();;

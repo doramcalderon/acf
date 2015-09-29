@@ -1,7 +1,7 @@
 
 package es.uma.pfc.is.bench.business;
 
-import es.uma.pfc.is.algorithms.optbasis.DirectOptimalBasis2;
+import es.uma.pfc.is.algorithms.optbasis.DirectOptimalBasis;
 import es.uma.pfc.is.algorithms.AlgorithmInfo;
 import java.nio.file.Paths;
 import java.util.HashSet;
@@ -51,13 +51,13 @@ public class AlgorithmsBeanTest {
         AlgorithmInfo alg = new AlgorithmInfo();
         alg.setName("Direct Optimal");
         alg.setShortName("DO");
-        alg.setType(DirectOptimalBasis2.class);
+        alg.setType(DirectOptimalBasis.class);
         algsConfigured.add(alg);
 
         alg = new AlgorithmInfo();
         alg.setName("Direct Optimal 2");
         alg.setShortName("DO2");
-        alg.setType(DirectOptimalBasis2.class);
+        alg.setType(DirectOptimalBasis.class);
         algsConfigured.add(alg);
         
         
@@ -81,13 +81,13 @@ public class AlgorithmsBeanTest {
         AlgorithmInfo alg = new AlgorithmInfo();
         alg.setName("Direct Optimal");
         alg.setShortName("DO");
-        alg.setType(DirectOptimalBasis2.class);
+        alg.setType(DirectOptimalBasis.class);
         algsConfigured.add(alg);
 
         alg = new AlgorithmInfo();
         alg.setName("Direct Optimal 2");
         alg.setShortName("DO2");
-        alg.setType(DirectOptimalBasis2.class);
+        alg.setType(DirectOptimalBasis.class);
         algsConfigured.add(alg);
         
         AlgorithmsPersistence persistence = mock(AlgorithmsPersistence.class);
@@ -99,7 +99,7 @@ public class AlgorithmsBeanTest {
         AlgorithmInfo otherAlg = new AlgorithmInfo();
         otherAlg.setName("Direct Optimal 3");
         otherAlg.setShortName("DO3");
-        otherAlg.setType(DirectOptimalBasis2.class);
+        otherAlg.setType(DirectOptimalBasis.class);
         algsConfigured.add(alg);
         
         assertFalse(bean.exists(otherAlg));
@@ -116,13 +116,13 @@ public class AlgorithmsBeanTest {
         AlgorithmInfo alg = new AlgorithmInfo();
         alg.setName("Direct Optimal");
         alg.setShortName("DO");
-        alg.setType(DirectOptimalBasis2.class);
+        alg.setType(DirectOptimalBasis.class);
         algsConfigured.add(alg);
 
         alg = new AlgorithmInfo();
         alg.setName("Direct Optimal 2");
         alg.setShortName("DO2");
-        alg.setType(DirectOptimalBasis2.class);
+        alg.setType(DirectOptimalBasis.class);
         algsConfigured.add(alg);
         
         AlgorithmsPersistence persistence = mock(AlgorithmsPersistence.class);
@@ -141,13 +141,13 @@ public class AlgorithmsBeanTest {
         AlgorithmInfo alg = new AlgorithmInfo();
         alg.setName("Direct Optimal");
         alg.setShortName("DO");
-        alg.setType(DirectOptimalBasis2.class);
+        alg.setType(DirectOptimalBasis.class);
         algsConfigured.add(alg);
 
         alg = new AlgorithmInfo();
         alg.setName("Direct Optimal 2");
         alg.setShortName("DO2");
-        alg.setType(DirectOptimalBasis2.class);
+        alg.setType(DirectOptimalBasis.class);
         algsConfigured.add(alg);
         
         AlgorithmsPersistence persistence = mock(AlgorithmsPersistence.class);
@@ -170,13 +170,13 @@ public class AlgorithmsBeanTest {
         AlgorithmInfo alg = new AlgorithmInfo();
         alg.setName("Direct Optimal");
         alg.setShortName("DO");
-        alg.setType(DirectOptimalBasis2.class);
+        alg.setType(DirectOptimalBasis.class);
         algsConfigured.add(alg);
 
         alg = new AlgorithmInfo();
         alg.setName("Direct Optimal 2");
         alg.setShortName("DO2");
-        alg.setType(DirectOptimalBasis2.class);
+        alg.setType(DirectOptimalBasis.class);
         algsConfigured.add(alg);
         
         AlgorithmsPersistence persistence = mock(AlgorithmsPersistence.class);
@@ -194,13 +194,13 @@ public class AlgorithmsBeanTest {
         AlgorithmInfo alg = new AlgorithmInfo();
         alg.setName("Direct Optimal");
         alg.setShortName("DO");
-        alg.setType(DirectOptimalBasis2.class);
+        alg.setType(DirectOptimalBasis.class);
         algsConfigured.add(alg);
 
         alg = new AlgorithmInfo();
         alg.setName("Direct Optimal 2");
         alg.setShortName("DO2");
-        alg.setType(DirectOptimalBasis2.class);
+        alg.setType(DirectOptimalBasis.class);
         algsConfigured.add(alg);
         
         AlgorithmsPersistence persistence = mock(AlgorithmsPersistence.class);

@@ -3,7 +3,7 @@ package es.uma.pfc.is.bench.algorithms.domain;
 
 
 import es.uma.pfc.is.bench.domain.Algorithms;
-import es.uma.pfc.is.algorithms.optbasis.DirectOptimalBasis2;
+import es.uma.pfc.is.algorithms.optbasis.DirectOptimalBasis;
 import es.uma.pfc.is.algorithms.AlgorithmInfo;
 import java.io.File;
 import javax.xml.bind.JAXB;
@@ -27,13 +27,13 @@ public class AlgorithmsTest {
         AlgorithmInfo alg = new AlgorithmInfo();
         alg.setName("Direct Optimal");
         alg.setShortName("DO");
-        alg.setType(DirectOptimalBasis2.class);
+        alg.setType(DirectOptimalBasis.class);
         algs.add(alg);
         
         alg = new AlgorithmInfo();
         alg.setName("Direct Optimal 2");
         alg.setShortName("DO2");
-        alg.setType(DirectOptimalBasis2.class);
+        alg.setType(DirectOptimalBasis.class);
         algs.add(alg);
         
         File xmlFile = new File(path + "algorithms.xml");

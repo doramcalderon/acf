@@ -8,6 +8,7 @@ import es.uma.pfc.is.bench.events.AlgorithmChangeEvent;
 import es.uma.pfc.is.commons.eventbus.Eventbus;
 import es.uma.pfc.is.bench.domain.ws.Preferences;
 import es.uma.pfc.is.bench.config.WorkspaceManager;
+import es.uma.pfc.is.commons.strings.StringUtils;
 import javafx.concurrent.Service;
 import javafx.concurrent.Task;
 
@@ -42,8 +43,8 @@ public class AlgorithmsSaveService extends Service<Void> {
             protected Void call() throws Exception {
                 
                 AlgorithmInfo entity = new AlgorithmInfo();
-                entity.setName(model.getName());
-                entity.setShortName(model.getShortName());
+                entity.setName(StringUtils.trim(model.getName()));
+                entity.setShortName(StringUtils.trim(model.getShortName()));
                 entity.setType((Class<? extends Algorithm>) Class.forName(model.getClassName()));
                 
                 algorithmsBean.addAlgorithms(entity);
