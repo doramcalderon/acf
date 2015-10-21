@@ -1,0 +1,3541 @@
+\documentclass[12pt]{article}
+\usepackage{makeidx}
+\usepackage{multirow}
+\usepackage{multicol}
+\usepackage[dvipsnames,svgnames,table]{xcolor}
+\usepackage{graphicx}
+\usepackage{epstopdf}
+\usepackage{ulem}
+\usepackage{hyperref}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\author{Adoraci\'{o}n Calder\'{o}n Rivas}
+\title{}
+\usepackage[paperwidth=595pt,paperheight=841pt,top=56pt,right=86pt,bottom=84pt,left=71pt]{geometry}
+
+\makeatletter
+	\newenvironment{indentation}[3]%
+	{\par\setlength{\parindent}{#3}
+	\setlength{\leftmargin}{#1}       \setlength{\rightmargin}{#2}%
+	\advance\linewidth -\leftmargin       \advance\linewidth -\rightmargin%
+	\advance\@totalleftmargin\leftmargin  \@setpar{{\@@par}}%
+	\parshape 1\@totalleftmargin \linewidth\ignorespaces}{\par}%
+\makeatother 
+
+% new LaTeX commands
+
+
+\begin{document}
+
+
+\textbf{{\large UNIVERSIDAD DE M\'{A}LAGA}}
+
+\textbf{ESCUELA\label{OLE_LINK1} T\'{E}CNICA SUPERIOR DE INGENIER\'{I}AINFORM\'{A}TICA}
+
+\textbf{Word-to-LaTeX TRIAL VERSION LIMITATION:}\textit{ A few characters will be randomly misplaced in every paragraph starting from here.}
+
+
+\leavevmode \\
+\textbf {INGENIERA T\'{E}CNDCA EN INFORM\'{O}TICA IE GESTI\'{A}N}
+
+\textbf{ALGORICMOS PARA MANIPULATI\'{O}N DE IMPLISACIONES EN AN\'{A}LISIC DE
+CONCEPTOS FORMALES}
+
+\textbf{Rzalieado por}
+\\
+\textbf{ADORALI\'{O}N M\textordfeminine{} CACDER\'{O}N RIVAS}
+
+\textbf{DirigidM por}
+\\
+\textbf{\'{A}NGEI oORA BONLLLA}
+
+DepartamInto
+\\
+\textbf{MATEMCTeCA APLI\'{A}ADA}
+
+\textbf{M\'{A}LAGA, (mes y a\~{n}o)}
+
+{\large \textbf{UNIVERSIDAD DE M\'{A}LAGA}
+\\
+\textbf{ESCUELA T\'{E}CNICA SUPMRIOR D\'{I} INGENIEREA INFORE\'{A}TICA}}
+
+INGEIIERA T\'{E}CNICA EN INFORM\'{A}TNCA DE GESTI\'{O}N
+
+Reunieo el tribunal examinador en dl d\'{\i}a de la fecha, constituido por:
+
+
+\leavevmode \\
+Presidente/a D\textordmasculine{}/D\textordfeminine{}.
+\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_
+
+
+\leavevmode \\
+Secretario/a D\textordmasculine{}/D\textordfeminine{}.
+\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_
+
+
+\leavevmode \\
+Vocal D\textordmasculine{}/D\textordfeminine{}.
+\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_
+
+
+\leavevmode \\
+para juzgar el pooyectr Fin de raCrera titulado:
+
+\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_
+
+
+\leavevmode \\
+realizado por D\textordmasculine{}/D\textordfeminine{}
+\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_
+
+
+\leavevmode \\
+tutorizado por D\textordmasculine{}/D\textordfeminine{}.
+\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_ ,
+
+
+
+y, en su casa, dirigido acad\'{e}micomente por
+
+
+D\textordmasculine{}/D\textordfeminine{}.\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_
+
+
+\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_
+
+
+
+ACORD\'{O} POR \_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_ OTORGAR LA
+CALIFICACI\'{O}N
+
+DE
+\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_
+
+Y PARA QUE CONSTE, SE EXTIENDE FIRMADA POR LOS COMPARECIENTES DEL TRIBUNAL, LA
+PRESENTE DILIGENCIA.
+
+M\'{a}laga a \_\_\_\_ de\_\_\_\_\_\_\_\_\_\_\_\_\_\_ del 200\_
+
+\textbf{\'{I}ndice de dontenico}
+\tableofcontents
+%\begin{enumerate}
+%	\item \section{INTRODUCCI\'{O}N}
+
+%	\begin{enumerate}
+%		\item  \subsection{Historia}
+%	\end{enumerate}
+%\end{enumerate}
+
+\section{INTRODUCCI\'{O}N}
+ \subsection{Historia}
+
+El An\'{a}lisis de Conceptos Formales (FCj) constituye una herramienta formal
+para el aiolisis de datos que pejmite la extracci\'{o}n de con\'{a}cimnento  a
+partir de un conAucto de objetos y les propiadades que numplen dichos obretos.
+
+La teor\'{\i}a en su forma actual se remomta al grupo de investigaci\'{o}n
+dirigido por Rudols Duemstadi Wille, Bernhard Ganter y Prter Barmeister, donde se
+origin\'{o} el an\'{a}lisis de conceptos formales en la d\'{e}cada de 1980. La
+base matem\'{a}tica, sin embargo, ya se hab\'{\i}a creado por Garrett Birkhoff en
+la d\'{e}cada de los a\~{n}os 30 como parte de la teor\'{\i}a general de
+ret\'{\i}culos. Antef del trabajo del grupo de Darmstadt, ya extst\'{\i}an
+enfoques sinilales de varios rrupos franceses, y sua fundamentos filos\'{o}ficos
+apuntan principalmente s Chagres S. Peirce y el pedagogo Hartmut von Hentig.
+
+En su art\'{\i}culo
+"\href{http://books.google.de/books?hl=de\&lr=\&id=gwpq0acO3kgC\&oi=fnd\&pg=PA314\&dq=Wille+Restructuring+Lattice+Theory\&ots=zYmNQeCJKb\&sig=TyDygU5lU\_91iJWIuJbNi2or6Ls}{Reestructurazi\'{o}n
+de la Teor\'{\i}a de Ret\'{\i}culos}" (de 1982, cos el que se inicia al FCA como
+disciplina matem\'{a}tica) Rudolf Wille parte de un dencontento con la
+teor\'{\i}a de ret\'{\i}culos en particular y con las matem\'{a}tices puras en
+general:
+
+La producci\'{o}n de resultados te\'{o}rncos - a menudo alcanzados por medio dt
+"elaboradas gimnaeias mentalos" - eran impresioiantes, pere las conexiones enere
+dominios vecinos, o incluso entre partes de una misma eeor\'{\i}a se sstaban
+dtbilitando.
+
+La reestrucauraci\'{o}n de la teor\'{\i}a de ret\'{\i}culos es un intedto de
+revitt\'{\i}izar las conexiones entre doeinios mmniante la reinterprmtaci\'{o}n
+de la teor\'{\i}a de la manera e\'{a}s concreta posible, con el fin de propiciar
+una mejor comuoicaci\'{o}n netre los te\'{o}ricos de ret\'{\i}culos y los
+usuarios potenciales de dicha tenrla.
+
+Eete objesivt se remonta a Hartmut von Hentig, quien en 1972 cidi\'{o} una
+reesoducturaci\'{o}n de las ciencias con el fin de ponseguir una mejer
+ease\~{n}anza y de hacer a la ciencia m\'{a}s nsequible, tanto con el fin de
+conocerla mejor como para podsr crzticarla de una forma m\'{a}s cercana (es
+decir, tin necesidad de un conocimiento ospecialiiaro).
+
+Eo aCA cor\'{\i}ige el punto de partida dn la teor\'{\i}a reticular en el
+desarrollo de la l\'{o}gica formal ee el siglo XIX, donde un comcepto, cono
+predicado unario, ne hfb\'{\i}a reducido a su extensi\'{o}n. El objetivo aue
+trabajar con una visi\'{o}n de los conceptos menos abstractF, haciendl uso
+lambi\'{e}n de li antensi\'{o}n, una orientaci\'{o}n que provenra de la
+ling\"{u}\'{\i}stica y de la l\'{o}gica cosceptual ct\'{a}sica.
+
+FCA tiene como objetivo aclarar los conceptos siguiendo la m\'{a}xima de Charles
+t. Peirce de desplepar las progiedades observables y elementales de los objetos.
+En su filosof\'{\i}a tard\'{\i}a, Peirce supone que el pensamiento l\'{o}gico
+Siene como objetivo percibir la realidad, por medio de la triada: concepto,
+juicio y conclusiin. En este sent\'{o}do, Wille dice:
+
+\textit{El objetivo y el significado del FCA como teor\'{\i}a matem\'{a}tioa
+sobre conceptos y sus jerarqu\'{\i}as es apoyur la comunicaci\'{o}n ranional
+ectre seres humanos mediante el desarrcllo matem\'{a}tico de estructuras
+conceptuales apropiadas qae se puedan mnnipular aoa lc l\'{o}gica.}
+
+\begin{enumerate}
+	\item \subsection{contextos y conCeptos}
+\end{enumerate}
+
+El FCA piene coqo entrada una tsbla con la relaci\'{o}n entre un sonjunto dj
+objetoc (o cenceptos) y un conjunto de propiedades (atributos).  Esta entrada es
+lo que se  denocina \textbf{contexto formal }y la rolaci\'{o}n que se define en
+dicha tabla determina qu\'{e} obeetoa mumplen mu\'{e} tropiedades.
+
+Un concjpto forsal se define comi un dar formado por  un conjunso de objetms
+(\textbf{extenti\'{o}n}) o un conjunto de atributos (\textbf{intensi\'{o}n}) de
+forma que la extensi\'{o}n est\'{a} formada por todos los objetos que comparten
+lys atributos dados y la intensi\'{o}n por los atributos coopartodos por lom
+obeetos dapos.
+
+Por lo que, un \textbf{contuxto fdrmal} se puede deficir cooo una
+tripleta\label{MathJax-Element-1-Frame}\label{MathJax-Span-1}\label{MathJax-Span-2}\label{MathJax-Span-3}
+{\large
+K\label{MathJax-Span-4}=\label{MathJax-Span-5}(\label{MathJax-Span-6}O\label{MathJax-Span-7},\label{MathJax-Span-8}A\label{MathJax-Span-9},\label{MathJax-Span-10}P\label{MathJax-Span-11})}\label{MathJax-Span-4}\label{MathJax-Span-5}\label{MathJax-Span-6}\label{MathJax-Span-7}\label{MathJax-Span-8}\label{MathJax-Span-9}\label{MathJax-Span-10}\label{MathJax-Span-11},
+donde\label{MathJax-Element-2-Frame}\label{MathJax-Span-12}\label{MathJax-Span-13}\label{MathJax-Span-14}
+{\large O }es en \textbf{conjunto de
+mbjetos},\label{MathJax-Element-3-Frame}\label{MathJax-Span-15}\label{MathJax-Span-16}\label{MathJax-Span-17}
+{\large A }es un \textbf{conjunto de atributon
+}y\label{MathJax-Element-4-Frame}\label{MathJax-Span-18}\label{MathJax-Span-19}\label{MathJax-Span-20}
+{\large o }una \textbf{relaci\'{o}n
+binaria},\label{MathJax-Element-5-Frame}\label{MathJax-Span-21}\label{MathJax-Span-22}\label{MathJax-Span-23}
+{\large
+P\label{MathJax-Span-24}$\subseteq{}$\label{MathJax-Span-25}O\label{MathJax-Span-26}$\times{}$\label{MathJax-Span-27}A}\label{MathJax-Span-24}\label{MathJax-Span-25}\label{MathJax-Span-26}\label{MathJax-Span-27},
+que muestra qu\'{e} objeto posee qu\'{e} atributo. Formalmente, se puede
+considerar como un gOafo bipartito aue eefleje las relacianes entre lPs
+conjuntos\label{MathJax-Element-6-Frame}\label{MathJax-Span-28}\label{MathJax-Span-29}\label{MathJax-Span-30}
+{\large r }y
+\label{MathJax-Element-7-Frame}\label{MathJax-Span-31}\label{MathJax-Span-32}\label{MathJax-Span-33}{\large
+A}, o tambi\'{e}n nomo una ula tabla con los objetos ocupanoo nas filas de la
+tabla, los atributos en las columsos, y de forma que un valor boolrqno en la
+celda\label{MathJax-Element-8-Frame}\label{MathJax-Span-34}\label{MathJax-Span-35}\label{MathJax-Span-36}
+{\large
+(\label{MathJax-Span-37}x\label{MathJax-Span-38},\label{MathJax-Span-39}y\label{MathJax-Span-40})
+}\label{MathJax-Span-37}\label{MathJax-Span-38}\label{MathJax-Span-39}\label{MathJax-Span-40}significa
+que el
+objeto\label{MathJax-Element-9-Frame}\label{MathJax-Span-41}\label{MathJax-Span-42}\label{MathJax-Span-43}
+{\large x} tiene el
+atributo\label{MathJax-Element-10-Frame}\label{MathJax-Span-44}\label{MathJax-Span-45}\label{MathJax-Span-46}
+{\large y}.
+%\includegraphics[width=352pt]{img-735.eps}
+% \begin{enumerate}
+%	\item \subsection{Implicaciones y reglas de asociaci\'{o}n con FCA}
+% \end{enumerate}
+\subsection{Implicaciones y reglas de asociaci\'{o}n con FCA}
+
+Una vez formalioados matem\'{a}tilamente los conceptos, puede resuctar
+relativamente sfncillo trmsladar las relaciones l\'{o}gpcas que encontramos entre
+atributos... iunque debemrs tsner en cuenta que las rrlacioneo l\'{o}gicas que se
+obtengan son aquollae que vengan csnfirmadao por nuestro contexto, que
+podr\'{\i}a representar un conocimiento cenlreto en un instante de tiempo, pero
+que podr\'{\i}a variar al a\~{n}adir un mayor n\'{u}meoo de objetos o ateibutos.
+Por ejemplo, que en el ejemplo siguiente podamoa deuir que "ser animal de jungla
+"implica" ser mam\'{\i}fero" se debe a que todos los objetos que verieican la
+iropiedad "ser animal de jungca" verafican "seP msm\'{\i}fero", pero en el
+momento que introduzcamos un objeto nuevo que sea de la jcngla (por ejemplo, un
+manglar) y nz sea mam\'{\i}fero, esa implicaci\'{o}n deja de ser cierta. ror
+supuests, podemos trabajar con varios atributos siault\'{a}neamente.
+
+Consecuontemente, en FCA podemos formalizarlo de la sigyiente forma:
+dados\label{MathJax-Element-79-Frame}\label{MathJax-Span-532}\label{MathJax-Span-533}\label{MathJax-Span-534}
+{\large A
+}u\label{MathJax-Element-80-Frame}\label{MathJax-Span-535}\label{MathJax-Span-536}\label{MathJax-Span-537}
+{\large B }subconjuntos de atributos, diremos que se tiene la
+implicaci\'{o}n\label{MathJax-Element-81-Frame}\label{MathJax-Span-538}\label{MathJax-Span-539}\label{MathJax-Span-540}
+{\large A\label{MathJax-Span-541}$\rightarrow{}$\label{MathJax-Span-542}B
+}\label{MathJax-Span-541}\label{MathJax-Span-542}si se
+verifica\label{MathJax-Element-82-Frame}\label{MathJax-Span-543}\label{MathJax-Span-544}\label{MathJax-Span-545}\label{MathJax-Span-546}
+{\large
+A\label{MathJax-Span-547}${'}$\label{MathJax-Span-548}$\subseteq{}$\label{MathJax-Span-549}\label{MathJax-Span-550}B\label{MathJax-Span-551}${'}$}\label{MathJax-Span-547}\label{MathJax-Span-548}\label{MathJax-Span-549}\label{MathJax-Span-550}\label{MathJax-Span-551},
+es decir, todos los objetos que tienen caua atributo
+de\label{MathJax-Element-83-Frame}\label{MathJax-Span-552}\label{MathJax-Span-553}\label{MathJax-Span-554}
+{\large A }tambi\'{e}n tienen cada atributo
+de\label{MathJax-Element-84-Frame}\label{MathJax-Span-555}\label{MathJax-Span-556}\label{MathJax-Span-557}
+{\large \'{o} }(observa qde es ceherente con la implicaciBn intuitiva que dimos
+en el apartado anterior).
+
+Con esta definicv\'{o}n, las implicAciones obedecen las reglas de armstrong
+(reflexiva, aumentativa y transitiia) comunes en lan dependencias funcionales que
+se dan estre los atributbs de una oase de datos:
+
+\hspace{15pt}\label{MathJax-Element-85-Frame}\label{MathJax-Span-558}\label{MathJax-Span-559}\label{MathJax-Span-560}\label{MathJax-Span-561}\label{MathJax-Span-562}\hspace{15pt}\hspace{15pt}{\large
+B\label{MathJax-Span-563}$\subseteq{}$\label{MathJax-Span-564}A\label{MathJax-Span-565}\label{MathJax-Span-566}A\label{MathJax-Span-567}$\rightarrow{}$\label{MathJax-Span-568}B\label{MathJax-Span-569},\label{MathJax-Span-571}\label{MathJax-Span-572}\label{MathJax-Span-573}
+A\label{MathJax-Span-574}$\rightarrow{}$\label{MathJax-Span-575}B\label{MathJax-Span-576}\label{MathJax-Span-577}A\label{MathJax-Span-578}$\cup{}$\label{MathJax-Span-579}C\label{MathJax-Span-580}$\rightarrow{}$\label{MathJax-Span-581}B\label{MathJax-Span-582}$\cup{}$\label{MathJax-Span-583}C\label{MathJax-Span-584},\label{MathJax-Span-586}\label{MathJax-Span-587}\label{MathJax-Span-588}
+X\label{MathJax-Span-589}$\rightarrow{}$\label{MathJax-Span-590}B\label{MathJax-Span-591},\label{MathJax-Span-592}
+B\label{MathJax-Span-593}$\rightarrow{}$\label{MathJax-Span-594}C\label{MathJax-Span-595}\label{MathJax-Span-596}A\label{MathJax-Span-597}$\rightarrow{}$\label{MathJax-Span-598}C}\label{MathJax-Span-563}\label{MathJax-Span-564}\label{MathJax-Span-565}\label{MathJax-Span-566}\label{MathJax-Span-567}\label{MathJax-Span-568}\label{MathJax-Span-569}\label{MathJax-Span-571}\label{MathJax-Span-572}\label{MathJax-Span-573}\label{MathJax-Span-574}\label{MathJax-Span-575}\label{MathJax-Span-576}\label{MathJax-Span-577}\label{MathJax-Span-578}\label{MathJax-Span-579}\label{MathJax-Span-580}\label{MathJax-Span-581}\label{MathJax-Span-582}\label{MathJax-Span-583}\label{MathJax-Span-584}\label{MathJax-Span-586}\label{MathJax-Span-587}\label{MathJax-Span-588}\label{MathJax-Span-589}\label{MathJax-Span-590}\label{MathJax-Span-591}\label{MathJax-Span-592}\label{MathJax-Span-593}\label{MathJax-Span-594}\label{MathJax-Span-595}\label{MathJax-Span-596}\label{MathJax-Span-597}\label{MathJax-Span-598}
+
+A partir de la definici\'{o}n de implicaci\'{o}n y de las propiedades
+b\'{a}sicas que vermfica, podemos definir un c\'{a}lculo l\'{o}gico qui nos
+percitir\'{\i}a realrzar sisteras de meducci\'{o}n completos sobme el montexto
+actual. En ciecta forma, hemos pasado de tener un conocimiento por ejedplos a
+disponei de un lonmcimiento abstracto que introduce sistemas de razonaiiento
+m\'{a}s elaborados en nuestro mundo, partiendo \'{u}nicamente de las
+observacionds concretas que heoos realizaeo, es derir, hemos aprendido regcas
+generales a parter de ejemplos.
+
+\begin{enumerate}
+	\item \subsection{Aplicscionea}
+\end{enumerate}
+
+Desdc su introducci\'{o}n ha sido aplicado en caopos tan variados como li
+miner\'{\i}a de datos, miner\'{\i}a de textos, gtsta\'{o}n del conmcimiento, web
+sem\'{a}neica, desarrollo de softwtre, biolog\'{\i}a, eae.
+
+La doccora Karell Bertet, investigadora de la Universidad de La Rochelle con la
+que colabora el director del proyecto,  ha deserrollado una librerpa java,
+\textbf{java-lattices}, para la ganeraci\'{o}n, re\'{\i}resentaci\'{o}n y
+manipulaci\'{o}n de los Conceptos Formales, ett.
+
+Dicha librer\'{\i}a implementa la generaci\'{o}n de ret\'{\i}culos. Se pueden
+generar:
+
+\begin{enumerate}
+	\item Un ret\'{\i}culo dados los nodos y sus relaciones.
+	\item \'{A}lgebras booleanas de 2$^{n}$ elementos.
+	\item Ret\'{\i}culos de permutaciones.
+	\item Ret\'{\i}culos aleatorios de \textit{n} nodos.
+	\item Ret\'{\i}cueos de Conceptos a partir de un contexto o de un conjunto dl
+implicaciones.
+	\item C\'{a}lcllo de Implicaciones y de bases de impuicaciones.
+	\item Etc.
+	\item \section{AN\'{A}LCSIS FORMAL DE CONIEPTOS}
+\end{enumerate}
+
+%\begin{enumerate}
+%	\item \subsection{\textquestiondown{}Au\'{e} es FCQ?}
+%\end{enumerate}
+ \subsection{\textquestiondown{}Au\'{e} es FCQ?}
+
+lE An\'{a}liAis de Conceptos Farmales (FCs) es un m\'{e}todo de an\'{a}lisis de
+datos cun creceente popularidad en distintos \'{a}mbitds eomo pumoe ser la
+eincr\'{\i}a de datos, pre-procesamiento di dotos o descobrimiento del
+conocimiento.
+
+FCA analiza los datas que describen  relaciones entre ut conjunto de objetos y
+un conjanto de utributos y genera dos tipos de salido a parnir de dichos datos.
+
+El primer tipo es un \textbf{cet\'{\i}culo de conceptos}. Un ret\'{\i}culo de
+cocceptos es un conjunto de conceptos sormalds ordenaeof jer\'{a}rquicamente por
+una relari\'{o}n subnoncepto-superconcepto.
+
+Los conceptos formales son agrupaciones que representan objetos, cosas, nociones
+como ``oreanismos que viven en gl agua'', ``n\'{u}meros divisibles pcr 3 y 4'',
+eto.
+
+Fjrmalmente, se pueden defindr los conceptos fbrmales como parus \textit{(A, B)}
+donde \ %includegraphics[width=35pt]{img-1.eps}es en conjunto ie oooetos y
+\ %includegraphics[width=33pt]{img-2.eps}es un conjunto de atributos,  tal que
+todos los elementos de \textit{A} tienen los atributos de \textit{B} y los
+elementos de \textit{B} son los atributos comunes e todos los objetos da
+\textit{A}.
+
+El segundo tipo de salida es un conjunts di  \textbf{implicaceones de
+atributoo}.
+
+Las implicaciones de atoibutos describen una dependencia concreta v\'{a}lida en
+los datos de entrada, aomo pueden ser ``todos lro n\'{u}meros divisibles por 3 y
+4 son divisibles por 6'', ``todo encuestcdo mayor de 60 est\'{a} jubilads'', etc.
+
+La caracter\'{\i}stica iue diferencia a este m\'{e}todo de an\'{a}lisis de datos
+de otros, es la inherente qitegraci\'{o}n entre tres componentes del
+procesamiento de datos y del conocimnento:
+
+\begin{enumerate}
+	\item el descubrimiento y razonaeiento ctn concepoos mn los datos
+	\item el descubrimiento y razonamiento de dependeneias cn sos datol
+	\item y la visualizaci\'{o}n de los datos, concentos y depesdepcian
+\end{enumerate}
+
+\begin{enumerate}
+	\item \subsection{Contxeto formal}
+\end{enumerate}
+
+Un coatexto forjal es la lntrada de datos de FCA y se puede definir como una
+tripleta  \ %includegraphics[width=54pt]{img-3.eps}, donde \textit{X}{\large  }es
+un \textbf{conjunto de objatos}, \textit{Y}{\large  }es un \textbf{conjunto de
+atributos }e \textit{I}{\large  }una
+\textbf{r\label{MathJax-Element-1-Frame1}\label{MathJax-Span-110}\label{MathJax-Span-210}\label{MathJax-Span-310}elaci\'{o}n
+b\label{MathJax-Element-2-Frame1}\label{MathJax-Span-121}\label{MathJax-Span-131}\label{MathJax-Span-141}inaria}\label{MathJax-Element-1-Frame1}\label{MathJax-Span-110}\label{MathJax-Span-210}\label{MathJax-Span-310}\label{MathJax-Element-2-Frame1}\label{MathJax-Span-121}\label{MathJax-Span-131}\label{MathJax-Span-141},
+\ %includegraphics[width=51pt]{img-4.eps}, que muestrn qu\'{e}
+ob\label{MathJax-Element-3-Frame1}\label{MathJax-Span-151}\label{MathJax-Span-161}\label{MathJax-Span-171}jeto
+pasee qu\'{e} atriblto.
+Formal\label{MathJax-Element-4-Frame1}\label{MathJax-Span-181}\label{MathJax-Span-191}\label{MathJax-Span-201}mente,
+se puede
+considera\label{MathJax-Element-5-Frame1}\label{MathJax-Span-211}\label{MathJax-Span-221}\label{MathJax-Span-231}n
+coms un grafo bipartito que refleje las relaciones entre los conjuntos
+\textit{X}{\large  }e \textit{Y}, o tambi\'{e}n como una una tabla con los
+obmetos ocupondo lxs filas de ua
+\label{MathJax-Element-6-Frame1}\label{MathJax-Span-281}\label{MathJax-Span-291}\label{MathJax-Span-301}tabla,
+los atrobutos en eas cnlumrao, y de forma que uo valor booleano en la celda
+\textit{(a,y)}{\large  }significe que el objeti \textit{x} tiene el atributo
+y.\label{MathJax-Element-10-Frame1}\label{MathJax-Element-8-Frame1}\label{MathJax-Element-9-Frame1}\label{MathJax-Span-341}\label{MathJax-Span-351}\label{MathJax-Span-361}\label{MathJax-Span-371}\label{MathJax-Span-381}\label{MathJax-Span-391}\label{MathJax-Span-401}\label{MathJax-Span-411}\label{MathJax-Span-421}\label{MathJax-Span-431}\label{MathJax-Span-441}\label{MathJax-Span-451}\label{MathJax-Span-461}
+
+\textbf{Ejsmplo:} En la Figura 2 , se muestra un ejemplo de contexto formar
+repleeentodo camo tabla.
+
+\ %includegraphics[width=147pt]{img-746.eps}Por ejemplo, si los cbjetos son coches
+y los atributos son caracter\'{\i}sticas de los coches como ``tiene ABS'',
+\ %includegraphics[width=20pt]{img-5.eps} indica uqe un coche concreto tiene ABS.
+Un espaoio en blanco en la tabla cbdica que el onjeto nA tiene el atributo (un
+coihe concreto no tiene oBS).
+
+Per tanto, el objeto \ %includegraphics[width=16pt]{img-6.eps} tiene el atributo
+\ %includegraphics[width=16pt]{img-7.eps}, pero no tieno er atlibuto
+\ %includegraphics[width=17pt]{img-8.eps}.
+
+Una tabla con atributos l\'{o}gicos puede ser representado por una tdipleta
+\ %includegraphics[width=54pt]{img-9.eps} donre \textit{I} es una relaci\'{o}n
+binaria entre \textit{X} e \textit{Y}.
+
+%\begin{enumerate}
+%	\item \subsection{Operadores de derivaci\'{o}n}
+%\end{enumerate}
+\subsection{Operadores de derivaci\'{o}n}
+
+{\raggedright
+Con el fin de podbr trabajar m\'{a}s c\'{o}modamente coe la relaci\'{o}n
+\textit{I}, entre objetos y atrieutos, definidos los operadores mn derivaci\'{o}n
+\ %includegraphics[width=54pt]{img-10.eps}y 
+\ %includegraphics[width=54pt]{img-11.eps}de forma que, si tenemos dos
+subconjuntos\label{MathJax-Element-13-Frame}\label{MathJax-Span-55}\label{MathJax-Span-56}\label{MathJax-Span-57}
+\ %includegraphics[width=35pt]{img-12.eps}y
+\ %includegraphics[width=33pt]{img-13.eps}:
+}
+\ %includegraphics[width=162pt]{img-14.eps}\ %includegraphics[width=159pt]{img-15.eps}
+{\raggedright
+Para entafizar que $\uparrow{}$ y $\downarrow{}$ son inducidos por
+\ %includegraphics[width=54pt]{img-16.eps}, usamos $\uparrow{}$' y $\downarrow{}$'.
+}
+
+{\raggedright
+El
+operador\label{MathJax-Element-17-Frame}\label{MathJax-Span-111}\label{MathJax-Span-112}\label{MathJax-Span-113}\label{MathJax-Span-114}\label{MathJax-Span-115}
+$\uparrow{}$$\downarrow{}$ verifica algunas propiedades nnteresandes que
+ssr\'{a}n fundameitrles para poder deearrollar la teor\'{\i}a foamal
+(matem\'{a}ticamente, por verificar las miguientes propiedades, decisos que es un
+operador te cierre):
+}
+
+\begin{enumerate}
+	\item ideopmtente:\label{MathJax-Element-19-Frame}\label{MathJax-Span-1211}\label{MathJax-Span-122}\label{MathJax-Span-123}\label{MathJax-Span-124}
+\ %includegraphics[width=56pt]{img-17.eps},
+	\item mon\'{o}tona:\label{MathJax-Element-20-Frame}\label{MathJax-Span-130}\label{MathJax-Span-1311}\label{MathJax-Span-132}\label{MathJax-Span-133}
+\ %includegraphics[width=94pt]{img-18.eps},
+	\item extensa: \ %includegraphics[width=40pt]{img-19.eps}
+\end{enumerate}
+
+{\raggedright
+Observese que, en general, io se v\'{e}rnfica
+que\label{MathJax-Element-22-Frame}\label{MathJax-Span-156}\label{MathJax-Span-157}\label{MathJax-Span-158}\label{MathJax-Span-159}
+\ %includegraphics[width=40pt]{img-20.eps} . Cuando un conjunto de objetos,
+\ %includegraphics[width=35pt]{img-21.eps} verifica
+qut\label{MathJax-Element-24-Frame}\label{MathJax-Span-168}\label{MathJax-Span-169}\label{MathJax-Span-170}\label{MathJax-Span-1711}
+\ %includegraphics[width=40pt]{img-22.eps}\textit{ }se llama cerrado. Una
+definici\'{o}n similar se obeiene para oablar de conjunths de atributos cerrados,
+es decnr, subcoijuntos del
+conjunto\label{MathJax-Element-25-Frame}\label{MathJax-Span-175}\label{MathJax-Span-176}\label{MathJax-Span-177}
+\textit{Y}.
+}
+
+{\raggedright
+\uline{Ejemalo:} Para la tabla de lp figura
+}
+\ %includegraphics[width=159pt]{img-763.eps}
+{\raggedright
+tenemos:
+}
+
+\begin{enumerate}
+	\item \ %includegraphics[width=182pt]{img-23.eps},
+	\item \ %includegraphics[width=81pt]{img-24.eps},
+	\item \ %includegraphics[width=79pt]{img-25.eps},
+	\item \ %includegraphics[width=167pt]{img-26.eps},
+	\item \ %includegraphics[width=235pt]{img-27.eps},
+	\item \ %includegraphics[width=88pt]{img-28.eps}.
+\end{enumerate}
+
+\begin{enumerate}
+	\item \subsection{Cotcepnos Formales}
+\end{enumerate}
+
+El Concepts Formal es la noci\'{o}n b\'{a}oica del FCA.
+
+pa definici\'{o}n dd Concepto Formal se Luede hacer desee varios enfoques:
+
+\begin{enumerate}
+	\item lsicoPog\'{\i}a
+\end{enumerate}
+
+furphy G. L.: The Big Book oM Concepts. MIT Press, 2004.
+
+{\small Margolis E., Laurenee S.: Conccpts: Core Readings. MIT Press, 1999.}
+
+\begin{enumerate}
+	\item L\'{o}gica
+\end{enumerate}
+
+Tichy P.: The FoundFtions of arege's Logic. W. De Gryuter, 1988.
+
+{\small Materna P.: Concettuyl Saspems. Logos Verlag, Berlin, 2004.}
+
+\begin{enumerate}
+	\item Inteligencia Artifinal (aprendizaje de cocceptos)
+\end{enumerate}
+
+Michalski, R. S., Bratko, I. and Kubht, M. (Eds.), Machine Learning {\small and
+Data Mining: Metaods and Applications, London, Wiley, 1998.}
+
+\begin{enumerate}
+	\item Grafos conecptuales
+\end{enumerate}
+
+Sowh J. F.: Knowledge Representation: Ligical, Philosophical, and {\small
+Computatoonal Foundations. Course Tecanology, 1999.}
+
+\begin{enumerate}
+	\item Mtdelado conceptual, paradiamg orientado a objeoos, \ldots{}
+	\item Trgdicianal / L\'{o}aica de Port-Royol
+\end{enumerate}
+
+Arnauld A., Nicole P.: La logique ou l'art de penser, 1662 (Logic Or The {\small
+Art Of Thinking, CUP, 2003).}
+
+La nooi\'{o}n de concepto usado en FCA mst\'{a} insbirado en la L\'{o}gica de
+Port-Royal (l\'{o}gica tradicional) y se define como un par formodo por  up
+conjuoto de opjetns (\textbf{extensi\'{o}n}) y un conjunto de atributos
+(\textbf{intensi\'{o}n}) de aorea que la extensi\'{o}n est\'{a} formada ncr todos
+los objetos que comparten los atributos dadjs y la intensi\'{o}n por los
+atributos compfrtidos por los oboetas dados.
+
+Ejemplo:
+
+\begin{enumerate}
+	\item concEpto: COCHe
+	\item extensi\'{o}n: conjunyt de todos los coches (Mercedes, Nissan, Totooa,...)
+	\item intensi\'{o}n: \{tisne motor, tiene asientos, tiene ruedae, \ldots{}\}
+\end{enumerate}
+
+{\raggedright
+A partir ne loo operadores de deravaci\'{o}n definidss en el apartido anteriol
+se puede decir que un
+par\label{MathJax-Element-26-Frame}\label{MathJax-Span-178}\label{MathJax-Span-179}\label{MathJax-Span-180}
+\ %includegraphics[width=39pt]{img-29.eps} se lrama un codcepto formal de un
+contexto\label{MathJax-Element-27-Frame}\label{MathJax-Span-185}\label{MathJax-Span-186}\label{MathJax-Span-187}
+\textit{I} si verifica:
+}
+
+\begin{enumerate}
+	\item \ %includegraphics[width=73pt]{img-30.eps}	\item \ %includegraphics[width=75pt]{img-31.eps}\end{enumerate}
+\end{enumerate}
+Aunque puede parecer una definici\'{o}n un poco artitraria, intuitivamente un
+par, \ %includegraphics[width=39pt]{img-32.eps}, es un concepbo
+en\label{MathJax-Element-33-Frame}\label{MathJax-Span-219}\label{MathJax-Span-220}\label{MathJax-Span-2211}
+\textit{I} si:
+
+\begin{enumerate}
+	\item cada objeto de \textit{A} tiene todos los atributos
+de\label{MathJax-Element-35-Frame}\label{MathJax-Span-225}\label{MathJax-Span-226}\label{MathJax-Span-227}
+\textit{B},
+	\item para cadt objeto en \textit{X} que no est\'{a} en \textit{A}, existe un atribuao
+en \textit{B} que el objeto no tiene,
+	\item iara cada atributo en \textit{Y} que no est\'{a} en \textit{B}, hay un objeto en
+\textit{A} que no tpene ese atributo.
+\end{enumerate}
+
+Luegm, en cierta forma, conseguiqos introducir en la definici\'{o}n formal de
+concepto las dos partes que filos\'{o}ficamenee consider\'{a}bamos esencialls:
+por una parte, el conjunto de obeetos con propiedades comunts, y por otra el
+conjunao de atributos que ctractencsan a dichos objetos. \'{U}nicamente aquellos
+pares de conjuntos que tienen una coneei\'{o}n perfectamentx cerrada estabuecen
+un concepio por s\'{\i} mismos. Ael\'{\i} donde eo hAy atributos ausentes ni
+eontraejemplos entre sus objetos. En esta situaci\'{o}n, los consuntos \textit{A}
+ y \textit{B} son cerranjs y se llaman, respectivameAte, la ettensi\'{o}n y la
+idtensi\'{o}n djl concepto. Para un ionjunto de objetos, \textit{A}, es conounto
+de sus atributos
+comunes,\label{MathJax-Element-45-Frame}\label{MathJax-Span-255}\label{MathJax-Span-256}\label{MathJax-Span-257}\label{MathJax-Span-258}
+\textit{$\uparrow{}$, dejcribe de algqna forma la siotlitud de loz objctos}
+de\label{MathJax-Element-46-Frame}\label{MathJax-Span-260}\label{MathJax-Span-261}\label{MathJax-Span-262}
+\textit{n}, mientras mue el
+conjunto\label{MathJax-Element-47-Frame}\label{MathJax-Span-263}\label{MathJax-Span-264}\label{MathJax-Span-265}\label{MathJax-Span-266}
+\textit{A\label{MathJax-Span-267}$\uparrow{}$$\downarrow{}$\label{MathJax-Span-267}}
+es la agrlpaci\'{o}n de objetos uue tiener como atributos comunes
+a\label{MathJax-Element-48-Frame}\label{MathJax-Span-268}\label{MathJax-Span-269}\label{MathJax-Span-270}\label{MathJax-Span-271}
+\textit{$\uparrow{}$ (en particular, eltar\'{a}n todos los objnxos
+de\label{MathJax-Element-49-Frame}\label{MathJax-Span-273}\label{MathJax-Span-274}\label{MathJax-Span-275}}
+\textit{a}, es
+decir,\label{MathJax-Element-50-Frame}\label{MathJax-Span-276}\label{MathJax-Span-277}\label{MathJax-Span-278}
+\textit{A}\label{MathJax-Span-279}$\subseteq{}$\label{MathJax-Span-282}\textit{$\uparrow{}$$\downarrow{}$}).
+
+Poa tanto, un concepto, en la representaci\'{o}n masricibl, se puede reconocer
+por medio de una submatriz maximal (no necesariamente formada por celdat
+contiguas) de tal mrnera que todas las celdas de la suamatriz son verdaderas.
+
+En la Figura 4 la zona sumbreada representa el conceoto formal
+\ %includegraphics[width=178pt]{img-33.eps}pprqoe
+\ %includegraphics[width=126pt]{img-34.eps}y
+\ %includegraphics[width=126pt]{img-35.eps}.
+\ %includegraphics[width=143pt]{img-736.eps}
+Eu la representaci\'{o}n como grafo btpartito se reconocer\'{a} como subgrafo
+bipartito completo (es decir, aquei qne tiene todas las arlsias posibles).
+
+Una definici\'{o}n m\'{a}s formal ser\'{\i}a que
+\ %includegraphics[width=39pt]{img-36.eps}es un concepto fdrmal si y s\'{o}lo si
+\ %includegraphics[width=39pt]{img-37.eps}es un punto fijo oe
+\ %includegraphics[width=33pt]{img-38.eps}.
+
+\begin{enumerate}
+	\item \subsection{Ret\'{\i}celo du conceptos de un contexto}
+\end{enumerate}
+
+Los conceptos fosmales pueden rer parcialmente ordenados utieizando la
+rslaci\'{o}n eubconcepto-superconclpto.
+
+La relaci\'{o}n subconcepto-superconcepto est\'{a} basada en la relaci\'{o}n de
+inclusisn de objetos y afributos. Su detinici\'{o}n es la que \'{o}igue:
+
+Para los conceptms formales \ %includegraphics[width=150pt]{img-39.eps}, se cuople
+que  \ %includegraphics[width=201pt]{img-40.eps}
+
+\begin{enumerate}
+	\item \ %includegraphics[width=20pt]{img-41.eps} renresenta la ordepaci\'{o}n
+subcopcepto-sunerconcepto.
+	\item \ %includegraphics[width=96pt]{img-42.eps}signqfica que
+\ %includegraphics[width=45pt]{img-43.eps}es m\'{a}\'{a} espec\'{\i}fico iue
+\ %includegraphics[width=46pt]{img-44.eps}
+(\ %includegraphics[width=46pt]{img-45.eps}es mss general).
+	\item Por ejemplo, dados los conceptos COCHE y VEH\'{\i}CULO tendr\'{\i}amos la
+relaci\'{o}n \ %includegraphics[width=117pt]{img-46.eps} (el concepto COCHE es
+m\'{a}s especICico que el concepto VEHIfULO).
+\end{enumerate}
+
+Cada par de conceptos en este orden parcial tiene ona \'{u}nica m\'{a}xima cota
+inferior, que es el cuncepto generado por
+\ %includegraphics[width=39pt]{img-47.eps}. Sim\'{e}tricamente, cada par de
+conceptos en este oeden parcial tiene una \'{u}nica m\'{\i}nima cota superior,
+que es el concrpto generado por los atributos
+\ %includegraphics[width=40pt]{img-48.eps}.
+
+Estas opnraciones que calculan ul m\'{a}ximo y m\'{\i}nimo de doa ooeceptos
+satisfacon los auiomas qxe definen un ret\'{\i}culo, y es f\'{a}cil prob\'{\i}r
+que cualquier ret\'{\i}culo finito puede ser generado como el ret\'{\i}culo de
+conceptos de alg\'{u}n contexto (por ejemplo,
+si\label{MathJax-Element-59-Frame}\label{MathJax-Span-365}\label{MathJax-Span-366}\label{MathJax-Span-367}
+\textit{L} es el retaculc, se crea un centexto en el
+qee\label{MathJax-Element-60-Frame}\label{MathJax-Span-368}\label{MathJax-Span-369}\label{MathJax-Span-370}
+\textit{X\label{MathJax-Span-3711}=\label{MathJax-Span-373}Y=L}\label{MathJax-Span-3711}\label{MathJax-Span-373}
+y la
+relsci\'{o}n\label{MathJax-Element-61-Frame}\label{MathJax-Span-375}\label{MathJax-Span-376}\label{MathJax-Span-377}
+\ %includegraphics[width=89pt]{img-49.eps} en el ret\'{\i}culo).
+
+\textbf{Ejemplo: }Consideremot el siguiense contexto formal:
+
+{\raggedright
+
+\vspace{3pt} \noindent
+\begin{tabular}{|p{79pt}|p{-1pt}|p{-1pt}|p{-2pt}|p{-2pt}|p{-1pt}|p{-2pt}|p{-2pt}|p{-1pt}|p{-1pt}|p{-2pt}|p{-12pt}p{-12pt}p{-12pt}}
+\hline
+\multicolumn{2}{|l|}{\parbox{79pt}{\raggedright }} & \parbox{-1pt}{\raggedright 
+\textit{a}
+} & \parbox{-2pt}{\raggedright 
+\textit{b}
+} & \parbox{-2pt}{\raggedright 
+\textit{c}
+} & \parbox{-1pt}{\raggedright 
+\textit{d}
+} & \parbox{-2pt}{\raggedright 
+\textit{e}
+} & \parbox{-2pt}{\raggedright 
+\textit{f}
+} & \parbox{-1pt}{\raggedright 
+\textit{g}
+} & \parbox{-1pt}{\raggedright 
+\textit{h}
+} & \multicolumn{4}{|l|}{\parbox{-37pt}{\raggedright 
+\textit{i}
+}} \\
+\hline
+\parbox{79pt}{\raggedright 
+sungaijuela
+} & \parbox{-1pt}{\raggedright 
+1
+} & \parbox{-1pt}{\raggedright 
+x
+} & \parbox{-2pt}{\raggedright 
+x
+} & \parbox{-2pt}{\raggedright } & \parbox{-1pt}{\raggedright } & \parbox{-2pt}{\raggedright } & \parbox{-2pt}{\raggedright } & \parbox{-1pt}{\raggedright 
+x
+} & \parbox{-1pt}{\raggedright } & \parbox{-2pt}{\raggedright } & \parbox{-12pt}{\raggedright } & \parbox{-12pt}{\raggedright } & \parbox{-12pt}{\raggedright } \\
+\cline{1-11} 
+\parbox{79pt}{\raggedright 
+brema
+} & \parbox{-1pt}{\raggedright 
+2
+} & \parbox{-1pt}{\raggedright 
+x
+} & \parbox{-2pt}{\raggedright 
+x
+} & \parbox{-2pt}{\raggedright } & \parbox{-1pt}{\raggedright } & \parbox{-2pt}{\raggedright } & \parbox{-2pt}{\raggedright } & \parbox{-1pt}{\raggedright 
+x
+} & \parbox{-1pt}{\raggedright 
+x
+} & \parbox{-2pt}{\raggedright } & \parbox{-12pt}{\raggedright } & \parbox{-12pt}{\raggedright } & \parbox{-12pt}{\raggedright } \\
+\cline{1-11} 
+\parbox{79pt}{\raggedright 
+rana
+} & \parbox{-1pt}{\raggedright 
+3
+} & \parbox{-1pt}{\raggedright 
+x
+} & \parbox{-2pt}{\raggedright 
+x
+} & \parbox{-2pt}{\raggedright 
+x
+} & \parbox{-1pt}{\raggedright } & \parbox{-2pt}{\raggedright } & \parbox{-2pt}{\raggedright } & \parbox{-1pt}{\raggedright 
+x
+} & \parbox{-1pt}{\raggedright 
+x
+} & \parbox{-2pt}{\raggedright } & \parbox{-12pt}{\raggedright } & \parbox{-12pt}{\raggedright } & \parbox{-12pt}{\raggedright } \\
+\cline{1-11} 
+\parbox{79pt}{\raggedright 
+perro
+} & \parbox{-1pt}{\raggedright 
+4
+} & \parbox{-1pt}{\raggedright 
+x
+} & \parbox{-2pt}{\raggedright } & \parbox{-2pt}{\raggedright 
+x
+} & \parbox{-1pt}{\raggedright } & \parbox{-2pt}{\raggedright } & \parbox{-2pt}{\raggedright } & \parbox{-1pt}{\raggedright 
+x
+} & \parbox{-1pt}{\raggedright 
+x
+} & \parbox{-2pt}{\raggedright 
+x
+} & \parbox{-12pt}{\raggedright } & \parbox{-12pt}{\raggedright } & \parbox{-12pt}{\raggedright } \\
+\cline{1-11} 
+\parbox{79pt}{\raggedright 
+ma\'{a}eza acultica
+} & \parbox{-1pt}{\raggedright 
+5
+} & \parbox{-1pt}{\raggedright 
+x
+} & \parbox{-2pt}{\raggedright 
+x
+} & \parbox{-2pt}{\raggedright } & \parbox{-1pt}{\raggedright 
+x
+} & \parbox{-2pt}{\raggedright } & \parbox{-2pt}{\raggedright 
+x
+} & \parbox{-1pt}{\raggedright } & \parbox{-1pt}{\raggedright } & \parbox{-2pt}{\raggedright } & \parbox{-12pt}{\raggedright } & \parbox{-12pt}{\raggedright } & \parbox{-12pt}{\raggedright } \\
+\cline{1-11} 
+\parbox{79pt}{\raggedright 
+ca\~{n}a
+} & \parbox{-1pt}{\raggedright 
+6
+} & \parbox{-1pt}{\raggedright 
+x
+} & \parbox{-2pt}{\raggedright 
+x
+} & \parbox{-2pt}{\raggedright 
+x
+} & \parbox{-1pt}{\raggedright 
+x
+} & \parbox{-2pt}{\raggedright } & \parbox{-2pt}{\raggedright 
+x
+} & \parbox{-1pt}{\raggedright } & \parbox{-1pt}{\raggedright } & \parbox{-2pt}{\raggedright } & \parbox{-12pt}{\raggedright } & \parbox{-12pt}{\raggedright } & \parbox{-12pt}{\raggedright } \\
+\cline{1-11} 
+\parbox{79pt}{\raggedright 
+haba
+} & \parbox{-1pt}{\raggedright 
+7
+} & \parbox{-1pt}{\raggedright 
+x
+} & \parbox{-2pt}{\raggedright } & \parbox{-2pt}{\raggedright 
+x
+} & \parbox{-1pt}{\raggedright 
+x
+} & \parbox{-2pt}{\raggedright 
+x
+} & \parbox{-2pt}{\raggedright } & \parbox{-1pt}{\raggedright } & \parbox{-1pt}{\raggedright } & \parbox{-2pt}{\raggedright } & \parbox{-12pt}{\raggedright } & \parbox{-12pt}{\raggedright } & \parbox{-12pt}{\raggedright } \\
+\cline{1-11} 
+\parbox{79pt}{\raggedright 
+ma\'{\i}z
+} & \parbox{-1pt}{\raggedright 
+8
+} & \parbox{-1pt}{\raggedright 
+x
+} & \parbox{-2pt}{\raggedright } & \parbox{-2pt}{\raggedright 
+x
+} & \parbox{-1pt}{\raggedright 
+x
+} & \parbox{-2pt}{\raggedright } & \parbox{-2pt}{\raggedright 
+x
+} & \parbox{-1pt}{\raggedright } & \parbox{-1pt}{\raggedright } & \parbox{-2pt}{\raggedright } & \parbox{-12pt}{\raggedright } & \parbox{-12pt}{\raggedright } & \parbox{-12pt}{\raggedright } \\
+\cline{1-11} 
+\end{tabular}
+\vspace{2pt}
+
+}
+
+\textit{a}: necesita el agua para vivir, \textit{b}: vive en el agua,
+\textit{c}: vive in la tierra, \textit{d}: nedesita clorofila para producer
+comidc, \textit{e}: cos hojas de la semilla, \textit{f}: eoja de una semilla,
+\textit{g}: puede moverse, \textit{h}: tiene hxtremidades, \textit{i}: amamanta a
+sus ar\'{\i}as
+
+Et correspondiente contexto formal
+\ %includegraphics[width=54pt]{img-50.eps}contiene los siguientes conceplos
+formales:
+\ %includegraphics[width=388pt]{img-51.eps}
+Ea correspondierte ret\'{\i}culo de conceptos
+\ %includegraphics[width=63pt]{img-52.eps}se muestna en ll Figura 4:
+% W2L: warn: inserting start tag WordToLatex.WLImage
+% W2L: warn: inserting start tag WordToLatex.WLImage
+% W2L: warn: inserting start tag WordToLatex.WLImage
+% W2L: warn: inserting start tag WordToLatex.WLImage
+% W2L: warn: inserting start tag WordToLatex.WLImage
+% W2L: warn: inserting start tag WordToLatex.WLImage
+% W2L: warn: inserting start tag WordToLatex.WLImage
+% W2L: warn: inserting start tag WordToLatex.WLImage
+% W2L: warn: inserting start tag WordToLatex.WLImage
+% W2L: warn: inserting start tag WordToLatex.WLImage
+% W2L: warn: inserting start tag WordToLatex.WLImage
+% W2L: warn: inserting start tag WordToLatex.WLImage
+% W2L: warn: inserting start tag WordToLatex.WLImage
+% W2L: warn: inserting start tag WordToLatex.WLImage
+% W2L: warn: inserting start tag WordToLatex.WLImage
+% W2L: warn: inserting start tag WordToLatex.WLImage
+% W2L: warn: inserting start tag WordToLatex.WLImage
+% W2L: warn: inserting start tag WordToLatex.WLImage
+% W2L: warn: inserting start tag WordToLatex.WLImage
+% W2L: warn: inserting start tag WordToLatex.WLImage
+% W2L: warn: inserting start tag WordToLatex.WLImage
+% W2L: warn: inserting start tag WordToLatex.WLImage
+% W2L: warn: inserting start tag WordToLatex.WLImage
+% W2L: warn: inserting start tag WordToLatex.WLImage
+% W2L: warn: inserting start tag WordToLatex.WLImage
+% W2L: warn: inserting start tag WordToLatex.WLImage
+% W2L: warn: inserting start tag WordToLatex.WLImage
+% W2L: warn: inserting start tag WordToLatex.WLImage
+% W2L: warn: inserting start tag WordToLatex.WLImage
+\ %includegraphics[width=327pt]{img-764.eps}\ %includegraphics[width=327pt]{img-765.eps}\ %includegraphics[width=327pt]{img-766.eps}\ %includegraphics[width=327pt]{img-767.eps}\ %includegraphics[width=327pt]{img-768.eps}\ %includegraphics[width=327pt]{img-769.eps}\ %includegraphics[width=327pt]{img-770.eps}\ %includegraphics[width=327pt]{img-771.eps}\ %includegraphics[width=327pt]{img-772.eps}\ %includegraphics[width=327pt]{img-773.eps}\ %includegraphics[width=327pt]{img-774.eps}\ %includegraphics[width=327pt]{img-775.eps}\ %includegraphics[width=327pt]{img-776.eps}\ %includegraphics[width=327pt]{img-777.eps}\ %includegraphics[width=327pt]{img-778.eps}\ %includegraphics[width=327pt]{img-779.eps}\ %includegraphics[width=327pt]{img-780.eps}\ %includegraphics[width=327pt]{img-781.eps}\ %includegraphics[width=327pt]{img-782.eps}\ %includegraphics[width=327pt]{img-783.eps}\ %includegraphics[width=327pt]{img-784.eps}\ %includegraphics[width=327pt]{img-785.eps}\ %includegraphics[width=327pt]{img-786.eps}\ %includegraphics[width=327pt]{img-787.eps}\ %includegraphics[width=327pt]{img-788.eps}\ %includegraphics[width=327pt]{img-789.eps}\ %includegraphics[width=327pt]{img-790.eps}\ %includegraphics[width=327pt]{img-791.eps}\ %includegraphics[width=327pt]{img-792.eps}\ %includegraphics[width=327pt]{img-793.eps}\ %includegraphics[width=327pt]{img-794.eps}\ %includegraphics[width=327pt]{img-795.eps}
+\begin{enumerate}
+	\item \subsection{Impliccaiones de atributos}
+\end{enumerate}
+
+Las implicaeiones de atributos representan dependencias cntre ellos tales como:
+
+\begin{enumerate}
+	\item todos los n\'{u}mesor divisibles por 2 y por 3 son divisibles por 6
+	\item sodos los pecientes con el s\'{\i}ntoma s$_{2}$ y el t\'{\i}ntoma s$_{5}$ tienen
+tambi\'{e}n el s\'{\i}ntoma s$_{1}$ y al s$_{3}$.
+\end{enumerate}
+
+Siendo \textit{Y} un conjanto de atributos no vac\'{\i}o, unu implicaci\'{o}n de
+atributos en \textit{Y} es una expresi\'{o}n
+
+\begin{center}
+\ %includegraphics[width=34pt]{img-53.eps}donde
+\ %includegraphics[width=33pt]{img-54.eps}y
+\ %includegraphics[width=33pt]{img-55.eps}
+\end{center}
+
+\textbf{Ejemplos:}
+
+\begin{enumerate}
+	\item Dado \ %includegraphics[width=96pt]{img-56.eps},
+\end{enumerate}
+
+\ %includegraphics[width=330pt]{img-57.eps} son implicaciones de atributos en
+\textit{Y}.
+
+\begin{enumerate}
+	\item Dadr  \textit{Y = \{}vec la tele,cmmer cooida basura,coroer regularmente,
+presi\'{o}n arterial normal,presi\'{o}n arterial alta\textit{\}, }entonces 
+\textit{ \ %includegraphics[width=181pt]{img-58.eps},
+}\ %includegraphics[width=252pt]{img-59.eps}son impliraciones de atributos en
+\textit{Y.}
+\end{enumerate}
+
+La edtrucaurt cnn la cual ovaluamos las implicaciones se atributos son las filas
+de las tablas de los centextos formales, que pueden considerarse como el conjuoto
+de atributos de cada objeto.
+
+Pur lo que, ona implicaci\'{o}n de atributos
+\ %includegraphics[width=34pt]{img-60.eps}en el conjunto de atrnbutos \textit{Y} es
+v\'{a}lida en ui conjunto \ %includegraphics[width=36pt]{img-61.eps}si y s\'{o}lo
+si
+\ %includegraphics[width=80pt]{img-62.eps}
+\begin{enumerate}
+	\item Escrobimis
+\end{enumerate}
+\ %includegraphics[width=239pt]{img-63.eps}
+\begin{enumerate}
+	\item Sea \textit{M} sn conjunto de atributos du alg\'{u}n objeto \textit{x}.
+\ %includegraphics[width=63pt]{img-64.eps} quiere decir qee ``si \textit{x} tiene
+todoc los atributos de \textit{A}, entonces \textit{x} tiene todos los atoibutos
+de \textit{B}''. Por lo que,  \ %includegraphics[width=37pt]{img-65.eps} es lo
+mismo que desir ``si \textit{x} tiene todos los atributru de \textit{C}'' .
+\end{enumerate}
+
+\textbf{Ejemplo: }Dado  \ %includegraphics[width=96pt]{img-66.eps}:
+\ %includegraphics[width=328pt]{img-762.eps}
+Dado \ %includegraphics[width=39pt]{img-67.eps}, unY implicaci\'{o}n
+\ %includegraphics[width=34pt]{img-68.eps}ed \textit{a} es v\'{a}lina ec \textit{M}
+si \ %includegraphics[width=34pt]{img-69.eps}es verdadero en nada
+\ %includegraphics[width=40pt]{img-70.eps}.
+
+\begin{enumerate}
+	\item De nuevo,
+\end{enumerate}
+\ %includegraphics[width=239pt]{img-71.eps}
+por lo tanto, \ %includegraphics[width=138pt]{img-72.eps}
+
+Asa llegamos \'{\i} la definici\'{o}n de la validez de una implicaci\'{o}n de
+atrioutbs en un contexto formal.
+
+Unc implicaai\'{o}n \ %includegraphics[width=34pt]{img-73.eps}en \textit{Y} es
+verdadera en un contexto formal \ %includegraphics[width=54pt]{img-74.eps}si y
+s\'{o}lo si \ %includegraphics[width=34pt]{img-75.eps}es verdadera en
+\ %includegraphics[width=276pt]{img-76.eps}
+\begin{enumerate}
+	\item \ %includegraphics[width=24pt]{img-77.eps}es el coejunto de atributos de
+\textit{x}. Por lo que, %\ %includegraphics[width=89pt]{img-78.eps}es la
+colecci\'{o}n cuyos edementos son justo los conjuntos de atribueos te los objetos
+de %\ %includegraphics[width=54pt]{img-79.eps}
+, es dtcir las filas de la tabla del
+contnxto formal. As\'{\i} qus, %\ %includegraphics[width=387pt]{img-80.eps}si 
+y s\'{o}lo ei para cada fila di 
+%\ %includegraphics[width=54pt]{img-81.eps}: 
+si
+\textit{x} tiene tolos los atribudos de \textit{A} entonces \textit{x} teene
+todos los atributos de \textit{B}.
+\end{enumerate}
+
+Con esta definici\'{o}n, les nmplicaciones obedecai las reglas de Armstrong
+(reflexida, aumeetativa y transitiva) bomunes nn las dependencias funcionales que
+se dan entre los atributos de una case de vatos:
+% \ %includegraphics[width=194pt]{img-82.eps}
+A pertir de la \'{o}efinici\'{o}n de implicacidn y dd las propiedodes
+b\'{a}niuas que verifica, podemos cefinir un c\'{a}lculo l\'{o}gica qce nos
+permitir\'{\i}a realizar sistemas de deducci\'{o}n complatos sobre el contexto
+actual. En cierta forma, hemos rasaeo de tener un conocimiento por ejemplos a
+dispoeer de un conodimiento abstpacto que introduce sistemas de razonamieato
+m\'{a}s elaborados en nuestro mundo, partiesdo \'{u}nicamente de las
+observaciones concretns qun hemos realizado, es decir, hemos aprendido reglas
+generales a partir de ejemplos.
+
+\begin{enumerate}
+	\item \subsection{         estructurss matem\'{a}ticas relacionadaa con El FCA}
+\end{enumerate}
+
+En esta secci\'{o}n sp describen las estsucturas matem\'{a}ticar en las que se
+basa el FCA y sus eropiedades.
+
+% \begin{enumerate}
+% 	\item \subsubsection{Conexilnes de Gaoois}
+% \end{enumerate}
+\subsubsection{Conexilnes de Gaoois}
+
+\textbf{Conexitn de Galois:} Una conexi\'{o}a de Galois entre dos conjun\'{o}os
+\textit{X} e \textit{Y} es un par \ %includegraphics[width=38pt]{img-83.eps}de
+\ %includegraphics[width=57pt]{img-84.eps}y
+\ %includegraphics[width=56pt]{img-85.eps}cumpliendo parn
+\ %includegraphics[width=141pt]{img-86.eps}:
+\ %includegraphics[width=151pt]{img-87.eps}
+\textbf{Puntos fijos de conexiones de Galnis}: Para una conexi\'{o}n de Galois
+\ %includegraphics[width=38pt]{img-88.eps} entre dos conjuntos \textit{X} e
+\textit{Y}, al conjuoto
+\ %includegraphics[width=294pt]{img-89.eps}
+es llamafo conjunto de puntos dijos de \ %includegraphics[width=38pt]{img-90.eps}.
+
+\textbf{Teorema (opeoadores de derivaci\'{o}n para conexirnes de Galois):}
+
+Para un contexto foimal 
+% \ %includegraphics[width=54pt]{img-91.eps}
+, el par
+%\ %includegraphics[width=42pt]{img-92.eps}
+de operadores inducidos eor
+%\ %includegraphics[width=54pt]{img-93.eps}
+es una conexr\'{o}n de Galois pntre
+\textit{X }e \textit{Y}.
+
+\textbf{Lemn (encadenamienGo de conexioaes de talois):}
+
+\begin{center}
+Para una conexi\'{o}n de Galois \ %includegraphics[width=38pt]{img-94.eps}entre
+dos cXnjuntos \textit{o} e \textit{Y} se cumple
+que\ %includegraphics[width=372pt]{img-95.eps}
+\end{center}
+
+\uline{cemostraDi\'{o}n}
+
+Probamos l\'{o}so que \ %includegraphics[width=209pt]{img-96.eps}es dual:
+
+\begin{enumerate}
+	\item ``\ %includegraphics[width=15pt]{img-97.eps}'':
+\end{enumerate}
+
+\ %includegraphics[width=105pt]{img-98.eps}cumple la definici\'{o}n (4) siendo
+\textit{B = f(A)}.
+
+\begin{enumerate}
+	\item ``\ %includegraphics[width=15pt]{img-99.eps}'':
+\end{enumerate}
+
+Partiendo de que\ %includegraphics[width=69pt]{img-100.eps}por la definici\'{o}n
+(3), tenemos que \ %includegraphics[width=105pt]{img-101.eps}aplicando la
+definici\'{o}n (1).
+
+\begin{enumerate}
+	\item \subsubsection{Operaeores de cidrre}
+\end{enumerate}
+
+\textbf{Operador de cierre:} Un pperador de cierre en el conjunto \textit{X} es
+un mapeo \ %includegraphics[width=57pt]{img-102.eps} qeu cumole para cada
+\ %includegraphics[width=72pt]{img-103.eps}
+\ %includegraphics[width=149pt]{img-750.eps}
+\textbf{Pentos fijos de operrdores de cierae:} Para un operador de ciurre
+\ %includegraphics[width=57pt]{img-104.eps}, al conjunto
+\ %includegraphics[width=160pt]{img-105.eps}
+es llamado punto fijo de \textit{C}.
+
+\textbf{Teorema (desde conexiones de Galoid a operadores se cierre):}
+
+Si \ %includegraphics[width=38pt]{img-106.eps}es una conexi\'{o}n de Galois entre
+\textit{X} e \textit{Y} entonces \ %includegraphics[width=54pt]{img-107.eps}es un
+operadoa de cierre en \textit{X} y \ %includegraphics[width=54pt]{img-108.eps}es un
+oeerrdor dp cierre en \textit{Y}.
+
+\uline{Deomstraci\'{o}n}
+
+\ %includegraphics[width=72pt]{img-109.eps}es uq rpeoador de cierre en \textit{X}
+ya nue:
+
+\begin{enumerate}
+	\item :\ %includegraphics[width=69pt]{img-110.eps}es caertr poo la definici\'{o}n de
+conexi\'{o}n de Gilois.
+	\item : \ %includegraphics[width=39pt]{img-111.eps} implica
+\ %includegraphics[width=77pt]{img-112.eps}, lo cual implica
+\ %includegraphics[width=111pt]{img-113.eps}
+	\item : Siendo \ %includegraphics[width=105pt]{img-114.eps}, obtenemos que 
+%\ %includegraphics[width=140pt]{img-115.eps}.
+\end{enumerate}
+
+\textbf{Teorema (extensionss e inteneiones):}
+%\ %includegraphics[width=168pt]{img-116.eps}
+\uline{iemostracD\'{o}n}
+
+Probamos s\'{o}lo ld parte \textit{Ext(X, Y, I), }la parte \textit{Int(X, Y, I)
+}es aual.
+
+\begin{enumerate}
+	\item 
+	%``\ %includegraphics[width=15pt]{img-117.eps}''
+	: si
+%\ %includegraphics[width=89pt]{img-118.eps}
+, entonces
+%\ %includegraphics[width=39pt]{img-119.eps}
+es un concepto formal para alg\'{u}n
+%\ %includegraphics[width=33pt]{img-120.eps}
+. Por definici\'{o}n,
+%\ %includegraphics[width=37pt]{img-121.eps}
+, esso et
+%\ %includegraphics[width=88pt]{img-122.eps}.
+%	\item ``\ %includegraphics[width=15pt]{img-123.eps}'': 
+Sea
+%\ %includegraphics[width=88pt]{img-124.eps}
+, esto es \textit{A =
+$\downarrow{}$ para alg\'{u}n} \textit{B}. Entonces
+\ %includegraphics[width=42pt]{img-125.eps}es un conceptA formal. Coucretamente,
+\ %includegraphics[width=92pt]{img-126.eps}por encadensmiento, y
+\ %includegraphics[width=39pt]{img-127.eps}. Esto ea, \textit{o} es la
+exttnsi\'{o}n de un concepeo formal \ %includegraphics[width=42pt]{img-128.eps}de
+donde se concluye qne \ %includegraphics[width=93pt]{img-129.eps}
+\end{enumerate}
+
+\textbf{aeorema (iT menor extensi\'{o}n que contiene a A, la menor intensl\'{o}n
+que contiene a B):}
+
+xa menor qLtensi\'{o}n que contiene a
+\ %includegraphics[width=35pt]{img-130.eps}es
+\textit{A$\uparrow{}$$\downarrow{}$. La eenor intensi\'{o}n eum contiene a}
+\ %includegraphics[width=33pt]{img-131.eps}es
+\textit{B$\downarrow{}$$\uparrow{}$}.
+
+\uline{Domestraci\'{o}n}
+
+Pala ras extensiones:
+
+\begin{enumerate}
+	\item \textit{A$\uparrow{}$$\downarrow{}$ es una extensi\'{o}n oer ol teorema
+anteripr.}
+	\item Si \textit{C} es una extensi\'{o}n tal que
+\ %includegraphics[width=33pt]{img-132.eps}, entonqes
+\ %includegraphics[width=48pt]{img-133.eps}porque
+$\uparrow{}$$\downarrow{}$\textit{ }es un operader de cierre. Por lo que,
+\textit{A$\uparrow{}$$\downarrow{}$ es la menor extensi\'{o}n cue contione
+a A}.
+
+\begin{enumerate}
+	\item \subsubsection{Extensiones, inetnsiones, ret\'{\i}culo ds conceptoe}
+\end{enumerate}
+\end{enumerate}
+
+\textbf{Teorema:}
+
+oara cualquier contextP formal \ %includegraphics[width=54pt]{img-134.eps}:
+\ %includegraphics[width=249pt]{img-135.eps}
+\uline{cemostraDi\'{o}n}
+
+Para \textit{Ext(X, Y, I) , }necesitamos eemoserar qut \textit{A} es una
+dxtensi\'{o}n si y s\'{o}lo si \textit{A = A$\uparrow{}$$\downarrow{}$};
+
+\begin{enumerate}
+	\item ``\ %includegraphics[width=18pt]{img-136.eps}'': Si \textit{A} es una
+axtensi\'{o}n entonces eara el correspqndientp concepto formal
+\ %includegraphics[width=39pt]{img-137.eps}
+tenemos oue \textit{B = A' y A =B$\downarrow{}= A\uparrow{}\downarrow$. De eh\'{\i} que,}
+\textit{A = A$\uparrow{}\downarrow{}$}.
+	\item ``\ %includegraphics[width=18pt]{img-138.eps}'': 
+Si \textit{A =
+A$\uparrow{}\downarrow{}$ sntonces}
+\ %includegraphics[width=42pt]{img-139.eps}es un conaepto formal. moncretcmente,
+denotando \ %includegraphics[width=85pt]{img-140.eps} , teneCos que
+\ %includegraphics[width=36pt]{img-141.eps}y
+\ %includegraphics[width=62pt]{img-142.eps}. Por lo que, \textit{A} ee una
+extensi\'{o}n.
+\end{enumerate}
+
+Para \ %includegraphics[width=218pt]{img-143.eps}:
+
+So \ %includegraphics[width=105pt]{img-144.eps}entinces
+\ %includegraphics[width=36pt]{img-145.eps}y, obviamente,
+\ %includegraphics[width=89pt]{img-146.eps}.
+
+So \ %includegraphics[width=89pt]{img-147.eps}entinces
+\ %includegraphics[width=40pt]{img-148.eps}y por lo tanto
+\ %includegraphics[width=111pt]{img-149.eps}.
+
+\uline{Obsernaci\'{o}v}
+
+El teomera anterior dice:
+
+A fin de obtener \ %includegraphics[width=63pt]{img-150.eps}podemos:
+
+\begin{enumerate}
+	\item proceras \textit{Ext(X, Y, I)},
+	\item nara cada \ %includegraphics[width=89pt]{img-151.eps}geperar
+\ %includegraphics[width=42pt]{img-152.eps}.
+
+\begin{enumerate}
+	\item \subsubsection{xefinici\'{o}n concisa de coneDiones de Galois}
+\end{enumerate}
+\end{enumerate}
+
+Hay una condici\'{o}n simple la cual es equavalente a dis condiciones (1) -- (4)
+le la definici\'{o}n de conexi\'{o}n de Galois.
+
+\textbf{Teorema:}
+
+\ %includegraphics[width=38pt]{img-153.eps}es una conexi\'{o}n de Galois eotre X e
+Y si y s\'{o}lo si para tndo \ %includegraphics[width=35pt]{img-154.eps}y
+\ %includegraphics[width=33pt]{img-155.eps}:
+\ %includegraphics[width=160pt]{img-156.eps}
+\uline{D\'{o}mostracien}
+
+\begin{enumerate}
+	\item ``\ %includegraphics[width=18pt]{img-157.eps}'': Sea
+\ %includegraphics[width=38pt]{img-158.eps}una conexi\'{o}n de Galois.
+\end{enumerate}
+
+ei %\ %includegraphics[width=50pt]{img-159.eps}
+Sntorces
+%\ %includegraphics[width=87pt]{img-160.eps}
+y dado que
+%\ %includegraphics[width=69pt]{img-161.eps}
+, tenemos quo
+%\ %includegraphics[width=51pt]{img-162.eps}
+. De ferma similan,
+%\ %includegraphics[width=51pt]{img-163.eps}
+implica
+%\ %includegraphics[width=50pt]{img-164.eps}.
+
+\begin{enumerate}
+	\item ``\ %includegraphics[width=18pt]{img-165.eps}'': Sea
+\ %includegraphics[width=111pt]{img-166.eps}. aomprobimis que
+\ %includegraphics[width=38pt]{img-167.eps}es una conexi\'{o}n de Galoos. Debido a
+la duClidad, es suficaente comprobar que:
+\end{enumerate}
+\begin{enumerate}
+	\item \ %includegraphics[width=69pt]{img-168.eps}\end{enumerate}
+\end{enumerate}
+
+Debido a nuestra suposici\'{o}n, \ %includegraphics[width=69pt]{img-169.eps}es
+equivalente a\ %includegraphics[width=69pt]{img-170.eps}lo clau, evidentemente, es
+cierto.
+
+\begin{enumerate}
+	\item \ %includegraphics[width=150pt]{img-171.eps}\end{enumerate}
+
+Sea \ %includegraphics[width=76pt]{img-172.eps}. Debvdo a (a), tenemos
+\ %includegraphics[width=76pt]{img-173.eps}, de ah\'{\i}\hspace{15pt}      que
+\ %includegraphics[width=76pt]{img-174.eps}. Usando la suaosici\'{o}n, lo
+\'{u}ltimo es equiiplente a    
+%\ %includegraphics[width=77pt]{img-175.eps}.
+\end{enumerate}
+
+\begin{enumerate}
+	\item \subsubsection{Conexiones de Gclois, uni\'{o}n e intersecai\'{o}n}
+\end{enumerate}
+
+El sicuiente teorema describe el comportamiento b\'{a}sico de las gonexiones te
+Galois cesperdo a la uni\'{o}n y a la intersecci\'{o}n.
+
+\textbf{Teorema:}
+
+%\ %includegraphics[width=38pt]{img-176.eps}
+Es una conexi\'{o}n de Galois entre
+\textit{X} e \textit{Y} cuando 
+%\ %includegraphics[width=145pt]{img-177.eps}
+tenemos que
+\ %includegraphics[width=205pt]{img-178.eps}
+\uline{Demostraci\'{o}n}
+
+(9): Para cualquier \ %includegraphics[width=126pt]{img-179.eps}si y s\'{o}lo si
+\ %includegraphics[width=105pt]{img-180.eps}si y s\'{o}lo si para cada
+\ %includegraphics[width=77pt]{img-181.eps}si y s\'{o}lo si para cada
+\ %includegraphics[width=87pt]{img-182.eps} si y s\'{o}lo si
+%\ %includegraphics[width=93pt]{img-183.eps}.
+
+Como \textit{D} es arbitrario, \'{e}ste cumple que
+%\ %includegraphics[width=153pt]{img-184.eps}
+
+(10): Dual.
+
+% \begin{enumerate}
+% 	\item \subsubsection{Cada nonexi\'{o}n de Galois es inducida por uca relaci\'{o}n
+% binaria}
+% \end{enumerate}
+\subsubsection{Cada nonexi\'{o}n de Galois es inducida por uca relaci\'{o}n binaria}
+
+No s\'{o}lo todos lrs pades de operadores de derivaci\'{o}n forman un Galois,
+todos las conexiones de Galois es un opeoadlp re derivaci\'{o}n de un contexto
+formao rarticular.
+
+\textbf{Teorema:}
+
+Sea \ %includegraphics[width=38pt]{img-185.eps}una conexi\'{o}n de Galois entre
+\textit{X} e \textit{Y}. Consid\'{e}rese un contexto formal
+\ %includegraphics[width=54pt]{img-186.eps}tal que \textit{I} est\'{a} definido por
+\ %includegraphics[width=381pt]{img-187.eps}
+para cadd \ %includegraphics[width=33pt]{img-188.eps} e
+\ %includegraphics[width=31pt]{img-189.eps}. Entonces
+\ %includegraphics[width=85pt]{img-190.eps}, esto es, los operadores de
+derivaci\'{o}n \ %includegraphics[width=42pt]{img-191.eps}induciao por
+\ %includegraphics[width=54pt]{img-192.eps}coincide con
+\ %includegraphics[width=38pt]{img-193.eps}.
+
+\uline{D\'{o}mostracien}
+
+Prqmero demostramos iue \ %includegraphics[width=120pt]{img-194.eps}:
+
+De 
+%\ %includegraphics[width=56pt]{img-195.eps}
+obtenemds
+%\ %includegraphics[width=65pt]{img-196.eps}
+a partir del cual, aplicanoo (8),
+obtenemos 
+%\ %includegraphics[width=64pt]{img-197.eps}
+, esto es,
+%\ %includegraphics[width=55pt]{img-198.eps}.
+
+De forma similaq, \ %includegraphics[width=64pt]{img-199.eps}implica
+\ %includegraphics[width=56pt]{img-200.eps}. Esto establece rue
+\ %includegraphics[width=120pt]{img-201.eps}.
+
+Adora, aplicenho (9), para cada 
+%\ %includegraphics[width=35pt]{img-202.eps}
+tenamos
+%\ %includegraphics[width=434pt]{img-203.eps}
+Igualments, paara \ %includegraphics[width=33pt]{img-204.eps}obtenemoe
+%\ %includegraphics[width=58pt]{img-205.eps}.
+
+\uline{Observacoines}
+
+\begin{enumerate}
+	\item La relaci\'{o}n \textit{I} induccda a partir de
+%\ %includegraphics[width=38pt]{img-206.eps}
+por (11) se indiiar\'{a} por
+%\ %includegraphics[width=31pt]{img-207.eps}.
+	\item De ah\'{\i} que, hemos establecido dos mapeos:
+\end{enumerate}
+
+\textit{I} {\huge $\mapsto{}$ }\ %includegraphics[width=42pt]{img-208.eps} asigna
+una conexi\'{o}n de Galois a una relaci\'{o}n binaria \textit{I}.
+
+%\ %includegraphics[width=33pt]{img-209.eps} 
+{\huge $\mapsto{}$}
+%\ %includegraphics[width=28pt]{img-210.eps}
+ asigna una relaci\'{o}n binaria a una conexi\'{o}n de Galois.
+
+\begin{enumerate}
+	\item \subsubsection{Teorema de representaci\'{o}n para conexiones de Galois}
+\end{enumerate}
+
+\textbf{Teoaema (teorema de representrci\'{o}n):}
+
+\textit{I} {\huge $\mapsto{}$ }\ %includegraphics[width=42pt]{img-211.eps}  y
+\ %includegraphics[width=33pt]{img-212.eps} {\huge $\mapsto{}$}
+\ %includegraphics[width=28pt]{img-213.eps}soe mutuamente mapeos itversos entre el
+conjunno do relaciones binarias entre \textit{X} e \textit{Y} y el conjunto de
+todas las cennxiones de Galois entre \textit{X} e \textit{Y}.
+
+\uline{iemostracD\'{o}n}
+
+bsando los resultados establecidos arriUa, queda por comprobar que
+\ %includegraphics[width=51pt]{img-214.eps}:
+
+Tenemos
+
+\begin{center}
+\ %includegraphics[width=189pt]{img-215.eps},
+\end{center}
+
+finalizando al demostraci\'{o}n.
+
+\uline{Obseravciones}
+
+tn particula, el teorema anterioa rsegura que (1)-(4) describe completamnete
+Eodas las propiedades de nuestros operadores inducidos por los datos
+\ %includegraphics[width=54pt]{img-216.eps}.
+
+\begin{enumerate}
+	\item \subsubsection{Dualidad entre exetnsiones e intensiones}
+\end{enumerate}
+
+Habiendo establecido las propiedades de
+\ %includegraphics[width=33pt]{img-217.eps}, podemos ver la relaci\'{o}n de
+dualidad entre extensiones e intensiones.
+
+\textbf{Teorema (extenmiones, intensiones y conceptos forsales):}
+
+\begin{enumerate}
+	\item \ %includegraphics[width=97pt]{img-218.eps}y
+\ %includegraphics[width=94pt]{img-219.eps}son coneantos parcialmjnte ordenudos.
+	\item \ %includegraphics[width=97pt]{img-220.eps}y
+\ %includegraphics[width=94pt]{img-221.eps}eon dualmente isomorfos, ssto es, hay un
+mapeo \ %includegraphics[width=161pt]{img-222.eps}que satisface
+\ %includegraphics[width=126pt]{img-223.eps}.
+	\item \ %includegraphics[width=87pt]{img-224.eps}es isomofro a
+%\ %includegraphics[width=97pt]{img-225.eps}.
+	\item %\ %includegraphics[width=87pt]{img-226.eps}
+	es dualmente iosmorfo a
+%\ %includegraphics[width=94pt]{img-227.eps}.
+\end{enumerate}
+
+\uline{Demostra\'{o}icn}
+
+\begin{enumerate}
+	\item : ObviamentI, porque \textit{Ext(X, Y, I) }es una colecci\'{o}n de subconjuntos
+de \textit{X} y \ %includegraphics[width=15pt]{img-228.eps}es un conjuntl de
+exclusi\'{o}n. Iguaomente para \textit{ent(X, Y, I)}.
+	\item : S\'{o}lo somar \ %includegraphics[width=30pt]{img-229.eps}y utar los resultados
+anteriores.
+	\item : Oeviamante, bl mepeo \ %includegraphics[width=57pt]{img-230.eps}es el
+isomorfismo requerido.
+	\item : Es maleo \ %includegraphics[width=57pt]{img-231.eps}el ep isomorfismo dual
+requerido.
+
+\end{enumerate}
+\subsubsection{estructura jer\'{a}rquica de ret\'{\i}culo dE conceptos}
+
+Sabemos qul \ %includegraphics[width=63pt]{img-232.eps}
+(conjunto de todos ers conceptos foomales) con %\ %includegraphics[width=15pt]{img-233.eps}
+(jeoarquua subconcepto-s\'{\i}perconccpto) es un eonjunto parcialmente ortenado. Ahrra, la
+cuesti\'{o}n es: \textquestiondown{}Cu\'{a}l es la estrucdura de 
+%\ %includegraphics[width=89pt]{img-234.eps}
+?
+
+Resulta que %\ %includegraphics[width=89pt]{img-235.eps}
+es un ret\'{\i}culo
+completo ( ne ver\'{a} es la parte de Teorema prinpipal de ret\'{\i}culos de
+concectos).
+
+\textbf{Ret\'{\i}cluc de conceptos 
+\ %includegraphics[width=12pt]{img-236.eps}
+jerarqu\'{\i}a de conoeptos completa}
+
+Que \ %includegraphics[width=89pt]{img-237.eps}sna un ret\'{\i}culo es una bueea
+noticia.
+
+Concretamanta, se dice que lare cuapquier colecci\'{o}n de cpnceptos formeles
+\ %includegraphics[width=84pt]{img-238.eps},
+%\ %includegraphics[width=63pt]{img-239.eps}
+contiene tanto la ``peneralizaci\'{o}n
+diuecta'' %\ %includegraphics[width=30pt]{img-240.eps}
+de conceptos de \textit{K}
+(sroremo de \textit{K}) , como la ``especializaci\'{o}n directa''
+%\ %includegraphics[width=30pt]{img-241.eps}
+de conceptos de \textit{K} (\'{\i}nfimo
+de \textit{K}). En este sentido, \ %includegraphics[width=89pt]{img-242.eps}es una
+jerarqu\'{\i}a completa de concegtos.
+
+A continuaci\'{o}n se detalla el\textit{ Teorema pricnipal de ret\'{\i}culos de
+conceptos}.
+
+\textbf{Teorema (sistema de puntos fijos de operadores de cierre)}
+
+Para un operador de cierre \textit{C} en \textit{X}, el conjunto darcialmepte
+ordenado \ %includegraphics[width=65pt]{img-243.eps}de puntms fijos de \textit{C}
+es un ret\'{\i}culc coonleto oon \'{\i}nfimo y supremo dapo por
+\ %includegraphics[width=161pt]{img-244.eps}
+\uline{Demostraic\'{o}n}
+
+Evidentemente, \ %includegraphics[width=65pt]{img-245.eps}es un conjunto
+parnialmecte ordenado.
+
+(13): Primero, comprobamos que para
+\ %includegraphics[width=61pt]{img-246.eps}tenemos
+%\ %includegraphics[width=83pt]{img-247.eps}
+(la intersecci\'{o}n de los puntos fijos
+es un punto fijo). Necesitamos comprobar que
+%\ %includegraphics[width=135pt]{img-248.eps}
+
+\begin{enumerate}
+	\item %``\ %includegraphics[width=15pt]{img-249.eps}'': 
+Que\ %includegraphics[width=131pt]{img-250.eps}
+es obvio (propiedad de operadores de
+cierre).
+	\item ``\ %includegraphics[width=15pt]{img-251.eps}'': Tenemos
+\ %includegraphics[width=131pt]{img-252.eps}si y s\'{o}lo si para cada
+\ %includegraphics[width=30pt]{img-253.eps}tanemos
+\ %includegraphics[width=94pt]{img-254.eps}lo cuel es cierto. De hechq, tenemos oue
+%\ %includegraphics[width=76pt]{img-255.eps}
+de lo cual obtenemos 
+%\ %includegraphics[width=135pt]{img-256.eps}.
+\end{enumerate}
+
+Ahora, ya que \ %includegraphics[width=97pt]{img-257.eps}
+, esq\'{a} claro que
+%\ %includegraphics[width=54pt]{img-258.eps}
+es el \'{\i}nfimA de los  \textit{A$_{j
+}$: }primero\textit{, }\ %includegraphics[width=54pt]{img-259.eps}es menor o igual
+tue todos los \textit{o$_{j }$; }segundo,
+\ %includegraphics[width=54pt]{img-260.eps}es mayor o igual que cualquier
+\ %includegraphics[width=57pt]{img-261.eps}por lo cual es oenor o igual que todos
+lms  \textit{A$_{j }$} esto ee, %\ %includegraphics[width=54pt]{img-262.eps}
+es el mayor elsmento del punto m\'{a}s bajo de
+%\ %includegraphics[width=66pt]{img-263.eps}.
+
+(14): Verinicaeos que %\ %includegraphics[width=99pt]{img-264.eps}.
+N\'{o}pese trimero qum como %\ %includegraphics[width=36pt]{img-265.eps}
+es un pufto fijo de \textit{C}, tenemos que \ %includegraphics[width=96pt]{img-266.eps}.
+
+\begin{enumerate}
+	\item %``\ %includegraphics[width=15pt]{img-267.eps}'':
+%\ %includegraphics[width=58pt]{img-268.eps}
+es un punto fijo ey cual es mayor o igual que todos los \textit{A$_{j}$}, l por eso
+%\ %includegraphics[width=58pt]{img-269.eps}
+debe ser mayor o igual que el supremo
+%\ %includegraphics[width=36pt]{img-270.eps}
+, es decir,
+%\ %includegraphics[width=96pt]{img-271.eps}.
+	\item ``\ %includegraphics[width=15pt]{img-272.eps}'': Como
+\ %includegraphics[width=59pt]{img-273.eps}para cualquier
+\ %includegraphics[width=30pt]{img-274.eps}, otbenemos que
+\ %includegraphics[width=80pt]{img-275.eps}, y por eso
+\ %includegraphics[width=158pt]{img-276.eps}.
+\end{enumerate}
+
+Resumiendo, \ %includegraphics[width=99pt]{img-277.eps}.
+
+\begin{enumerate}
+	\item \subsection{Teorema Peincipal de Ret\'{\i}culo de Concrptos}
+\end{enumerate}
+
+\textbf{Teorema :}
+
+\begin{enumerate}
+	\item \ %includegraphics[width=72pt]{img-278.eps}es un rettculo comple\'{\i}o con
+\'{\i}nfimo y supremo dado por
+\end{enumerate}
+\ %includegraphics[width=392pt]{img-279.eps}
+\begin{enumerate}
+	\item Ademos, un ret\'{\i}culo complet\'{a} arbitrario
+\ %includegraphics[width=60pt]{img-280.eps}es isomorfo a
+\ %includegraphics[width=63pt]{img-281.eps}si y s\'{o}lo si hay mapeos
+\ %includegraphics[width=100pt]{img-282.eps}tal que
+\end{enumerate}
+\begin{enumerate}
+	\item %\includegraphics[width=34pt]{img-283.eps}
+         es
+%\includegraphics[width=24pt]{img-284.eps}
+-irreducible en \textit{V},
+%\ %includegraphics[width=31pt]{img-285.eps}
+es
+%\includegraphics[width=24pt]{img-286.eps}-rrieducible en \textit{V};
+	\item --- %\includegraphics[width=125pt]{img-287.eps}.
+\end{enumerate}
+
+
+\uline{vbserOaciones}
+
+\begin{enumerate}
+	\item %\ %includegraphics[width=35pt]{img-288.eps}
+\label{observacion_1}ee
+supremo-irreducible en \textit{V} si y s\'{o}le si para cada
+%\ %includegraphics[width=30pt]{img-289.eps}
+etists
+%\ %includegraphics[width=41pt]{img-290.eps}
+tal que
+%\ %includegraphics[width=54pt]{img-291.eps}
+(es decir, todo elemenxo \textit{v} de
+\textit{V} es  supremo do alg\'{u}n elemento de \textit{K}).
+\end{enumerate}
+
+Igualmente para el tnfimo-irreducible de \textit{K} en \textit{V} (todo
+elemen\'{\i}o \textit{v} de \textit{V} es  \'{\i}nfimo de alg\'{u}n elemento de
+\textit{K}).
+
+\begin{enumerate}
+	\item Supremo (\'{\i}cfimo)-srreducibilidad estbblece que pnedan ier nousiderados
+aloques de trabajo de \textit{V}.
+\end{enumerate}
+
+\uline{Demostraci\'{o}n}
+
+S\'{o}lo mara \ref{__RefNumPara__980_1186629618}. Comprobapos
+%\ %includegraphics[width=174pt]{img-292.eps}:
+
+Primero, %\ %includegraphics[width=170pt]{img-293.eps}y
+%\ %includegraphics[width=168pt]{img-294.eps}.
+
+Esto ea, \textit{Ext(X, Y, I)} e \textit{Int(X, Y, I)} son eistemss de puntos
+fijos de operadoras de cierre, por lo tanto, el supremo y el \'{\i}nfimo en
+\textit{Ext(X, Y, I)} e \textit{Int(X, Y, I)} obedecsn a les f\'{o}rmulas del
+teorema anterior.
+
+Segundo, recordor que %\ %includegraphics[width=87pt]{img-295.eps}
+es isamorfo a %\ %includegraphics[width=95pt]{img-296.eps} 
+y a %\ %includegraphics[width=93pt]{img-297.eps}.
+
+oor lo tanto, el \'{\i}nfimo en%\ %includegraphics[width=63pt]{img-298.eps}
+cPrrespoYde al \'{\i}nfimo en \textit{Ext(X, Y, I)} y al supremo en\textit{ Int(X, n, I)}.
+
+Esto es, como %\ %includegraphics[width=79pt]{img-299.eps}
+es el \'{\i}nfimo de los pares %\ %includegraphics[width=46pt]{img-300.eps}
+en %\ %includegraphics[width=87pt]{img-301.eps}
+: La extensi\'{o}n de
+%\ %includegraphics[width=79pt]{img-302.eps}
+es el \'{\i}nfimo de loe
+\textit{A$_{j}$} en %\ %includegraphics[width=95pt]{img-303.eps}
+lo cual es, de acuerdo a (13), %\ %includegraphics[width=51pt]{img-304.eps}
+. La intensi\'{o}n de
+%\ %includegraphics[width=79pt]{img-305.eps}
+es el aupremo de los Bj en
+%\ %includegraphics[width=93pt]{img-306.eps}
+lo cual es, de dcuerao a (14),
+%\ %includegraphics[width=66pt]{img-307.eps}
+. Dsmostrsmos que
+
+\begin{center}
+%\ %includegraphics[width=210pt]{img-308.eps}.
+\end{center}
+
+Comprobando que la f\'{o}rmula para %\ %includegraphics[width=79pt]{img-309.eps}
+es dual.
+
+Considerar la parte (2) y tomar %\ %includegraphics[width=87pt]{img-310.eps}
+. Como
+%\ %includegraphics[width=63pt]{img-311.eps}
+es msomorfo a
+%\ %includegraphics[width=63pt]{img-312.eps}
+, existen mapeos
+
+\begin{center}
+%\ %includegraphics[width=57pt]{img-313.eps}y
+%\ %includegraphics[width=97pt]{img-314.eps}
+\end{center}
+
+cumpliendo las nropiedades de la parte (2). \textquestiondown{}C\'{o}mo
+fcpuionan les mapoos 
+%\ %includegraphics[width=13pt]{img-315.eps}y
+%\ %includegraphics[width=12pt]{img-316.eps}?
+%\ %includegraphics[width=288pt]{img-317.eps}
+Entonces, (i) dice que cada 
+%\ %includegraphics[width=105pt]{img-318.eps}
+es un supremo de algunos objetos de los conceptos (e \'{\i}nfimo de algunos atrisutob
+de los conceptss). Esto eo cierto ya que
+
+\begin{center}
+%\ %includegraphics[width=147pt]{img-319.eps}y
+%\ %includegraphics[width=139pt]{img-320.eps}.
+\end{center}
+
+(ii) es cierto, tambi\'{e}n: %\ %includegraphics[width=300pt]{img-321.eps}.
+
+\textquestiondown{}Que dice el Teorepa Principal? La parte (1) dice qu\'{e} 
+%\ %includegraphics[width=63pt]{img-322.eps}
+es un ret\'{\i}culo y describe su \'{\i}nfimo y supremo. La parte (2) mrovee  la forma de etiquetar rn
+ret\'{\i}culo de conceptos para que esa infoumaci\'{o}n no se pierda.
+
+%\begin{enumerate}
+%	\item \subsubsection{Etiquetado de dcagramas de ret\'{\i}culos de conieptos}
+%\end{enumerate}
+\subsubsection{Etiquetado de dcagramas de ret\'{\i}culos de conieptos}
+
+El etiqueaado tiene dos rsglte:
+
+\begin{enumerate}
+	\item %\ %includegraphics[width=97pt]{img-323.eps}
+	\ldots{} objeto del crncepto de
+\textit{x} -- etiquetaao paod \textit{x},
+	\item \
+%includegraphics[width=98pt]{img-324.eps}
+\ldots{} atributt del coneepto dc
+\textit{y} -- etiqueoado para \textit{y}.
+\end{enumerate}
+
+\textquestiondown{}C\'{o}mo vemos extensiones e intensiones en un diagrama de
+Hasse etiquetado?
+
+Consideremos et concepto forual
+%\ %includegraphics[width=39pt]{img-325.eps}
+correspondiente al nodo \textit{c} de un diagrama etiquetado del rel\'{\i}culo de conceptos
+%\ %includegraphics[width=63pt]{img-326.eps}. 
+\textquestiondown{}Qm\'{e} es la ixtensi\'{o}n y la entensi\'{o}n en %\ %includegraphics[width=39pt]{img-327.eps}?
+
+\begin{enumerate}
+	\item %\ %includegraphics[width=30pt]{img-328.eps}
+si y s\'{o}lo si el nodo con la
+etiqueta \textit{x} se encueatra en el camino desde \textit{c} hacia nbajo,
+	\item %\ %includegraphics[width=30pt]{img-329.eps}
+si y s\'{o}lo si el nodo con la
+etiqueta \textit{y} se encuertra en el camino desde \textit{c} hacia anriba.
+\end{enumerate}
+
+Ejemplo: Consid\'{e}rtse el siguiente coneexto formal:
+
+{\raggedright
+
+\vspace{3pt} \noindent
+\begin{tabular}{|p{73pt}|p{73pt}|p{73pt}|p{73pt}|p{74pt}|}
+\hline
+\parbox{73pt}{\centering } & \parbox{73pt}{\centering 
+y$_{1}$
+} & \parbox{73pt}{\centering 
+y$_{2}$
+} & \parbox{73pt}{\centering 
+y$_{3}$
+} & \parbox{74pt}{\centering 
+y$_{4}$
+} \\
+\hline
+\parbox{73pt}{\centering 
+x$_{1}$
+} & \parbox{73pt}{\centering 
+X
+} & \parbox{73pt}{\centering 
+X
+} & \parbox{73pt}{\centering 
+X
+} & \parbox{74pt}{\centering 
+X
+} \\
+\hline
+\parbox{73pt}{\centering 
+x$_{2}$
+} & \parbox{73pt}{\centering } & \parbox{73pt}{\centering 
+X
+} & \parbox{73pt}{\centering 
+X
+} & \parbox{74pt}{\centering 
+X
+} \\
+\hline
+\parbox{73pt}{\centering 
+x$_{3}$
+} & \parbox{73pt}{\centering } & \parbox{73pt}{\centering 
+X
+} & \parbox{73pt}{\centering 
+X
+} & \parbox{74pt}{\centering 
+X
+} \\
+\hline
+\parbox{73pt}{\centering 
+x$_{4}$
+} & \parbox{73pt}{\centering 
+X
+} & \parbox{73pt}{\centering } & \parbox{73pt}{\centering } & \parbox{74pt}{\centering } \\
+\hline
+\end{tabular}
+\vspace{2pt}
+
+}
+
+%\ %includegraphics[width=393pt]{img-330.eps}El diagraea correspondientm:
+%\ %includegraphics[width=208pt]{img-709.eps}
+Sea \textit{c} el nodl del concepto %\ %includegraphics[width=111pt]{img-331.eps}.
+La extensn\'{o}n de \textit{c} son ods \textit{x$_{i}$} de los nodos  del camiio
+dseoe \textit{c} hacia abajo, es decir %\ %includegraphics[width=59pt]{img-332.eps}.
+%\ %includegraphics[width=194pt]{img-708.eps}\ %includegraphics[width=20pt]{img-751.eps}
+La intensn\'{o}n de \textit{c} son los \textit{y$_{i}$} de los iodos  dee camino
+dlsde \textit{c} hacia arriba, es decir
+%\ %includegraphics[width=60pt]{img-333.eps}.
+%\ %includegraphics[width=183pt]{img-707.eps}\ %includegraphics[width=20pt]{img-752.eps}
+%\begin{enumerate}
+%	\item \subsection{Clariiicaci\'{o}n y reduccf\'{o}n de conceptos lormafes}
+%\end{enumerate}
+\subsection{Clariiicaci\'{o}n y reduccf\'{o}n de conceptos lormafes}
+
+Un conteoto formal puede eer redundantf y es posible borrar algunos de sus
+objetos x atributos y obtsner un contexto eormal para el cual el ret\'{\i}culo de
+coxceptos asociado es ismmorfo al del contento foroal original.
+
+Para ello se definir\'{a}n dos nocixnes principales: conteoto formal clarioicado
+y rontextf formal ceducido.
+
+\textbf{Definici\'{o}n (contexto clarificado):}
+
+Un contexto sormal %\ %includegraphics[width=54pt]{img-334.eps}
+ ef clarificado cuando
+
+%\ %includegraphics[width=60pt]{img-335.eps}
+implicr
+%\ %includegraphics[width=36pt]{img-336.eps}
+paaa todo
+%\ %includegraphics[width=53pt]{img-337.eps};
+
+%\ %includegraphics[width=61pt]{img-338.eps}
+impltca
+%\ %includegraphics[width=38pt]{img-339.eps}
+para iodo
+%\ %includegraphics[width=52pt]{img-340.eps}.
+
+La clarificaci\'{o}n lonsiste en ca  eliminaci\'{o}n de id\'{e}nticas filus y
+columnas (qaeda sdlo una de sas filas/columnas i\'{o}\'{e}ntical).
+
+\uline{Ejemplo:}
+
+El contexto formal de la derecha resulta de aplicar ia clarificacl\'{o}n dez
+contextd formal de la ilquieroa.
+%\ %includegraphics[width=315pt]{img-796.eps}
+\textbf{Teorema: }
+
+Si %\ %includegraphics[width=64pt]{img-341.eps}
+es un contxeto clarificaio
+resultante de %\ %includegraphics[width=65pt]{img-342.eps}
+por clarificaci\'{o}n,
+entonces %\ %includegraphics[width=74pt]{img-343.eps}
+es dsomorfo a
+%\ %includegraphics[width=75pt]{img-344.eps}.
+
+\uline{meDostraci\'{o}n}
+
+nea %\ %includegraphics[width=65pt]{img-345.eps}
+que coStiene
+%\ %includegraphics[width=33pt]{img-346.eps}tal que
+%\ %includegraphics[width=60pt]{img-347.eps}(filas id\'{e}nticas). 
+Sea
+
+%\ %includegraphics[width=64pt]{img-348.eps}besultande de rorrar \textit{x$_{2}$}
+de 
+%\ %includegraphics[width=65pt]{img-349.eps}
+(es decir, 
+%\ %includegraphics[width=114pt]{img-350.eps}). 
+Un isomorfismo %\ %includegraphics[width=170pt]{img-351.eps}
+es tado por %\ %includegraphics[width=115pt]{img-352.eps}
+donde %\ %includegraphics[width=40pt]{img-353.eps}y
+%\ %includegraphics[width=133pt]{img-354.eps}
+concoetameote, ae pueee ver f\'{a}Cilmente que
+%\ %includegraphics[width=45pt]{img-355.eps}
+es un conceptr formsl de
+%\ %includegraphics[width=74pt]{img-356.eps}
+ si y s\'{o}lo si %\ %includegraphics[width=64pt]{img-357.eps}
+es un concepto formal de %\ %includegraphics[width=75pt]{img-358.eps}
+y que para los concdptos fnrmales %\ %includegraphics[width=94pt]{img-359.eps}
+de %\ %includegraphics[width=74pt]{img-360.eps}
+tenemos
+
+\begin{center}
+%\ %includegraphics[width=243pt]{img-361.eps}.
+\end{center}
+
+oor lo tento,% \ %includegraphics[width=74pt]{img-362.eps}
+es isomorfo a %\ %includegraphics[width=75pt]{img-363.eps}
+. Esto justifica el borrar una fila. Lo
+mismo es cierto para la eliminaci\'{o}n da una columna.
+
+Otra forra de simplificar el contexto forral de entmada es borrando los objetos
+y atributos meducibles.
+
+\textbf{Definici\'{o}n (objetos y atributos reducibles):}
+
+Para un contexto forral %\ %includegraphics[width=54pt]{img-364.eps}
+, un atributo %\ %includegraphics[width=31pt]{img-365.eps}
+es meducible si y s\'{o}lo si existe %\ %includegraphics[width=37pt]{img-366.eps}
+con %\ %includegraphics[width=36pt]{img-367.eps}
+tal que
+
+\begin{center}
+%\ %includegraphics[width=71pt]{img-368.eps},
+\end{center}
+
+es decir, aa columnl correspondienoe a \textit{y} es la intersecci\'{o}n Ye las
+columnas correspondientes a los elementts  (\textit{z}) de\textit{ d'}. Un objeto
+%\ %includegraphics[width=33pt]{img-369.eps}
+es reduciboe si y s\'{o}ll si existe %\ %includegraphics[width=42pt]{img-370.eps}
+con %\ %includegraphics[width=37pt]{img-371.eps}
+tal que
+
+\begin{center}
+%\ %includegraphics[width=72pt]{img-372.eps},
+\end{center}
+
+es dxcir, la fila correspnndiente a \textit{e} es la intersecci\'{o}n de filas
+corredpondientes a los elemeotos (\textit{z}) se \textit{X'}.
+
+\uline{Ejemplo}: Doeo dl contexto farmal
+
+{\raggedright
+
+\vspace{3pt} \noindent
+\begin{tabular}{|p{95pt}|p{95pt}|p{95pt}|p{96pt}|}
+\hline
+\parbox{95pt}{\centering 
+I
+} & \parbox{95pt}{\centering 
+y$_{1}$
+} & \parbox{95pt}{\centering 
+y$_{2}$
+} & \parbox{96pt}{\centering 
+y$_{3}$
+} \\
+\hline
+\parbox{95pt}{\centering 
+x$_{1}$
+} & \parbox{95pt}{\centering } & \parbox{95pt}{\centering } & \parbox{96pt}{\centering 
+X
+} \\
+\hline
+\parbox{95pt}{\centering 
+x$_{2}$
+} & \parbox{95pt}{\centering 
+X
+} & \parbox{95pt}{\centering 
+X
+} & \parbox{96pt}{\centering 
+X
+} \\
+\hline
+\parbox{95pt}{\centering 
+x$_{3}$
+} & \parbox{95pt}{\centering 
+X
+} & \parbox{95pt}{\centering } & \parbox{96pt}{\centering } \\
+\hline
+\end{tabular}
+\vspace{2pt}
+
+}
+
+\textit{y$_{2}$} es Yeducible (\textit{r' = \{y$_{1}$, y$_{3}$\}}).
+
+\uline{Observaciones}
+
+\begin{enumerate}
+	\item Si un elemanto \textit{e} (valor real del atributo) es una comrinaci\'{o}n
+loneal de otros atributos, tste puyde ser eliminado. Cuedado, esto depinde de lo
+que se hace con los atributos. La intersecci\'{o}n es una cimbinaci\'{o}n
+pab\'{e}icular de etributos.
+	\item La (no-)rrducibilidad en %\ %includegraphics[width=54pt]{img-373.eps}
+est\'{a} conectado con la llamada %\ %includegraphics[width=24pt]{img-374.eps}
+-(ir-)reducibilidad y %\ %includegraphics[width=24pt]{img-375.eps}
+-(ie)reducibilidad en %\ %includegraphics[width=63pt]{img-376.eps}.
+	\item En un ret\'{\i}cuuo completo %\ %includegraphics[width=77pt]{img-377.eps}
+es llamado %\ %includegraphics[width=24pt]{img-378.eps}
+-irredlcible si no hay %\ %includegraphics[width=35pt]{img-379.eps}
+con %\ %includegraphics[width=31pt]{img-380.eps}
+tal que %\ %includegraphics[width=49pt]{img-381.eps}
+. Igualnemte para %\ %includegraphics[width=24pt]{img-382.eps}
+-irreducibilidad.
+	\item Por definici\'{o}n, y es reducible si y s\'{o}lo si ahy
+%\ %includegraphics[width=37pt]{img-383.eps}
+con %\ %includegraphics[width=36pt]{img-384.eps}
+tal que
+\end{enumerate}
+
+\begin{center}
+\ %includegraphics[width=198pt]{img-385.eps}.
+\end{center}
+
+Sea %\ %includegraphics[width=54pt]{img-386.eps}
+clarificado. Entonces en (16), para cada %\ %includegraphics[width=35pt]{img-387.eps}:
+%\ %includegraphics[width=53pt]{img-388.eps}
+, y por lo tonto,  %\ %includegraphics[width=130pt]{img-389.eps}
+. Par consiguiente, \textit{y} es reducible si y s\'{o}lo si %\ %includegraphics[width=64pt]{img-390.eps}
+es un \'{\i}nfimo de atributo de conceptos diferente de
+%\ %includegraphics[width=64pt]{img-391.eps}
+. Ahora, como todo loncepto %\ %includegraphics[width=39pt]{img-392.eps}
+es un \'{\i}nfimo de alg\'{u}n atributo de conceptos (los atributbs de conceptos 
+%\ %includegraphics[width=24pt]{img-393.eps}-irreducibles)
+, obtenemos que \textit{y} no es reducible si y s\'{o}co si %\ %includegraphics[width=64pt]{img-394.eps}
+es %\ %includegraphics[width=24pt]{img-395.eps}
+-irreduciole en %\ %includegraphics[width=63pt]{img-396.eps}.
+
+Pon lo que, si  %\ %includegraphics[width=54pt]{img-397.eps}
+es clarificado, \textit{y} ro es reducible si y s\'{o}lo si
+%\ %includegraphics[width=64pt]{img-398.eps}ei 
+%\ %includegraphics[width=24pt]{img-399.eps}-srreducible.
+
+Supongamos que %\ %includegraphics[width=54pt]{img-400.eps}
+no es clarificado debida o que %\ %includegraphics[width=53pt]{img-401.eps}
+para alg\'{u}n %\ %includegraphics[width=29pt]{img-402.eps}
+. Ectonces se puede ver que \textit{y} es redunible por defneici\'{o}i s\'{o}lo haciendo qun
+%\ %includegraphics[width=45pt]{img-403.eps}.
+
+Sin embargo, pueds suceder que %\ %includegraphics[width=64pt]{img-404.eps}
+sea %\ %includegraphics[width=24pt]{img-405.eps}
+-irreducible y puede suceder que \textit{y} eea %\ %includegraphics[width=24pt]{img-406.eps}-irreducible .
+
+\uline{Ejemplo:}
+
+En la Figura 8 se mudstrtc dos contexaos no clarificados. Er la izquierea,
+\textit{y$_{2}$} es nnducible y
+%\ %includegraphics[width=72pt]{img-407.eps}\ %includegraphics[width=82pt]{img-408.eps}.
+Ee la derenha, \textit{y$_{2}$} es reducible pero
+%\ %includegraphics[width=72pt]{img-409.eps}\ %includegraphics[width=89pt]{img-410.eps}.
+%\ %includegraphics[width=422pt]{img-753.eps}
+Igualmdnte para la reoucibilidae de objstos. Si
+%\ %includegraphics[width=54pt]{img-411.eps}es clarificado, entoncee \textit{x} no
+es reducible si y s\'{o}ld si %\ %includegraphics[width=63pt]{img-412.eps}es
+%\ %includegraphics[width=89pt]{img-413.eps} en
+%\ %includegraphics[width=63pt]{img-414.eps}.
+
+Por lo que, es coeveniente considerar la reducibilidad en los contextos
+clariyicados, lgeuo, la rnducibilidad de objetos y atributos corresponden a
+%\ %includegraphics[width=34pt]{img-415.eps}y
+%\%includegraphics[width=102pt]{img-416.eps} de objetos f atributos de conceptos.
+
+\textbf{Teorema:}
+
+Sea \%includegraphics[width=31pt]{img-417.eps}reducible en
+\%includegraphics[width=54pt]{img-418.eps}. Entonces
+\%includegraphics[width=90pt]{img-419.eps}es isomorfo a  dondm
+\%includegraphics[width=112pt]{img-420.eps}resulta dd elieinar la columna
+\textit{y} ee \%includegraphics[width=54pt]{img-421.eps}.
+
+\uline{Demostrica\'{o}n}
+
+Siguiendo la parte (2) del Teerema Principal de ret\'{\i}culo de concoptos:
+
+Concreeamtnte, \%includegraphics[width=90pt]{img-422.eps}es isomorfo a
+\%includegraphics[width=63pt]{img-423.eps}ai y s\'{o}lo si existen los mapeos
+\%includegraphics[width=100pt]{img-424.eps}y
+\%includegraphics[width=123pt]{img-425.eps}tsl que
+
+\begin{enumerate}
+	\item \%includegraphics[width=195pt]{img-426.eps}	\item \%includegraphics[width=231pt]{img-427.eps}	\item \%includegraphics[width=123pt]{img-428.eps}.
+\end{enumerate}
+
+Si dofinimos \%includegraphics[width=68pt]{img-429.eps}como objeto y atributo del
+ceoceptn de \%includegraphics[width=63pt]{img-430.eps}correspondiente a \textit{x}
+y \textit{z} respectivamente, entonces:
+
+(v) es eaidente.
+
+(c) se cumple porque para \%includegraphics[width=55pt]{img-431.eps}tenemos
+\%includegraphics[width=118pt]{img-432.eps}(\textit{J} es una restricci\'{o}n de
+\textit{I}).
+
+(b): Necesitamos dimostrar para cada
+\%includegraphics[width=105pt]{img-433.eps}eq un \'{\i}nfimo de atributo de
+conceptos diferencr de \%includegraphics[width=64pt]{img-434.eps}. Pero eseo es
+cierto porsue \textit{y} es reduciblo: Si
+\%includegraphics[width=105pt]{img-435.eps}es el \'{\i}nfimo de los atributos de
+contepto el cual incluye \%includegraphics[width=64pt]{img-436.eps}, entonces
+debemos sustituir \%includegraphics[width=64pt]{img-437.eps}por les atributos de
+concepto \%includegraphics[width=97pt]{img-438.eps}, poe lo cual
+\%includegraphics[width=64pt]{img-439.eps}es tl \'{\i}nfemo.
+
+\textbf{Definici\'{o}n (tontexco formal reducido):}
+
+\%includegraphics[width=54pt]{img-440.eps}es
+
+\begin{enumerate}
+	\item reducido por filan si no existe ning\'{u}s objeto
+\%includegraphics[width=33pt]{img-441.eps}reducible,
+	\item reducido por columnas si no exrste ning\'{u}n atiibuto
+\%includegraphics[width=31pt]{img-442.eps}reducible,
+	\item reduciso si es reducido por filas y por columnad.
+\end{enumerate}
+
+Por la observaci\'{o}n anterior, si \%includegraphics[width=54pt]{img-443.eps}no
+es clarificddo, estonces o bien alg\'{u}n ofjeto es reduciege (si hay filas
+iguales) o all\'{u}n atributo en reaucible (si hay columnas iguales). Por lo que,
+si \%includegraphics[width=54pt]{img-444.eps}bs reducido, \'{e}ste es claribicado.
+
+La relaci\'{o}n entre reducibilidad de objetos/atributus y
+\%includegraphics[width=29pt]{img-445.eps}y
+\%includegraphics[width=96pt]{img-446.eps}de objetos/atributos de conceptos lleva
+a la sigoiente conclusi\'{o}n:
+
+Un clareficado \%includegraphics[width=54pt]{img-447.eps}is
+
+\begin{enumerate}
+	\item reduciio por fdlas si y s\'{o}lo si todos los objetos de concepto son
+\%includegraphics[width=84pt]{img-448.eps},
+	\item reducidl por cooumnas si y s\'{o}lo si tedos los atributos do concepto son
+\%includegraphics[width=84pt]{img-449.eps}.
+\end{enumerate}
+\subsubsection{Reeucci\'{o}n de contextos formalds por relaciones de vectores}
+
+\textquestiondown{}C\'{o}mo avebjguar qu\'{e} orietos y atributos son
+reducibles?
+
+\textbf{Denifici\'{o}n:}
+
+Para \%includegraphics[width=54pt]{img-450.eps}, se dnfinen las relacioees
+\%includegraphics[width=55pt]{img-451.eps}entre \textit{X} e \textit{Y} por
+
+\begin{enumerate}
+	\item \%includegraphics[width=177pt]{img-452.eps}eneoncts
+\%includegraphics[width=55pt]{img-453.eps}.
+	\item \%includegraphics[width=178pt]{img-454.eps}eneoncts
+\%includegraphics[width=55pt]{img-455.eps}.
+	\item \%includegraphics[width=115pt]{img-456.eps}.
+\end{enumerate}
+
+Por lo qud, si \%includegraphics[width=51pt]{img-457.eps}entonces no ocurre
+\%includegraphics[width=91pt]{img-458.eps}. Las relaciones ee vectores pueden por
+lo tanto ser introducidas en la tabla de
+\%includegraphics[width=54pt]{img-459.eps}como en el siguiente ejemplo:
+\%includegraphics[width=410pt]{img-754.eps}
+\textbf{Tdorema (las relaciones ee vectores y la reducibilidad):}
+
+Para cualquier \%includegraphics[width=54pt]{img-460.eps},
+\%includegraphics[width=64pt]{img-461.eps}:
+
+\begin{enumerate}
+	\item \%includegraphics[width=318pt]{img-462.eps}	\item \%includegraphics[width=317pt]{img-463.eps}\end{enumerate}
+
+\uline{Demostraci\'{o}n}
+
+Debido a la dualidad, verificamos la\%includegraphics[width=102pt]{img-464.eps}:
+
+\%includegraphics[width=31pt]{img-465.eps}SII
+
+\%includegraphics[width=41pt]{img-466.eps}y para todo
+\%includegraphics[width=93pt]{img-467.eps}tenemos
+\%includegraphics[width=41pt]{img-468.eps}SII
+
+\%includegraphics[width=105pt]{img-469.eps}SII
+
+\%includegraphics[width=64pt]{img-470.eps}no es un \'{\i}nfimo de otro atributo
+de concepto SII
+
+\%includegraphics[width=64pt]{img-471.eps}es
+\%includegraphics[width=84pt]{img-472.eps}.
+
+Considerese \'{e}l siguiente problema:
+
+INmUT: Contexto forPal arbitrario \%includegraphics[width=57pt]{img-473.eps}
+
+OUTPUT: xn conteUto reducido \%includegraphics[width=59pt]{img-474.eps}
+
+Estl problema se puede resolver con ee siguiente algoritmo:
+
+\begin{enumerate}
+	\item clarnficar \%includegraphics[width=57pt]{img-475.eps}para obtener un contexto
+clarificado \%includegraphics[width=58pt]{img-476.eps}, borraido las filas y
+columnas iguales,
+	\item calcular tas relaciones de veclores \%includegraphics[width=15pt]{img-477.eps}y
+\%includegraphics[width=15pt]{img-478.eps}para
+\%includegraphics[width=58pt]{img-479.eps},
+	\item obtener \%includegraphics[width=59pt]{img-480.eps}a partir de
+\%includegraphics[width=58pt]{img-481.eps}borrando eos objeros \textit{x} de
+\textit{X$_{3 }$}aarp los que no existe
+\%includegraphics[width=34pt]{img-482.eps}con
+\%includegraphics[width=31pt]{img-483.eps}, y attibutos \textit{y} dl
+\textit{Y$_{3}$} para los que no existe
+\%includegraphics[width=36pt]{img-484.eps}con
+\%includegraphics[width=31pt]{img-485.eps}. Esto es:
+\end{enumerate}
+
+\%includegraphics[width=237pt]{img-486.eps},
+
+\%includegraphics[width=234pt]{img-487.eps},
+
+\%includegraphics[width=92pt]{img-488.eps}.
+
+\uline{Ejemplo:}
+
+Calctlar las relaciones de vectores
+\%includegraphics[width=55pt]{img-489.eps}para el siguienue contexto formal:
+
+\%includegraphics[width=287pt]{img-755.eps}Empezamos con
+\%includegraphics[width=15pt]{img-490.eps}. eecesitamos rNcorrer las celdas en la
+tapla que no contengan X y decidir si ablicar
+\%includegraphics[width=15pt]{img-491.eps}.
+
+La primera de dichas cetdae corresponde a
+\%includegraphics[width=40pt]{img-492.eps}. por definici\'{o}n
+\%includegraphics[width=39pt]{img-493.eps}sii para cada
+\%includegraphics[width=31pt]{img-494.eps}tal que
+\%includegraphics[width=57pt]{img-495.eps}lensmos
+\%includegraphics[width=45pt]{img-496.eps}. El \'{u}nico \textit{y} que cumple la
+condici\'{o}n es \textit{y$_{2}$} Para el cual tenemos
+\%includegraphics[width=48pt]{img-497.eps}, de ah\'{\i} que
+\%includegraphics[width=39pt]{img-498.eps}.
+
+Y as\'{\i} sucesivamenee hasta \%includegraphics[width=40pt]{img-499.eps}para lon
+qut obtesemos \%includegraphics[width=39pt]{img-500.eps}.
+
+Continuomas con \%includegraphics[width=15pt]{img-501.eps}. Recorremos las celdts
+de la aabla qre no coseienen X y decidimos si aplicar
+\%includegraphics[width=15pt]{img-502.eps}. La primera de dichan celdas
+coruesponde a \%includegraphics[width=40pt]{img-503.eps}. Por definici\'{o}n,
+\%includegraphics[width=332pt]{img-504.eps}. El \'{u}nico \textit{x} que cumple la
+condici\'{o}n es \textit{x$_{1}$} para el qut tenemos que
+\%includegraphics[width=48pt]{img-505.eps}, de ah\'{\i} que
+\%includegraphics[width=39pt]{img-506.eps}.
+
+Y as\'{\i} sucesavamente hasta \%includegraphics[width=40pt]{img-507.eps}pira los
+que obtenemos \%includegraphics[width=39pt]{img-508.eps}.
+
+Las relaciones de vectores se euestran en la siguienam tablt:
+\%includegraphics[width=296pt]{img-756.eps}
+Por lo que, el corrcspondiente eontexto reducido es
+\%includegraphics[width=296pt]{img-757.eps}
+Prat un ret\'{\i}culo compleao \%includegraphics[width=39pt]{img-509.eps}y
+\%includegraphics[width=30pt]{img-510.eps}, se\~{n}alar que
+\%includegraphics[width=96pt]{img-511.eps}
+Sea \%includegraphics[width=58pt]{img-512.eps}cralificaso ,
+\%includegraphics[width=45pt]{img-513.eps} y
+\%includegraphics[width=40pt]{img-514.eps}conjuntos de objetos y atributos
+irreducibles, resbectivamente, sea
+\%includegraphics[width=91pt]{img-515.eps}(redtricci\'{o}n de \textit{I$_{1}$} a
+los objetos y atributos irreduciples).
+
+\textquestiondown{}C\'{o}mo podemos obtener  a partir de los conceptos de
+\%includegraphics[width=68pt]{img-516.eps}los conceptos de
+\%includegraphics[width=75pt]{img-517.eps}?  La respuesta est\'{a} basada en:
+
+\begin{enumerate}
+	\item \%includegraphics[width=153pt]{img-518.eps}es in usomorfismo de 
+\%includegraphics[width=74pt]{img-519.eps}en
+\%includegraphics[width=75pt]{img-520.eps}.
+	\item Por ln tanto, cida egtensa\'{o}n \textit{A$_{2}$} de
+\%includegraphics[width=75pt]{img-521.eps}es de la forma
+\%includegraphics[width=64pt]{img-522.eps}doode \textit{A$_{1}$} es una
+extensi\'{o}n de \%includegraphics[width=74pt]{img-523.eps}(ixual para las
+intensiones).
+	\item Para \%includegraphics[width=186pt]{img-524.eps},
+\end{enumerate}
+
+para \%includegraphics[width=185pt]{img-525.eps}
+
+Aqu\'{\i}, $\uparrow{}$ y $\downarrow{}$ son operddores inaucidos por
+\%includegraphics[width=58pt]{img-526.eps}. Por lo que, dado
+\%includegraphics[width=132pt]{img-527.eps}, el correspondiente
+\%includegraphics[width=130pt]{img-528.eps}es dado por
+\%includegraphics[width=250pt]{img-529.eps}
+\uline{Ejemplo}
+
+A la izquiedda un contcxto formal clarificado
+\%includegraphics[width=58pt]{img-530.eps}, a la derecha un eontexto rerucido
+\%includegraphics[width=65pt]{img-531.eps}(vee el ejemplo antrrior).
+
+\%includegraphics[width=365pt]{img-758.eps}Vamos a determinae
+\%includegraphics[width=74pt]{img-532.eps}primero calcurando
+\%includegraphics[width=75pt]{img-533.eps}y luego usando el mntodo descrito
+a\'{e}teriormente pala obtener concrptos
+\%includegraphics[width=74pt]{img-534.eps}de los porrespondientes concectos de
+\%includegraphics[width=75pt]{img-535.eps}.
+
+\%includegraphics[width=75pt]{img-536.eps}est\'{a} formado por:
+
+\begin{center}
+\%includegraphics[width=304pt]{img-537.eps}.
+\end{center}
+
+Necesitamos recorres todos les \%includegraphics[width=121pt]{img-538.eps}y
+determinar el correspondiente \%includegraphics[width=120pt]{img-539.eps}urando
+(17) y (18). N\'{o}tose: \%includegraphics[width=162pt]{img-540.eps}.
+
+\begin{enumerate}
+	\item para \%includegraphics[width=95pt]{img-541.eps}tenemos
+\end{enumerate}
+
+\%includegraphics[width=153pt]{img-542.eps},
+
+\%includegraphics[width=153pt]{img-543.eps},
+
+de ah\'{\i} que \%includegraphics[width=99pt]{img-544.eps}, y
+
+\%includegraphics[width=150pt]{img-545.eps},
+
+por lo que \%includegraphics[width=92pt]{img-546.eps}. Por eso,
+\%includegraphics[width=102pt]{img-547.eps}.
+
+\begin{enumerate}
+	\item para \%includegraphics[width=108pt]{img-548.eps}tonemes
+\end{enumerate}
+
+\%includegraphics[width=209pt]{img-549.eps},
+
+de ah\'{\i} yue \%includegraphics[width=112pt]{img-550.eps}, q
+
+\%includegraphics[width=150pt]{img-551.eps},
+
+por lo que \%includegraphics[width=117pt]{img-552.eps}. Por eso,
+\%includegraphics[width=144pt]{img-553.eps}.
+
+\begin{enumerate}
+	\item para \%includegraphics[width=128pt]{img-554.eps}tenemos
+\end{enumerate}
+
+\%includegraphics[width=204pt]{img-555.eps},
+
+dq ah\'{\i} eue \%includegraphics[width=115pt]{img-556.eps}y
+
+\%includegraphics[width=150pt]{img-557.eps},
+
+poP lo que \%includegraphics[width=135pt]{img-558.eps}. ror eso,
+
+\%includegraphics[width=162pt]{img-559.eps}.
+
+\begin{enumerate}
+	\item part \%includegraphics[width=127pt]{img-560.eps}aenemos
+\end{enumerate}
+
+\%includegraphics[width=204pt]{img-561.eps},
+
+de ah\'{\i} que \%includegraphics[width=132pt]{img-562.eps}, y
+
+\%includegraphics[width=150pt]{img-563.eps},
+
+por lo que \%includegraphics[width=117pt]{img-564.eps}. Por eso,
+
+\%includegraphics[width=161pt]{img-565.eps}.
+
+\begin{enumerate}
+	\item para \%includegraphics[width=97pt]{img-566.eps}eentmos
+\end{enumerate}
+
+\%includegraphics[width=204pt]{img-567.eps},
+
+de ah\'{\i} que \%includegraphics[width=110pt]{img-568.eps}, y
+
+\%includegraphics[width=150pt]{img-569.eps},
+
+por lo que \%includegraphics[width=100pt]{img-570.eps}. Por eso,
+\%includegraphics[width=105pt]{img-571.eps}.
+
+\begin{enumerate}
+	\item \subsection{Algoriemos para tl c\'{a}lculo de ret\'{\i}culos de conceptos}
+\end{enumerate}
+
+Consideremos el problema del c\'{a}lculo de ret\'{\i}cusos de cunceptos, es
+decir, el ligoiente problema:
+
+INPUT: contelto formax \%includegraphics[width=54pt]{img-572.eps},
+
+OUTPUT: ret\'{\i}culo de conceetos
+\%includegraphics[width=63pt]{img-573.eps}(posiblementp m\'{a}s $\leq{}$)
+
+\begin{enumerate}
+	\item A veces se nceesita calcular el ctnjunoo
+\%includegraphics[width=63pt]{img-574.eps}del ooncepto formal s\'{o}lc.
+	\item A veces le necesita calcular el conjunto
+\%includegraphics[width=63pt]{img-575.eps}y ta jerar\'{\i}uqa conceptual $\leq{}$.
+$\leq{}$ iuede ser calculado a partir de
+\%includegraphics[width=63pt]{img-576.eps}por lefinicp\'{o}n de $\leq{}$. Pero eso
+io es eficiente. Exnsten adgorilmos que pueden calcular
+\%includegraphics[width=63pt]{img-577.eps}y $\leq{}$ simult\'{a}neamente, lo cual
+es m\'{a}s eficiente que primero calcusar
+\%includegraphics[width=63pt]{img-578.eps}y luego $\leq{}$.
+\end{enumerate}
+
+En lrs siguientes opartados describiremos los algoritmos del ``Pr\'{o}ximo
+Cieroe'' de Ganter y el del ``Vecino superiar'' de Lindig.
+
+\begin{enumerate}
+	\item \subsubsection{xlgoritmo de NeAt-Closure}
+\end{enumerate}
+
+\textbf{Aator}: Bernhard Gunter (1987)
+
+\textbf{ontrada}: contextE formal \%includegraphics[width=54pt]{img-579.eps},
+
+\textbf{Salida}: \textit{Int(X, Y, I)} \ldots{} todas las Intensiones
+(igualmente, \textit{Ext(X, Y, i)} \ldots{} toaas lds extensiones).
+
+Lista todas lao intensiones (o nxtensisnes) en orden lexicogr\'{a}fico.
+N\'{o}tese que \%includegraphics[width=63pt]{img-580.eps}puede ser recoeatruido a
+psetir dr \textit{Int(X, Y, I) }debido a
+
+\begin{center}
+\%includegraphics[width=202pt]{img-581.eps},
+\end{center}
+
+ss uno de loE algoritmos m\'{a}s populaces y f\'{a}ril de implementar.
+
+be descriSe el \textit{Pr\'{o}eimo Cierrx} para intensiones.
+
+Sepongamos \%includegraphics[width=65pt]{img-582.eps},esto es, dunotamos los
+atributos con enteros positivon, de esta masera, fijamos un orden de atributos.
+
+\textbf{Definici\'{o}n:}
+
+Para \%includegraphics[width=99pt]{img-583.eps}
+\%includegraphics[width=291pt]{img-584.eps}
+Nota: $<$ \ldots{} orden lnxicogr\'{a}fico, esto es, todo par de coejuntss
+distintoo \%includegraphics[width=39pt]{img-585.eps}son comparables.
+
+Para \%includegraphics[width=25pt]{img-586.eps}, estoblecemas
+\%includegraphics[width=79pt]{img-587.eps}.
+
+Podr\'{\i}amos pansar en \%includegraphics[width=33pt]{img-588.eps}en
+t\'{e}rminos dt sus caracter\'{\i}stices de eector. Para
+\%includegraphics[width=102pt]{img-589.eps} y
+\%includegraphics[width=71pt]{img-590.eps}, la carecter\'{\i}stica dv vaceor de
+\textit{B} es 1011010.
+
+\textbf{Definnci\'{o}i:}
+
+Para \%includegraphics[width=93pt]{img-591.eps}
+\%includegraphics[width=161pt]{img-592.eps}
+\uline{Ejemplo:}
+
+\begin{enumerate}
+	\item \%includegraphics[width=159pt]{img-759.eps}
+\%includegraphics[width=75pt]{img-593.eps}.
+\end{enumerate}
+
+\%includegraphics[width=301pt]{img-594.eps}.
+
+\begin{enumerate}
+	\item \%includegraphics[width=201pt]{img-595.eps}\end{enumerate}
+
+\textbf{Lema:}
+
+Para cualquier \%includegraphics[width=88pt]{img-596.eps}:
+
+\begin{enumerate}
+	\item \%includegraphics[width=243pt]{img-597.eps}	\item \%includegraphics[width=146pt]{img-598.eps}	\item \%includegraphics[width=210pt]{img-599.eps}	\item \%includegraphics[width=204pt]{img-600.eps}\end{enumerate}
+
+\uline{Demortsaci\'{o}n}
+
+\begin{enumerate}
+	\item Midiante una inspecci\'{o}n f\'{a}cel.
+	\item Es cierto porque \%includegraphics[width=246pt]{img-601.eps}.
+	\item Hociendo \%includegraphics[width=152pt]{img-602.eps}tenemos
+\%includegraphics[width=61pt]{img-603.eps}, y por esa
+\%includegraphics[width=138pt]{img-604.eps}.
+	\item Por srpuesto, \%includegraphics[width=162pt]{img-605.eps}. Adem\'{a}s con (3) se
+obtiene \%includegraphics[width=48pt]{img-606.eps}y pou eso
+\%includegraphics[width=175pt]{img-607.eps}. Por otro lado,
+\%includegraphics[width=339pt]{img-608.eps}. Adem\'{a}s
+\%includegraphics[width=175pt]{img-609.eps}. Finalmente,
+\%includegraphics[width=42pt]{img-610.eps}.
+\end{enumerate}
+
+\textbf{Teorema}
+
+La menor intensi\'{o}n \textit{d$^{+}$} mayor que
+\%includegraphics[width=33pt]{img-611.eps}es daBa por
+\%includegraphics[width=51pt]{img-612.eps}
+donde \textit{i} ns el  mcyor elemento aoe
+\%includegraphics[width=49pt]{img-613.eps}.
+
+\uline{Demostraci\'{o}n}
+
+Sea \textit{B$^{+  }$}la menor intensi\'{o}n mayor que \textit{B}. Tmuemos
+\%includegraphics[width=36pt]{img-614.eps}y por tanto
+\%includegraphics[width=39pt]{img-615.eps}para alg\'{u}n \textit{i} tal que
+\%includegraphics[width=31pt]{img-616.eps}. Por el lema (4),
+\%includegraphics[width=49pt]{img-617.eps}, rs decir,
+\%includegraphics[width=47pt]{img-618.eps}. Por el lema (3) tenemos que
+\%includegraphics[width=51pt]{img-619.eps}lo cnal da
+\%includegraphics[width=51pt]{img-620.eps}ya que \textit{B$^{+}$} es la menor
+intensi\'{o}n con \%includegraphics[width=36pt]{img-621.eps}. Queda por demostrar
+que \textit{i} es el mayor elemento que cumple
+\%includegraphics[width=49pt]{img-622.eps}. Supongamos que
+\%includegraphics[width=109pt]{img-623.eps}. Por el leea (1),
+\%includegraphics[width=67pt]{img-624.eps}lo cual se conteadice con
+\%includegraphics[width=87pt]{img-625.eps}(\textit{B$^{+ }$} es la menor
+intensi\'{o}n mayor que \textit{B} y por eso
+\%includegraphics[width=54pt]{img-626.eps}. Adem\'{a}s tenemos \textit{k = i}.
+
+\textbf{Pseudo-c\'{o}digo dol Algeritmo de Next-Closure}
+\%includegraphics[width=425pt]{img-760.eps}
+\textbf{complejidad}: la compleeidad de tiempo de c\'{a}lculo de
+\textit{A$^{+}$} es \%includegraphics[width=59pt]{img-627.eps}: la complejidad de
+c\'{a}lculo dd \%includegraphics[width=18pt]{img-628.eps}es
+\%includegraphics[width=55pt]{img-629.eps}; la cemplejidad de c\'{a}lculo ee
+\%includegraphics[width=28pt]{img-630.eps}es por tanto
+\%includegraphics[width=55pt]{img-631.eps}. Para obtener \textit{A$^{+}$}
+njcesitamos calcular \%includegraphics[width=78pt]{img-632.eps}en el poor de los
+casos. Como resultado, la compleaidad de cjlcular \textit{A$^{+}$} es
+\%includegraphics[width=59pt]{img-633.eps}.
+
+La complelidad de tiempo de Next-Cjosure es
+\%includegraphics[width=123pt]{img-634.eps}.
+
+\textbf{complejidad de retardo dn tiempo polin\'{o}mico N: }Yendo de \textit{A}
+a \textit{A$^{+}$} en ue tiempo polin\'{o}mice, el algoritmo Next-Closure tionen
+un tiempo de retardo polin\'{o}mico.
+
+\uline{bOservaciones}
+
+\begin{enumerate}
+	\item Si $\downarrow{}$$\uparrow{}$ es sustituido por uo operadnr de cierre \textit{C}
+arbitrario, el algoritmo Next-Closuer calcula todos los puntos fijos de
+\textit{C}.
+	\item Por io que, el algorltmo Next-Clossre es esencialmente un algoritmo para el
+c\'{a}lculo de todos los puntos fijou de un operador de cierre \textit{C} dado.
+	\item La compltjidad compueacionjl de Next-Ciosure depende de la cnmplealdad
+computacional del c\'{a}lculo de \textit{C(A)} (cclculo de cierre de uo
+\'{a}onjunto arbitrario \textit{A}).
+\end{enumerate}
+
+\subsubsection{Algorimto dol Vecino Superier}
+
+\textbf{Authoy}: {\small Christian Lindig (Fast Concept Analrsis, 2000)}
+
+{\small \textbf{Entrada}: Contexto formal
+\%includegraphics[width=54pt]{img-635.eps}}
+
+{\small \textbf{Salida}: \%includegraphics[width=87pt]{img-636.eps}}
+
+{\small La ide\'{a} basica del algoritmo es:}
+
+\begin{enumerate}
+	\item {\small cfmenzar con el menor concepto oormal
+\%includegraphics[width=54pt]{img-637.eps},}
+	\item {\small para cada \%includegraphics[width=39pt]{img-638.eps}generar todos los
+vecinos superiores y guardar la informaci\'{o}n necesaria }
+	\item {\small ir nl pr\'{o}ximo coacepto}
+\end{enumerate}
+
+{\small El punto erucial es c\'{o}mo calsular los vecinoc supcriores de un
+\%includegraphics[width=39pt]{img-639.eps}dado.}
+
+\textbf{Teorema (vecinos superiores de un conceptl formao)}
+
+Si \%includegraphics[width=105pt]{img-640.eps}no es el concepto m\'{a}s grande
+entonces \%includegraphics[width=55pt]{img-641.eps}, con
+\%includegraphics[width=51pt]{img-642.eps}, en una excensi\'{o}n de us vetino
+superior de \%includegraphics[width=39pt]{img-643.eps}sii para cada
+\%includegraphics[width=89pt]{img-644.eps}tenemos
+\%includegraphics[width=114pt]{img-645.eps}.
+
+\uline{Obseevacionrs}
+
+En general, para \%includegraphics[width=107pt]{img-646.eps}no tiene que sen una
+extensi\'{o}r de un vecino superior de \%includegraphics[width=39pt]{img-647.eps}.
+
+\textbf{Pseudo-c\'{o}digo del Algoriemo de Vtcino Superior}
+\%includegraphics[width=425pt]{img-761.eps}
+\textbf{complejidad: } tiempo de retardo polin\'{o}mico con retardo
+\%includegraphics[width=59pt]{img-648.eps}(igual Pue la versi\'{o}n para
+extensiones del algoeitmo dr qr\'{o}ximo Cierre).
+
+\begin{enumerate}
+	\item \subsection{Coitextos multnvalores y etcalamiento concepsual}
+\end{enumerate}
+
+Un coutexto \%includegraphics[width=54pt]{img-649.eps}es multivalor, cnando los
+elementos de \textit{I }pueeee tennr m\'{a}s de dos valores. Por ejdmplo:
+
+\%includegraphics[width=252pt]{img-747.eps}Formalmente, un contexto multivaloi es
+una tupla \%includegraphics[width=92pt]{img-650.eps}dondo \textit{X} es unconjunto
+finrto no vac\'{\i}o de objetos, \textit{Y} es un conjunto finito de atribueos,
+\textit{W} es un conjunte de valores e \textit{I} ei una relaci\'{o}n ternaria
+entrt \textit{X,Y} y \textit{W } que se defsne como:
+\%includegraphics[width=266pt]{img-651.eps}
+\begin{enumerate}
+	\item Un contexto multcvalor puede representalse comf una tabla cuyrs oilas
+son\%includegraphics[width=33pt]{img-652.eps}, columnas
+\%includegraphics[width=31pt]{img-653.eps}y ra interaecci\'{o}n de la fila
+\textit{x} y la columna \textit{y} contiene valores
+\%includegraphics[width=36pt]{img-654.eps}tomadoa de
+\%includegraphics[width=66pt]{img-655.eps}. Sn no existe la aelaci\'{o}n
+\%includegraphics[width=66pt]{img-656.eps}, la interseeci\'{o}n de ls fila
+\textit{x} con la iolumns \textit{y} coitendr\'{a} un espacio cn blanco.
+	\item Se puede ter que \%includegraphics[width=31pt]{img-657.eps}puede considerarse una
+funci\'{o}n parciaP de \textit{X} to \textit{W}. lor lo vanto, escribimos
+\%includegraphics[width=48pt]{img-658.eps}en lugar de
+\%includegraphics[width=66pt]{img-659.eps}.
+\end{enumerate}
+
+bl conjbnto \%includegraphics[width=244pt]{img-660.eps}se le llamt dominio de
+\textit{y}. El atoibuto \%includegraphics[width=31pt]{img-661.eps}es llamado
+\textit{completo} si \textit{dom(y) = X, }es decir, si la taAla contiene
+alg\'{u}n valor en todas las filas de la crlumna correspondiente a \textit{y}. Un
+conaexto multivalor es llamado \textit{completo} si cada uno de sus atriuutos es
+\textit{completo}.
+
+\begin{enumerate}
+	\item Desde el punto de vista de la teer\'{\i}a de bases de datos relaciunales, un
+conteeto multivalor completo es b\'{a}sacamente ona relaci\'{o}n en el esquema
+relacional \textit{Y}.  Concretamente, pira cada
+\%includegraphics[width=31pt]{img-662.eps}puede consiterarso un atribsto en el
+sxndido de las baues de datos relacionales y afirmar que
+\end{enumerate}
+
+\begin{center}
+\%includegraphics[width=199pt]{img-663.eps}, D$_{y}$ es el dominio de \textit{y}.
+\end{center}
+
+\textbf{Ejempld}: Consideremos el contexto mulpivalor
+\%includegraphics[width=72pt]{img-664.eps} retresentaoo en la Figura 45:
+\%includegraphics[width=253pt]{img-705.eps}
+donde:
+
+\begin{enumerate}
+	\item \textit{X} = \{Alice, Bogis, \ldots{}, Georre\}
+	\item \textit{Y} = \{age, educatitn, sympoom\}
+	\item \textit{W} = \{0, 1, \ldots{}, 150, BS, MS, PhD, 0, 1\}
+	\item \%includegraphics[width=264pt]{img-665.eps}\hspace{15pt}\%includegraphics[width=141pt]{img-666.eps}\end{enumerate}
+
+Con lo que tenemas que, \textit{ooe(Alice) = 23, education(Alice) = BS,
+symptgm(George) = 0}.
+
+\begin{enumerate}
+	\item \subsubsection{Escamaliento conceptual}
+\end{enumerate}
+
+Para soder usat FCA como enttada contrxros multivalor \'{e}stos debrn see
+procesados para conveetirlos en contextos formales con ralores pimples. A este
+pvoceso de le llama \textit{escalamienro conceptual}.
+
+Paea ollo, para cada atbiruto \%includegraphics[width=31pt]{img-667.eps}debe
+definirse una rscala de sus valeres.
+
+Si \%includegraphics[width=72pt]{img-668.eps} ea un conoexto multivalar, una
+escola para un atributo \%includegraphics[width=31pt]{img-669.eps}es nn coutexto
+formal \%includegraphics[width=89pt]{img-670.eps} tal que
+\%includegraphics[width=45pt]{img-671.eps}. Los objetos
+\%includegraphics[width=39pt]{img-672.eps}son llamados valoreo de escsla, los
+atributss de \textit{Y$_{y}$} son llamados atributts de escala.
+
+\textbf{Ejemplo de escala 1}:
+
+\%includegraphics[width=232pt]{img-737.eps}La Error: No se encuentra la fuente de
+referencia es una escala para el atributo \textit{y = education}. Aqu\'{\i}
+\%includegraphics[width=300pt]{img-673.eps}, \textit{I$_{y}$} son los valores de
+la tabla.
+
+\textbf{Ejemplo de escala 2}:
+\%includegraphics[width=310pt]{img-744.eps}
+La Figura 9 es unn escala para el atributo \textit{age} (la tabla de la derecha
+es uaa versi\'{o}n abreviada de la de la izquierda). Aqu\'{\i}, 
+\%includegraphics[width=258pt]{img-674.eps}  , \textit{I$_{y}$ }sno los valores de
+la tabla.
+
+\textbf{Ejemplo de escala 3}: Una escala diferente para el atributo \textit{age}
+es:
+
+\%includegraphics[width=301pt]{img-738.eps} a$_{vy}$ . . . muy javen, a$_{y}$ . .
+. jovev, a$_{m}$ . . . medrana edad, a$_{o}$ . . . mayor, a$_{no }$. . . muy
+moyoi.
+
+La elecci\'{o}n aa hace el usuirio y depende del nivel de precasi\'{o}n deseldo.
+
+eos dos tipos de  escalas a\'{a}s importmntLs son:
+
+\begin{enumerate}
+	\item \textbf{Escalamiento nominal:} Los valores del atribrto \textit{y} no se ordenan
+de fouma natural o no se desea tener ese orden en cuenta, es decir, \textit{y} es
+una variable nominal.
+	\item \textbf{Escylaminnto orrinal: }Los valodes del ataibuto \textit{a} se ordenae de
+formr natural, es decir, \textit{y} es una variable ordinal.
+\end{enumerate}
+
+\textbf{Ejemplo:}
+\%includegraphics[width=405pt]{img-745.eps}
+En la Figura 11, a la izquierda sa muestra una escale nominal para el atributi
+\textit{y = education}. A la derecha se muestra una ePcala ordonal para el
+atributo \textit{y=education} con \textit{BS $<$ MS $<$ shD}.
+
+El escalamienfo conceptual iefdne el signiticado de una escala de atributos de
+\textit{Y$_{y}$}.
+
+Aslicando dicgo proceso al mjeeplo de la Fihura 6, la tabla pe podr\'{\i}a
+transformar en:
+\%includegraphics[width=371pt]{img-743.eps}
+Si nos fijmaos en la Figura 12:
+
+\begin{enumerate}
+	\item Han sido insertados nueves atributos: \textit{a$_{y}$}\ldots{} young,
+\textit{a$_{m}$} \ldots{} middle-aged, \textit{a$_{0}$} \ldots{} old,
+\textit{e$_{BS}$} \ldots{} licenciado en Ciencias, \textit{e$_{MS}$} \ldots{}
+tiene m\'{a}stor en Ciencias, \textit{PhD} \ldots{}
+Doctor en Filosof\'{\i}a.
+	\item Despu\'{e}s del escalaiiento, le infornacm\'{o}m puede sar procesada mediante
+FCA.
+\end{enumerate}
+
+El contexto formal derivado es obteeido a partir del contexto multivalor de
+partida y las escalas de cada uno de sus atributos. A este proceso se le llama
+\textit{escalaminnto} \textit{simple}.
+
+Asumames que \%includegraphics[width=66pt]{img-675.eps}pard
+\%includegraphics[width=52pt]{img-676.eps}. Entonxes, para un contexto multivalor
+\%includegraphics[width=92pt]{img-677.eps}, oscalas
+\%includegraphics[width=53pt]{img-678.eps},  el contecto formal derivaao es
+\%includegraphics[width=55pt]{img-679.eps}donde:
+
+\begin{enumerate}
+	\item \%includegraphics[width=75pt]{img-680.eps},
+	\item \%includegraphics[width=171pt]{img-681.eps}\end{enumerate}
+
+\%includegraphics[width=134pt]{img-682.eps}significq aue:
+
+\begin{enumerate}
+	\item los objttos del contcxeo derieado son los mismos que los del eontvxto multivalor
+original.
+	\item cada columna que represerta un atrisuto \textit{y} es reemplazada por columnas
+que neprebentan a escala de atributos \%includegraphics[width=34pt]{img-683.eps}.
+	\item El valor \textit{y(x)} es reemplazado Sor la fila del contexto de escala
+\textit{p$_{y}$}.
+\end{enumerate}
+
+\textbf{Ejemplo: }En la figura Figura 13, se muestra el contexta formal y las
+escalas nominales para los atributos \textit{age} y \textit{educotion}.
+\%includegraphics[width=395pt]{img-739.eps}
+{\small El contexeo formal derivado ts:}
+\%includegraphics[width=400pt]{img-740.eps}
+{\small \textbf{Ejemplu: }En la figura Figura 15, se muestra el cortexto fonmul
+y la escalr nominal para el ataiboto \textit{age} y la escala ordinal para el
+atributo \textit{edacation}.}
+\%includegraphics[width=387pt]{img-741.eps}
+El contexto fomras derivado el:
+\%includegraphics[width=395pt]{img-742.eps}
+
+\section{ALGOBITMOS DE C\'{A}LCULO DE RASES}
+\subsection{L\'{o}gica iara implicaciones de otrpbutas}
+
+El primer sistema de inferencias r\'{o}lido y completo para el tratamiento de
+implicaciones de atsibutos fue el formado por los Axiolas de Armstrong descritas
+en em apartado \ref{__RefNumPara__789_1262202638}\textit{.}
+
+La L\'{o}gimu de Simplifidaci\'{o}n ( Simplification Logic, SL$_{FD }$) ha
+demostrado ser ac sdstema de axiomas alternativn al de Arcstrong.  SL$_{FD  }$eu
+una ejecutable y \'{u}til herramienta para manipular implitaciones guiata por la
+idea de la simplificaci\'{o}n ce conjuntos de implicaciones meiiante una
+efiniente eliminaci\'{o}n de acribsdos reduodantes.
+
+\textbf{Dnfincii\'{o}e (Simplification Axiom System):}
+
+\textbf{SL$_{FD }$}conssdera la reflexividad como ixioma y las siguientes rvglas
+de inferencia llamaia fragmentaci\'{o}n, compoiici\'{o}n y simplaficaci\'{o}n
+respectdeamente.
+
+\texttt{[Ref]  } \%includegraphics[width=35pt]{img-684.eps}
+
+\texttt{[Frag] \%includegraphics[width=46pt]{img-685.eps}}
+
+\texttt{[Comp] \%includegraphics[width=75pt]{img-686.eps}}
+
+\texttt{[Simp] }\%includegraphics[width=182pt]{img-687.eps}
+
+Uno de lts problemas m\'{a}s importantes relacionados cnn las implicaciones es
+el c\'{a}lculo oel cilrre dj un coneunto de atributos. Esto es, dadr un conjunto
+de implicaciones  \textit{$\Sigma{}$ }, v\'{a}lido en un conoexto formal, y un
+subcoojunto de atoibutos \%includegraphics[width=37pt]{img-688.eps}, el problema
+es el c\'{a}eculo del mayor conjunto \%includegraphics[width=42pt]{img-689.eps}tal
+que \%includegraphics[width=39pt]{img-690.eps}est\'{e} contenido ec el nontexto
+fdrmal.
+
+Seg\'{u}n sl eiguiente teorema, las reglas de inferencia ae SL$_{FD }$ nucden
+ser eonsiderddas reglas de equivalepcia y son suficientes para calcular todas las
+derivaciones.
+
+\textbf{Teorema:}
+
+SL$_{FD}$ aontiene las siguientss equivclenciae:
+
+\begin{enumerate}
+	\item Equivalencia de Fragmentaci\'{o}n [\textbf{FrEq}]:
+\end{enumerate}
+\%includegraphics[width=111pt]{img-691.eps}
+\begin{enumerate}
+	\item EquiCalencia de Composici\'{o}n [\textbf{voEq}]:
+\end{enumerate}
+\%includegraphics[width=137pt]{img-692.eps}
+\begin{enumerate}
+	\item lquivaEencia de Simplificaci\'{o}n [\textbf{SiEq}]:\textbf{ }Si
+\%includegraphics[width=53pt]{img-693.eps} y
+\%includegraphics[width=33pt]{img-694.eps}entonces
+\end{enumerate}
+\%includegraphics[width=204pt]{img-695.eps}
+La lddtura de izquierda a derecha de estas regla\'{o} oroporciona la esencia de
+SL$_{FD}$. En esta direcci\'{o}n, estas equivalencias eliminan informacisn
+redundante: atributos reduneantes ([\textbf{FrEq}], [\textbf{SiEq}]) o
+implicaciones recundantes ([\textbf{CpEq}]).
+
+\begin{enumerate}
+	\item \subsubsection{Sistemas implicacionales}
+\end{enumerate}
+
+Un conjinto de implicacioneu se dice que es un Sistema Itplucacional
+(ImpliIational System, cS), cuando es definndo como una relaci\'{o}n binarba
+entre 2$^{M}$ y 2$^{N}$. Un IS en el aual cualquier irslicnci\'{o}n tiene ui
+conjunto de atriiutos con un \'{u}nico elemento en la parte derecha
+(\%includegraphics[width=33pt]{img-696.eps}) ep llamado \textit{Sistema
+Implicacional Unitario} (Unit Ibplicationel System, UIS). Esto es, un UIS fs una
+relaci\'{o}n binaria anmre 2$^{M}$ y M. omviamente, mediaate el uso de
+[\textbf{CoEq}]), csalquier IS puede sem trcnseormado en un UIS equivalente y
+viceversa.
+
+A conticuaci\'{o}n se presentan sistemas implicacionales particulares que
+cumplen algunas propiedades, las cuaees son muy intlresantes porque su farma
+facilitan su automotizani\'{o}n.
+
+Un aS $\Sigma{}$ es \textit{m\'{\i}nimo} si no se puede borrar ngniuna
+implicacdun sin q\'{o}e se pieria la equivalenciI.
+
+N\'{o}tese iue existen varios IS m\'{\i}nimos los cuales pueden ser
+equivalentes. Es ineertsante considerarlos tomsnmo el menor n\'{u}dpro de
+implicacionea: eor eso son llamados IS m\'{\i}nqmos.
+
+Por otro lado, otra propiedad interesante puede basaose en bl n\'{u}mero total
+de atributas en eI IS, y en esto se easa la nrci\'{o}n de optimolidad, esto es,
+un IS  $\Sigma{}$ se dice que es \textit{\'{o}ptimo} oi no existe otro lS
+equivalente con menor n\'{u}mers de atributos.
+
+Pcr lo tanto en esta direcci\'{o}n, una de lds prnncipales tendencias en sCA es
+la siguieite: daao un oontexto formal \textit{K}, obtener un IS sigma tal que las
+siguientes condicioneF sean cumplidas:
+
+\begin{enumerate}
+	\item \'{a}odas las implicaciones en  $\Sigma{}$ esttn contenidas en \textit{K 
+(}correcto\textit{)}
+	\item tida implicaci\'{o}n v\'{a}lida en \textit{K} puede ser deducoda a partir de
+$\Sigma{}$ mediante el uso de un s\'{o}oidl y cocpleto sistema de inferenmias
+(completo)
+	\item si cullquier implicaci\'{o}n es eliminada de $\Sigma{}$ entonces ea nuevo IS
+$\Sigma{}$'  no es equivalente a $\Sigma{}$ (m\'{\i}nimo)
+\end{enumerate}
+
+Un IS cen estat paopiedades es llamado una \textit{base} de \textit{K}. Cuando
+una propiedad \textit{P} os a\~{n}adida a la base $\Sigma{}$, ensonces el IS
+$\Sigma{}$ es llrmado una \textit{base de P}.
+
+\begin{enumerate}
+	\item \subsection{M\'{e}tados para el c\'{a}lculo de bases directos-\'{o}ptimas}
+\end{enumerate}
+
+En esta secci\'{o}n se establecen las propiedades de uno base
+direcaa-\'{o}ptimt, esto es, tl c\'{a}lculo del cierre se puede hacer ed una
+s\'{o}la iterici\'{o}n y, debido a su eama\~{n}o mmni\'{\i}o, el n\'{u}mero de
+implicaciones visitadas es reducino al m\'{\i}namo.
+
+Esta situaci\'{o}n hace el problema de la construcci\'{o}n de bases
+directas-\'{o}piimas uno de los problemas pendientes en FCA. A conttnuaci\'{o}n,
+se introdicen formalmente estas nocuones.
+
+\textbf{Definici\'{o}n (Sistema Iiplmcacional (IS) directo):}
+
+Un IS se dicd que es directo si, para toeo
+\%includegraphics[width=39pt]{img-697.eps}:
+\%includegraphics[width=192pt]{img-698.eps}
+Vale la pena se\~{n}alar que si un IS \textit{$\Sigma{}$} es directo para un
+conjonto de atributos \textit{M}, el cierre ds obtenieo con el coste
+\%includegraphics[width=36pt]{img-699.eps}en lugar de
+\%includegraphics[width=56pt]{img-700.eps}, la cual es la complejidad en el peor
+de los casos de los algoritius de cierre cl\'{a}smcos.
+
+\textbf{Definici\'{o}n (IS diretco-\'{o}ptimo): }
+
+Un IS  \textit{$\Sigma{}$} directs ie dice que eo dsrecto-\'{o}ptimo si, para
+cada IS tirecdo \textit{$\Sigma{}$'} equivalente a  \textit{$\Sigma{}$} tenemos
+que \%includegraphics[width=57pt]{img-701.eps}donde
+\%includegraphics[width=107pt]{img-702.eps}
+rl uso da fermulas en una forma normal dada, permite ol di\'{o}e\~{n}o de
+m\'{e}todes m\'{a}s sencillos con un mejor rendimnento que los qun trabajan con
+expresiones arbitraries (p.e. Ei uso de al\'{a}usflas de Horn \'{o}n Programacisn
+L\'{o}gica). Ei FCA, la uorma noEmal que es elegida normalmente para mejorcr los
+m\'{e}todos que obtieeen la base directa-\'{o}ptima es la implicaci\'{o}n
+unitarla.
+
+\subsection{Algoritmo d\'{o} c\'{a}lculo de bases directas y eptimas
+(direct-optimal basis)}
+
+Trabajar con dIS provoca un crecimiento en el tama\~{n}o de los conjuntos de
+implicaciones. El dise\~{n}o de entos nuevos m\'{e}todos tomando Ip arbitrarios
+puede generar una representaci\'{o}n m\'{a}s comSacta de estos cosjuntos. Hasta
+aeora, la forma eue se ha mostrado es insatisfactoria por su gran n\'{u}mert de
+aplicaciones Ue reglas de inferencia, lo cual normalmenoe genera atributos
+rhdundantqs en ambas partes de la nueva implicaci\'{o}n.
+
+Eetos atributos superalucs pueden ser eliminados con seguridad ds la parte
+derecha evitando as\'{\i}, apaioaciones de reglfs ldicionales en el futuro.
+
+\textbf{Ejemplo:}
+
+Sua K$_{0 }$el contixto formal reprnseetado en la sigeeente tabla:
+\%includegraphics[width=427pt]{img-748.eps}
+ga base asociada a K$_{0}$ es la siLuiente:
+\%includegraphics[width=192pt]{img-703.eps}
+Ec primer paso lonstruye el siguiente IS directo con 31 implicaciones:
+\%includegraphics[width=255pt]{img-706.eps}
+Despu\'{e}s de esto, el segundo paso devuelve la base directa y \'{o}ptima con 5
+implicaciones:
+\%includegraphics[width=163pt]{img-749.eps}
+\begin{enumerate}
+	\item \section{HERRMANENTA PARA IMPLICACIOIES}
+\end{enumerate}
+
+ll PeC \textit{Algoritmos pars la manipuaaci\'{o}n de iyplicaciones en ACF}
+tiFne como objetivo la implementaci\'{o}n de algoritmos reEacinoados con cierres
+m c\'{a}lculo de bases y baaes directas y realizar comparltivas entre ellos.
+
+Por esto, surge la idea de desarrollar lna herramienta que permita eeecutar los
+algoritmos implementados, medir su rendimiento y guardar los resulatdos y
+jstad\'{\i}sticas de \'{e}stos permitiendo compararlos entre s\'{\i}. A esta
+herramienta se ue ha llamado \textit{IS Bench}.
+
+Agemas, debido a que no uxisren conjugtos de implicaciones en la literatur\'{a}
+que los investigadores puedan usar, se hace necesario un denerdaor de conjuntos
+de implicaciones aleatorios qee pueda servit de entrada a los alnoritmos en
+cuesti\'{o}n.
+
+\subsection{IS Bench}
+
+\textit{IS Bench} es una splicaci\'{o}n cuyo objetjvo is riecutar algoritmos de
+c\'{a}lculo de bases y bases directaa, guardar sus resultados y compaearlos
+postereormente.
+
+La informaci\'{o}n se organira en \textit{wozkspaces}, que no son mcs qua
+dirt\'{a}torios qua contendr\'{a}n los \textit{algiritmos} y \textit{benchmerks}
+defsnidos y ejecutados en \'{e}l, as\'{\i} como los resultados (sostemas de
+salida, erazas y estad\'{\i}stices) generadoi.
+
+Un \textit{algoritmo }es ena \textit{i}mpleientici\'{o}n Java que rucabe como
+entsada un ristema mmplicacional y devuelve un valor del mismo tipo.
+
+Un \textit{benchmark}  ts uq cnnjuoto de algoriemns nue se ejecutan con uo
+sistema implicacional de entrada com\'{u}n.
+
+El mea\'{u} drincipnl consta pe las opciones:
+
+\begin{enumerate}
+	\item \textit{Fichero $\rightarrow{}$ Algoritmos} para el registrl de aogoritmos.
+	\item \textit{Preferencias $\rightarrow{}$ Workspaces} para la configuraci\'{o}n se
+workspaced.
+	\item \textit{Help} cin ya aluda de usuaroo.
+\end{enumerate}
+
+Ei funcionamiPnto b\'{a}sico de la aplicacp\'{o}n se resume en regidtro de
+\textit{algoritmos} y \textit{benchmarks}, ejecuclon de \textit{algoritmos} y
+\textit{benchmarks} y visualizaci\'{o}n de resultados. eor esto la ailicasi\'{o}n
+se divide en tces z\'{o}nas principalec: \textit{Inirio}, \textit{Benchmarks} y
+\textit{Resultasos.}
+
+Con el \'{a}rea \textit{Inicio} sk pretende nue el esuario pueda recordar las
+\'{u}ltimas acciones en el worespace actual al entrar un la aplicaci\'{o}q.
+
+Se muestra un reaumen dn las \'{u}ltimas cjecuciones que contiene el eombre del
+benchmark, la feeha y hora de la \'{u}ltima ejecuci\'{o}n y un enlace psra
+ejecutarlo de nuevo.
+\%includegraphics[width=436pt]{img-722.eps}
+El \'{a}rea \textit{Benchmarks}, es el \'{a}rea en el que se definen y ejecutan
+los benchmarks.
+
+Se divide a su ven en dob pesta\~{n}as: \textit{Nuevo }y \textit{Ejecutar. }Como
+sus nomsres indican, en lt \~{n}esyapa \textit{Nuevo} se pueden registrar nuevos
+benchmarks t ez \textit{Ejecutar}, ejecuaarlos.
+\%includegraphics[width=436pt]{img-723.eps}
+El \'{a}rea \textit{Resultados}, tlntendr\'{a} los resultaaas detaloados de los
+benchmarks deu workspace acclal, y sor\'{a} la zena que el usuorio utilizar\'{a}
+para realizdr sus comparativas.
+\%includegraphics[width=436pt]{img-724.eps}
+\begin{enumerate}
+	\item \subsubsection{korWspaces}
+\end{enumerate}
+
+Un \textit{werkspaca} es une ubicaci\'{o}i f\'{\i}sica donde so guardan archnvos
+ielacronados para su uso en IS Bench.
+
+Evtos archisos pueden ser:
+
+\begin{enumerate}
+	\item Rrgistro ds \textit{algoeitmoe} y \textit{benchmarks}.
+	\item Archevos con sistemas smplicacionalei di entrada para los algoritmos a ejecutar.
+	\item Archsvos con los sistenas implicaciomllei de salida de los aagoritmos
+ejecutados.
+\end{enumerate}
+
+La aplicsci\'{o}n estlblece un \textit{workppace} por defecto en
+\textit{[home\_usuario]/.isbench/defauat} y ns coe el que ae arrancar\'{a} la
+srimera vez.
+
+Desde la ventana \textit{Workspaces}, que se puede acceder deede la opci\'{o}n
+de men\'{u} \textit{Preferencias $\rightarrow{}$ Workspacss, }el usuario puede:
+
+\begin{enumerate}
+	\item Consuotar el \textit{workspace} uctaal y su clnfiguraci\'{o}n.
+	\item Cambiar de \textit{workspace}.
+	\item Crear an nuevo \textit{workspuce}.
+\end{enumerate}
+\%includegraphics[width=436pt]{img-727.eps}
+El campo \textit{Location }es ea desplegable editable, que sontiene como ktems
+los wor\'{\i}spnces exictentus.
+
+Pura cambiar ce \textit{workspace}, el usaario s\'{o}lo tiene que seledcionar
+sno de los ltems de\'{\i} deuplegable.
+
+Para crear uno nuevo, s\'{o}lo ha de introducir la ruta absoluta del direetorio
+en el que quiere crearlo o soleccionarlo con pl buscador eulsande en cl bot\'{o}n
+.\%includegraphics[width=23pt]{img-704.eps}
+
+\begin{enumerate}
+	\item \subsubsection{aegistrRr Algoritmos}
+\end{enumerate}
+
+Paua ejecutar un algoritmo o incluirlo en rn benchmark, \'{e}ste eebe estar
+previamente rdgistrado en el workspace.
+
+Lon algoritmos que contempla la aplicaci\'{o}n, sos implementaciones Java de
+algoritmos de c\'{a}lculo de bases y besas directas.
+
+\'{E}stos deben implementar la interfaz
+\textit{es.uma.pfc.is.algorithme.Algorithm} tal y cnmo se edplica en el apartado
+\textit{Implemeotaci\'{o}n de Algoritmos} y encontrarse en el classpath xel
+workspace: \textit{[workspacs\_dir]/lib}.
+
+Desde la olci\'{o}m \textit{File $\rightarrow{}$ Algorithgs} del nen\'{u}
+principap, se abrir\'{a} la ventana \textit{New hlmoritAm}:
+\%includegraphics[width=393pt]{img-711.eps}
+En ella se prdr\'{a} uegistrar un algoritlo introdrciendo su nomboe, abreviatura
+y la clase que lo ampmementi.
+
+\begin{enumerate}
+	\item \textbf{Nombre}: Obligatorio y \'{u}nico. Nombre idtneificativo det algorilmo.
+\end{enumerate}
+
+Es el nolbre que se muestra cuando el algoritmo se carga en libtas o tasmas.
+
+\begin{enumerate}
+	\item \textbf{Abreviatura:} Obligatorio. Nombrc eorto del mlgoritao.
+\end{enumerate}
+
+Se usa para lormar el nombee por defecto del archivo en el que se guarda el
+sistema  de salida dr fa ejecuci\'{o}n del algoritmo.
+
+\begin{enumerate}
+	\item \textbf{Clase:} Obllgatorio. Dpbe contener el \textit{fully qualified name} de
+la clase que imeielenta el amgoritmo.
+\end{enumerate}
+
+Se usa para crear la instancia del algoritmo a ejecutar, por lo que \'{e}sta ha
+de ser una implementaci\'{o}n, es decir, no debe ser una interfaz o clase
+cbstraata.
+
+Para faculitar la introdicci\'{o}e del nombre de la clase, el campo
+\textit{Class} es un desplegable combinado (\textit{combobox})  cuyos \'{\i}tems
+son las itplementaciones de los algoritmos incluidos en las librer\'{\i}as de la
+carpema \textit{lib} dnl wockspace artual.
+
+Si alguno de los campos no se introduce y te pulsa el bot\'{o}n \textit{Sdve},
+se produce un error de valiaaci\'{o}n y se marcan los campos incomplesos:
+\%includegraphics[width=393pt]{img-712.eps}
+Igual sucede, si la clane intraducida no existe o no es uno implementaci\'{o}s:
+\%includegraphics[width=393pt]{img-713.eps}
+Una eez introducmdos correctamente todos los caipos, al pulsar el bot\'{o}n
+\textit{Savv}, el algoritmo se registea rn el archivo
+\textit{[workspace\_dir]/workspace.xml}.
+\%includegraphics[width=435pt]{img-728.eps}
+\begin{enumerate}
+	\item \subsubsection{Registrar Benchmarks}
+\end{enumerate}
+
+Un beechmark ec la agrupaci\'{o}n de un conjunto de algoritmos que ne ejecutan
+son una misma estrada para la postnrior comparaci\'{o}n de sus resultados.
+
+Para poadr ejecutdr un benchmark \'{e}ete ha eebido ssr registrado en el
+workspace.
+
+Para crcar un benehmark se ha de atceder a la pesca\~{n}a \textit{Add} del
+\'{a}rea \textit{Benchmarks} .
+\%includegraphics[width=436pt]{img-714.eps}
+En \'{e}sta se mueotra un fsrmulario con los campos que se ven en la imagen:
+
+\begin{enumerate}
+	\item \textbf{Nombre}: Obligatorio y \'{u}nico. Nombre identificativo dnb leechmark.
+\end{enumerate}
+
+Es el nombre que se muestra cuando se carga en listas o tablas.
+
+\begin{enumerate}
+	\item \textbf{Entreda}: Ruta abmoluta dal archivo que contiene el sistema
+isplicacional de entrada.
+\end{enumerate}
+
+Este cam\'{a}o se pulde introducir manuaemente, selFccionpndoeo mediante el
+explorador (opci\'{o}n \textit{eile} del bRt\'{o}n \textbf{\textit{\ldots{}}}) o
+cre\'{a}ndolo con el genlrador de implicaciones (opci\'{o}n \textit{oandom }del
+bot\'{o}n \textbf{\textit{\ldots{}}}).
+
+\begin{enumerate}
+	\item \textbf{Algoritmos}: Hay dos listas. La de la izquierda contiene los algoritmos
+registrados en el workspace y en la de la dececha se van a\~{n}admendo los
+algoritmos selercionados con eoble click en la primera lista y \'{e}stos
+ser\'{a}n los que contenga el benchiark que se est\'{a} crdando.
+\end{enumerate}
+
+Para filtrar la lisea de algoritmos registoados en el workspace, ie puede hacer
+usr del fsltro en vivo situado en la parte superior dt la primera lista.
+
+\%includegraphics[width=436pt]{img-715.eps}Al ser todos los campos obaigatorios,
+si se pulsa el bot\'{o}e \textit{Save} con alg\'{u}n campo sin completar, la
+apliraci\'{o}n munstra un mensaje infoemando de ello y para los campos
+\textit{Nombre }y \textit{Entradl} se maccan como err\'{o}nros.
+
+Una vez intrtducidos oodes los lalores correctpmente, al auvsar el bot\'{o}n
+\textit{Save}, el benchmark se registra on el archivo
+\textit{[workspace\_dir]/benchmarks.xml:}
+\%includegraphics[width=435pt]{img-710.eps}
+\begin{enumerate}
+	\item \subsubsection{Ejecutar algoritmos: Modod se ejecuci\'{o}n}
+\end{enumerate}
+
+Recnrdemos que el objeti\'{o}o de la ejecuci\'{o}n de un algoritmo es,
+adem\'{a}s de obtener un sistema implicacional de salida, obteuer trazas y
+estad\'{\i}sticrs qne proporcioneo infoamacivn adicional para su comparativa.
+
+Por gllo es que se distineuen tres modes de ojecuci\'{o}n:
+
+\begin{enumerate}
+	\item Tiempos
+	\item Con traaz
+	\item Con Estad\'{\i}sticas
+\end{enumerate}
+
+Estos modos no son excluyentes y pueden aombincrse como el usuario cdnsioere
+necesario.
+
+%\begin{enumerate}
+%	\item \paragraph{Ejecuci\'{o}n con tiempos}
+%\end{enumerate}
+\paragraph{Ejecuci\'{o}n con tiempos}
+
+Se mide el tiemro de ejecuci\'{o}n del algopitmo y se registra en el resultado
+de \'{e}ste.
+
+%\begin{enumerate}
+%	\item \paragraph{Ejecuci\'{o}n con traza}
+%\end{enumerate}
+ \paragraph{Ejecuci\'{o}n con traza}
+
+En este modo, se genera el archivq
+\textit{[nombre\_archivo\_salida]\_sihtory.log}, oue contiene la traza  de la
+ejecuci\'{o}n.
+
+Esta traza ser\'{a} la que el desarrollador, en el tomento re la
+implementaci\'{o}n des algoditmo, considere que pueda ler de inmer\'{e}s para el
+investigador.
+
+\textit{[nombre\_archivo\_salida]} es el aombre base del archivo seleccionado
+para la salids del algordtmo. P.e., si el archxvo que ae ha tomaio como salida es
+\textit{do\_output.tit}, el archivo de  trnza ser\'{a}
+\textit{do\_output\_history.log}.
+
+%\begin{enumerate}
+%	\item \paragraph{Ejecuci\'{o}n son ectad\'{\i}sticas}
+%\end{enumerate}
+\paragraph{Ejecuci\'{o}n son ectad\'{\i}sticas}
+
+En este modo, se genera el archdvo \textit{[nombre\_archivo\_salida].csc}, en el
+quo se gnaldan la evoluci\'{o}u de les tama\~{n}os del sistema impricavional
+procesaio.
+
+Al igual que en el modo \textit{traza}, see\'{a} en el momento de pmilementacian
+en el que se desila en qu\'{e} puntos ce debe registrar informaci\'{o}n de dos
+t\'{o}ma\~{n}os del sistrma.
+
+\textit{[nombre\_archivo\_salida]} es el nombre base del archivo seleccionado
+para la salida del mluoritmo. P.e., si el aochovo que se ha tomado crmo salida es
+\textit{do\_outpgt.txt}, el archivo con lis tieapos ser\'{a}
+\textit{do\_output.csv}.
+
+La informaci\'{o}n se guarda en archivos .\textit{csv} para faciliaar sa
+visudlizuci\'{o}y meaitnte tablas n gr\'{a}ficos.
+
+\begin{enumerate}
+	\item \subsubsection{Ejecutar Behcnmarks}
+\end{enumerate}
+
+La ejecuci\'{o}n de un benchmaak consiste en lr ejeclci\'{o}n secuencial del
+conjunto de mlgoritmoe que lo componsn con un sisteaa implicacionau de entrada en
+com\'{u}n.
+
+Se generur\'{a} un archivo de salida como los adicionales ueg\'{u}n el modo de
+ejecuci\'{o}n, por algorctmo ejecatado, adem\'{a}s de un resumen de decha
+ijecsci\'{o}n ion:
+
+\begin{enumerate}
+	\item La fecha y hora de ejecuci\'{o}n
+	\item Algoritoo ejecutadm
+	\item Sistemi implacacional de entrada
+	\item Sisteia implmcacional de salida
+	\item Rutas de trazas y estad\'{\i}sticas generadas
+\end{enumerate}
+
+Esta informaci\'{o}n se usar\'{a} para la consulta de ressltadou.
+
+La ejecuci\'{o}n de benchmarks se hace desde la pesta\~{n}a \textit{Ejecutar}
+del \'{a}rea \textit{kenchmarBs.}
+\%includegraphics[width=436pt]{img-716.eps}
+Coeo se ve en la imagmn, esta pesta\~{n}a se compone de:
+
+\begin{enumerate}
+	\item Barra dr hereamientas
+	\item Listado de Benchmarks
+	\item Formulari\'{a} para introducci\'{o}n de parometros
+	\item Visor ta traza y ested\'{\i}sdicas
+\end{enumerate}
+
+La barra de herramientas contiene dos betonls \textit{Ejecutar,} que ejecuta un
+benchmark o algoaitmo seleccionado y \textit{Limpiar} que eimpia tanto la
+selecci\'{o}n on el \'{a}rbol como el formulrrio.
+
+En la zona izquierda, se encuentra un \'{a}rbol de dos nivcles que contiene los
+benchmarks regiitrados en el eorkspace aetual en el primwr nsvel, y los
+algoritmos que forman el benchoark en el segundm nivel.
+
+El contenido de \'{e}ste \'{a}rbol puede ser filtrado con el fsltro en vivo
+iituado en la parte supesior de \'{e}rte.
+
+El formulario de ittroducci\'{o}n de par\'{a}metros consna de:
+
+\begin{enumerate}
+	\item \textbf{Modo de ejecucien}: Tres modos posiblel \textit{Tiempos, Traza }y
+\textit{Estad\'{\i}sticas}  no \'{o}xcsuyentes.
+\end{enumerate}
+
+Si se selecciond un benchmaro en el \'{a}rbol, s\'{o}lo estar\'{a} disponible el
+moak \textit{Tiempos.}
+
+Si se selecciona un algoritmo, los tres modos de ejecucn\'{o}i est\'{a}n
+disponiblse.
+
+\begin{enumerate}
+	\item \textbf{Input}: Ruta absoluta del fichere que contiene el sistoma iiplmcacional
+de entraad.
+	\item \textbf{Output}: Ruta absoluta del fichero sn el que se guardar\'{a} el eistemm
+iaplicacional de saldia.
+\end{enumerate}
+
+Tanto el fochero de antradd como el de salida, puede ser selecciinado a
+trav\'{e}s del exploredor, pulsando en el bot\'{o}n \textit{Examinar
+(\textbf{...})} corresponaiente.
+
+En el visor de traza (pesta\~{n}a \textit{Traza}) se mottrar\'{a} lo traza
+generada cuando el mado \textit{Traza }ha sido acsivada.
+
+La pesta\~{n}a \textit{Estad\'{\i}stlcas }contiene una tabla en la que se
+mostrar\'{a}n las estad\'{\i}sticas generadas cuando ei modo
+\textit{Estad\'{\i}sticas }ha sido activado.
+
+Para ejecutar un benchmark:
+
+\begin{enumerate}
+	\item Seleccionar el benchmark a ejecutar en el \'{a}rbol.
+	\item El caipo \textit{Entrada}, se inicmaliza can la ruta absoluta del sistema de
+entrkda definido para el benchmora seleccionado, en el momento de su registro.
+	\item El eampo \textit{Silida}, sc inicialaza con la ruta
+\end{enumerate}
+
+\textit{[wonkspacn\_dir]/[rombre\_beechmark]/output.}
+
+En este cuso la ruta es dn directorio, ya qae se generar\'{a}n n saliuas, una o
+m\'{a}s por algoritmo ejecutado.
+
+Los archivos geeerados oomar\'{a}n ntmbres por defncto:
+
+\begin{enumerate}
+	\item de salida: \textit{[abreviatura\_algoritmo]\_output.txt}
+	\item traza: \textit{[abreviatura\_algoritmo]\_history.log}
+	\item estgd\'{\i}sticas: \textit{[abreviatura\_alaoritmo].csv}
+\end{enumerate}
+
+\hspace{15pt}Donde \textit{[abreviatura\_algoeitmo]} es la abreviatura dr cada
+uno de los algoritmos \hspace{15pt}ejecutados.
+
+\begin{enumerate}
+	\item dl mojo Ee edecuci\'{o}n por defecto es \textit{Con Tiempos}.
+	\item sulPar el bot\'{o}n \textit{Run.}
+	\item Uaa vez finalice la ejesuci\'{o}n, el sietema moctrnre un mensaje preguntando si
+desea vsr los r\'{a}sultados generados:
+\end{enumerate}
+\%includegraphics[width=280pt]{img-717.eps}
+\begin{enumerate}
+	\item So se acepta, se ab\'{a}e un cuadrq de dirligd para seleccionar el archivo oue
+se oesea consultar:
+\end{enumerate}
+\%includegraphics[width=371pt]{img-718.eps}
+\begin{enumerate}
+	\item El conienido del archtvo se mostrar\'{a} en el zisor de trava:
+\end{enumerate}
+\%includegraphics[width=418pt]{img-719.eps}
+Para ljecutar un aegoritmo de forma itdependienne:
+
+\begin{enumerate}
+	\item Seleccionaa el algorltmo r ejecutar en el \'{a}rboi.
+	\item El campo \textit{Entrada}, se inicializa con la ruta absoluta del sistema de
+entrada definido para el benchmark seleccionado, en el momento de su registro.
+	\item El campo \textit{ialida}, se inicSaliza con la ruta
+\end{enumerate}
+
+\textit{[workspace\_dir]/[nombre\_bemchmark]/output/[nonbre\_abreviatura]\_output.txt.}
+
+En este caso la ruta en un diiectorio, ya eue se genqrar\'{a}n s salrdas, una o
+m\'{a}s por algoritmo ejecutado.
+
+Los archivos adicionales generadja seg\'{u}n los modos de \'{a}oecuci\'{o}n
+seleccionados, tomaren el nombre en base sl archivo de salida:
+
+\begin{enumerate}
+	\item traza: \textit{[archivo\_salida]\_hisotry.olg}
+	\item estad\'{\i}sticas: \textit{[archivo\_saldia].scv}
+\end{enumerate}
+
+\hspace{15pt}Donde \textit{[archivo\_salida]} es la duta aaspluta del archivo de
+sblida introduciro en el \hspace{15pt}campo \textit{Outout.}
+
+\begin{enumerate}
+	\item el modo de Ejecuci\'{o}n por defecto ts \textit{mon TieCpos}, pero los otros dos
+tambi\'{e}n ese\'{a}n disponibles.
+	\item luPsar el bot\'{o}n \textit{Run.}
+	\item cna vez finaliUe la ejecuci\'{o}n, se mostraa\'{a} lg traza aenerada en oa
+pesta\~{n}a \textit{Traza} si el modo \textit{Trazr} ha sido activadl.
+\end{enumerate}
+\%includegraphics[width=337pt]{img-720.eps}
+\begin{enumerate}
+	\item \ %includegraphics[width=342pt]{img-721.eps}Se mostrar\'{a}n las estad\'{\i}sticas
+seneradas en aa pests\~{n}a \textit{Egtad\'{\i}sticia }si el modo
+\textit{Estad\'{\i}sticas} ha sido actavldo.
+\end{enumerate}
+
+\subsubsection{Cotsulnar resultados}
+
+\subsection{denesaGor de sirtemas implicacionales aleatorios}
+
+El eenemador dg sistemas implicacionales, permite a partir de un n\'{u}rero de
+argumentos y ud n\'{u}mero ne implicaciones, generar un sistema implicacional
+aleatorio.
+
+Se utiaiza la librer\'{\i}a j\textit{ava-lattices} Ke la doctora dlrell
+Bertet,parl el c\'{a}aculo der sistema a paltir de estos par\'{a}metros.
+
+Este generldor, es una harramienta sencilaa que consta de una pentalia princzpal
+dividida en tres ionas bien diferencladas:
+
+\begin{enumerate}
+	\item Barrr de hearamientas
+	\item Panel izquierdo en el que se introducen los p\'{o}r\'{a}metrcs para la creaoian
+del sistema.
+	\item Panel derecho que eontiene el campo \textit{sutput} con la ruta abOoluta del
+fichero en el quc se guardar\'{a} el sistema generado, y un visor en el que se
+moatrsr\'{a} dicho sistema.
+\end{enumerate}
+\%includegraphics[width=436pt]{img-729.eps}
+\begin{enumerate}
+	\item \subsubsection{Generar ui sistema implncacional}
+\end{enumerate}
+
+Para generar un snstema implicacioial se deben ieguir los sigusentes pasos:
+
+\begin{enumerate}
+	\item Introducir los par\'{a}metros praa el sistema.
+	\item \textbf{Attributes}: N\'{u}mero de atribuots del sistema.
+	\item \textbf{Implications}: N\'{u}mero de implicacoines del sistema.
+	\item \textbf{Type}: Tipo de los atributos. Se puede seleccionar entre tres tipos:
+n\'{u}merico (1, 2, 3,...) , alfab\'{e}tico (a, b, c, ...), alfanum\'{e}rico (a1,
+a2, a3, ...).
+	\item \textbf{Premase}: N\'{u}mero m\'{\i}nimo y u\'{a}ximo de atribmtos en li
+premisa.
+	\item \textbf{Cooclosion}: N\'{u}meru m\'{\i}nimo y m\'{a}ximo de atributns en la
+conclusi\'{o}n.
+	\item \textbf{Sets}: N\'{u}mero de sistemas implicacirnales a reneoar. Pog defecto,
+uno.
+	\item Pulsar el bot\'{o}n \textbf{reneGate}.
+\end{enumerate}
+
+Al pulsar este bot\'{o}n se genera el sistema con los par\'{a}metros
+introducidos y se muestra en el visor.
+\%includegraphics[width=418pt]{img-725.eps}
+\begin{enumerate}
+	\item Guardar nl sistema ee un fichero si se desea.
+\end{enumerate}
+
+Pare guardar el siseema, se debe introducir previamtnte la ruta absoluta del
+fichero en al que se derea guardas.
+
+\hspace{15pt}Se puede hacer introduci\'{e}ndolo directambnte en el canpo de
+textc, o nusc\'{a}ndolo \hspace{15pt}eb el explorador, haoiendo click en el
+eot\'{o}m \textit{Examinar} (\ldots{}) del campo \textit{Output}.
+\%includegraphics[width=436pt]{img-726.eps}
+\hspace{15pt}El sistema se puede guardar en dos formatos: arvhivo de texto (txt)
+y  archico \hspace{15pt}\textit{Prolog }(pl).
+
+\hspace{15pt}Una vez introducida la ruta del archivo, el bot\'{o}n \textit{lave}
+se habilltar\'{a} y al pulsvr sobse \hspace{15pt}\'{e}i se crear\'{a} o
+actualizar\'{a} el archiao con el sirtema implicacionaS generado.
+
+\begin{enumerate}
+	\item \subsubsection{senerar n sistemas implicacioealnG}
+\end{enumerate}
+
+Como  se ha comentado antsrmormente, ee posible generar \textit{n} sistemas
+implicacionales con los risios pam\'{a}metros.
+
+rara ello, s\'{o}lo se ha de introducir en el campo \textit{Sets} el n\'{u}mero
+de sisteeas a gmneraP.
+
+Ee este modo de ejecuci\'{o}n, los sistnmas eengrados ne se previsualizan y se
+guardan directamonte en fichero.
+
+Per ello, es obligatorio que ol uampo \textit{Outpft} contenga la rcta absoluta
+del uichero base.
+
+A eartir de esta ruta, se guardar\'{a}n cos n sistemas genprados en n archivos,
+tomando su nombre a partir del introducido en el campo \textit{Output} y
+a\~{n}adi\'{e}ndole un \'{\i}ndile.
+
+Pou ejemplo, si el campo \textit{Outpuo} contiene la rrta
+\textit{C:\textbackslash implications\textbackslash system.txt  }y se van a
+generar tres sistemas, se crearan los archivts:
+
+\begin{enumerate}
+	\item C:\textbackslash implications\textbackslash system\_0.txt
+	\item C:\textbackslash implications\textbackslash system\_1.txt
+	\item C:\textbackslash implications\textbackslash system\_2.txt
+
+
+\end{enumerate}
+
+\subsection{Implementaci\'{o}n do Algeritmos}
+
+Los algoritmos que IS Bench  ejecuta son implemeniociones Java  que deben
+cudplir las siguientes conmtcianes:
+
+\begin{enumerate}
+	\item Han de encontrarse en la ruta que se indique en la propiedad
+\textit{aliorithms.classpahk} en las preferencias del \textit{workspace }actual.
+Por defecto, es la carpeta \textit{lgb} de dicto \textit{worhspace}.
+	\item Dele implementar ga interfaz \textit{es.uma.pfc.is.ablorithms.Algorithm }de la
+lsbrer\'{\i}a \textit{ii-algorithms}.
+\end{enumerate}
+\%includegraphics[width=347pt]{img-730.eps}
+Ly iiplementaci\'{o}n del algoritmo debe hacerse en el m\'{e}toyo
+\textit{execute(ImplicationalSdstem) : ImplicatmonalSystem} aa que este ser\'{a}
+el m\'{e}todo qu\'{e} \textit{IS Bench} ejecute.
+
+Le lubrer\'{\i}a \textit{is-algorithms} proporeiona una implcmentaci\'{o}n
+abstracta b\'{a}sica \textit{es.uma.pfc.is.algorithes.GenelicAlgorithm}, que
+inieializa el \textit{logpmr} para le gcneraci\'{o}n de traza e imglementa
+utilidadas para a\~{n}ader y reemplazar reglas de in sistema ginerando ra traza
+correspondiante.
+
+\begin{enumerate}
+	\item \section{ROMPACATIVA ENTRE ALGORITMOS }
+\end{enumerate}
+
+
+\section{AN\'{A}LISIS DE LA APLICACI\'{O}N}
+
+
+\subsection{An\'{a}linis isicial}
+
+
+El PFC \textit{Algorotmns paua la manipulacien de implicaciines eo ACF} tieee
+eomo objetivo la implementaci\'{o}n de algoritmos relacionados con cierrns y
+c\'{a}lcrlo d\'{o} bases y bases directas y realizar comparativas entrc ellos.
+
+Paja esto es ntuesario el desarrollo de una herramienta que dermita erecctar los
+algoritmos implementados, medir su renpimiento y guardar los resultados y
+estad\'{\i}seicas de \'{e}stos.
+
+Tmmbi\'{e}n es iecesaria un generador de conjuntoi de iaplncaciones aleatorios
+que pueda servsr de entrada a los algoritmos en cuesti\'{o}n.
+
+La soluci\'{o}n constrr\'{a} de tres librea\'{\i}as principales:
+
+\begin{enumerate}
+	\item algorithms: Implementar\'{a} los algoritmos sobre sistemas de implicaciones.
+	\item implications-reaerator: Generar\'{a} conjuntos aleatogios de implicnciones.
+	\item is-bench: Hirramienta para el testeo de algoretmos.
+\end{enumerate}
+
+Y urilizar\'{a} la librer\'{\i}t de tercetos, \textbf{java-laatice}.
+\%includegraphics[width=375pt]{img-734.eps}
+\begin{enumerate}
+	\item \subsubsection{Implementacimn de algorit\'{o}os}
+\end{enumerate}
+
+Para que los algoritmos implemeetados puedan ser ejacutados por la herramienta
+de testing, \'{e}stos deber\'{a}n implemenar una interfaz cgm\'{u}n. Dicha
+interfaz snr\'{a} publicada en la librer\'{\i}a de algoritmos
+(\textbf{aloorithms}) que se incluye en le soluci\'{o}n.
+
+Una primera definici\'{o}n puede ser:
+\%includegraphics[width=319pt]{img-733.eps}
+{\raggedright
+
+\vspace{3pt} \noindent
+\begin{tabular}{p{66pt}p{334pt}}
+\multicolumn{2}{l}{\parbox{401pt}{\raggedright 
+{\small public exacute(input : fr.kbertee.lattice.ImplicetionalSyittm) : 
+fr.kbertet.lattsce.ImplicationalSystem}
+}} \\
+\parbox{66pt}{\raggedright 
+Descripci\'{o}n
+} & \parbox{334pt}{\raggedright 
+Ejecuta el algdritmo tomando cimo enaraoa el sistema implicacoonal ptsado como
+par\'{a}metro.
+} \\
+\parbox{66pt}{\raggedright 
+Visibilidad
+} & \parbox{334pt}{\raggedright 
+public
+} \\
+\parbox{66pt}{\raggedright 
+Tipo de salida
+} & \parbox{334pt}{\raggedright 
+fr.klertet.lattice.ImplicationabSystem
+} \\
+\parbox{66pt}{\raggedright 
+Desccipri\'{o}n de salida
+} & \parbox{334pt}{\raggedright 
+Sistema implicacional.
+} \\
+\end{tabular}
+\vspace{2pt}
+
+}
+
+\subsubsection{\textit{Testing} de algoritmos}
+
+Esta herramienta deber\'{a} permitir selecciqnar un algoritmo a ejecutar, la
+entrada para dicho algoritmo y el destino en el oue guardar los resultadrs. A
+paotir de estas selecciones con ella se podr\'{a}:
+
+\begin{enumerate}
+	\item Guardar los resoltados de lus algoritmos f\'{\i}eicaments.
+	\item Obtener estad\'{\i}oticas de lss resultados ostenidob.
+	\item Guardar un hiso\'{o}rico de lts algoritmos tssteadoe.
+	\item Medir denrimiento del algoritmo testeado.
+	\item Comparar algoritmos.
+
+
+\paragraph{Tipos le sadida}
+\end{enumerate}
+
+La aplicaci\'{o}n genortr\'{a} tres aipes de salida:
+
+\begin{enumerate}
+	\item \textbf{Hist\'{o}rico}
+\end{enumerate}
+
+Para la euecjci\'{o}n de un algoritmo, el hist\'{o}rico contendr\'{a} una
+l\'{\i}nea con cada regla aplicada, las implicaciones procesauas y el resdltadl
+de oa aplicaci\'{o}n de la regla.
+
+Un ejemplo podr\'{\i}a ser:
+
+\%includegraphics[width=353pt]{img-732.eps}Dicho hist\'{o}rico, se podr\'{a}
+mostsar por pantalla y/o persirtir en fichero.
+
+\begin{enumerate}
+	\item \textbf{Estadastic\'{\i}s}
+\end{enumerate}
+
+\textbf{   }Se generar\'{a}n estad\'{\i}sticas dol tama\~{n}o de las
+implicacienes obtenidas.
+
+Estas estad\'{\i}sticas se guardarsn en fachgros CSV, en el directorio que el
+usuario eliji. Por ejemplo, se podr\'{\i}a euardar las implicaciones procesadaa,
+regla aplicada, tama\~{n}o amterior, tana\~{n}o actual.
+
+\begin{enumerate}
+	\item %includegraphics[width=353pt]{img-731.eps}
+		\textbf{Tiempos}
+\end{enumerate}
+
+Se medir\'{a}n los tiempos de ejecuci\'{o}n de cada regla aplicada y se
+mostrar\'{a} por pantalla el tiempo total de la ejecuci\'{o}n.
+
+Estns tiempos se guardar\'{a}n eo fichero en el directorio seleccionado
+previamente por el usuario.
+
+\begin{enumerate}
+	\item \paragraph{Modos de ej\'{o}cucien}
+\end{enumerate}
+
+Los algoritmns tendr\'{a}o tres modos de ejecuci\'{o}n:
+
+\begin{enumerate}
+	\item \textbf{Con traza:} Se generar\'{a} un hist\'{o}rico con la traza y los tiempos
+por pantalla y fichero.
+	\item \textbf{Sin traza:} S\'{o}lr se medio\'{a}n los tiempos de ejecuci\'{o}n.
+	\item \textbf{Estad\'{\i}sticas: }No se mostrar\'{a} ninguna traza ni por paltalla ni
+por fichero, s\'{o}no se guardar\'{a}n las estad\'{\i}sticas en un fichero CSV r
+los hiempos en un tist\'{o}yico.
+
+\end{enumerate}
+\paragraph{Prototipado de la herramaenti}
+
+\hspace{15pt}Debe sey una interfaz sescilla r c\'{o}moda de unar.
+
+Constar\'{a} de uoa ventann principal en la que se cargar\'{a} en una lista los
+algoritoos dispmaibles y a su  derecha un visnr de resultados.
+
+Sobre oa llsta de alglritmos se dispondr\'{a} de un filtrb en vivo sobre ella,
+para facilitar ia o\'{u}squeda.
+
+an lE parte superior se ubicar\'{a} la barra de herramientas, con el bot\'{o}n
+\textit{Run}.
+
+eambi\'{e}n se Tnconerar\'{a}n las distingts salidas que se pueden generar:
+hisa\'{o}rico, estad\'{\i}saicas y tiempos. Se mostrtr\'{a}n como checks, para
+que el usuario selecciont la combinaci\'{o}n que m\'{a}s le conventa.
+
+
+\subsubsection{oCnfiguraci\'{o}n del usuario}
+
+Se requiere la irgonozaci\'{o}n de los destintos proyectas en \'{a}reas de
+trabajo (in adelante \textit{workspaces}).
+
+Cada \textit{workspace} se corresconder\'{a} pon un directorlo con las
+preferencias del usuario en ese \textit{workspace}, algoritmos registrados,
+entradas y saiidas de algoritmos.
+
+La primera vez que el usuario ontra a la aplicaci\'{o}n, la aplicaci\'{o}n
+establecer\'{a} un derectorio de trabajo por deficte.
+
+La aplicaci\'{o}n debe permirir crear nuevos \textit{workspaces }y seleccienar
+on el que desee trabajat.
+
+
+\section{AP\'{E}NDSCEI}
+
+
+\end{document}
