@@ -613,4 +613,95 @@ M\'{a}laga a \_\_\_\_ de\_\_\_\_\_\_\_\_\_\_\_\_\_\_ del 200\_
 			Probamos sólo que $f(A) = f(g(f(A))), g(B) = g(f(g(B)))$ es dual:
 			
 			
+			\begin{itemize}
+				\item[-] ''$\subseteq$'':\\
+					$f(A) \subseteq f(g(f(A)))$ cumple la definición (4) siendo $B = f(A)$.
+				\item[-] ''$\supseteq$'':\\
+				Partiendo de que $A \subseteq g(f(A))$ por la definición (3), tenemos que $f(A) \supseteq f(g(f(A)))$ aplicando la definición
+				(1).
+			\end{itemize}
+			
+		\subsubsection{Operadores de cierre}
+		
+			\paragraph{Operador de cierre:} Un operador de cierre en el conjunto \textit{X} es un mapeo $C: 2^X \rightarrow 2^Y$ que cumple para
+			cada $A, A_1, A_2 \subseteq X$
+			
+			\begin{align}
+				&A \subseteq C(A),\\
+				&A_1 \subseteq A_2 \Rightarrow C(A_1) \subseteq C(A_2),\\
+				&C(A) \subseteq C(C(A)).
+			\end{align}
+			
+			\paragraph{Puntos fijos de operadores de cierre:} Para un operador de cierre $C: 2^X \rightarrow 2^Y$, al conjunto
+			\[
+				fix(C) = \left\{ A \subseteq X | C(A) = A \right\}
+			\]
+			es llamado punto fijo de \textit{C}.
+
+			\paragraph{Teorema (desde conexiones de Galois a operadores de cierre):} 
+			Si $\left\langle f, g \right\rangle$ es una conexión de Galois entre \textit{X} e \textit{Y} entonces $C_X = f \circ g$ es un
+			operador de cierre en \textit{X} y $C_Y = g \circ f$ es un operador de cierre en Y.\\
+			\emph{Demostración}\\
+			$f \circ g: 2^X \rightarrow 2^Y$ es un operador de cierre en \textit{X} ya que:
+			
+			\begin{itemize}
+				\item[(5):] $A \subseteq g(f(A))$ (5) es cierto por la definición de conexión de Galois.
+				\item[(6):] $A_1 \subseteq A_2$ implica $f(A_2) \subseteq f(A_1)$, lo cual implica $g(f(A_1)) \subseteq g(f(A_2))$
+				\item[(7):] Siendo $f(A) = f(g(f(A)))$, obtenemos que $g(f(A)) = g(f(g(f(A))))$
+			\end{itemize}
+			
+			\paragraph{Teorema (extensiones e intensiones):}
+							
+				\begin{align}
+					Ext(X, Y, I) &= \left\{ B^{\downarrow} | B \subseteq Y \right\}, \\
+					Int(X, Y, I) &= \left\{ A^{\uparrow} | A \subseteq X \right\}
+				\end{align}
+				\emph{Demostración}\\
+				Probamos sólo la parte $Ext(X, Y, I)$, la parte $Int(X, Y, I)$ es dual.
+				
+				\begin{itemize}
+					\item ''$\subseteq$'': si $A in Ext(X, Y, I)$, entonces $\left\langle A, B \right\rangle$ es un concepto formal para algún 
+					$B \subseteq Y$. Por definición, $A = B^{\downarrow}$, esto es $A \in \left\{ B^{\downarrow} | B \subseteq Y \right\}$.
+					\item ''$\supseteq$'': Sea $A \in \left\{ B^{\downarrow} | B \subseteq Y \right\}$, esto es $A = B^{\downarrow}$ para algún
+					\textit{B}. Entonces $\left\langle A, A^{\uparrow} \right\rangle$ es un concepto formal. Concretamente, 
+					$A^{\uparrow \downarrow} = B^{\downarrow \uparrow \downarrow} = B^{\downarrow} = A$ por encadenamiento, y 
+					$A^{\uparrow} = A^{\uparrow}$. Esto es, \textit{A} es la extensión de un concepto formal 
+					$\left\langle A, A^{\uparrow} \right\rangle$ de donde se concluye que $A \in Ext(X, Y, I)$
+				\end{itemize}
+			\paragraph{Teorema (la menor extensión que contiene a \textit{A}, la menor intensión que contiene a \textit{B}):}
+			La menor extensión que contiene a $A \subseteq X$ es $A^{\uparrow \downarrow}$. La menor intensión que contiene a $B \subseteq Y$ es
+			$B^{\downarrow \uparrow}$.\\
+			\emph{Demostración}
+			Para las extensiones:
+			
+			\begin{enumerate}
+				\item $A^{\uparrow \downarrow}$ es una extensión por el teorema anterior.
+				\item Si \textit{C} es una extensión tal que $A \subseteq C$, entonces 
+				$A^{\uparrow \downarrow} \subseteq C^{\uparrow \downarrow}$ porque $\uparrow \downarrow$ es un operador de cierre. Por lo que,
+				$A^{\uparrow \downarrow}$ es la menor extensión que contiene a \textit{A}.
+			\end{enumerate}
+				
+	\subsubsection{Extensiones, intensiones, retículo de conceptos}
+			\paragraph{Teorema:} Para cualquier contexto formal $\left\langle X, Y, I \right\rangle$
+			
+			\begin{align*}
+				&Ext(X, Y, I) = fix(\uparrow \downarrow),\\
+				&Int(X, Y, I) = fix(\downarrow \uparrow),\\
+				&\mathcal{B}(X, Y, I) = \left\{ \left\langle A, A^{\uparrow} \right\rangle | A \in Ext(X, Y, I) \right\},\\
+				&\mathcal{B}(X, Y, I) = \left\{ \left\langle B^{\downarrow}, A \right\rangle | B \in Int(X, Y, I) \right\}.
+			\end{align*}
+			\\
+			\emph{Demostración}\\
+			Para \textit{Ext(X, Y, I)}, necesitamos demostrar que \textit{A} es una extensión si y sólo si $A = A^{\uparrow \downarrow}$;
+
+			\begin{itemize}
+				\item[''$\Rightarrow$'':] Si \textit{A} es una extensión entonces para el correspondiente concepto formal 
+				$\left\langle A, B \right\rangle$ tenemos que $B = A^{\uparrow}$ y $A = B^{\downarrow}= A^{\uparrow \downarrow}$. 
+				De ahí que, $A = A^{\uparrow \downarrow}$.
+				\item[''$\Leftarrow$'':] Si $A = A^{\uparrow \downarrow}$ entonces $\left\langle A, A^{\uparrow} \right\rangle$ es un concepto
+				formal. Concretamente, denotando $\left\langle A, B\right\rangle = \left\langle A, A^{\uparrow}\right\rangle$, tenemos que
+				$A^{\uparrow} = B$ y $B^{\downarrow} = A^{\uparrow \downarrow} = A$. Por lo que, \textit{A} es una extensión.
+			\end{itemize}
+
+
 \end{document}
