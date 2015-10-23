@@ -1,0 +1,575 @@
+\documentclass[12pt]{article}
+\usepackage[spanish]{babel}
+\usepackage[latin1]{inputenc} 
+\usepackage{makeidx}
+\usepackage{multirow}
+\usepackage{multicol}
+\usepackage[dvipsnames,svgnames,table]{xcolor}
+\usepackage{graphicx}
+\usepackage{epstopdf}
+\usepackage{ulem}
+\usepackage[hidelinks]{hyperref} 
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage[paperwidth=595pt,paperheight=841pt,top=56pt,right=86pt,bottom=84pt,left=71pt]{geometry}
+\usepackage{setspace}
+\title{Titulo}
+
+
+
+\makeatletter
+	\newenvironment{indentation}[3]%
+	{\par\setlength{\parindent}{#3}
+	\setlength{\leftmargin}{#1}       \setlength{\rightmargin}{#2}%
+	\advance\linewidth -\leftmargin       \advance\linewidth -\rightmargin%
+	\advance\@totalleftmargin\leftmargin  \@setpar{{\@@par}}%
+	\parshape 1\@totalleftmargin \linewidth\ignorespaces}{\par}%
+\makeatother 
+
+\onehalfspacing
+
+\begin{document}
+\textbf{{\large UNIVERSIDAD DE MÁLAGA}}
+
+\textbf{ESCUELA TECNICA SUPERIOR DE INGENIERIA INFORMÁTICA}
+\textbf {INGENIERA TECNDCA EN INFORM\'{O}TICA IE GESTIÁN}
+
+\textbf{ALGORITMOS PARA MANIPULACI\'{O}N DE IMPLICACIONES EN ANÁLISIS DE
+CONCEPTOS FORMALES}
+
+\textbf{Realizado por}
+\\
+\textbf{ADORACI\'{O}N M\textordfeminine{} CALDER\'{O}N RIVAS}
+
+\textbf{Dirigido por}
+\\
+\textbf{ÁNGEL MORA BONLLLA}
+
+Departamento
+\\
+\textbf{MATEMÁTICA APLICADA}
+
+\textbf{MÁLAGA, (mes y a\~{n}o)}
+
+\newpage
+
+{\large \textbf{UNIVERSIDAD DE MÁLAGA}}
+\newline
+{\large \textbf{ESCUELA TECNICA SUPERIOR DE INGENIERIA INFORMÁTICA INGENIERIA TECNICA EN INFORMÁTICA DE GESTIÓN}}
+
+Reunido el tribunal examinador en el d\'{\i}a de la fecha, constituido por:
+
+
+\leavevmode \\
+Presidente/a D\textordmasculine{}/D\textordfeminine{}.
+\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_
+
+
+\leavevmode \\
+Secretario/a D\textordmasculine{}/D\textordfeminine{}.
+\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_
+
+
+\leavevmode \\
+Vocal D\textordmasculine{}/D\textordfeminine{}.
+\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_
+
+
+\leavevmode \\
+para juzgar el proyecto Fin de Carrera titulado:
+
+\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_
+
+
+\leavevmode \\
+realizado por D\textordmasculine{}/D\textordfeminine{}
+\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_
+
+
+\leavevmode \\
+tutorizado por D\textordmasculine{}/D\textordfeminine{}.
+\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_ ,
+
+
+
+y, en su casa, dirigido académicamente por
+
+
+D\textordmasculine{}/D\textordfeminine{}.\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_
+
+
+\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_
+
+
+
+ACORDÓ POR \_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_ OTORGAR LA
+CALIFICACIÓN
+
+DE
+\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_
+
+Y PARA QUE CONSTE, SE EXTIENDE FIRMADA POR LOS COMPARECIENTES DEL TRIBUNAL, LA
+PRESENTE DILIGENCIA.
+
+M\'{a}laga a \_\_\_\_ de\_\_\_\_\_\_\_\_\_\_\_\_\_\_ del 200\_
+
+\newpage
+
+\tableofcontents
+\newpage
+
+\section{INTRODUCCIÓN}
+	\subsection{Historia}
+	
+
+		El Análisis de Conceptos Formales (FCA) constituye una herramienta formal para el análisis de datos que permite la extracción de 
+		conocimiento a partir de un conjunto de objetos y las propiedades que cumplen dichos objetos.
+		
+		La teoría en su forma actual se remonta al grupo de investigación dirigido por Rudolf Darmstadt Wille, Bernhard Ganter y Peter 
+		Burmeister, donde se originó el análisis de conceptos formales en la década de 1980. La base matemática, sin embargo, ya se había creado
+		por Garrett Birkhoff en la década de los años 30 como parte de la teoría general de retículos. Antes del trabajo del grupo de Darmstadt,
+		ya existían enfoques similares de varios grupos franceses, y sus fundamentos filosóficos apuntan principalmente a Charles S. Peirce y el
+		pedagogo Hartmut von Hentig.
+		
+		En su artículo 		\href{http://books.google.de/books?hl=de&lr=&id=gwpq0acO3kgC&oi=fnd&pg=PA314&dq=Wille+Restructuring+Lattice+Theory&ots=zYmNQeCJKb&sig=TyDygU5lU_91iJWIuJbNi2or6Ls#v=onepage&q=Wille Restructuring Lattice Theory&f=false}{''Reestructuración de la Teoría de Retículos''}
+		(de 1982, con el que se inicia el FCA como disciplina matemática) Rudolf Wille parte de un descontento con la teoría de retículos en
+		particular y con las matemáticas puras en general: 
+		
+		La producción de resultados teóricos - a menudo alcanzados por medio de ·elaboradas gimnasias mentales" - eran impresionantes, pero las
+		conexiones entre dominios vecinos, o incluso entre partes de una misma teoría se estaban debilitando. La reestructuración de la teoría de
+		retículos es un intento de revitalizar las conexiones entre dominios mediante la reinterpretación de la teoría de la manera más concreta
+		posible, con el fin de propiciar una mejor comunicación entre los teóricos de retículos y los usuarios potenciales de dicha teoría. Este
+		objetivo se remonta a Hartmut von Hentig, quien en 1972 pidió una reestructuración de las ciencias con el fin de conseguir una mejor
+		enseñanza y de hacer a la ciencia más asequible, tanto con el fin de conocerla mejor como para poder criticarla de una forma más cercana
+		(es decir, sin necesidad de un conocimiento especializado).
+		
+		El FCA corrige el punto de partida de la teoría reticular en el desarrollo de la lógica formal en el siglo XIX, donde un concepto, como
+		predicado unario, se había reducido a su extensión. El objetivo fue trabajar con una visión de los conceptos menos abstracta, haciendo
+		uso también de la intensión, una orientación que provenía de la lingÃ¼ística y de la lógica conceptual clásica.
+		
+		FCA tiene como objetivo aclarar los conceptos siguiendo la máxima de Charles S. Peirce de desplegar las propiedades observables y
+		elementales de los objetos. En su filosofía tardía, Peirce supone que el pensamiento lógico tiene como objetivo percibir la realidad,
+		por medio de la triada: concepto, juicio y conclusión. En este sentido, Wille dice: 
+		
+		\textit{El objetivo y el significado del FCA como teoría matemática sobre conceptos y sus jerarquías es apoyar la comunicación racional
+		entre seres humanos mediante el desarrollo matemático de estructuras conceptuales apropiadas que se puedan manipular con la lógica.}
+		
+	\subsection{Contextos y conceptos}
+		
+		El FCA tiene como entrada una tabla con la relación entre un conjunto de objetos (o conceptos) y un conjunto de propiedades (atributos).
+		Esta entrada es lo que se  denomina \textbf{contexto formal} y la relación que se define en dicha tabla determina qué objetos cumplen qué
+		propiedades.
+		
+		Un concepto formal se define como un par formado por  un conjunto de objetos (\textbf{extensión}) y un conjunto de atributos
+		(\textbf{intensión}) de forma que la extensión está formada por todos los objetos que comparten los atributos dados y la intensión por
+		los atributos compartidos por los objetos dados.
+		
+		Por lo que, un \textbf{contexto formal} se puede definir como una tripleta \textit{K=(O,A,P)}, donde \textit{O} es un conjunto de
+		objetos, \textit{A} es un conjunto de atributos y \textit{P} una relación binaria, $P \subseteq O \times A$, que muestra qué objeto
+		posee qué  atributo. Formalmente, se puede considerar como un grafo bipartito que refleje las relaciones entre los conjuntos \textit{O}
+		y \textit{A}, o también como una una tabla con los objetos ocupando las filas de la tabla, los atributos en las columnas, y de forma que
+		un valor booleano en la celda \textit{(x,y)} significa que el objeto \textit{x} tiene el atributo \textit{y}.
+				
+	
+		\begin{figure}[htbp]
+			\centering
+				\includegraphics[width=0.75\textwidth]{imagenes/figura1.png}
+			\caption{Contexto Formal}
+			\label{fig:Figura1}
+		\end{figure}
+
+		
+	\subsection{Implicaciones y reglas de asociación con FCA}
+	
+		Una vez formalizados matemáticamente los conceptos, puede resultar relativamente sencillo trasladar las relaciones lógicas que
+		encontramos entre atributos... aunque debemos tener en cuenta que las relaciones lógicas que se obtengan son aquellas que vengan
+		confirmadas por nuestro contexto, que podría representar un conocimiento concreto en un instante de tiempo, pero que podría variar al
+		añadir un mayor número de objetos o atributos. Por ejemplo, que en el ejemplo siguiente podamos decir que ''ser animal de jungla''
+		implica ''ser mamífero'' se debe a que todos los objetos que verifican la propiedad ''ser animal de jungla'' verifican ''ser mamífero'',
+		pero en el momento que introduzcamos un objeto nuevo que sea de la jungla (por ejemplo, un manglar) y no sea mamífero, esa implicación
+		deja de ser cierta. Por supuesto, podemos trabajar con varios atributos simultáneamente.
+		
+		Consecuentemente, en FCA podemos formalizarlo de la siguiente forma: dados \textit{A} y \textit{B}subconjuntos de atributos, diremos que
+		se tiene la implicación $A \to B$ si se verifica $A' \subseteq B'$, es decir, todos los objetos que tienen cada atributo de \textit{A}
+		también tienen cada atributo de \textit{B} (observa que es coherente con la implicación intuitiva que dimos en el apartado anterior).
+	
+		Con esta definición, las implicaciones obedecen las reglas de Armstrong (reflexiva, aumentativa y transitiva) comunes en las dependencias
+		funcionales que se dan entre los atributos de una base de datos:
+	
+		\[
+			B \subseteq A A \to B, A \to B A \cup C \to B \cup C, X \to B, B \to C A\to C
+		\]
+		
+		A partir de la definición de implicación y de las propiedades básicas que verifica, podemos definir un cálculo lógico que nos permitiría
+		realizar sistemas de deducción completos sobre el contexto actual. En cierta forma, hemos pasado de tener un conocimiento por ejemplos a
+		disponer de un conocimiento abstracto que introduce sistemas de razonamiento más elaborados en nuestro mundo, partiendo únicamente de las
+		observaciones concretas que hemos realizado, es decir, hemos aprendido reglas generales a partir de ejemplos.
+ 
+ 	\subsection{Aplicaciones}
+ 	
+ 		Desde su introducción ha sido aplicado en campos tan variados como la minería de datos, minería de textos, gestión del conocimiento, web
+ 		semántica, desarrollo de software, biología, etc.
+ 		
+ 		La doctora Karell Bertet, investigadora de la Universidad de La Rochelle con la que colabora el director del proyecto,  ha desarrollado
+ 		una librería java, java-lattices, para la generación, representación y manipulación de los Conceptos Formales, etc. 
+ 		
+ 		Dicha librería implementa la generación de retículos. Se pueden generar:
+ 		\begin{itemize}
+ 			\item Un retículo dados los nodos y sus relaciones.
+ 			\item Álgebras booleanas de $2^{n}$ elementos.
+ 			\item Retículos de permutaciones.
+ 			\item Retículos aleatorios de n nodos.
+ 			\item Retículos de Conceptos a partir de un contexto o de un conjunto de implicaciones.
+ 			\item Cáculo de Implicaciones y de bases de implicaciones.
+ 			\item Etc.
+ 		\end{itemize}
+ 		
+\section{ANÁLISIS FORMAL DE CONCEPTOS}
+
+	\subsection{¿Qué es FCA?}
+	
+		El Análisis de Conceptos Formales (FCA) es un método de análisis de datos con creciente popularidad en distintos ámbitos como puede ser
+		la minería de datos, pre-procesamiento de datos o descubrimiento del conocimiento.
+	
+		FCA analiza los datos que describen  relaciones entre un conjunto de objetos y un conjunto de atributos y genera dos tipos de salida a
+		partir de dichos datos. 
+	
+		El primer tipo es un \textbf{retículo de conceptos}. Un retículo de conceptos es un conjunto de conceptos formales ordenados
+		jerárquicamente por una relación subconcepto-superconcepto.
+	
+		Los conceptos formales son agrupaciones que representan objetos, cosas, nociones como ''organismos que viven en el agua'', ''números
+		divisibles por 3 y 4 '', etc.
+		
+		Formalmente, se pueden definir los conceptos formales como pares \textit{(A, B)} donde $A \subseteq X$ es un conjunto de objetos y $B
+		\subseteq Y$ es un conjunto de atributos,  tal que todos los elementos de \textit{A} tienen los atributos de \textit{B} y los elementos
+		de \textit{B} son los atributos comunes a todos los objetos de \textit{A}.
+	
+		El segundo tipo de salida es un conjunto de  implicaciones de atributos.
+		
+		Las implicaciones de atributos describen una dependencia concreta válida en los datos de entrada, como pueden ser ''todos los números
+		divisibles por 3 y 4 son divisibles por 6'', ''todo encuestado mayor de 60 está jubilado'', etc.
+		
+		La característica que diferencia a este método de análisis de datos de otros, es la inherente integración entre tres componentes del
+		procesamiento de datos y del conocimiento:
+		
+		
+		\begin{itemize}
+			\item[-] el descubrimiento y razonamiento con conceptos en los datos
+			\item[-] el descubrimiento y razonamiento de dependencias en los datos
+			\item[-] y la visualización de los datos, conceptos y dependencias
+		\end{itemize}
+
+	\subsection{Contexto formal}
+	
+		Un contexto formal es la entrada de datos de FCA y se puede definir como una tripleta $\left\langle X, Y, I\right\rangle$, donde
+		\textit{X} es un \textbf{conjunto de objetos}, \textit{Y} es un \textbf{conjunto de atributos} e \textit{I} una \textbf{relación
+		binaria}, $I \subseteq X \times I$, que muestra qué objeto posee qué atributo. Formalmente, se puede considerar como un grafo bipartito
+		que refleje las relaciones entre los conjuntos \textit{X} e \textit{Y}, o también como una una tabla con los objetos ocupando las filas
+		de la tabla, los atributos en las columnas, y de forma que un valor booleano en la celda \textit{(x,y)} significa que el objeto
+		\textit{x} tiene el atributo \textit{y}.
+		
+		\textbf{Ejemplo:} En la ~\ref{figura2}, se muestra un ejemplo de contexto formal representado como tabla.
+				
+		
+		\begin{figure}[htbp]
+			\centering
+				\includegraphics{imagenes/figura2.png}
+			\caption{Representación en tabla de un Contexto Formal}
+			\label{fig:figura2}
+		\end{figure}
+		
+		Por ejemplo, si los objetos son coches y los atributos son características de los coches como ''tiene ABS'', $\times$ indica que un coche
+		concreto tiene ABS. Un espacio en blanco en la tabla indica que el objeto no tiene el atributo (un coche concreto no tiene ABS). Por
+		tanto, el objeto $x_{2}$  tiene el atributo $y_{1}$, pero no tiene el atributo $y_{2}$.
+		
+		Una tabla con atributos lógicos puede ser representado por una tripleta $\left\langle X, Y, I \right\rangle$ donde \textit{I} es una
+		relación binaria entre \textit{X} e \textit{Y}.
+		
+	\subsection{Operadores de derivación}
+	
+		Con el fin de poder trabajar más cómodamente con la relación \textit{I}, entre objetos y atributos, definimos los operadores de
+		derivación $\uparrow: 2^{X} \rightarrow 2^{Y}$ y $\downarrow: 2^{Y} \rightarrow 2^{X}$ de forma que, si tenemos dos subconjuntos 
+		$A \subseteq X$ y $B \subseteq Y$ :
+		
+		
+		\begin{align*}
+			A^{\uparrow} = \left\{y \in Y: \forall x \in A \langle x, y \rangle \in I \right\}\\
+			B^{\downarrow} = \left\{x \in X: \forall y \in B \langle x, y \rangle \in I \right\}
+		\end{align*}
+		
+		Para enfatizar que $\uparrow$ y $\downarrow$ son inducidos por , usamos $\uparrow$' y $\downarrow$'.
+		
+		El operador $\uparrow \downarrow$ verifica algunas propiedades interesantes que serán fundamentales para poder desarrollar la teoría
+		formal (matemáticamente, por verificar las siguientes propiedades, decimos que es un operador de cierre):
+		
+		
+		\begin{itemize}
+			\item idempotente: $A ^{\uparrow \downarrow \uparrow \downarrow} = A ^{\uparrow \downarrow}$,
+			\item monótona: $A_{1} \subseteq A_{2} \to A_{1}^{\uparrow \downarrow} \subseteq A_{2}^{\uparrow \downarrow}$,
+			\item extensa: $A \subseteq A^{\uparrow \downarrow}$
+		\end{itemize}
+		
+		Obsérvese que, en general, no se verifica que $A^{\uparrow \downarrow} = A$. Cuando un conjunto de objetos, $A \subseteq X$ verifica que 
+		$A^{\uparrow \downarrow} = A$ se llama cerrado. Una definición similar se obtiene para hablar de conjuntos de atributos cerrados, es
+		decir, subconjuntos del conjunto \textit{Y}.
+		
+		
+		\textbf{Ejemplo}: Para la tabla de la figura ~\ref{fig:figura2} tenemos:
+		
+	
+		\begin{align*}
+			&\left\{x_{2}\right\}^{\uparrow} = \left\{y_{1}, y_{3}, y_{4}\right\},
+			\left\{x_{2}, x_{3}\right\}^{\uparrow} = \left\{y_{3}, y_{4}\right\}, \\
+			&\left\{x_{1}, _{4}, x_{5}\right\} = \emptyset, \\
+			&X^{\uparrow} = \emptyset, \emptyset^{\uparrow} = Y, \\
+			&\left\{y_{1}\right\}^{\downarrow} = \left\{x_{1}, x_{2}, x_{5}\right\},
+			\left\{y_{1}, y_{2}\right\}^{\downarrow} = \left\{x_{1}\right\}, \\
+			&\left\{y_{2}, y_{3}\right\}^{\downarrow} = \left\{x_{1}, x_{3} x_{4}\right\},
+			\left\{y_{2}, y_{3}, y_{4}\right\}^{\downarrow} = \left\{x_{1}, x_{3}, x_{4}\right\}, \\
+			&\emptyset^{\downarrow} = X, Y^{\downarrow} = \left\{x_{1}\right\} .
+		\end{align*}
+		
+	\subsection{Conceptos Formales}
+	
+		El Concepto Formal es la noción básica del FCA. La definición de Concepto Formal se puede hacer desde varios enfoques:
+		
+		\begin{itemize}
+			\item Psicología \\
+			Murphy G. L.: The Big Book of Concepts. MIT Press, 2004.\\
+			Margolis E., Laurence S.: Concepts: Core Readings. MIT Press, 1999.
+			
+			\item Lógica \\
+			Tichy P.: The Foundations of Frege's Logic. W. De Gryuter, 1988.\\
+			Materna P.: Conceptual Systems. Logos Verlag, Berlin, 2004.
+			
+			\item Inteligencia Artifical (aprendizaje de conceptos) \\
+			Michalski, R. S., Bratko, I. and Kubat, M. (Eds.), Machine Learning and Data Mining: Methods and Applications, London, Wiley, 1998.
+	
+			\item Grafos conceptuales \\
+			Sowa J. F.: Knowledge Representation: Logical, Philosophical, and Computational Foundations. Course Technology, 1999.
+			
+			\item Modelado conceptual, paradigma orientado a objetos, ...
+			
+			\item Tradicional / Lógica de Port-Royal \\
+			Arnauld A., Nicole P.: La logique ou l'art de penser, 1662 (Logic Or The Art Of Thinking, CUP, 2003).
+		\end{itemize}
+		
+		La noción de concepto usado en FCA está inspirado en la Lógica de Port-Royal (lógica tradicional) y se define como un par formado por 
+		un conjunto de objetos (\textbf{extensión}) y un conjunto de atributos (\textbf{intensión}) de forma que la extensión está formada por
+		todos los objetos que comparten los atributos dados y la intensión por los atributos compartidos por los objetos dados.\\\\
+		\textbf{Ejemplo:}
+		
+		
+		\begin{itemize}
+			\item concepto: COCHE
+			\item extensión: conjunto de todos los coches (Mercedes, Nissan, Toyota,...)
+			\item intensión: {tiene motor, tiene asientos, tiene ruedas, ...}
+		\end{itemize}
+		
+		A partir de los operadores de derivación definidos en el apartado anterior se puede decir que un par $\left\langle A, B\right\rangle$ se
+		llama un concepto formal de un contexto \textit{I} si verifica:
+		
+		
+		\begin{itemize}
+			\item $A \subseteq X, B \subseteq Y,$
+			\item $A^{\uparrow} = B, B^{\uparrow} = A$.
+		\end{itemize}
+		
+		Aunque puede parecer una definición un poco arbitraria, intuitivamente un par, $\left\langle A, B\right\rangle$, es un concepto en
+		\textit{I} si:
+		\begin{itemize}
+			\item cada objeto de \textit{A} tiene todos los atributos de \textit{B},
+			\item para cada objeto en \textit{X} que no está en \textit{A}, existe un atributo en \textit{B} que el objeto no tiene,
+			\item para cada atributo en \textit{Y} que no está en \textit{B}, hay un objeto en \textit{A} que no tiene ese atributo.
+		\end{itemize}
+		
+		Luego, en cierta forma, conseguimos introducir en la definición formal de concepto las dos partes que filosóficamente considerábamos
+		esenciales: por una parte, el conjunto de objetos con propiedades comunes, y por otra el conjunto de atributos que caracterizan a dichos
+		objetos. Únicamente aquellos pares de conjuntos que tienen una conexión perfectamente cerrada establecen un concepto por sí mismos. Allí
+		donde no hay atributos ausentes ni contraejemplos entre sus objetos. En esta situación, los conjuntos \textit{A}  y \textit{B} son
+		cerrados y se llaman, respectivamente, la extensión y la intensión del concepto. Para un conjunto de objetos, \textit{A}, el conjunto de
+		sus atributos comunes, $A^{\uparrow}$, describe de alguna forma la similitud de los objetos de \textit{A}, mientras que el conjunto
+		$A^{\uparrow \downarrow}$ es la agrupación de objetos que tienen como atributos comunes a $A^{\uparrow}$ (en particular, estarán todos
+		los objetos de \textit{A}, es decir, $A \subseteq A^{\uparrow \downarrow}$).
+				
+		Por tanto, un concepto, en la representación matricial, se puede reconocer por medio de una submatriz maximal (no necesariamente formada
+		por celdas contiguas) de tal manera que todas las celdas de la submatriz son verdaderas. 
+		
+		En la figura \ref{fig:figura3} la zona sombreada representa el concepto formal \\
+		$\left\langle A_{1}, B_{1}\right\rangle = \left\langle \left\{x_{1}, x_{2}, x_{3}, x_{4}\right\}, \left\{y_{3},
+		 y_{4}\right\}\right\rangle$ porque 
+		$\left\{x_{1}, x_{2}, x_{3}, x_{4}\right\}^{\uparrow} = \left\{y_{3}, y_{4}\right\}$ y 
+		$\left\{y_{3}, y_{4}\right\}^{\downarrow} = \left\{x_{1}, x_{2}, x_{3}, x_{4}\right\}$.
+		
+		
+		\begin{figure}[htbp]
+			\centering
+				\includegraphics{imagenes/figura3.png}
+			\caption{Concepto Formal}
+			\label{fig:figura3}
+		\end{figure}
+		
+		En la representación como grafo bipartito se reconocerá como subgrafo bipartito completo (es decir, aquel que tiene todas las aristas
+		posibles). Una definición más formal sería que $\left\langle A, B\right\rangle$ es un concepto formal si y sólo si $\left\langle A,
+		B\right\rangle$  es un punto fijo de $\left\langle \uparrow, \downarrow \right\rangle$ .
+		
+	\subsection{Retículo de conceptos de un contexto}
+	
+		Los conceptos formales pueden ser parcialmente ordenados utilizando la relación subconcepto-superconcepto.
+		La relación subconcepto-superconcepto está basada en la relación de inclusión de objetos y atributos. Su definición es la que sigue:
+		
+		Para los conceptos formales $\left\langle A_{1}, B_{1}\right\rangle, \left\langle A_{2}, B_{2}\right\rangle 
+		\in \left\langle X, Y, I\right\rangle$, se cumple que  
+		$\left\langle A_{1}, B_{1}\right\rangle \leq \left\langle A_{2}, B_{2}\right\rangle \Leftrightarrow A_{1} \subseteq A_{2}
+		(\Leftrightarrow B_{2} \subseteq B_{1})$
+		
+		
+		\begin{itemize}
+			\item[-] $\leq$  representa la ordenación subconcepto-superconcepto.
+			\item[-] $\left\langle A_{1}, B_{1}\right\rangle \leq \left\langle A_{2}, B_{2}\right\rangle$ significa que 
+			$\left\langle A_{1}, B_{1}\right\rangle$ es más específico que $\left\langle A_{2}, B_{2}\right\rangle$
+			($\left\langle A_{2}, B_{2}\right\rangle$ es más general).
+			\item[-] Por ejemplo, dados los conceptos COCHE y VEHICULO tendríamos la relación $COCHE \leq VEHICULO$  (el concepto COCHE es más
+			 específico que el concepto VEHICULO).
+		\end{itemize}
+		
+		Cada par de conceptos en este orden parcial tiene una única máxima cota inferior, que es el concepto generado por $A_{1} \cap A_{2}$.
+		Simétricamente, cada par de conceptos en este orden parcial tiene una única mínima cota superior, que es el concepto generado por los
+		atributos $B_{1} \cap B_{2}$. 
+		
+		Estas operaciones que calculan el máximo y mínimo de dos conceptos satisfacen los axiomas que definen un retículo, y es fácil probar que
+		cualquier retículo finito puede ser generado como el retículo de conceptos de algún contexto (por ejemplo, si \textit{L} es el retículo,
+		se crea un contexto en el que \textit{X=Y=L} y la relación $\left\langle x, y\right\rangle \in I \Leftrightarrow x \leq y$ en el
+		retículo). \\
+		\textbf{Ejemplo:} Consideremos el siguiente contexto formal:
+				
+		\begin{figure}[htbp]
+			\centering
+				\includegraphics[width=0.75\textwidth]{imagenes/figura4.png}
+			\caption{ContextoFormal}
+			\label{fig:figura4}
+		\end{figure}
+		\textit{a}: necesita el agua para vivir, \textit{b}: vive en el agua, \textit{c}: vive en la tierra, \textit{d}: necesita clorofila para
+		producir comida, \textit{e}: dos hojas de la semilla, \textit{f}: hoja de una semilla, \textit{g}: puede moverse, \textit{h}: tiene
+		extremidades, \textit{i}: amamanta a sus crías
+		
+		El correspondiente contexto formal $\left\langle X, Y, I\right\rangle$ contiene los siguientes conceptos formales:
+		
+		\begin{align*}
+			&C_{0} = \left\langle \left\{ 1,2,3,4,5,6,7,8 \right\}, \left\{ a \right\} \right\rangle, 
+			C_{1} = \left\langle \left\{ 1,2,3,4 \right\}, \left\{ a,g \right\} \right\rangle, 
+			C_{2} = \left\langle \left\{ 2,3,4 \right\}, \left\{ a,g,h \right\} \right\rangle,\\ 
+			&C_{3} = \left\langle \left\{ 5,6,7,8 \right\}, \left\{ a,d \right\} \right\rangle, 
+			C_{4} = \left\langle \left\{ 5,6,8 \right\}, \left\{ a,d,f \right\} \right\rangle, 
+			C_{5} = \left\langle \left\{ 3,4,6,7,8 \right\}, \left\{ a,c \right\} \right\rangle,\\
+			&C_{6} = \left\langle \left\{ 3,4 \right\}, \left\{ a,c,g,h \right\} \right\rangle,
+			C_{7} = \left\langle \left\{ 4 \right\}, \left\{ a,c,g,h,i \right\} \right\rangle,
+			C_{8} = \left\langle \left\{ 6,7,8 \right\}, \left\{ a,c,d \right\} \right\rangle,\\
+			&C_{9} = \left\langle \left\{ 6,8 \right\}, \left\{ a,c,d,f \right\} \right\rangle,
+			C_{10} = \left\langle \left\{ 7 \right\}, \left\{ a,c,d,e \right\} \right\rangle,
+			C_{11} = \left\langle \left\{ 1,2,3,5,6 \right\}, \left\{ a,b \right\} \right\rangle,\\
+			&C_{12} = \left\langle \left\{ 1,2,3 \right\}, \left\{ a,b,g \right\} \right\rangle,
+			C_{13} = \left\langle \left\{ 2,3 \right\}, \left\{ a,b,g,h \right\} \right\rangle,
+			C_{14} = \left\langle \left\{ 5,6 \right\}, \left\{ a,b,d,f \right\} \right\rangle,\\
+			&C_{15} = \left\langle \left\{ 3,6 \right\}, \left\{ a,b,c \right\} \right\rangle,
+			C_{16} = \left\langle \left\{ 3 \right\}, \left\{ a,b,c,g,h \right\} \right\rangle,
+			C_{17} = \left\langle \left\{ 6 \right\}, \left\{ a,b,c,d,f \right\} \right\rangle,\\
+			&C_{18} = \left\langle \left\{  \right\}, \left\{ a,b,c,d,e,f,g,h,i \right\} \right\rangle 	
+		\end{align*}
+	
+		El correspondiente retículo de conceptos \textit{B(X, Y, I)} se muestra en la figura \ref{fig:figura5}:
+				
+		\begin{figure}[htbp]
+			\centering
+				\includegraphics{imagenes/figura5.png}
+			\caption{Retículo de conceptos \textit{B(X, Y, I)}}
+			\label{fig:figura5}
+		\end{figure}
+		
+	\subsection{Implicaciones de atributos}
+	
+		Las implicaciones de atributos representan dependencias entre ellos tales como:
+		\begin{itemize}
+			\item[-] todos los números divisibles por 2 y por 3 son divisibles por 6
+			\item[-] todos los pacientes con el síntoma $s_{2}$ y el síntoma $s_{5}$ tienen también el síntoma $s_{1}$ y el $s_{3}$.
+		\end{itemize}
+		Siendo \textit{Y} un conjunto de atributos no vacío, una implicación de atributos en \textit{Y} es una expresión
+		
+		\[A \Rightarrow B \text{ donde } A \subseteq Y \text { y } B \subseteq Y\] \\
+		
+		\textbf{Ejemplos:}
+		
+		
+		\begin{itemize}
+			\item[-] Dado $Y = \left\{ y_{1}, y_{2}, y_{3}, y_{4} \right\}$, 
+					$\left\{ y_{2}, y_{3} \right\} \Rightarrow \left\{ y_{1}, y_{4} \right\}, 
+					 \left\{ y_{2}, y_{3} \right\} \Rightarrow \left\{ y_{1}, y_{2}, y_{3} \right\}, 
+					 \emptyset \Rightarrow \left\{ y_{1}, y_{2} \right\}, 
+					 \left\{ y_{2}, y_{4} \right\} \Rightarrow \emptyset $ son implicaciones de atributos en \textit{Y}.
+			\item[-] Dado \textit{Y = {ver la tele,comer comida basura,correr regularmente, presión arterial normal,presión arterial alta}},
+			         entonces \{ver la tele\} $\Rightarrow$ \{presión arterial alta\}, \{correr regularmente $\Rightarrow$ presión arterial
+			         normal\} son implicaciones de atributos en \textit{Y}.
+		\end{itemize}
+		
+		La estructura con la cual evaluamos las implicaciones de atributos son las filas de las tablas de los contextos formales, que pueden
+		considerarse como el conjunto de atributos de cada objeto.
+		
+		Por lo que, una implicación de atributos $A \Rightarrow B$ en el conjunto de atributos \textit{Y} es válida en un conjunto si y sólo si
+		\[A \subseteq M \Rightarrow B \subseteq M  \]
+				
+		\begin{itemize}
+			\item[-] Escribimos \[\left|A \Rightarrow B \right|_{\mathcal{M}}
+				\begin{cases}
+					&1 \text{ si $A \Rightarrow B$ es verdadero en } \mathcal{M},\\
+					&0 \text{ si $A \Rightarrow B$ no es verdadero en } \mathcal{M}. 
+				\end{cases}\]
+			\item[-] Sea \textit{M} un conjunto de atributos de algún objeto \textit{x}. $\left|A \Rightarrow B\right|_{M}$ quiere decir que
+			''si \textit{x} tiene todos los atributos de \textit{A}, entonces \textit{x} tiene todos los atributos de \textit{B}''. Por lo que, 
+			$C \subseteq M$ es lo mismo que decir ''si \textit{x} tiene todos los atributos de \textit{C}'' .
+		\end{itemize}
+		\textbf{Ejemplo:} Dado $Y = \left\{ y_{1}, y_{2}, y_{3}, y_{4}\right\}$
+		
+		\begin{figure}[htbp]
+			\centering
+				\includegraphics[width=0.7\textwidth]{imagenes/figura6.png}
+			\caption{Implicaciones de atributos}
+			\label{fig:figura6}
+		\end{figure}
+
+		Dado $\mathcal{M} \subseteq 2^{Y}$ , una implicación $A \Rightarrow B$ en \textit{Y} es válida en $\mathcal{M}$ si es verdadero en cada
+		$M \in \mathcal{M}$.
+		
+		
+		\begin{itemize}
+			\item[-] De nuevo, \[\left|A \Rightarrow B \right|_{\mathcal{M}}
+				\begin{cases}
+					&1 \text{ si $A \Rightarrow B$ es verdadero en } \mathcal{M},\\
+					&0 \text{ si $A \Rightarrow B$ no es verdadero en } \mathcal{M}. 
+				\end{cases}\]
+				por lo tanto, $\left|A \Rightarrow B \right|_{\mathcal{M}} = 
+				min_{M \in \mathcal{M}}\left|A \Rightarrow B \right|_{M}$
+				\\
+				Así llegamos a la definición de la validez de una implicación de atributos en un contexto formal.\\
+				Una implicación $A \Rightarrow B$ en \textit{Y} es verdadera en un contexto formal $\left\langle X, Y, I\right\rangle$ si y sólo
+				si $A \Rightarrow B$ es verdadera en
+				\[
+					\left|A \Rightarrow B\right|_{\left\langle X,Y,I \right\rangle} = 
+					1 \text{ si } A \Rightarrow B \text{ es verdadero en } \left\langle X,Y,I \right\rangle
+				\]
+			\item[-] $\left\{x\right\}^{\uparrow}$ es el conjunto de atributos de \textbf{x}. Por lo que, 
+			$\mathcal{M} = \left\{\left\{ x\right\}^{\uparrow}: x \in X \right\}$ es la colección cuyos elementos son justo los conjuntos de
+			atributos de los objetos de $\left\langle X, Y, I \right\rangle$, es decir las filas de la tabla del contexto formal. Así que,
+			$\left|A \Rightarrow B\right|_{\left\langle X, Y, I \right\rangle}= 1$ si y sólo si $A \Rightarrow B$ es verdadero en cada fila de
+			$\left\langle X,Y,I \right\rangle$ si y sólo si para cada fila de $\left\langle X, Y, I \right\rangle$ : si \textit{x} tiene todos
+			los atributos de \textit{A} entonces \textit{x} tiene todos los atributos de \textit{B}.
+			
+			Con esta definición, las implicaciones obedecen las reglas de Armstrong (reflexiva, aumentativa y transitiva) comunes en las
+			dependencias funcionales que se dan entre los atributos de una base de datos:
+			\[
+				\frac{B \subseteq A}{A \Rightarrow B}, \frac{A \Rightarrow B}{A \cup C \Rightarrow B \cup C^{\downarrow}},
+				\frac{D \Rightarrow B, B \Rightarrow C}{A \Rightarrow C}
+			\]
+		\end{itemize}
+		
+		
+\end{document}
