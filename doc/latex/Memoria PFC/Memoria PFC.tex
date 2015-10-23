@@ -570,6 +570,47 @@ M\'{a}laga a \_\_\_\_ de\_\_\_\_\_\_\_\_\_\_\_\_\_\_ del 200\_
 				\frac{D \Rightarrow B, B \Rightarrow C}{A \Rightarrow C}
 			\]
 		\end{itemize}
+		A partir de la definición de implicación y de las propiedades básicas que verifica, podemos definir un cálculo lógico que nos permitiría
+		realizar sistemas de deducción completos sobre el contexto actual. En cierta forma, hemos pasado de tener un conocimiento por ejemplos a
+		disponer de un conocimiento abstracto que introduce sistemas de razonamiento más elaborados en nuestro mundo, partiendo únicamente de
+		las observaciones concretas que hemos realizado, es decir, hemos aprendido reglas generales a partir de ejemplos. 
 		
+	\subsection{Estructuras matemáticas relacionadas con el FCA}
+	
+		En esta sección se describen las estructuras matemáticas en las que se basa el FCA y sus propiedades.
 		
+		\subsubsection{Conexiones de Galois}
+		
+			\paragraph{Conexión de Galois:} Una conexión de Galois entre dos conjuntos \textit{X} e \textit{Y} es un par 
+			$\left\langle f, g \right\rangle$ de $f: 2^X \rightarrow 2^Y$ y $g: 2^Y \rightarrow 2^X$ cumpliendo para 
+			$A, A_1, A_2 \subseteq X, B, B_1, B_2 \subseteq Y$:
+			
+			
+			\begin{align}
+				A_1 &\subseteq A_2 \Rightarrow f(A_2) \subseteq f(A_1),\\
+				B_1 &\subseteq B_2 \Rightarrow g(B_2) \subseteq g(B_1), \\
+				A &\subseteq g(f(A)), \\
+				B &\subseteq f(g(B)).
+			\end{align}
+			
+			\paragraph{Puntos fijos de conexiones de Galois:} Para una conexión de Galois $\left\langle f, g \right\rangle$ entre dos conjuntos
+			\textit{X} e \textit{Y}, al conjunto 
+			\[
+				fix(\left\langle f, g \right\rangle)  = \left\{\left\langle A, B \right\rangle \in 2^X \times 2^Y | f(A) = B, g(B) = A \right\}
+			\]
+			es llamado conjunto de puntos fijos de $\left\langle f, g \right\rangle$
+			
+			\paragraph{Teorema (operadores de derivación para conexiones de Galois)}
+			Para un contexto formal $\left\langle X, Y, I \right\rangle$, el par de operadores 
+			$\left\langle \uparrow' \downarrow' \right\rangle$ inducidos por $\left\langle X, Y, I \right\rangle$ es una conexión de Galois
+			entre \textit{X} e \textit{Y}.
+			
+			\paragraph{Lema (encadenamiento de conexiones de Galois)}
+			Para una conexión de Galois $\left\langle f, g \right\rangle$ entre dos conjuntos \textit{X} e \textit{Y} se cumple que 
+			$f(A) = f(g(f(A)))$ y $g(B) = g(f(g(B)))$ para cualquier $A \subseteq X$ y $B \subseteq Y$.
+			\\\\
+			\emph{Demostración}
+			Probamos sólo que $f(A) = f(g(f(A))), g(B) = g(f(g(B)))$ es dual:
+			
+			
 \end{document}
