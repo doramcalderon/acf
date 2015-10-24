@@ -778,4 +778,50 @@ M\'{a}laga a \_\_\_\_ de\_\_\_\_\_\_\_\_\_\_\_\_\_\_ del 200\_
 		
 		\subsubsection{Cada conexión de Galois es inducida por una relación binaria}
 		
+		No sólo todos los pares de operadores de derivación forman un Galois, todos las conexiones de Galois es un operador de derivación de un
+		contexto formal particular.
+		
+		\paragraph{Teorema:}
+		
+		Sea $\left\langle f, g \right\rangle$ una conexión de Galois entre \textit{X} e \textit{Y}. Considérese un contexto formal 
+		$\left\langle X, Y, I \right\rangle$ tal que \textit{I} está definido por\\
+		
+		\begin{align}
+			\left\langle x, y \right\rangle \in I \text{ sii } y \in f(\left\{ x \right\}) \text{ o, equivalentemente, sii } x \in 
+			g(\left\{ y \right\}),
+		\end{align}
+		
+		para cada $x \in X$ e $y \in Y$. Entonces $\left\langle \uparrow', \downarrow' \right\rangle = \left\langle f, g \right\rangle$, esto
+		es, los operadores de derivación $\left\langle \uparrow', \downarrow' \right\rangle$ inducido por $\left\langle X, Y, I \right\rangle$
+		coincide con $\left\langle f, g \right\rangle$.
+		
+		\emph{Demostración}
+		
+		Primero demostramos que $y \in f(\left\{ x \right\})$ sii $x \in g(\left\{ y \right\})$:\\
+		De $y \in f(\left\{ x \right\})$ obtenemos $\left\{ y \right\} \subseteq f(\left\{ x \right\})$ a partir del cual, aplicando (8),
+		obtenemos $\left\{ x \right\} \subseteq g(\left\{ y \right\})$ , esto es, $x \in g(\left\{ y \right\})$.\\
+		De forma similar, $\left\{ x \right\} \subseteq g(\left\{ y \right\})$ implica $y \in f(\left\{ x \right\})$. Esto establece que 
+		$y \in f(\left\{ x\right\})$ sii $x \in g(\left\{ y \right\})$.\\
+		Ahora, aplicando (9), para cada $A \subseteq X$ tenemos
+			
+		\begin{align*}
+			f(A) &= f(\bigcup_{x \in A}) = \bigcap_{x \in A} f(\left\{ x \right\}) =\\
+				 &= \bigcap_{x \in A}\left\{ y \in Y | y \in f(\left\{ x \right\}) \right\} = 
+				 \bigcap_{x \in A}\left\{ y \in Y | \left\langle x, y \right\rangle \in I \right\} = \\
+				 &= \left\{ y \in I | \text{ para cada } x \in A: \left\langle x, y \right\rangle \in I \right\} = A^{\uparrow'}.
+		\end{align*}
+		
+		Igualmente, para $B \subseteq Y$ obtenemos $g(B) = B^{\downarrow'}$.
+		
+		\emph{Observaciones}
+		
+		\begin{itemize}
+			\item La relación \textit{I} inducida a partir de $\left\langle f, g \right\rangle$ por (11) se indicará por 
+				$I_{\left\langle f, g \right\rangle}$.
+			\item De ahí que, hemos establecido dos mapeos:\\
+				$I \mapsto \left\langle \uparrow', \downarrow'  \right\rangle$ asigna una conexión de Galois a una relación binaria \textit{I}.
+				$\left\langle \uparrow, \downarrow \right\rangle \mapsto I_{\left\langle \uparrow, \downarrow \right\rangle}$ asigna una
+				relación binaria a una conexión de Galois.
+		\end{itemize}
+		
 \end{document}
