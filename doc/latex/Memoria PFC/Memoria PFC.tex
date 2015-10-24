@@ -15,18 +15,19 @@
 \usepackage{setspace}
 \title{Titulo}
 
+% sangría y separacion entre parrafos
+\setlength{\parindent}{0pt}
 
 
-\makeatletter
-	\newenvironment{indentation}[3]%
-	{\par\setlength{\parindent}{#3}
-	\setlength{\leftmargin}{#1}       \setlength{\rightmargin}{#2}%
-	\advance\linewidth -\leftmargin       \advance\linewidth -\rightmargin%
-	\advance\@totalleftmargin\leftmargin  \@setpar{{\@@par}}%
-	\parshape 1\@totalleftmargin \linewidth\ignorespaces}{\par}%
+%\makeatletter
+%	\newenvironment{indentation}[3]%
+%	{\par\setlength{\parindent}{#3}
+%	\setlength{\leftmargin}{#1}       \setlength{\rightmargin}{#2}%
+%	\advance\linewidth -\leftmargin       \advance\linewidth -\rightmargin%
+%	\advance\@totalleftmargin\leftmargin  \@setpar{{\@@par}}%
+%	\parshape 1\@totalleftmargin \linewidth\ignorespaces}{\par}%
 \makeatother 
-
-\onehalfspacing
+	\onehalfspacing
 
 \begin{document}
 \textbf{{\large UNIVERSIDAD DE MÁLAGA}}
@@ -630,7 +631,7 @@ M\'{a}laga a \_\_\_\_ de\_\_\_\_\_\_\_\_\_\_\_\_\_\_ del 200\_
 				&A \subseteq C(A),\\
 				&A_1 \subseteq A_2 \Rightarrow C(A_1) \subseteq C(A_2),\\
 				&C(A) \subseteq C(C(A)).
-			\end{align}
+			\end{align}\label{operadores_cierre}
 			
 			\paragraph{Puntos fijos de operadores de cierre:} Para un operador de cierre $C: 2^X \rightarrow 2^Y$, al conjunto
 			\[
@@ -652,15 +653,16 @@ M\'{a}laga a \_\_\_\_ de\_\_\_\_\_\_\_\_\_\_\_\_\_\_ del 200\_
 			
 			\paragraph{Teorema (extensiones e intensiones):}
 							
-				\begin{align}
+				\begin{align*}
 					Ext(X, Y, I) &= \left\{ B^{\downarrow} | B \subseteq Y \right\}, \\
 					Int(X, Y, I) &= \left\{ A^{\uparrow} | A \subseteq X \right\}
-				\end{align}
+				\end{align*}
 				\emph{Demostración}\\
 				Probamos sólo la parte $Ext(X, Y, I)$, la parte $Int(X, Y, I)$ es dual.
 				
 				\begin{itemize}
-					\item ''$\subseteq$'': si $A in Ext(X, Y, I)$, entonces $\left\langle A, B \right\rangle$ es un concepto formal para algún 
+					\item ''$\subseteq$'': si $A in Ext(X, Y, I)$, entonces $\left\langle A, B \right\rangle$ es un concepto formal
+ para algún 
 					$B \subseteq Y$. Por definición, $A = B^{\downarrow}$, esto es $A \in \left\{ B^{\downarrow} | B \subseteq Y \right\}$.
 					\item ''$\supseteq$'': Sea $A \in \left\{ B^{\downarrow} | B \subseteq Y \right\}$, esto es $A = B^{\downarrow}$ para algún
 					\textit{B}. Entonces $\left\langle A, A^{\uparrow} \right\rangle$ es un concepto formal. Concretamente, 
@@ -702,6 +704,78 @@ M\'{a}laga a \_\_\_\_ de\_\_\_\_\_\_\_\_\_\_\_\_\_\_ del 200\_
 				formal. Concretamente, denotando $\left\langle A, B\right\rangle = \left\langle A, A^{\uparrow}\right\rangle$, tenemos que
 				$A^{\uparrow} = B$ y $B^{\downarrow} = A^{\uparrow \downarrow} = A$. Por lo que, \textit{A} es una extensión.
 			\end{itemize}
+			
+			Para $\mathcal{B}(X, Y, I) = \left\{ \left\langle A, A^{\uparrow} \right\rangle | A \in Ext(X, Y, I) \right\}$:\\
+			Si $\left\langle A, B \right\rangle \in \mathcal{B}(X, Y, I)$ entonces $B = A^{\uparrow}$ y, obviamente, $A \in Ext(X, Y, I)$.\\
+			Si $A \in Ext(X, Y, I)$ entonces $A = A{\uparrow \downarrow}$ y por lo tanto 
+			$\left\langle A, A^{\uparrow \downarrow} \right\rangle \in \mathcal{B}(X, Y, I)$.\\
+			\textsl{Observación}
+			
+			El teorema anterior dice: A fin de obtener $\mathcal{B}(X, Y, I)$ podemos:
+			\begin{enumerate}
+				\item procesar \textit{Ext(X, Y, I)},
+				\item para cada $A \in Ext(X, Y, I)$ generar $\left\langle A, A^\uparrow \right\rangle$.
+			\end{enumerate}
 
-
+		\subsubsection{Definición concisa de conexiones de Galois}
+		
+			Hay una condición simple la cual es equivalente a las condiciones (1) - (4) de la definición de conexión de Galois.
+			
+			\paragraph{Teorema:}
+			
+			$\left\langle f, g \right\rangle$ es una conexión de Galois entre \textit{X} e \textit{Y} si y sólo si para todo $A \subseteq X$ y 
+			$B \subseteq Y$:
+			\begin{align}
+				A \subseteq g(B) \text{ sii } B \subseteq f(A)
+			\end{align}
+			
+			\emph{Demostración}
+			
+			\begin{itemize}
+				\item [''$\Rightarrow$'':] Sea $\left\langle f, g \right\rangle$ una conexión de Galois.\\
+					 Si $A \subseteq g(B)$ entonces $f(g(B)) \subseteq f(A)$ y dado que $B \subseteq f(g(B))$, tenemos que $B \subseteq f(A)$.
+					 De forma similar, $B \subseteq f(A)$ implica $A \subseteq g(B)$.
+				
+				\item [''$\Leftarrow$'':] Sea $A \subseteq g(B) \text{ sii } B \subseteq f(A)$. Comprobamos que 
+					 $\left\langle f, g \right\rangle$
+					 es una conexión de Galois. Debido a la dualidad, es suficiente comprobar que:
+					 
+					\begin{itemize}
+						\item [(a)] $A \subseteq g(f(A))$\\
+								Debido a nuestra suposición, $A \subseteq g(f(A))$ es equivalente a $f(A) \subseteq f(A)$ lo cual,
+								evidentemente, es cierto.
+								
+						\item[(b)] $A_1 \subseteq A_2$ implica $f(A_2) \subseteq f(A_1)$ 
+								Sea $A_1 \subseteq g(f(A_2)) $. Debido a (a), tenemos $A_2 \subseteq g(f(A_2))$, de ahí	que 
+								$A_1 \subseteq g(f(A_2))$. Usando la suposición, lo último es equivalente a $f(A_2) \subseteq f(A_1)$.
+					\end{itemize}
+			\end{itemize}
+		
+		\subsubsection{Conexiones de Galois, unión e intersección}
+		
+			El siguiente teorema describe el comportamiento básico de las conexiones de Galois respecto a la unión y a la intersección.
+			
+			\paragraph{Terorema:}
+			
+			$\left\langle f, g \right\rangle$ es una conexión de Galois entre \textit{X} e \textit{Y} cuando $A_j \subseteq X, j \in J$
+			y $B_j \subseteq Y, j \in J$ tenemos que
+			
+			\begin{align}
+				f(\bigcup_{\substack{j \in J}} A_j) = \bigcap_{\substack{j \in J}} f(A_j), \\
+				g(\bigcup_{\substack{j \in J}} B_j) = \bigcap_{\substack{j \in J}} g(B_j), 
+			\end{align}
+			
+			\emph{Demostración}
+					
+			\begin{itemize}
+				\item [(9):] Para cualquier $D \subseteq Y: D \subseteq f(\bigcup_{j \in J} A_j)$ si y sólo si 
+				$\bigcup_{j \in J} A_j \subseteq g(D)$ si y sólo si para cada $j \in J: A_j g(D)$ si y sólo si para cada 
+				$j \in J: D \subseteq f(A_j)$ si y sólo si $D \subseteq \bigcap_{j \in J} f(A_j)$.\\
+				Como \textit{D} es arbitrario, éste cumple que $f(\bigcup_{\substack{j \in J}} A_j) = \bigcap_{\substack{j \in J}} f(A_j)$.
+			
+				\item [(10):] Dual.
+			\end{itemize}
+		
+		\subsubsection{Cada conexión de Galois es inducida por una relación binaria}
+		
 \end{document}
