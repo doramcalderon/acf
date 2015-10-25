@@ -1,6 +1,6 @@
 \documentclass[12pt]{article}
 \usepackage[spanish]{babel}
-%\usepackage[utf8]{inputenc} 
+\usepackage[latin1]{inputenc} 
 \usepackage{makeidx}
 \usepackage{multirow}
 \usepackage{multicol}
@@ -14,7 +14,7 @@
 \usepackage[paperwidth=595pt,paperheight=841pt,top=56pt,right=86pt,bottom=84pt,left=71pt]{geometry}
 \usepackage{setspace}
 \title{Titulo}
-\onehalfspacing
+
 
 
 \makeatletter
@@ -26,15 +26,15 @@
 	\parshape 1\@totalleftmargin \linewidth\ignorespaces}{\par}%
 \makeatother 
 
-
+\onehalfspacing
 
 \begin{document}
-\textbf{{\large UNIVERSIDAD DE M\'{A}LAGA}}
+\textbf{{\large UNIVERSIDAD DE M¡LAGA}}
 
-\textbf{ESCUELA T\'{E}CNICA SUPERIOR DE INGENIER\'{I}A INFORM\'{A}TICA}
-\textbf {INGENIERA T\'{E}CNDCA EN INFORM\'{O}TICA IE GESTI\'{A}N}
+\textbf{ESCUELA TECNICA SUPERIOR DE INGENIERIA INFORM¡TICA}
+\textbf {INGENIERA TECNDCA EN INFORM\'{O}TICA IE GESTI¡N}
 
-\textbf{ALGORITMOS PARA MANIPULACI\'{O}N DE IMPLICACIONES EN AN\'{A}LISIS DE
+\textbf{ALGORITMOS PARA MANIPULACI\'{O}N DE IMPLICACIONES EN AN¡LISIS DE
 CONCEPTOS FORMALES}
 
 \textbf{Realizado por}
@@ -43,21 +43,19 @@ CONCEPTOS FORMALES}
 
 \textbf{Dirigido por}
 \\
-\textbf{\'{A}NGEL MORA BONLLLA}
+\textbf{¡NGEL MORA BONLLLA}
 
 Departamento
 \\
-\textbf{MATEM\'{A}TICA APLICADA}
+\textbf{MATEM¡TICA APLICADA}
 
-\textbf{M\'{A}LAGA, (mes y a\~{n}o)}
+\textbf{M¡LAGA, (mes y a\~{n}o)}
 
 \newpage
 
-{\large \textbf{UNIVERSIDAD DE M\'{A}LAGA}
-\\
-\textbf{ESCUELA T\'{E}CNICA SUPERIOR DE INGENIER\'{I}A INFORM\'{A}TICA}}
-
-INGENIER\'{I}A T\'{E}CNICA EN INFORM\'{A}TICA DE GESTI\'{O}N
+{\large \textbf{UNIVERSIDAD DE M¡LAGA}}
+\newline
+{\large \textbf{ESCUELA TECNICA SUPERIOR DE INGENIERIA INFORM¡TICA INGENIERIA TECNICA EN INFORM¡TICA DE GESTI”N}}
 
 Reunido el tribunal examinador en el d\'{\i}a de la fecha, constituido por:
 
@@ -94,7 +92,7 @@ tutorizado por D\textordmasculine{}/D\textordfeminine{}.
 
 
 
-y, en su casa, dirigido acad\'{e}micomente por
+y, en su casa, dirigido acadÈmicamente por
 
 
 D\textordmasculine{}/D\textordfeminine{}.\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_
@@ -104,8 +102,8 @@ D\textordmasculine{}/D\textordfeminine{}.\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\
 
 
 
-ACORD\'{O} POR \_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_ OTORGAR LA
-CALIFICACI\'{O}N
+ACORD” POR \_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_ OTORGAR LA
+CALIFICACI”N
 
 DE
 \_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_
@@ -120,140 +118,155 @@ M\'{a}laga a \_\_\_\_ de\_\_\_\_\_\_\_\_\_\_\_\_\_\_ del 200\_
 \tableofcontents
 \newpage
 
-\section{INTRODUCCI\'{O}N}
+\section{INTRODUCCI”N}
 	\subsection{Historia}
 	
 
-		El An\'{a}lisis de Conceptos Formales (FCA) constituye una herramienta formal
-		para el analisis de datos que permite la extracci\'{o}n de conocimiento  a
+		El An·lisis de Conceptos Formales (FCA) constituye una herramienta formal para el analisis de datos que permite la extracciÛn de conocimiento a
 		partir de un conjunto de objetos y las propiedades que cumplen dichos objetos.
 		
-		La teor\'{\i}a en su forma actual se remonta al grupo de investigaci\'{o}n
-		dirigido por Rudolf Darmstadt Wille, Bernhard Ganter y Peter Burmeister, donde se
-		origin\'{o} el an\'{a}lisis de conceptos formales en la d\'{e}cada de 1980. La
-		base matem\'{a}tica, sin embargo, ya se hab\'{\i}a creado por Garrett Birkhoff en
-		la d\'{e}cada de los a\~{n}os 30 como parte de la teor\'{\i}a general de
-		ret\'{\i}culos. Antes del trabajo del grupo de Darmstadt, ya extst\'{\i}an
-		enfoques similares de varios grupos franceses, y sus fundamentos filos\'{o}ficos
-		apuntan principalmente a Charles S. Peirce y el pedagogo Hartmut von Hentig.
+		La teor\'{\i}a en su forma actual se remonta al grupo de investigaciÛn dirigido por Rudolf Darmstadt Wille, Bernhard Ganter y Peter 
+		Burmeister, donde se originÛ el an·lisis de conceptos formales en la dÈcada de 1980. La base matem·tica, sin embargo, ya se hab\'{\i}a creado
+		por Garrett Birkhoff en la dÈcada de los aÒos 30 como parte de la teorÌa general de retÌculos. Antes del trabajo del grupo de Darmstadt, ya
+		existÌan enfoques similares de varios grupos franceses, y sus fundamentos filosÛficos apuntan principalmente a Charles S. Peirce y el pedagogo
+		Hartmut von Hentig.
 		
-		En su art\'{i}culo 
-		\href{http://books.google.de/books?hl=de&lr=&id=gwpq0acO3kgC&oi=fnd&pg=PA314&dq=Wille+Restructuring+Lattice+Theory&ots=zYmNQeCJKb&sig=TyDygU5lU_91iJWIuJbNi2or6Ls#v=onepage&q=Wille Restructuring Lattice Theory&f=false}{"Reestructuraci\'{o}n de la Teor\'{i}a de Ret\'{i}culos"}
-		(de 1982, con el que se inicia el FCA como disciplina matem\'{a}tica) Rudolf Wille parte de un descontento con la 
-		teor\'{i}a de ret\'{i}culos en particular y con las matem\'{a}ticas puras en general: 
+		En su artÌculo 		\href{http://books.google.de/books?hl=de&lr=&id=gwpq0acO3kgC&oi=fnd&pg=PA314&dq=Wille+Restructuring+Lattice+Theory&ots=zYmNQeCJKb&sig=TyDygU5lU_91iJWIuJbNi2or6Ls#v=onepage&q=Wille Restructuring Lattice Theory&f=false}{"ReestructuraciÛn de la TeorÌa de RetÌculos"}
+		(de 1982, con el que se inicia el FCA como disciplina matem·tica) Rudolf Wille parte de un descontento con la teorÌa de retÌculos en
+		particular y con las matem·ticas puras en general: 
 		
-		La producci\'{o}n de resultados te\'{o}ricos - a menudo alcanzados por medio de "elaboradas 
-		gimnasias mentales" - eran impresionantes, pero las conexiones entre dominios vecinos, o
-		incluso entre partes de una misma teor\'{i}a se estaban debilitando.
-		La reestructuraci\'{o}n de la teor\'{i}a de ret\'{i}culos es un intento de revitalizar las 
-		conexiones entre dominios mediante la reinterpretaci\'{o}n de la teor\'{i}a de la manera m\'{a}s
-		concreta posible, con el fin de propiciar una mejor comunicaci\'{o}n entre los te\'{o}ricos de 
-		ret\'{i}culos y los usuarios potenciales de dicha teor\'{i}a. Este objetivo se remonta a Hartmut 
-		von Hentig, quien en 1972 pidi\'{o} una reestructuraci\'{o}n de las ciencias con el fin de
-		conseguir una mejor ense√±anza y de hacer a la ciencia m\'{a}s asequible, tanto con el fin de 
-		conocerla mejor como para poder criticarla de una forma m\'{a}s cercana (es decir, sin necesidad
-		de un conocimiento especializado).
+		La producciÛn de resultados teÛricos - a menudo alcanzados por medio de ∑elaboradas gimnasias mentales" - eran impresionantes, pero las
+		conexiones entre dominios vecinos, o incluso entre partes de una misma teorÌa se estaban debilitando. La reestructuraciÛn de la teorÌa de
+		retÌculos es un intento de revitalizar las conexiones entre dominios mediante la reinterpretaciÛn de la teorÌa de la manera m·s concreta
+		posible, con el fin de propiciar una mejor comunicaciÛn entre los teÛricos de retÌculos y los usuarios potenciales de dicha teorÌa. Este
+		objetivo se remonta a Hartmut von Hentig, quien en 1972 pidiÛ una reestructuraciÛn de las ciencias con el fin de conseguir una mejor
+		enseÒanza y de hacer a la ciencia m·s asequible, tanto con el fin de conocerla mejor como para poder criticarla de una forma m·s cercana (es
+		decir, sin necesidad de un conocimiento especializado).
 		
-		El FCA corrige el punto de partida de la teor\'{i}a reticular en el desarrollo de la l\'{o}gica formal en 
-		el siglo XIX, donde un concepto, como predicado unario, se hab\'{i}a reducido a su extensi\'{o}n. El 
-		objetivo fue trabajar con una visi\'{o}n de los conceptos menos abstracta, haciendo uso tambi\'{e}n de la 
-		intensi\'{o}n, una orientaci\'{o}n que proven\'{i}a de la ling√º\'{i}stica y de la l\'{o}gica conceptual cl\'{a}sica.
+		El FCA corrige el punto de partida de la teorÌa reticular en el desarrollo de la lÛgica formal en el siglo XIX, donde un concepto, como
+		predicado unario, se habÌa reducido a su extensiÛn. El objetivo fue trabajar con una visiÛn de los conceptos menos abstracta, haciendo uso
+		tambiÈn de la intensiÛn, una orientaciÛn que provenÌa de la ling√ºÌstica y de la lÛgica conceptual cl·sica.
 		
-		FCA tiene como objetivo aclarar los conceptos siguiendo la m\'{a}xima de Charles S. Peirce de desplegar 
-		las propiedades observables y elementales de los objetos. En su filosof\'{i}a tard\'{i}a, Peirce supone que el 
-		pensamiento l\'{o}gico tiene como objetivo percibir la realidad, por medio de la triada: concepto, 
-		juicio y conclusi\'{o}n. En este sentido, Wille dice: 
+		FCA tiene como objetivo aclarar los conceptos siguiendo la m·xima de Charles S. Peirce de desplegar las propiedades observables y elementales
+		de los objetos. En su filosofÌa tardÌa, Peirce supone que el pensamiento lÛgico tiene como objetivo percibir la realidad, por medio de la
+		triada: concepto, juicio y conclusiÛn. En este sentido, Wille dice: 
 		
-		\textit{El objetivo y el significado del FCA como teor\'{i}a matem\'{a}tica sobre conceptos y sus jerarqu\'{i}as es 
-		apoyar la comunicaci\'{o}n racional entre seres humanos mediante el desarrollo matem\'{a}tico de 
-		estructuras conceptuales apropiadas que se puedan manipular con la l\'{o}gica.}
+		\textit{El objetivo y el significado del FCA como teorÌa matem·tica sobre conceptos y sus jerarquÌas es apoyar la comunicaciÛn racional entre
+		seres humanos mediante el desarrollo matem·tico de estructuras conceptuales apropiadas que se puedan manipular con la lÛgica.}
 		
 	\subsection{Contextos y conceptos}
 		
-		El FCA tiene como entrada una tabla con la relaci\'{o}n entre un conjunto de objetos (o conceptos) y 
-		un conjunto de propiedades (atributos).  Esta entrada es lo que se  denomina \textbf{contexto 
-		formal} y la relaci\'{o}n que se define en dicha tabla determina qu\`{e} objetos cumplen qu\`{e} propiedades.
+		El FCA tiene como entrada una tabla con la relaciÛn entre un conjunto de objetos (o conceptos) y un conjunto de propiedades (atributos).  Esta
+		entrada es lo que se  denomina \textbf{contexto formal} y la relaciÛn que se define en dicha tabla determina quÈ objetos cumplen quÈ
+		propiedades.
 		
-		Un concepto formal se define como un par formado por  un conjunto de objetos (\textbf{extensi\'{o}n}) 
-		y un conjunto de atributos (\textbf{intensi\'{o}n}) de forma que la extensi\'{o}n est\'{a} formada
-		por todos los objetos que comparten los atributos dados y la intensi\'{o}n por los atributos 
-		compartidos por los objetos dados.
+		Un concepto formal se define como un par formado por  un conjunto de objetos (\textbf{extensiÛn}) y un conjunto de atributos
+		(\textbf{intensiÛn}) de forma que la extensiÛn est· formadapor todos los objetos que comparten los atributos dados y la intensiÛn por los
+		atributos compartidos por los objetos dados.
 		
-		Por lo que, un \textbf{contexto formal} se puede definir como una tripleta \textit{K=(O,A,P)}, 
-		donde \textit{O} es un conjunto de objetos, \textit{A} es un conjunto de atributos y \textit{P} 
-		una relaci\'{o}n binaria, $P \subseteq O \times A$, que muestra qu\'{e} objeto posee qu\'{e} 
-		atributo. Formalmente, se puede considerar como un grafo bipartito que refleje las relaciones 
-		entre los conjuntos \textit{O} y \textit{A}, o tambi\'{e}n como una una tabla con los objetos 
-		ocupando las filas de la tabla, los atributos en las columnas, y de forma que un valor booleano
-		en la celda \textit{(x,y)} significa que el objeto \textit{x} tiene el atributo \textit{y}.\\
+		Por lo que, un \textbf{contexto formal} se puede definir como una tripleta \textit{K=(O,A,P)}, donde \textit{O} es un conjunto de objetos,
+		\textit{A} es un conjunto de atributos y \textit{P} una relaciÛn binaria, $P \subseteq O \times A$, que muestra quÈ objeto posee quÈ 
+		atributo. Formalmente, se puede considerar como un grafo bipartito que refleje las relaciones entre los conjuntos \textit{O} y \textit{A}, o
+		tambiÈn como una una tabla con los objetos ocupando las filas de la tabla, los atributos en las columnas, y de forma que un valor booleano
+		en la celda \textit{(x,y)} significa que el objeto \textit{x} tiene el atributo \textit{y}.
 		
-		\begin{figure}
-			\begin{center}
-				\includegraphics[scale=.5]{Figura1.png}
-			\end{center}
-			\caption{Contexto Formal}\label{Figura1}
+		
+		\begin{figure}[htbp]
+			\centering
+				\includegraphics[width=0.75\textwidth]{C:/Proyectos/acf/doc/latex/Figura1.png}
+			\caption{Contexto Formal}
+			\label{fig:Figura1}
 		\end{figure}
 		
-	\subsection{Implicaciones y reglas de asociaci\'{o}n con FCA}
+	\subsection{Implicaciones y reglas de asociaciÛn con FCA}
 	
-		Una vez formalizados matem\'{a}ticamente los conceptos, puede resultar relativamente sencillo trasladar 
-		las relaciones l\'{o}gicas que encontramos entre atributos... aunque debemos tener en cuenta que las 
-		relaciones l\'{o}gicas que se obtengan son aquellas que vengan confirmadas por nuestro contexto, 
-		que podr\'{i}a representar un conocimiento concreto en un instante de tiempo, pero que podr\'{i}a 
-		variar al a√±adir un mayor n\'{u}mero de objetos o atributos. Por ejemplo, que en el ejemplo 
-		siguiente podamos decir que "ser animal de jungla "implica" ser mam\'{i}fero" se debe a que todos 
-		los objetos que verifican la propiedad "ser animal de jungla" verifican "ser mam\'{i}fero", pero 
-		en el momento que introduzcamos un objeto nuevo que sea de la jungla (por ejemplo, un manglar) y 
-		no sea mam\'{i}fero, esa implicaci\'{o}n deja de ser cierta. Por supuesto, podemos trabajar con
-		 varios atributos simult\'{a}neamente.
+		Una vez formalizados matem·ticamente los conceptos, puede resultar relativamente sencillo trasladar las relaciones lÛgicas que encontramos
+		entre atributos... aunque debemos tener en cuenta que las relaciones lÛgicas que se obtengan son aquellas que vengan confirmadas por nuestro
+		contexto, que podrÌa representar un conocimiento concreto en un instante de tiempo, pero que podrÌa variar al aÒadir un mayor n˙mero de
+		objetos o atributos. Por ejemplo, que en el ejemplo siguiente podamos decir que ''ser animal de jungla'' implica ''ser mamÌfero'' se debe a que
+		todos los objetos que verifican la propiedad ''ser animal de jungla'' verifican ''ser mamÌfero'', pero en el momento que introduzcamos un
+		objeto nuevo que sea de la jungla (por ejemplo, un manglar) y no sea mamÌfero, esa implicaciÛn deja de ser cierta. Por supuesto, podemos
+		trabajar con varios atributos simult·neamente.
 		
-		Consecuentemente, en FCA podemos formalizarlo de la siguiente forma: dados \textit{A} y \textit{B}
-		subconjuntos de atributos, diremos que se tiene la implicaci\'{o}n $A \to B$ si se verifica 
-		$A‚Ä≤ subseteq B‚Ä≤$, es decir, todos los objetos que tienen cada atributo de \textit{A} tambi\'{e}n 
-		tienen cada atributo de \textit{B} (observa que es coherente con la implicaci\'{o}n intuitiva que 
-		dimos en el apartado anterior).
+		Consecuentemente, en FCA podemos formalizarlo de la siguiente forma: dados \textit{A} y \textit{B}subconjuntos de atributos, diremos que se
+		tiene la implicaciÛn $A \to B$ si se verifica $A' \subseteq B'$, es decir, todos los objetos que tienen cada atributo de \textit{A} tambiÈn 
+		tienen cada atributo de \textit{B} (observa que es coherente con la implicaciÛn intuitiva que dimos en el apartado anterior).
 	
-	Con esta definici√≥n, las implicaciones obedecen las reglas de Armstrong (reflexiva, aumentativa y transitiva) comunes en las dependencias funcionales que se dan entre los atributos de una base de datos:
+		Con esta definiciÛn, las implicaciones obedecen las reglas de Armstrong (reflexiva, aumentativa y transitiva) comunes en las dependencias
+		funcionales que se dan entre los atributos de una base de datos:
 	
-	\[
-		B \subseteq A A \to B, A \to B A \cup C \to B \cup C, X \to B, B \to C A\to C
-	\]
+		\[
+			B \subseteq A A \to B, A \to B A \cup C \to B \cup C, X \to B, B \to C A\to C
+		\]
 		
-	A partir de la definici√≥n de implicaci√≥n y de las propiedades b√°sicas que verifica, podemos definir un c√°lculo l√≥gico que nos permitir√≠a realizar sistemas de deducci√≥n completos sobre el contexto actual. En cierta forma, hemos pasado de tener un conocimiento por ejemplos a disponer de un conocimiento abstracto que introduce sistemas de razonamiento m√°s elaborados en nuestro mundo, partiendo √∫nicamente de las observaciones concretas que hemos realizado, es decir, hemos aprendido reglas generales a partir de ejemplos.
+		A partir de la definiciÛn de implicaciÛn y de las propiedades b·sicas que verifica, podemos definir un c·lculo lÛgico que nos permitirÌa
+		realizar sistemas de deducciÛn completos sobre el contexto actual. En cierta forma, hemos pasado de tener un conocimiento por ejemplos a
+		disponer de un conocimiento abstracto que introduce sistemas de razonamiento m·s elaborados en nuestro mundo, partiendo ˙nicamente de las
+		observaciones concretas que hemos realizado, es decir, hemos aprendido reglas generales a partir de ejemplos.
  
  	\subsection{Aplicaciones}
  	
- 		Desde su introducci√≥n ha sido aplicado en campos tan variados como la miner√≠a de datos, miner√≠a de textos, gesti√≥n del conocimiento, web sem√°ntica, desarrollo de software, biolog√≠a, etc.
+ 		Desde su introducciÛn ha sido aplicado en campos tan variados como la minerÌa de datos, minerÌa de textos, gestiÛn del conocimiento, web
+ 		sem·ntica, desarrollo de software, biologÌa, etc.
  		
- 		La doctora Karell Bertet, investigadora de la Universidad de La Rochelle con la que colabora el director del proyecto,  ha desarrollado una librer√≠a java, java-lattices, para la generaci√≥n, representaci√≥n y manipulaci√≥n de los Conceptos Formales, etc. 
+ 		La doctora Karell Bertet, investigadora de la Universidad de La Rochelle con la que colabora el director del proyecto,  ha desarrollado una
+ 		librerÌa java, java-lattices, para la generaciÛn, representaciÛn y manipulaciÛn de los Conceptos Formales, etc. 
  		
- 		Dicha librer√≠a implementa la generaci√≥n de ret√≠culos. Se pueden generar:
+ 		Dicha librerÌa implementa la generaciÛn de retÌculos. Se pueden generar:
  		\begin{itemize}
- 			\item Un ret√≠culo dados los nodos y sus relaciones.
- 			\item √Ålgebras booleanas de 2n elementos.
- 			\item Ret√≠culos de permutaciones.
- 			\item Ret√≠culos aleatorios de n nodos.
- 			\item Ret√≠culos de Conceptos a partir de un contexto o de un conjunto de implicaciones.
- 			\item C√°lculo de Implicaciones y de bases de implicaciones.
+ 			\item Un retÌculo dados los nodos y sus relaciones.
+ 			\item ¡lgebras booleanas de $2^{n}$ elementos.
+ 			\item RetÌculos de permutaciones.
+ 			\item RetÌculos aleatorios de n nodos.
+ 			\item RetÌculos de Conceptos a partir de un contexto o de un conjunto de implicaciones.
+ 			\item C·culo de Implicaciones y de bases de implicaciones.
  			\item Etc.
  		\end{itemize}
  		
-\section{AN√ÅLISIS FORMAL DE CONCEPTOS}
+\section{AN¡LISIS FORMAL DE CONCEPTOS}
 
-	\subsection{¬øQu√© es FCA?}
+	\subsection{øQuÈ es FCA?}
 	
-	El An√°lisis de Conceptos Formales (FCA) es un m√©todo de an√°lisis de datos con creciente popularidad en distintos √°mbitos como puede ser la miner√≠a de datos, pre-procesamiento de datos o descubrimiento del conocimiento.
+		El An·lisis de Conceptos Formales (FCA) es un mÈtodo de an·lisis de datos con creciente popularidad en distintos ·mbitos como puede ser la
+		minerÌa de datos, pre-procesamiento de datos o descubrimiento del conocimiento.
 	
-	FCA analiza los datos que describen  relaciones entre un conjunto de objetos y un conjunto de atributos y genera dos tipos de salida a partir de dichos datos. 
+		FCA analiza los datos que describen  relaciones entre un conjunto de objetos y un conjunto de atributos y genera dos tipos de salida a partir
+		de dichos datos. 
 	
-	El primer tipo es un \textbf{ret√≠culo de conceptos}. Un ret√≠culo de conceptos es un conjunto de conceptos formales ordenados jer√°rquicamente por una relaci√≥n subconcepto-superconcepto.
+		El primer tipo es un \textbf{retÌculo de conceptos}. Un retÌculo de conceptos es un conjunto de conceptos formales ordenados jer·rquicamente
+		por una relaciÛn subconcepto-superconcepto.
 	
-	Los conceptos formales son agrupaciones que representan objetos, cosas, nociones como ‚Äúorganismos que viven en el agua‚Äù, ‚Äún√∫meros divisibles por 3 y 4‚Äù, etc.
+		Los conceptos formales son agrupaciones que representan objetos, cosas, nociones como ''organismos que viven en el agua'', ''n˙meros
+		divisibles por 3 y 4 '', etc.
+		
+		Formalmente, se pueden definir los conceptos formales como pares \textit{(A, B)} donde $A \subseteq X$ es un conjunto de objetos y $B
+		\subseteq Y$ es un conjunto de atributos,  tal que todos los elementos de \textit{A} tienen los atributos de \textit{B} y los elementos de
+		\textit{B} son los atributos comunes a todos los objetos de \textit{A}.
 	
-	Formalmente, se pueden definir los conceptos formales como pares \textit{(A, B)} donde $A \subseteq X$ es un conjunto de objetos y $B \subseteq Y$ es un conjunto de atributos,  tal que todos los elementos de \textit{A} tienen los atributos de \textit{B} y los elementos de \textit{B} son los atributos comunes a todos los objetos de \textit{A}.
-	
-	
+		El segundo tipo de salida es un conjunto de  implicaciones de atributos.
+		
+		Las implicaciones de atributos describen una dependencia concreta v·lida en los datos de entrada, como pueden ser ''todos los n˙meros
+		divisibles por 3 y 4 son divisibles por 6'', ''todo encuestado mayor de 60 est· jubilado'', etc.
+		
+		La caracterÌstica que diferencia a este mÈtodo de an·lisis de datos de otros, es la inherente integraciÛn entre tres componentes del
+		procesamiento de datos y del conocimiento:
+		
+		
+		\begin{itemize}
+			\item[-] el descubrimiento y razonamiento con conceptos en los datos
+			\item[-] el descubrimiento y razonamiento de dependencias en los datos
+			\item[-] y la visualizaciÛn de los datos, conceptos y dependencias
+		\end{itemize}
 
+	\subsection{Contexto formal}
+	
+		Un contexto formal es la entrada de datos de FCA y se puede definir como una tripleta $\left\langle X, Y, I\right\rangle$, donde \textit{X} es
+		un \textbf{conjunto de objetos}, \textit{Y} es un \textbf{conjunto de atributos} e \textit{I} una \textbf{relaciÛn binaria}, $I \subseteq X
+		\times I$, que muestra quÈ objeto posee quÈ atributo. Formalmente, se puede considerar como un grafo bipartito que refleje las relaciones
+		entre los conjuntos \textit{X} e \textit{Y}, o tambiÈn como una una tabla con los objetos ocupando las filas de la tabla, los atributos en las
+		columnas, y de forma que un valor booleano en la celda \textit{(x,y)} significa que el objeto \textit{x} tiene el atributo \textit{y}.
+		
+		\textbf{Ejemplo:} En la Figura 2 , se muestra un ejemplo de contexto formal representado como tabla.
 				
 
 

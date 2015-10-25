@@ -29,6 +29,10 @@
 %	\parshape 1\@totalleftmargin \linewidth\ignorespaces}{\par}%
 \makeatother 
 	\onehalfspacing
+	
+\newtheorem{theorem}{Teorema}
+\newcommand{\definition}{\textbf{Definición}}
+\newcommand{\bmathcal}{\mathcal{B}}
 
 \begin{document}
 \textbf{{\large UNIVERSIDAD DE MÁLAGA}}
@@ -602,10 +606,11 @@ M\'{a}laga a \_\_\_\_ de\_\_\_\_\_\_\_\_\_\_\_\_\_\_ del 200\_
 			\]
 			es llamado conjunto de puntos fijos de $\left\langle f, g \right\rangle$
 			
-			\paragraph{Teorema (operadores de derivación para conexiones de Galois)}
-			Para un contexto formal $\left\langle X, Y, I \right\rangle$, el par de operadores 
-			$\left\langle \uparrow' \downarrow' \right\rangle$ inducidos por $\left\langle X, Y, I \right\rangle$ es una conexión de Galois
-			entre \textit{X} e \textit{Y}.
+			\begin{theorem}(operadores de derivación para conexiones de Galois)
+				Para un contexto formal $\left\langle X, Y, I \right\rangle$, el par de operadores 
+				$\left\langle \uparrow' \downarrow' \right\rangle$ inducidos por $\left\langle X, Y, I \right\rangle$ es una conexión de
+				Galois entre \textit{X} e \textit{Y}.
+			\end{theorem}
 			
 			\paragraph{Lema (encadenamiento de conexiones de Galois)}
 			Para una conexión de Galois $\left\langle f, g \right\rangle$ entre dos conjuntos \textit{X} e \textit{Y} se cumple que 
@@ -640,9 +645,11 @@ M\'{a}laga a \_\_\_\_ de\_\_\_\_\_\_\_\_\_\_\_\_\_\_ del 200\_
 			\]
 			es llamado punto fijo de \textit{C}.
 
-			\paragraph{Teorema (desde conexiones de Galois a operadores de cierre):} 
-			Si $\left\langle f, g \right\rangle$ es una conexión de Galois entre \textit{X} e \textit{Y} entonces $C_X = f \circ g$ es un
-			operador de cierre en \textit{X} y $C_Y = g \circ f$ es un operador de cierre en Y.\\
+			\begin{theorem}(desde conexiones de Galois a operadores de cierre)
+				Si $\left\langle f, g \right\rangle$ es una conexión de Galois entre \textit{X} e \textit{Y} entonces $C_X = f \circ g$ es un
+				operador de cierre en \textit{X} y $C_Y = g \circ f$ es un operador de cierre en Y.
+			\end{theorem}
+			
 			\emph{Demostración}\\
 			$f \circ g: 2^X \rightarrow 2^Y$ es un operador de cierre en \textit{X} ya que:
 			
@@ -652,12 +659,13 @@ M\'{a}laga a \_\_\_\_ de\_\_\_\_\_\_\_\_\_\_\_\_\_\_ del 200\_
 				\item[(7):] Siendo $f(A) = f(g(f(A)))$, obtenemos que $g(f(A)) = g(f(g(f(A))))$
 			\end{itemize}
 			
-			\paragraph{Teorema (extensiones e intensiones):}
-							
+			\begin{theorem}	(extensiones e intensiones)						
 				\begin{align*}
 					Ext(X, Y, I) &= \left\{ B^{\downarrow} | B \subseteq Y \right\}, \\
 					Int(X, Y, I) &= \left\{ A^{\uparrow} | A \subseteq X \right\}
 				\end{align*}
+			\end{theorem}
+			
 				\emph{Demostración}\\
 				Probamos sólo la parte $Ext(X, Y, I)$, la parte $Int(X, Y, I)$ es dual.
 				
@@ -671,9 +679,12 @@ M\'{a}laga a \_\_\_\_ de\_\_\_\_\_\_\_\_\_\_\_\_\_\_ del 200\_
 					$A^{\uparrow} = A^{\uparrow}$. Esto es, \textit{A} es la extensión de un concepto formal 
 					$\left\langle A, A^{\uparrow} \right\rangle$ de donde se concluye que $A \in Ext(X, Y, I)$
 				\end{itemize}
-			\paragraph{Teorema (la menor extensión que contiene a \textit{A}, la menor intensión que contiene a \textit{B}):}
-			La menor extensión que contiene a $A \subseteq X$ es $A^{\uparrow \downarrow}$. La menor intensión que contiene a $B \subseteq Y$ es
-			$B^{\downarrow \uparrow}$.\\
+			
+			\begin{theorem}(la menor extensión que contiene a \textit{A}, la menor intensión que contiene a \textit{B})
+				La menor extensión que contiene a $A \subseteq X$ es $A^{\uparrow \downarrow}$. La menor intensión que contiene a $B
+				\subseteq Y$ es $B^{\downarrow \uparrow}$.
+			\end{theorem}
+			
 			\emph{Demostración}
 			Para las extensiones:
 			
@@ -685,15 +696,17 @@ M\'{a}laga a \_\_\_\_ de\_\_\_\_\_\_\_\_\_\_\_\_\_\_ del 200\_
 			\end{enumerate}
 				
 	\subsubsection{Extensiones, intensiones, retículo de conceptos}
-			\paragraph{Teorema:} Para cualquier contexto formal $\left\langle X, Y, I \right\rangle$
+			\begin{theorem}
+				Para cualquier contexto formal $\left\langle X, Y, I \right\rangle$
 			
-			\begin{align*}
-				&Ext(X, Y, I) = fix(\uparrow \downarrow),\\
-				&Int(X, Y, I) = fix(\downarrow \uparrow),\\
-				&\mathcal{B}(X, Y, I) = \left\{ \left\langle A, A^{\uparrow} \right\rangle | A \in Ext(X, Y, I) \right\},\\
-				&\mathcal{B}(X, Y, I) = \left\{ \left\langle B^{\downarrow}, A \right\rangle | B \in Int(X, Y, I) \right\}.
-			\end{align*}
-			\\
+				\begin{align*}
+					&Ext(X, Y, I) = fix(\uparrow \downarrow),\\
+					&Int(X, Y, I) = fix(\downarrow \uparrow),\\
+					&\mathcal{B}(X, Y, I) = \left\{ \left\langle A, A^{\uparrow} \right\rangle | A \in Ext(X, Y, I) \right\},\\
+					&\mathcal{B}(X, Y, I) = \left\{ \left\langle B^{\downarrow}, A \right\rangle | B \in Int(X, Y, I) \right\}.
+				\end{align*}
+			\end{theorem}
+			
 			\emph{Demostración}\\
 			Para \textit{Ext(X, Y, I)}, necesitamos demostrar que \textit{A} es una extensión si y sólo si $A = A^{\uparrow \downarrow}$;
 
@@ -722,13 +735,14 @@ M\'{a}laga a \_\_\_\_ de\_\_\_\_\_\_\_\_\_\_\_\_\_\_ del 200\_
 		
 			Hay una condición simple la cual es equivalente a las condiciones (1) - (4) de la definición de conexión de Galois.
 			
-			\paragraph{Teorema:}
-			
-			$\left\langle f, g \right\rangle$ es una conexión de Galois entre \textit{X} e \textit{Y} si y sólo si para todo $A \subseteq X$ y 
-			$B \subseteq Y$:
-			\begin{align}
-				A \subseteq g(B) \text{ sii } B \subseteq f(A)
-			\end{align}
+			\begin{theorem}			
+				$\left\langle f, g \right\rangle$ es una conexión de Galois entre \textit{X} e \textit{Y} si y sólo si para todo 
+				$A \subseteq X$ y $B \subseteq Y$:
+				
+				\begin{align}
+					A \subseteq g(B) \text{ sii } B \subseteq f(A)
+				\end{align}
+			\end{theorem}
 			
 			\emph{Demostración}
 			
@@ -779,22 +793,22 @@ M\'{a}laga a \_\_\_\_ de\_\_\_\_\_\_\_\_\_\_\_\_\_\_ del 200\_
 		
 		\subsubsection{Cada conexión de Galois es inducida por una relación binaria}
 		
-		No sólo todos los pares de operadores de derivación forman un Galois, todos las conexiones de Galois es un operador de derivación de un
-		contexto formal particular.
+		No sólo todos los pares de operadores de derivación forman un Galois, todos las conexiones de Galois es un operador de derivación de
+		un contexto formal particular.
 		
-		\paragraph{Teorema:}
+		\begin{theorem}
+			Sea $\left\langle f, g \right\rangle$ una conexión de Galois entre \textit{X} e \textit{Y}. Considérese un contexto formal 
+			$\left\langle X, Y, I \right\rangle$ tal que \textit{I} está definido por\\
 		
-		Sea $\left\langle f, g \right\rangle$ una conexión de Galois entre \textit{X} e \textit{Y}. Considérese un contexto formal 
-		$\left\langle X, Y, I \right\rangle$ tal que \textit{I} está definido por\\
+			\begin{align}
+				\left\langle x, y \right\rangle \in I \text{ sii } y \in f(\left\{ x \right\}) \text{ o, equivalentemente, sii } x \in 
+				g(\left\{ y \right\}),
+			\end{align}
 		
-		\begin{align}
-			\left\langle x, y \right\rangle \in I \text{ sii } y \in f(\left\{ x \right\}) \text{ o, equivalentemente, sii } x \in 
-			g(\left\{ y \right\}),
-		\end{align}
-		
-		para cada $x \in X$ e $y \in Y$. Entonces $\left\langle \uparrow', \downarrow' \right\rangle = \left\langle f, g \right\rangle$, esto
-		es, los operadores de derivación $\left\langle \uparrow', \downarrow' \right\rangle$ inducido por $\left\langle X, Y, I \right\rangle$
-		coincide con $\left\langle f, g \right\rangle$.
+			para cada $x \in X$ e $y \in Y$. Entonces $\left\langle \uparrow', \downarrow' \right\rangle = \left\langle f, g \right\rangle$,
+			esto es, los operadores de derivación $\left\langle \uparrow', \downarrow' \right\rangle$ inducido por 
+			$\left\langle X, Y, I \right\rangle$ coincide con $\left\langle f, g \right\rangle$.
+		\end{theorem}
 		
 		\emph{Demostración}
 		
@@ -827,13 +841,13 @@ M\'{a}laga a \_\_\_\_ de\_\_\_\_\_\_\_\_\_\_\_\_\_\_ del 200\_
 		
 	\subsubsection{Teorema de representación para conexiones de Galois}
 	
-		\paragraph{Teorema (teorema de representación):}
-		
-		$I \mapsto \left\langle \uparrow', \downarrow' \right\rangle$   y  
-		$\left\langle \uparrow, \downarrow \right\rangle \mapsto I_{\left\langle \uparrow, \downarrow \right\rangle}$ son mutuamente mapeos
-		inversos entre el conjunto de relaciones binarias entre \textit{X} e \textit{Y} y el conjunto de todas las conexiones de Galois entre
-		\textit{X} e \textit{Y}.
-		
+		\begin{theorem} (de representación)
+				
+			$I \mapsto \left\langle \uparrow', \downarrow' \right\rangle$   y  
+			$\left\langle \uparrow, \downarrow \right\rangle \mapsto I_{\left\langle \uparrow, \downarrow \right\rangle}$ son mutuamente
+			mapeos inversos entre el conjunto de relaciones binarias entre \textit{X} e \textit{Y} y el conjunto de todas las conexiones de
+			Galois entre \textit{X} e \textit{Y}.
+		\end{theorem}
 		
 		\emph{Demostración}
 		
@@ -856,39 +870,39 @@ M\'{a}laga a \_\_\_\_ de\_\_\_\_\_\_\_\_\_\_\_\_\_\_ del 200\_
 		Habiendo establecido las propiedades de $\left\langle \uparrow, \downarrow \right\rangle$, podemos ver la relación de dualidad entre
 		extensiones e intensiones.\\
 		
-		
-		\textbf{Teorema}
-		
-		Para $\left\langle A_1, B_1 \right\rangle, \left\langle A_2, B_2 \right\rangle \in \mathcal{B}(X, Y, I)$,
-		\begin{align}
-			A_1 \subseteq A_2 \text{ sii } B_2 \subseteq B_1.
-		\end{align}
+		\begin{theorem}		
+			Para $\left\langle A_1, B_1 \right\rangle, \left\langle A_2, B_2 \right\rangle \in \mathcal{B}(X, Y, I)$,
+			\begin{align}
+				A_1 \subseteq A_2 \text{ sii } B_2 \subseteq B_1.
+			\end{align}
+		\end{theorem}
 		
 		\emph{Demostración}
 		
 		Por supuesto, $A_i = B_i^{\downarrow}$ y $B_i = A_i^{\uparrow}$. Por lo que, usando (1) y (2), tenemos que $A_1 \subseteq A_2$ implica
-		$A_2^{\uparrow} \subseteq A_1^{\uparrow}$, es decir, $B_2 \subseteq B_1$, lo que implica $B_1^{\downarrow} \subseteq B_2^{\downarrow}$,
+		$A_2^{\uparrow} \subseteq A_1^{\uparrow}$, es decir, 
+		$B_2 \subseteq B_1$, lo que implica $B_1^{\downarrow} \subseteq B_2^{\downarrow}$,
 		es decir, $A_1 \subseteq A_2$.
 		
 		Por lo que, la definición de orden parcial $\leq$ en $\mathcal{B}(X, Y, I)$ es correcta.
 		\\
 		
-		\textbf{Teorema (extensiones, intensiones y conceptos formales):}
-		
-		\begin{enumerate}
-			\item $\left\langle Ext(X, Y, I), \subseteq \right\rangle$ y $\left\langle Int(X, Y, I), \subseteq \right\rangle$ son conjuntos
-			parcialmente ordenados.
-			
-			\item $\left\langle Ext(X, Y, I), \subseteq \right\rangle$ y $\left\langle Int(X, Y, I), \subseteq \right\rangle$ son dualmente
-			isomorfos, esto es, hay un mapeo $f:Ext(X, Y, I) \rightarrow Int(X, Y, I)$ que satisface $A_1 \subseteq A_2$ sii 
-			$f(A_2) \subseteq f(A_1)$.
-			
-			\item $\left\langle \mathcal{B}(X, Y, I), \leq \right\rangle$ es isomorfo a $\left\langle Ext(X, Y, I), \subseteq \right\rangle$.
-			
-			\item $\left\langle \mathcal{B}(X, Y, I), \leq \right\rangle$ es dualmente isomorfo a 
-				$\left\langle Int(X, Y, I), \subseteq \right\rangle$.
-		\end{enumerate}
-		
+		\begin{theorem}(extensiones, intensiones y conceptos formales)
+			\begin{enumerate}
+				\item $\left\langle Ext(X, Y, I), \subseteq \right\rangle$ y $\left\langle Int(X, Y, I), \subseteq \right\rangle$ 
+						son conjuntos parcialmente ordenados.
+				
+				\item $\left\langle Ext(X, Y, I), \subseteq \right\rangle$ y $\left\langle Int(X, Y, I), \subseteq \right\rangle$ 
+						son dualmenteisomorfos, esto es, hay un mapeo $f:Ext(X, Y, I) \rightarrow Int(X, Y, I)$ que satisface 
+						$A_1 \subseteq A_2$ sii $f(A_2) \subseteq f(A_1)$.
+				
+				\item $\left\langle \mathcal{B}(X, Y, I), \leq \right\rangle$ es isomorfo a 
+						$\left\langle Ext(X, Y, I), \subseteq \right\rangle$.
+				
+				\item $\left\langle \mathcal{B}(X, Y, I), \leq \right\rangle$ es dualmente isomorfo a 
+					$\left\langle Int(X, Y, I), \subseteq \right\rangle$.
+			\end{enumerate}
+		\end{theorem}
 		
 		\emph{Demostración:}
 		
@@ -924,15 +938,16 @@ M\'{a}laga a \_\_\_\_ de\_\_\_\_\_\_\_\_\_\_\_\_\_\_ del 200\_
 		A continuación se detalla el Teorema principal de retículos de conceptos.
 		
 		
-		\textbf{Teorema (sistema de puntos fijos de operadores de cierre)}
+		\begin{theorem}(sistema de puntos fijos de operadores de cierre)
 		
-		Para un operador de cierre \textit{C} en \textit{X}, el conjunto parcialmente ordenado $\left\langle fix(C), \subseteq\right\rangle$ de
-		puntos fijos de \textit{C} es un retículo completo con ínfimo y supremo dado por
+			Para un operador de cierre \textit{C} en \textit{X}, el conjunto parcialmente ordenado 
+			$\left\langle fix(C), \subseteq\right\rangle$ de puntos fijos de \textit{C} es un retículo completo con ínfimo y supremo dado por
 		
-		\begin{align}
-			\bigwedge_{\substack{j \in J}} A_j =& \bigcap_{\substack{j \in J}} A_j,\\
-			\bigvee_{\substack{j \in J}} A_j =& C(\bigcup_{\substack{j \in J}} A_j).
-		\end{align}
+			\begin{align}
+				\bigwedge_{\substack{j \in J}} A_j =& \bigcap_{\substack{j \in J}} A_j,\\
+				\bigvee_{\substack{j \in J}} A_j =& C(\bigcup_{\substack{j \in J}} A_j).
+			\end{align}
+		\end{theorem}
 		
 		\emph{Demostración}
 		
@@ -980,7 +995,7 @@ M\'{a}laga a \_\_\_\_ de\_\_\_\_\_\_\_\_\_\_\_\_\_\_ del 200\_
 		
 	\subsection{Teorema Principal de Retículo de Conceptos}
 
-		\textbf{Teorema}
+		\begin{theorem}
 		
 			\begin{enumerate}
 				\item $\mathcal{B}(X, Y, I)$ (1) es un retículo completo con ínfimo y supremo dado por
@@ -1000,17 +1015,18 @@ M\'{a}laga a \_\_\_\_ de\_\_\_\_\_\_\_\_\_\_\_\_\_\_ del 200\_
 						\item $\gamma(X) \leq \mu(Y)$ sii $\left\langle x, y \right\rangle \in I$.
 					\end{enumerate}
 			\end{enumerate}
-			
-			\emph{Observaciones}
+		\end{theorem}
+		
+		\emph{Observaciones}
 					
-			\begin{enumerate}
-				\item $K \subseteq V$ es supremo-irreducible en \textit{V} si y sólo si para cada $v \in V$ existe $K' \subseteq K$ tal que 
+		\begin{enumerate}
+			\item $K \subseteq V$ es supremo-irreducible en \textit{V} si y sólo si para cada $v \in V$ existe $K' \subseteq K$ tal que 
 					$v = \bigvee K'$ (es decir, todo elemento \textit{v} de \textit{V} es  supremo de algún elemento de \textit{K}).\\
 					Igualmente para el ínfimo-irreducible de \textit{K} en \textit{V} (todo elemento \textit{v} de \textit{V} es  ínfimo de
 					algún elemento de \textit{K}).
 					
-				\item Supremo (ínfimo)-irreducibilidad establece que puedan ser considerados bloques de trabajo de \textit{V}.
-			\end{enumerate}
+			\item Supremo (ínfimo)-irreducibilidad establece que puedan ser considerados bloques de trabajo de \textit{V}.
+		\end{enumerate}
 			
 			
 			\emph{Demostración}
@@ -1170,10 +1186,11 @@ M\'{a}laga a \_\_\_\_ de\_\_\_\_\_\_\_\_\_\_\_\_\_\_ del 200\_
 				\label{fig:figura11}
 			\end{figure}
 
-			\textbf{Teorema: }
-			
-			Si $\left\langle X_1, Y_1, I_1\right\rangle$ es un contexto clarificado resultante de $\left\langle X_2, Y_2, I_2\right\rangle$
-			por clarificación, entonces $\mathcal{B}(X_1, Y_1, I_1)$ es isomorfo a $\mathcal{B}(X_2, Y_2, I_2)$.\\
+			\begin{theorem}
+				Si $\left\langle X_1, Y_1, I_1\right\rangle$ es un contexto clarificado resultante de 
+				$\left\langle X_2, Y_2, I_2\right\rangle$ por clarificación, entonces $\mathcal{B}(X_1, Y_1, I_1)$ es isomorfo a
+				$\mathcal{B}(X_2, Y_2, I_2)$.\\
+			\end{theorem}
 			
 			\emph{Demostración}
 			
@@ -1296,12 +1313,12 @@ M\'{a}laga a \_\_\_\_ de\_\_\_\_\_\_\_\_\_\_\_\_\_\_ del 200\_
 			atributos corresponden a $\bigvee$ - y $\bigwedge$-reducibilidad de objetos y atributos de conceptos.
 
 		
-			\textbf{Teorema}
+			\begin{theorem}
+				Sea $y \in Y$ reducible en $\left\langle X, Y, I \right\rangle$. Entonces $\mathcal{B}(X, Y - \left\{y\right\}, J)$ es
+				isomorfo a $\mathcal{B}(X, Y, I)$ donde $J = I \cap (X \times (Y - \left\{y\right\}))$ resulta de eliminar la
+				columna \textit{y} de $\left\langle X, Y, I \right\rangle$.
+			\end{theorem}
 			
-			Sea $y \in Y$ reducible en $\left\langle X, Y, I \right\rangle$. Entonces $\mathcal{B}(X, Y - \left\{y\right\}, J)$ es isomorfo a
-			$\mathcal{B}(X, Y, I)$ donde $J = I \cap (X \times (Y - \left\{y\right\}))$ resulta de eliminar la
-			columna \textit{y} de $\left\langle X, Y, I \right\rangle$.\\
-		
 			\emph{Demostración}
 			
 			Siguiendo la parte (2) del Teorema Principal de retículo de conceptos:
@@ -1388,17 +1405,17 @@ M\'{a}laga a \_\_\_\_ de\_\_\_\_\_\_\_\_\_\_\_\_\_\_ del 200\_
 				\label{fig:figura14}
 			\end{figure}
 			
-			\textbf{Teorema (las relaciones de vectores y la reducibilidad):}
-			
-			Para cualquier $\left\langle X, Y, I\right\rangle$, $x \in X, y \in Y$:
-			
-			\begin{itemize}
-				\item[-] $\left\langle \left\{x\right\}^{\uparrow\downarrow}, \left\{x\right\}^{\uparrow}\right\rangle$ es
-						 $\bigvee$-irreducible sii existe $y \in Y$ tal que $x \swarrow y$;
+			\begin{theorem}(las relaciones de vectores y la reducibilidad)
+				Para cualquier $\left\langle X, Y, I\right\rangle$, $x \in X, y \in Y$:
 				
-				\item[-] $\left\langle \left\{x\right\}^{\uparrow\downarrow}, \left\{x\right\}^{\uparrow}\right\rangle$ es
-						 $\bigwedge$-irreducible sii existe $x \in X$ tal que $x \nearrow y$;
-			\end{itemize}
+				\begin{itemize}
+					\item[-] $\left\langle \left\{x\right\}^{\uparrow\downarrow}, \left\{x\right\}^{\uparrow}\right\rangle$ es
+							 $\bigvee$-irreducible sii existe $y \in Y$ tal que $x \swarrow y$;
+					
+					\item[-] $\left\langle \left\{x\right\}^{\uparrow\downarrow}, \left\{x\right\}^{\uparrow}\right\rangle$ es
+							 $\bigwedge$-irreducible sii existe $x \in X$ tal que $x \nearrow y$;
+				\end{itemize}
+			\end{theorem}
 			
 			\emph{Demostración}
 			
@@ -1616,9 +1633,132 @@ M\'{a}laga a \_\_\_\_ de\_\_\_\_\_\_\_\_\_\_\_\_\_\_ del 200\_
 			\end{enumerate}
 			
 	\subsection{Algoritmos para el cálculo de retículos de conceptos}
+		
+		Consideremos el problema del cálculo de retículos de conceptos, es decir, el siguiente problema:	
 			
+		INPUT: contexto formal $\left\langle X, Y, I\right\rangle$,
+		OUTPUT: retículo de conceptos $\mathcal{B}(X, Y, I)$ (posiblemente más $\leq$)
+		
+		\begin{itemize}
+			\item[-] A veces se necesita calcular el conjunto $\mathcal{B}(X, Y, I)$ del concepto formal sólo.
 			
+			\item[-] A veces se necesita calcular el conjunto $\mathcal{B}(X, Y, I)$ y la jerarquía conceptual $\leq$. $\leq$ puede ser
+					 calculado a partir de $\mathcal{B}(X, Y, I)$ por definición de $\leq$. Pero eso no es eficiente. Existen algoritmos que
+					 pueden calcular $\mathcal{B}(X, Y, I)$ y $\leq$ simultáneamente, lo cual es más eficiente que primero calcular
+					 $\mathcal{B}(X, Y, I)$ y luego $\leq$.
+		\end{itemize}
+		
+		En los siguientes apartados describiremos los algoritmos ''Next-Closure'' de Ganter y el del ''Vecino superior'' de Lindig.
+		
+		\subsubsection{Algoritmo Next-Closure}
+		
+			\textbf{Autor:} Bernhard Ganter (1987)
 			
+			\textbf{Entrada:} contexto formal $\left\langle X, Y, I\right\rangle$,
+			
+			\textbf{Salida:} \textit{Int(X, Y, I)} ... todas las intensiones (igualmente, \textit{Ext(X, Y, I)} ... todas las extensiones).\\
+			
+			Lista todas las intensiones (o extensiones) en orden lexicográfico. Nótese que $\mathcal{B}(X, Y, I)$ puede ser reconstruido a
+			partir de \textit{Int(X, Y, I)} debido a
+			\[
+				\bmathcal(X, Y, I) = \left\{\left\langle B^\downarrow, B\right\rangle | B \int Int(X, Y, I)\right\}
+			\]
+		
+			Es uno de los algoritmos más populares y fácil de implementar.
+			
+			Se describe Next-Closure para intensiones.
+			
+			Supongamos $Y = \left\{1, ..., n\right\}$,esto es, denotamos los atributos con enteros positivos, de esta manera, fijamos un
+			orden de atributos.\\
+			
+			\definition
+			
+			Para $A, B \subseteq Y, i \in 1, ..., n$
+			
+			\begin{align*}
+				A <_{i} B \text{ sii }& i \in B - A \text{ y } A \cap \left\{1, ..., i - 1\right\} = B cap \left\{1, ..., i - 1\right\},\\
+				A < B \text{ sii }& A <_{i} \text{ para algún } i
+			\end{align*}
+			
+			Nota: < ... orden lexicográfico, esto es, todo par de conjuntos distintos $A, B \subseteq$ son comparables.
+			
+			Para $i = 1$, establecemos $\left\{1, ..., i - 1\right\} = \emptyset$.
+		
+			Podríamos pensar en $B \subseteq Y$ en términos de sus características de vector. Para $Y = \left\{1, 2, 3, 4, 5, 6, 7\right\}$ y
+			$B = \left\{1, 3, 4, 6\right\}$ , la característica de vector de $\bmathcal$ es 1011010.\\
+			
+			\definition
+		
+			Para $A \subseteq Y, i \in \left\{1, ..., n\right\}$
+			\[
+				A \oplus i:= ((A \cap \left\{1, ..., i-1\right\}) \cup \left\{i\right\})^{\downarrow\uparrow}
+			\]
+			
+			\emph{Ejemplo}
+			
+			\begin{figure}[H]
+				\centering
+					\includegraphics{imagenes/figura19.png}
+				\label{fig:figura19}
+			\end{figure}
+			
+			\begin{itemize}
+				\item $A = \left\{1, 3\right\}, i = 2$.
+				
+					  $A \oplus i = ((\left\{1, 3\right\} \cap \left\{1, 2\right\}) \cup \left\{2\right\})^{\downarrow\uparrow} =
+					   (\left\{1\right\} \cup \left\{2\right\})^{\downarrow\uparrow} = \left\{1, 2\right\}^{\downarrow\uparrow} =
+					   \left\{1, 2, 4\right\}$
+					   
+				\item $A = 2, i = 1$.
+				
+					  $A \oplus i = ((\left\{2\right\} \cap \emptyset) \cup \left\{1\right\})^{\downarrow\uparrow} = 
+					   \left\{1\right\}^{\downarrow\uparrow} = \left\{1, 2, 4\right\}$
+					   
+			\end{itemize}
+			
+			\textbf{Lema}
+			
+			Para cualquier $B, D, D_1, D_2 \subseteq Y$:
+			
+			\begin{itemize}
+				\item[(1)] Si $B <_i D_1, B <_j D_2,$ y $i < j$ entonces $D_2 <_i D_1$;
+				\item[(2)] Si $i \notin B$ entonces $B < B \oplus i$;
+				\item[(3)] Si $B <_i D$ y $D = D^{\downarrow\uparrow}$ entonces $B \oplus i \subseteq D$;
+				\item[(4)] Si $B <_i D$ y $D = D^{\downarrow\uparrow}$ entonces $B <_i B \oplus i$.
+			\end{itemize}
+			
+			\emph{Demostración}
+			
+			\begin{itemize}
+				\item[(1)] Mediante una inspección fácil.
+				
+				\item[(2)] Es cierto porque $B \cap \left\{1, ..., i-1\right\} \subseteq B \oplus i \cap \left\{1, ..., i-1\right\}$ y
+							$i \in (B \oplus i) - B$.
+							
+				\item[(3)] Haciendo $C_1 = B \cap \left\{1, ..., i-1\right\}$ y $C_2 = \left\{i\right\}$ tenemos $C_1 \cup C_2 \subseteq D$,
+							y por eso $B \oplus i = (C_1 \cup C_2)^{\downarrow \uparrow} \subseteq D^{\downarrow\uparrow} = D$
+							
+				\item[(4)] Por supuesto, $B \cap \left\{1, ..., i-1\right\} = D \cap \left\{1, ..., i-1\right\}$. Además con (3) se
+							obtiene $B \oplus i \subseteq D$ y por eso $B \cap \left\{1, ..., i-1\right\} \supseteq B \oplus i \cap
+							 \left\{1, ..., i-1\right\}$. Además $B \cap \left\{1, ..., i-1\right\} = B \oplus \cap \left\{1, ...,
+							 i-1\right\}$. Finalmente, $i \in B \oplus i$.
+			\end{itemize}
+			
+			\begin{theorem}
+				La menor intensión $B^+$ mayor que $B \subseteq Y$ es dada por
+				\[ B^+ = B \oplus i \]
+				donde \textit{i} es el mayor elemento con $B <_i B \oplus i$.
+			\end{theorem}
+			
+
+		
+		
+		
+		
+		
+		
+		
+		
 		
 		
 \end{document}
