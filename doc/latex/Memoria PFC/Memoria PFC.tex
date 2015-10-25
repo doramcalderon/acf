@@ -1296,13 +1296,241 @@ M\'{a}laga a \_\_\_\_ de\_\_\_\_\_\_\_\_\_\_\_\_\_\_ del 200\_
 			atributos corresponden a $\bigvee$ - y $\bigwedge$-reducibilidad de objetos y atributos de conceptos.
 
 		
+			\textbf{Teorema}
+			
+			Sea $y \in Y$ reducible en $\left\langle X, Y, I \right\rangle$. Entonces $\mathcal{B}(X, Y - \left\{y\right\}, J)$ es isomorfo a
+			$\mathcal{B}(X, Y, I)$ donde $J = I \cap (X \times (Y - \left\{y\right\}))$ resulta de eliminar la
+			columna \textit{y} de $\left\langle X, Y, I \right\rangle$.\\
 		
+			\emph{Demostración}
+			
+			Siguiendo la parte (2) del Teorema Principal de retículo de conceptos:
+			
+			Concretamente, $\mathcal{B}(X, Y - \left\{y\right\}, J)$ es isomorfo a $\mathcal{B}(X, Y, I)$ si y sólo si existen los mapeos 
+			$\gamma: X \rightarrow \mathcal{B}(X, Y, I)$ y $\mu: Y - \left\{y\right\} \rightarrow \mathcal{B}(X, Y, I)$ tal que
+			
+			\begin{itemize}
+				\item[(a)] $\gamma(X)$ es $\bigvee$-irreducible en $\mathcal{B}(X, Y, I)$
+				\item[(b)] $\mu(Y - \left\{y\right\})$ es $\bigwedge$-irreducible en $\mathcal{B}(X, Y, I)$
+				\item[(c)] $\gamma(x) \leq \mu(z)$ sii $\left\langle x, z\right\rangle \in J$.
+			\end{itemize}
 		
+			Si definimos $\gamma(x)$ y $\mu(z)$ como objeto y atributo del concepto de $\mathcal{B}(X, Y, I)$ correspondiente a \textit{x} y
+			\textit{z} respectivamente, entonces:
+			
+			\begin{itemize}
+				\item[(a):] es evidente.
+				\item[(c):] se cumple porque para $z \in Y - \left\{z\right\}$ tenemos $\left\langle x, z\right\rangle \in J$ sii
+				$\left\langle x, z\right\rangle \in I$ (J es una restricción de I).
+				\item[(b):] Necesitamos demostrar para cada $\left\langle A,B\right\rangle \in \mathcal{B}(X, Y, I)$ es un ínfimo de atributo
+				 de conceptos diferente de $\left\langle \left\{y\right\}^\downarrow, \left\{y\right\}^{\downarrow\uparrow}\right\rangle$.
+				 Pero esto es cierto porque \textit{y} es reducible: Si $\left\langle A,B\right\rangle \in \mathcal{B}(X, Y, I)$ es el ínfimo
+				 de los atributos de concepto el cual incluye 
+				 $\left\langle \left\{y\right\}^\downarrow, \left\{y\right\}^{\downarrow\uparrow}\right\rangle$, entonces debemos sustituir
+				 $\left\langle \left\{y\right\}^\downarrow, \left\{y\right\}^{\downarrow\uparrow}\right\rangle$ por los atributos de concepto
+				 $\left\langle \left\{z\right\}^\downarrow, \left\{z\right\}^{\downarrow\uparrow}\right\rangle$ , por lo cual 
+				 $\left\langle \left\{y\right\}^\downarrow, \left\{y\right\}^{\downarrow\uparrow}\right\rangle$ es el ínfimo.
+			\end{itemize}
+			
+
+			\paragraph{Definición (contexto formal reducido):} $\left\langle X, Y, I \right\rangle$ es
+			
+			\begin{itemize}
+				\item[-] reducido por filas si no existe ningún objeto $x \in X$ reducible,
+				\item[-] reducido por columnas si no existe ningún atributo $y \in Y$ reducible,
+				\item[-] reducido si es reducido por filas y por columnas.
+			\end{itemize}
+			
+			Por la observación anterior, si $\left\langle X, Y, I \right\rangle$ no es clarificado, entonces o bien algún objeto es reducible
+			(si hay filas iguales) o algún atributo es reducible (si hay columnas iguales). Por lo que, si 
+			$\left\langle X, Y, I \right\rangle$ es reducido, éste es clarificado.
+			
+			La relación entre reducibilidad de objetos/atributos y $\bigvee$- y $\bigwedge$-reducibilidad de objetos/atributos de conceptos
+			lleva a la siguiente conclusión:
+			
+			Un clarificado $\left\langle X, Y, I \right\rangle$  es
+			
+			\begin{itemize}
+				\item[-] reducido por filas si y sólo si todos los objetos de concepto son $\bigvee$-irreducible,
+				\item[-] reducido por columnas si y sólo si todos los atributos de concepto son $\bigwedge$-irreducible,
+			\end{itemize}
+			
+		\subsubsection{Reducción de contextos formales por relaciones de vectores}
 		
+			¿Cómo averiguar qué objetos y atributos son reducibles?\\
+			
+			\textbf{Definición:}
+			
+			Para $\left\langle X, Y, I\right\rangle$, se definen las relaciones $\nearrow\swarrow\updownarrow$ entre \textit{X} e \textit{Y}
+			por
+			
+			\begin{itemize}
+				\item[-] $x \swarrow y $ sii $\left\langle x, y\right\rangle \notin I$ y si 
+						 $\left\{x\right\}^{\uparrow} \subset \left\{x_1\right\}^{\uparrow}$ entonces 
+						 $\left\langle x_1, y\right\rangle \in I$.
+						 
+				\item[-] $x \nearrow y$ sii $\left\langle x, y\right\rangle \notin I$ y si 
+						 $\left\{y\right\}^{\downarrow} \subset \left\{y_1\right\}^{\downarrow}$ entonces 
+						 $\left\langle x, y_1\right\rangle \in I$.
+						 
+				\item[-] $x \updownarrow y$ sii $x \swarrow y $ y $x \nearrow y$.
+			\end{itemize}
+			
+			Por lo que, si $\left\langle x, y\right\rangle \in I$ entonces no ocurre $x \nearrow y, x \swarrow y, x \updownarrow y$. Las
+			relaciones de vectores pueden por lo tanto ser introducidas en la tabla de $\left\langle X, Y, I\right\rangle$ como en el
+			siguiente ejemplo:
+			
+			
+			\begin{figure}[H]
+				\centering
+					\includegraphics[width=1\textwidth]{imagenes/figura14.png}
+				\caption{Representación de relaciones de vectores}
+				\label{fig:figura14}
+			\end{figure}
+			
+			\textbf{Teorema (las relaciones de vectores y la reducibilidad):}
+			
+			Para cualquier $\left\langle X, Y, I\right\rangle$, $x \in X, y \in Y$:
+			
+			\begin{itemize}
+				\item[-] $\left\langle \left\{x\right\}^{\uparrow\downarrow}, \left\{x\right\}^{\uparrow}\right\rangle$ es
+						 $\bigvee$-irreducible sii existe $y \in Y$ tal que $x \swarrow y$;
+				
+				\item[-] $\left\langle \left\{x\right\}^{\uparrow\downarrow}, \left\{x\right\}^{\uparrow}\right\rangle$ es
+						 $\bigwedge$-irreducible sii existe $x \in X$ tal que $x \nearrow y$;
+			\end{itemize}
+			
+			\emph{Demostración}
+			
+			Debido a la dualidad, verificamos la $\bigwedge$-irreducibilidad:
+			
+			$x \swarrow y$ SII
+			
+			$x \notin \left\{y\right\}^\downarrow$ y para todo $y_1$ con $\left\{y\right\}^\uparrow \subset \left\{y\right\}^\downarrow$
+			tenemos $x \in \left\{y\right\}^\downarrow$ SII
+			
+			$\left\{y\right\}^\downarrow \subset \bigcap_{y_1:\left\{y\right\}^\downarrow \subset \left\{y_1\right\}^\downarrow}$ SII 
+			
+			$\left\langle \left\{y\right\}^\downarrow, \left\{y\right\}^{\downarrow\uparrow}\right\rangle$ no es un ínfimo de otro atributo
+			de concepto SII
+			
+			$\left\langle \left\{y\right\}^\downarrow, \left\{y\right\}^{\downarrow\uparrow}\right\rangle$ es $\bigwedge$-irreducible.\\
+			
+			
+			Considérese el siguiente problema:
+			
+			\begin{quote}
+				INPUT: Contexto formal arbitrario $\left\langle X_1, Y_1, I_1\right\rangle$
+				
+				OUTPUT: Un contexto reducido $\left\langle X_2, Y_2, I_2\right\rangle$
+			\end{quote}
+			
+			Este problema se puede resolver con el siguiente algoritmo:		
 		
-		
-		
-		
+			\begin{enumerate}
+				\item clarificar $\left\langle X_1, Y_1, I_1\right\rangle$ para obtener un contexto clarificado 
+					  $\left\langle X_3, Y_3, I_3\right\rangle$, borrando las filas y columnas iguales,
+					  
+				\item calcular las relaciones de vectores $\nearrow$ y $\swarrow$ para $\left\langle X_3, Y_3, I_3\right\rangle$,
+				
+				\item obtener $\left\langle X_2, Y_2, I_2\right\rangle$ a partir de $\left\langle X_3, Y_3, I_3\right\rangle$ borrando los
+					  objetos \textit{x} de $X_3$ para los que no existe $y \in Y_3$ con $x \swarrow y$, y atributos \textit{y} de $Y_3$ para
+					  los que no existe $x \in X_3$ con $x \nearrow y$. Esto es:
+					  \begin{align*}
+					  	&X_2= X_3 - \left\{ x | \text{  no existe } y \in Y_3 \text{ tal que } x \swarrow y \right\},\\
+					  	&Y_2= Y_3 - \left\{ y | \text{  no existe } x \in X_3 \text{ tal que } x \nearrow y \right\},\\
+					  	&I_2 = I_3 \cap (X_2 \times Y_2).
+					  \end{align*}
+			\end{enumerate}
+			
+			\emph{Ejemplo:}
+			
+			Calcular las relaciones de vectores $\nearrow, \swarrow$ y $\updownarrow$ para el siguiente contexto formal:
+						
+			\begin{figure}[H]
+				\centering
+					\includegraphics[width=.75\textwidth]{imagenes/figura15.png}
+				\caption{Contexto de entrada}
+				\label{fig:figura15}
+			\end{figure}
+
+			Empezamos con $\nearrow$. Necesitamos recorrer las celdas en la tabla que no contengan $\times$ y decidir si aplicar $\nearrow$.
+			
+			
+			La primera de dichas celdas corresponde a $\left\langle x_2, y_3\right\rangle$. Por definición $x_2 \nearrow y_3$ sii para cada
+			$y \in Y$ tal que 
+			$\left\{y_3\right\}^\downarrow \subset \left\{y\right\}^\downarrow$ tenemos $x_2 \in \left\{y\right\}^\downarrow$. El único
+			\textit{y} que cumple la condición es $y_2$ para el cual tenemos $x_2 \in \left\{y_2\right\}^\downarrow$, de ahí que 
+			$x_2 \nearrow y_3$.
+			
+			Y así sucesivamente hasta $\left\langle x_5, y_4\right\rangle$ para los que obtenemos $x_5 \nearrow y_4$.
+						
+			Continuamos con $\swarrow$. Recorremos las celdas de la tabla que no contienen \textit{X} y decidimos si aplicar $\swarrow$. La
+			primera de dichas celdas corresponde a $\left\langle x_2, y_3\right\rangle$. Por definición, $x_2 \swarrow y_3$ sii para cada 
+			$x \in X$ tal que $\left\{x_2\right\}^\uparrow \subset \left\{x\right\}^\uparrow$. El único \textit{x} que cumple la condición es
+			$x_1$ para el que tenemos que $y_3 \in \left\{x\right\}^\uparrow$, de ahí que $x_2 \swarrow y_3$.
+			
+			Y así sucesivamente hasta $\left\langle x_5, y_4\right\rangle$ para los que obtenemos $x_5 \swarrow y_4$.
+			
+			Las relaciones de vectores se muestran en la siguiente tabla:
+			
+			\begin{figure}[H]
+				\centering
+					\includegraphics[width=.70\textwidth]{imagenes/figura16.png}
+				\caption{Cálculo de relación de vectores}
+				\label{fig:figura16}
+			\end{figure}
+
+			Por lo que, el correspondiente contexto reducido es 
+			
+			\begin{figure}[H]
+				\centering
+					\includegraphics[width=.65\textwidth]{imagenes/figura17.png}
+				\caption{Contexto reducido}
+				\label{fig:figura17}
+			\end{figure}
+
+			Para un retículo completo $\left\langle V, \leq\right\rangle$ y $v \in V$, señalar que
+			
+			\begin{align*}
+				v_{*} &= \bigvee_{\substack{u \in V, u < v}} u, \\
+				v^{*} &= \bigwedge_{\substack{u \in V, u < v}} u. \\
+			\end{align*}
+			
+			Sea $\left\langle X_1, Y_1, I_1\right\rangle$ clarificado , $X_2 \subseteq X_1$ y conjuntos de objetos y atributos irreducibles,
+			respectivamente, sea $I_2 = I_1 \cap (X_2 \times Y_2)$ (restricción de $I_1$ a los objetos y atributos irreducibles).
+			
+			¿Cómo podemos obtener a partir de los conceptos de $\mathcal{B}(X_1, Y_1, I_1)$ los conceptos de $\mathcal{B}(X_2, Y_2, I_2)$? 
+			La respuesta está basada en:
+			
+			\begin{enumerate}
+				\item $\left\langle A_1, B_1\right\rangle \mapsto \left\langle A_1 \cap X_2, B_1 \cap Y_2\right\rangle$ es un isomorfismo de
+					  $\mathcal{B}(X_1, Y_1, I_1)$  en $\mathcal{B}(X_2, Y_2, I_2)$.
+					  
+				\item Por lo tanto, cada extensión $A_2$ de $\mathcal{B}(X_1, Y_1, I_1)$ es de la forma $A_2 = A_1 \cap X_2$ donde $A_1$ es
+					  una extensión de $\mathcal{B}(X_1, Y_1, I_1)$ (igual para las intensiones).
+				\item Para $x \in X_1: x\in A_1$ sii $\left\{x\right\}^{\uparrow\downarrow} \cap X_2 \subseteq A_1 \cap X_2$,
+					  para $y \in Y_1: y \in B_1$ sii $\left\{y\right\}^{\downarrow\uparrow} \cap Y_2 \subseteq B_1 \cap Y_2$.
+			\end{enumerate}
+			
+			Aquí, $\uparrow$ y $\downarrow$ son operadores inducidos por $\left\langle X_1, Y_1, I_1\right\rangle$. Por lo que, dado 
+			$\left\langle A_2, B_2\right\rangle \in \mathcal{B}(X_2, Y_2, I_2)$, el correspondiente 
+			$\left\langle A_1, B_1\right\rangle \in \mathcal{B}(X_1, Y_1, I_1)$ es dado por
+			
+			\begin{align}
+				A_1 &= A_2 \cup \left\{x \in X_1 - X_2 | \left\{x\right\}^{\uparrow\downarrow} \cap X_2 \subseteq A_2 \right\},\\
+				B_1 &= B_2 \cup \left\{y \in Y_1 - Y_2 | \left\{y\right\}^{\downarrow\uparrow} \cap Y_2 \subseteq B_2 \right\},
+			\end{align}
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
 		
 		
 \end{document}
