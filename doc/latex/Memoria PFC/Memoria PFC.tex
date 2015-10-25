@@ -1750,15 +1750,106 @@ M\'{a}laga a \_\_\_\_ de\_\_\_\_\_\_\_\_\_\_\_\_\_\_ del 200\_
 				donde \textit{i} es el mayor elemento con $B <_i B \oplus i$.
 			\end{theorem}
 			
-
+			\emph{Demostración}
+			
+			Sea $B^+$  la menor intensión mayor que \textit{B}. Tenemos $B < B^+$ y por tanto $B <_i B^+$ para algún \textit{i} tal que 
+			$i \in B^+$. Por el lema (4), $B <_i B \oplus i$, es decir, $B < B \oplus i$. Por el lema (3) tenemos que $B \oplus i \leq B^+$
+			lo cual da $B^+ = B \oplus i$ ya que $B^+$ es la menor intensión con $B < B^+$. Queda por demostrar que \textit{i} es el mayor
+			elemento que cumple $B <_i B \oplus i$. Supongamos que $B <_k B \oplus k$ para $k > i$. Por el lema (1), 
+			$B \oplus k <_i B\oplus i$ lo cual se contradice con $B \oplus i = B^+ < B \oplus k$ ($B^+$  es la menor intensión mayor que
+			\textit{B} y por eso $B^+ < B \oplus k$). Además tenemos \textit{k = i}.\\
 		
+			\textbf{Pseudo-código del algoritmo Next-Closure}
+				
+			\begin{enumerate}
+				\item \texttt{A:= $\emptyset^{\downarrow\uparrow}$; (leastIntent)}
+				
+				\item \texttt{store(A);}
+				
+				\item \texttt{while not (A = Y) do}
+				
+				\item \texttt{A: = A+;}
+				
+				\item \texttt{store(A);}
+				\item \texttt{endwhile.}
+			\end{enumerate}
+			
+			\textbf{complejidad}: la complejidad de tiempo de cálculo de $A^+$ es $O(\left|X\right| \cdot \left|Y\right|^2)$: la complejidad
+			de cálculo de $C^\uparrow$ es $O(\left|X\right| \cdot \left|Y\right|)$; la complejidad de cálculo de $A \oplus i$ es por tanto
+			$O(\left|X\right| \cdot \left|Y\right|)$. Para obtener $A^+$ necesitamos calcular $A \oplus i \left|Y\right|$-veces en el peor
+			de los casos. Como resultado, la complejidad de calcular $A^+$ es $O(\left|X\right| \cdot \left|Y\right|^2)$.
+			
+			La complejidad de tiempo de Next-Closure es $O(\left|X\right| \cdot \left|Y\right|^2 \cdot \bmathcal(X, Y, I))$.\\
+					
+			\textbf{complejidad de retardo de tiempo polinómico N:} Yendo de \textit{A} a $A^+$ en un tiempo polinómico, el algoritmo
+			Next-Closure tiene un tiempo de retardo polinómico.\\
+			
+			\emph{Observaciones}
+			
+			\begin{itemize}
+				\item[-] Si $\downarrow \uparrow$ es sustituido por un operador de cierre \textit{C} arbitrario, el algoritmo Next-Closure
+						 calcula todos los puntos fijos de \textit{C}. 
+						 
+				\item[-] Por lo que, el algoritmo Next-Closure es esencialmente un algoritmo para el cálculo de todos los puntos fijos de un
+						 operador de cierre \textit{C} dado.
+				\item[-] La complejidad computacional de Next-Closure depende de la complejidad computacional del cálculo de \textit{C(A)}
+						 (cálculo de cierre de un conjunto arbitrario \textit{A}).
+			\end{itemize}
 		
+		\subsubsection{Algoritmo UpperNeighbor}
 		
+			\textbf{Autor:} Christian Lindig (Fast Concept Analysis, 2000)
+			
+			\textbf{Entrada:} Contexto formal $\left\langle X, Y, I\right\rangle$
+			
+			\textbf{Salida:} $\bmathcal(X, Y, I)$ y $\leq$\\
+			
+			La idea básica del algoritmo es:
+			\begin{enumerate}
+				\item comenzar con el menor concepto formal $\left\langle \emptyset^{\uparrow\downarrow},  \emptyset^\uparrow\right\rangle$,
+				
+				\item para cada $\left\langle A, B \right\rangle$ generar todos los vecinos superiores y guardar la información necesaria 
+				
+				\item ir al próximo concepto
+			\end{enumerate}
 		
+			El punto crucial es cómo calcular los vecinos superiores de un $\left\langle A, B \right\rangle$ dado.
+			
+			\begin{theorem}(vecinos superiores de un concepto formal)
+				Si $\left\langle A, B\right\rangle \in \bmathcal(X, Y, I)$ no es el concepto más grande entonces 
+				$(A \cup \left\{x\right\})^{\uparrow \downarrow}$, con $x \in X - A$, es una extensión de un vecino superior de 
+				$\left\langle A, B \right\rangle$ sii para cada $z \in (A \cup \left\{x\right\})^{\uparrow\downarrow} - A$ tenemos 
+				$(A \cup \left\{x\right\})^{\uparrow\downarrow} = (A \cup \left\{z\right\})^{\uparrow\downarrow}$.
+			\end{theorem}
+			
+			\emph{Observaciones}
+			
+			En general, para $x \in X - A, (A \cup \left\{x\right\})^{\uparrow\downarrow}$ no tiene que ser una extensión de un vecino
+			superior de $\left\langle A, B \right\rangle$.\\
+			
+			\textbf{Pseudo-código del algoritmo UpperNeighbor}
+			
+			\begin{enumerate}
+				\item \texttt{min:= X - A;}
+				
+				\item \texttt{neighbors := $\emptyset$;}
+				
+				\item \texttt{for $x \in X - A$ do}
+				
+				\item \texttt{	$B_1:= (A \cup \left\{x\right\})^\uparrow; A_1:= B_1^\downarrow$};
+				
+				\item \texttt{	if ($min \cap ((A_1 - A) - \left\{x\right\}) = \emptyset$) then}
+				
+				\item \texttt{		neighbors:= neighbors $\cup \left\{(A_1, B_1)\right\}$}
+				
+				\item \texttt{	else min:= min - $\left\{x\right\}$;}
+				
+				\item \texttt{enddo.}
+			\end{enumerate}
 		
-		
-		
-		
-		
+			\textbf{complejidad:} tiempo de retardo polinómico con retardo $O(\left|X\right|^2 \cdot \left|Y\right|)$ (igual que la versión
+			para extensiones del algoritmo Next-Closure).
+			
+	\subsection{Contextos multivalores y escalamiento conceptual}
 		
 \end{document}
