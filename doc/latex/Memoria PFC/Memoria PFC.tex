@@ -13,6 +13,7 @@
 \usepackage{amssymb}
 \usepackage[paperwidth=595pt,paperheight=841pt,top=56pt,right=86pt,bottom=84pt,left=71pt]{geometry}
 \usepackage{setspace}
+\usepackage{float}
 \title{Titulo}
 
 % sangría y separacion entre parrafos
@@ -823,5 +824,485 @@ M\'{a}laga a \_\_\_\_ de\_\_\_\_\_\_\_\_\_\_\_\_\_\_ del 200\_
 				$\left\langle \uparrow, \downarrow \right\rangle \mapsto I_{\left\langle \uparrow, \downarrow \right\rangle}$ asigna una
 				relación binaria a una conexión de Galois.
 		\end{itemize}
+		
+	\subsubsection{Teorema de representación para conexiones de Galois}
+	
+		\paragraph{Teorema (teorema de representación):}
+		
+		$I \mapsto \left\langle \uparrow', \downarrow' \right\rangle$   y  
+		$\left\langle \uparrow, \downarrow \right\rangle \mapsto I_{\left\langle \uparrow, \downarrow \right\rangle}$ son mutuamente mapeos
+		inversos entre el conjunto de relaciones binarias entre \textit{X} e \textit{Y} y el conjunto de todas las conexiones de Galois entre
+		\textit{X} e \textit{Y}.
+		
+		
+		\emph{Demostración}
+		
+		Usando los resultados establecidos arriba, queda por comprobar que $I \mapsto I_{\left\langle \uparrow', \downarrow' \right\rangle}$ :
+		Tenemos
+		\[
+			\left\langle x, y, \right\rangle \in I_{\left\langle \uparrow', \downarrow' \right\rangle} \text{ sii } 
+			y \in \left\{ x \right\}^{\uparrow'} \text{ sii } \left\langle x, y \right\rangle \in I,
+		\]
+		finalizando la demostración.
+		
+		
+		\emph{Observaciones}
+		
+		En particular, el teorema anterior asegura que (1)-(4) describe completamente todas las propiedades de nuestros operadores inducidos
+		por los datos $\left\langle X, Y, I \right\rangle$.
+		
+	\subsubsection{Dualidad entre extensiones e intensiones}
+	
+		Habiendo establecido las propiedades de $\left\langle \uparrow, \downarrow \right\rangle$, podemos ver la relación de dualidad entre
+		extensiones e intensiones.\\
+		
+		
+		\textbf{Teorema}
+		
+		Para $\left\langle A_1, B_1 \right\rangle, \left\langle A_2, B_2 \right\rangle \in \mathcal{B}(X, Y, I)$,
+		\begin{align}
+			A_1 \subseteq A_2 \text{ sii } B_2 \subseteq B_1.
+		\end{align}
+		
+		\emph{Demostración}
+		
+		Por supuesto, $A_i = B_i^{\downarrow}$ y $B_i = A_i^{\uparrow}$. Por lo que, usando (1) y (2), tenemos que $A_1 \subseteq A_2$ implica
+		$A_2^{\uparrow} \subseteq A_1^{\uparrow}$, es decir, $B_2 \subseteq B_1$, lo que implica $B_1^{\downarrow} \subseteq B_2^{\downarrow}$,
+		es decir, $A_1 \subseteq A_2$.
+		
+		Por lo que, la definición de orden parcial $\leq$ en $\mathcal{B}(X, Y, I)$ es correcta.
+		\\
+		
+		\textbf{Teorema (extensiones, intensiones y conceptos formales):}
+		
+		\begin{enumerate}
+			\item $\left\langle Ext(X, Y, I), \subseteq \right\rangle$ y $\left\langle Int(X, Y, I), \subseteq \right\rangle$ son conjuntos
+			parcialmente ordenados.
+			
+			\item $\left\langle Ext(X, Y, I), \subseteq \right\rangle$ y $\left\langle Int(X, Y, I), \subseteq \right\rangle$ son dualmente
+			isomorfos, esto es, hay un mapeo $f:Ext(X, Y, I) \rightarrow Int(X, Y, I)$ que satisface $A_1 \subseteq A_2$ sii 
+			$f(A_2) \subseteq f(A_1)$.
+			
+			\item $\left\langle \mathcal{B}(X, Y, I), \leq \right\rangle$ es isomorfo a $\left\langle Ext(X, Y, I), \subseteq \right\rangle$.
+			
+			\item $\left\langle \mathcal{B}(X, Y, I), \leq \right\rangle$ es dualmente isomorfo a 
+				$\left\langle Int(X, Y, I), \subseteq \right\rangle$.
+		\end{enumerate}
+		
+		
+		\emph{Demostración:}
+		
+		\begin{enumerate}
+			\item : Obviamente, porque \textit{Ext(X, Y, I)} es una colección de subconjuntos de \textit{X} y $\subseteq$ es un conjunto de
+				exclusión. Igualmente para \textit{Int(X, Y, I)}.
+				
+			\item : Sólo tomar $f = \uparrow$ y usar los resultados anteriores.
+			
+			\item : Obviamente, el mapeo $\left\langle A, B \right\rangle \mapsto A$ es el isomorfismo requerido.
+			
+			\item : El mapeo $\left\langle A, B \right\rangle \mapsto B$ es el isomorfismo dual requerido.
+		\end{enumerate}
+		
+	\subsubsection{Estructura jerárquica de retículo de conceptos}
+	
+		Sabemos que $\mathcal{B}(X, Y, I)$ (conjunto de todos los conceptos formales) con $leq$ (jerarquía subconcepto-superconcepto) es un
+		conjunto parcialmente ordenado. Ahora, la cuestión es: ¿Cuál es la estructura de  
+		$\left\langle \mathcal{B}(X, Y, I) , leq \right\rangle$?\\
+		Resulta que $\left\langle \mathcal{B}(X, Y, I) , leq \right\rangle$ es un retículo completo ( se verá en la parte de Teorema principal
+		de retículos de conceptos).
+		
+		
+		\textbf{Retículo de conceptos $\approx$ jerarquía de conceptos completa}
+		
+		Que $\left\langle \mathcal{B}(X, Y, I) , \leq \right\rangle$ sea un retículo es una buena noticia.
+		
+		Concretamente, se dice que para cualquier colección de conceptos formales $K \subseteq \mathcal{B}(X, Y, I)$, contiene tanto
+		la ''generalización directa'' $\bigvee K$ de conceptos de \textit{K} (supremo de \textit{K}) , como la ''especialización
+		directa'' $\bigwedge K$ de conceptos de \textit{K} (ínfimo de \textit{K}). En este sentido, es una jerarquía completa de
+		conceptos.
+		
+		A continuación se detalla el Teorema principal de retículos de conceptos.
+		
+		
+		\textbf{Teorema (sistema de puntos fijos de operadores de cierre)}
+		
+		Para un operador de cierre \textit{C} en \textit{X}, el conjunto parcialmente ordenado $\left\langle fix(C), \subseteq\right\rangle$ de
+		puntos fijos de \textit{C} es un retículo completo con ínfimo y supremo dado por
+		
+		\begin{align}
+			\bigwedge_{\substack{j \in J}} A_j =& \bigcap_{\substack{j \in J}} A_j,\\
+			\bigvee_{\substack{j \in J}} A_j =& C(\bigcup_{\substack{j \in J}} A_j).
+		\end{align}
+		
+		\emph{Demostración}
+		
+		Evidentemente, $\left\langle fix(C), \subseteq \right\rangle$ es un conjunto parcialmente ordenado.
+				
+		\begin{itemize}
+			\item [(13):] Primero, comprobamos que para $A_j \in fix(C)$ tenemos $\bigcap_{\substack{j \in J}} A_j \in fix(C)$ (la intersección
+				de los puntos fijos es un punto fijo). Necesitamos comprobar que 
+				$\bigcap_{\substack{j \in J}} A_j  = C(\bigcap_{\substack{j \in J}} A_j )$.
+								
+				\begin{itemize}
+					\item[''$\subseteq$'':] Que $\bigcap_{\substack{j \in J}} A_j \subseteq C(\bigcap_{\substack{j \in J}} A_j )$ es obvio
+						(propiedad de operadores de cierre).
+						
+					\item[''$\supseteq$'':] Tenemos $\bigcap_{\substack{j \in J}} A_j \subseteq C(\bigcap_{\substack{j \in J}} A_j )$ si y sólo
+						si para cada $j \in J$ tenemos $C(\bigcap_{\substack{j \in J}} A_j ) \subseteq A_j$ lo cual es cierto. De hecho,
+						tenemos que $\bigcap_{\substack{j \in J}} A_j \subseteq A_j$ de lo cual obtenemos  
+						$ C(\bigcap_{\substack{j \in J}} A_j \subseteq C(A_j) = A_j$.
+				\end{itemize}
+				
+				Ahora, ya que $\bigcap_{\substack{j \in J}} A_j \in fix(C)$, está claro que $\bigcap_{\substack{j \in J}} A_j $ es el ínfimo de
+				los  $A_j$: primero, $\bigcap_{\substack{j \in J}} A_j$ es menor o igual que todos los $A_j$ ; segundo, 
+				$\bigcap_{\substack{j \in J}} A_j $ es mayor o igual que cualquier $A \in fix(C)$ por lo cual es menor o igual que todos los 
+				$A_j$  esto es, $\bigcap_{\substack{j \in J}} A_j$ es el mayor elemento del punto más bajo de $\left\{ A_j | j \in J \right\}$.
+				
+			\item [(14):] Verificamos que $\bigvee_{\substack{j \in J}} A_j = C(\bigcup_{\substack{j \in J}} A_j)$. Nótese primero que como 
+				 $\bigvee_{\substack{j \in J}} A_j$ es un punto fijo de \textit{C}, tenemos que 
+				$\bigvee_{\substack{j \in J}} A_j = C(\bigvee_{\substack{j \in J}} A_j)$.
+				
+				\begin{itemize}
+					\item[''$\subseteq$'':] $C(\bigcup_{\substack{j \in J}} A_j)$ es un punto fijo el cual es mayor o igual que todos los
+						$A_j$, y por eso $C(\bigcup_{\substack{j \in J}} A_j)$ debe ser mayor o igual que el supremo 
+						$\bigvee_{\substack{j \in J}} A_j$, es decir, 
+						$\bigvee_{\substack{j \in J}} A_j = C(\bigvee_{\substack{j \in J}} A_j)$.
+					
+					
+					\item[''$\supseteq$'':] Como $\bigvee_{\substack{j \in J}} A_j \supseteq A_j$ para cualquier $j \in J$, obtenemos que 
+						$\bigvee_{\substack{j \in J}} A_j \supseteq \bigcup_{\substack{j \in J}} A_j$, y por eso 
+						$\bigvee_{\substack{j \in J}} A_j = C(\bigvee_{\substack{j \in J}} A_j) \supseteq C(\bigcup_{\substack{j \in J}}
+							 A_j)$.
+						\\
+						Resumiendo, $\bigvee_{\substack{j \in J}} A_j = C(\bigcup_{\substack{j \in J}} A_j)$.
+				\end{itemize}
+		\end{itemize}
+		
+	\subsection{Teorema Principal de Retículo de Conceptos}
+
+		\textbf{Teorema}
+		
+			\begin{enumerate}
+				\item $\mathcal{B}(X, Y, I)$ (1) es un retículo completo con ínfimo y supremo dado por
+				
+				\begin{align}
+					\bigwedge_{\substack{j \in J}} \left\langle A_j, B_j \right\rangle =
+					\left\langle \bigcap_{\substack{j \in J}} A_j, (\bigcup_{\substack{j \in J}} B_j)^{\downarrow \uparrow} \right\rangle =
+					\bigvee_{\substack{j \in J}} \left\langle A_j, B_j \right\rangle =
+					\left\langle (\bigcup_{\substack{j \in J}} A_j)^{\uparrow \downarrow}, (\bigcap_{\substack{j \in J}} B_j) \right\rangle.
+				\end{align}
+				
+				\item Además, un retículo completo arbitrario $\mathbf{V} = (V, \leq)$ es isomorfo a $\mathcal{B}(X, Y, I)$ si y sólo si hay
+					 mapeos $\gamma: X \rightarrow V, \mu: Y \rightarrow V$ tal que 
+					 
+					\begin{enumerate}
+						\item $\gamma(X)$ es $\bigvee$-irreducible en V, $\mu(Y)$ es $\bigwedge$-irreducible en V;
+						\item $\gamma(X) \leq \mu(Y)$ sii $\left\langle x, y \right\rangle \in I$.
+					\end{enumerate}
+			\end{enumerate}
+			
+			\emph{Observaciones}
+					
+			\begin{enumerate}
+				\item $K \subseteq V$ es supremo-irreducible en \textit{V} si y sólo si para cada $v \in V$ existe $K' \subseteq K$ tal que 
+					$v = \bigvee K'$ (es decir, todo elemento \textit{v} de \textit{V} es  supremo de algún elemento de \textit{K}).\\
+					Igualmente para el ínfimo-irreducible de \textit{K} en \textit{V} (todo elemento \textit{v} de \textit{V} es  ínfimo de
+					algún elemento de \textit{K}).
+					
+				\item Supremo (ínfimo)-irreducibilidad establece que puedan ser considerados bloques de trabajo de \textit{V}.
+			\end{enumerate}
+			
+			
+			\emph{Demostración}
+			
+			Sólo para (1). Comprobamos $\bigwedge_{j \in J} \left\langle A_j, B_j \right\rangle = 
+			\left\langle \bigcap_{j \in J} A_j, (\bigcup_{j \in J} B_j)^{\downarrow \uparrow}\right\rangle$:
+			
+			Primero, $\left\langle Ext(X, Y, I), \subseteq \right\rangle = \left\langle fix(\uparrow \downarrow), \subseteq \right\rangle$ y 
+			$\left\langle Int(X, Y, I), \subseteq \right\rangle = \left\langle fix(\downarrow \uparrow), \subseteq \right\rangle$ .
+			
+			Esto es, \textit{Ext(X, Y, I)} e \textit{Int(X, Y, I)} son sistemas de puntos fijos de operadores de cierre, por lo tanto, el
+			supremo y el ínfimo en \textit{Ext(X, Y, I)} e \textit{Int(X, Y, I)} obedecen a las fórmulas del teorema anterior.
+			
+			Segundo, recordar que $\left\langle \mathcal{B}(X, Y, I), \leq\right\rangle$ es isomorfo a 
+			$\left\langle Ext(X, Y, I), \subseteq\right\rangle$ y a $\left\langle Int(X, Y, I), \subseteq\right\rangle$.
+			
+			Por lo tanto, el ínfimo en $\mathcal{B}(X, Y, I)$ corresponde al ínfimo en \textit{Ext(X, Y, I)} y al supremo en 
+			\textit{Int(X, Y, I)}.
+			
+			Esto es, como $\bigwedge_{j \in J}\left\langle A_j, B_j\right\rangle$ es el ínfimo de los pares en $\mathcal{B}(X, Y, I)$: La
+			extensión de $\bigwedge_{j \in J}\left\langle A_j, B_j\right\rangle$ es el ínfimo de los $A_j$ en 
+			$\left\langle Ext(X, Y, I), \subseteq\right\rangle$ lo cual es, de acuerdo a (13), $\bigcap_{j \in J} A_j$. La intensión de 
+			$\bigwedge_{j \in J}\left\langle A_j, B_j\right\rangle$ es el supremo de los $B_j$ en 
+			$\left\langle Int(X, Y, I), \subseteq\right\rangle$ lo cual es, de acuerdo a (14), 
+			$(\bigcup_{j \in J} B_j)^{\downarrow \uparrow}$.
+			Demostramos que
+			\[
+				\bigwedge_{\substack{j \in J}}\left\langle A_j, B_j\right\rangle = 
+				\left\langle \bigcap_{\substack{j \in J}}A_j, (\bigcup_{\substack{j \in J}}B_j)^{\downarrow, \uparrow}\right\rangle.
+			\]
+			
+			Comprobando que la fórmula para $\bigvee_{j \in J} \left\langle A_j, B_j\right\rangle$ es dual.
+			
+			Considerar la parte (2) y tomar $V:= \mathcal{B}(X, Y, I)$ . Como $\mathcal{B}(X, Y, I)$ es isomorfo a $\mathcal{B}(X, Y, I)$,
+			existen mapeos 
+			\[
+				\gamma:X \rightarrow \mathcal{B}(X, Y, I) \text{ y } \mu: Y \rightarrow \mathcal{B}(X, Y, I)
+			\]
+			cumpliendo las propiedades de la parte (2). ¿Cómo funcionan los mapeos $\gamma$ y $\mu$?
+			
+			\begin{align*}
+				\gamma(x) = \left\langle \left\{x\right\}^{\uparrow \downarrow}, \left\{x\right\}^{\uparrow} \right\rangle 
+				\text{... objeto del concepto de } x \\
+				\mu(y) = \left\langle \left\{y\right\}^{\downarrow}, \left\{y\right\}^{\downarrow \uparrow} \right\rangle 
+				\text{... objeto del concepto de } y. \\
+			\end{align*}
+			
+			Entonces, (a) dice que cada $\left\langle A, B \right\rangle \in \mathcal{B}(X, Y, I)$ es un supremo de algunos objetos de los
+			conceptos (e ínfimo de algunos atributos de los conceptos). Esto es cierto ya que
+			\[
+				\left\langle A, B \right\rangle = \bigvee_{\substack{x \in A}}\left\langle \left\{x\right\}^{\uparrow \downarrow}, 
+				\left\{x\right\}^{\uparrow}\right\rangle \text{ y }
+				\left\langle A, B \right\rangle = \bigwedge_{\substack{y \in A}}\left\langle \left\{y\right\}^{\downarrow}, 
+				\left\{y\right\}^{\downarrow \uparrow}\right\rangle
+			\]
+			(b) es cierto, también: $\gamma(x) \leq \mu(y)$ sii 
+			$\left\{x\right\}^{\uparrow \downarrow} \subseteq \left\{y\right\}^{\downarrow}$
+			sii $\left\{y\right\} \subseteq \left\{x\right\}^{\uparrow \downarrow \uparrow} = \left\{x\right\}^{\uparrow}$ sii
+			$\left\langle x, y \right\rangle \in I$.
+			
+			
+			¿Qué dice el Teorema Principal? La parte (1) dice que  $\mathcal{B}(X, Y, I)$ es un retículo y describe su ínfimo y supremo. La
+			parte (2) provee  la forma de etiquetar un retículo de conceptos para que esa información no se pierda.
+			
+		\subsubsection{Etiquetado de diagramas de retículos de conceptos}
+		
+			El etiquetado tiene dos reglas:
+			
+			\begin{itemize}
+				\item[-] $\gamma(x) = \left\langle \left\{x\right\}^{\uparrow \downarrow}, \left\{x\right\}^{\uparrow}\right\rangle$ 
+					... objeto del concepto de \textit{x} - etiquetado para \textit{x},
+					
+				\item[-] atributo del concepto de \textit{y} - etiquetado para \textit{y}.
+			\end{itemize}
+			
+			¿Cómo vemos extensiones e intensiones en un diagrama de Hasse etiquetado?
+			
+			Consideremos el concepto formal $\left\langle A, B\right\rangle$ correspondiente al nodo \textit{c} de un diagrama etiquetado del
+			retículo de conceptos $\mathcal{B}(X, Y, I)$. ¿Qué es la extensión y la intensión en $\left\langle A, B \right\rangle$?
+			
+			\begin{itemize}
+				\item[-] $x \in A$ si y sólo si el nodo con la etiqueta \textit{x} se encuentra en el camino desde \textit{c} hacia abajo,
+				
+				\item[-] $y \in B$ si y sólo si el nodo con la etiqueta \textit{y} se encuentra en el camino desde \textit{c} hacia arriba.
+			\end{itemize}
+			
+			\begin{figure}[H]
+				\centering
+					\includegraphics{imagenes/figura7.png}
+				\caption{Contexto Formal}
+				\label{fig:figura7}
+			\end{figure}
+			
+			$\mathcal{B}(X, Y, I) = \left\{ \left\langle \left\{x_1\right\}, Y\right\rangle, 
+			\left\langle \left\{x_1, x_2, x_3\right\}, \left\{y_2, y_3, y_4\right\}\right\rangle,
+			\left\langle \left\{x_1, x_4\right\}, \left\{y_1\right\}\right\rangle, \left\langle X, \emptyset \right\rangle
+			\right\}$
+			
+			El diagrama correspondiente:
+					
+			\begin{figure}[H]
+				\centering
+					\includegraphics{imagenes/figura8.PNG}
+				\caption{Diagrama de etiquetado del retículo de conceptos }
+				\label{fig:figura8}
+			\end{figure}
+			
+			Sea \textit{c} el nodo del concepto $\left\langle \left\{x_2, x_3\right\}, \left\{y_2, y_3, y_4\right\}\right\rangle$. La
+			extensión de \textit{c} son los $x_i$ de los nodos  del camino desde \textit{c} hacia abajo, es decir 
+			$\left\{x_2, x_3, x_1\right\}$.
+	
+			
+			\begin{figure}[H]
+				\centering
+					\includegraphics[width=.45\textwidth]{imagenes/figura9.PNG}
+				\caption{Extensión del concepto $\left\langle \left\{x_2, x_3\right\}, \left\{y_2, y_3, y_4\right\}\right\rangle$}
+				\label{fig:figura9}
+			\end{figure}
+			
+			La intensión de \textit{c} son los $y_i$ de los nodos  del camino desde \textit{c} hacia arriba, es decir 
+			$\left\{y_2, y_3, y_4\right\}$.
+			
+			\begin{figure}[H]
+				\centering
+					\includegraphics[width=.45\textwidth]{imagenes/figura10.PNG}
+				\caption{Intensión del concepto $\left\langle \left\{x_2, x_3\right\}, \left\{y_2, y_3, y_4\right\}\right\rangle$}
+				\label{fig:figura10}
+			\end{figure}
+			
+
+		\subsection{Clarificación y reducción de conceptos formales}
+		
+			Un contexto formal puede ser redundante y es posible borrar algunos de sus objetos o atributos y obtener un contexto formal para
+			el cual el retículo de conceptos asociado es isomorfo al del contexto formal original.
+			
+			Para ello se definirán dos nociones principales: contexto formal clarificado y contexto formal reducido.\\
+			
+			\paragraph{Definición (contexto clarificado):} Un contexto formal $\left\langle X, Y, I \right\rangle$ es clarificado cuando
+			
+			\begin{align*}
+				&\left\{ x_1 \right\}^{\uparrow} = \left\{ x_2 \right\}^{\uparrow} \text{ implica } x_1 = x_2 
+				\text{ para todo } x_1, x_2 \in X; \\
+				&\left\{ y_1 \right\}^{\downarrow} = \left\{ y_2 \right\}^{\downarrow} \text{ implica } y_1 = y_2 
+				\text{ para todo } y_1, y_2 \in Y. \\
+			\end{align*}
+			
+			La clarificación consiste en la  eliminación de idénticas filas y columnas (queda sólo una de las filas/columnas idénticas).\\\\\\
+			
+			\emph{Ejemplo}:
+			
+			El contexto formal de la derecha resulta de aplicar la clarificación del contexto formal de la izquierda.
+			 			 
+			\begin{figure}[h]
+				\centering
+					\includegraphics{imagenes/figura11.png}
+				\caption{Clarificación}
+				\label{fig:figura11}
+			\end{figure}
+
+			\textbf{Teorema: }
+			
+			Si $\left\langle X_1, Y_1, I_1\right\rangle$ es un contexto clarificado resultante de $\left\langle X_2, Y_2, I_2\right\rangle$
+			por clarificación, entonces $\mathcal{B}(X_1, Y_1, I_1)$ es isomorfo a $\mathcal{B}(X_2, Y_2, I_2)$.\\
+			
+			\emph{Demostración}
+			
+			Sea  $\left\langle X_2, Y_2, I_2\right\rangle$ que contiene $x_1, x_2$ tal que 
+			$\left\{x_1\right\}^{\uparrow} = \left\{x_2\right\}^{\uparrow}$ (filas idénticas). Sea $\left\langle X_1, Y_1, I_1\right\rangle$
+			resultante de borrar $x_2$ de $\left\langle X_2, Y_2, I_2\right\rangle$ (es decir,  $X_1 = X_2 - \left\{x_2\right\}, Y_1 = Y_2$).
+			Un isomorfismo $f : \mathcal{B}(X_1, Y_1, I_1) \rightarrow \mathcal{B}(X_2, Y_2, I_2)$ es dado por
+			\[
+				f(\left\langle A_1, B_1\right\rangle) = \left\langle A_2, B_2 \right\rangle
+			\]
+			donde $B_1 = B_2$ y
+			\[
+				A_2 = \begin{cases}
+					&A_1  \text{ si } x_1 \notin A_1,\\
+					&A_1 \cup \left\{x_2\right\} \text{ si } x_1 \in A_1.
+				\end{cases}
+			\]
+			
+			Concretamente, se puede ver fácilmente que $\left\langle A_1, B_1 \right\rangle$ es un concepto formal de 
+			$\mathcal{B}(X_1, Y_1, I_1)$ si y sólo si $f(\left\langle A_1, B_1\right\rangle)$ es un concepto formal de 
+			$\mathcal{B}(X_2, Y_2, I_2)$ y que para los conceptos formales 
+			$\left\langle A_1, B_1\right\rangle, \left\langle C_1, D_1\right\rangle$ de $\mathcal{B}(X_1, Y_1, I_1)$ tenemos
+			\[
+				\left\langle A_1, B_1 \right\rangle \leq \left\langle C_1, D_1 \right\rangle \text{ sii }
+				f(\left\langle A_1, B_1 \right\rangle) \leq f(\left\langle C_1, D_1 \right\rangle).
+			\]
+			Por lo tanto, $\mathcal{B}(X_1, Y_1, I_1)$ es isomorfo a $\mathcal{B}(X_2, Y_2, I_2)$. Esto justifica el borrar una fila. Lo
+			mismo es cierto para la eliminación de una columna.
+			
+			Otra forma de simplificar el contexto formal de entrada es borrando los objetos y atributos reducibles.\\
+		
+			\textbf{Definición (objetos y atributos reducibles):}
+			
+			Para un contexto formal $\left\langle X, Y, I\right\rangle$, un atributo $y \in Y$ es reducible si y sólo si existe 
+			$Y' \subset Y$ con $y \notin Y'$ tal que
+			\[
+				\left\{ y \right\}^{\downarrow} = \bigcap_{\substack{z \in \textit{Y'}}} \left\{z\right\}^{\downarrow},
+			\]
+			es decir, la columna correspondiente a \textit{y} es la intersección de las columnas correspondientes a los elementos
+			(\textit{z}) de Y'. Un objeto $x \in X$ es reducible si y sólo si existe $X' \subset X$ con $x \notin X'$ tal que
+			\[
+				\left\{ x \right\}^{\uparrow} = \bigcap_{\substack{z \in X'}} \left\{z\right\}^{\uparrow},
+			\]
+			es decir, la fila correspondiente a \textit{x} es la intersección de filas correspondientes a los elementos (\textit{z}) de
+			\textit{X'}.\\
+			
+			\emph{Ejemplo:} Dado el contexto formal			
+			
+			\begin{figure}[H]
+				\centering
+					\includegraphics{imagenes/figura12.png}
+				\label{fig:figura12}
+			\end{figure}
+			
+			 $y_2$ es reducible ($Y' = {y_1, y_3}$).
+			 
+			\emph{Observaciones}
+			 
+			\begin{itemize}
+				\item[-] Si un elemento \textit{y} (valor real del atributo) es una combinación lineal de otros atributos, éste puede ser
+					eliminado. Cuidado, esto depende de lo que se hace con los atributos. La intersección es una combinación particular de
+					atributos.
+				
+				\item[-] La (no-)reducibilidad en $\left\langle X, Y, I\right\rangle$ está conectado con la llamada
+					$\bigwedge$-(ir-)reducibilidad y $\bigvee$-(ir)reducibilidad en $\mathcal{B}(X, Y, I)$.
+					
+				\item[-] En un retículo completo $\left\langle \bigvee, \leq\right\rangle$ es llamado $\bigwedge$-irreducible si no hay 
+					$U \subset V$ con $v \notin U$ tal que $v = \bigwedge U$ . Igualmente para $\bigvee$-irreducibilidad.
+					
+				\item[-] Por definición, \textit{y} es reducible si y sólo si hay $Y' \subset Y$ con tal que
+				
+				\begin{align}
+					\left\langle \left\{y\right\}^{\downarrow}, \left\{y\right\}^{\downarrow\uparrow}\right\rangle =
+					\bigwedge_{\substack{z \in Y'}} \left\langle \left\{z\right\}^{\downarrow},
+					 \left\{z\right\}^{\downarrow\uparrow}\right\rangle
+				\end{align}
+			\end{itemize}
+
+			Sea $\left\langle X, Y, I \right\rangle$ clarificado. Entonces en (16), para cada $z \in Y'$: $\left\{y\right\}^{\downarrow} \neq
+			\left\{z\right\}^{\downarrow}$, y por lo tanto, 
+			$\left\langle \left\{y\right\}^{\downarrow}, \left\{y\right\}^{\downarrow\uparrow} \right\rangle$. Por consiguiente, \textit{y}
+			es reducible si y sólo si $\left\langle \left\{y\right\}^{\downarrow}, \left\{y\right\}^{\downarrow\uparrow} \right\rangle$ es un
+			ínfimo de atributo de conceptos diferente de 
+			$\left\langle \left\{y\right\}^{\downarrow}, \left\{y\right\}^{\downarrow\uparrow} \right\rangle$. Ahora, como todo concepto 
+			$\left\langle A, B \right\rangle$ es un ínfimo de algún atributo de conceptos (los atributos de conceptos
+			$\bigwedge$-irreducibles), obtenemos que \textit{y} no es reducible si y sólo si 
+			$\left\langle \left\{y\right\}^{\downarrow}, \left\{y\right\}^{\downarrow\uparrow} \right\rangle$ es $\bigwedge$-irreducible en 
+			$\mathcal{B}(X, Y, I)$.
+		
+			Por lo que, si $\left\langle X, Y, I \right\rangle$ es clarificado, \textit{y} no es reducible si y sólo si 
+			$\left\langle \left\{y\right\}^{\downarrow}, \left\{y\right\}^{\downarrow\uparrow} \right\rangle$ es  $\bigwedge$-irreducible.
+			
+			Supongamos que $\left\langle X, Y, I \right\rangle$ no es clarificado debido a que 
+			$\left\{y\right\}^{\downarrow} = \left\{z\right\}^{\downarrow}$ para algún $z \neq y$. Entonces se puede ver que \textit{y} es
+			reducible por definición sólo haciendo que $Y' = \left\{z\right\}$.
+			
+			Sin embargo, puede suceder que $\left\langle \left\{y\right\}^{\downarrow}, \left\{y\right\}^{\downarrow\uparrow}\right\rangle$
+			sea $\bigwedge$-irreducible y puede suceder que \textit{y} sea $\bigwedge$-irreducible .\\
+			
+			\emph{Ejemplo:}
+			
+			En la figura \ref{} se muestran dos contextos no clarificados. En la izquierda, $y_2$ es reducible y 
+			$\left\langle \left\{y_2\right\}^{\downarrow}, \left\{y_2\right\}^{\downarrow\uparrow} \right\rangle$ $\bigwedge$-reducible. En
+			la derecha, $y_2$ es reducible pero 
+			$\left\langle \left\{y_2\right\}^{\downarrow}, \left\{y_2\right\}^{\downarrow\uparrow} \right\rangle$ $\bigwedge$-irreducible.
+			
+			
+			\begin{figure}[H]
+				\centering
+					\includegraphics[width=.85\textwidth]{imagenes/figura13.png}
+				\caption{Contextos no clarificados}
+				\label{fig:figura13}
+			\end{figure}
+			
+			Igualmente para la reducibilidad de objetos. Si $\left\langle X, Y, I \right\rangle$ es clarificado, entonces \textit{x} no es
+			reducible si y sólo si $\left\langle \left\{x\right\}^{\uparrow\downarrow}, \left\{x\right\}^{\uparrow} \right\rangle$ es
+			$\bigwedge$-irreducible en $\mathcal{B}(X, Y, I)$.
+			
+			Por lo que, es conveniente considerar la reducibilidad en los contextos clarificados, luego, la reducibilidad de objetos y
+			atributos corresponden a $\bigvee$ - y $\bigwedge$-reducibilidad de objetos y atributos de conceptos.
+
+		
+		
+		
+		
+		
+		
+		
+		
+		
 		
 \end{document}
