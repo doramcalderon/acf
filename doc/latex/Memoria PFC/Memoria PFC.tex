@@ -495,6 +495,7 @@ M\'{a}laga a \_\_\_\_ de\_\_\_\_\_\_\_\_\_\_\_\_\_\_ del 200\_
 		\end{figure}
 		
 	\subsection{Implicaciones de atributos}
+	\label{sec:ImplicacionesDeAtributos}
 	
 		Las implicaciones de atributos representan dependencias entre ellos tales como:
 		\begin{itemize}
@@ -2054,9 +2055,59 @@ M\'{a}laga a \_\_\_\_ de\_\_\_\_\_\_\_\_\_\_\_\_\_\_ del 200\_
 				\caption{Contexto formal derivado}
 				\label{fig:figura25_2}
 			\end{figure}
+			
+\section{ALGORITMOS DE CÁLCULO DE BASES}
 
-
+	\subsubsection{Lógica para implicaciones de atributos}
+	
+		El primer sistema de inferencias sólido y completo para el tratamiento de implicaciones de atributos fue el formado por los
+		Axiomas de Armstrong descritas en el apartado \ref{sec:ImplicacionesDeAtributos}.
 		
+		La Lógica de Simplificación (Simplification Logic, $SL_{FD}$) ha demostrado ser un sistema de axiomas alternativo al de
+		Armstrong.  $SL_{FD}$ es una ejecutable y útil herramienta para manipular implicaciones guiada por la idea de la
+		simplificación de conjuntos de implicaciones mediante una eficiente eliminación de atributos redundantes.
+	
+		\definition\textbf{ (Simplification Axiom System):}
+		
+		\textbf{$SL_{FD}$} considera la reflexividad como axioma y las siguientes reglas de inferencia llamada fragmentación,
+		composición y simplificación respectivamente.
+		
+		\begin{itemize}
+			\item[]\label{Ref} \texttt{[Ref]} $\overline{A \rightarrow A}$
+			
+			\item[]\label{Frag} \texttt{[Frag]} $\frac{A \rightarrow BC}{A \rightarrow B}$
+			
+			\item[]\label{Comp} \texttt{[Comp]} $\frac{A \rightarrow B, C \rightarrow D}{AC \rightarrow BD}$
+			
+			\item[]\label{Simp} \texttt{[Simp]} $\frac{A \rightarrow B, C \rightarrow D}{C - B \rightarrow D - B}, (A \subseteq C)$
+					y $A \cap B \neq \emptyset$
+		\end{itemize}
+		
+		Uno de los problemas más importantes relacionados con las implicaciones es el cálculo del cierre de un conjunto de
+		atributos. Esto es, dado un conjunto de implicaciones $\Sigma$, válido en un contexto formal, y un subconjunto de atributos 
+		$A \in 2^M$, el problema es el cálculo del mayor conjunto $A^+ \in 2^M$ tal que esté contenido en el contexto formal. 
+		
+		Según el siguiente teorema, las reglas de inferencia de $SL_{FD}$  pueden ser consideradas reglas de equivalencia y son
+		suficientes para calcular todas las derivaciones.
+		
+		\begin{theorem}
+			$SL_{FD}$ contiene las siguientes equivalencias:
+			
+			\begin{enumerate}
+				\item Equivalencia de Fragmentación \texttt{[Frag]}:
+						$\left\{A \rightarrow B \right\} \equiv \left\{A \rightarrow B - A \right\}$
+				\item Equivalencia de Composición \texttt{[CoEq]}:
+						$\left\{A \rightarrow B, A \rightarrow C \right\} \equiv \left\{A \rightarrow BC\right\}$
+						
+				\item Equivalencia de Simplificación \texttt{[SiEq]}: Si  $A \cap B = \emptyset$ y $A \subseteq C$ entonces
+						$\left\{A \rightarrow B, C \rightarrow D \right\} \equiv 
+						 \left\{ A \rightarrow B, C - B \rightarrow D - B \right\}$
+			\end{enumerate}
+		\end{theorem}	
+		
+		La lectura de izquierda a derecha de estas reglas proporciona la esencia de $SL_{FD}$. En esta dirección, estas
+		equivalencias eliminan información redundante: atributos redundantes (\texttt{[FrEq], [SiEq]}) o implicaciones redundantes
+		(\texttt{[CoEq]}).
 		
 		
 		

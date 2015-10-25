@@ -4,7 +4,7 @@ Version=2
 
 [SessionInfo]
 ActiveTab=0
-FrameCount=2
+FrameCount=1
 ActiveFrame=0
 
 [Frame0]
@@ -28,40 +28,11 @@ cyCur=414
 cyMin=10
 
 [Frame0_Col0]
-cxCur=1043
+cxCur=973
 cxMin=10
 
 [Frame0_View0,0]
-Cursor.row=0
-Cursor.column=0
-TopSubLine=1341
-
-[Frame1]
-Columns=1
-Rows=1
-Flags=0
-ShowCmd=1
-MinPos.x=-1
-MinPos.y=-1
-MaxPos.x=-8
-MaxPos.y=-28
-NormalPos.left=46
-NormalPos.top=46
-NormalPos.right=1004
-NormalPos.bottom=283
-Class=CLatexEdit
-Document=..\..\Memoria_writer2tex.tex
-
-[Frame1_Row0]
-cyCur=180
-cyMin=10
-
-[Frame1_Col0]
-cxCur=921
-cxMin=10
-
-[Frame1_View0,0]
-Cursor.row=0
-Cursor.column=0
-TopSubLine=1806
+Cursor.row=2111
+Cursor.column=2
+TopSubLine=2364
 
