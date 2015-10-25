@@ -1522,12 +1522,100 @@ M\'{a}laga a \_\_\_\_ de\_\_\_\_\_\_\_\_\_\_\_\_\_\_ del 200\_
 				B_1 &= B_2 \cup \left\{y \in Y_1 - Y_2 | \left\{y\right\}^{\downarrow\uparrow} \cap Y_2 \subseteq B_2 \right\},
 			\end{align}
 			
+			\emph{Ejemplo}
 			
+			 A la izquierda un contexto formal clarificado $\left\langle X_1, Y_1, I_1\right\rangle$, a la derecha un contexto reducido
+			 $\left\langle X_2, Y_2, I_2\right\rangle$ (ver el ejemplo anterior).
 			
+			\begin{figure}[H]
+				\centering
+					\includegraphics[width=1\textwidth]{imagenes/figura18.png}
+				\caption{Contextos de entrada}
+				\label{fig:figura18}
+			\end{figure}
 			
+			Vamos a determinar $\mathcal{B}(X_1, Y_1, I_1)$ primero calculando $\mathcal{B}(X_2, Y_2, I_2)$ y luego usando el método descrito
+			anteriormente para obtener conceptos $\mathcal{B}(X_1, Y_1, I_1)$ de los correspondientes conceptos de 
+			$\mathcal{B}(X_2, Y_2, I_2)$.
 			
+			$\mathcal{B}(X_2, Y_2, I_2)$ está formado por:
+			\[
+				\left\langle \emptyset, Y_2\right\rangle, \left\langle \left\{x_2\right\}, \left\{y_1\right\}\right\rangle,
+				\left\langle \left\{x_3\right\}, \left\{y_3, y_4\right\}\right\rangle, 
+				\left\langle \left\{x_3, x_5\right\}, \left\{y_3\right\}\right\rangle, \left\langle X_2, \emptyset \right\rangle
+			\].
+
+			Necesitamos recorrer todos los $\left\langle A_2, B_2\right\rangle \in \mathcal{B}(X_2, Y_2, I_2)$ y determinar el
+			correspondiente $\left\langle A_1, B_1\right\rangle \in \mathcal{B}(X_1, Y_1, I_1)$ usando (17) y (18). Nótese: 
+			$X_1 - X_2 = \left\{ x_1, x_4 \right\}, Y_1 - Y_2 = \left\{y_2\right\}$.
 			
+			\begin{enumerate}
+				\item para $\left\langle A_2, B_2\right\rangle = \left\langle \emptyset, Y_2\right\rangle$ tenemos
+				
+							$\left\{x_1\right\}^{\uparrow\downarrow} \cap X_2 = \left\{x_1\right\} \cap X_2 = \emptyset \subseteq A_2,$
+							
+							$\left\{x_4\right\}^{\uparrow\downarrow} \cap X_2 = X_1 \cap X_2 = X_2 \nsubseteq A_2,$
+							
+							de ahí que $A_1 = A_2 \cup \left\{x_1\right\} = \left\{x_1\right\}$, y
+							
+							$\left\{y_2\right\}^{\downarrow\uparrow} \cap Y_2 = \left\{y_2\right\} cap Y_2 = \emptyset \subseteq B_2$,
+							
+							por lo que $B_1 = B_2 \cup \left\{y_2\right\} = Y_1$. Por eso, 
+							$\left\langle A_1, B_1\right\rangle = \left\langle \left\{x_1\right\}, Y_1 \right\rangle$ .
+							
+				\item para $\left\langle A_2, B_2\right\rangle = \left\langle \left\{x_2\right\}, \left\{y_1\right\}\right\rangle$ tenemos
+				
+					  $\left\{x_1\right\}^{\uparrow\downarrow} \cap X_2 = \emptyset \subseteq A_2, \left\{x_4\right\}^{\uparrow\downarrow}
+					  \cap X_2 \nsubseteq A_2$,
+					   
+					   de ahí que $A_1 = A_2 \cup \left\{x_1\right\} = \left\{x_1, x_2\right\}$, y
+					   
+					   $\left\{y_2\right\}^{\downarrow\uparrow} \cap Y_2 = \left\{y_2\right\} \cap Y_2 = \emptyset \subseteq B_2$,
+					   
+					   por lo que $B_1 = B_2 \cup \left\{y_2\right\} = \left\{y_1, y_2\right\}$. Por eso, 
+					   $\left\langle A_1, B_1\right\rangle = \left\langle \left\{x_1, x_2\right\}, \left\{y_1, y_2\right\}\right\rangle$.
+					   
+				\item para $\left\langle A_2, B_2\right\rangle = \left\langle \left\{x_3\right\}, \left\{y_3, y_4\right\}\right\rangle$
+					  tenemos
+					  
+					  $\left\{x_1\right\}^{\uparrow\downarrow} \cap X_2 = \emptyset \subseteq A_2, 
+					   \left\{x_4\right\}^{\uparrow\downarrow} \cap X_2 = X_2 \nsubseteq A_2$,
+					   
+					   de ahí que $A_1 = A_2 \cup \left\{x_1\right\} = \left\{x_1, x_3\right\}$ y
+					   
+					   $\left\{y_2\right\}^{\downarrow\uparrow} \cap Y_2 = \left\{y_2\right\} \cap Y_2 = \emptyset \subseteq B_2$,
+					   
+					   por lo que $B_1 = B_2 \cup \left\{y_2\right\} = \left\{y_2, y_3, y_4\right\}$. Por eso,					   
+					   $\left\langle A_1, B_1\right\rangle = \left\langle \left\{x_1, X_3\right\}, \left\{y_2, y_3, y_4\right\}\right\rangle$.
+							
+				\item para $\left\langle A_2, B_2\right\rangle = \left\langle \left\{x_3, x_5\right\}, \left\{y_3\right\}\right\rangle$
+				      tenemos
+				      
+				      $\left\{x_1\right\}^{\uparrow\downarrow} \cap X_2 = \emptyset \subseteq A_2, 
+				       \left\{x_4\right\}^{\uparrow\downarrow} \cap X_2 = X_2 \nsubseteq A_2$,
+				       
+				       de ahí que $A_1 = A_2 \cup \left\{x_1\right\} = \left\{x_1, x_3, x_5\right\}$ y
+				       
+				       $\left\{y_2\right\}^{\downarrow\uparrow} \cap Y_2 = \left\{y_2\right\} \cap Y_2 = \emptyset \subseteq B_2$,
+				       
+				       por lo que $B_1 = B_2 \cup \left\{y_2\right\} = \left\{y_2, y_3\right\}$. Por eso, 
+				       $\left\langle A_1, B_1\right\rangle = \left\langle \left\{x_1, x_3, x_5\right\}, \left\{y_2, y_3\right\}\right\rangle$.
+				       
+				 \item para $\left\langle A_2, B_2\right\rangle = \left\langle X_2, \emptyset\right\rangle$ tenemos
+				 
+				 		$\left\{x_1\right\}^{\uparrow\downarrow} \cap X_2 = \emptyset \subseteq A_2,
+				 		 \left\{x_4\right\}^{\uparrow\downarrow} \cap X_2 = X_2 \subseteq A_2$,
+				 		 
+				 		de ahí que $A_1 = A_2 \cup \left\{x_1, x_4\right\} = X_1$, y
+				 		
+				 		$\left\{y_2\right\}^{\downarrow\uparrow} \cap Y_2 = \left\{y_2\right\} \cap Y_2 = \emptyset \subseteq B_2$,
+				 		
+				 		por lo que $B_1 = B_2 \cup \left\{y_2\right\} = \left\{y_2\right\}$. Por eso, 
+				 		$\left\langle A_1, B_1\right\rangle = \left\langle X_1, \left\{y_2\right\}\right\rangle$.
+						
+			\end{enumerate}
 			
+	\subsection{Algoritmos para el cálculo de retículos de conceptos}
 			
 			
 			
