@@ -33,6 +33,8 @@
 \newtheorem{theorem}{Teorema}
 \newcommand{\definition}{\textbf{Definición}}
 \newcommand{\bmathcal}{\mathcal{B}}
+\newcommand{\dmathcal}{\mathcal{D}}
+\newcommand{\vmathcal}{\mathcal{V}}
 
 \begin{document}
 \textbf{{\large UNIVERSIDAD DE MÁLAGA}}
@@ -1851,5 +1853,221 @@ M\'{a}laga a \_\_\_\_ de\_\_\_\_\_\_\_\_\_\_\_\_\_\_ del 200\_
 			para extensiones del algoritmo Next-Closure).
 			
 	\subsection{Contextos multivalores y escalamiento conceptual}
+	
+		Un contexto $\left\langle X, Y, I \right\rangle$ es multivalor, cuando los elementos de \textit{I} pueden tener más de dos valores.
+		Por ejemplo:
+		
+		\begin{figure}[H]
+			\centering
+				\includegraphics[width=.65\textwidth]{imagenes/figura20.png}
+			\caption{Contexto multivalor}
+			\label{fig:figura20}
+		\end{figure}
+
+		Formalmente, un contexto multivalor es una tupla $\dmathcal = \left\langle X, Y, W, I\right\rangle$ donde \textit{X} es un conjunto
+		finito no vacío de objetos, \textit{Y} es un conjunto finito de atributos, \textit{W} es un conjunto de valores e \textsl{I} es una
+		relación ternaria entre \textit{X,Y} y \textit{W}  que se define como:
+		\[
+			I \subseteq X \times Y \times W : \left\langle x, y, w\right\rangle \in I, \left\langle x, y, v\right\rangle \in I \Rightarrow 
+			w = v
+		\]
+		
+		\begin{itemize}
+			\item[-] Un contexto multivalor puede representarse como una tabla cuyas filas son $x \in X$, columnas $y \in Y$ y la
+					 intersección de la fila \textit{x} y la columna \textit{y} contiene valores tomados de 
+					 $\left\langle x, y, w\right\rangle \in I$. Si no existe la relación $\left\langle x, y, w\right\rangle \in I$, la
+					 intersección de la fila \textit{x} con la columna \textit{y} contendrá un espacio en blanco.
+					 
+			\item[-] Se puede ver que $y \in Y$ puede considerarse una función parcial de \textit{X} a \textit{W}. Por lo tanto, escribimos
+					 $y(x) = w$ en lugar de $\left\langle x, y, w\right\rangle \in I$.
+		\end{itemize}
+		
+		Al conjunto $dom(y) = \left\{x \in X : \left\langle x, y, w\right\rangle \in I \right\}$ para algún $w \in W$ se le llama dominio de
+		\textit{y}. El atributo es llamado completo si $dom(y) = X$, es decir, si la tabla contiene algún valor en todas las filas de la
+		columna correspondiente a \textit{y}. Un contexto multivalor es llamado \textit{completo} si cada uno de sus atributos es
+		\textit{completo}.
+		
+		\begin{itemize}
+			\item[-] Desde el punto de vista de la teoría de bases de datos relacionales, un contexto multivalor completo es básicamente una
+					 relación en el esquema relacional \textit{Y}.  Concretamente, para cada $y \in Y$ puede considerarse un atributo en el
+					 sentido de las bases de datos relacionales y afirmar que
+					 \[
+					 	D_y = \left\{w: \left\langle x, y, w\right\rangle \in I \text{ para algún } x \in X \right\} 
+					 \],
+					 $D_y$ es el dominio de \textit{y}.
+		\end{itemize}
+		
+		\emph{Ejemplo:} Consideremos el contexto multivalor  representado en la siguiente figura:
+			
+		\begin{figure}[H]
+			\centering
+				\includegraphics[width=.65\textwidth]{imagenes/figura20.png}
+			\caption{Contexto multivalor}
+		\end{figure}
+		
+		donde:
+		
+		\begin{itemize}
+			\item[-] X = \{Alice, Boris, ..., George\}
+			\item[-] Y = \{age, education, symptom\}
+			\item[-] W = \{0, 1, ..., 150, BS, MS, PhD, 0, 1\}
+			\item[-] $\left\langle Alice, age, 23\right\rangle \in I, \left\langle Alice, education, BS\right\rangle \in I, ..., 
+					\left\langle George, symptom, 0 \right\rangle \in I$
+		\end{itemize}
+		
+		Con lo que tenemos que, $age(Alice) = 23, education(Alice) = BS, symptom(George) = 0$.
+		
+		\subsubsection{Escalamiento conceptual}
+		
+			Para poder usar FCA como entrada contextos multivalor éstos deben ser procesados para convertirlos en contextos formales con
+			valores simples. A este proceso de le llama \textit{escalamiento conceptual}.
+			
+			Para ello, para cada atributo $y \in Y$ debe definirse una escala de sus valores.
+			
+			Si $\left\langle X, Y, W, I \right\rangle$ es un contexto multivalor, una escala para un atributo $y \in Y$ es un contexto formal
+			$S_y = \left\langle X_y, Y_y, I_y\right\rangle$ tal que $D_y \subseteq X_y$. Los objetos $w \in X_y$ son llamados valores de
+			escala, los atributos de $Y_y$ son llamados atributos de escala.
+			\newline
+			
+			\textbf{Ejemplo:}
+			
+			\begin{figure}[H]
+				\centering
+					\includegraphics[width=.65\textwidth]{imagenes/figura21.png}
+				\caption{Escala para el atributo \textit{education}}
+				\label{fig:figura21}
+			\end{figure}
+
+			La tabla de la figura es una escala para el atributo \textit{y = education}.  Aquí 
+			$S_y = \left\langle X_y, Y_y, I_y\right\rangle, X_y = \left\{BS, MS, PhD \right\}, 
+			 Y_y = \left\{e_{BS}, e_{MS}, e_{PhD}\right\}$, $I_y$ son los valores de la tabla.
+			 \newline
+			 
+			\textbf{Ejemplo:}
+			
+			\begin{figure}[H]
+				\centering
+					\includegraphics[width=1.00\textwidth]{imagenes/figura22.png}
+				\caption{Escala para el atributo \textit{age}}
+				\label{fig:figura22}
+			\end{figure}
+			
+			La figura \ref{fig:figura22} es una escala para el atributo \textit{age} (la tabla de la derecha es una versión abreviada de la
+			de la izquierda). Aquí, $S_y = \left\langle X_y, Y_y, I_y\right\rangle, X_y = \left\{0, ..., 150\right\}, 
+			Y_y = \left\{a_y, a_m, a_0\right\}, I_y$ son los valores de la tabla.
+			\newline
+			
+			\emph{Ejemplo:} Una escala diferente para el atributo \textit{age} es:
+			
+			\begin{figure}[H]
+				\centering
+					\includegraphics[width=0.75\textwidth]{imagenes/figura23.png}
+				\caption{Escala para el atributo \textit{age}}
+				\label{fig:figura23}
+			\end{figure}
+
+			$a_{vy}$ ... muy joven, $a_y$ . . . joven, $a_m$ . . . mediana edad, $a_o$ . . . mayor, $a_vo$ . . . muy mayor.
+			
+			La elección la hace el usuario y depende del nivel de precisión deseado.
+			
+			Los dos tipos de  escalas más importantes son:
+			
+			\begin{description}
+				\item[- Escalamiento nominal: ] Los valores del atributo \textit{y} no se ordenan de forma natural o no se desea tener ese
+					 orden en cuenta, es decir, \textit{y} es una variable nominal.
+					 
+				\item[- Escalamiento ordinal: ] Los valores del atributo \textit{y} se ordenan de forma natural, es decir, \textit{y} es una
+					 variable ordinal.
+			\end{description}
+			
+			\emph{Ejemplo}
+			
+			\begin{figure}[H]
+				\centering
+					\includegraphics[width=1.00\textwidth]{imagenes/figura24.png}
+				\caption{Izquierda: escala nominal. Derecha: escala ordinal.}
+				\label{fig:figura24}
+			\end{figure}
+	
+			En la figura \ref{fig:figura24}, a la izquierda se muestra una escala nominal para el atributo\textit{ y = education}. A la
+			derecha se muestra una escala ordinal para el atributo \textit{y=education} con \textit{BS < MS < PhD}.
+			
+			El escalamiento conceptual define el significado de una escala de atributos de $Y_y$. 
+			
+ 			Aplicando dicho proceso al ejemplo de la figura \ref{fig:figura20}, la tabla se podría transformar en:
+ 			
+			\begin{figure}[H]
+				\centering
+					\includegraphics[width=.75\textwidth]{imagenes/figura25.png}
+				\caption{Contexto con escalamiento conceptual aplicado: contexto derivado}
+				\label{fig:figura25}
+			\end{figure}
+	
+			Si nos fijamos en la figura anterior:
+			
+			\begin{itemize}
+				\item[-] Han sido insertados nuevos atributos: $a_y$ ... young, $a_m$ ... middle-aged, $a_0$ ... old, $e_BS$ ... licenciado
+						en Ciencias, $e_MS$ ... tiene máster en Ciencias, $e_PhD$ ... Doctor en Filosofía.
+						
+				\item Después del escalamiento, la información puede ser procesada mediante FCA.
+			\end{itemize}
+			
+			El contexto formal derivado es obtenido a partir del contexto multivalor de partida y las escalas de cada uno de sus atributos. A
+			este proceso se le llama \textit{escalamiento simple}.
+			
+			Asumamos que $Y_{y_1} \cap {Y_{y_2}} = \emptyset$ para $y_1, y_2 \in Y$. Entonces, para un contexto multivalor 
+			$\dmathcal = \left\langle X, Y, W, I \right\rangle$, escalas $S_y (y \in Y)$,  el contexto formal derivado es 
+			$\left\langle X, Z, J \right\rangle$ donde:
+			
+			\begin{itemize}
+				\item[-] $Z = U_{y \in Y} Y{y \in Y}$,
+				
+				\item[-] $\left\langle x, z\right\rangle \in J$ sii $y(x) = w \land \left\langle w, z\right\rangle \in I_y$
+			\end{itemize}
+			
+			$\left\langle X, Y, W, I\right\rangle \rightarrow \left\langle X, Z, J \right\rangle$ significa que:
+			
+			\begin{itemize}
+				\item[-] los objetos del contexto derivado son los mismos que los del contexto multivalor original.
+				
+				\item[-] cada columna que representa un atributo \textit{y} es reemplazada por columnas que representan a escala de atributos
+						 $z \in Y_y$.
+						 
+				\item[-] El valor $y(x)$ es reemplazado por la fila del contexto de escala $S_y$.
+			\end{itemize}
+						
+			\emph{Ejemplo}: En la siguiente figura, se muestra el contexto formal y las escalas nominales para los atributos \textit{age} y
+			\textit{education}.
+			
+			\begin{figure}[H]
+				\centering
+					\includegraphics[width=1.00\textwidth]{imagenes/figura26.png}
+				\caption{Contexto formal y escalas nominales para \textit{age} y \textit{education}}
+				\label{fig:figura26}
+			\end{figure}
+
+			El contexto formal derivado es:
+			
+			\begin{figure}[H]
+				\centering
+					\includegraphics[width=.75\textwidth]{imagenes/figura25.png}
+				\caption{Contexto formal derivado}
+				\label{fig:figura25_2}
+			\end{figure}
+
+
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
 		
 \end{document}
