@@ -24,7 +24,7 @@ Class=CLatexEdit
 Document=Memoria PFC.tex
 
 [Frame0_Row0]
-cyCur=414
+cyCur=379
 cyMin=10
 
 [Frame0_Col0]
@@ -32,7 +32,7 @@ cxCur=973
 cxMin=10
 
 [Frame0_View0,0]
-Cursor.row=2111
-Cursor.column=2
-TopSubLine=2364
+Cursor.row=2382
+Cursor.column=41
+TopSubLine=2676
 

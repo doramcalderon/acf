@@ -2189,92 +2189,386 @@ M\'{a}laga a \_\_\_\_ de\_\_\_\_\_\_\_\_\_\_\_\_\_\_ del 200\_
 			Estos atributos superfluos pueden ser eliminados con seguridad de la parte derecha evitando así, aplicaciones de reglas
 			adicionales en el futuro.\newline
 			
-			\textbf{Ejemplo}
+		%	\textbf{Ejemplo}
+%			
+%			Sea $K_0$ el contexto formal representado en la siguiente tabla:
+%			
+%			\begin{figure}[H]
+%				\centering
+%					\includegraphics[width=1.00\textwidth]{imagenes/figura27.png}
+%				\caption{Pertenencia a los países en grupos supranacionales}
+%				\label{fig:figura27}
+%			\end{figure}
+%			
+%			La base asociada a $K_0$ es la siguiente:
+%			
+%			\begin{align*}
+%				\Sigma = \text{\{}&OPEC \rightarrow Gr77 \medspace NA\\
+%						 &MASC \rightarrow Gr77\\
+%						 &NA \rightarrow Gr77\\
+%						 &Gr77 \medspace NA \medspace MASC \medspace OPEC \rightarrow LLDC \medspace ACP\\
+%						 &Gr77 \medspace NA \medspace LLDC \medspace OPEC \rightarrow MASC \medspace ACP\text{\}}
+%			\end{align*}
+			%
+%			El primer paso construye el siguiente IS directo con 31 implicaciones:
+%			
+%			\begin{align*}
+%				\Sigma_{d} = \text{\{}&NA \rightarrow Gr77\\
+%									  &OPEC \medspace Gr77 \medspace NA \medspace LLDC \rightarrow MASC \medspace ACP\\
+%									  &MASC \rightarrow Gr77\\
+%									  &OPEC \medspace Gr77 \medspace NA \medspace MASC \rightarrow LLDC \medspace ACP\\
+%									  &OPEC \rightarrow Gr77 \medspace NA\\
+%									  &OPEC \medspace NA \medspace LLDC \rightarrow MASC \medspace ACP\\
+%									  &OPEC \rightarrow Gr77\\
+%									  &OPEC \medspace NA \medspace MASC \rightarrow LLDC \medspace ACP\\
+%									  &OPEC \medspace MASC \rightarrow LLDC \medspace ACP\\
+%									  &OPEC \medspace Gr77 \medspace NA \medspace LLDC \rightarrow Gr77\\
+%									  &OPEC \medspace MASC \rightarrow Gr77\\
+%									  &OPEC \medspace Gr77 \medspace NA \medspace MASC \rightarrow MASC \medspace ACP\\
+%									  &OPEC \medspace LLDC \rightarrow MASC \medspace ACP\\
+%									  &OPEC \medspace NA \medspace MASC \medspace LLDC \rightarrow MASC \medspace ACP\\
+%									  &OPEC \medspace NA \medspace LLDC \rightarrow Gr77\\
+%									  &OPEC \medspace NA \medspace LLDC \rightarrow LLDC \medspace ACP\\
+%									  &OPEC \medspace MASC \medspace LLDC \rightarrow LLDC \medspace ACP\\
+%									  &OPEC \medspace NA \medspace MASC \medspace LLDC \rightarrow Gr77\\
+%									  &OPEC \medspace NA \medspace MASC \rightarrow Gr77\\
+%									  &OPEC \medspace Gr77 \medspace NA \medspace MASC \rightarrow Gr77\\
+%									  &OPEC \medspace LLDC \rightarrow Gr77\\
+%									  &OPEC \medspace Gr77 \medspace NA \medspace MASC \medspace LLDC \rightarrow LLDC \medspace
+%									   ACP\\
+%									  &OPEC \medspace MASC \medspace LLDC \rightarrow MASC \medspace ACP\\
+%									  &OPEC \medspace Gr77 \medspace NA \medspace MASC \medspace LLDC \rightarrow MASC \medspace
+%									   ACP\\
+%									  &OPEC \medspace MASC \rightarrow MASC \medspace ACP\\
+%									  &OPEC \medspace NA \medspace MASC \medspace LLDC \rightarrow LLDC \medspace ACP\\
+%									  &OPEC \medspace MASC \medspace LLDC \rightarrow Gr77\\
+%									  &OPEC \medspace Gr77 \medspace NA \medspace LLDC \rightarrow LLDC \medspace ACP\\
+%									  &OPEC \medspace LLDC \rightarrow LLDC \medspace ACP\\
+%									  &OPEC \medspace Gr77 \medspace NA \medspace MASC \medspace LLDC \rightarrow LLDC \medspace
+%									   ACP\\
+%									  &OPEC \medspace NA \medspace MASC \rightarrow MASC \medspace ACP\text{\}}
+%			\end{align*}
+%			
+%			Después de esto, el segundo paso devuelve la base directa y óptima con 5 implicaciones:
+
+			%
+%			\begin{align*}
+%				\Sigma = \text{\{} &OPEC \rightarrow NA \medspace Gr77\\
+%									   &NA \rightarrow Gr77\\
+%									   &MASC \rightarrow Gr77\\
+%									   &LLDC \medspace OPEC \rightarrow MASC \medspace ACP\\
+%									   &MASC \medspace OPEC \rightarrow ACP \medspace LLDC\text{\}}
+%			\end{align*}
+%			
 			
-			Sea $K_0$ el contexto formal representado en la siguiente tabla:
+			El objetivo es diseñar un nuevo método que aplique el paradigma de \textit{reducción} con el fin de conseguir un método
+			que trabaje con IS (no necesariamente unitarios) los cuales, además, reduzcan el acoplamiento extra de implicaciones.
+			Con este fin, este algoritmo propone trabajar con implicaciones reducidas, las cuales no tienen atributos redundantes
+			en su parte derecha.
+			
+			El algoritmo tiene 4 fases principales y cada una de ellas consiste en la transformación de un IS en uno equivalente
+			que cumpla alguna propiedad adicional.
+			
 			
 			\begin{figure}[H]
 				\centering
-					\includegraphics[width=1.00\textwidth]{imagenes/figura27.png}
-				\caption{Pertenencia a los países en grupos supranacionales}
-				\label{fig:figura27}
+					\includegraphics[width=.65\textwidth]{imagenes/figura28.png}
+				\label{fig:figura28}
 			\end{figure}
 			
-			La base asociada a $K_0$ es la siguiente:
+			\definition \textbf{(IS Reducido)}
 			
-			\begin{align*}
-				\Sigma = \text{\{}&OPEC \rightarrow Gr77 \medspace NA\\
-						 &MASC \rightarrow Gr77\\
-						 &NA \rightarrow Gr77\\
-						 &Gr77 \medspace NA \medspace MASC \medspace OPEC \rightarrow LLDC \medspace ACP\\
-						 &Gr77 \medspace NA \medspace LLDC \medspace OPEC \rightarrow MASC \medspace ACP\text{\}}
-			\end{align*}
+			Un IS $\Sigma$ es reducido sii no tiene ninguna implicación trivial y para todo $A \rightarrow B \in \Sigma$ tenemos que
+			$A \cap B = \emptyset$.
 			
-			El primer paso construye el siguiente IS directo con 31 implicaciones:
+			La primera fase del algoritmo, transforma un IS arbitrario en otro equivalente y reducido, aplicando sólo
+			\texttt{[FrEq]}. La siguiente definición introduce el objetivo de la segunda fase (líneas 6- 17).
+			\newline
 			
-			\begin{align*}
-				\Sigma_{d} = \text{\{}&NA \rightarrow Gr77\\
-									  &OPEC \medspace Gr77 \medspace NA \medspace LLDC \rightarrow MASC \medspace ACP\\
-									  &MASC \rightarrow Gr77\\
-									  &OPEC \medspace Gr77 \medspace NA \medspace MASC \rightarrow LLDC \medspace ACP\\
-									  &OPEC \rightarrow Gr77 \medspace NA\\
-									  &OPEC \medspace NA \medspace LLDC \rightarrow MASC \medspace ACP\\
-									  &OPEC \rightarrow Gr77\\
-									  &OPEC \medspace NA \medspace MASC \rightarrow LLDC \medspace ACP\\
-									  &OPEC \medspace MASC \rightarrow LLDC \medspace ACP\\
-									  &OPEC \medspace Gr77 \medspace NA \medspace LLDC \rightarrow Gr77\\
-									  &OPEC \medspace MASC \rightarrow Gr77\\
-									  &OPEC \medspace Gr77 \medspace NA \medspace MASC \rightarrow MASC \medspace ACP\\
-									  &OPEC \medspace LLDC \rightarrow MASC \medspace ACP\\
-									  &OPEC \medspace NA \medspace MASC \medspace LLDC \rightarrow MASC \medspace ACP\\
-									  &OPEC \medspace NA \medspace LLDC \rightarrow Gr77\\
-									  &OPEC \medspace NA \medspace LLDC \rightarrow LLDC \medspace ACP\\
-									  &OPEC \medspace MASC \medspace LLDC \rightarrow LLDC \medspace ACP\\
-									  &OPEC \medspace NA \medspace MASC \medspace LLDC \rightarrow Gr77\\
-									  &OPEC \medspace NA \medspace MASC \rightarrow Gr77\\
-									  &OPEC \medspace Gr77 \medspace NA \medspace MASC \rightarrow Gr77\\
-									  &OPEC \medspace LLDC \rightarrow Gr77\\
-									  &OPEC \medspace Gr77 \medspace NA \medspace MASC \medspace LLDC \rightarrow LLDC \medspace
-									   ACP\\
-									  &OPEC \medspace MASC \medspace LLDC \rightarrow MASC \medspace ACP\\
-									  &OPEC \medspace Gr77 \medspace NA \medspace MASC \medspace LLDC \rightarrow MASC \medspace
-									   ACP\\
-									  &OPEC \medspace MASC \rightarrow MASC \medspace ACP\\
-									  &OPEC \medspace NA \medspace MASC \medspace LLDC \rightarrow LLDC \medspace ACP\\
-									  &OPEC \medspace MASC \medspace LLDC \rightarrow Gr77\\
-									  &OPEC \medspace Gr77 \medspace NA \medspace LLDC \rightarrow LLDC \medspace ACP\\
-									  &OPEC \medspace LLDC \rightarrow LLDC \medspace ACP\\
-									  &OPEC \medspace Gr77 \medspace NA \medspace MASC \medspace LLDC \rightarrow LLDC \medspace
-									   ACP\\
-									  &OPEC \medspace NA \medspace MASC \rightarrow MASC \medspace ACP\text{\}}
-			\end{align*}
+			\definition \textbf{(IS Simplificado)} Un IS $\Sigma_r$ es simplificado si cumple las siguientes condiciones: para todo
+			$A, B, C, D \subseteq M$,	
+						
+			\begin{enumerate}
+				\item $A \rightarrow B, A \rightarrow C \in \Sigma$ implica $B = C$.
+				\item $A \rightarrow B, C \rightarrow D \in \Sigma$ y $A \nsubseteq C$ immplica $C \cap B = \emptyset = D \cap B$
+			\end{enumerate}
 			
-			Después de esto, el segundo paso devuelve la base directa y óptima con 5 implicaciones:
+			El  teorema 19 provee tres equivalencias las cuales permite borrar información redundante cuando se lee de izquierda a
+			derecha. El sistema implicacional simplificado es obtenido aplicando dichas equivalencias. Más específicamente,
+			cualquier IS puede ser transformado en uno equivalente simplificado aplicando sistemáticamente las equivalencias de
+			simplificación y composición basadas en $SL_FD$ (\texttt{[SiEq]} + \texttt{[CoEq]}). Si la aplicación de
+			\texttt{[SiEq]} devuelve una implicación $A \rightarrow \emptyset$, ésta es eliminada de la salida. Nótese que el punto
+			fijo referenciado en la segunda fase del algoritmo es alcanzado porque el IS es finito y en cada iteración al menos un
+			atributo es eliminado; además, como en este algoritmo la transformación es aplicada a un IS reducido, siempre produce
+			un IS simplificado y reducido.
 			
-			\begin{align*}
-				\Sigma = \text{\{} &OPEC \rightarrow NA \medspace Gr77\\
-									   &NA \rightarrow Gr77\\
-									   &MASC \rightarrow Gr77\\
-									   &LLDC \medspace OPEC \rightarrow MASC \medspace ACP\\
-									   &MASC \medspace OPEC \rightarrow ACP \medspace LLDC\text{\}}
-			\end{align*}
+			\begin{theorem}
+				Sea $\Sigma_{sr}$ el IS obtenido mediante la aplicación de las líneas 6 a 16 del Algoritmo DirectOptimalBasis en un
+				IS reducido $\Sigma_r$. Entonces $\Sigma_r$ es un IS reducido simplificado equivalente a $\Sigma_r$
+			\end{theorem}
 			
+			\emph{Demostración}
+			
+			El bucle de las lineas 8-17 siempre termina porque el tamaño de $\Sigma_r$ es finito y, en cada paso, el tamaño
+			se reduce. El teorema 19 asegura que $\Sigma_{sr} \equiv \Sigma_r$. Además, $\Sigma_{sr}$ es simplificado porque es un
+			punto fijo para el bucle. Finalmente, $\Sigma_{sr}$ es reducido porque esas reglas de equivalencia mantienen esta
+			característica.
+			\newline
+			
+			En la tercera fase del algoritmo, $\Sigma_{sr}$ es transformado en un IS directo reducido equivalente mediante la
+			aplicación exhaustiva de la siguiente regla, llamada \textit{Rgla Strong Simplification},
+			
+			\[
+				\text{\texttt{[sSimp]}} \quad \frac{A \rightarrow B, C \rightarrow D}{AC - B \rightarrow D - (AB) },
+				B \cap C \neq \emptyset \neq D \ (A \cup B)
+			\]
+			
+			resumiendo, las líneas 19-22 calculan el IS $\Sigma_{dsr}$ más pequeño que cumple:
+			
+			\begin{enumerate}
+				\item $\Sigma_{sr} \subseteq \Sigma_{dsr}$ y
+				
+				\item para todo par de implicaciones $A \rightarrow B, C \rightarrow D \in \Sigma_{dsr}$ donde 
+						$B \cap C \neq \emptyset \neq D \ (A \cap B)$ tenemos que $AC - B \rightarrow D - (AB) \in \Sigma_{dsr}$.
+			\end{enumerate}
+			
+			Para probar que $\Sigma_{dsr}$ es un IS directo reducido el cual es equivalente a $\Sigma_sr$, primeramente el
+			siguiente lema asegura la validez de la regla de Strong Simplification.
+			
+			\textbf{Lema} La regla Strong Simplification,
+			\[
+				\text{\texttt{[sSimp]}} \quad \frac{A \rightarrow B, C \rightarrow D}{AC - B \rightarrow D - (AB) },
+				B \cap C \neq \emptyset \neq D \ (A \cup B)
+			\]
+			puede ser derivada de los axiomas de Armstrong.
+			
+			
+			\emph{Demostración}
+			Asumamos que $B \cap C \neq \emptyset \neq D \ (A \cup B)$. La siguiente secuencia prueba la validez de
+			\texttt{[sSimp]}:
+			
+			\begin{enumerate}
+				\item $A \rightarrow B$  por hipótesis.
+				
+				\item $B \rightarrow B \cap C$  por \texttt{[Ax]}
+				
+				\item $A \rightarrow B \cap C$ por 1., 2. y \texttt{[Trans]}
+				
+				\item $C - B \rightarrow C - B$ por \texttt{[Ax]}
+				
+				\item $A (C-B) \rightarrow (B \cap C)(C - B) = A (C - B) \rightarrow C$ por 3. 4 y \texttt{[Comp]}
+				
+				\item $C \rightarrow D$ por hipótesis.
+				
+				\item $A(C - B) \rightarrow D$ por 5., 6. y \texttt{[Trans]}
+				
+				\item $D \rightarrow D - (AB)$ por \texttt{[Ax]}
+				
+				\item $A(C - B) \rightarrow D - (AB)$ por 7., 8. y \texttt{[Trans]}
+				
+			\end{enumerate}
+			
+			El siguiente teorema asegura que el IS $\Sigma_{dsr}$ calculado en la fase 3 (después de la línea 22) tiene las
+			propiedades esperadas.
+			
+			\begin{theorem}
+				Dado un IS reducido, $\Sigma_{sr}$, el sistema implicacional $\Sigma_{dsr}$ calculado en las líneas 19-22 es un IS
+				directo reducido equivalente a $\Sigma_{sr}$.
+			\end{theorem}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newpage	
+\section{HERRAMIENTA PARA IMPLICACIONES}			
+	
+	El PFC \textit{Algoritmos para la manipulación de implicaciones en ACF} tiene como objetivo la implementación de algoritmos
+	relacionados con cierres y cálculo de bases y bases directas y realizar comparativas entre ellos.
+	
+	Por esto, surge la idea de desarrollar una herramienta que permita ejecutar los algoritmos implementados, medir su rendimiento
+	y guardar los resultados y estadísticas de éstos permitiendo compararlos entre sí. A esta herramienta se le ha llamado IS Bench.
+	
+	Además, debido a que no existen conjuntos de implicaciones en la literatura que los investigadores puedan usar, se hace
+	necesario un generador de conjuntos de implicaciones aleatorios que pueda servir de entrada a los algoritmos en cuestión.		
+	
+	\subsection{IS Bench}
+		
+		\textit{IS Bench} es una aplicación cuyo objetivo es ejecutar algoritmos de cálculo de bases y bases directas, guardar sus
+		resultados y compararlos posteriormente.
+		
+		La información se organiza en \textit{workspaces}, que no son más que directorios que contendrán los algoritmos y
+		benchmarks definidos y ejecutados en él, así como los resultados (sistemas de salida, trazas y estadísticas) generados.
+		
+		Un \textit{algoritmo} es una implementación Java que recibe como entrada un sistema implicacional y devuelve un valor del
+		mismo tipo.
+		
+		Un \textit{benchmark} es un conjunto de algoritmos que se ejecutan con un sistema implicacional de entrada común. 
+		
+		El menú principal consta de las opciones:
+		
+		\begin{itemize}
+			\item Fichero $\rightarrow$ Algoritmos para el registro de algoritmos.
+			
+			\item Preferencias $\rightarrow$ Workspaces para la configuración de workspaces.
+			
+			\item Help con la ayuda de usuario.
+		\end{itemize}
+		
+		El funcionamiento básico de la aplicación se resume en registro de algoritmos y benchmarks, ejecución de algoritmos y
+		benchmarks y visualización de resultados. Por esto la aplicación se divide en tres zonas principales: \textit{Inicio},
+		\textit{Benchmarks} y \textit{Resultados}.
+		
+		Con el área Inicio se pretende que el usuario pueda recordar las últimas acciones en el workspace actual al entrar en la
+		aplicación.
+		
+		Se muestra un resumen de las últimas ejecuciones que contiene el nombre del benchmark, la fecha y hora de la última
+		ejecución y un enlace para ejecutarlo de nuevo.
+		
+		%INSERTAR IMAGEN
+		
+		La pestaña \textit{Benchmarks}, es el área en el que se definen y ejecutan los benchmarks.
+		
+		Se divide a su vez en dos pestañas: \textit{Nuevo} y \textit{Ejecutar}. Como sus nombres indican, en la pestaña
+		\textit{Nuevo} se pueden registrar nuevos benchmarks y en \textit{Ejecutar}, ejecutarlos.
+		
+		
+			%IMAGEN PESTAÑA BENCHMARKS
+			
+		
+			
+		El área \textit{Resultados}, contendrá los resultados detallados de los benchmarks del workspace actual, y será la zona que
+		el usuario utilizará para realizar sus comparativas.
+		
+			%IMAGEN PESTAÑA RESULTADOS
+			
+		
+			
+		\subsubsection{Workspaces}
+		
+			Un \textit{workspace} es una ubicación física donde se guardan archivos relacionados para su uso en IS Bench. 
+			
+			Estos archivos pueden ser:
+			\begin{itemize}
+				\item Registro de algoritmos y benchmarks. 
+				\item Archivos con sistemas implicacionales de entrada para los algoritmos a ejecutar. 
+				\item Archivos con los sistemas implicacionales de salida de los algoritmos ejecutados. 
+			\end{itemize}
+			
+			La aplicación establece un workspace por defecto en [home\_usuario]$\backslash\text{.isbench}\backslash\text{default}$ y
+			es con el que se arrancará la primera vez.
+			
+			Desde la ventana \textit{Workspaces}, que se puede acceder desde la opción de menú \textit{Preferencias} $\rightarrow$
+			\textit{Workspaces}, el usuario puede:
+			
+			\begin{itemize}
+				\item Consultar el workspace actual y su configuración.
+				
+				\item Cambiar de workspace.
+				
+				\item Crear un nuevo workspace.
+			\end{itemize}
+			
+			
+			%IMAGEN VENTANA WORKSPACE
+			
+			El campo \textit{Location} es un desplegable editable, que contiene como ítems los workspaces existentes.
+			
+			Para cambiar de workspace, el usuario sólo tiene que seleccionar uno de los ítems del desplegable.
+			
+			Para crear uno nuevo, sólo ha de introducir la ruta absoluta del directorio en el que quiere crearlo o seleccionarlo
+			con el buscador pulsando en el botón %IMAGEN BOTON.
+			
+		\subsubsection{Registrar Algoritmos}
+		
+			Para ejecutar un algoritmo o incluirlo en un benchmark, éste debe estar previamente registrado en el workspace.
+			
+			Los algoritmos que contempla la aplicación, son implementaciones Java de algoritmos de cálculo de bases y bases
+			directas. 
+			
+			Éstos deben implementar la interfaz \texttt{es.uma.pfc.is.algorithms.Algorithm} tal y como se explica en el apartado
+			Implementación de Algoritmos y encontrarse en el classpath del workspace: [workspace\_dir]/lib.
 
+			Desde la opción \textit{Archivo} $\rightarrow$ Algoritmos del menú principal, se abrirá la ventana \textit{Nuevo
+			Algoritmo}:
+			
+			%IMAGEN VENTANA NUEVO ALGORITMO
+			
+			En ella se podrá registrar un algoritmo introduciendo su nombre, abreviatura y la clase que lo implementa.
+			
+			\begin{description}
+				\item[Nombre:] Obligatorio y único. Nombre identificativo del algoritmo.\\
+					Es el nombre que se muestra cuando el algoritmo se carga en listas o tablas.
+				\item[Abreviatura:] Obligatorio. Nombre corto del algoritmo.\\
+					Se usa para formar el nombre por defecto del archivo en el que se guarda el sistema  de salida de la ejecución
+					del algoritmo.
+				\item[Clase:] Obligatorio.\\
+					Debe contener el \textit{fully qualified name} de la clase que implementa el algoritmo. Se usa para crear la
+					instancia del algoritmo a ejecutar, por lo que ésta ha de ser una implementación, es decir, no debe ser una
+					interfaz o clase abstracta.
+			\end{description}
+			
+			Para facilitar la introducción del nombre de la clase, el campo \textit{Clase} es un desplegable combinado
+			(\textit{combobox})  cuyos ítems son las implementaciones de los algoritmos incluidos en las librerías de la carpeta
+			\textit{lib} del workspace actual. 
+			
+			Si alguno de los campos no se introduce y se pulsa el botón \textit{Guardar}, se produce un error de validación y se
+			marcan los campos incompletos:
+			
+			%IMAGEN ERROR DE VALIDACIÓN
+			
+			Igual sucede, si la clase introducida no existe o no es una implementación:
+			
+			%IMAGEN ERROR DE VALIDACIÓN
+			
+			Una vez introducidos correctamente todos los campos, al pulsar el botón \textit{Guardar}, el algoritmo se registra en
+			el archivo [workspace\_dir]/workspace.xml.
+		
+			\begin{verbatim}
+				<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+				
+<workspace path="C:\Users\user\.isbench\myworkspace">
+				
+<algorithms>
+					<algorithm>
+						<name>Direct Optimal Basis</name>
+						<shortName>do</shortName>
+						<type>es.uma.pfc.is.algorithms.optbasis.DirectOptimalBasis</type>
+					</algorithm>
+				</algorithms>
+				
+</workspace>
+
+			\end{verbatim}
+		
+		\subsubsection{Registrar Benchmarks}
+		
+			Un benchmark es la agrupación de un conjunto de algoritmos que se ejecutan con una misma entrada para la posterior
+			comparación de sus resultados.
+			
+			Para poder ejecutar un benchmark éste ha debido ser registrado en el workspace.Para crear un benchmark se ha de acceder
+			a la pestaña \textit{Nuevo} del área Benchmarks .	
 			
 			
+			%IMAGEN PESTAÑA NUEVO BENCHMARK
 			
+			En ésta se muestra un formulario con los campos que se ven en la imagen:
 			
+			\begin{itemize}
+				\item \textbf{Nombre:} Obligatorio y único. Nombre identificativo del benchmark.\\
+						Es el nombre que se muestra cuando se carga en listas o tablas.
+				\item \textbf{Entrada:} Ruta absoluta del archivo que contiene el sistema implicacional de entrada.\\
+					Este campo se puede introducir manualmente, seleccionándolo mediante el explorador (opción \textit{File} del
+					botón ...) o creándolo con el generador de implicaciones (opción \textit{Random} del botón ...).\\
+				\item \textbf{Algoritmos:} Hay dos listas. La de la izquierda contiene los algoritmos registrados en el workspace y
+					en la de la derecha se van añadiendo los algoritmos seleccionados con doble click en la primera lista y éstos
+					serán los que contenga el benchmark que se está creando.\\
+					Para filtrar la lista de algoritmos registrados en el workspace, se puede hacer uso del filtro en vivo situado
+					en la parte superior de la primera lista.
+			\end{itemize}
 			
+			Al ser todos los campos obligatorios, si se pulsa el botón \textit{Guardar} con algún campo sin completar, la aplicación
+			muestra un mensaje informando de ello y para los campos \textit{Nombre} y \textit{Entrada} se marcan como erróneos.
+		
+			%IMAGEN ERROR DE VALIDACIÓN
 			
-			
-			
-		
-		
-		
-		
-		
-		
-		
-		
+			Una vez introducidos todos los valores correctamente, al pulsar el botón \textit{Guardar}, el benchmark se registra en
+			el archivo \textit{[workspace\_dir]/benchmarks.xml}:
 		
 \end{document}
