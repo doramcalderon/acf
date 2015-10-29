@@ -2570,5 +2570,127 @@ M\'{a}laga a \_\_\_\_ de\_\_\_\_\_\_\_\_\_\_\_\_\_\_ del 200\_
 			
 			Una vez introducidos todos los valores correctamente, al pulsar el botón \textit{Guardar}, el benchmark se registra en
 			el archivo \textit{[workspace\_dir]/benchmarks.xml}:
+			
+		\subsubsection{Ejecutar algoritmos: Modos de ejecución}
+		
+			Recordemos que el objetivo de la ejecución de un algoritmo es, además de obtener un sistema implicacional de salida,
+			obtener trazas y estadísticas que proporcionen información adicional para su comparativa.
+			
+			Por ello es que se distinguen tres modos de ejecución:
+			\begin{itemize}
+				\item \textbf{Tiempos: }Se mide el tiempo de ejecución del algoritmo y se registra en el resultado de éste.
+				
+				\item \textbf{Con traza:} En este modo, se genera el archivo \textit{[nombre\_archivo\_salida]\_history.log}, que
+				contiene la traza  de la ejecución.
+				
+				Esta traza será la que el desarrollador, en el momento de la implementación del algoritmo, considere que pueda ser
+				de interés para el investigador.
+				
+				[nombre\_archivo\_salida] es el nombre base del archivo seleccionado para la salida del algoritmo. P.e., si el
+				archivo que se ha tomado como salida es do\_output.txt, el archivo de  traza será do\_output\_history.log. 
+				
+				\item \textbf{Con Estadísticas: }En este modo, se genera el archivo [nombre\_archivo\_salida].csv, en el que se
+				 guardan la evolución de los tamaños del sistema implicacional procesado. 
+				 
+					Al igual que en el modo traza, será en el momento de implementación en el que se decida en qué puntos se debe
+					registrar información de los tamaños del sistema.
+					
+					[nombre\_archivo\_salida] es el nombre base del archivo seleccionado para la salida del algoritmo. P.e., si el
+					archivo que se ha tomado como salida es do_output.txt, el archivo con los tiempos será do_output.csv. 
+					
+					La información se guarda en archivos .csv para facilitar su visualización mediante tablas y gráficos. 
+					
+			\end{itemize}
+			
+			Estos modos no son excluyentes y pueden combinarse como el usuario considere necesario.
+			
+		\subsubsection{Ejecutar Benchmarks}
+		
+			La ejecución de un benchmark consiste en la ejecución secuencial del conjunto de algoritmos que lo componen con un
+			sistema implicacional de entrada en común.
+			
+			Se generará un archivo de salida como los adicionales según el modo de ejecución, por algoritmo ejecutado, además de un
+			resumen de dicha ejecución con:
+			
+			\begin{itemize}
+				\item La fecha y hora de ejecución
+				\item Algoritmo ejecutado
+				\item Sistema implicacional de entrada
+				\item Sistema implicacional de salida
+				\item Rutas de trazas y estadísticas generadas
+			\end{itemize}
+			
+			Esta información se usará para la consulta de resultados.
+			
+			La ejecución de benchmarks se hace desde la pestaña \textit{Ejecutar} del área Benchmarks.
+			
+			%IMAGEN PESTAÑAÑ EJECUTAR BENCHMARK
+			
+			Como se ve en la imagen, esta pestaña se compone de:
+			
+			\begin{itemize}
+				\item Barra de herramientas
+				\item Listado de Benchmarks
+				\item Formulario para introducción de parámetros
+				\item Visor de traza y estadísticas
+			\end{itemize}
+
+			La barra de herramientas contiene dos botones \textit{Ejecutar}, que ejecuta un benchmark o algoritmo seleccionado y
+			Limpiar que limpia tanto la selección en el árbol como el formulario.
+			
+			En la zona izquierda, se encuentra un árbol de dos niveles que contiene los benchmarks registrados en el workspace
+			actual en el primer nivel, y los algoritmos que forman el benchmark en el segundo nivel.
+			
+			El contenido de éste árbol puede ser filtrado con el filtro en vivo situado en la parte superior de éste.
+			
+			El formulario de introducción de parámetros consta de:
+			
+		
+			\begin{itemize}
+				\item \textbf{Modo de ejecución:} Tres modos posibles \textit{Tiempos}, \textit{Traza} y \textit{Estadísticas}  no
+					 excluyentes.
+					 
+					 Si se selecciona un benchmark en el árbol, sólo estará disponible el modo \textit{Tiempos}.
+					 
+					 Si se selecciona un algoritmo, los tres modos de ejecución están disponibles.
+				\item \textbf{Input:} Ruta absoluta del fichero que contiene el sistema implicacional de entrada.
+				\item \textbf{Output:} Ruta absoluta del fichero en el que se guardará el sistema implicacional de salida.
+			\end{itemize}
+			
+			Tanto el fichero de entrada como el de salida, puede ser seleccionado a través del explorador, pulsando en el botón
+			Examinar (...) correspondiente.
+			
+			En el visor de traza (pestaña Traza) se mostrará la traza generada cuando el modo \textit{Traza} ha sido activada.
+			
+			La pestaña Estadísticas contiene una tabla en la que se mostrarán las estadísticas generadas cuando el modo
+			\textit{Estadísticas} ha sido activado.
+			
+			Para ejecutar un benchmark:			
+			
+			\begin{enumerate}
+				\item Seleccionar el benchmark a ejecutar en el árbol.
+				\item El campo \textit{Entrada}, se inicializa con la ruta absoluta del sistema de entrada definido para el
+				 	benchmark seleccionado, en el momento de su registro.
+				\item El campo Salida, se inicializa con la ruta [workspace\_dir]/[nombre\_benchmark]/output.
+						En este caso la ruta es un directorio, ya que se generarán n salidas, una o más por algoritmo ejecutado.
+						
+						Los archivos generados tomarán nombres por defecto:
+						\begin{itemize}
+							\item de salida: [abreviatura\_algoritmo]_output.txt
+							\item traza: [abreviatura\_algoritmo]\_history.log
+							\item estadísticas: [abreviatura\_algoritmo].csv
+						\end{itemize}
+						Donde [abreviatura\_algoritmo] es la abreviatura de cada uno de los algoritmos 	ejecutados.
+				\item El modo de ejecución por defecto es \textit{Con Tiempos}.
+				\item Pulsar el botón Run.
+				\item Una vez finalice la ejecución, el sistema mostrará un mensaje preguntando si desea ver los resultados
+					generados:
+					%imagen
+				\item Si se acepta, se abre un cuadro de diálogo para seleccionar el archivo que se desea consultar:
+					%imagen
+				\item El contenido del archivo se mostrará en el visor de traza:
+					%imagen
+				
+\end{enumerate}
 		
 \end{document}
