@@ -35,6 +35,16 @@
 \newcommand{\bmathcal}{\mathcal{B}}
 \newcommand{\dmathcal}{\mathcal{D}}
 \newcommand{\vmathcal}{\mathcal{V}}
+\newcommand{\ESPACIO}{\hspace{.25in}}
+\newcommand{\IF}{\textbf{if }}
+\newcommand{\THEN}{\textbf{then }}
+\newcommand{\ELSE}{\textbf{else }}
+\newcommand{\REPEAT}{\textbf{repeat }}
+\newcommand{\UNTIL}{\textbf{until }}
+\newcommand{\FOREACH}{\textbf{foreach }}
+\newcommand{\DO}{\textbf{do }}
+\newcommand{\RETURN}{\textbf{return }}
+
 
 \begin{document}
 \textbf{{\large UNIVERSIDAD DE MÁLAGA}}
@@ -2058,324 +2068,119 @@ M\'{a}laga a \_\_\_\_ de\_\_\_\_\_\_\_\_\_\_\_\_\_\_ del 200\_
 			\end{figure}
 			
 \section{ALGORITMOS DE CÁLCULO DE BASES}
-
-	\subsubsection{Lógica para implicaciones de atributos}
+	En esta sección se incluyen los algoritmos implementados para el cálculo de bases.
 	
-		El primer sistema de inferencias sólido y completo para el tratamiento de implicaciones de atributos fue el formado por los
-		Axiomas de Armstrong descritas en el apartado \ref{sec:ImplicacionesDeAtributos}.
+	\subsection{CLA}
+		A continuación se muestra el algortimo CLA presentado en el artículo \cite{bib:ref9}, definiéndose primeramente las
+		funciones \textit{Direct-Reduced} y \textit{RD-Simplify} que después son usadas en el algoritmo.
+		\newline
 		
-		La Lógica de Simplificación (Simplification Logic, $SL_{FD}$) ha demostrado ser un sistema de axiomas alternativo al de
-		Armstrong.  $SL_{FD}$ es una ejecutable y útil herramienta para manipular implicaciones guiada por la idea de la
-		simplificación de conjuntos de implicaciones mediante una eficiente eliminación de atributos redundantes.
+		La función \textit{Direct-Reduced($\Sigma$)} calcula el IS directo-reducido de $\Sigma$:
+		\newline
+		
+		\begin{tabular}{p{15cm}}
+			\hline
+			Direct-Reduced($\Sigma$)\\
+			\hline
+			
+			\textbf{input}: Un sistema implicacional $\Sigma$	en S	\\
+			\textbf{output}: El IS directo-reducido $\Sigma_{dr}$ en S	\\
+			\textbf{begin}												\\
+			\ESPACIO \FOREACH $A \rightarrow B \in \Sigma_{dr}$ y $C \rightarrow D \in \Sigma_{dr}$ \DO\\
+			\ESPACIO \ESPACIO \IF $B \cap c \neq \emptyset \neq D \backslash (A \cup B)$ \THEN add $AC-B \rightarrow D-(AB)$ to
+							 $\Sigma_{dr}$; \\
+			\ESPACIO \RETURN $\Sigma_{dr}$ \\
+			\hline
+		\end{tabular}
+		\newline
+		\newline
+		
+		La función \textit{RD-Simplify($\Sigma$)} calcula el IS directo-reducido-simplificado a partir de $\Sigma$ reducido:
+		\newline
+		\begin{tabular}{p{15cm}}
+			\hline
+			RD-Simplify($\Sigma$)\\
+			\hline
+			
+			\textbf{input}: Un sistema implicacional directo-reducido $\Sigma$	en S	\\
+			\textbf{output}: El IS directo-reducido-simplificado $\Sigma_{drs}$ en S equivalente a $\Sigma$	\\
+			\textbf{begin}												\\
+			\ESPACIO $\Sigma_{drs} := \emptyset$ \\
+			\ESPACIO \FOREACH $A \rightarrow B \in \Sigma$ \DO \\
+			\ESPACIO \ESPACIO \FOREACH $C \rightarrow D \in \Sigma$ \DO \\
+			\ESPACIO \ESPACIO \ESPACIO \IF $C = A$ \THEN $B := B \cup D$; \\
+			\ESPACIO \ESPACIO \ESPACIO \IF $C \nsubseteq A$ \THEN $B := B \backslash D$; \\
+			\ESPACIO \ESPACIO \IF $B \neq \emptyset$ \THEN add $A \rightarrow B$ to $\Sigma{drs}$; \\
+			\ESPACIO \RETURN $\Sigma_{drs}$ \\
+			\hline
+		\end{tabular}
+		\newline
+		\newline
+		
+		La función \textit{doSimp($\Sigma$)} calcula el IS directo-óptimo equivalente a $\Sigma$ usando las dos funciones
+		 anteriores:
+		\newline
+		\newline
+			\begin{tabular}{p{15cm}}
+				\hline
+					doSimp($\Sigma$)\\
+				\hline
+				%
+				\textbf{input}: Un sistema implicacional $\Sigma$	en S	\\
+				\textbf{output}: El IS directo-óptimo $\Sigma_{do}$	en S	\\
+				\textbf{begin}												\\
+				\ESPACIO $\Sigma_r := \left\{A \rightarrow B-A | A \rightarrow B \in \Sigma, B \nsubseteq A
+				 					 \right\}$\\			
+				\ESPACIO $\Sigma_{dr}$ := Direct-Reduced($\Sigma_r$)\\
+				\ESPACIO $\Sigma_{do}$ := RD-Simplify($\Sigma_{dr}$)\\
+				\RETURN $\Sigma_{do}$\\
+				\hline
+			\end{tabular}
+		
+		
+	\subsection{Direct Optimal Basis}
+		A continuación se muestra el algortimo Direct Optimal Basis presentado en el artículo \cite{bib:ref1}.
+		
+		\begin{tabular}{p{15cm}}
+			\hspace*{.25in} \= \hspace*{1in} 								\= \hspace*{1in} \kill
+							\> \textbf{input}: Un sistema implicacional $\Sigma$	en S	\\
+							\> \textbf{output}: El IS directo-óptimo $\Sigma_{do}$	en S	\\
+			 1				\> \textbf{begin}												\\
+			 2				\> /* Fase 1: Generación de $\Sigma_r$ por reducción de $\Sigma$*/ \\
+			 3				\> $\Sigma_r = \emptyset$ \\
+			 4				\> \FOREACH $A \rightarrow_{\Sigma} B$ \DO\\
+			 5				\> \ESPACIO \IF $B \nsubseteq A$ \THEN add $A \rightarrow B-A$ to $\Sigma_r $; \\
+			 6				\> /* Fase 2: Generación de $\Sigma_{sr}$ por simplificación de $\Sigma_r$*/ \\
+			 7				\> $\Sigma_{sr} = \Sigma_r$\\
+			 8				\> \textbf \REPEAT\\
+			 9				\> \ESPACIO \FOREACH $A \rightarrow B \in \Sigma_{sr}$ \DO\\
+			10				\> \ESPACIO \ESPACIO \FOREACH $C \rightarrow D \in \Sigma_{sr}$ \DO\\
+			11				\> \ESPACIO \ESPACIO \ESPACIO \IF $A \subseteq C$ \THEN\\
+			12				\> \ESPACIO \ESPACIO \ESPACIO \ESPACIO \IF $C \subseteq A \cup B$ \THEN\\
+			13				\> \ESPACIO \ESPACIO \ESPACIO \ESPACIO \ESPACIO replace $A \rightarrow B$ and $C \rightarrow D$ by\\
+							\> \ESPACIO \ESPACIO \ESPACIO \ESPACIO \ESPACIO $A \rightarrow BD$ in $\Sigma_{sr};$\\
+			14				\> \ESPACIO \ESPACIO \ESPACIO \ESPACIO \ESPACIO \ELSE \IF $D \subseteq B$ \THEN\\
+			15				\> \ESPACIO \ESPACIO \ESPACIO \ESPACIO \ESPACIO \ESPACIO  remove $C \rightarrow D$ from 
+																					 $\Sigma_{sr}$\\
+			16				\> \ESPACIO \ESPACIO \ESPACIO \ESPACIO \ESPACIO \ESPACIO \ELSE replace $C \rightarrow D$ by\\
+							\> \ESPACIO \ESPACIO \ESPACIO \ESPACIO \ESPACIO \ESPACIO $C-B \rightarrow D-B$ in$\Sigma_{sr};$\\
+			17				\> \UNTIL $\Sigma_{sr}$ es un punto fijo;\\
+			18				\> /*Fase 3: Generación de $\Sigma_{dsr}$ por Strong Simplification de $\Sigma_{sr}$*/   \\
+			19				\> $\Sigma_{dsr}$ = $\Sigma_{sr}$   \\
+			20				\> \FOREACH $A \rightarrow B \in \Sigma_{dsr}$ and $C \rightarrow D \in \Sigma_{dsr}$ \DO  \\
+			21				\> \ESPACIO \IF $B \cap C \neq \emptyset \neq D \backslash (A \cup B)$ \THEN   \\
+			22				\> \ESPACIO \ESPACIO add $AC - B \rightarrow D-(AB)$ to $\Sigma_{dsr}$   \\
+			23				\> /*Fase 4: Generación de $\Sigma_{do}$ por optimización de $\Sigma_{dsr}$*/   \\
+			24				\> $\Sigma_{do} = \emptyset$  \\
+			25				\> \FOREACH $A \rightarrow B \in \Sigma_{dsr}$ \DO  \\
+			26				\> \ESPACIO \FOREACH $C \rightarrow D \in \Sigma_{dsr}$ DO  \\
+			27				\> \ESPACIO \ESPACIO \IF $C = A$ \THEN $B = B \cup D$;  \\
+			28				\> \ESPACIO \ESPACIO \IF $C \nsubseteq A$ \THEN $B = B \backslash D$;   \\
+			29				\> \ESPACIO \IF $B \neq \emptyset$ \THEN add $A \rightarrow B$ to $\Sigma_{do}$;  \\
+			30				\> \RETURN $\Sigma_{do}$\\
+		\end{tabular}
 	
-		\definition\textbf{ (Simplification Axiom System):}
-		
-		\textbf{$SL_{FD}$} considera la reflexividad como axioma y las siguientes reglas de inferencia llamada fragmentación,
-		composición y simplificación respectivamente.
-		
-		\begin{itemize}
-			\item[]\label{Ref} \texttt{[Ref]} $\overline{A \rightarrow A}$
 			
-			\item[]\label{Frag} \texttt{[Frag]} $\frac{A \rightarrow BC}{A \rightarrow B}$
-			
-			\item[]\label{Comp} \texttt{[Comp]} $\frac{A \rightarrow B, C \rightarrow D}{AC \rightarrow BD}$
-			
-			\item[]\label{Simp} \texttt{[Simp]} $\frac{A \rightarrow B, C \rightarrow D}{C - B \rightarrow D - B}, (A \subseteq C)$
-					y $A \cap B \neq \emptyset$
-		\end{itemize}
-		
-		Uno de los problemas más importantes relacionados con las implicaciones es el cálculo del cierre de un conjunto de
-		atributos. Esto es, dado un conjunto de implicaciones $\Sigma$, válido en un contexto formal, y un subconjunto de atributos 
-		$A \in 2^M$, el problema es el cálculo del mayor conjunto $A^+ \in 2^M$ tal que esté contenido en el contexto formal. 
-		
-		Según el siguiente teorema, las reglas de inferencia de $SL_{FD}$  pueden ser consideradas reglas de equivalencia y son
-		suficientes para calcular todas las derivaciones.
-		
-		\begin{theorem}
-			$SL_{FD}$ contiene las siguientes equivalencias:
-			
-			\begin{enumerate}
-				\item Equivalencia de Fragmentación \texttt{[Frag]}:
-						$\left\{A \rightarrow B \right\} \equiv \left\{A \rightarrow B - A \right\}$
-				\item Equivalencia de Composición \texttt{[CoEq]}:
-						$\left\{A \rightarrow B, A \rightarrow C \right\} \equiv \left\{A \rightarrow BC\right\}$
-						
-				\item Equivalencia de Simplificación \texttt{[SiEq]}: Si  $A \cap B = \emptyset$ y $A \subseteq C$ entonces
-						$\left\{A \rightarrow B, C \rightarrow D \right\} \equiv 
-						 \left\{ A \rightarrow B, C - B \rightarrow D - B \right\}$
-			\end{enumerate}
-		\end{theorem}	
-		
-		La lectura de izquierda a derecha de estas reglas proporciona la esencia de $SL_{FD}$. En esta dirección, estas
-		equivalencias eliminan información redundante: atributos redundantes (\texttt{[FrEq], [SiEq]}) o implicaciones redundantes
-		(\texttt{[CoEq]}).
-		
-		\subsubsection{Sistemas implicacionales}
-		
-			Un conjunto de implicaciones se dice que es un Sistema Implicacional (Implicational System, IS), cuando es definido
-			como una relación binaria entre $2^M$ y $2^N$. Un IS en el cual cualquier implicación tiene un conjunto de atributos
-			con un único elemento en la parte derecha ($A \rightarrow b$) es llamado \textit{Sistema Implicacional Unitario} (Unit
-			Implicational System, UIS). Esto es, un UIS es una relación binaria entre $2^M$ y \textit{M}. Obviamente, mediante el
-			uso de \texttt{[CoEq]}), cualquier IS puede ser transformado en un UIS equivalente y viceversa.
-			
-			A continuación se presentan sistemas implicacionales particulares que cumplen algunas propiedades, las cuales son muy
-			interesantes porque su forma facilitan su automatización.
-			
-			Un IS $\Sigma$ es mínimo si no se puede borrar ninguna implicación sin que se pierda la equivalencia.
-			
-			Nótese que existen varios IS mínimos los cuales pueden ser equivalentes. Es interesante considerarlos tomando el menor
-			número de implicaciones: por eso son llamados IS mínimos.
-			
-			Por otro lado, otra propiedad interesante puede basarse en el número total de atributos en el IS, y en esto se basa la
-			noción de optimalidad, esto es, un IS  $\Sigma$ se dice que es \textit{óptimo} si no existe otro IS equivalente con
-			menor número de atributos.
-			
-			Por lo tanto en esta dirección, una de las principales tendencias en FCA es la siguiente: dado un contexto formal
-			$\mathbb{K}$, obtener un IS sigma tal que las siguientes condiciones sean cumplidas:
-			
-			\begin{itemize}
-				\item todas las implicaciones en  $\Sigma$ están contenidas en $\mathbb{K}$  (correcto)
-				
-				\item toda implicación válida en $\mathbb{K}$ puede ser deducida a partir de $\Sigma$ mediante el uso de un sólido
-					 y completo sistema de inferencias (completo)
-					 
-				\item si cualquier implicación es eliminada de $\Sigma$ entonces el nuevo IS $\Sigma'$  no es equivalente a
-				$\Sigma$ (mínimo)
-			\end{itemize}
-			
-			Un IS con estas propiedades es llamado una base de $\mathbb{K}$. Cuando una propiedad \textit{P} es añadida a la base
-			$\Sigma$, entonces el IS $\Sigma$ es llamado una base de \textit{P}.
-		
-		\subsection{Métodos para el cálculo de bases directas-óptimas}
-			
-			En esta sección se establecen las propiedades de una base directa-óptima, esto es, el cálculo del cierre se puede hacer
-			en una sólo iteración y, debido a su tamaño mínimo, el número de implicaciones visitadas es reducido al mínimo.
-			
-			Esta situación hace el problema de la construcción de bases directas-óptimas uno de los problemas pendientes en FCA. A
-			continuación, se introducen formalmente estas nociones.
-			
-			\definition \textbf{(Sistema Implicacional (IS) directo)}
-			
-			Un IS se dice que es directo si, para todo $X \subseteq M$:
-			\[
-				X^+ = X \cup \left\{b \in B | A \subseteq X \text{ y } A \rightarrow B \in \Sigma \right\}
-			\]
-			
-			Vale la pena señalar que si un IS $\Sigma$ es directo para un conjunto de atributos \textit{M}, el cierre es obtenido
-			con el coste $O(\left|\Sigma\right|)$ en lugar de $O(\left|\Sigma\right| \cdot \left|M\right|)$, la cual es la
-			complejidad en el peor de los casos de los algoritmos de cierre clásicos.
-			
-			\definition \textbf{(IS directo-óptimo)}
-			
-			Un IS $\Sigma$ directo se dice que es directo-óptimo si, para cada IS directo $\Sigma'$ equivalente a  $\Sigma$ tenemos
-			que $\left\|\Sigma\right\| \leq \left\|\Sigma'\right\|$ donde
-			
-			\[
-				\left\|\Sigma\right\| = \sum_{A \rightarrow B \in \Sigma}(\left|A\right| + \left|B\right|)
-			\]
-			
-			El uso de fórmulas en una forma normal dada, permite el diseño de métodos más sencillos con un mejor rendimiento que
-			los que trabajan con expresiones arbitrarias (p.e. El uso de cláusulas de Horn en Programación Lógica). En FCA, la
-			forma normal que es elegida normalmente para mejorar los métodos que obtienen la base directa-óptima es la implicación
-			unitaria.
-			
-		\subsection{Algoritmo de cálculo de bases directas y óptimas (direct-optimal basis)}
-		
-			Trabajar con UIS provoca un crecimiento en el tamaño de los conjuntos de implicaciones. El diseño de estos nuevos
-			métodos tomando IS arbitrarios puede generar una representación más compacta de estos conjuntos. Hasta ahora, la forma
-			que se ha mostrado es insatisfactoria por su gran número de aplicaciones de reglas de inferencia, lo cual normalmente
-			genera atributos redundantes en ambas partes de la nueva implicación.
-			
-			Estos atributos superfluos pueden ser eliminados con seguridad de la parte derecha evitando así, aplicaciones de reglas
-			adicionales en el futuro.\newline
-			
-		%	\textbf{Ejemplo}
-%			
-%			Sea $K_0$ el contexto formal representado en la siguiente tabla:
-%			
-%			\begin{figure}[H]
-%				\centering
-%					\includegraphics[width=1.00\textwidth]{imagenes/figura27.png}
-%				\caption{Pertenencia a los países en grupos supranacionales}
-%				\label{fig:figura27}
-%			\end{figure}
-%			
-%			La base asociada a $K_0$ es la siguiente:
-%			
-%			\begin{align*}
-%				\Sigma = \text{\{}&OPEC \rightarrow Gr77 \medspace NA\\
-%						 &MASC \rightarrow Gr77\\
-%						 &NA \rightarrow Gr77\\
-%						 &Gr77 \medspace NA \medspace MASC \medspace OPEC \rightarrow LLDC \medspace ACP\\
-%						 &Gr77 \medspace NA \medspace LLDC \medspace OPEC \rightarrow MASC \medspace ACP\text{\}}
-%			\end{align*}
-			%
-%			El primer paso construye el siguiente IS directo con 31 implicaciones:
-%			
-%			\begin{align*}
-%				\Sigma_{d} = \text{\{}&NA \rightarrow Gr77\\
-%									  &OPEC \medspace Gr77 \medspace NA \medspace LLDC \rightarrow MASC \medspace ACP\\
-%									  &MASC \rightarrow Gr77\\
-%									  &OPEC \medspace Gr77 \medspace NA \medspace MASC \rightarrow LLDC \medspace ACP\\
-%									  &OPEC \rightarrow Gr77 \medspace NA\\
-%									  &OPEC \medspace NA \medspace LLDC \rightarrow MASC \medspace ACP\\
-%									  &OPEC \rightarrow Gr77\\
-%									  &OPEC \medspace NA \medspace MASC \rightarrow LLDC \medspace ACP\\
-%									  &OPEC \medspace MASC \rightarrow LLDC \medspace ACP\\
-%									  &OPEC \medspace Gr77 \medspace NA \medspace LLDC \rightarrow Gr77\\
-%									  &OPEC \medspace MASC \rightarrow Gr77\\
-%									  &OPEC \medspace Gr77 \medspace NA \medspace MASC \rightarrow MASC \medspace ACP\\
-%									  &OPEC \medspace LLDC \rightarrow MASC \medspace ACP\\
-%									  &OPEC \medspace NA \medspace MASC \medspace LLDC \rightarrow MASC \medspace ACP\\
-%									  &OPEC \medspace NA \medspace LLDC \rightarrow Gr77\\
-%									  &OPEC \medspace NA \medspace LLDC \rightarrow LLDC \medspace ACP\\
-%									  &OPEC \medspace MASC \medspace LLDC \rightarrow LLDC \medspace ACP\\
-%									  &OPEC \medspace NA \medspace MASC \medspace LLDC \rightarrow Gr77\\
-%									  &OPEC \medspace NA \medspace MASC \rightarrow Gr77\\
-%									  &OPEC \medspace Gr77 \medspace NA \medspace MASC \rightarrow Gr77\\
-%									  &OPEC \medspace LLDC \rightarrow Gr77\\
-%									  &OPEC \medspace Gr77 \medspace NA \medspace MASC \medspace LLDC \rightarrow LLDC \medspace
-%									   ACP\\
-%									  &OPEC \medspace MASC \medspace LLDC \rightarrow MASC \medspace ACP\\
-%									  &OPEC \medspace Gr77 \medspace NA \medspace MASC \medspace LLDC \rightarrow MASC \medspace
-%									   ACP\\
-%									  &OPEC \medspace MASC \rightarrow MASC \medspace ACP\\
-%									  &OPEC \medspace NA \medspace MASC \medspace LLDC \rightarrow LLDC \medspace ACP\\
-%									  &OPEC \medspace MASC \medspace LLDC \rightarrow Gr77\\
-%									  &OPEC \medspace Gr77 \medspace NA \medspace LLDC \rightarrow LLDC \medspace ACP\\
-%									  &OPEC \medspace LLDC \rightarrow LLDC \medspace ACP\\
-%									  &OPEC \medspace Gr77 \medspace NA \medspace MASC \medspace LLDC \rightarrow LLDC \medspace
-%									   ACP\\
-%									  &OPEC \medspace NA \medspace MASC \rightarrow MASC \medspace ACP\text{\}}
-%			\end{align*}
-%			
-%			Después de esto, el segundo paso devuelve la base directa y óptima con 5 implicaciones:
-
-			%
-%			\begin{align*}
-%				\Sigma = \text{\{} &OPEC \rightarrow NA \medspace Gr77\\
-%									   &NA \rightarrow Gr77\\
-%									   &MASC \rightarrow Gr77\\
-%									   &LLDC \medspace OPEC \rightarrow MASC \medspace ACP\\
-%									   &MASC \medspace OPEC \rightarrow ACP \medspace LLDC\text{\}}
-%			\end{align*}
-%			
-			
-			El objetivo es diseñar un nuevo método que aplique el paradigma de \textit{reducción} con el fin de conseguir un método
-			que trabaje con IS (no necesariamente unitarios) los cuales, además, reduzcan el acoplamiento extra de implicaciones.
-			Con este fin, este algoritmo propone trabajar con implicaciones reducidas, las cuales no tienen atributos redundantes
-			en su parte derecha.
-			
-			El algoritmo tiene 4 fases principales y cada una de ellas consiste en la transformación de un IS en uno equivalente
-			que cumpla alguna propiedad adicional.
-			
-			
-			\begin{figure}[H]
-				\centering
-					\includegraphics[width=.65\textwidth]{imagenes/figura28.png}
-				\label{fig:figura28}
-			\end{figure}
-			
-			\definition \textbf{(IS Reducido)}
-			
-			Un IS $\Sigma$ es reducido sii no tiene ninguna implicación trivial y para todo $A \rightarrow B \in \Sigma$ tenemos que
-			$A \cap B = \emptyset$.
-			
-			La primera fase del algoritmo, transforma un IS arbitrario en otro equivalente y reducido, aplicando sólo
-			\texttt{[FrEq]}. La siguiente definición introduce el objetivo de la segunda fase (líneas 6- 17).
-			\newline
-			
-			\definition \textbf{(IS Simplificado)} Un IS $\Sigma_r$ es simplificado si cumple las siguientes condiciones: para todo
-			$A, B, C, D \subseteq M$,	
-						
-			\begin{enumerate}
-				\item $A \rightarrow B, A \rightarrow C \in \Sigma$ implica $B = C$.
-				\item $A \rightarrow B, C \rightarrow D \in \Sigma$ y $A \nsubseteq C$ immplica $C \cap B = \emptyset = D \cap B$
-			\end{enumerate}
-			
-			El  teorema 19 provee tres equivalencias las cuales permite borrar información redundante cuando se lee de izquierda a
-			derecha. El sistema implicacional simplificado es obtenido aplicando dichas equivalencias. Más específicamente,
-			cualquier IS puede ser transformado en uno equivalente simplificado aplicando sistemáticamente las equivalencias de
-			simplificación y composición basadas en $SL_FD$ (\texttt{[SiEq]} + \texttt{[CoEq]}). Si la aplicación de
-			\texttt{[SiEq]} devuelve una implicación $A \rightarrow \emptyset$, ésta es eliminada de la salida. Nótese que el punto
-			fijo referenciado en la segunda fase del algoritmo es alcanzado porque el IS es finito y en cada iteración al menos un
-			atributo es eliminado; además, como en este algoritmo la transformación es aplicada a un IS reducido, siempre produce
-			un IS simplificado y reducido.
-			
-			\begin{theorem}
-				Sea $\Sigma_{sr}$ el IS obtenido mediante la aplicación de las líneas 6 a 16 del Algoritmo DirectOptimalBasis en un
-				IS reducido $\Sigma_r$. Entonces $\Sigma_r$ es un IS reducido simplificado equivalente a $\Sigma_r$
-			\end{theorem}
-			
-			\emph{Demostración}
-			
-			El bucle de las lineas 8-17 siempre termina porque el tamaño de $\Sigma_r$ es finito y, en cada paso, el tamaño
-			se reduce. El teorema 19 asegura que $\Sigma_{sr} \equiv \Sigma_r$. Además, $\Sigma_{sr}$ es simplificado porque es un
-			punto fijo para el bucle. Finalmente, $\Sigma_{sr}$ es reducido porque esas reglas de equivalencia mantienen esta
-			característica.
-			\newline
-			
-			En la tercera fase del algoritmo, $\Sigma_{sr}$ es transformado en un IS directo reducido equivalente mediante la
-			aplicación exhaustiva de la siguiente regla, llamada \textit{Rgla Strong Simplification},
-			
-			\[
-				\text{\texttt{[sSimp]}} \quad \frac{A \rightarrow B, C \rightarrow D}{AC - B \rightarrow D - (AB) },
-				B \cap C \neq \emptyset \neq D \ (A \cup B)
-			\]
-			
-			resumiendo, las líneas 19-22 calculan el IS $\Sigma_{dsr}$ más pequeño que cumple:
-			
-			\begin{enumerate}
-				\item $\Sigma_{sr} \subseteq \Sigma_{dsr}$ y
-				
-				\item para todo par de implicaciones $A \rightarrow B, C \rightarrow D \in \Sigma_{dsr}$ donde 
-						$B \cap C \neq \emptyset \neq D \ (A \cap B)$ tenemos que $AC - B \rightarrow D - (AB) \in \Sigma_{dsr}$.
-			\end{enumerate}
-			
-			Para probar que $\Sigma_{dsr}$ es un IS directo reducido el cual es equivalente a $\Sigma_sr$, primeramente el
-			siguiente lema asegura la validez de la regla de Strong Simplification.
-			
-			\textbf{Lema} La regla Strong Simplification,
-			\[
-				\text{\texttt{[sSimp]}} \quad \frac{A \rightarrow B, C \rightarrow D}{AC - B \rightarrow D - (AB) },
-				B \cap C \neq \emptyset \neq D \ (A \cup B)
-			\]
-			puede ser derivada de los axiomas de Armstrong.
-			
-			
-			\emph{Demostración}
-			Asumamos que $B \cap C \neq \emptyset \neq D \ (A \cup B)$. La siguiente secuencia prueba la validez de
-			\texttt{[sSimp]}:
-			
-			\begin{enumerate}
-				\item $A \rightarrow B$  por hipótesis.
-				
-				\item $B \rightarrow B \cap C$  por \texttt{[Ax]}
-				
-				\item $A \rightarrow B \cap C$ por 1., 2. y \texttt{[Trans]}
-				
-				\item $C - B \rightarrow C - B$ por \texttt{[Ax]}
-				
-				\item $A (C-B) \rightarrow (B \cap C)(C - B) = A (C - B) \rightarrow C$ por 3. 4 y \texttt{[Comp]}
-				
-				\item $C \rightarrow D$ por hipótesis.
-				
-				\item $A(C - B) \rightarrow D$ por 5., 6. y \texttt{[Trans]}
-				
-				\item $D \rightarrow D - (AB)$ por \texttt{[Ax]}
-				
-				\item $A(C - B) \rightarrow D - (AB)$ por 7., 8. y \texttt{[Trans]}
-				
-			\end{enumerate}
-			
-			El siguiente teorema asegura que el IS $\Sigma_{dsr}$ calculado en la fase 3 (después de la línea 22) tiene las
-			propiedades esperadas.
-			
-			\begin{theorem}
-				Dado un IS reducido, $\Sigma_{sr}$, el sistema implicacional $\Sigma_{dsr}$ calculado en las líneas 19-22 es un IS
-				directo reducido equivalente a $\Sigma_{sr}$.
-			\end{theorem}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \newpage	
 \section{HERRAMIENTA PARA IMPLICACIONES}			
 	
@@ -2596,7 +2401,7 @@ M\'{a}laga a \_\_\_\_ de\_\_\_\_\_\_\_\_\_\_\_\_\_\_ del 200\_
 					registrar información de los tamaños del sistema.
 					
 					[nombre\_archivo\_salida] es el nombre base del archivo seleccionado para la salida del algoritmo. P.e., si el
-					archivo que se ha tomado como salida es do_output.txt, el archivo con los tiempos será do_output.csv. 
+					archivo que se ha tomado como salida es do\_output.txt, el archivo con los tiempos será do\_output.csv. 
 					
 					La información se guarda en archivos .csv para facilitar su visualización mediante tablas y gráficos. 
 					
@@ -2676,7 +2481,7 @@ M\'{a}laga a \_\_\_\_ de\_\_\_\_\_\_\_\_\_\_\_\_\_\_ del 200\_
 						
 						Los archivos generados tomarán nombres por defecto:
 						\begin{itemize}
-							\item de salida: [abreviatura\_algoritmo]_output.txt
+							\item de salida: [abreviatura\_algoritmo]\_output.txt
 							\item traza: [abreviatura\_algoritmo]\_history.log
 							\item estadísticas: [abreviatura\_algoritmo].csv
 						\end{itemize}
@@ -2692,5 +2497,42 @@ M\'{a}laga a \_\_\_\_ de\_\_\_\_\_\_\_\_\_\_\_\_\_\_ del 200\_
 					%imagen
 				
 \end{enumerate}
+
+%------------------------- BIBLIOGRAFIA -------------------------------------------
+\newpage
+\begin{thebibliography}{99}
+	\bibitem{bib:ref1}
+	E. Rodríguez, K. Bertet, P. Cordero, M. Enciso, A. Mora y M. Ojeda-Aciego: {\it A method to build the Direct-Optimal Basis from
+	an implicational system}.
+	
+	\bibitem{bib:ref2} K. V. Adaricheva and J. B. Nation and R. Rand, Ordered direct implicational basis of a finite closure
+	system, International Symposium on Artificial Intelligence and Mathematics, ISAIM 2012.
+
+	\bibitem{bib:ref3} K. Bertet, M. Nebut, Efficient algorithms on the Moore family associated to an implicational system, DMTCS,
+	6(2): 315-338, 2004.
+
+	\bibitem{bib:ref4} K. Bertet, B. Monjardet, The multiple facets of the canonical direct unit implicational basis, Theor.
+	Comput. Sci., 411(22-24): 2155-2166, 2010.
+
+	\bibitem{bib:ref5} K. Bertet, Some Algorithmical Aspects Using the Canonical Direct Implicationnal Basis, CLA:101-114, 2006.
+
+	\bibitem{bib:ref6} K. Bertet, C. Demko, J.F. Viaud, C. Guèrin, java-lattices: a Java for lattices computation,
+	\url{http://thegalactic.org}, 2014.
+
+	\bibitem{bib:ref7} P Cordero, A. Mora, M. Enciso, I.Pérez de Guzmán, SLFD Logic: Elimination of Data Redundancy in Knowledge
+	Representation, Lecture Notes in Computer Science, 2527: 141-150, 2002.
+
+	\bibitem{bib:ref8} A. Mora, M. Enciso, P. Cordero, and I. Fortes, Closure via functional dependence simplification, I. J.of
+	Computer Mathematics, 89(4): 510-526, 2012.
+
+	\bibitem{bib:ref9} E. Rodríguez Lorenzo, K. Bertet, P. Cordero, M. Enciso, A. Mora,  Direct-optimal Basis via Reductions, CLA:
+	145-156, 2014.
+
+	\bibitem{bib:ref10} E. Rodríguez Lorenzo, K. Bertet, P. Cordero, M. Enciso, A. Mora, Ojeda-Aciego From Implicational Systems to
+	Direct-Optimal bases: A logic-based Approach, Applied Mathematics \& Information Sciences, 2L: 305-317, 2015.
+	
+	\bibitem{bib:ref11} A. Mora, M. Enciso, P. Cordero, and I. Pérez de Guzmán,Preprocessing Transformation for Functional
+	Dependencies Sets Based on the Substitution Paradigm, Lecture Notes in Computer Science, 3040: 136-146, 2004.
+\end{thebibliography}
 		
 \end{document}
