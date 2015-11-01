@@ -58,7 +58,7 @@
                   <ListView fx:id="algorithmsSelected" onMouseClicked="#handleSelectedListDoubleClick" prefHeight="200.0" prefWidth="200.0" HBox.hgrow="ALWAYS" />
                </children>
             </HBox>
-            <TitledPane fx:id="inputsTitledPane" disable="true" GridPane.rowIndex="2">
+            <TitledPane fx:id="inputsTitledPane" disable="true" text="%title.benchmarks.input" GridPane.rowIndex="2">
                <content>
                   <VBox spacing="5.0">
                      <children>

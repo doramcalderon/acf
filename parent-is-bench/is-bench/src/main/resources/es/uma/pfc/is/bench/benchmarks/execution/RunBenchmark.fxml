@@ -37,7 +37,7 @@
                               <Insets bottom="5.0" left="5.0" right="10.0" top="5.0" />
                            </padding>
                         </CheckBox>
-                        <CheckBox fx:id="chkHistory" mnemonicParsing="false" text="%history">
+                        <CheckBox fx:id="chkHistory" mnemonicParsing="false" text="%trace">
                            <font>
                               <Font size="14.0" />
                            </font>
@@ -171,13 +171,13 @@
                                     </GridPane>
                                  </content>
                               </TitledPane>
-                              <TitledPane alignment="TOP_LEFT" text="%lb.benchmarks.select.input">
+                              <TitledPane alignment="TOP_LEFT" text="%title.benchmarks.input">
                                  <content>
                                     <VBox spacing="5.0" GridPane.columnIndex="1">
                                        <children>
                                           <AnchorPane>
                                              <children>
-                                                <SplitMenuButton fx:id="inputButton" mnemonicParsing="false" onAction="#handleSelectInputAction" prefHeight="25.0" prefWidth="114.0" text="Select Input" AnchorPane.leftAnchor="0.0">
+                                                <SplitMenuButton fx:id="inputButton" mnemonicParsing="false" onAction="#handleSelectInputAction" prefHeight="25.0" prefWidth="114.0" text="%lb.benchmarks.select.input" AnchorPane.leftAnchor="0.0">
                                                    <items>
                                                       <MenuItem fx:id="fileOption" mnemonicParsing="false" onAction="#handleSelectInputAction" text="%btn.menu.input.file" />
                                                       <MenuItem fx:id="randomOption" mnemonicParsing="false" onAction="#handleGenerateSystem" text="%btn.menu.input.random" />
