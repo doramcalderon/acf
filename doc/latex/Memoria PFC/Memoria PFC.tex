@@ -5,6 +5,7 @@
 \usepackage{multirow}
 \usepackage{multicol}
 \usepackage[dvipsnames,svgnames,table]{xcolor}
+\usepackage[export]{adjustbox}
 \usepackage{graphicx}
 \usepackage{epstopdf}
 \usepackage{ulem}
@@ -2141,43 +2142,42 @@ M\'{a}laga a \_\_\_\_ de\_\_\_\_\_\_\_\_\_\_\_\_\_\_ del 200\_
 	\subsection{Direct Optimal Basis}
 		A continuación se muestra el algortimo Direct Optimal Basis presentado en el artículo \cite{bib:ref1}.
 		
-		\begin{tabular}{p{15cm}}
-			\hspace*{.25in} \= \hspace*{1in} 								\= \hspace*{1in} \kill
-							\> \textbf{input}: Un sistema implicacional $\Sigma$	en S	\\
-							\> \textbf{output}: El IS directo-óptimo $\Sigma_{do}$	en S	\\
-			 1				\> \textbf{begin}												\\
-			 2				\> /* Fase 1: Generación de $\Sigma_r$ por reducción de $\Sigma$*/ \\
-			 3				\> $\Sigma_r = \emptyset$ \\
-			 4				\> \FOREACH $A \rightarrow_{\Sigma} B$ \DO\\
-			 5				\> \ESPACIO \IF $B \nsubseteq A$ \THEN add $A \rightarrow B-A$ to $\Sigma_r $; \\
-			 6				\> /* Fase 2: Generación de $\Sigma_{sr}$ por simplificación de $\Sigma_r$*/ \\
-			 7				\> $\Sigma_{sr} = \Sigma_r$\\
-			 8				\> \textbf \REPEAT\\
-			 9				\> \ESPACIO \FOREACH $A \rightarrow B \in \Sigma_{sr}$ \DO\\
-			10				\> \ESPACIO \ESPACIO \FOREACH $C \rightarrow D \in \Sigma_{sr}$ \DO\\
-			11				\> \ESPACIO \ESPACIO \ESPACIO \IF $A \subseteq C$ \THEN\\
-			12				\> \ESPACIO \ESPACIO \ESPACIO \ESPACIO \IF $C \subseteq A \cup B$ \THEN\\
-			13				\> \ESPACIO \ESPACIO \ESPACIO \ESPACIO \ESPACIO replace $A \rightarrow B$ and $C \rightarrow D$ by\\
-							\> \ESPACIO \ESPACIO \ESPACIO \ESPACIO \ESPACIO $A \rightarrow BD$ in $\Sigma_{sr};$\\
-			14				\> \ESPACIO \ESPACIO \ESPACIO \ESPACIO \ESPACIO \ELSE \IF $D \subseteq B$ \THEN\\
-			15				\> \ESPACIO \ESPACIO \ESPACIO \ESPACIO \ESPACIO \ESPACIO  remove $C \rightarrow D$ from 
+		\begin{tabular}{l p{15cm}}
+							& \textbf{input}: Un sistema implicacional $\Sigma$	en S	\\
+							& \textbf{output}: El IS directo-óptimo $\Sigma_{do}$	en S	\\
+			 1				& \textbf{begin}												\\
+			 2				& /* Fase 1: Generación de $\Sigma_r$ por reducción de $\Sigma$*/ \\
+			 3				& $\Sigma_r = \emptyset$ \\
+			 4				& \FOREACH $A \rightarrow_{\Sigma} B$ \DO\\
+			 5				& \ESPACIO \IF $B \nsubseteq A$ \THEN add $A \rightarrow B-A$ to $\Sigma_r $; \\
+			 6				& /* Fase 2: Generación de $\Sigma_{sr}$ por simplificación de $\Sigma_r$*/ \\
+			 7				& $\Sigma_{sr} = \Sigma_r$\\
+			 8				& \textbf \REPEAT\\
+			 9				& \ESPACIO \FOREACH $A \rightarrow B \in \Sigma_{sr}$ \DO\\
+			10				& \ESPACIO \ESPACIO \FOREACH $C \rightarrow D \in \Sigma_{sr}$ \DO\\
+			11				& \ESPACIO \ESPACIO \ESPACIO \IF $A \subseteq C$ \THEN\\
+			12				& \ESPACIO \ESPACIO \ESPACIO \ESPACIO \IF $C \subseteq A \cup B$ \THEN\\
+			13				& \ESPACIO \ESPACIO \ESPACIO \ESPACIO \ESPACIO replace $A \rightarrow B$ and $C \rightarrow D$ by\\
+							& \ESPACIO \ESPACIO \ESPACIO \ESPACIO \ESPACIO $A \rightarrow BD$ in $\Sigma_{sr};$\\
+			14				& \ESPACIO \ESPACIO \ESPACIO \ESPACIO \ESPACIO \ELSE \IF $D \subseteq B$ \THEN\\
+			15				& \ESPACIO \ESPACIO \ESPACIO \ESPACIO \ESPACIO \ESPACIO  remove $C \rightarrow D$ from 
 																					 $\Sigma_{sr}$\\
-			16				\> \ESPACIO \ESPACIO \ESPACIO \ESPACIO \ESPACIO \ESPACIO \ELSE replace $C \rightarrow D$ by\\
-							\> \ESPACIO \ESPACIO \ESPACIO \ESPACIO \ESPACIO \ESPACIO $C-B \rightarrow D-B$ in$\Sigma_{sr};$\\
-			17				\> \UNTIL $\Sigma_{sr}$ es un punto fijo;\\
-			18				\> /*Fase 3: Generación de $\Sigma_{dsr}$ por Strong Simplification de $\Sigma_{sr}$*/   \\
-			19				\> $\Sigma_{dsr}$ = $\Sigma_{sr}$   \\
-			20				\> \FOREACH $A \rightarrow B \in \Sigma_{dsr}$ and $C \rightarrow D \in \Sigma_{dsr}$ \DO  \\
-			21				\> \ESPACIO \IF $B \cap C \neq \emptyset \neq D \backslash (A \cup B)$ \THEN   \\
-			22				\> \ESPACIO \ESPACIO add $AC - B \rightarrow D-(AB)$ to $\Sigma_{dsr}$   \\
-			23				\> /*Fase 4: Generación de $\Sigma_{do}$ por optimización de $\Sigma_{dsr}$*/   \\
-			24				\> $\Sigma_{do} = \emptyset$  \\
-			25				\> \FOREACH $A \rightarrow B \in \Sigma_{dsr}$ \DO  \\
-			26				\> \ESPACIO \FOREACH $C \rightarrow D \in \Sigma_{dsr}$ DO  \\
-			27				\> \ESPACIO \ESPACIO \IF $C = A$ \THEN $B = B \cup D$;  \\
-			28				\> \ESPACIO \ESPACIO \IF $C \nsubseteq A$ \THEN $B = B \backslash D$;   \\
-			29				\> \ESPACIO \IF $B \neq \emptyset$ \THEN add $A \rightarrow B$ to $\Sigma_{do}$;  \\
-			30				\> \RETURN $\Sigma_{do}$\\
+			16				& \ESPACIO \ESPACIO \ESPACIO \ESPACIO \ESPACIO \ESPACIO \ELSE replace $C \rightarrow D$ by\\
+							& \ESPACIO \ESPACIO \ESPACIO \ESPACIO \ESPACIO \ESPACIO $C-B \rightarrow D-B$ in$\Sigma_{sr};$\\
+			17				& \UNTIL $\Sigma_{sr}$ es un punto fijo;\\
+			18				& /*Fase 3: Generación de $\Sigma_{dsr}$ por Strong Simplification de $\Sigma_{sr}$*/   \\
+			19				& $\Sigma_{dsr}$ = $\Sigma_{sr}$   \\
+			20				& \FOREACH $A \rightarrow B \in \Sigma_{dsr}$ and $C \rightarrow D \in \Sigma_{dsr}$ \DO  \\
+			21				& \ESPACIO \IF $B \cap C \neq \emptyset \neq D \backslash (A \cup B)$ \THEN   \\
+			22				& \ESPACIO \ESPACIO add $AC - B \rightarrow D-(AB)$ to $\Sigma_{dsr}$   \\
+			23				& /*Fase 4: Generación de $\Sigma_{do}$ por optimización de $\Sigma_{dsr}$*/   \\
+			24				& $\Sigma_{do} = \emptyset$  \\
+			25				& \FOREACH $A \rightarrow B \in \Sigma_{dsr}$ \DO  \\
+			26				& \ESPACIO \FOREACH $C \rightarrow D \in \Sigma_{dsr}$ DO  \\
+			27				& \ESPACIO \ESPACIO \IF $C = A$ \THEN $B = B \cup D$;  \\
+			28				& \ESPACIO \ESPACIO \IF $C \nsubseteq A$ \THEN $B = B \backslash D$;   \\
+			29				& \ESPACIO \IF $B \neq \emptyset$ \THEN add $A \rightarrow B$ to $\Sigma_{do}$;  \\
+			30				& \RETURN $\Sigma_{do}$\\
 		\end{tabular}
 	
 			
@@ -2201,10 +2201,11 @@ M\'{a}laga a \_\_\_\_ de\_\_\_\_\_\_\_\_\_\_\_\_\_\_ del 200\_
 		La información se organiza en \textit{workspaces}, que no son más que directorios que contendrán los algoritmos y
 		benchmarks definidos y ejecutados en él, así como los resultados (sistemas de salida, trazas y estadísticas) generados.
 		
-		Un \textit{algoritmo} es una implementación Java que recibe como entrada un sistema implicacional y devuelve un valor del
-		mismo tipo.
+		Un \textit{algoritmo} es una implementación Java que recibe como entrada un sistema implicacional y devuelve otro
+		directo-óptimo equivalente.
 		
-		Un \textit{benchmark} es un conjunto de algoritmos que se ejecutan con un sistema implicacional de entrada común. 
+		Un \textit{benchmark} o \textit{experimento} es un conjunto de algoritmos que se ejecutan con uno o varios sistemas
+		implicacionales de entrada comunes. 
 		
 		El menú principal consta de las opciones:
 		
@@ -2216,8 +2217,8 @@ M\'{a}laga a \_\_\_\_ de\_\_\_\_\_\_\_\_\_\_\_\_\_\_ del 200\_
 			\item Help con la ayuda de usuario.
 		\end{itemize}
 		
-		El funcionamiento básico de la aplicación se resume en registro de algoritmos y benchmarks, ejecución de algoritmos y
-		benchmarks y visualización de resultados. Por esto la aplicación se divide en tres zonas principales: \textit{Inicio},
+		El funcionamiento básico de la aplicación se resume en registro de algoritmos y benchmarks, ejecución de éstos y
+		visualización de resultados. Por esto la aplicación se divide en tres zonas principales: \textit{Inicio},
 		\textit{Benchmarks} y \textit{Resultados}.
 		
 		Con el área Inicio se pretende que el usuario pueda recordar las últimas acciones en el workspace actual al entrar en la
@@ -2235,19 +2236,31 @@ M\'{a}laga a \_\_\_\_ de\_\_\_\_\_\_\_\_\_\_\_\_\_\_ del 200\_
 		
 		
 			%IMAGEN PESTAÑA BENCHMARKS
+			\begin{figure}[H]
+				\centering
+				\includegraphics[width=1.00\textwidth,frame]{imagenes/figura28.png}
+				\caption{Pestaña Benchmarks}
+				\label{fig:figura28}
+			\end{figure}				
 			
 		
 			
 		El área \textit{Resultados}, contendrá los resultados detallados de los benchmarks del workspace actual, y será la zona que
 		el usuario utilizará para realizar sus comparativas.
 		
-			%IMAGEN PESTAÑA RESULTADOS
-			
+			\begin{figure}[H]
+				\centering
+					\includegraphics[width=1.00\textwidth, frame]{imagenes/figura29.png}
+				\caption{Pestaña Resultados}
+				\label{fig:figura29}
+			\end{figure}
+
 		
 			
 		\subsubsection{Workspaces}
 		
-			Un \textit{workspace} es una ubicación física donde se guardan archivos relacionados para su uso en IS Bench. 
+			La configuración de la aplicación está organizada en \textit{workspaces} que no son más que directorios en los que se
+			guardan archivos relacionados para su uso en IS Bench. 
 			
 			Estos archivos pueden ser:
 			\begin{itemize}
@@ -2255,6 +2268,30 @@ M\'{a}laga a \_\_\_\_ de\_\_\_\_\_\_\_\_\_\_\_\_\_\_ del 200\_
 				\item Archivos con sistemas implicacionales de entrada para los algoritmos a ejecutar. 
 				\item Archivos con los sistemas implicacionales de salida de los algoritmos ejecutados. 
 			\end{itemize}
+			
+			El contenido de un workspace puede ser:\\
+			IMAGEN WORKSPACE
+			
+			La primera vez que se arranca la aplicación, se crea el archivo isbench.properties en el directorio \textit{.isbench}
+			del \textit{home} del usuario. En Windows por ejemplo sería 
+			\textit{C:$\backslash$Users$\backslash$usuario$\backslash$.isbench}.
+			
+			Este archivo contiene las rutas de los workspaces registrados y el último workspace con el que el usuario entró a la
+			aplicación. Por ejemplo:
+			
+			\begin{figure}[H]
+				\centering
+					\includegraphics[width=1.00\textwidth]{imagenes/figura37.PNG}
+				\caption{isbench.properties}
+				\label{fig:figura37}
+			\end{figure}
+			
+			La carpeta de un workspace contiene los algoritmos y benchmarks registrados en él, así como un archivo de preferencias
+			como se ve en la siguiente figura. 
+			
+			IMAGEN CARPETA WORKSPACE
+			
+			
 			
 			La aplicación establece un workspace por defecto en [home\_usuario]$\backslash\text{.isbench}\backslash\text{default}$ y
 			es con el que se arrancará la primera vez.
@@ -2273,12 +2310,12 @@ M\'{a}laga a \_\_\_\_ de\_\_\_\_\_\_\_\_\_\_\_\_\_\_ del 200\_
 			
 			%IMAGEN VENTANA WORKSPACE
 			
-			El campo \textit{Location} es un desplegable editable, que contiene como ítems los workspaces existentes.
+			El campo \textit{Directorio} es un desplegable editable, que contiene como ítems los workspaces existentes.
 			
 			Para cambiar de workspace, el usuario sólo tiene que seleccionar uno de los ítems del desplegable.
 			
 			Para crear uno nuevo, sólo ha de introducir la ruta absoluta del directorio en el que quiere crearlo o seleccionarlo
-			con el buscador pulsando en el botón %IMAGEN BOTON.
+			con el buscador pulsando en el botón \includegraphics[scale=.5]{imagenes/figura36.png}.
 			
 		\subsubsection{Registrar Algoritmos}
 		
@@ -2292,8 +2329,14 @@ M\'{a}laga a \_\_\_\_ de\_\_\_\_\_\_\_\_\_\_\_\_\_\_ del 200\_
 
 			Desde la opción \textit{Archivo} $\rightarrow$ Algoritmos del menú principal, se abrirá la ventana \textit{Nuevo
 			Algoritmo}:
-			
-			%IMAGEN VENTANA NUEVO ALGORITMO
+
+			\begin{figure}[H]
+				\centering
+					\includegraphics[width=1.00\textwidth,frame]{imagenes/figura30.PNG}
+				\caption{Ventana Nuevo Algoritmo}
+				\label{fig:figura30}
+			\end{figure}
+
 			
 			En ella se podrá registrar un algoritmo introduciendo su nombre, abreviatura y la clase que lo implementa.
 			
@@ -2316,11 +2359,24 @@ M\'{a}laga a \_\_\_\_ de\_\_\_\_\_\_\_\_\_\_\_\_\_\_ del 200\_
 			Si alguno de los campos no se introduce y se pulsa el botón \textit{Guardar}, se produce un error de validación y se
 			marcan los campos incompletos:
 			
-			%IMAGEN ERROR DE VALIDACIÓN
+			\begin{figure}[H]
+				\centering
+					\includegraphics[width=1.00\textwidth,frame]{imagenes/figura31.PNG}
+				\caption{Error de validación}
+				\label{fig:figura31}
+			\end{figure}
+
 			
 			Igual sucede, si la clase introducida no existe o no es una implementación:
 			
-			%IMAGEN ERROR DE VALIDACIÓN
+			
+			\begin{figure}[H]
+				\centering
+					\includegraphics[width=1.00\textwidth,frame]{imagenes/figura32.PNG}
+				\caption{Error clase no existente}
+				\label{fig:figura32}
+			\end{figure}
+
 			
 			Una vez introducidos correctamente todos los campos, al pulsar el botón \textit{Guardar}, el algoritmo se registra en
 			el archivo [workspace\_dir]/workspace.xml.
@@ -2350,8 +2406,13 @@ M\'{a}laga a \_\_\_\_ de\_\_\_\_\_\_\_\_\_\_\_\_\_\_ del 200\_
 			Para poder ejecutar un benchmark éste ha debido ser registrado en el workspace.Para crear un benchmark se ha de acceder
 			a la pestaña \textit{Nuevo} del área Benchmarks .	
 			
-			
-			%IMAGEN PESTAÑA NUEVO BENCHMARK
+			\begin{figure}[H]
+				\centering
+					\includegraphics[width=1.00\textwidth,frame]{imagenes/figura28.png}
+				\caption{Pestaña Nuevo Benchmark}
+				\label{fig:figura28}
+			\end{figure}
+
 			
 			En ésta se muestra un formulario con los campos que se ven en la imagen:
 			
@@ -2371,7 +2432,13 @@ M\'{a}laga a \_\_\_\_ de\_\_\_\_\_\_\_\_\_\_\_\_\_\_ del 200\_
 			Al ser todos los campos obligatorios, si se pulsa el botón \textit{Guardar} con algún campo sin completar, la aplicación
 			muestra un mensaje informando de ello y para los campos \textit{Nombre} y \textit{Entrada} se marcan como erróneos.
 		
-			%IMAGEN ERROR DE VALIDACIÓN
+			\begin{figure}[H]
+				\centering
+					\includegraphics[width=1.00\textwidth,frame]{imagenes/figura33.PNG}
+				\caption{Error de validación del campo Nombre}
+				\label{fig:figura33}
+			\end{figure}
+
 			
 			Una vez introducidos todos los valores correctamente, al pulsar el botón \textit{Guardar}, el benchmark se registra en
 			el archivo \textit{[workspace\_dir]/benchmarks.xml}:
@@ -2429,8 +2496,13 @@ M\'{a}laga a \_\_\_\_ de\_\_\_\_\_\_\_\_\_\_\_\_\_\_ del 200\_
 			
 			La ejecución de benchmarks se hace desde la pestaña \textit{Ejecutar} del área Benchmarks.
 			
-			%IMAGEN PESTAÑAÑ EJECUTAR BENCHMARK
-			
+			\begin{figure}[H]
+				\centering
+					\includegraphics[width=1.00\textwidth]{imagenes/figura34.PNG}
+				\caption{Pestaña Ejecutar Benchmark}
+				\label{fig:figura34}
+			\end{figure}
+
 			Como se ve en la imagen, esta pestaña se compone de:
 			
 			\begin{itemize}
