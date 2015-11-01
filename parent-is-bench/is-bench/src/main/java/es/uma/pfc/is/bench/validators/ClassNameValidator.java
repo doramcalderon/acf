@@ -2,6 +2,7 @@
 package es.uma.pfc.is.bench.validators;
 
 import es.uma.pfc.is.algorithms.Algorithm;
+import es.uma.pfc.is.bench.i18n.BenchMessages;
 import es.uma.pfc.is.commons.strings.StringUtils;
 import java.lang.reflect.Modifier;
 import java.util.logging.Level;
@@ -29,18 +30,18 @@ public class ClassNameValidator implements Validator<String> {
                 if(Modifier.isAbstract(clazz.getModifiers()) 
                         || Modifier.isInterface(clazz.getModifiers()) 
                         || !Algorithm.class.isAssignableFrom(clazz)) {
-                    errorMessage = "The class is not an implementation of " + Algorithm.class.getName();
+                    errorMessage = BenchMessages.get().getMessage(BenchMessages.MSG_NOT_IMPLEMENTATION, Algorithm.class.getName());
                     valid = false;
                 } else {
                     valid = true;
                 }
 
             } catch (ClassNotFoundException ex) {
-                errorMessage = "The class not exists.";
-                Logger.getLogger(ClassNameValidator.class.getName()).log(Level.SEVERE, "The class not exists.");
+                errorMessage = BenchMessages.get().getMessage(BenchMessages.CLASS_NOT_EXISTS);
+                Logger.getLogger(ClassNameValidator.class.getName()).log(Level.SEVERE, errorMessage);
             }
         } else {
-            errorMessage ="The class can't be empty.";
+            errorMessage = BenchMessages.get().getMessage(BenchMessages.EMPTY_CLASS);
         }
         return ValidationResult.fromErrorIf(control, errorMessage, !valid);
     }

@@ -24,6 +24,18 @@ public class BenchMessages extends Messages {
      */
     public static final String ALGORITHM_EXISTS = "msg.algorithm.exists";
     /**
+     * Implementation error.
+     */
+    public static final String MSG_NOT_IMPLEMENTATION = "msg.algorithm.error.implementation";
+    /**
+     * Class not exists.
+     */
+    public static final String CLASS_NOT_EXISTS = "msg.algorithm.error.classnotexists";
+    /**
+     * Empty class error.
+     */
+    public static final String EMPTY_CLASS = "msg.algorithm.error.emptyclass";
+    /**
      * Algorithm name attribute.
      */
     public static final String ALGORITHM_NAME = "msg.algorithm.name";

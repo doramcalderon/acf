@@ -25,7 +25,7 @@ public class ISBenchApp extends Application {
     public void start(Stage primaryStage) throws IOException {
 //        System.setProperty("log4j.configurationFile", "es/uma/pfc/is/bench/log4j2.xml");
 //        System.setProperty("isbench.output.dir", ConfigManager.get().getDefaultOutputDir().getPath());
-        Locale.setDefault(new Locale("en", "GB"));
+       //Locale.setDefault(new Locale("en", "GB"));
         loadResources(Locale.getDefault());
         loadRootLayout();
         showStage(primaryStage);

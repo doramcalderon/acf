@@ -32,7 +32,7 @@
             </HBox>
             <HBox prefHeight="100.0" prefWidth="200.0" spacing="5.0" GridPane.rowIndex="1">
                <children>
-                  <Label text="Name:" />
+                  <Label text="%lb.benchmarks.name" />
                   <TextField fx:id="txtName" HBox.hgrow="ALWAYS" />
                </children>
             </HBox>
@@ -64,10 +64,10 @@
                      <children>
                         <AnchorPane>
                            <children>
-                              <SplitMenuButton fx:id="inputButton" mnemonicParsing="false" onAction="#handleSelectInputDir" prefHeight="25.0" prefWidth="114.0" text="Select Input" AnchorPane.leftAnchor="0.0">
+                              <SplitMenuButton fx:id="inputButton" mnemonicParsing="false" onAction="#handleSelectInputDir" prefHeight="25.0" prefWidth="114.0" text="%lb.benchmarks.select.input" AnchorPane.leftAnchor="0.0">
                                 <items>
-                                  <MenuItem fx:id="fileOption" mnemonicParsing="false" onAction="#handleSelectInputDir" text="File" />
-                                  <MenuItem fx:id="randomOption" mnemonicParsing="false" onAction="#handleGenerateSystem" text="Random" />
+                                  <MenuItem fx:id="fileOption" mnemonicParsing="false" onAction="#handleSelectInputDir" text="%btn.menu.input.file" />
+                                  <MenuItem fx:id="randomOption" mnemonicParsing="false" onAction="#handleGenerateSystem" text="%btn.menu.input.random" />
                                 </items>
                               </SplitMenuButton>
                               <Label fx:id="lbSelectedFiles" alignment="CENTER_RIGHT" contentDisplay="RIGHT" layoutX="119.0" nodeOrientation="RIGHT_TO_LEFT" text="5 seleccionados" textAlignment="RIGHT" AnchorPane.rightAnchor="0.0" />

@@ -18,8 +18,8 @@
                      <children>
                         <HBox spacing="5.0">
                            <children>
-                              <Button fx:id="btnRun" mnemonicParsing="false" onAction="#handleRunAction" prefHeight="50.0" prefWidth="50.0" text="%btn.run" />
-                              <Button fx:id="btnClear" layoutX="15.0" layoutY="15.0" mnemonicParsing="false" onAction="#handleClearAll" prefHeight="50.0" prefWidth="50.0" text="%menu.clear" />
+                              <Button fx:id="btnRun" mnemonicParsing="false" onAction="#handleRunAction" prefHeight="60.0" prefWidth="80.0" text="%btn.run" />
+                              <Button fx:id="btnClear" layoutX="15.0" layoutY="15.0" mnemonicParsing="false" onAction="#handleClearAll" prefHeight="60.0" prefWidth="80.0" text="%menu.clear" />
                            </children>
                         </HBox>
                      </children>
@@ -101,7 +101,7 @@
                             <RowConstraints minHeight="0.0" percentHeight="70.0" />
                           </rowConstraints>
                            <children>
-                              <TitledPane alignment="TOP_LEFT" prefHeight="363.0" prefWidth="505.0" text="%output" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" GridPane.rowIndex="1">
+                              <TitledPane alignment="TOP_LEFT" prefHeight="363.0" prefWidth="505.0" text="%title.benchmarks.output" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" GridPane.rowIndex="1">
                                  <content>
                                     <GridPane prefHeight="42.0" prefWidth="461.0">
                                        <columnConstraints>
@@ -123,10 +123,10 @@
                                                             <ProgressIndicator fx:id="historyProgressInd" layoutX="812.0" layoutY="401.0" maxHeight="50.0" maxWidth="50.0" visible="false" AnchorPane.leftAnchor="400.0" AnchorPane.topAnchor="300.0" />
                                                             <TreeTableView fx:id="tableResults" prefHeight="200.0" prefWidth="200.0" tableMenuButtonVisible="true">
                                                               <columns>
-                                                                  <TreeTableColumn fx:id="nameColumn" minWidth="150.0" prefWidth="-1.0" text="Name" />
-                                                                  <TreeTableColumn fx:id="timeColumn" prefWidth="75.0" text="Time" />
-                                                                <TreeTableColumn fx:id="inputColumn" editable="false" minWidth="200.0" prefWidth="-1.0" text="Input" />
-                                                                <TreeTableColumn fx:id="outputColumn" editable="false" minWidth="200.0" prefWidth="-1.0" text="Output" />
+                                                                  <TreeTableColumn fx:id="nameColumn" minWidth="150.0" prefWidth="-1.0" text="%column.benchmarks.results.name" />
+                                                                  <TreeTableColumn fx:id="timeColumn" prefWidth="75.0" text="%column.benchmarks.results.time" />
+                                                                <TreeTableColumn fx:id="inputColumn" editable="false" minWidth="200.0" prefWidth="-1.0" text="%column.benchmarks.results.input" />
+                                                                <TreeTableColumn fx:id="outputColumn" editable="false" minWidth="200.0" prefWidth="-1.0" text="%column.benchmarks.results.output" />
                                                               </columns>
                                                             </TreeTableView>
                                                          </children>
@@ -171,7 +171,7 @@
                                     </GridPane>
                                  </content>
                               </TitledPane>
-                              <TitledPane alignment="TOP_LEFT" text="Input Files">
+                              <TitledPane alignment="TOP_LEFT" text="%lb.benchmarks.select.input">
                                  <content>
                                     <VBox spacing="5.0" GridPane.columnIndex="1">
                                        <children>
@@ -179,11 +179,11 @@
                                              <children>
                                                 <SplitMenuButton fx:id="inputButton" mnemonicParsing="false" onAction="#handleSelectInputAction" prefHeight="25.0" prefWidth="114.0" text="Select Input" AnchorPane.leftAnchor="0.0">
                                                    <items>
-                                                      <MenuItem fx:id="fileOption" mnemonicParsing="false" onAction="#handleSelectInputAction" text="File" />
-                                                      <MenuItem fx:id="randomOption" mnemonicParsing="false" onAction="#handleGenerateSystem" text="Random" />
+                                                      <MenuItem fx:id="fileOption" mnemonicParsing="false" onAction="#handleSelectInputAction" text="%btn.menu.input.file" />
+                                                      <MenuItem fx:id="randomOption" mnemonicParsing="false" onAction="#handleGenerateSystem" text="%btn.menu.input.random" />
                                                    </items>
                                                 </SplitMenuButton>
-                                                <Label fx:id="lbSelectedFiles" alignment="CENTER_RIGHT" contentDisplay="RIGHT" layoutX="119.0" nodeOrientation="RIGHT_TO_LEFT" text="5 seleccionados" textAlignment="RIGHT" AnchorPane.rightAnchor="0.0" />
+                                                <Label fx:id="lbSelectedFiles" alignment="CENTER_RIGHT" contentDisplay="RIGHT" layoutX="119.0" nodeOrientation="RIGHT_TO_LEFT" text="0 seleccionados" textAlignment="RIGHT" AnchorPane.rightAnchor="0.0" />
                                              </children>
                                              <padding>
                                                 <Insets left="5.0" right="5.0" />

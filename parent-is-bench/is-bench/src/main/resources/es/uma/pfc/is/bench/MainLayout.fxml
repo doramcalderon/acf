@@ -11,17 +11,17 @@
     <center>
       <TabPane rotateGraphic="true" side="LEFT">
          <tabs>
-            <Tab closable="false" text="Home">
+            <Tab closable="false" text="%tab.home">
                <content>
                      <fx:include source="/es/uma/pfc/is/bench/home/Home.fxml"/>
                     </content>
                 </Tab>
-                <Tab closable="false" text="Benchmarks">
+                <Tab closable="false" text="%tab.benchmarks">
                     <content>
                         <fx:include source="/es/uma/pfc/is/bench/benchmarks/Benchmarks.fxml"/>
                     </content>
                 </Tab>
-                <Tab closable="false" text="Results">
+                <Tab closable="false" text="%tab.results">
                     <content>
                         <fx:include source="/es/uma/pfc/is/bench/benchmarks/results/Results.fxml"/>
                     </content>
