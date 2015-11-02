@@ -1,10 +1,7 @@
 package es.uma.pfc.is.algorithms.exceptions;
 
-
-
-
 /**
- * Error al ejecutar un algoritmo.
+ * Algorithm execution error.
  * @author Dora Calderón
  */
 public class AlgorithmException extends RuntimeException {
@@ -17,7 +14,7 @@ public class AlgorithmException extends RuntimeException {
 
     /**
      * Constructor.
-     * @param message Mensaje.
+     * @param message Message.
      */
     public AlgorithmException(String message) {
         super(message);
@@ -25,8 +22,8 @@ public class AlgorithmException extends RuntimeException {
 
     /**
      * Constructor.
-     * @param message Mensaje.
-     * @param cause Causa.
+     * @param message Message.
+     * @param cause Cause.
      */
     public AlgorithmException(String message, Throwable cause) {
         super(message, cause);

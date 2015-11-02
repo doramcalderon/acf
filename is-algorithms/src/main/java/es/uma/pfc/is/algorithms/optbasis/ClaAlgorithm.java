@@ -5,7 +5,7 @@ import es.uma.pfc.is.algorithms.GenericAlgorithm;
 import fr.kbertet.lattice.ImplicationalSystem;
 
 /**
- *
+ * CLA Algorithm implementation.
  * @author Dora Calderón
  */
 public class ClaAlgorithm extends GenericAlgorithm {

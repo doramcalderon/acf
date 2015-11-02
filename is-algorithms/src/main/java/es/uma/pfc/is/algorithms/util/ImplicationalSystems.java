@@ -2,14 +2,11 @@ package es.uma.pfc.is.algorithms.util;
 
 import fr.kbertet.lattice.ImplicationalSystem;
 import fr.kbertet.lattice.Rule;
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.Iterator;
 
 /**
- * Clase de utilidades para objetos de tipo {@link ImplicationalSystem}.
- *
- * @since 1.0.0
+ * Utility for {@link ImplicationalSystem} objects.
  * @author Dora Calderón
  */
 public class ImplicationalSystems {
@@ -21,10 +18,9 @@ public class ImplicationalSystems {
     }
 
     /**
-     * Número de implicaciones de un sistema.
-     *
-     * @param system Sistema implicacional.
-     * @return Número de implicaciones. {@code null} cuando el sistema es nulo.
+     * Number implications of a system.
+     * @param system Implicational System.
+     * @return Implications number. {@code null} when the syste is null.
      */
     public static final Integer getCardinality(ImplicationalSystem system) {
         Integer cardinality = null;
@@ -35,11 +31,10 @@ public class ImplicationalSystems {
     }
 
     /**
-     * Suma del número de atributos que hay a la derecha más los que hay a la izquierda para todas las implicaciones.
-     *
-     * @param system Sistema implicacional.
-     * @return la suma del número de atributos que hay a la derecha más los que hay a la izquierda para todas las
-     * implicaciones.<br/> {@code null} cuando el sistema es nulo.
+     * Sum of the number of attributes of right and left side for all the implications.
+     * @param system Implicational system.
+     * @return The sum of the number of attributes of right and left side for all the implications.
+     * <br/> {@code null} when the system is null.
      */
     public static final Integer getSize(ImplicationalSystem system) {
         Integer size = null;
@@ -54,27 +49,26 @@ public class ImplicationalSystems {
     }
 
     /**
-     * Añade una regla y sus elementos a un sistema.
-     * @param system Sistema implicacional.
-     * @param rule Regla.
-     * @return {@code true} if the rule is added.
+     * Adds an implication and its elements to an implicational system.
+     * @param system Implicational system.
+     * @param implication Implication.
+     * @return {@code true} if the implication is added.
      * @trhows NullPointerExcetpion If system is null.
      */
-    public static final boolean addRuleAndElements(ImplicationalSystem system, final Rule rule) {
+    public static final boolean addRuleAndElements(ImplicationalSystem system, final Rule implication) {
         boolean added = false;
-        if(rule != null) {
-            system.addAllElements(Rules.getElements(rule));
-            added = system.addRule(rule);
+        if(implication != null) {
+            system.addAllElements(Rules.getElements(implication));
+            added = system.addRule(implication);
         }
         return added;
     }
 
     /**
-     * Añade una colección de implicaciones a un sistema.
-     *
-     * @param system Sistema implicacional.
-     * @param rules Implicaciones.
-     * @return Sistema implicacional con las nuevas implicaciones añadidas.
+     * Adds an implications collection to a system.
+     * @param system Implicational system.
+     * @param rules Implications.
+     * @return Implicational system with the new implications added.
      */
     public static final ImplicationalSystem addAllRules(final ImplicationalSystem system, final Collection<Rule> rules) {
         ImplicationalSystem newSystem = (system == null) ? new ImplicationalSystem() : new ImplicationalSystem(system);
@@ -90,10 +84,10 @@ public class ImplicationalSystems {
 
     
     /**
-     * Si dos sistemas son dos iguales, es decir, contienen las mismas implicaciones.
-     * @param system1 Sistema implicacional.
-     * @param system2 Sistema implicacional.
-     * @return {@code true} si los dos sistemas contienen las mismas implicaciones, {@code false} en otro caso.
+     * If two systems are equals, i.e., contain the same implications.
+     * @param system1 Implicational system.
+     * @param system2 Implicational system.
+     * @return {@code true} if the systems contains the same implications, {@code false} otherwise.
      */
     public static final boolean equals(final ImplicationalSystem system1, final ImplicationalSystem system2) {
         

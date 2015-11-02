@@ -6,26 +6,26 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * Opciones de ejecución de un algoritmo.
+ * Algorithm execution options.
  * @author Dora Calderón
  */
 public class AlgorithmOptions {
     /**
-     * Modos de ejecución.
+     * Execution modes.
      */
     public enum Mode {
-        /** Se miden los tiempos de ejecuión.*//** Se miden los tiempos de ejecuión.*/
+        /** Execution times are measured. *//** Execution times are measured. */
         PERFORMANCE, 
-        /** Se guardan estadísticas.*/
+        /** Statistics are saved.*/
         STATISTICS, 
-        /** Se genera traza.*/
-        HISTORY}
+        /** Trace is generated.*/
+        TRACE}
     public enum Options {
-        /** Entrada del algoritmo.**/
+        /** Algorithm input.**/
         INPUT,
-        /** Directorio de salida.**/
+        /** Output dir.**/
         OUTPUT,
-        /** Tipo de archivos de salida. **/
+        /** Output file types. **/
         OUTPUT_TYPE,
         /**
          * Nombre base de los archivos del logger.
@@ -34,22 +34,25 @@ public class AlgorithmOptions {
     }
     
     /**
-     * Opciones.
+     * Options.
      */
     private final Map<String, Object> options;
 
+    /**
+     * Constructor.
+     */
     public AlgorithmOptions() {
         options = new HashMap();
     }
     
     
     /**
-     * Devuelve el valor de una opción.
-     * @param <T> Tipo del valor.
-     * @param algOptions Opciones de algoritmo.
-     * @param key Nombre.
-     * @return Valor de la opción. <br/> {@code null} si no existe.
-     * @throws ClassCastException si el tipo de la opción no es T.
+     * Returns an option value.
+     * @param <T> Value type.
+     * @param algOptions Algorihtm options.
+     * @param key Option name.
+     * @return Option value. <br/> {@code null} if no exists.
+     * @throws ClassCastException if the type option not is T.
      */
     public static <T> T getOption(AlgorithmOptions algOptions, String key) {
         T optionValue = null;
@@ -63,60 +66,60 @@ public class AlgorithmOptions {
     }
     
     /**
-     * Añade una nueva opción.
-     * @param key Clave.
-     * @param value Valor.
-     * @return Valor anterior.
-     * @throws InvalidKeyException Cuando la clave es nula o vacía.
+     * Add a new option.
+     * @param key Key.
+     * @param value Value.
+     * @return Previous value.
+     * @throws InvalidKeyException When the key is null or empty.
      */
     public Object addOption(String key, Object value) {
         checkKey(key);
         return options.put(key, value);
     }
     /**
-     * Añade una nueva opción.
-     * @param option Nombre de la opción.
-     * @param value Valor.
-     * @return Valor anterior.
-     * @throws InvalidKeyException Cuando la clave es nula o vacía.
+     * Add a new option
+     * @param option Option name.
+     * @param value Value.
+     * @return Previous value.
+     * @throws InvalidKeyException when the key is null or empty.
      */
     public Object addOption(Options option, Object value) {
         return options.put(option.toString(), value);
     }
     
     /**
-     * Elimina una nueva opción.
-     * @param key Clave.
-     * @return Valor eliminado.
+     * Removes an option.
+     * @param key Key.
+     * @return Deleted value.
      */
     public Object removeOption(String key) {
         checkKey(key);
         return options.remove(key);
     }
     /**
-     * Devuelve el valor de una opción.
-     * @param <T> Tipo del valor.
-     * @param key Nombre.
-     * @return Valor de la opción. <br/> {@code null} si no existe.
-     * @throws ClassCastException si el tipo de la opción no es T.
+     * Returns an option value.
+     * @param <T> Value type.
+     * @param key Option name.
+     * @return Value option. <br/> {@code null} if not exists.
+     * @throws ClassCastException when the type option not is T.
      */
     public <T> T getOption(String key) {
         checkKey(key);
         return (T) options.get(key);
     }
     /**
-     * Devuelve el valor de una opción.
-     * @param <T> Tipo del valor.
-     * @param key Nombre.
-     * @return Valor de la opción. <br/> {@code null} si no existe.
-     * @throws ClassCastException si el tipo de la opción no es T.
+     * Returns an option value.
+     * @param <T> Value type.
+     * @param key Option name.
+     * @return Value option. <br/> {@code null} if not exists.
+     * @throws ClassCastException when the type option not is T.
      */
     public <T> T getOption(Options key) {
         return (T) options.get(key.toString());
     }
     /**
-     * Habilita un modo de ejecución.
-     * @param mode Modo de ejecución.
+     * Enables an execution mode.
+     * @param mode Execution mode.
      */
     public void enable(Mode mode) {
         checkMode(mode);
@@ -124,25 +127,25 @@ public class AlgorithmOptions {
         
     }
     /**
-     * Deshabilita un modo de ejecución.
-     * @param mode Modo de ejecución.
+     * Disables an execution mode.
+     * @param mode Execution mode.
      */
     public void disable(Mode mode) {
         checkMode(mode);
         options.put(mode.toString(), false);
     }
     /**
-     * Número de opciones.
-     * @return Nümero de opciones.
+     * Options size.
+     * @return Options size.
      */
     public int optionsSize() {
         return options.size();
     }
   
     /**
-     * Si un modo de ejecución está habilitado.
-     * @param mode Modo de ejecución.
-     * @return {@code true} si está habilitado, {@code false} en otro caso.
+     * If an execution mode is enabled.
+     * @param mode Execution mode.
+     * @return {@code true} if is enabled, {@code false} otherwise.
      */
     public boolean isEnabled(Mode mode) {
         checkMode(mode);
@@ -150,16 +153,16 @@ public class AlgorithmOptions {
     }
     
     /**
-     * Limpia la configuración.
+     * Reset the configuration.
      */
     public void clear() {
         options.clear();
     }
   
     /**
-     * Comprueba si la clave es válida.
-     * @param key Clave.
-     * @throws InvalidKeyException Cuando la clave es nula o vacía.
+     * Checks if the key is valid.
+     * @param key Key.
+     * @throws InvalidKeyException When the key is empty or null.
      */
     protected void checkKey(String key) {
          if(key == null || key.isEmpty()) {
@@ -168,9 +171,9 @@ public class AlgorithmOptions {
     }
     
      /**
-     * Comprueba si el modo es válido.
-     * @param mode Modo.
-     * @throws InvalidKeyException Cuando el modo es nulo.
+     * Checks if the mode is valid.
+     * @param mode Mode.
+     * @throws InvalidKeyException When the mode is null.
      */
     protected void checkMode(Mode mode) {
         if(mode == null) {

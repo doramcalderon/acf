@@ -4,17 +4,19 @@ import es.uma.pfc.is.commons.strings.StringUtils;
 import java.util.ResourceBundle;
 
 /**
- * I18n Messages Keys.
- *
+ * Utility for get i18n messages by a resource bundle.
  * @author Dora Calderón
  */
 public abstract class Messages {
 
-
+   /**
+    * Resource bundle with i18n messages.
+    * @return ResourceBundle.
+    */ 
     public abstract ResourceBundle getBundle();
     
     /**
-     * Return a message with replaced arguments.
+     * Return a translated message with replaced arguments.
      *
      * @param messageKey Message key.
      * @param args Arguments.

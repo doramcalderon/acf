@@ -1,6 +1,5 @@
 package es.uma.pfc.is.algorithms;
 
-import es.uma.pfc.is.algorithms.util.StringUtils;
 import es.uma.pfc.is.commons.i18n.Messages;
 import java.util.ResourceBundle;
 
@@ -41,7 +40,7 @@ public class AlgMessages extends Messages {
     }
 
     /**
-     * Get a single instance.
+     * Gets a single instance.
      * @return AlgMessages instance.
      */
     public static AlgMessages get() {

@@ -4,7 +4,7 @@ import es.uma.pfc.is.logging.AlgorithmLogger;
 import fr.kbertet.lattice.ImplicationalSystem;
 
 /**
- * Algoritmo aplicable a sistemas implicacionales.
+ * Algorithm of implicational system basis computation.
  *
  * @author Dora Calderón
  */
@@ -19,36 +19,32 @@ public interface Algorithm {
     ImplicationalSystem execute(ImplicationalSystem input);
 
     /**
-     * Nombre.
-     *
-     * @return Nombre.
+     * Algorithm name.
+     * @return Name.
      */
     String getName();
 
     /**
-     * Sets the name.
-     *
+     * Sets the algorithm name.
      * @param name Name.
      */
     void setName(String name);
 
     /**
-     * Short name.
-     *
+     * Algorithm short name.
      * @return Short name.
      */
     String getShortName();
 
    
     /**
-     * Set the short name.
-     *
+     * Sets the algorithn short name.
      * @param shortName Shrot name.
      */
     void setShortName(String shortName);
     
     /**
-     * Logger.
+     * Logger for trace generation.
      * @return AlgorithmLogger. 
      */
     AlgorithmLogger getLogger();

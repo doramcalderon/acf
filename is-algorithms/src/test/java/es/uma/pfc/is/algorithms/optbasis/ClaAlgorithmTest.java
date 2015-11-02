@@ -44,7 +44,7 @@ public class ClaAlgorithmTest {
         ClaAlgorithm alg = new ClaAlgorithm();
         AlgorithmOptions o = new AlgorithmOptions();
         o.addOption(AlgorithmOptions.Options.OUTPUT.toString(), Paths.get(System.getProperty("user.dir"), "do2_ej_olomouc_nunit.log").toString());
-        o.enable(AlgorithmOptions.Mode.HISTORY);
+        o.enable(AlgorithmOptions.Mode.TRACE);
         alg.getLogger().setOptions(o);
         
         ImplicationalSystem algResult = alg.execute(inputSystem);
@@ -61,7 +61,7 @@ public class ClaAlgorithmTest {
         ClaAlgorithm alg = (ClaAlgorithm) new ClaAlgorithm();
         AlgorithmOptions o = new AlgorithmOptions();
         o.addOption(AlgorithmOptions.Options.OUTPUT.toString(), Paths.get(System.getProperty("user.dir"), "ej_saedian3.log").toString());
-        o.enable(AlgorithmOptions.Mode.HISTORY);
+        o.enable(AlgorithmOptions.Mode.TRACE);
         o.enable(AlgorithmOptions.Mode.PERFORMANCE);
         alg.getLogger().setOptions(o);
         ImplicationalSystem algResult = alg.execute(inputSystem);

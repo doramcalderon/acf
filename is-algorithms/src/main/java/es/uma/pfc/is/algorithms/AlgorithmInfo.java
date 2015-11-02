@@ -2,7 +2,6 @@
 
 package es.uma.pfc.is.algorithms;
 
-import es.uma.pfc.is.algorithms.Algorithm;
 import es.uma.pfc.is.commons.strings.StringUtils;
 import java.util.Objects;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -22,13 +21,20 @@ public class AlgorithmInfo {
      */
     private String shortName;
     /**
-     * Class of implementation.
+     * Algorithm implementation class.
      */
     private Class<? extends Algorithm> type;
 
+    /**
+     * Constructor.
+     */
     public AlgorithmInfo() {
     }
 
+    /**
+     * Constructs an AlgorithmInfo instance from an algorithm implementation.
+     * @param alg Algorithm.
+     */
     public AlgorithmInfo(Algorithm alg) {
         if(alg != null) {
             this.name = alg.getName();
@@ -40,33 +46,31 @@ public class AlgorithmInfo {
     
 
     /**
-     * Name.
+     * Algorithm name.
      * @return the name
      */
-//    @XmlAttribute(required = true)
     public String getName() {
         return name;
     }
 
     /**
-     * Name.
-     * @param name the name to set
+     * Sets the algorithm name.
+     * @param name the name to set.
      */
     public void setName(String name) {
         this.name = name;
     }
 
     /**
-     * Short name.
-     * @return the shortName
+     * Algorithm short name.
+     * @return the short name.
      */
-//    @XmlAttribute
     public String getShortName() {
         return shortName;
     }
 
     /**
-     * Short name.
+     * Sets the algorithm short name.
      * @param shortName the shortName to set
      */
     public void setShortName(String shortName) {
@@ -77,7 +81,6 @@ public class AlgorithmInfo {
      * Class of implementation.
      * @return the type
      */
-//    @XmlAttribute(required = true)
     public Class<? extends Algorithm> getType() {
         return type;
     }

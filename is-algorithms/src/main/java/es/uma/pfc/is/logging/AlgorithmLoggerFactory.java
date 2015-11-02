@@ -16,18 +16,7 @@ import java.util.Map;
  * @author Dora Calderón
  */
 public class AlgorithmLoggerFactory {
-//
-//    public static AlgorithmLogger getLogger(Class clazz) throws JoranException {
-//        InputStream configFileStream = AlgorithmLoggerFactory.class.getResourceAsStream("log4j2.xml");
-//        
-//        LoggerContext lc = (LoggerContext) LoggerFactory.getILoggerFactory();
-//        JoranConfigurator configurator = new JoranConfigurator();
-//        lc.reset();
-//        configurator.setContext(lc);
-//        configurator.doConfigure(configFileStream);
-//
-//        return new AlgorithmLogger(clazz.getName(), null);
-//    }
+
     /**
      * Registered loggers.
      */
@@ -41,6 +30,10 @@ public class AlgorithmLoggerFactory {
         loggers = new HashMap<>();
     }
     
+    /**
+     * Single instance.
+     * @return AlgorithmLoggerFactory single instance.
+     */
     public static AlgorithmLoggerFactory get() {
         synchronized(AlgorithmLoggerFactory.class) {
             if(me == null) {

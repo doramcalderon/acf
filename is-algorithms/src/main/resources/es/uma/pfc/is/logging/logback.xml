@@ -19,30 +19,9 @@
         </sift>
     </appender>
 
-<!--    <appender name="STATISTICS" class="ch.qos.logback.classic.sift.SiftingAppender">
-        <discriminator>
-            <key>outputAlg</key>
-            <defaultValue>unknown</defaultValue>
-        </discriminator>
-        <sift>
-            <appender name="STATS-${outputAlg}" class="ch.qos.logback.core.FileAppender">
-                <file>${outputAlg}.csv</file>
-                <append>false</append>
-                <encoder class="ch.qos.logback.core.encoder.LayoutWrappingEncoder">
-                    <layout class="es.uma.pfc.is.logging.layout.CSVLayout">
-                        <headers>Algorithm, Initial Size, Initial Cardinality, Size, Cardinality</headers>
-                    </layout>
-                </encoder>
-                <filter class="es.uma.pfc.is.logging.ModeFilter">
-                    <Markers>STATISTICS</Markers>
-                </filter>
-            </appender>
-        </sift>
-    </appender>    -->
     
     <appender name="ASYNC" class="ch.qos.logback.classic.AsyncAppender">
         <appender-ref ref="HISTORY" />
-        <appender-ref ref="STATISTICS" />
     </appender>
 
     <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
@@ -55,7 +34,5 @@
  
     <root level="INFO">
         <appender-ref ref="ASYNC" />
-        <!--<appender-ref ref="STDOUT" />-->
-        <!--<appender-ref ref="STATISTICS" />-->
     </root>
 </configuration>

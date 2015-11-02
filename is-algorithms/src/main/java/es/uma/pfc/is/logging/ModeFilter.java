@@ -1,8 +1,4 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package es.uma.pfc.is.logging;
 
 import ch.qos.logback.classic.spi.ILoggingEvent;
@@ -14,8 +10,16 @@ import org.slf4j.Marker;
 import org.slf4j.MarkerFactory;
 
 /**
- *
- * @since @author Dora Calderón
+ * Filter used in logger appenders for filter the messages by markers.<br/>
+ * Example: With this configuration, HISTORY-APPENDER writes the messages with mark 'HISTORY' or 'PERFORMANCE'.<br/><br/>
+ * {@code <appender name="HISTORY-APPENDER" class="ch.qos.logback.core.FileAppender">}<br/>
+ * &nbsp;&nbsp;&nbsp;&nbsp; {@code <file>${outputAlg}_trace.log</file>}<br/>
+
+ * &nbsp;&nbsp;&nbsp;&nbsp; {@code <filter class="es.uma.pfc.is.logging.ModeFilter">}<br/>
+ * &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; {@code <Markers>HISTORY,PERFORMANCE</Markers>}<br/>
+ * &nbsp;&nbsp;&nbsp;&nbsp; {@code </filter>}<br/>
+ * {@code </appender>}
+ * @author Dora Calderón
  */
 public class ModeFilter extends Filter<ILoggingEvent> {
 
@@ -51,10 +55,18 @@ public class ModeFilter extends Filter<ILoggingEvent> {
         }
     }
 
+    /**
+     * Markers.
+     * @return Markers.
+     */
     public String getMarkers() {
         return markers;
     }
 
+    /**
+     * Sets the markers.
+     * @param markers Markers to set.
+     */
     public void setMarkers(String markers) {
         this.markers = markers;
     }

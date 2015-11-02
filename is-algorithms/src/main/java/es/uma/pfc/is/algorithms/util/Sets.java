@@ -10,11 +10,10 @@ import java.util.TreeSet;
  */
 public class Sets {
     /**
-     * Unión de dos conjuntos.
-     * @param set1 Conjunto.
-     * @param set2 Conjunto.
-     * @return Conjunto con los elementos de los dos conjuntos pasados como parámetro. Si uno de los dos es nulo,
-     * se devuelve el otro.
+     * Sets union.
+     * @param set1 Set.
+     * @param set2 Set.
+     * @return Set with the elemens of the set1 and set2. If one of them is null, the other is returned.
      */
     public static final TreeSet  union(final Set set1, final Set set2) {
         TreeSet union;
@@ -33,11 +32,11 @@ public class Sets {
     }
 
     /**
-     * Intersección de dos conjuntos.
-     * @param set1 Conjunto.
-     * @param set2 Conjunto.
-     * @return Intersección de dos conjuntos.<br/>
-     * {@code null} si alguno de los dos conjuntos es nulo.
+     * Sets intersection.
+     * @param set1 Set.
+     * @param set2 Set.
+     * @return Intersection of set1 and set2.<br/>
+     * {@code null} if any of them is null.
      */
     public static final TreeSet intersection(final Set set1, final Set set2) {
         TreeSet intersection = null;
@@ -48,11 +47,11 @@ public class Sets {
         return intersection;
     }
     /**
-     * Diferencia de dos conjuntos.
-     * @param set1 Conjunto.
-     * @param set2 Conjunto.
-     * @return Diferencia de dos conjuntos.<br/>
-     * {@code null} si alguno de los dos conjuntos es nulo.
+     * Sets difference.
+     * @param set1 Set.
+     * @param set2 Set.
+     * @return Difference sets.<br/>
+     * {@code null} if any of them is null.
      */
     public static final TreeSet difference(final Set set1, final Set set2) {
         TreeSet difference = null;
@@ -63,21 +62,11 @@ public class Sets {
         return difference;
     }
     
-    /**
-     * A \ B = (A - B) union (B - A)
-     * @param <T>
-     * @param set1
-     * @param set2
-     * @return 
-     */
-//    public static final  TreeSet symDifference(final Set set1, final Set set2) {
-//        return union(difference(set1, set2), difference(set2, set1));
-//    }
     
     /**
-     * Devuelve si un conjunto es vacío.
-     * @param set Conjunto.
-     * @return {@code true} si el conjunto es nulo o vacío, {@code false} en otro caso.
+     * Returns if a set is empty or null.
+     * @param set Set.
+     * @return {@code true} if the set is empty or null, {@code false} otherwise.
      */
     public static final boolean isEmpty(final Set set) {
         return (set == null || set.isEmpty());

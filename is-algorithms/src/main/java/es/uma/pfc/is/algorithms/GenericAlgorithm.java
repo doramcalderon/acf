@@ -6,7 +6,7 @@ import fr.kbertet.lattice.ImplicationalSystem;
 import fr.kbertet.lattice.Rule;
 
 /**
- * Generic algorithm wich receive as input a file input and returns an implicational system.
+ * Generic algorithm which receive as input a file input and returns an implicational system.
  *
  * @author Dora Calderón
  */

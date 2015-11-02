@@ -112,47 +112,5 @@ public class AlgorithmExecutorTest {
         assertNotNull(exec);
         assertEquals(output, exec.getOutput());
     }
-      
-
-    /**
-     * Test of enable method, of class AlgorithmExecutor.
-     */
-    @Test
-    public void testEnable() {
-        Algorithm alg = mock(Algorithm.class);
-        when(alg.getName()).thenReturn("Alg 1");
-        AlgorithmExecutor exec = new AlgorithmExecutor(alg);
-        
-        exec.enable(AlgorithmOptions.Mode.HISTORY);
-        
-        assertTrue(exec.getOptions().getOption(AlgorithmOptions.Mode.HISTORY.toString()));
-    }
-
-    /**
-     * Test of disable method, of class AlgorithmExecutor.
-     */
-    @Test
-    public void testDisable() {
-        Algorithm alg = mock(Algorithm.class);
-        when(alg.getName()).thenReturn("Alg 1");
-
-        AlgorithmExecutor exec = new AlgorithmExecutor(alg);
-        exec.disable(AlgorithmOptions.Mode.HISTORY);
-        assertFalse(exec.getOptions().getOption(AlgorithmOptions.Mode.HISTORY.toString()));
-    }
-
-    /**
-     * Test of option method, of class AlgorithmExecutor.
-     */
-    @Test
-    public void testOption() {
-        Algorithm alg = mock(Algorithm.class);
-        when(alg.getName()).thenReturn("Alg 1");
-        AlgorithmExecutor exec = new AlgorithmExecutor(alg);
-
-        exec.option("config", 1);
-
-        assertEquals(new Integer(1), exec.getOptions().<Integer>getOption("config"));
-    }
 
 }

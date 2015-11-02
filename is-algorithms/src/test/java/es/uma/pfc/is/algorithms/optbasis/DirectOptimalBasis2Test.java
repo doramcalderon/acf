@@ -83,7 +83,7 @@ public class DirectOptimalBasis2Test {
         DirectOptimalBasis alg = (DirectOptimalBasis) new DirectOptimalBasis();
         AlgorithmOptions o = new AlgorithmOptions();
         o.addOption(AlgorithmOptions.Options.OUTPUT.toString(), Paths.get(System.getProperty("user.dir"), "do2_ej_olomouc_nunit.log").toString());
-        o.enable(AlgorithmOptions.Mode.HISTORY);
+        o.enable(AlgorithmOptions.Mode.TRACE);
         alg.getLogger().setOptions(o);
         
         ImplicationalSystem algResult = alg.execute(inputSystem);
@@ -101,7 +101,7 @@ public class DirectOptimalBasis2Test {
         DirectOptimalBasis alg = (DirectOptimalBasis) new DirectOptimalBasis();
         AlgorithmOptions o = new AlgorithmOptions();
         o.addOption(AlgorithmOptions.Options.OUTPUT.toString(), Paths.get(System.getProperty("user.dir"), "ej_saedian3.log").toString());
-        o.enable(AlgorithmOptions.Mode.HISTORY);
+        o.enable(AlgorithmOptions.Mode.TRACE);
         o.enable(AlgorithmOptions.Mode.PERFORMANCE);
         alg.getLogger().setOptions(o);
         ImplicationalSystem algResult = alg.execute(inputSystem);

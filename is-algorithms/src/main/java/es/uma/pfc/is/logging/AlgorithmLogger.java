@@ -133,7 +133,7 @@ public class AlgorithmLogger {
     }
 
     /**
-     * Return the output base name for history and statistics logs.<br/>
+     * Returns the output base name for history and statistics logs.<br/>
      * If the output file name is configured in algorithm options, this will be the output name for logs.<br/>
      * Otherwise, the ouput name will be the algorithm name.
      *
@@ -165,39 +165,42 @@ public class AlgorithmLogger {
     }
 
     /**
-     * Si el modo {@link Mode#PERFORMANCE} está habilitado.
+     * If {@link Mode#PERFORMANCE} mode is enabled.
      *
-     * @return {@code true} si {@link Mode#PERFORMANCE} está habilitado, {@code false} en otro caso.
+     * @return {@code true} if {@link Mode#PERFORMANCE} is enabled, {@code false} otherwise.
      */
     public boolean isPerformanceEnabled() {
         return options.isEnabled(Mode.PERFORMANCE);
     }
 
     /**
-     * Si el modo {@link Mode#STATISTICS} está habilitado.
-     *
-     * @return {@code true} si {@link Mode#STATISTICS} está habilitado, {@code false} en otro caso.
+     * If {@link Mode#STATISTICS} mode is enabled.
+     * @return {@code true} if {@link Mode#STATISTICS} is enabled, {@code false} otherwise.
      */
     public boolean isStatisticsEnabled() {
         return options.isEnabled(Mode.STATISTICS);
     }
 
     /**
-     * Si el modo {@link Mode#TRACE} está habilitado.
+     * If {@link Mode#TRACE} mode is enabled.
      *
-     * @return {@code true} si {@link Mode#TRACE} está habilitado, {@code false} en otro caso.
+     * @return {@code true} if {@link Mode#TRACE} is enabled, {@code false} otherwise.
      */
     public boolean isHistoryEnabled() {
-        return options.isEnabled(Mode.HISTORY);
+        return options.isEnabled(Mode.TRACE);
     }
 
+    /**
+     * Sets the algorithm options.
+     * @param options Options.
+     */
     public void setOptions(AlgorithmOptions options) {
         this.options = options;
         this.output = getOutputName();
     }
 
     /**
-     * Return a marker of a mode.
+     * Returns a marker of a mode.
      *
      * @param mode Mode.
      * @return Marker.
@@ -208,7 +211,7 @@ public class AlgorithmLogger {
             case PERFORMANCE:
                 marker = PERFORMANCE_MARKER;
                 break;
-            case HISTORY:
+            case TRACE:
                 marker = HISTORY_MARKER;
                 break;
             case STATISTICS:
@@ -239,10 +242,10 @@ public class AlgorithmLogger {
         }
     }
     /**
-     * 
-     * @param mode
-     * @param message
-     * @param args 
+     * Log to the file.
+     * @param mode Mode.
+     * @param message Message.
+     * @param args Arguments.
      */
     public void logFile(Mode mode, String message, Object... args) {
         MDC.put("outputAlg", output);
@@ -250,14 +253,10 @@ public class AlgorithmLogger {
     }
 
     /**
-     * Escribe la hora de comienzo.
+     * Writhes the start time.
      */
     public void startTime() {
-        startTime(System.currentTimeMillis());
-    }
-
-    public void startTime(long time) {
-
+        long time = System.currentTimeMillis();
         if (isPerformanceEnabled()) {
             startTime = time;
             log(Mode.PERFORMANCE, i18nMessages.getMessage(PERFORMANCE_INIT), df.format(new Date(startTime)));
@@ -265,12 +264,11 @@ public class AlgorithmLogger {
     }
 
     /**
-     * Escribe la hora de fin y la diferencia entre el inicio y el fin.
-     *
-     * @param time Hora de fin.
+     * Writes the end time and the start and end difference.
      */
-    public long endTime(long time) {
+    public long endTime() {
         long total = 0;
+        long time = System.currentTimeMillis();
         if (isPerformanceEnabled()) {
             total = time - startTime;
             log(Mode.PERFORMANCE, i18nMessages.getMessage(PERFORMANCE_END), df.format(new Date(time)));
@@ -279,84 +277,24 @@ public class AlgorithmLogger {
         return total;
     }
 
-    /**
-     * Escribe la hora de fin y la diferencia entre el inicio y el fin.
-     */
-    public long endTime() {
-        return endTime(System.currentTimeMillis());
-    }
 
     /**
-     * Write a message with History Appender.
+     * Writes a message with History Appender.
      *
      * @param message Message.
      * @param args Message arguments.
      */
     public void history(String message, Object... args) {
         if (isHistoryEnabled()) {
-            log(Mode.HISTORY, message, args);
+            log(Mode.TRACE, message, args);
         }
     }
 
     /**
-     * Write a message with Statistics Appender.
-     *
-     * @param values Values of row.
+     * Clears the messages.
      */
-    public void statistics(Object... values) {
-        if (isStatisticsEnabled()) {
-            StringBuilder sb = new StringBuilder();
-            if (values != null) {
-                for (Object value : values) {
-                    sb.append(",");
-                    sb.append(String.valueOf(value));
-                }
-                sb.deleteCharAt(0);
-            }
-            log(Mode.STATISTICS, sb.toString());
-        }
-    }
-
     public void freeResources() {
         messages.clear();
     }
 
-    public void traceOutputs(Map<Mode, List<PrintStream>> outputsByMode) {
-        if (outputsByMode != null && !outputsByMode.isEmpty()) {
-            List<PrintStream> outputs;
-            for (Mode mode : outputsByMode.keySet()) {
-                outputs = outputsByMode.get(mode);
-
-                if (outputs != null && !outputs.isEmpty()) {
-                    for (PrintStream ps : outputs) {
-                        addAppender("", ps);
-                    }
-                }
-            }
-        }
-    }
-
-    public void addAppender(String name, PrintStream output) {
-        OutputStreamAppender appender = new OutputStreamAppender();
-        appender.setContext(loggerContext);
-
-        PatternLayoutEncoder layoutEncoder = new PatternLayoutEncoder();
-        layoutEncoder.setContext(loggerContext);
-        layoutEncoder.setPattern("%m%n");
-        layoutEncoder.start();
-        appender.setEncoder(layoutEncoder);
-
-        ModeFilter filter = new ModeFilter();
-        filter.setMarkers("HISTORY, PERFORMANCE");
-        filter.start();
-        appender.addFilter(filter);
-
-        appender.setOutputStream(output);
-        appender.start();
-
-        ch.qos.logback.classic.Logger lbLogger = (ch.qos.logback.classic.Logger) logger;
-        lbLogger.addAppender(appender);
-        lbLogger.setAdditive(true);
-
-    }
 }

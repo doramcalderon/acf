@@ -9,6 +9,7 @@ import es.uma.pfc.is.bench.events.ViewFileActionEvent;
 import es.uma.pfc.is.bench.i18n.BenchMessages;
 import es.uma.pfc.is.bench.services.FileReaderService;
 import es.uma.pfc.is.commons.eventbus.Eventbus;
+import es.uma.pfc.is.commons.io.ImplicationalSystemWriterProlog;
 import fr.kbertet.dgraph.io.DGraphWriterFactory;
 import fr.kbertet.lattice.ImplicationalSystem;
 import java.awt.image.BufferedImage;
@@ -67,6 +68,7 @@ public class ResultsViewerController extends Controller {
      * Constructor.
      */
     public ResultsViewerController() {
+        ImplicationalSystemWriterProlog.register();
     }
 
     /**

@@ -103,8 +103,8 @@ public class AlgorithmOptionsTest {
     @Test
     public void testEnable() {
         AlgorithmOptions options = new AlgorithmOptions();
-        options.enable(Mode.HISTORY);
-        assertEquals(Boolean.TRUE, options.getOption(Mode.HISTORY.toString()));
+        options.enable(Mode.TRACE);
+        assertEquals(Boolean.TRUE, options.getOption(Mode.TRACE.toString()));
     }
 
     /**
@@ -113,8 +113,8 @@ public class AlgorithmOptionsTest {
     @Test
     public void testDisable() {
          AlgorithmOptions options = new AlgorithmOptions();
-        options.disable(Mode.HISTORY);
-        assertEquals(Boolean.FALSE, options.getOption(Mode.HISTORY.toString()));
+        options.disable(Mode.TRACE);
+        assertEquals(Boolean.FALSE, options.getOption(Mode.TRACE.toString()));
     }
 
     /**

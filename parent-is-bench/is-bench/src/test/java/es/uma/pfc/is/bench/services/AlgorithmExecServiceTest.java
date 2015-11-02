@@ -59,7 +59,7 @@ public class AlgorithmExecServiceTest {
         AlgorithmOptions options = service.getOptions();
         
         assertNotNull(options);
-        assertTrue(options.getOption(Mode.HISTORY.toString()));
+        assertTrue(options.getOption(Mode.TRACE.toString()));
         assertNull(options.getOption(Mode.PERFORMANCE.toString()));
         assertNull(options.getOption(Mode.STATISTICS.toString()));
     }
@@ -79,7 +79,7 @@ public class AlgorithmExecServiceTest {
         AlgorithmOptions options = service.getOptions();
         
         assertNotNull(options);
-        assertNull(options.getOption(Mode.HISTORY.toString()));
+        assertNull(options.getOption(Mode.TRACE.toString()));
         assertTrue(options.getOption(Mode.PERFORMANCE.toString()));
         assertNull(options.getOption(Mode.STATISTICS.toString()));
     }
@@ -99,7 +99,7 @@ public class AlgorithmExecServiceTest {
         AlgorithmOptions options = service.getOptions();
         
         assertNotNull(options);
-        assertNull(options.getOption(Mode.HISTORY.toString()));
+        assertNull(options.getOption(Mode.TRACE.toString()));
         assertNull(options.getOption(Mode.PERFORMANCE.toString()));
         assertTrue(options.getOption(Mode.STATISTICS.toString()));
     }

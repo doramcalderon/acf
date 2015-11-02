@@ -1,7 +1,7 @@
 package es.uma.pfc.is.algorithms.exceptions;
 
 /**
- * Excepción de clave inválida. 
+ * Invalid key exception.
  * @author Dora Calderón
  */
 public class InvalidKeyException extends RuntimeException {
@@ -14,7 +14,7 @@ public class InvalidKeyException extends RuntimeException {
 
     /**
      * Constructor.
-     * @param message Mensaje.
+     * @param message Message.
      */
     public InvalidKeyException(String message) {
         super(message);
@@ -22,8 +22,8 @@ public class InvalidKeyException extends RuntimeException {
 
     /**
      * Constructor.
-     * @param message Mensaje.
-     * @param cause Causa.
+     * @param message Message.
+     * @param cause Cause.
      */
     public InvalidKeyException(String message, Throwable cause) {
         super(message, cause);
@@ -31,7 +31,7 @@ public class InvalidKeyException extends RuntimeException {
 
     /**
      * Constructor.
-     * @param cause Causa. 
+     * @param cause Cause. 
      */
     public InvalidKeyException(Throwable cause) {
         super(cause);

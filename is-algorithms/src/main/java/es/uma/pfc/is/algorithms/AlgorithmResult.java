@@ -66,7 +66,7 @@ public class AlgorithmResult {
      * Constructor.
      * @param inputFile Input system file.
      * @param outputFile Output system file.
-     * @param algorithmClass Algorithm class.
+     * @param algorithmInfo Algorithm info.
      */
     public AlgorithmResult(String inputFile, String outputFile, AlgorithmInfo algorithmInfo) {
         this.inputFile = inputFile;
@@ -79,7 +79,7 @@ public class AlgorithmResult {
      * Constructor.
      * @param inputFile Input system file.
      * @param outputFile Output system file.
-     * @param algorithmClassName Algorithm class name.
+     * @param algorithm Algorithm.
      */
     public AlgorithmResult(String inputFile, String outputFile, Algorithm algorithm) {
         this.inputFile = inputFile;

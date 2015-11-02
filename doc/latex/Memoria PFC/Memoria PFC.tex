@@ -2325,7 +2325,7 @@ M\'{a}laga a \_\_\_\_ de\_\_\_\_\_\_\_\_\_\_\_\_\_\_ del 200\_
 			Para crear uno nuevo, sólo ha de introducir la ruta absoluta del directorio en el que quiere crearlo o seleccionarlo
 			con el buscador pulsando en el botón \includegraphics[scale=.5]{imagenes/figura36.png}.
 			
-		\subsubsection{Registrar Algoritmos}
+		\subsubsection{Registrar Algoritmos}\label{sec:registrar algoritmos}
 		
 			Para ejecutar un algoritmo o incluirlo en un benchmark, éste debe estar previamente registrado en el workspace.
 			
@@ -2395,7 +2395,7 @@ M\'{a}laga a \_\_\_\_ de\_\_\_\_\_\_\_\_\_\_\_\_\_\_ del 200\_
 			\end{figure}
 
 		
-		\subsubsection{Registrar Benchmarks}
+		\subsubsection{Registrar Benchmarks}\label{sec:registrar bench}
 		
 			Un benchmark es la agrupación de un conjunto de algoritmos que se ejecutan con una misma entrada para la posterior
 			comparación de sus resultados.
@@ -2481,7 +2481,7 @@ M\'{a}laga a \_\_\_\_ de\_\_\_\_\_\_\_\_\_\_\_\_\_\_ del 200\_
 			
 			Estos modos no son excluyentes y pueden combinarse como el usuario considere necesario.
 			
-		\subsubsection{Ejecutar Benchmarks}
+		\subsubsection{Ejecutar Benchmarks}\label{sec:ejecutar bench}
 		
 			La ejecución de un benchmark consiste en la ejecución secuencial del conjunto de algoritmos que lo componen con uno o 				varios sistemas implicacionales de entrada en común.
 			
@@ -2594,11 +2594,197 @@ M\'{a}laga a \_\_\_\_ de\_\_\_\_\_\_\_\_\_\_\_\_\_\_ del 200\_
 				\label{fig:figura44}
 			\end{figure}
 			
-			Si se selecciona una de éstas filas, se muestra el detalle de esa ejecución mostrando a la derecha los sistemas
-			implicacionales de entrada y salida.
-		
 			Seleccionando la fila que agrupa los resultados de una ejecución (fecha y hora), se cargan en la parte inferior las
 			estadísticas generadas.
+			
+			Si se selecciona una de éstas filas, se muestra a la derecha los sistemas implicacionales de entrada y salida.
+			
+	\subsection{Generador de sistemas implicacionales aleatorios}
+	
+		El generador de sistemas implicacionales, permite a partir de un número de argumentos y un número de implicaciones, generar
+		un sistema implicacional aleatorio. Se utiliza la librería \textit{java-lattices} de la doctora Karell Bertet, para el
+		cálculo del sistema a partir de estos parámetros.
+		
+		Como se ve en la figura \ref{fig:figura45}, este generador es una herramienta sencilla que consta de una pantalla principal
+		dividida en tres zonas bien diferenciadas:
+		
+		\begin{itemize}
+			\item Barra de herramientas
+			\item Panel izquierdo en el que se introducen los parámetros para la creación del sistema.
+			\item Panel derecho que contiene el campo \textit{Salida} con la ruta absoluta del fichero en el que se guarda el
+				 sistema generado, y un visor en el que se muestra dicho sistema.
+		\end{itemize}
+			
+		\begin{figure}[H]
+			\centering
+				\includegraphics[width=1.00\textwidth]{imagenes/figura48.PNG}
+			\caption{Generador de Implicaciones}
+			\label{fig:figura48}
+		\end{figure}
+
+		\subsubsection{Generar un sistema implicacional}
+			
+			Para generar un sistema implicacional se deben seguir los siguientes pasos:
+			
+			\begin{enumerate}
+				\item Introducir los parámetros para el sistema.
+			
+					\begin{itemize}
+						\item \textbf{Atributos:} Número de atributos.
+						\item \textbf{Implicaciones:} Número de implicaciones.
+						\item \textbf{Tipo:} Tipo de los atributos. Se puede seleccionar entre tres tipos: númerico (1, 2, 3,...) ,
+							alfabético (a, b, c, ...), alfanumérico (a1, a2, a3, ...).
+						\item \textbf{Premisa: } Número mínimo y máximo de atributos en la premisa.
+						\item \textbf{Conclusion: } Número mínimo y máximo de atributos en la conclusión.
+						\item \textbf{Sistemas: } Número de sistemas implicacionales a generar. Por defecto, 1.
+					\end{itemize}
+					
+				\item Pulsar el botón \textit{Generar}.
+						Al pulsar este botón se genera el sistema con los parámetros introducidos y se muestra en el visor.
+			
+						\begin{figure}[H]
+							\centering
+								\includegraphics[width=1.00\textwidth]{imagenes/figura46.PNG}
+							\caption{Generación de sistema aleatorio}
+							\label{fig:figura46}
+						\end{figure}
+						
+				\item Guardar el sistema en un fichero si se desea.\\
+					  Para guardar el sistema, se debe introducir previamente la ruta absoluta del fichero en el que se desea
+					  guardar.
+					  Se puede hacer introduciéndolo directamente en el campo de texto, o buscándolo en el explorador, haciendo
+					  click en el botón \textit{Examinar} (\includegraphics[scale=.5]{imagenes/figura36.png}) del campo
+					  \textit{Salida}.
+					  
+					\begin{figure}[H]
+						\centering
+							\includegraphics[width=1.00\textwidth]{imagenes/figura47.PNG}
+						\caption{Selección de archivo de salida}
+						\label{fig:figura47}
+					\end{figure}
+					
+					El sistema se puede guardar en dos formatos: archivo de texto (txt) y  archivo 	Prolog (pl).
+					
+					Una vez introducida la ruta del archivo, el botón \textit{Guardar} se habilitará y al pulsar sobre 	él se
+					creará o actualizará el archivo con el sistema implicacional generado.
+			\end{enumerate}
+			
+		\subsubsection{Generar \textit{n} sistemas implicacionales}
+		
+			Como  se ha comentado anteriormente, es posible generar \textit{n} sistemas implicacionales con los mismos parámetros.
+			Para ello, sólo se ha de introducir en el campo \textit{Sistemas} el número de sistemas a generar.
+			En este modo de ejecución, los sistemas generados no se previsualizan y se guardan directamente en fichero.Por ello, es
+			obligatorio que el campo \textit{Salida} contenga la ruta absoluta del fichero base, de otra forma, el botón 	
+			\textit{Generar} no se habilitará.
+			
+			A partir de esta ruta, se guardarán los \textit{n} sistemas generados en \textit{n} archivos, tomando su nombre a
+			partir del introducido en el campo \textit{Salida} y añadiéndole un índice.
+			
+			Por ejemplo, si el campo \textit{Salida} contiene la ruta C:$\backslash$implications$\backslash$system.txt  y se van a
+			generar tres sistemas, se crearan los archivos:
+			
+			\begin{itemize}
+				\item[-] C:$\backslash$implications$\backslash$system\_0.txt
+				\item[-] C:$\backslash$implications$\backslash$system\_1.txt 
+				\item[-] C:$\backslash$implications$\backslash$system\_2.txt 
+			\end{itemize}
+			
+			\begin{figure}[H]
+				\centering
+					\includegraphics[width=1.00\textwidth]{imagenes/figura49.PNG}
+				\caption{Generar \textit{n} sistemas implicacionales}
+				\label{fig:figura49}
+			\end{figure}
+			
+			\begin{figure}[H]
+				\centering
+					\includegraphics[width=0.8\textwidth]{imagenes/figura50.PNG}
+				\caption{Sistemas implicacionales generados}
+				\label{fig:figura50}
+			\end{figure}
+			Desde IS Bench se puede acceder al Generador de Implicaciones, para seleccionar las entradas de los benchmarks y
+			algoritmos. Se puede hacer en:
+			
+			\begin{enumerate}
+				\item el registro de Benchmarks (\textit{Benchmarks} $\rightarrow$ \textit{Nuevo}).
+					\begin{figure}[h]
+						\centering
+							\includegraphics[width=1.00\textwidth,frame]{imagenes/figura52.PNG}
+						\caption{IS aleatorio para el registro de benchmarks}
+						\label{fig:figura52}
+					\end{figure}
+
+				\item la ejecución de benchmarks o algoritmos (\textit{Benchmarks} $\rightarrow$ \textit{Ejecutar}).
+				
+					\begin{figure}[h]
+						\centering
+							\includegraphics[width=1.00\textwidth,frame]{imagenes/figura51.PNG}
+						\caption{IS aleatorio para la ejecución de benchmarks o algoritmos}
+						\label{fig:figura51}
+					\end{figure}
+			\end{enumerate}
+			
+	\subsection{Implementación de Algoritmos}
+	
+		Para que terceros puedan implementar algoritmos que puedan ser ejecutados por IS Bench, se ha creado una API con las
+		interfaces y clases básicas para este fin que se incluye en el la librería \textit{is-algorithms}.
+		
+		El requisito mínimo para que un algoritmo pueda ser ejecutado desde IS Bench, es que implemente la interfaz 
+		\texttt{ es.uma.pfc.is.algorithms.Algorithm}. La aplicación ejecuta el método 
+		\texttt{execute(input : ImplicationalSystem) : ImplicationalSystem} por lo que éste será en el que se implemente el
+		algoritmo en cuestión.
+		
+		La API proporciona una implementación abstracta de esta interfaz,\\ \texttt{es.uma.pfc.is.algorithms.GenericAlgorithm}, que
+		implementa los \textit{getters} y \textit{setters} obligatorios, así como utilidades para la sustitución, adición y
+		eliminación de implicaciones del sistema. El método\\  
+		\texttt{execute(input : ImplicationalSystem) : ImplicationalSystem} no se implementa, ya que esto se deberá hacer en la
+		implementación final.
+		
+		En el apartado [REFERENCIA A ANALISIS] se incluyen los detalles de esta API.
+		\newline
+		
+		Por lo que, para implementar un algoritmo y ejecutarlo desde IS Bench:
+				
+		\begin{enumerate}
+			\item Crear un proyecto Java (JDK 1.8\_u65+) que tenga como dependencia la librería \textit{is-algorithms}.
+			
+			\item Crear una clase que implemente la interfaz \texttt{ es.uma.pfc.is.algorithms.Algorithm} o extienda de
+					\texttt{es.uma.pfc.is.algorithms.GenericAlgorithm}.
+					
+			\item En el método \texttt{execute(input : ImplicationalSystem) : ImplicationalSystem} implementar el algoritmo en
+				 cuestión.
+				 
+			\item Compilar el proyecto y generar el JAR correspondiente.
+			
+			\item Copiar el JAR a la carpeta \textit{lib} del workspace actual.
+			
+			\item Registrar el algoritmo en IS Bench, bien desde la ventana Nuevo Algoritmo (opción de menú \textit{Archivo}
+					$\rightarrow$ \textit{Algoritmos}) o bien desde la pestaña \textit{Benchmarks} / \textit{Nuevo}, como se
+					explica en los apartados  \ref{sec:registrar algoritmos} y \ref{sec:registrar bench}.
+			
+			\item Incluir el algoritmo en un \textit{benchmark} como se explica en el apartado \ref{sec:registrar bench}, si no se
+				 ha hecho ya en el punto anterior.
+			
+			\item Una vez incluido en el Benchmark, se podrá ejecutar el algoritmo bien individualmente o bien a través del
+				 Benchmark desde la pestaña \textit{Benchmarks} / \textit{Ejecución}, como se explica en \ref{sec:ejecutar bench}.
+		\end{enumerate}
+		
+		
+		
+
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
 
 %------------------------- BIBLIOGRAFIA -------------------------------------------
 \newpage

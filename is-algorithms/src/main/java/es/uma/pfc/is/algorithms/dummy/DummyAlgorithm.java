@@ -2,7 +2,6 @@ package es.uma.pfc.is.algorithms.dummy;
 
 
 import es.uma.pfc.is.algorithms.GenericAlgorithm;
-import es.uma.pfc.is.algorithms.annotations.Algorithm;
 import fr.kbertet.lattice.ImplicationalSystem;
 
 /*
@@ -18,7 +17,6 @@ import fr.kbertet.lattice.ImplicationalSystem;
  * @since 
  * @author Dora Calderón
  */
-@Algorithm
 public class DummyAlgorithm extends GenericAlgorithm {
 
     @Override

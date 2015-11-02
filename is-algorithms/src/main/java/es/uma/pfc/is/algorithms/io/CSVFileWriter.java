@@ -43,7 +43,7 @@ public class CSVFileWriter {
 
     /**
      * Constructor.
-     * @param fileName CSV file name.
+     * @param filePath CSV file path.
      */
     public CSVFileWriter(Path filePath) {
         this.fileName = (filePath != null) ? filePath.toString() : null;
@@ -56,6 +56,10 @@ public class CSVFileWriter {
         this.fileName = fileName;
     }
 
+    /**
+     * Gets the CSV file format.
+     * @return CSV file format.
+     */
     public static CSVFormat getCSVFileFormat() {
         return csvFileFormat;
     }
@@ -134,11 +138,6 @@ public class CSVFileWriter {
 
     protected String getNewLineSeparator() {
         return newLineSeparator;
-    }
-
-    
-    protected CSVFormat getCsvFileFormat() {
-        return csvFileFormat;
     }
 
 

@@ -18,8 +18,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
- * Servicio que ejecuta un algoritmo.
- *
+ * Service which executes an algorithm.
  * @author Dora Calderón
  */
 public class AlgorithmExecutor {
@@ -55,10 +54,11 @@ public class AlgorithmExecutor {
 
     /**
      * Constructor.
+     * For testing purpose only.
      *
      * @param algorithm Algorithm to execute.
      */
-    public AlgorithmExecutor(Algorithm algorithm) {
+    protected AlgorithmExecutor(Algorithm algorithm) {
         this();
         if (algorithm == null) {
             throw new IllegalArgumentException("Algorithm can't be null");
@@ -66,18 +66,69 @@ public class AlgorithmExecutor {
         this.algorithm = algorithm;
     }
 
+    /**
+     * Executes an algorithm.
+     * @param alg Algorithm.
+     * @return Algorithm results.
+     */
     public List<AlgorithmResult> execute(Algorithm alg) {
         this.algorithm = alg;
         return execute();
     }
+    
+      /**
+     * Sets the path of the inputs system.
+     * @param fileNames Additionals inputs.
+     * @return AlgorithmExecuter with inputs system setted.
+     */
+    public AlgorithmExecutor inputs(String... fileNames) {
+        if (fileNames == null) {
+            throw new InvalidPathException("El fichero de entrada es nulo.");
+
+        }
+
+        for (String name : fileNames) {
+            if (name == null || !Files.exists(Paths.get(name))) {
+                throw new InvalidPathException("El fichero de entrada no existe: " + name);
+            }
+
+        }
+
+        this.inputs = fileNames;
+        return this;
+    }
+
+    
+    /**
+     * Sets the output path of the result execution.
+     *
+     * @param file Path of the output.
+     * @return AlgorithmExecuter with output system setted.
+     */
+    public AlgorithmExecutor output(String file) {
+        this.options.addOption(AlgorithmOptions.Options.OUTPUT.toString(), file);
+        return this;
+    }
+  
+
 
     /**
-     * Ejecuta un algoritnmo pasando por tres fases: inicialización, ejecución, finalización.
+     * Sets an execution options.
      *
-     * @param alg Algoritmo.
+     * @param options Execution options.
+     * @return AlgorithmExecutor with an execution option setted.
+     */
+    public AlgorithmExecutor options(AlgorithmOptions options) {
+        this.options = options;
+        return this;
+    }
+
+   
+    /**
+     * Executes an algorithm in three stages: initialization, execution, finalization.
      * @return Resultado de la ejecución.
      */
-    public  List<AlgorithmResult> execute() {
+    protected  List<AlgorithmResult> execute() {
         init();
         List<AlgorithmResult> result = run();
         stop();
@@ -92,8 +143,10 @@ public class AlgorithmExecutor {
     }
 
     /**
-     * Ejecuta el algoritmo.
-     * @return 
+     * Executes the algorith with the inputs and options stablished.
+     * @return Algorithm results.
+     * @throws IllegalArgumentException if the algorithm is null.
+     * @throw IOException if IO error ocurred.
      */
     protected List<AlgorithmResult> run() {
         List<AlgorithmResult> results = null;
@@ -124,9 +177,11 @@ public class AlgorithmExecutor {
 
     
     /**
-     * Ejecuta el algoritmo.
-     *
-     * @return Resultado del algoritmo.
+     * Executes the algorithm with an input and output dir.
+     * @param input Input implicational system.
+     * @param outputDir Output dir.
+     * @param logger Logger.
+     * @return Algorithm result.
      */
     protected AlgorithmResult run(String input, String outputDir, AlgorithmLogger logger) {
         AlgorithmResult result = null;
@@ -174,104 +229,21 @@ public class AlgorithmExecutor {
     }
 
     /**
-     * Sets the path of the inputs system.
-     *
-     * @param fileNames Additionals inputs.
-     * @return AlgorithmExecuter with inputs system setted.
-     */
-    public AlgorithmExecutor inputs(String... fileNames) {
-        if (fileNames == null) {
-            throw new InvalidPathException("El fichero de entrada es nulo.");
-
-        }
-
-        for (String name : fileNames) {
-            if (name == null || !Files.exists(Paths.get(name))) {
-                throw new InvalidPathException("El fichero de entrada no existe: " + name);
-            }
-
-        }
-
-        this.inputs = fileNames;
-        return this;
-    }
-
-    /**
      * Returns the inputs path.
-     *
      * @return Input path.
      */
-    public String[] getInputs() {
+    protected String[] getInputs() {
         return inputs;
     }
 
-    /**
-     * Sets the output path of the result execution.
-     *
-     * @param file Path of the output.
-     * @return AlgorithmExecuter with output system setted.
-     */
-    public AlgorithmExecutor output(String file) {
-        this.options.addOption(AlgorithmOptions.Options.OUTPUT.toString(), file);
-        return this;
-    }
 
     /**
      * Returns the output path.
      *
      * @return Output path.
      */
-    public String getOutput() {
+    protected String getOutput() {
         return options.getOption(AlgorithmOptions.Options.OUTPUT.toString());
-    }
-
-    /**
-     * Enables an execution mode.
-     *
-     * @param mode Mode.
-     * @return AlgorithmExecutor with an execution mode enabled.
-     */
-    public AlgorithmExecutor enable(AlgorithmOptions.Mode mode) {
-        this.options.enable(mode);
-        return this;
-    }
-
-    /**
-     * Disables an execution mode.
-     *
-     * @param mode Mode.
-     * @return AlgorithmExecutor with an execution mode disabled.
-     */
-    public AlgorithmExecutor disable(AlgorithmOptions.Mode mode) {
-        this.options.disable(mode);
-        return this;
-    }
-
-    /**
-     * Sets an execution option.
-     *
-     * @param name Option name.
-     * @param value Value.
-     * @return AlgorithmExecutor with an execution option setted.
-     */
-    public AlgorithmExecutor option(String name, Object value) {
-        this.options.addOption(name, value);
-        return this;
-    }
-
-    /**
-     * Sets an execution options.
-     *
-     * @param options Execution options.
-     * @return AlgorithmExecutor with an execution option setted.
-     */
-    public AlgorithmExecutor options(AlgorithmOptions options) {
-        this.options = options;
-        return this;
-    }
-
-    public AlgorithmOptions getOptions() {
-        return options;
     }
 
 }

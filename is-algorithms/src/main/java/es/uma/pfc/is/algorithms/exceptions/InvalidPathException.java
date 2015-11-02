@@ -1,22 +1,25 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 
 package es.uma.pfc.is.algorithms.exceptions;
 
 /**
- *
- * @since 
+ * Invalida path exception.
  * @author Dora Calderón
  */
 public class InvalidPathException extends RuntimeException {
 
+    /**
+     * Constructor.
+     * @param message Message.
+     */
     public InvalidPathException(String message) {
         super(message);
     }
 
+    /**
+     * Constructor.
+     * @param message Message.
+     * @param cause Cause.
+     */
     public InvalidPathException(String message, Throwable cause) {
         super(message, cause);
     }

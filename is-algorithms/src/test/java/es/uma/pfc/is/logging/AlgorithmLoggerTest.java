@@ -97,7 +97,7 @@ public class AlgorithmLoggerTest {
     @Test
     public void testIsHistoryEnabled() {
         AlgorithmOptions options = new AlgorithmOptions();
-        options.enable(AlgorithmOptions.Mode.HISTORY);
+        options.enable(AlgorithmOptions.Mode.TRACE);
         options.addOption(Options.OUTPUT.toString(), "output.txt");
         AlgorithmLogger logger = new AlgorithmLogger("alg", options);
         logger.freeResources();
@@ -110,7 +110,7 @@ public class AlgorithmLoggerTest {
     @Test
     public void testIsTraceNotEnabled() {
         AlgorithmOptions options = new AlgorithmOptions();
-        options.disable(AlgorithmOptions.Mode.HISTORY);
+        options.disable(AlgorithmOptions.Mode.TRACE);
         AlgorithmLogger logger = new AlgorithmLogger("alg", options);
         logger.freeResources();
         assertFalse(logger.isHistoryEnabled());
@@ -232,7 +232,7 @@ public class AlgorithmLoggerTest {
     @Test
     public void testHistory() throws FileNotFoundException, IOException {
         AlgorithmOptions options = new AlgorithmOptions();
-        options.enable(AlgorithmOptions.Mode.HISTORY);
+        options.enable(AlgorithmOptions.Mode.TRACE);
         options.enable(AlgorithmOptions.Mode.STATISTICS);
         AlgorithmLogger logger = new AlgorithmLogger("alg", options, true);
         logger.configure("testlogback.xml");
@@ -262,41 +262,5 @@ public class AlgorithmLoggerTest {
         }
     }
 
-    /**
-     * Test of statistics method, of class AlgorithmLogger.
-     */
-    @Test
-    public void testStatistics() throws IOException {
-        AlgorithmOptions options = new AlgorithmOptions();
-        options.enable(AlgorithmOptions.Mode.STATISTICS);
-        
-        AlgorithmLogger logger = new AlgorithmLogger("alg", options, true);
-        logger.configure("testlogback.xml");
-        String header = "rule,old size,new size";
-        
-        logger.statistics("a->b","b->a","3","2");
-        logger.freeResources();
-        File stats = null;
-        BufferedReader reader = null;
-        try {
-            stats = new File("alg.csv");
-            assertTrue(stats.exists());
-            reader = new BufferedReader(new FileReader(stats));
-            
-            String line = reader.readLine();
-            assertEquals(header, line);
-            line = reader.readLine();
-            assertEquals("a->b,b->a,3,2", line);
-        } finally {
-            if (reader != null) {
-                reader.close();
-            }
-
-            if(stats != null && stats.exists()) {
-                stats.deleteOnExit();
-            }
-            
-        }
-    }
     
 }

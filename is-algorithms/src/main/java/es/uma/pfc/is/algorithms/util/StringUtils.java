@@ -4,8 +4,7 @@ package es.uma.pfc.is.algorithms.util;
 import java.util.regex.Pattern;
 
 /**
- *
- * @since 
+ * Stirng utilities.
  * @author Dora Calderón
  */
 public class StringUtils {
@@ -16,16 +15,21 @@ public class StringUtils {
     private StringUtils() {
     }
     
+    /**
+     * If a string is empty or null.
+     * @param str String.
+     * @return {@code true} if {@code str} is empty or null.
+     */
     public static boolean isEmpty(String str) {
         return (str == null) || str.trim().isEmpty() || "null".equals(str.trim().toLowerCase());
     }
     
     /**
-     * Reemplaza los argumentos
-     * @param message
-     * @param token
-     * @param args
-     * @return 
+     * Replace the arguments in a string.
+     * @param message Message.
+     * @param token Token which will be replaced with the arguments.
+     * @param args Arguments.
+     * @return Message with the tokens replaced with the arguments.
      */
     public static String replaceArgs(String message, String token, Object ... args) {
         String messageReplaced = message;

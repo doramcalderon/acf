@@ -17,7 +17,6 @@ import es.uma.pfc.is.commons.strings.date.DateUtils;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -88,7 +87,7 @@ public class AlgorithmExecService extends Service<BenchmarkResult> {
         AlgorithmOptions options = new AlgorithmOptions();
         
         if (model.isHistoryChecked()) {
-            options.enable(AlgorithmOptions.Mode.HISTORY);
+            options.enable(AlgorithmOptions.Mode.TRACE);
         }
         if (model.isTimeChecked()) {
             options.enable(AlgorithmOptions.Mode.PERFORMANCE);
