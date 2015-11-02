@@ -1,0 +1,2663 @@
+\documentclass[12pt]{book}
+\usepackage[spanish]{babel}
+\usepackage[latin1]{inputenc} 
+\usepackage{makeidx}
+\usepackage{multirow}
+\usepackage{multicol}
+\usepackage[dvipsnames,svgnames,table]{xcolor}
+\usepackage[export]{adjustbox}
+\usepackage{graphicx}
+\usepackage{epstopdf}
+\usepackage{ulem}
+\usepackage[hidelinks]{hyperref} 
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage[paperwidth=595pt,paperheight=841pt,top=56pt,right=86pt,bottom=84pt,left=71pt]{geometry}
+\usepackage{setspace}
+\usepackage{float}
+\usepackage{subfiles}
+\usepackage[final]{pdfpages}
+
+\title{Titulo}
+
+% sangría y separacion entre parrafos
+\setlength{\parindent}{0pt}
+
+
+%\makeatletter
+%	\newenvironment{indentation}[3]%
+%	{\par\setlength{\parindent}{#3}
+%	\setlength{\leftmargin}{#1}       \setlength{\rightmargin}{#2}%
+%	\advance\linewidth -\leftmargin       \advance\linewidth -\rightmargin%
+%	\advance\@totalleftmargin\leftmargin  \@setpar{{\@@par}}%
+%	\parshape 1\@totalleftmargin \linewidth\ignorespaces}{\par}%
+\makeatother 
+	\onehalfspacing
+	
+\newtheorem{theorem}{Teorema}
+\newcommand{\definition}{\textbf{Definición}}
+\newcommand{\bmathcal}{\mathcal{B}}
+\newcommand{\dmathcal}{\mathcal{D}}
+\newcommand{\vmathcal}{\mathcal{V}}
+\newcommand{\ESPACIO}{\hspace{.25in}}
+\newcommand{\IF}{\textbf{if }}
+\newcommand{\THEN}{\textbf{then }}
+\newcommand{\ELSE}{\textbf{else }}
+\newcommand{\REPEAT}{\textbf{repeat }}
+\newcommand{\UNTIL}{\textbf{until }}
+\newcommand{\FOREACH}{\textbf{foreach }}
+\newcommand{\DO}{\textbf{do }}
+\newcommand{\RETURN}{\textbf{return }}
+
+
+\begin{document}
+
+	\subfile{tex/paginas_iniciales.tex}
+	\newpage
+
+	\tableofcontents
+	\newpage
+	
+	\subfile{tex/introduccion.tex}
+	\newpage
+	
+\section{ANÁLISIS FORMAL DE CONCEPTOS}
+
+	\subsection{¿Qué es FCA?}
+	
+		El Análisis de Conceptos Formales (FCA) es un método de análisis de datos con creciente popularidad en distintos ámbitos como puede ser
+		la minería de datos, pre-procesamiento de datos o descubrimiento del conocimiento.
+	
+		FCA analiza los datos que describen  relaciones entre un conjunto de objetos y un conjunto de atributos y genera dos tipos de salida a
+		partir de dichos datos. 
+	
+		El primer tipo es un \textbf{retículo de conceptos}. Un retículo de conceptos es un conjunto de conceptos formales ordenados
+		jerárquicamente por una relación subconcepto-superconcepto.
+	
+		Los conceptos formales son agrupaciones que representan objetos, cosas, nociones como ''organismos que viven en el agua'', ''números
+		divisibles por 3 y 4 '', etc.
+		
+		Formalmente, se pueden definir los conceptos formales como pares \textit{(A, B)} donde $A \subseteq X$ es un conjunto de objetos y $B
+		\subseteq Y$ es un conjunto de atributos,  tal que todos los elementos de \textit{A} tienen los atributos de \textit{B} y los elementos
+		de \textit{B} son los atributos comunes a todos los objetos de \textit{A}.
+	
+		El segundo tipo de salida es un conjunto de  implicaciones de atributos.
+		
+		Las implicaciones de atributos describen una dependencia concreta válida en los datos de entrada, como pueden ser ''todos los números
+		divisibles por 3 y 4 son divisibles por 6'', ''todo encuestado mayor de 60 está jubilado'', etc.
+		
+		La característica que diferencia a este método de análisis de datos de otros, es la inherente integración entre tres componentes del
+		procesamiento de datos y del conocimiento:
+		
+		
+		\begin{itemize}
+			\item[-] el descubrimiento y razonamiento con conceptos en los datos
+			\item[-] el descubrimiento y razonamiento de dependencias en los datos
+			\item[-] y la visualización de los datos, conceptos y dependencias
+		\end{itemize}
+
+	\subsection{Contexto formal}
+	
+		Un contexto formal es la entrada de datos de FCA y se puede definir como una tripleta $\left\langle X, Y, I\right\rangle$, donde
+		\textit{X} es un \textbf{conjunto de objetos}, \textit{Y} es un \textbf{conjunto de atributos} e \textit{I} una \textbf{relación
+		binaria}, $I \subseteq X \times I$, que muestra qué objeto posee qué atributo. Formalmente, se puede considerar como un grafo bipartito
+		que refleje las relaciones entre los conjuntos \textit{X} e \textit{Y}, o también como una una tabla con los objetos ocupando las filas
+		de la tabla, los atributos en las columnas, y de forma que un valor booleano en la celda \textit{(x,y)} significa que el objeto
+		\textit{x} tiene el atributo \textit{y}.
+		
+		\textbf{Ejemplo:} En la ~\ref{figura2}, se muestra un ejemplo de contexto formal representado como tabla.
+				
+		
+		\begin{figure}[htbp]
+			\centering
+				\includegraphics{imagenes/figura2.png}
+			\caption{Representación en tabla de un Contexto Formal}
+			\label{fig:figura2}
+		\end{figure}
+		
+		Por ejemplo, si los objetos son coches y los atributos son características de los coches como ''tiene ABS'', $\times$ indica que un coche
+		concreto tiene ABS. Un espacio en blanco en la tabla indica que el objeto no tiene el atributo (un coche concreto no tiene ABS). Por
+		tanto, el objeto $x_{2}$  tiene el atributo $y_{1}$, pero no tiene el atributo $y_{2}$.
+		
+		Una tabla con atributos lógicos puede ser representado por una tripleta $\left\langle X, Y, I \right\rangle$ donde \textit{I} es una
+		relación binaria entre \textit{X} e \textit{Y}.
+		
+	\subsection{Operadores de derivación}
+	
+		Con el fin de poder trabajar más cómodamente con la relación \textit{I}, entre objetos y atributos, definimos los operadores de
+		derivación $\uparrow: 2^{X} \rightarrow 2^{Y}$ y $\downarrow: 2^{Y} \rightarrow 2^{X}$ de forma que, si tenemos dos subconjuntos 
+		$A \subseteq X$ y $B \subseteq Y$ :
+		
+		
+		\begin{align*}
+			A^{\uparrow} = \left\{y \in Y: \forall x \in A \langle x, y \rangle \in I \right\}\\
+			B^{\downarrow} = \left\{x \in X: \forall y \in B \langle x, y \rangle \in I \right\}
+		\end{align*}
+		
+		Para enfatizar que $\uparrow$ y $\downarrow$ son inducidos por , usamos $\uparrow$' y $\downarrow$'.
+		
+		El operador $\uparrow \downarrow$ verifica algunas propiedades interesantes que serán fundamentales para poder desarrollar la teoría
+		formal (matemáticamente, por verificar las siguientes propiedades, decimos que es un operador de cierre):
+		
+		
+		\begin{itemize}
+			\item idempotente: $A ^{\uparrow \downarrow \uparrow \downarrow} = A ^{\uparrow \downarrow}$,
+			\item monótona: $A_{1} \subseteq A_{2} \to A_{1}^{\uparrow \downarrow} \subseteq A_{2}^{\uparrow \downarrow}$,
+			\item extensa: $A \subseteq A^{\uparrow \downarrow}$
+		\end{itemize}
+		
+		Obsérvese que, en general, no se verifica que $A^{\uparrow \downarrow} = A$. Cuando un conjunto de objetos, $A \subseteq X$ verifica que 
+		$A^{\uparrow \downarrow} = A$ se llama cerrado. Una definición similar se obtiene para hablar de conjuntos de atributos cerrados, es
+		decir, subconjuntos del conjunto \textit{Y}.
+		
+		
+		\textbf{Ejemplo}: Para la tabla de la figura ~\ref{fig:figura2} tenemos:
+		
+	
+		\begin{align*}
+			&\left\{x_{2}\right\}^{\uparrow} = \left\{y_{1}, y_{3}, y_{4}\right\},
+			\left\{x_{2}, x_{3}\right\}^{\uparrow} = \left\{y_{3}, y_{4}\right\}, \\
+			&\left\{x_{1}, _{4}, x_{5}\right\} = \emptyset, \\
+			&X^{\uparrow} = \emptyset, \emptyset^{\uparrow} = Y, \\
+			&\left\{y_{1}\right\}^{\downarrow} = \left\{x_{1}, x_{2}, x_{5}\right\},
+			\left\{y_{1}, y_{2}\right\}^{\downarrow} = \left\{x_{1}\right\}, \\
+			&\left\{y_{2}, y_{3}\right\}^{\downarrow} = \left\{x_{1}, x_{3} x_{4}\right\},
+			\left\{y_{2}, y_{3}, y_{4}\right\}^{\downarrow} = \left\{x_{1}, x_{3}, x_{4}\right\}, \\
+			&\emptyset^{\downarrow} = X, Y^{\downarrow} = \left\{x_{1}\right\} .
+		\end{align*}
+		
+	\subsection{Conceptos Formales}
+	
+		El Concepto Formal es la noción básica del FCA. La definición de Concepto Formal se puede hacer desde varios enfoques:
+		
+		\begin{itemize}
+			\item Psicología \\
+			Murphy G. L.: The Big Book of Concepts. MIT Press, 2004.\\
+			Margolis E., Laurence S.: Concepts: Core Readings. MIT Press, 1999.
+			
+			\item Lógica \\
+			Tichy P.: The Foundations of Frege's Logic. W. De Gryuter, 1988.\\
+			Materna P.: Conceptual Systems. Logos Verlag, Berlin, 2004.
+			
+			\item Inteligencia Artifical (aprendizaje de conceptos) \\
+			Michalski, R. S., Bratko, I. and Kubat, M. (Eds.), Machine Learning and Data Mining: Methods and Applications, London, Wiley, 1998.
+	
+			\item Grafos conceptuales \\
+			Sowa J. F.: Knowledge Representation: Logical, Philosophical, and Computational Foundations. Course Technology, 1999.
+			
+			\item Modelado conceptual, paradigma orientado a objetos, ...
+			
+			\item Tradicional / Lógica de Port-Royal \\
+			Arnauld A., Nicole P.: La logique ou l'art de penser, 1662 (Logic Or The Art Of Thinking, CUP, 2003).
+		\end{itemize}
+		
+		La noción de concepto usado en FCA está inspirado en la Lógica de Port-Royal (lógica tradicional) y se define como un par formado por 
+		un conjunto de objetos (\textbf{extensión}) y un conjunto de atributos (\textbf{intensión}) de forma que la extensión está formada por
+		todos los objetos que comparten los atributos dados y la intensión por los atributos compartidos por los objetos dados.\\\\
+		\textbf{Ejemplo:}
+		
+		
+		\begin{itemize}
+			\item concepto: COCHE
+			\item extensión: conjunto de todos los coches (Mercedes, Nissan, Toyota,...)
+			\item intensión: {tiene motor, tiene asientos, tiene ruedas, ...}
+		\end{itemize}
+		
+		A partir de los operadores de derivación definidos en el apartado anterior se puede decir que un par $\left\langle A, B\right\rangle$ se
+		llama un concepto formal de un contexto \textit{I} si verifica:
+		
+		
+		\begin{itemize}
+			\item $A \subseteq X, B \subseteq Y,$
+			\item $A^{\uparrow} = B, B^{\uparrow} = A$.
+		\end{itemize}
+		
+		Aunque puede parecer una definición un poco arbitraria, intuitivamente un par, $\left\langle A, B\right\rangle$, es un concepto en
+		\textit{I} si:
+		\begin{itemize}
+			\item cada objeto de \textit{A} tiene todos los atributos de \textit{B},
+			\item para cada objeto en \textit{X} que no está en \textit{A}, existe un atributo en \textit{B} que el objeto no tiene,
+			\item para cada atributo en \textit{Y} que no está en \textit{B}, hay un objeto en \textit{A} que no tiene ese atributo.
+		\end{itemize}
+		
+		Luego, en cierta forma, conseguimos introducir en la definición formal de concepto las dos partes que filosóficamente considerábamos
+		esenciales: por una parte, el conjunto de objetos con propiedades comunes, y por otra el conjunto de atributos que caracterizan a dichos
+		objetos. Únicamente aquellos pares de conjuntos que tienen una conexión perfectamente cerrada establecen un concepto por sí mismos. Allí
+		donde no hay atributos ausentes ni contraejemplos entre sus objetos. En esta situación, los conjuntos \textit{A}  y \textit{B} son
+		cerrados y se llaman, respectivamente, la extensión y la intensión del concepto. Para un conjunto de objetos, \textit{A}, el conjunto de
+		sus atributos comunes, $A^{\uparrow}$, describe de alguna forma la similitud de los objetos de \textit{A}, mientras que el conjunto
+		$A^{\uparrow \downarrow}$ es la agrupación de objetos que tienen como atributos comunes a $A^{\uparrow}$ (en particular, estarán todos
+		los objetos de \textit{A}, es decir, $A \subseteq A^{\uparrow \downarrow}$).
+				
+		Por tanto, un concepto, en la representación matricial, se puede reconocer por medio de una submatriz maximal (no necesariamente formada
+		por celdas contiguas) de tal manera que todas las celdas de la submatriz son verdaderas. 
+		
+		En la figura \ref{fig:figura3} la zona sombreada representa el concepto formal \\
+		$\left\langle A_{1}, B_{1}\right\rangle = \left\langle \left\{x_{1}, x_{2}, x_{3}, x_{4}\right\}, \left\{y_{3},
+		 y_{4}\right\}\right\rangle$ porque 
+		$\left\{x_{1}, x_{2}, x_{3}, x_{4}\right\}^{\uparrow} = \left\{y_{3}, y_{4}\right\}$ y 
+		$\left\{y_{3}, y_{4}\right\}^{\downarrow} = \left\{x_{1}, x_{2}, x_{3}, x_{4}\right\}$.
+		
+		
+		\begin{figure}[htbp]
+			\centering
+				\includegraphics{imagenes/figura3.png}
+			\caption{Concepto Formal}
+			\label{fig:figura3}
+		\end{figure}
+		
+		En la representación como grafo bipartito se reconocerá como subgrafo bipartito completo (es decir, aquel que tiene todas las aristas
+		posibles). Una definición más formal sería que $\left\langle A, B\right\rangle$ es un concepto formal si y sólo si $\left\langle A,
+		B\right\rangle$  es un punto fijo de $\left\langle \uparrow, \downarrow \right\rangle$ .
+		
+	\subsection{Retículo de conceptos de un contexto}
+	
+		Los conceptos formales pueden ser parcialmente ordenados utilizando la relación subconcepto-superconcepto.
+		La relación subconcepto-superconcepto está basada en la relación de inclusión de objetos y atributos. Su definición es la que sigue:
+		
+		Para los conceptos formales $\left\langle A_{1}, B_{1}\right\rangle, \left\langle A_{2}, B_{2}\right\rangle 
+		\in \left\langle X, Y, I\right\rangle$, se cumple que  
+		$\left\langle A_{1}, B_{1}\right\rangle \leq \left\langle A_{2}, B_{2}\right\rangle \Leftrightarrow A_{1} \subseteq A_{2}
+		(\Leftrightarrow B_{2} \subseteq B_{1})$
+		
+		
+		\begin{itemize}
+			\item[-] $\leq$  representa la ordenación subconcepto-superconcepto.
+			\item[-] $\left\langle A_{1}, B_{1}\right\rangle \leq \left\langle A_{2}, B_{2}\right\rangle$ significa que 
+			$\left\langle A_{1}, B_{1}\right\rangle$ es más específico que $\left\langle A_{2}, B_{2}\right\rangle$
+			($\left\langle A_{2}, B_{2}\right\rangle$ es más general).
+			\item[-] Por ejemplo, dados los conceptos COCHE y VEHICULO tendríamos la relación $COCHE \leq VEHICULO$  (el concepto COCHE es más
+			 específico que el concepto VEHICULO).
+		\end{itemize}
+		
+		Cada par de conceptos en este orden parcial tiene una única máxima cota inferior, que es el concepto generado por $A_{1} \cap A_{2}$.
+		Simétricamente, cada par de conceptos en este orden parcial tiene una única mínima cota superior, que es el concepto generado por los
+		atributos $B_{1} \cap B_{2}$. 
+		
+		Estas operaciones que calculan el máximo y mínimo de dos conceptos satisfacen los axiomas que definen un retículo, y es fácil probar que
+		cualquier retículo finito puede ser generado como el retículo de conceptos de algún contexto (por ejemplo, si \textit{L} es el retículo,
+		se crea un contexto en el que \textit{X=Y=L} y la relación $\left\langle x, y\right\rangle \in I \Leftrightarrow x \leq y$ en el
+		retículo). \\
+		\textbf{Ejemplo:} Consideremos el siguiente contexto formal:
+				
+		\begin{figure}[htbp]
+			\centering
+				\includegraphics[width=0.75\textwidth]{imagenes/figura4.png}
+			\caption{ContextoFormal}
+			\label{fig:figura4}
+		\end{figure}
+		\textit{a}: necesita el agua para vivir, \textit{b}: vive en el agua, \textit{c}: vive en la tierra, \textit{d}: necesita clorofila para
+		producir comida, \textit{e}: dos hojas de la semilla, \textit{f}: hoja de una semilla, \textit{g}: puede moverse, \textit{h}: tiene
+		extremidades, \textit{i}: amamanta a sus crías
+		
+		El correspondiente contexto formal $\left\langle X, Y, I\right\rangle$ contiene los siguientes conceptos formales:
+		
+		\begin{align*}
+			&C_{0} = \left\langle \left\{ 1,2,3,4,5,6,7,8 \right\}, \left\{ a \right\} \right\rangle, 
+			C_{1} = \left\langle \left\{ 1,2,3,4 \right\}, \left\{ a,g \right\} \right\rangle, 
+			C_{2} = \left\langle \left\{ 2,3,4 \right\}, \left\{ a,g,h \right\} \right\rangle,\\ 
+			&C_{3} = \left\langle \left\{ 5,6,7,8 \right\}, \left\{ a,d \right\} \right\rangle, 
+			C_{4} = \left\langle \left\{ 5,6,8 \right\}, \left\{ a,d,f \right\} \right\rangle, 
+			C_{5} = \left\langle \left\{ 3,4,6,7,8 \right\}, \left\{ a,c \right\} \right\rangle,\\
+			&C_{6} = \left\langle \left\{ 3,4 \right\}, \left\{ a,c,g,h \right\} \right\rangle,
+			C_{7} = \left\langle \left\{ 4 \right\}, \left\{ a,c,g,h,i \right\} \right\rangle,
+			C_{8} = \left\langle \left\{ 6,7,8 \right\}, \left\{ a,c,d \right\} \right\rangle,\\
+			&C_{9} = \left\langle \left\{ 6,8 \right\}, \left\{ a,c,d,f \right\} \right\rangle,
+			C_{10} = \left\langle \left\{ 7 \right\}, \left\{ a,c,d,e \right\} \right\rangle,
+			C_{11} = \left\langle \left\{ 1,2,3,5,6 \right\}, \left\{ a,b \right\} \right\rangle,\\
+			&C_{12} = \left\langle \left\{ 1,2,3 \right\}, \left\{ a,b,g \right\} \right\rangle,
+			C_{13} = \left\langle \left\{ 2,3 \right\}, \left\{ a,b,g,h \right\} \right\rangle,
+			C_{14} = \left\langle \left\{ 5,6 \right\}, \left\{ a,b,d,f \right\} \right\rangle,\\
+			&C_{15} = \left\langle \left\{ 3,6 \right\}, \left\{ a,b,c \right\} \right\rangle,
+			C_{16} = \left\langle \left\{ 3 \right\}, \left\{ a,b,c,g,h \right\} \right\rangle,
+			C_{17} = \left\langle \left\{ 6 \right\}, \left\{ a,b,c,d,f \right\} \right\rangle,\\
+			&C_{18} = \left\langle \left\{  \right\}, \left\{ a,b,c,d,e,f,g,h,i \right\} \right\rangle 	
+		\end{align*}
+	
+		El correspondiente retículo de conceptos \textit{B(X, Y, I)} se muestra en la figura \ref{fig:figura5}:
+				
+		\begin{figure}[htbp]
+			\centering
+				\includegraphics{imagenes/figura5.png}
+			\caption{Retículo de conceptos \textit{B(X, Y, I)}}
+			\label{fig:figura5}
+		\end{figure}
+		
+	\subsection{Implicaciones de atributos}
+	\label{sec:ImplicacionesDeAtributos}
+	
+		Las implicaciones de atributos representan dependencias entre ellos tales como:
+		\begin{itemize}
+			\item[-] todos los números divisibles por 2 y por 3 son divisibles por 6
+			\item[-] todos los pacientes con el síntoma $s_{2}$ y el síntoma $s_{5}$ tienen también el síntoma $s_{1}$ y el $s_{3}$.
+		\end{itemize}
+		Siendo \textit{Y} un conjunto de atributos no vacío, una implicación de atributos en \textit{Y} es una expresión
+		
+		\[A \Rightarrow B \text{ donde } A \subseteq Y \text { y } B \subseteq Y\] \\
+		
+		\textbf{Ejemplos:}
+		
+		
+		\begin{itemize}
+			\item[-] Dado $Y = \left\{ y_{1}, y_{2}, y_{3}, y_{4} \right\}$, 
+					$\left\{ y_{2}, y_{3} \right\} \Rightarrow \left\{ y_{1}, y_{4} \right\}, 
+					 \left\{ y_{2}, y_{3} \right\} \Rightarrow \left\{ y_{1}, y_{2}, y_{3} \right\}, 
+					 \emptyset \Rightarrow \left\{ y_{1}, y_{2} \right\}, 
+					 \left\{ y_{2}, y_{4} \right\} \Rightarrow \emptyset $ son implicaciones de atributos en \textit{Y}.
+			\item[-] Dado \textit{Y = {ver la tele,comer comida basura,correr regularmente, presión arterial normal,presión arterial alta}},
+			         entonces \{ver la tele\} $\Rightarrow$ \{presión arterial alta\}, \{correr regularmente $\Rightarrow$ presión arterial
+			         normal\} son implicaciones de atributos en \textit{Y}.
+		\end{itemize}
+		
+		La estructura con la cual evaluamos las implicaciones de atributos son las filas de las tablas de los contextos formales, que pueden
+		considerarse como el conjunto de atributos de cada objeto.
+		
+		Por lo que, una implicación de atributos $A \Rightarrow B$ en el conjunto de atributos \textit{Y} es válida en un conjunto si y sólo si
+		\[A \subseteq M \Rightarrow B \subseteq M  \]
+				
+		\begin{itemize}
+			\item[-] Escribimos \[\left|A \Rightarrow B \right|_{\mathcal{M}}
+				\begin{cases}
+					&1 \text{ si $A \Rightarrow B$ es verdadero en } \mathcal{M},\\
+					&0 \text{ si $A \Rightarrow B$ no es verdadero en } \mathcal{M}. 
+				\end{cases}\]
+			\item[-] Sea \textit{M} un conjunto de atributos de algún objeto \textit{x}. $\left|A \Rightarrow B\right|_{M}$ quiere decir que
+			''si \textit{x} tiene todos los atributos de \textit{A}, entonces \textit{x} tiene todos los atributos de \textit{B}''. Por lo que, 
+			$C \subseteq M$ es lo mismo que decir ''si \textit{x} tiene todos los atributos de \textit{C}'' .
+		\end{itemize}
+		\textbf{Ejemplo:} Dado $Y = \left\{ y_{1}, y_{2}, y_{3}, y_{4}\right\}$
+		
+		\begin{figure}[htbp]
+			\centering
+				\includegraphics[width=0.7\textwidth]{imagenes/figura6.png}
+			\caption{Implicaciones de atributos}
+			\label{fig:figura6}
+		\end{figure}
+
+		Dado $\mathcal{M} \subseteq 2^{Y}$ , una implicación $A \Rightarrow B$ en \textit{Y} es válida en $\mathcal{M}$ si es verdadero en cada
+		$M \in \mathcal{M}$.
+		
+		
+		\begin{itemize}
+			\item[-] De nuevo, \[\left|A \Rightarrow B \right|_{\mathcal{M}}
+				\begin{cases}
+					&1 \text{ si $A \Rightarrow B$ es verdadero en } \mathcal{M},\\
+					&0 \text{ si $A \Rightarrow B$ no es verdadero en } \mathcal{M}. 
+				\end{cases}\]
+				por lo tanto, $\left|A \Rightarrow B \right|_{\mathcal{M}} = 
+				min_{M \in \mathcal{M}}\left|A \Rightarrow B \right|_{M}$
+				\\
+				Así llegamos a la definición de la validez de una implicación de atributos en un contexto formal.\\
+				Una implicación $A \Rightarrow B$ en \textit{Y} es verdadera en un contexto formal $\left\langle X, Y, I\right\rangle$ si y sólo
+				si $A \Rightarrow B$ es verdadera en
+				\[
+					\left|A \Rightarrow B\right|_{\left\langle X,Y,I \right\rangle} = 
+					1 \text{ si } A \Rightarrow B \text{ es verdadero en } \left\langle X,Y,I \right\rangle
+				\]
+			\item[-] $\left\{x\right\}^{\uparrow}$ es el conjunto de atributos de \textbf{x}. Por lo que, 
+			$\mathcal{M} = \left\{\left\{ x\right\}^{\uparrow}: x \in X \right\}$ es la colección cuyos elementos son justo los conjuntos de
+			atributos de los objetos de $\left\langle X, Y, I \right\rangle$, es decir las filas de la tabla del contexto formal. Así que,
+			$\left|A \Rightarrow B\right|_{\left\langle X, Y, I \right\rangle}= 1$ si y sólo si $A \Rightarrow B$ es verdadero en cada fila de
+			$\left\langle X,Y,I \right\rangle$ si y sólo si para cada fila de $\left\langle X, Y, I \right\rangle$ : si \textit{x} tiene todos
+			los atributos de \textit{A} entonces \textit{x} tiene todos los atributos de \textit{B}.
+			
+			Con esta definición, las implicaciones obedecen las reglas de Armstrong (reflexiva, aumentativa y transitiva) comunes en las
+			dependencias funcionales que se dan entre los atributos de una base de datos:
+			\[
+				\frac{B \subseteq A}{A \Rightarrow B}, \frac{A \Rightarrow B}{A \cup C \Rightarrow B \cup C^{\downarrow}},
+				\frac{D \Rightarrow B, B \Rightarrow C}{A \Rightarrow C}
+			\]
+		\end{itemize}
+		A partir de la definición de implicación y de las propiedades básicas que verifica, podemos definir un cálculo lógico que nos permitiría
+		realizar sistemas de deducción completos sobre el contexto actual. En cierta forma, hemos pasado de tener un conocimiento por ejemplos a
+		disponer de un conocimiento abstracto que introduce sistemas de razonamiento más elaborados en nuestro mundo, partiendo únicamente de
+		las observaciones concretas que hemos realizado, es decir, hemos aprendido reglas generales a partir de ejemplos. 
+		
+	\subsection{Estructuras matemáticas relacionadas con el FCA}
+	
+		En esta sección se describen las estructuras matemáticas en las que se basa el FCA y sus propiedades.
+		
+		\subsubsection{Conexiones de Galois}
+		
+			\paragraph{Conexión de Galois:} Una conexión de Galois entre dos conjuntos \textit{X} e \textit{Y} es un par 
+			$\left\langle f, g \right\rangle$ de $f: 2^X \rightarrow 2^Y$ y $g: 2^Y \rightarrow 2^X$ cumpliendo para 
+			$A, A_1, A_2 \subseteq X, B, B_1, B_2 \subseteq Y$:
+			
+			
+			\begin{align}
+				A_1 &\subseteq A_2 \Rightarrow f(A_2) \subseteq f(A_1),\\
+				B_1 &\subseteq B_2 \Rightarrow g(B_2) \subseteq g(B_1), \\
+				A &\subseteq g(f(A)), \\
+				B &\subseteq f(g(B)).
+			\end{align}
+			
+			\paragraph{Puntos fijos de conexiones de Galois:} Para una conexión de Galois $\left\langle f, g \right\rangle$ entre dos conjuntos
+			\textit{X} e \textit{Y}, al conjunto 
+			\[
+				fix(\left\langle f, g \right\rangle)  = \left\{\left\langle A, B \right\rangle \in 2^X \times 2^Y | f(A) = B, g(B) = A \right\}
+			\]
+			es llamado conjunto de puntos fijos de $\left\langle f, g \right\rangle$
+			
+			\begin{theorem}(operadores de derivación para conexiones de Galois)
+				Para un contexto formal $\left\langle X, Y, I \right\rangle$, el par de operadores 
+				$\left\langle \uparrow' \downarrow' \right\rangle$ inducidos por $\left\langle X, Y, I \right\rangle$ es una conexión de
+				Galois entre \textit{X} e \textit{Y}.
+			\end{theorem}
+			
+			\paragraph{Lema (encadenamiento de conexiones de Galois)}
+			Para una conexión de Galois $\left\langle f, g \right\rangle$ entre dos conjuntos \textit{X} e \textit{Y} se cumple que 
+			$f(A) = f(g(f(A)))$ y $g(B) = g(f(g(B)))$ para cualquier $A \subseteq X$ y $B \subseteq Y$.
+			\\\\
+			\emph{Demostración}
+			Probamos sólo que $f(A) = f(g(f(A))), g(B) = g(f(g(B)))$ es dual:
+			
+			
+			\begin{itemize}
+				\item[-] ''$\subseteq$'':\\
+					$f(A) \subseteq f(g(f(A)))$ cumple la definición (4) siendo $B = f(A)$.
+				\item[-] ''$\supseteq$'':\\
+				Partiendo de que $A \subseteq g(f(A))$ por la definición (3), tenemos que $f(A) \supseteq f(g(f(A)))$ aplicando la definición
+				(1).
+			\end{itemize}
+			
+		\subsubsection{Operadores de cierre}
+		
+			\paragraph{Operador de cierre:} Un operador de cierre en el conjunto \textit{X} es un mapeo $C: 2^X \rightarrow 2^Y$ que cumple para
+			cada $A, A_1, A_2 \subseteq X$
+			
+			\begin{align}
+				&A \subseteq C(A),\\
+				&A_1 \subseteq A_2 \Rightarrow C(A_1) \subseteq C(A_2),\\
+				&C(A) \subseteq C(C(A)).
+			\end{align}\label{operadores_cierre}
+			
+			\paragraph{Puntos fijos de operadores de cierre:} Para un operador de cierre $C: 2^X \rightarrow 2^Y$, al conjunto
+			\[
+				fix(C) = \left\{ A \subseteq X | C(A) = A \right\}
+			\]
+			es llamado punto fijo de \textit{C}.
+
+			\begin{theorem}(desde conexiones de Galois a operadores de cierre)
+				Si $\left\langle f, g \right\rangle$ es una conexión de Galois entre \textit{X} e \textit{Y} entonces $C_X = f \circ g$ es un
+				operador de cierre en \textit{X} y $C_Y = g \circ f$ es un operador de cierre en Y.
+			\end{theorem}
+			
+			\emph{Demostración}\\
+			$f \circ g: 2^X \rightarrow 2^Y$ es un operador de cierre en \textit{X} ya que:
+			
+			\begin{itemize}
+				\item[(5):] $A \subseteq g(f(A))$ (5) es cierto por la definición de conexión de Galois.
+				\item[(6):] $A_1 \subseteq A_2$ implica $f(A_2) \subseteq f(A_1)$, lo cual implica $g(f(A_1)) \subseteq g(f(A_2))$
+				\item[(7):] Siendo $f(A) = f(g(f(A)))$, obtenemos que $g(f(A)) = g(f(g(f(A))))$
+			\end{itemize}
+			
+			\begin{theorem}	(extensiones e intensiones)						
+				\begin{align*}
+					Ext(X, Y, I) &= \left\{ B^{\downarrow} | B \subseteq Y \right\}, \\
+					Int(X, Y, I) &= \left\{ A^{\uparrow} | A \subseteq X \right\}
+				\end{align*}
+			\end{theorem}
+			
+				\emph{Demostración}\\
+				Probamos sólo la parte $Ext(X, Y, I)$, la parte $Int(X, Y, I)$ es dual.
+				
+				\begin{itemize}
+					\item ''$\subseteq$'': si $A in Ext(X, Y, I)$, entonces $\left\langle A, B \right\rangle$ es un concepto formal
+ para algún 
+					$B \subseteq Y$. Por definición, $A = B^{\downarrow}$, esto es $A \in \left\{ B^{\downarrow} | B \subseteq Y \right\}$.
+					\item ''$\supseteq$'': Sea $A \in \left\{ B^{\downarrow} | B \subseteq Y \right\}$, esto es $A = B^{\downarrow}$ para algún
+					\textit{B}. Entonces $\left\langle A, A^{\uparrow} \right\rangle$ es un concepto formal. Concretamente, 
+					$A^{\uparrow \downarrow} = B^{\downarrow \uparrow \downarrow} = B^{\downarrow} = A$ por encadenamiento, y 
+					$A^{\uparrow} = A^{\uparrow}$. Esto es, \textit{A} es la extensión de un concepto formal 
+					$\left\langle A, A^{\uparrow} \right\rangle$ de donde se concluye que $A \in Ext(X, Y, I)$
+				\end{itemize}
+			
+			\begin{theorem}(la menor extensión que contiene a \textit{A}, la menor intensión que contiene a \textit{B})
+				La menor extensión que contiene a $A \subseteq X$ es $A^{\uparrow \downarrow}$. La menor intensión que contiene a $B
+				\subseteq Y$ es $B^{\downarrow \uparrow}$.
+			\end{theorem}
+			
+			\emph{Demostración}
+			Para las extensiones:
+			
+			\begin{enumerate}
+				\item $A^{\uparrow \downarrow}$ es una extensión por el teorema anterior.
+				\item Si \textit{C} es una extensión tal que $A \subseteq C$, entonces 
+				$A^{\uparrow \downarrow} \subseteq C^{\uparrow \downarrow}$ porque $\uparrow \downarrow$ es un operador de cierre. Por lo que,
+				$A^{\uparrow \downarrow}$ es la menor extensión que contiene a \textit{A}.
+			\end{enumerate}
+				
+	\subsubsection{Extensiones, intensiones, retículo de conceptos}
+			\begin{theorem}
+				Para cualquier contexto formal $\left\langle X, Y, I \right\rangle$
+			
+				\begin{align*}
+					&Ext(X, Y, I) = fix(\uparrow \downarrow),\\
+					&Int(X, Y, I) = fix(\downarrow \uparrow),\\
+					&\mathcal{B}(X, Y, I) = \left\{ \left\langle A, A^{\uparrow} \right\rangle | A \in Ext(X, Y, I) \right\},\\
+					&\mathcal{B}(X, Y, I) = \left\{ \left\langle B^{\downarrow}, A \right\rangle | B \in Int(X, Y, I) \right\}.
+				\end{align*}
+			\end{theorem}
+			
+			\emph{Demostración}\\
+			Para \textit{Ext(X, Y, I)}, necesitamos demostrar que \textit{A} es una extensión si y sólo si $A = A^{\uparrow \downarrow}$;
+
+			\begin{itemize}
+				\item[''$\Rightarrow$'':] Si \textit{A} es una extensión entonces para el correspondiente concepto formal 
+				$\left\langle A, B \right\rangle$ tenemos que $B = A^{\uparrow}$ y $A = B^{\downarrow}= A^{\uparrow \downarrow}$. 
+				De ahí que, $A = A^{\uparrow \downarrow}$.
+				\item[''$\Leftarrow$'':] Si $A = A^{\uparrow \downarrow}$ entonces $\left\langle A, A^{\uparrow} \right\rangle$ es un concepto
+				formal. Concretamente, denotando $\left\langle A, B\right\rangle = \left\langle A, A^{\uparrow}\right\rangle$, tenemos que
+				$A^{\uparrow} = B$ y $B^{\downarrow} = A^{\uparrow \downarrow} = A$. Por lo que, \textit{A} es una extensión.
+			\end{itemize}
+			
+			Para $\mathcal{B}(X, Y, I) = \left\{ \left\langle A, A^{\uparrow} \right\rangle | A \in Ext(X, Y, I) \right\}$:\\
+			Si $\left\langle A, B \right\rangle \in \mathcal{B}(X, Y, I)$ entonces $B = A^{\uparrow}$ y, obviamente, $A \in Ext(X, Y, I)$.\\
+			Si $A \in Ext(X, Y, I)$ entonces $A = A{\uparrow \downarrow}$ y por lo tanto 
+			$\left\langle A, A^{\uparrow \downarrow} \right\rangle \in \mathcal{B}(X, Y, I)$.\\
+			\textsl{Observación}
+			
+			El teorema anterior dice: A fin de obtener $\mathcal{B}(X, Y, I)$ podemos:
+			\begin{enumerate}
+				\item procesar \textit{Ext(X, Y, I)},
+				\item para cada $A \in Ext(X, Y, I)$ generar $\left\langle A, A^\uparrow \right\rangle$.
+			\end{enumerate}
+
+		\subsubsection{Definición concisa de conexiones de Galois}
+		
+			Hay una condición simple la cual es equivalente a las condiciones (1) - (4) de la definición de conexión de Galois.
+			
+			\begin{theorem}			
+				$\left\langle f, g \right\rangle$ es una conexión de Galois entre \textit{X} e \textit{Y} si y sólo si para todo 
+				$A \subseteq X$ y $B \subseteq Y$:
+				
+				\begin{align}
+					A \subseteq g(B) \text{ sii } B \subseteq f(A)
+				\end{align}
+			\end{theorem}
+			
+			\emph{Demostración}
+			
+			\begin{itemize}
+				\item [''$\Rightarrow$'':] Sea $\left\langle f, g \right\rangle$ una conexión de Galois.\\
+					 Si $A \subseteq g(B)$ entonces $f(g(B)) \subseteq f(A)$ y dado que $B \subseteq f(g(B))$, tenemos que $B \subseteq f(A)$.
+					 De forma similar, $B \subseteq f(A)$ implica $A \subseteq g(B)$.
+				
+				\item [''$\Leftarrow$'':] Sea $A \subseteq g(B) \text{ sii } B \subseteq f(A)$. Comprobamos que 
+					 $\left\langle f, g \right\rangle$
+					 es una conexión de Galois. Debido a la dualidad, es suficiente comprobar que:
+					 
+					\begin{itemize}
+						\item [(a)] $A \subseteq g(f(A))$\\
+								Debido a nuestra suposición, $A \subseteq g(f(A))$ es equivalente a $f(A) \subseteq f(A)$ lo cual,
+								evidentemente, es cierto.
+								
+						\item[(b)] $A_1 \subseteq A_2$ implica $f(A_2) \subseteq f(A_1)$ 
+								Sea $A_1 \subseteq g(f(A_2)) $. Debido a (a), tenemos $A_2 \subseteq g(f(A_2))$, de ahí	que 
+								$A_1 \subseteq g(f(A_2))$. Usando la suposición, lo último es equivalente a $f(A_2) \subseteq f(A_1)$.
+					\end{itemize}
+			\end{itemize}
+		
+		\subsubsection{Conexiones de Galois, unión e intersección}
+		
+			El siguiente teorema describe el comportamiento básico de las conexiones de Galois respecto a la unión y a la intersección.
+			
+			
+			\begin{theorem}
+				$\left\langle f, g \right\rangle$ es una conexión de Galois entre \textit{X} e \textit{Y} cuando 
+				$A_j \subseteq X, j \in J$ y $B_j \subseteq Y, j \in J$ tenemos que
+			
+				\begin{align}
+					f(\bigcup_{\substack{j \in J}} A_j) = \bigcap_{\substack{j \in J}} f(A_j), \\
+					g(\bigcup_{\substack{j \in J}} B_j) = \bigcap_{\substack{j \in J}} g(B_j), 
+				\end{align}
+			\end{theorem}
+			
+			\emph{Demostración}
+					
+			\begin{itemize}
+				\item [(9):] Para cualquier $D \subseteq Y: D \subseteq f(\bigcup_{j \in J} A_j)$ si y sólo si 
+				$\bigcup_{j \in J} A_j \subseteq g(D)$ si y sólo si para cada $j \in J: A_j g(D)$ si y sólo si para cada 
+				$j \in J: D \subseteq f(A_j)$ si y sólo si $D \subseteq \bigcap_{j \in J} f(A_j)$.\\
+				Como \textit{D} es arbitrario, éste cumple que $f(\bigcup_{\substack{j \in J}} A_j) = \bigcap_{\substack{j \in J}} f(A_j)$.
+			
+				\item [(10):] Dual.
+			\end{itemize}
+		
+		\subsubsection{Cada conexión de Galois es inducida por una relación binaria}
+		
+		No sólo todos los pares de operadores de derivación forman un Galois, todos las conexiones de Galois es un operador de derivación de
+		un contexto formal particular.
+		
+		\begin{theorem}
+			Sea $\left\langle f, g \right\rangle$ una conexión de Galois entre \textit{X} e \textit{Y}. Considérese un contexto formal 
+			$\left\langle X, Y, I \right\rangle$ tal que \textit{I} está definido por\\
+		
+			\begin{align}
+				\left\langle x, y \right\rangle \in I \text{ sii } y \in f(\left\{ x \right\}) \text{ o, equivalentemente, sii } x \in 
+				g(\left\{ y \right\}),
+			\end{align}
+		
+			para cada $x \in X$ e $y \in Y$. Entonces $\left\langle \uparrow', \downarrow' \right\rangle = \left\langle f, g \right\rangle$,
+			esto es, los operadores de derivación $\left\langle \uparrow', \downarrow' \right\rangle$ inducido por 
+			$\left\langle X, Y, I \right\rangle$ coincide con $\left\langle f, g \right\rangle$.
+		\end{theorem}
+		
+		\emph{Demostración}
+		
+		Primero demostramos que $y \in f(\left\{ x \right\})$ sii $x \in g(\left\{ y \right\})$:\\
+		De $y \in f(\left\{ x \right\})$ obtenemos $\left\{ y \right\} \subseteq f(\left\{ x \right\})$ a partir del cual, aplicando (8),
+		obtenemos $\left\{ x \right\} \subseteq g(\left\{ y \right\})$ , esto es, $x \in g(\left\{ y \right\})$.\\
+		De forma similar, $\left\{ x \right\} \subseteq g(\left\{ y \right\})$ implica $y \in f(\left\{ x \right\})$. Esto establece que 
+		$y \in f(\left\{ x\right\})$ sii $x \in g(\left\{ y \right\})$.\\
+		Ahora, aplicando (9), para cada $A \subseteq X$ tenemos
+			
+		\begin{align*}
+			f(A) &= f(\bigcup_{x \in A}) = \bigcap_{x \in A} f(\left\{ x \right\}) =\\
+				 &= \bigcap_{x \in A}\left\{ y \in Y | y \in f(\left\{ x \right\}) \right\} = 
+				 \bigcap_{x \in A}\left\{ y \in Y | \left\langle x, y \right\rangle \in I \right\} = \\
+				 &= \left\{ y \in I | \text{ para cada } x \in A: \left\langle x, y \right\rangle \in I \right\} = A^{\uparrow'}.
+		\end{align*}
+		
+		Igualmente, para $B \subseteq Y$ obtenemos $g(B) = B^{\downarrow'}$.
+		
+		\emph{Observaciones}
+		
+		\begin{itemize}
+			\item La relación \textit{I} inducida a partir de $\left\langle f, g \right\rangle$ por (11) se indicará por 
+				$I_{\left\langle f, g \right\rangle}$.
+			\item De ahí que, hemos establecido dos mapeos:\\
+				$I \mapsto \left\langle \uparrow', \downarrow'  \right\rangle$ asigna una conexión de Galois a una relación binaria \textit{I}.
+				$\left\langle \uparrow, \downarrow \right\rangle \mapsto I_{\left\langle \uparrow, \downarrow \right\rangle}$ asigna una
+				relación binaria a una conexión de Galois.
+		\end{itemize}
+		
+	\subsubsection{Teorema de representación para conexiones de Galois}
+	
+		\begin{theorem} (de representación)
+				
+			$I \mapsto \left\langle \uparrow', \downarrow' \right\rangle$   y  
+			$\left\langle \uparrow, \downarrow \right\rangle \mapsto I_{\left\langle \uparrow, \downarrow \right\rangle}$ son mutuamente
+			mapeos inversos entre el conjunto de relaciones binarias entre \textit{X} e \textit{Y} y el conjunto de todas las conexiones de
+			Galois entre \textit{X} e \textit{Y}.
+		\end{theorem}
+		
+		\emph{Demostración}
+		
+		Usando los resultados establecidos arriba, queda por comprobar que $I \mapsto I_{\left\langle \uparrow', \downarrow' \right\rangle}$ :
+		Tenemos
+		\[
+			\left\langle x, y, \right\rangle \in I_{\left\langle \uparrow', \downarrow' \right\rangle} \text{ sii } 
+			y \in \left\{ x \right\}^{\uparrow'} \text{ sii } \left\langle x, y \right\rangle \in I,
+		\]
+		finalizando la demostración.
+		
+		
+		\emph{Observaciones}
+		
+		En particular, el teorema anterior asegura que (1)-(4) describe completamente todas las propiedades de nuestros operadores inducidos
+		por los datos $\left\langle X, Y, I \right\rangle$.
+		
+	\subsubsection{Dualidad entre extensiones e intensiones}
+	
+		Habiendo establecido las propiedades de $\left\langle \uparrow, \downarrow \right\rangle$, podemos ver la relación de dualidad entre
+		extensiones e intensiones.\\
+		
+		\begin{theorem}		
+			Para $\left\langle A_1, B_1 \right\rangle, \left\langle A_2, B_2 \right\rangle \in \mathcal{B}(X, Y, I)$,
+			\begin{align}
+				A_1 \subseteq A_2 \text{ sii } B_2 \subseteq B_1.
+			\end{align}
+		\end{theorem}
+		
+		\emph{Demostración}
+		
+		Por supuesto, $A_i = B_i^{\downarrow}$ y $B_i = A_i^{\uparrow}$. Por lo que, usando (1) y (2), tenemos que $A_1 \subseteq A_2$ implica
+		$A_2^{\uparrow} \subseteq A_1^{\uparrow}$, es decir, 
+		$B_2 \subseteq B_1$, lo que implica $B_1^{\downarrow} \subseteq B_2^{\downarrow}$,
+		es decir, $A_1 \subseteq A_2$.
+		
+		Por lo que, la definición de orden parcial $\leq$ en $\mathcal{B}(X, Y, I)$ es correcta.
+		\\
+		
+		\begin{theorem}(extensiones, intensiones y conceptos formales)
+			\begin{enumerate}
+				\item $\left\langle Ext(X, Y, I), \subseteq \right\rangle$ y $\left\langle Int(X, Y, I), \subseteq \right\rangle$ 
+						son conjuntos parcialmente ordenados.
+				
+				\item $\left\langle Ext(X, Y, I), \subseteq \right\rangle$ y $\left\langle Int(X, Y, I), \subseteq \right\rangle$ 
+						son dualmenteisomorfos, esto es, hay un mapeo $f:Ext(X, Y, I) \rightarrow Int(X, Y, I)$ que satisface 
+						$A_1 \subseteq A_2$ sii $f(A_2) \subseteq f(A_1)$.
+				
+				\item $\left\langle \mathcal{B}(X, Y, I), \leq \right\rangle$ es isomorfo a 
+						$\left\langle Ext(X, Y, I), \subseteq \right\rangle$.
+				
+				\item $\left\langle \mathcal{B}(X, Y, I), \leq \right\rangle$ es dualmente isomorfo a 
+					$\left\langle Int(X, Y, I), \subseteq \right\rangle$.
+			\end{enumerate}
+		\end{theorem}
+		
+		\emph{Demostración:}
+		
+		\begin{enumerate}
+			\item : Obviamente, porque \textit{Ext(X, Y, I)} es una colección de subconjuntos de \textit{X} y $\subseteq$ es un conjunto de
+				exclusión. Igualmente para \textit{Int(X, Y, I)}.
+				
+			\item : Sólo tomar $f = \uparrow$ y usar los resultados anteriores.
+			
+			\item : Obviamente, el mapeo $\left\langle A, B \right\rangle \mapsto A$ es el isomorfismo requerido.
+			
+			\item : El mapeo $\left\langle A, B \right\rangle \mapsto B$ es el isomorfismo dual requerido.
+		\end{enumerate}
+		
+	\subsubsection{Estructura jerárquica de retículo de conceptos}
+	
+		Sabemos que $\mathcal{B}(X, Y, I)$ (conjunto de todos los conceptos formales) con $leq$ (jerarquía subconcepto-superconcepto) es un
+		conjunto parcialmente ordenado. Ahora, la cuestión es: ¿Cuál es la estructura de  
+		$\left\langle \mathcal{B}(X, Y, I) , leq \right\rangle$?\\
+		Resulta que $\left\langle \mathcal{B}(X, Y, I) , leq \right\rangle$ es un retículo completo ( se verá en la parte de Teorema principal
+		de retículos de conceptos).
+		
+		
+		\textbf{Retículo de conceptos $\approx$ jerarquía de conceptos completa}
+		
+		Que $\left\langle \mathcal{B}(X, Y, I) , \leq \right\rangle$ sea un retículo es una buena noticia.
+		
+		Concretamente, se dice que para cualquier colección de conceptos formales $K \subseteq \mathcal{B}(X, Y, I)$, contiene tanto
+		la ''generalización directa'' $\bigvee K$ de conceptos de \textit{K} (supremo de \textit{K}) , como la ''especialización
+		directa'' $\bigwedge K$ de conceptos de \textit{K} (ínfimo de \textit{K}). En este sentido, es una jerarquía completa de
+		conceptos.
+		
+		A continuación se detalla el Teorema principal de retículos de conceptos.
+		
+		
+		\begin{theorem}(sistema de puntos fijos de operadores de cierre)
+		
+			Para un operador de cierre \textit{C} en \textit{X}, el conjunto parcialmente ordenado 
+			$\left\langle fix(C), \subseteq\right\rangle$ de puntos fijos de \textit{C} es un retículo completo con ínfimo y supremo dado por
+		
+			\begin{align}
+				\bigwedge_{\substack{j \in J}} A_j =& \bigcap_{\substack{j \in J}} A_j,\\
+				\bigvee_{\substack{j \in J}} A_j =& C(\bigcup_{\substack{j \in J}} A_j).
+			\end{align}
+		\end{theorem}
+		
+		\emph{Demostración}
+		
+		Evidentemente, $\left\langle fix(C), \subseteq \right\rangle$ es un conjunto parcialmente ordenado.
+				
+		\begin{itemize}
+			\item [(13):] Primero, comprobamos que para $A_j \in fix(C)$ tenemos $\bigcap_{\substack{j \in J}} A_j \in fix(C)$ (la intersección
+				de los puntos fijos es un punto fijo). Necesitamos comprobar que 
+				$\bigcap_{\substack{j \in J}} A_j  = C(\bigcap_{\substack{j \in J}} A_j )$.
+								
+				\begin{itemize}
+					\item[''$\subseteq$'':] Que $\bigcap_{\substack{j \in J}} A_j \subseteq C(\bigcap_{\substack{j \in J}} A_j )$ es obvio
+						(propiedad de operadores de cierre).
+						
+					\item[''$\supseteq$'':] Tenemos $\bigcap_{\substack{j \in J}} A_j \subseteq C(\bigcap_{\substack{j \in J}} A_j )$ si y sólo
+						si para cada $j \in J$ tenemos $C(\bigcap_{\substack{j \in J}} A_j ) \subseteq A_j$ lo cual es cierto. De hecho,
+						tenemos que $\bigcap_{\substack{j \in J}} A_j \subseteq A_j$ de lo cual obtenemos  
+						$ C(\bigcap_{\substack{j \in J}} A_j \subseteq C(A_j) = A_j$.
+				\end{itemize}
+				
+				Ahora, ya que $\bigcap_{\substack{j \in J}} A_j \in fix(C)$, está claro que $\bigcap_{\substack{j \in J}} A_j $ es el ínfimo de
+				los  $A_j$: primero, $\bigcap_{\substack{j \in J}} A_j$ es menor o igual que todos los $A_j$ ; segundo, 
+				$\bigcap_{\substack{j \in J}} A_j $ es mayor o igual que cualquier $A \in fix(C)$ por lo cual es menor o igual que todos los 
+				$A_j$  esto es, $\bigcap_{\substack{j \in J}} A_j$ es el mayor elemento del punto más bajo de $\left\{ A_j | j \in J \right\}$.
+				
+			\item [(14):] Verificamos que $\bigvee_{\substack{j \in J}} A_j = C(\bigcup_{\substack{j \in J}} A_j)$. Nótese primero que como 
+				 $\bigvee_{\substack{j \in J}} A_j$ es un punto fijo de \textit{C}, tenemos que 
+				$\bigvee_{\substack{j \in J}} A_j = C(\bigvee_{\substack{j \in J}} A_j)$.
+				
+				\begin{itemize}
+					\item[''$\subseteq$'':] $C(\bigcup_{\substack{j \in J}} A_j)$ es un punto fijo el cual es mayor o igual que todos los
+						$A_j$, y por eso $C(\bigcup_{\substack{j \in J}} A_j)$ debe ser mayor o igual que el supremo 
+						$\bigvee_{\substack{j \in J}} A_j$, es decir, 
+						$\bigvee_{\substack{j \in J}} A_j = C(\bigvee_{\substack{j \in J}} A_j)$.
+					
+					
+					\item[''$\supseteq$'':] Como $\bigvee_{\substack{j \in J}} A_j \supseteq A_j$ para cualquier $j \in J$, obtenemos que 
+						$\bigvee_{\substack{j \in J}} A_j \supseteq \bigcup_{\substack{j \in J}} A_j$, y por eso 
+						$\bigvee_{\substack{j \in J}} A_j = C(\bigvee_{\substack{j \in J}} A_j) \supseteq C(\bigcup_{\substack{j \in J}}
+							 A_j)$.
+						\\
+						Resumiendo, $\bigvee_{\substack{j \in J}} A_j = C(\bigcup_{\substack{j \in J}} A_j)$.
+				\end{itemize}
+		\end{itemize}
+		
+	\subsection{Teorema Principal de Retículo de Conceptos}
+
+		\begin{theorem}
+		
+			\begin{enumerate}
+				\item $\mathcal{B}(X, Y, I)$ (1) es un retículo completo con ínfimo y supremo dado por
+				
+				\begin{align}
+					\bigwedge_{\substack{j \in J}} \left\langle A_j, B_j \right\rangle =
+					\left\langle \bigcap_{\substack{j \in J}} A_j, (\bigcup_{\substack{j \in J}} B_j)^{\downarrow \uparrow} \right\rangle =
+					\bigvee_{\substack{j \in J}} \left\langle A_j, B_j \right\rangle =
+					\left\langle (\bigcup_{\substack{j \in J}} A_j)^{\uparrow \downarrow}, (\bigcap_{\substack{j \in J}} B_j) \right\rangle.
+				\end{align}
+				
+				\item Además, un retículo completo arbitrario $\mathbf{V} = (V, \leq)$ es isomorfo a $\mathcal{B}(X, Y, I)$ si y sólo si hay
+					 mapeos $\gamma: X \rightarrow V, \mu: Y \rightarrow V$ tal que 
+					 
+					\begin{enumerate}
+						\item $\gamma(X)$ es $\bigvee$-irreducible en V, $\mu(Y)$ es $\bigwedge$-irreducible en V;
+						\item $\gamma(X) \leq \mu(Y)$ sii $\left\langle x, y \right\rangle \in I$.
+					\end{enumerate}
+			\end{enumerate}
+		\end{theorem}
+		
+		\emph{Observaciones}
+					
+		\begin{enumerate}
+			\item $K \subseteq V$ es supremo-irreducible en \textit{V} si y sólo si para cada $v \in V$ existe $K' \subseteq K$ tal que 
+					$v = \bigvee K'$ (es decir, todo elemento \textit{v} de \textit{V} es  supremo de algún elemento de \textit{K}).\\
+					Igualmente para el ínfimo-irreducible de \textit{K} en \textit{V} (todo elemento \textit{v} de \textit{V} es  ínfimo de
+					algún elemento de \textit{K}).
+					
+			\item Supremo (ínfimo)-irreducibilidad establece que puedan ser considerados bloques de trabajo de \textit{V}.
+		\end{enumerate}
+			
+			
+			\emph{Demostración}
+			
+			Sólo para (1). Comprobamos $\bigwedge_{j \in J} \left\langle A_j, B_j \right\rangle = 
+			\left\langle \bigcap_{j \in J} A_j, (\bigcup_{j \in J} B_j)^{\downarrow \uparrow}\right\rangle$:
+			
+			Primero, $\left\langle Ext(X, Y, I), \subseteq \right\rangle = \left\langle fix(\uparrow \downarrow), \subseteq \right\rangle$ y 
+			$\left\langle Int(X, Y, I), \subseteq \right\rangle = \left\langle fix(\downarrow \uparrow), \subseteq \right\rangle$ .
+			
+			Esto es, \textit{Ext(X, Y, I)} e \textit{Int(X, Y, I)} son sistemas de puntos fijos de operadores de cierre, por lo tanto, el
+			supremo y el ínfimo en \textit{Ext(X, Y, I)} e \textit{Int(X, Y, I)} obedecen a las fórmulas del teorema anterior.
+			
+			Segundo, recordar que $\left\langle \mathcal{B}(X, Y, I), \leq\right\rangle$ es isomorfo a 
+			$\left\langle Ext(X, Y, I), \subseteq\right\rangle$ y a $\left\langle Int(X, Y, I), \subseteq\right\rangle$.
+			
+			Por lo tanto, el ínfimo en $\mathcal{B}(X, Y, I)$ corresponde al ínfimo en \textit{Ext(X, Y, I)} y al supremo en 
+			\textit{Int(X, Y, I)}.
+			
+			Esto es, como $\bigwedge_{j \in J}\left\langle A_j, B_j\right\rangle$ es el ínfimo de los pares en $\mathcal{B}(X, Y, I)$: La
+			extensión de $\bigwedge_{j \in J}\left\langle A_j, B_j\right\rangle$ es el ínfimo de los $A_j$ en 
+			$\left\langle Ext(X, Y, I), \subseteq\right\rangle$ lo cual es, de acuerdo a (13), $\bigcap_{j \in J} A_j$. La intensión de 
+			$\bigwedge_{j \in J}\left\langle A_j, B_j\right\rangle$ es el supremo de los $B_j$ en 
+			$\left\langle Int(X, Y, I), \subseteq\right\rangle$ lo cual es, de acuerdo a (14), 
+			$(\bigcup_{j \in J} B_j)^{\downarrow \uparrow}$.
+			Demostramos que
+			\[
+				\bigwedge_{\substack{j \in J}}\left\langle A_j, B_j\right\rangle = 
+				\left\langle \bigcap_{\substack{j \in J}}A_j, (\bigcup_{\substack{j \in J}}B_j)^{\downarrow, \uparrow}\right\rangle.
+			\]
+			
+			Comprobando que la fórmula para $\bigvee_{j \in J} \left\langle A_j, B_j\right\rangle$ es dual.
+			
+			Considerar la parte (2) y tomar $V:= \mathcal{B}(X, Y, I)$ . Como $\mathcal{B}(X, Y, I)$ es isomorfo a $\mathcal{B}(X, Y, I)$,
+			existen mapeos 
+			\[
+				\gamma:X \rightarrow \mathcal{B}(X, Y, I) \text{ y } \mu: Y \rightarrow \mathcal{B}(X, Y, I)
+			\]
+			cumpliendo las propiedades de la parte (2). ¿Cómo funcionan los mapeos $\gamma$ y $\mu$?
+			
+			\begin{align*}
+				\gamma(x) = \left\langle \left\{x\right\}^{\uparrow \downarrow}, \left\{x\right\}^{\uparrow} \right\rangle 
+				\text{... objeto del concepto de } x \\
+				\mu(y) = \left\langle \left\{y\right\}^{\downarrow}, \left\{y\right\}^{\downarrow \uparrow} \right\rangle 
+				\text{... objeto del concepto de } y. \\
+			\end{align*}
+			
+			Entonces, (a) dice que cada $\left\langle A, B \right\rangle \in \mathcal{B}(X, Y, I)$ es un supremo de algunos objetos de los
+			conceptos (e ínfimo de algunos atributos de los conceptos). Esto es cierto ya que
+			\[
+				\left\langle A, B \right\rangle = \bigvee_{\substack{x \in A}}\left\langle \left\{x\right\}^{\uparrow \downarrow}, 
+				\left\{x\right\}^{\uparrow}\right\rangle \text{ y }
+				\left\langle A, B \right\rangle = \bigwedge_{\substack{y \in A}}\left\langle \left\{y\right\}^{\downarrow}, 
+				\left\{y\right\}^{\downarrow \uparrow}\right\rangle
+			\]
+			(b) es cierto, también: $\gamma(x) \leq \mu(y)$ sii 
+			$\left\{x\right\}^{\uparrow \downarrow} \subseteq \left\{y\right\}^{\downarrow}$
+			sii $\left\{y\right\} \subseteq \left\{x\right\}^{\uparrow \downarrow \uparrow} = \left\{x\right\}^{\uparrow}$ sii
+			$\left\langle x, y \right\rangle \in I$.
+			
+			
+			¿Qué dice el Teorema Principal? La parte (1) dice que  $\mathcal{B}(X, Y, I)$ es un retículo y describe su ínfimo y supremo. La
+			parte (2) provee  la forma de etiquetar un retículo de conceptos para que esa información no se pierda.
+			
+		\subsubsection{Etiquetado de diagramas de retículos de conceptos}
+		
+			El etiquetado tiene dos reglas:
+			
+			\begin{itemize}
+				\item[-] $\gamma(x) = \left\langle \left\{x\right\}^{\uparrow \downarrow}, \left\{x\right\}^{\uparrow}\right\rangle$ 
+					... objeto del concepto de \textit{x} - etiquetado para \textit{x},
+					
+				\item[-] atributo del concepto de \textit{y} - etiquetado para \textit{y}.
+			\end{itemize}
+			
+			¿Cómo vemos extensiones e intensiones en un diagrama de Hasse etiquetado?
+			
+			Consideremos el concepto formal $\left\langle A, B\right\rangle$ correspondiente al nodo \textit{c} de un diagrama etiquetado del
+			retículo de conceptos $\mathcal{B}(X, Y, I)$. ¿Qué es la extensión y la intensión en $\left\langle A, B \right\rangle$?
+			
+			\begin{itemize}
+				\item[-] $x \in A$ si y sólo si el nodo con la etiqueta \textit{x} se encuentra en el camino desde \textit{c} hacia abajo,
+				
+				\item[-] $y \in B$ si y sólo si el nodo con la etiqueta \textit{y} se encuentra en el camino desde \textit{c} hacia arriba.
+			\end{itemize}
+			
+			\begin{figure}[H]
+				\centering
+					\includegraphics{imagenes/figura7.png}
+				\caption{Contexto Formal}
+				\label{fig:figura7}
+			\end{figure}
+			
+			$\mathcal{B}(X, Y, I) = \left\{ \left\langle \left\{x_1\right\}, Y\right\rangle, 
+			\left\langle \left\{x_1, x_2, x_3\right\}, \left\{y_2, y_3, y_4\right\}\right\rangle,
+			\left\langle \left\{x_1, x_4\right\}, \left\{y_1\right\}\right\rangle, \left\langle X, \emptyset \right\rangle
+			\right\}$
+			
+			El diagrama correspondiente:
+					
+			\begin{figure}[H]
+				\centering
+					\includegraphics{imagenes/figura8.PNG}
+				\caption{Diagrama de etiquetado del retículo de conceptos }
+				\label{fig:figura8}
+			\end{figure}
+			
+			Sea \textit{c} el nodo del concepto $\left\langle \left\{x_2, x_3\right\}, \left\{y_2, y_3, y_4\right\}\right\rangle$. La
+			extensión de \textit{c} son los $x_i$ de los nodos  del camino desde \textit{c} hacia abajo, es decir 
+			$\left\{x_2, x_3, x_1\right\}$.
+	
+			
+			\begin{figure}[H]
+				\centering
+					\includegraphics[width=.45\textwidth]{imagenes/figura9.PNG}
+				\caption{Extensión del concepto $\left\langle \left\{x_2, x_3\right\}, \left\{y_2, y_3, y_4\right\}\right\rangle$}
+				\label{fig:figura9}
+			\end{figure}
+			
+			La intensión de \textit{c} son los $y_i$ de los nodos  del camino desde \textit{c} hacia arriba, es decir 
+			$\left\{y_2, y_3, y_4\right\}$.
+			
+			\begin{figure}[H]
+				\centering
+					\includegraphics[width=.45\textwidth]{imagenes/figura10.PNG}
+				\caption{Intensión del concepto $\left\langle \left\{x_2, x_3\right\}, \left\{y_2, y_3, y_4\right\}\right\rangle$}
+				\label{fig:figura10}
+			\end{figure}
+			
+
+		\subsection{Clarificación y reducción de conceptos formales}
+		
+			Un contexto formal puede ser redundante y es posible borrar algunos de sus objetos o atributos y obtener un contexto formal para
+			el cual el retículo de conceptos asociado es isomorfo al del contexto formal original.
+			
+			Para ello se definirán dos nociones principales: contexto formal clarificado y contexto formal reducido.\\
+			
+			\paragraph{Definición (contexto clarificado):} Un contexto formal $\left\langle X, Y, I \right\rangle$ es clarificado cuando
+			
+			\begin{align*}
+				&\left\{ x_1 \right\}^{\uparrow} = \left\{ x_2 \right\}^{\uparrow} \text{ implica } x_1 = x_2 
+				\text{ para todo } x_1, x_2 \in X; \\
+				&\left\{ y_1 \right\}^{\downarrow} = \left\{ y_2 \right\}^{\downarrow} \text{ implica } y_1 = y_2 
+				\text{ para todo } y_1, y_2 \in Y. \\
+			\end{align*}
+			
+			La clarificación consiste en la  eliminación de idénticas filas y columnas (queda sólo una de las filas/columnas idénticas).\\\\\\
+			
+			\emph{Ejemplo}:
+			
+			El contexto formal de la derecha resulta de aplicar la clarificación del contexto formal de la izquierda.
+			 			 
+			\begin{figure}[h]
+				\centering
+					\includegraphics{imagenes/figura11.png}
+				\caption{Clarificación}
+				\label{fig:figura11}
+			\end{figure}
+
+			\begin{theorem}
+				Si $\left\langle X_1, Y_1, I_1\right\rangle$ es un contexto clarificado resultante de 
+				$\left\langle X_2, Y_2, I_2\right\rangle$ por clarificación, entonces $\mathcal{B}(X_1, Y_1, I_1)$ es isomorfo a
+				$\mathcal{B}(X_2, Y_2, I_2)$.\\
+			\end{theorem}
+			
+			\emph{Demostración}
+			
+			Sea  $\left\langle X_2, Y_2, I_2\right\rangle$ que contiene $x_1, x_2$ tal que 
+			$\left\{x_1\right\}^{\uparrow} = \left\{x_2\right\}^{\uparrow}$ (filas idénticas). Sea $\left\langle X_1, Y_1, I_1\right\rangle$
+			resultante de borrar $x_2$ de $\left\langle X_2, Y_2, I_2\right\rangle$ (es decir,  $X_1 = X_2 - \left\{x_2\right\}, Y_1 = Y_2$).
+			Un isomorfismo $f : \mathcal{B}(X_1, Y_1, I_1) \rightarrow \mathcal{B}(X_2, Y_2, I_2)$ es dado por
+			\[
+				f(\left\langle A_1, B_1\right\rangle) = \left\langle A_2, B_2 \right\rangle
+			\]
+			donde $B_1 = B_2$ y
+			\[
+				A_2 = \begin{cases}
+					&A_1  \text{ si } x_1 \notin A_1,\\
+					&A_1 \cup \left\{x_2\right\} \text{ si } x_1 \in A_1.
+				\end{cases}
+			\]
+			
+			Concretamente, se puede ver fácilmente que $\left\langle A_1, B_1 \right\rangle$ es un concepto formal de 
+			$\mathcal{B}(X_1, Y_1, I_1)$ si y sólo si $f(\left\langle A_1, B_1\right\rangle)$ es un concepto formal de 
+			$\mathcal{B}(X_2, Y_2, I_2)$ y que para los conceptos formales 
+			$\left\langle A_1, B_1\right\rangle, \left\langle C_1, D_1\right\rangle$ de $\mathcal{B}(X_1, Y_1, I_1)$ tenemos
+			\[
+				\left\langle A_1, B_1 \right\rangle \leq \left\langle C_1, D_1 \right\rangle \text{ sii }
+				f(\left\langle A_1, B_1 \right\rangle) \leq f(\left\langle C_1, D_1 \right\rangle).
+			\]
+			Por lo tanto, $\mathcal{B}(X_1, Y_1, I_1)$ es isomorfo a $\mathcal{B}(X_2, Y_2, I_2)$. Esto justifica el borrar una fila. Lo
+			mismo es cierto para la eliminación de una columna.
+			
+			Otra forma de simplificar el contexto formal de entrada es borrando los objetos y atributos reducibles.\\
+		
+			\textbf{Definición (objetos y atributos reducibles):}
+			
+			Para un contexto formal $\left\langle X, Y, I\right\rangle$, un atributo $y \in Y$ es reducible si y sólo si existe 
+			$Y' \subset Y$ con $y \notin Y'$ tal que
+			\[
+				\left\{ y \right\}^{\downarrow} = \bigcap_{\substack{z \in \textit{Y'}}} \left\{z\right\}^{\downarrow},
+			\]
+			es decir, la columna correspondiente a \textit{y} es la intersección de las columnas correspondientes a los elementos
+			(\textit{z}) de Y'. Un objeto $x \in X$ es reducible si y sólo si existe $X' \subset X$ con $x \notin X'$ tal que
+			\[
+				\left\{ x \right\}^{\uparrow} = \bigcap_{\substack{z \in X'}} \left\{z\right\}^{\uparrow},
+			\]
+			es decir, la fila correspondiente a \textit{x} es la intersección de filas correspondientes a los elementos (\textit{z}) de
+			\textit{X'}.\\
+			
+			\emph{Ejemplo:} Dado el contexto formal			
+			
+			\begin{figure}[H]
+				\centering
+					\includegraphics{imagenes/figura12.png}
+				\label{fig:figura12}
+			\end{figure}
+			
+			 $y_2$ es reducible ($Y' = {y_1, y_3}$).
+			 
+			\emph{Observaciones}
+			 
+			\begin{itemize}
+				\item[-] Si un elemento \textit{y} (valor real del atributo) es una combinación lineal de otros atributos, éste puede ser
+					eliminado. Cuidado, esto depende de lo que se hace con los atributos. La intersección es una combinación particular de
+					atributos.
+				
+				\item[-] La (no-)reducibilidad en $\left\langle X, Y, I\right\rangle$ está conectado con la llamada
+					$\bigwedge$-(ir-)reducibilidad y $\bigvee$-(ir)reducibilidad en $\mathcal{B}(X, Y, I)$.
+					
+				\item[-] En un retículo completo $\left\langle \bigvee, \leq\right\rangle$ es llamado $\bigwedge$-irreducible si no hay 
+					$U \subset V$ con $v \notin U$ tal que $v = \bigwedge U$ . Igualmente para $\bigvee$-irreducibilidad.
+					
+				\item[-] Por definición, \textit{y} es reducible si y sólo si hay $Y' \subset Y$ con tal que
+				
+				\begin{align}
+					\left\langle \left\{y\right\}^{\downarrow}, \left\{y\right\}^{\downarrow\uparrow}\right\rangle =
+					\bigwedge_{\substack{z \in Y'}} \left\langle \left\{z\right\}^{\downarrow},
+					 \left\{z\right\}^{\downarrow\uparrow}\right\rangle
+				\end{align}
+			\end{itemize}
+
+			Sea $\left\langle X, Y, I \right\rangle$ clarificado. Entonces en (16), para cada $z \in Y'$: $\left\{y\right\}^{\downarrow} \neq
+			\left\{z\right\}^{\downarrow}$, y por lo tanto, 
+			$\left\langle \left\{y\right\}^{\downarrow}, \left\{y\right\}^{\downarrow\uparrow} \right\rangle$. Por consiguiente, \textit{y}
+			es reducible si y sólo si $\left\langle \left\{y\right\}^{\downarrow}, \left\{y\right\}^{\downarrow\uparrow} \right\rangle$ es un
+			ínfimo de atributo de conceptos diferente de 
+			$\left\langle \left\{y\right\}^{\downarrow}, \left\{y\right\}^{\downarrow\uparrow} \right\rangle$. Ahora, como todo concepto 
+			$\left\langle A, B \right\rangle$ es un ínfimo de algún atributo de conceptos (los atributos de conceptos
+			$\bigwedge$-irreducibles), obtenemos que \textit{y} no es reducible si y sólo si 
+			$\left\langle \left\{y\right\}^{\downarrow}, \left\{y\right\}^{\downarrow\uparrow} \right\rangle$ es $\bigwedge$-irreducible en 
+			$\mathcal{B}(X, Y, I)$.
+		
+			Por lo que, si $\left\langle X, Y, I \right\rangle$ es clarificado, \textit{y} no es reducible si y sólo si 
+			$\left\langle \left\{y\right\}^{\downarrow}, \left\{y\right\}^{\downarrow\uparrow} \right\rangle$ es  $\bigwedge$-irreducible.
+			
+			Supongamos que $\left\langle X, Y, I \right\rangle$ no es clarificado debido a que 
+			$\left\{y\right\}^{\downarrow} = \left\{z\right\}^{\downarrow}$ para algún $z \neq y$. Entonces se puede ver que \textit{y} es
+			reducible por definición sólo haciendo que $Y' = \left\{z\right\}$.
+			
+			Sin embargo, puede suceder que $\left\langle \left\{y\right\}^{\downarrow}, \left\{y\right\}^{\downarrow\uparrow}\right\rangle$
+			sea $\bigwedge$-irreducible y puede suceder que \textit{y} sea $\bigwedge$-irreducible .\\
+			
+			\emph{Ejemplo:}
+			
+			En la figura \ref{} se muestran dos contextos no clarificados. En la izquierda, $y_2$ es reducible y 
+			$\left\langle \left\{y_2\right\}^{\downarrow}, \left\{y_2\right\}^{\downarrow\uparrow} \right\rangle$ $\bigwedge$-reducible. En
+			la derecha, $y_2$ es reducible pero 
+			$\left\langle \left\{y_2\right\}^{\downarrow}, \left\{y_2\right\}^{\downarrow\uparrow} \right\rangle$ $\bigwedge$-irreducible.
+			
+			
+			\begin{figure}[H]
+				\centering
+					\includegraphics[width=.85\textwidth]{imagenes/figura13.png}
+				\caption{Contextos no clarificados}
+				\label{fig:figura13}
+			\end{figure}
+			
+			Igualmente para la reducibilidad de objetos. Si $\left\langle X, Y, I \right\rangle$ es clarificado, entonces \textit{x} no es
+			reducible si y sólo si $\left\langle \left\{x\right\}^{\uparrow\downarrow}, \left\{x\right\}^{\uparrow} \right\rangle$ es
+			$\bigwedge$-irreducible en $\mathcal{B}(X, Y, I)$.
+			
+			Por lo que, es conveniente considerar la reducibilidad en los contextos clarificados, luego, la reducibilidad de objetos y
+			atributos corresponden a $\bigvee$ - y $\bigwedge$-reducibilidad de objetos y atributos de conceptos.
+
+		
+			\begin{theorem}
+				Sea $y \in Y$ reducible en $\left\langle X, Y, I \right\rangle$. Entonces $\mathcal{B}(X, Y - \left\{y\right\}, J)$ es
+				isomorfo a $\mathcal{B}(X, Y, I)$ donde $J = I \cap (X \times (Y - \left\{y\right\}))$ resulta de eliminar la
+				columna \textit{y} de $\left\langle X, Y, I \right\rangle$.
+			\end{theorem}
+			
+			\emph{Demostración}
+			
+			Siguiendo la parte (2) del Teorema Principal de retículo de conceptos:
+			
+			Concretamente, $\mathcal{B}(X, Y - \left\{y\right\}, J)$ es isomorfo a $\mathcal{B}(X, Y, I)$ si y sólo si existen los mapeos 
+			$\gamma: X \rightarrow \mathcal{B}(X, Y, I)$ y $\mu: Y - \left\{y\right\} \rightarrow \mathcal{B}(X, Y, I)$ tal que
+			
+			\begin{itemize}
+				\item[(a)] $\gamma(X)$ es $\bigvee$-irreducible en $\mathcal{B}(X, Y, I)$
+				\item[(b)] $\mu(Y - \left\{y\right\})$ es $\bigwedge$-irreducible en $\mathcal{B}(X, Y, I)$
+				\item[(c)] $\gamma(x) \leq \mu(z)$ sii $\left\langle x, z\right\rangle \in J$.
+			\end{itemize}
+		
+			Si definimos $\gamma(x)$ y $\mu(z)$ como objeto y atributo del concepto de $\mathcal{B}(X, Y, I)$ correspondiente a \textit{x} y
+			\textit{z} respectivamente, entonces:
+			
+			\begin{itemize}
+				\item[(a):] es evidente.
+				\item[(c):] se cumple porque para $z \in Y - \left\{z\right\}$ tenemos $\left\langle x, z\right\rangle \in J$ sii
+				$\left\langle x, z\right\rangle \in I$ (J es una restricción de I).
+				\item[(b):] Necesitamos demostrar para cada $\left\langle A,B\right\rangle \in \mathcal{B}(X, Y, I)$ es un ínfimo de atributo
+				 de conceptos diferente de $\left\langle \left\{y\right\}^\downarrow, \left\{y\right\}^{\downarrow\uparrow}\right\rangle$.
+				 Pero esto es cierto porque \textit{y} es reducible: Si $\left\langle A,B\right\rangle \in \mathcal{B}(X, Y, I)$ es el ínfimo
+				 de los atributos de concepto el cual incluye 
+				 $\left\langle \left\{y\right\}^\downarrow, \left\{y\right\}^{\downarrow\uparrow}\right\rangle$, entonces debemos sustituir
+				 $\left\langle \left\{y\right\}^\downarrow, \left\{y\right\}^{\downarrow\uparrow}\right\rangle$ por los atributos de concepto
+				 $\left\langle \left\{z\right\}^\downarrow, \left\{z\right\}^{\downarrow\uparrow}\right\rangle$ , por lo cual 
+				 $\left\langle \left\{y\right\}^\downarrow, \left\{y\right\}^{\downarrow\uparrow}\right\rangle$ es el ínfimo.
+			\end{itemize}
+			
+
+			\paragraph{Definición (contexto formal reducido):} $\left\langle X, Y, I \right\rangle$ es
+			
+			\begin{itemize}
+				\item[-] reducido por filas si no existe ningún objeto $x \in X$ reducible,
+				\item[-] reducido por columnas si no existe ningún atributo $y \in Y$ reducible,
+				\item[-] reducido si es reducido por filas y por columnas.
+			\end{itemize}
+			
+			Por la observación anterior, si $\left\langle X, Y, I \right\rangle$ no es clarificado, entonces o bien algún objeto es reducible
+			(si hay filas iguales) o algún atributo es reducible (si hay columnas iguales). Por lo que, si 
+			$\left\langle X, Y, I \right\rangle$ es reducido, éste es clarificado.
+			
+			La relación entre reducibilidad de objetos/atributos y $\bigvee$- y $\bigwedge$-reducibilidad de objetos/atributos de conceptos
+			lleva a la siguiente conclusión:
+			
+			Un clarificado $\left\langle X, Y, I \right\rangle$  es
+			
+			\begin{itemize}
+				\item[-] reducido por filas si y sólo si todos los objetos de concepto son $\bigvee$-irreducible,
+				\item[-] reducido por columnas si y sólo si todos los atributos de concepto son $\bigwedge$-irreducible,
+			\end{itemize}
+			
+		\subsubsection{Reducción de contextos formales por relaciones de vectores}
+		
+			¿Cómo averiguar qué objetos y atributos son reducibles?\\
+			
+			\textbf{Definición:}
+			
+			Para $\left\langle X, Y, I\right\rangle$, se definen las relaciones $\nearrow\swarrow\updownarrow$ entre \textit{X} e \textit{Y}
+			por
+			
+			\begin{itemize}
+				\item[-] $x \swarrow y $ sii $\left\langle x, y\right\rangle \notin I$ y si 
+						 $\left\{x\right\}^{\uparrow} \subset \left\{x_1\right\}^{\uparrow}$ entonces 
+						 $\left\langle x_1, y\right\rangle \in I$.
+						 
+				\item[-] $x \nearrow y$ sii $\left\langle x, y\right\rangle \notin I$ y si 
+						 $\left\{y\right\}^{\downarrow} \subset \left\{y_1\right\}^{\downarrow}$ entonces 
+						 $\left\langle x, y_1\right\rangle \in I$.
+						 
+				\item[-] $x \updownarrow y$ sii $x \swarrow y $ y $x \nearrow y$.
+			\end{itemize}
+			
+			Por lo que, si $\left\langle x, y\right\rangle \in I$ entonces no ocurre $x \nearrow y, x \swarrow y, x \updownarrow y$. Las
+			relaciones de vectores pueden por lo tanto ser introducidas en la tabla de $\left\langle X, Y, I\right\rangle$ como en el
+			siguiente ejemplo:
+			
+			
+			\begin{figure}[H]
+				\centering
+					\includegraphics[width=1\textwidth]{imagenes/figura14.png}
+				\caption{Representación de relaciones de vectores}
+				\label{fig:figura14}
+			\end{figure}
+			
+			\begin{theorem}(las relaciones de vectores y la reducibilidad)
+				Para cualquier $\left\langle X, Y, I\right\rangle$, $x \in X, y \in Y$:
+				
+				\begin{itemize}
+					\item[-] $\left\langle \left\{x\right\}^{\uparrow\downarrow}, \left\{x\right\}^{\uparrow}\right\rangle$ es
+							 $\bigvee$-irreducible sii existe $y \in Y$ tal que $x \swarrow y$;
+					
+					\item[-] $\left\langle \left\{x\right\}^{\uparrow\downarrow}, \left\{x\right\}^{\uparrow}\right\rangle$ es
+							 $\bigwedge$-irreducible sii existe $x \in X$ tal que $x \nearrow y$;
+				\end{itemize}
+			\end{theorem}
+			
+			\emph{Demostración}
+			
+			Debido a la dualidad, verificamos la $\bigwedge$-irreducibilidad:
+			
+			$x \swarrow y$ SII
+			
+			$x \notin \left\{y\right\}^\downarrow$ y para todo $y_1$ con $\left\{y\right\}^\uparrow \subset \left\{y\right\}^\downarrow$
+			tenemos $x \in \left\{y\right\}^\downarrow$ SII
+			
+			$\left\{y\right\}^\downarrow \subset \bigcap_{y_1:\left\{y\right\}^\downarrow \subset \left\{y_1\right\}^\downarrow}$ SII 
+			
+			$\left\langle \left\{y\right\}^\downarrow, \left\{y\right\}^{\downarrow\uparrow}\right\rangle$ no es un ínfimo de otro atributo
+			de concepto SII
+			
+			$\left\langle \left\{y\right\}^\downarrow, \left\{y\right\}^{\downarrow\uparrow}\right\rangle$ es $\bigwedge$-irreducible.\\
+			
+			
+			Considérese el siguiente problema:
+			
+			\begin{quote}
+				INPUT: Contexto formal arbitrario $\left\langle X_1, Y_1, I_1\right\rangle$
+				
+				OUTPUT: Un contexto reducido $\left\langle X_2, Y_2, I_2\right\rangle$
+			\end{quote}
+			
+			Este problema se puede resolver con el siguiente algoritmo:		
+		
+			\begin{enumerate}
+				\item clarificar $\left\langle X_1, Y_1, I_1\right\rangle$ para obtener un contexto clarificado 
+					  $\left\langle X_3, Y_3, I_3\right\rangle$, borrando las filas y columnas iguales,
+					  
+				\item calcular las relaciones de vectores $\nearrow$ y $\swarrow$ para $\left\langle X_3, Y_3, I_3\right\rangle$,
+				
+				\item obtener $\left\langle X_2, Y_2, I_2\right\rangle$ a partir de $\left\langle X_3, Y_3, I_3\right\rangle$ borrando los
+					  objetos \textit{x} de $X_3$ para los que no existe $y \in Y_3$ con $x \swarrow y$, y atributos \textit{y} de $Y_3$ para
+					  los que no existe $x \in X_3$ con $x \nearrow y$. Esto es:
+					  \begin{align*}
+					  	&X_2= X_3 - \left\{ x | \text{  no existe } y \in Y_3 \text{ tal que } x \swarrow y \right\},\\
+					  	&Y_2= Y_3 - \left\{ y | \text{  no existe } x \in X_3 \text{ tal que } x \nearrow y \right\},\\
+					  	&I_2 = I_3 \cap (X_2 \times Y_2).
+					  \end{align*}
+			\end{enumerate}
+			
+			\emph{Ejemplo:}
+			
+			Calcular las relaciones de vectores $\nearrow, \swarrow$ y $\updownarrow$ para el siguiente contexto formal:
+						
+			\begin{figure}[H]
+				\centering
+					\includegraphics[width=.75\textwidth]{imagenes/figura15.png}
+				\caption{Contexto de entrada}
+				\label{fig:figura15}
+			\end{figure}
+
+			Empezamos con $\nearrow$. Necesitamos recorrer las celdas en la tabla que no contengan $\times$ y decidir si aplicar $\nearrow$.
+			
+			
+			La primera de dichas celdas corresponde a $\left\langle x_2, y_3\right\rangle$. Por definición $x_2 \nearrow y_3$ sii para cada
+			$y \in Y$ tal que 
+			$\left\{y_3\right\}^\downarrow \subset \left\{y\right\}^\downarrow$ tenemos $x_2 \in \left\{y\right\}^\downarrow$. El único
+			\textit{y} que cumple la condición es $y_2$ para el cual tenemos $x_2 \in \left\{y_2\right\}^\downarrow$, de ahí que 
+			$x_2 \nearrow y_3$.
+			
+			Y así sucesivamente hasta $\left\langle x_5, y_4\right\rangle$ para los que obtenemos $x_5 \nearrow y_4$.
+						
+			Continuamos con $\swarrow$. Recorremos las celdas de la tabla que no contienen \textit{X} y decidimos si aplicar $\swarrow$. La
+			primera de dichas celdas corresponde a $\left\langle x_2, y_3\right\rangle$. Por definición, $x_2 \swarrow y_3$ sii para cada 
+			$x \in X$ tal que $\left\{x_2\right\}^\uparrow \subset \left\{x\right\}^\uparrow$. El único \textit{x} que cumple la condición es
+			$x_1$ para el que tenemos que $y_3 \in \left\{x\right\}^\uparrow$, de ahí que $x_2 \swarrow y_3$.
+			
+			Y así sucesivamente hasta $\left\langle x_5, y_4\right\rangle$ para los que obtenemos $x_5 \swarrow y_4$.
+			
+			Las relaciones de vectores se muestran en la siguiente tabla:
+			
+			\begin{figure}[H]
+				\centering
+					\includegraphics[width=.70\textwidth]{imagenes/figura16.png}
+				\caption{Cálculo de relación de vectores}
+				\label{fig:figura16}
+			\end{figure}
+
+			Por lo que, el correspondiente contexto reducido es 
+			
+			\begin{figure}[H]
+				\centering
+					\includegraphics[width=.65\textwidth]{imagenes/figura17.png}
+				\caption{Contexto reducido}
+				\label{fig:figura17}
+			\end{figure}
+
+			Para un retículo completo $\left\langle V, \leq\right\rangle$ y $v \in V$, señalar que
+			
+			\begin{align*}
+				v_{*} &= \bigvee_{\substack{u \in V, u < v}} u, \\
+				v^{*} &= \bigwedge_{\substack{u \in V, u < v}} u. \\
+			\end{align*}
+			
+			Sea $\left\langle X_1, Y_1, I_1\right\rangle$ clarificado , $X_2 \subseteq X_1$ y conjuntos de objetos y atributos irreducibles,
+			respectivamente, sea $I_2 = I_1 \cap (X_2 \times Y_2)$ (restricción de $I_1$ a los objetos y atributos irreducibles).
+			
+			¿Cómo podemos obtener a partir de los conceptos de $\mathcal{B}(X_1, Y_1, I_1)$ los conceptos de $\mathcal{B}(X_2, Y_2, I_2)$? 
+			La respuesta está basada en:
+			
+			\begin{enumerate}
+				\item $\left\langle A_1, B_1\right\rangle \mapsto \left\langle A_1 \cap X_2, B_1 \cap Y_2\right\rangle$ es un isomorfismo de
+					  $\mathcal{B}(X_1, Y_1, I_1)$  en $\mathcal{B}(X_2, Y_2, I_2)$.
+					  
+				\item Por lo tanto, cada extensión $A_2$ de $\mathcal{B}(X_1, Y_1, I_1)$ es de la forma $A_2 = A_1 \cap X_2$ donde $A_1$ es
+					  una extensión de $\mathcal{B}(X_1, Y_1, I_1)$ (igual para las intensiones).
+				\item Para $x \in X_1: x\in A_1$ sii $\left\{x\right\}^{\uparrow\downarrow} \cap X_2 \subseteq A_1 \cap X_2$,
+					  para $y \in Y_1: y \in B_1$ sii $\left\{y\right\}^{\downarrow\uparrow} \cap Y_2 \subseteq B_1 \cap Y_2$.
+			\end{enumerate}
+			
+			Aquí, $\uparrow$ y $\downarrow$ son operadores inducidos por $\left\langle X_1, Y_1, I_1\right\rangle$. Por lo que, dado 
+			$\left\langle A_2, B_2\right\rangle \in \mathcal{B}(X_2, Y_2, I_2)$, el correspondiente 
+			$\left\langle A_1, B_1\right\rangle \in \mathcal{B}(X_1, Y_1, I_1)$ es dado por
+			
+			\begin{align}
+				A_1 &= A_2 \cup \left\{x \in X_1 - X_2 | \left\{x\right\}^{\uparrow\downarrow} \cap X_2 \subseteq A_2 \right\},\\
+				B_1 &= B_2 \cup \left\{y \in Y_1 - Y_2 | \left\{y\right\}^{\downarrow\uparrow} \cap Y_2 \subseteq B_2 \right\},
+			\end{align}
+			
+			\emph{Ejemplo}
+			
+			 A la izquierda un contexto formal clarificado $\left\langle X_1, Y_1, I_1\right\rangle$, a la derecha un contexto reducido
+			 $\left\langle X_2, Y_2, I_2\right\rangle$ (ver el ejemplo anterior).
+			
+			\begin{figure}[H]
+				\centering
+					\includegraphics[width=1\textwidth]{imagenes/figura18.png}
+				\caption{Contextos de entrada}
+				\label{fig:figura18}
+			\end{figure}
+			
+			Vamos a determinar $\mathcal{B}(X_1, Y_1, I_1)$ primero calculando $\mathcal{B}(X_2, Y_2, I_2)$ y luego usando el método descrito
+			anteriormente para obtener conceptos $\mathcal{B}(X_1, Y_1, I_1)$ de los correspondientes conceptos de 
+			$\mathcal{B}(X_2, Y_2, I_2)$.
+			
+			$\mathcal{B}(X_2, Y_2, I_2)$ está formado por:
+			\[
+				\left\langle \emptyset, Y_2\right\rangle, \left\langle \left\{x_2\right\}, \left\{y_1\right\}\right\rangle,
+				\left\langle \left\{x_3\right\}, \left\{y_3, y_4\right\}\right\rangle, 
+				\left\langle \left\{x_3, x_5\right\}, \left\{y_3\right\}\right\rangle, \left\langle X_2, \emptyset \right\rangle
+			\].
+
+			Necesitamos recorrer todos los $\left\langle A_2, B_2\right\rangle \in \mathcal{B}(X_2, Y_2, I_2)$ y determinar el
+			correspondiente $\left\langle A_1, B_1\right\rangle \in \mathcal{B}(X_1, Y_1, I_1)$ usando (17) y (18). Nótese: 
+			$X_1 - X_2 = \left\{ x_1, x_4 \right\}, Y_1 - Y_2 = \left\{y_2\right\}$.
+			
+			\begin{enumerate}
+				\item para $\left\langle A_2, B_2\right\rangle = \left\langle \emptyset, Y_2\right\rangle$ tenemos
+				
+							$\left\{x_1\right\}^{\uparrow\downarrow} \cap X_2 = \left\{x_1\right\} \cap X_2 = \emptyset \subseteq A_2,$
+							
+							$\left\{x_4\right\}^{\uparrow\downarrow} \cap X_2 = X_1 \cap X_2 = X_2 \nsubseteq A_2,$
+							
+							de ahí que $A_1 = A_2 \cup \left\{x_1\right\} = \left\{x_1\right\}$, y
+							
+							$\left\{y_2\right\}^{\downarrow\uparrow} \cap Y_2 = \left\{y_2\right\} cap Y_2 = \emptyset \subseteq B_2$,
+							
+							por lo que $B_1 = B_2 \cup \left\{y_2\right\} = Y_1$. Por eso, 
+							$\left\langle A_1, B_1\right\rangle = \left\langle \left\{x_1\right\}, Y_1 \right\rangle$ .
+							
+				\item para $\left\langle A_2, B_2\right\rangle = \left\langle \left\{x_2\right\}, \left\{y_1\right\}\right\rangle$ tenemos
+				
+					  $\left\{x_1\right\}^{\uparrow\downarrow} \cap X_2 = \emptyset \subseteq A_2, \left\{x_4\right\}^{\uparrow\downarrow}
+					  \cap X_2 \nsubseteq A_2$,
+					   
+					   de ahí que $A_1 = A_2 \cup \left\{x_1\right\} = \left\{x_1, x_2\right\}$, y
+					   
+					   $\left\{y_2\right\}^{\downarrow\uparrow} \cap Y_2 = \left\{y_2\right\} \cap Y_2 = \emptyset \subseteq B_2$,
+					   
+					   por lo que $B_1 = B_2 \cup \left\{y_2\right\} = \left\{y_1, y_2\right\}$. Por eso, 
+					   $\left\langle A_1, B_1\right\rangle = \left\langle \left\{x_1, x_2\right\}, \left\{y_1, y_2\right\}\right\rangle$.
+					   
+				\item para $\left\langle A_2, B_2\right\rangle = \left\langle \left\{x_3\right\}, \left\{y_3, y_4\right\}\right\rangle$
+					  tenemos
+					  
+					  $\left\{x_1\right\}^{\uparrow\downarrow} \cap X_2 = \emptyset \subseteq A_2, 
+					   \left\{x_4\right\}^{\uparrow\downarrow} \cap X_2 = X_2 \nsubseteq A_2$,
+					   
+					   de ahí que $A_1 = A_2 \cup \left\{x_1\right\} = \left\{x_1, x_3\right\}$ y
+					   
+					   $\left\{y_2\right\}^{\downarrow\uparrow} \cap Y_2 = \left\{y_2\right\} \cap Y_2 = \emptyset \subseteq B_2$,
+					   
+					   por lo que $B_1 = B_2 \cup \left\{y_2\right\} = \left\{y_2, y_3, y_4\right\}$. Por eso,					   
+					   $\left\langle A_1, B_1\right\rangle = \left\langle \left\{x_1, X_3\right\}, \left\{y_2, y_3, y_4\right\}\right\rangle$.
+							
+				\item para $\left\langle A_2, B_2\right\rangle = \left\langle \left\{x_3, x_5\right\}, \left\{y_3\right\}\right\rangle$
+				      tenemos
+				      
+				      $\left\{x_1\right\}^{\uparrow\downarrow} \cap X_2 = \emptyset \subseteq A_2, 
+				       \left\{x_4\right\}^{\uparrow\downarrow} \cap X_2 = X_2 \nsubseteq A_2$,
+				       
+				       de ahí que $A_1 = A_2 \cup \left\{x_1\right\} = \left\{x_1, x_3, x_5\right\}$ y
+				       
+				       $\left\{y_2\right\}^{\downarrow\uparrow} \cap Y_2 = \left\{y_2\right\} \cap Y_2 = \emptyset \subseteq B_2$,
+				       
+				       por lo que $B_1 = B_2 \cup \left\{y_2\right\} = \left\{y_2, y_3\right\}$. Por eso, 
+				       $\left\langle A_1, B_1\right\rangle = \left\langle \left\{x_1, x_3, x_5\right\}, \left\{y_2, y_3\right\}\right\rangle$.
+				       
+				 \item para $\left\langle A_2, B_2\right\rangle = \left\langle X_2, \emptyset\right\rangle$ tenemos
+				 
+				 		$\left\{x_1\right\}^{\uparrow\downarrow} \cap X_2 = \emptyset \subseteq A_2,
+				 		 \left\{x_4\right\}^{\uparrow\downarrow} \cap X_2 = X_2 \subseteq A_2$,
+				 		 
+				 		de ahí que $A_1 = A_2 \cup \left\{x_1, x_4\right\} = X_1$, y
+				 		
+				 		$\left\{y_2\right\}^{\downarrow\uparrow} \cap Y_2 = \left\{y_2\right\} \cap Y_2 = \emptyset \subseteq B_2$,
+				 		
+				 		por lo que $B_1 = B_2 \cup \left\{y_2\right\} = \left\{y_2\right\}$. Por eso, 
+				 		$\left\langle A_1, B_1\right\rangle = \left\langle X_1, \left\{y_2\right\}\right\rangle$.
+						
+			\end{enumerate}
+			
+	\subsection{Algoritmos para el cálculo de retículos de conceptos}
+		
+		Consideremos el problema del cálculo de retículos de conceptos, es decir, el siguiente problema:	
+			
+		INPUT: contexto formal $\left\langle X, Y, I\right\rangle$,
+		OUTPUT: retículo de conceptos $\mathcal{B}(X, Y, I)$ (posiblemente más $\leq$)
+		
+		\begin{itemize}
+			\item[-] A veces se necesita calcular el conjunto $\mathcal{B}(X, Y, I)$ del concepto formal sólo.
+			
+			\item[-] A veces se necesita calcular el conjunto $\mathcal{B}(X, Y, I)$ y la jerarquía conceptual $\leq$. $\leq$ puede ser
+					 calculado a partir de $\mathcal{B}(X, Y, I)$ por definición de $\leq$. Pero eso no es eficiente. Existen algoritmos que
+					 pueden calcular $\mathcal{B}(X, Y, I)$ y $\leq$ simultáneamente, lo cual es más eficiente que primero calcular
+					 $\mathcal{B}(X, Y, I)$ y luego $\leq$.
+		\end{itemize}
+		
+		En los siguientes apartados describiremos los algoritmos ''Next-Closure'' de Ganter y el del ''Vecino superior'' de Lindig.
+		
+		\subsubsection{Algoritmo Next-Closure}
+		
+			\textbf{Autor:} Bernhard Ganter (1987)
+			
+			\textbf{Entrada:} contexto formal $\left\langle X, Y, I\right\rangle$,
+			
+			\textbf{Salida:} \textit{Int(X, Y, I)} ... todas las intensiones (igualmente, \textit{Ext(X, Y, I)} ... todas las extensiones).\\
+			
+			Lista todas las intensiones (o extensiones) en orden lexicográfico. Nótese que $\mathcal{B}(X, Y, I)$ puede ser reconstruido a
+			partir de \textit{Int(X, Y, I)} debido a
+			\[
+				\bmathcal(X, Y, I) = \left\{\left\langle B^\downarrow, B\right\rangle | B \int Int(X, Y, I)\right\}
+			\]
+		
+			Es uno de los algoritmos más populares y fácil de implementar.
+			
+			Se describe Next-Closure para intensiones.
+			
+			Supongamos $Y = \left\{1, ..., n\right\}$,esto es, denotamos los atributos con enteros positivos, de esta manera, fijamos un
+			orden de atributos.\\
+			
+			\definition
+			
+			Para $A, B \subseteq Y, i \in 1, ..., n$
+			
+			\begin{align*}
+				A <_{i} B \text{ sii }& i \in B - A \text{ y } A \cap \left\{1, ..., i - 1\right\} = B cap \left\{1, ..., i - 1\right\},\\
+				A < B \text{ sii }& A <_{i} \text{ para algún } i
+			\end{align*}
+			
+			Nota: < ... orden lexicográfico, esto es, todo par de conjuntos distintos $A, B \subseteq$ son comparables.
+			
+			Para $i = 1$, establecemos $\left\{1, ..., i - 1\right\} = \emptyset$.
+		
+			Podríamos pensar en $B \subseteq Y$ en términos de sus características de vector. Para $Y = \left\{1, 2, 3, 4, 5, 6, 7\right\}$ y
+			$B = \left\{1, 3, 4, 6\right\}$ , la característica de vector de $\bmathcal$ es 1011010.\\
+			
+			\definition
+		
+			Para $A \subseteq Y, i \in \left\{1, ..., n\right\}$
+			\[
+				A \oplus i:= ((A \cap \left\{1, ..., i-1\right\}) \cup \left\{i\right\})^{\downarrow\uparrow}
+			\]
+			
+			\emph{Ejemplo}
+			
+			\begin{figure}[H]
+				\centering
+					\includegraphics{imagenes/figura19.png}
+				\label{fig:figura19}
+			\end{figure}
+			
+			\begin{itemize}
+				\item $A = \left\{1, 3\right\}, i = 2$.
+				
+					  $A \oplus i = ((\left\{1, 3\right\} \cap \left\{1, 2\right\}) \cup \left\{2\right\})^{\downarrow\uparrow} =
+					   (\left\{1\right\} \cup \left\{2\right\})^{\downarrow\uparrow} = \left\{1, 2\right\}^{\downarrow\uparrow} =
+					   \left\{1, 2, 4\right\}$
+					   
+				\item $A = 2, i = 1$.
+				
+					  $A \oplus i = ((\left\{2\right\} \cap \emptyset) \cup \left\{1\right\})^{\downarrow\uparrow} = 
+					   \left\{1\right\}^{\downarrow\uparrow} = \left\{1, 2, 4\right\}$
+					   
+			\end{itemize}
+			
+			\textbf{Lema}
+			
+			Para cualquier $B, D, D_1, D_2 \subseteq Y$:
+			
+			\begin{itemize}
+				\item[(1)] Si $B <_i D_1, B <_j D_2,$ y $i < j$ entonces $D_2 <_i D_1$;
+				\item[(2)] Si $i \notin B$ entonces $B < B \oplus i$;
+				\item[(3)] Si $B <_i D$ y $D = D^{\downarrow\uparrow}$ entonces $B \oplus i \subseteq D$;
+				\item[(4)] Si $B <_i D$ y $D = D^{\downarrow\uparrow}$ entonces $B <_i B \oplus i$.
+			\end{itemize}
+			
+			\emph{Demostración}
+			
+			\begin{itemize}
+				\item[(1)] Mediante una inspección fácil.
+				
+				\item[(2)] Es cierto porque $B \cap \left\{1, ..., i-1\right\} \subseteq B \oplus i \cap \left\{1, ..., i-1\right\}$ y
+							$i \in (B \oplus i) - B$.
+							
+				\item[(3)] Haciendo $C_1 = B \cap \left\{1, ..., i-1\right\}$ y $C_2 = \left\{i\right\}$ tenemos $C_1 \cup C_2 \subseteq D$,
+							y por eso $B \oplus i = (C_1 \cup C_2)^{\downarrow \uparrow} \subseteq D^{\downarrow\uparrow} = D$
+							
+				\item[(4)] Por supuesto, $B \cap \left\{1, ..., i-1\right\} = D \cap \left\{1, ..., i-1\right\}$. Además con (3) se
+							obtiene $B \oplus i \subseteq D$ y por eso $B \cap \left\{1, ..., i-1\right\} \supseteq B \oplus i \cap
+							 \left\{1, ..., i-1\right\}$. Además $B \cap \left\{1, ..., i-1\right\} = B \oplus \cap \left\{1, ...,
+							 i-1\right\}$. Finalmente, $i \in B \oplus i$.
+			\end{itemize}
+			
+			\begin{theorem}
+				La menor intensión $B^+$ mayor que $B \subseteq Y$ es dada por
+				\[ B^+ = B \oplus i \]
+				donde \textit{i} es el mayor elemento con $B <_i B \oplus i$.
+			\end{theorem}
+			
+			\emph{Demostración}
+			
+			Sea $B^+$  la menor intensión mayor que \textit{B}. Tenemos $B < B^+$ y por tanto $B <_i B^+$ para algún \textit{i} tal que 
+			$i \in B^+$. Por el lema (4), $B <_i B \oplus i$, es decir, $B < B \oplus i$. Por el lema (3) tenemos que $B \oplus i \leq B^+$
+			lo cual da $B^+ = B \oplus i$ ya que $B^+$ es la menor intensión con $B < B^+$. Queda por demostrar que \textit{i} es el mayor
+			elemento que cumple $B <_i B \oplus i$. Supongamos que $B <_k B \oplus k$ para $k > i$. Por el lema (1), 
+			$B \oplus k <_i B\oplus i$ lo cual se contradice con $B \oplus i = B^+ < B \oplus k$ ($B^+$  es la menor intensión mayor que
+			\textit{B} y por eso $B^+ < B \oplus k$). Además tenemos \textit{k = i}.\\
+		
+			\textbf{Pseudo-código del algoritmo Next-Closure}
+				
+			\begin{enumerate}
+				\item \texttt{A:= $\emptyset^{\downarrow\uparrow}$; (leastIntent)}
+				
+				\item \texttt{store(A);}
+				
+				\item \texttt{while not (A = Y) do}
+				
+				\item \texttt{A: = A+;}
+				
+				\item \texttt{store(A);}
+				\item \texttt{endwhile.}
+			\end{enumerate}
+			
+			\textbf{complejidad}: la complejidad de tiempo de cálculo de $A^+$ es $O(\left|X\right| \cdot \left|Y\right|^2)$: la complejidad
+			de cálculo de $C^\uparrow$ es $O(\left|X\right| \cdot \left|Y\right|)$; la complejidad de cálculo de $A \oplus i$ es por tanto
+			$O(\left|X\right| \cdot \left|Y\right|)$. Para obtener $A^+$ necesitamos calcular $A \oplus i \left|Y\right|$-veces en el peor
+			de los casos. Como resultado, la complejidad de calcular $A^+$ es $O(\left|X\right| \cdot \left|Y\right|^2)$.
+			
+			La complejidad de tiempo de Next-Closure es $O(\left|X\right| \cdot \left|Y\right|^2 \cdot \bmathcal(X, Y, I))$.\\
+					
+			\textbf{complejidad de retardo de tiempo polinómico N:} Yendo de \textit{A} a $A^+$ en un tiempo polinómico, el algoritmo
+			Next-Closure tiene un tiempo de retardo polinómico.\\
+			
+			\emph{Observaciones}
+			
+			\begin{itemize}
+				\item[-] Si $\downarrow \uparrow$ es sustituido por un operador de cierre \textit{C} arbitrario, el algoritmo Next-Closure
+						 calcula todos los puntos fijos de \textit{C}. 
+						 
+				\item[-] Por lo que, el algoritmo Next-Closure es esencialmente un algoritmo para el cálculo de todos los puntos fijos de un
+						 operador de cierre \textit{C} dado.
+				\item[-] La complejidad computacional de Next-Closure depende de la complejidad computacional del cálculo de \textit{C(A)}
+						 (cálculo de cierre de un conjunto arbitrario \textit{A}).
+			\end{itemize}
+		
+		\subsubsection{Algoritmo UpperNeighbor}
+		
+			\textbf{Autor:} Christian Lindig (Fast Concept Analysis, 2000)
+			
+			\textbf{Entrada:} Contexto formal $\left\langle X, Y, I\right\rangle$
+			
+			\textbf{Salida:} $\bmathcal(X, Y, I)$ y $\leq$\\
+			
+			La idea básica del algoritmo es:
+			\begin{enumerate}
+				\item comenzar con el menor concepto formal $\left\langle \emptyset^{\uparrow\downarrow},  \emptyset^\uparrow\right\rangle$,
+				
+				\item para cada $\left\langle A, B \right\rangle$ generar todos los vecinos superiores y guardar la información necesaria 
+				
+				\item ir al próximo concepto
+			\end{enumerate}
+		
+			El punto crucial es cómo calcular los vecinos superiores de un $\left\langle A, B \right\rangle$ dado.
+			
+			\begin{theorem}(vecinos superiores de un concepto formal)
+				Si $\left\langle A, B\right\rangle \in \bmathcal(X, Y, I)$ no es el concepto más grande entonces 
+				$(A \cup \left\{x\right\})^{\uparrow \downarrow}$, con $x \in X - A$, es una extensión de un vecino superior de 
+				$\left\langle A, B \right\rangle$ sii para cada $z \in (A \cup \left\{x\right\})^{\uparrow\downarrow} - A$ tenemos 
+				$(A \cup \left\{x\right\})^{\uparrow\downarrow} = (A \cup \left\{z\right\})^{\uparrow\downarrow}$.
+			\end{theorem}
+			
+			\emph{Observaciones}
+			
+			En general, para $x \in X - A, (A \cup \left\{x\right\})^{\uparrow\downarrow}$ no tiene que ser una extensión de un vecino
+			superior de $\left\langle A, B \right\rangle$.\\
+			
+			\textbf{Pseudo-código del algoritmo UpperNeighbor}
+			
+			\begin{enumerate}
+				\item \texttt{min:= X - A;}
+				
+				\item \texttt{neighbors := $\emptyset$;}
+				
+				\item \texttt{for $x \in X - A$ do}
+				
+				\item \texttt{	$B_1:= (A \cup \left\{x\right\})^\uparrow; A_1:= B_1^\downarrow$};
+				
+				\item \texttt{	if ($min \cap ((A_1 - A) - \left\{x\right\}) = \emptyset$) then}
+				
+				\item \texttt{		neighbors:= neighbors $\cup \left\{(A_1, B_1)\right\}$}
+				
+				\item \texttt{	else min:= min - $\left\{x\right\}$;}
+				
+				\item \texttt{enddo.}
+			\end{enumerate}
+		
+			\textbf{complejidad:} tiempo de retardo polinómico con retardo $O(\left|X\right|^2 \cdot \left|Y\right|)$ (igual que la versión
+			para extensiones del algoritmo Next-Closure).
+			
+	\subsection{Contextos multivalores y escalamiento conceptual}
+	
+		Un contexto $\left\langle X, Y, I \right\rangle$ es multivalor, cuando los elementos de \textit{I} pueden tener más de dos valores.
+		Por ejemplo:
+		
+		\begin{figure}[H]
+			\centering
+				\includegraphics[width=.65\textwidth]{imagenes/figura20.png}
+			\caption{Contexto multivalor}
+			\label{fig:figura20}
+		\end{figure}
+
+		Formalmente, un contexto multivalor es una tupla $\dmathcal = \left\langle X, Y, W, I\right\rangle$ donde \textit{X} es un conjunto
+		finito no vacío de objetos, \textit{Y} es un conjunto finito de atributos, \textit{W} es un conjunto de valores e \textsl{I} es una
+		relación ternaria entre \textit{X,Y} y \textit{W}  que se define como:
+		\[
+			I \subseteq X \times Y \times W : \left\langle x, y, w\right\rangle \in I, \left\langle x, y, v\right\rangle \in I \Rightarrow 
+			w = v
+		\]
+		
+		\begin{itemize}
+			\item[-] Un contexto multivalor puede representarse como una tabla cuyas filas son $x \in X$, columnas $y \in Y$ y la
+					 intersección de la fila \textit{x} y la columna \textit{y} contiene valores tomados de 
+					 $\left\langle x, y, w\right\rangle \in I$. Si no existe la relación $\left\langle x, y, w\right\rangle \in I$, la
+					 intersección de la fila \textit{x} con la columna \textit{y} contendrá un espacio en blanco.
+					 
+			\item[-] Se puede ver que $y \in Y$ puede considerarse una función parcial de \textit{X} a \textit{W}. Por lo tanto, escribimos
+					 $y(x) = w$ en lugar de $\left\langle x, y, w\right\rangle \in I$.
+		\end{itemize}
+		
+		Al conjunto $dom(y) = \left\{x \in X : \left\langle x, y, w\right\rangle \in I \right\}$ para algún $w \in W$ se le llama dominio de
+		\textit{y}. El atributo es llamado completo si $dom(y) = X$, es decir, si la tabla contiene algún valor en todas las filas de la
+		columna correspondiente a \textit{y}. Un contexto multivalor es llamado \textit{completo} si cada uno de sus atributos es
+		\textit{completo}.
+		
+		\begin{itemize}
+			\item[-] Desde el punto de vista de la teoría de bases de datos relacionales, un contexto multivalor completo es básicamente una
+					 relación en el esquema relacional \textit{Y}.  Concretamente, para cada $y \in Y$ puede considerarse un atributo en el
+					 sentido de las bases de datos relacionales y afirmar que
+					 \[
+					 	D_y = \left\{w: \left\langle x, y, w\right\rangle \in I \text{ para algún } x \in X \right\} 
+					 \],
+					 $D_y$ es el dominio de \textit{y}.
+		\end{itemize}
+		
+		\emph{Ejemplo:} Consideremos el contexto multivalor  representado en la siguiente figura:
+			
+		\begin{figure}[H]
+			\centering
+				\includegraphics[width=.65\textwidth]{imagenes/figura20.png}
+			\caption{Contexto multivalor}
+		\end{figure}
+		
+		donde:
+		
+		\begin{itemize}
+			\item[-] X = \{Alice, Boris, ..., George\}
+			\item[-] Y = \{age, education, symptom\}
+			\item[-] W = \{0, 1, ..., 150, BS, MS, PhD, 0, 1\}
+			\item[-] $\left\langle Alice, age, 23\right\rangle \in I, \left\langle Alice, education, BS\right\rangle \in I, ..., 
+					\left\langle George, symptom, 0 \right\rangle \in I$
+		\end{itemize}
+		
+		Con lo que tenemos que, $age(Alice) = 23, education(Alice) = BS, symptom(George) = 0$.
+		
+		\subsubsection{Escalamiento conceptual}
+		
+			Para poder usar FCA como entrada contextos multivalor éstos deben ser procesados para convertirlos en contextos formales con
+			valores simples. A este proceso de le llama \textit{escalamiento conceptual}.
+			
+			Para ello, para cada atributo $y \in Y$ debe definirse una escala de sus valores.
+			
+			Si $\left\langle X, Y, W, I \right\rangle$ es un contexto multivalor, una escala para un atributo $y \in Y$ es un contexto formal
+			$S_y = \left\langle X_y, Y_y, I_y\right\rangle$ tal que $D_y \subseteq X_y$. Los objetos $w \in X_y$ son llamados valores de
+			escala, los atributos de $Y_y$ son llamados atributos de escala.
+			\newline
+			
+			\textbf{Ejemplo:}
+			
+			\begin{figure}[H]
+				\centering
+					\includegraphics[width=.65\textwidth]{imagenes/figura21.png}
+				\caption{Escala para el atributo \textit{education}}
+				\label{fig:figura21}
+			\end{figure}
+
+			La tabla de la figura es una escala para el atributo \textit{y = education}.  Aquí 
+			$S_y = \left\langle X_y, Y_y, I_y\right\rangle, X_y = \left\{BS, MS, PhD \right\}, 
+			 Y_y = \left\{e_{BS}, e_{MS}, e_{PhD}\right\}$, $I_y$ son los valores de la tabla.
+			 \newline
+			 
+			\textbf{Ejemplo:}
+			
+			\begin{figure}[H]
+				\centering
+					\includegraphics[width=1.00\textwidth]{imagenes/figura22.png}
+				\caption{Escala para el atributo \textit{age}}
+				\label{fig:figura22}
+			\end{figure}
+			
+			La figura \ref{fig:figura22} es una escala para el atributo \textit{age} (la tabla de la derecha es una versión abreviada de la
+			de la izquierda). Aquí, $S_y = \left\langle X_y, Y_y, I_y\right\rangle, X_y = \left\{0, ..., 150\right\}, 
+			Y_y = \left\{a_y, a_m, a_0\right\}, I_y$ son los valores de la tabla.
+			\newline
+			
+			\emph{Ejemplo:} Una escala diferente para el atributo \textit{age} es:
+			
+			\begin{figure}[H]
+				\centering
+					\includegraphics[width=0.75\textwidth]{imagenes/figura23.png}
+				\caption{Escala para el atributo \textit{age}}
+				\label{fig:figura23}
+			\end{figure}
+
+			$a_{vy}$ ... muy joven, $a_y$ . . . joven, $a_m$ . . . mediana edad, $a_o$ . . . mayor, $a_vo$ . . . muy mayor.
+			
+			La elección la hace el usuario y depende del nivel de precisión deseado.
+			
+			Los dos tipos de  escalas más importantes son:
+			
+			\begin{description}
+				\item[- Escalamiento nominal: ] Los valores del atributo \textit{y} no se ordenan de forma natural o no se desea tener ese
+					 orden en cuenta, es decir, \textit{y} es una variable nominal.
+					 
+				\item[- Escalamiento ordinal: ] Los valores del atributo \textit{y} se ordenan de forma natural, es decir, \textit{y} es una
+					 variable ordinal.
+			\end{description}
+			
+			\emph{Ejemplo}
+			
+			\begin{figure}[H]
+				\centering
+					\includegraphics[width=1.00\textwidth]{imagenes/figura24.png}
+				\caption{Izquierda: escala nominal. Derecha: escala ordinal.}
+				\label{fig:figura24}
+			\end{figure}
+	
+			En la figura \ref{fig:figura24}, a la izquierda se muestra una escala nominal para el atributo\textit{ y = education}. A la
+			derecha se muestra una escala ordinal para el atributo \textit{y=education} con \textit{BS < MS < PhD}.
+			
+			El escalamiento conceptual define el significado de una escala de atributos de $Y_y$. 
+			
+ 			Aplicando dicho proceso al ejemplo de la figura \ref{fig:figura20}, la tabla se podría transformar en:
+ 			
+			\begin{figure}[H]
+				\centering
+					\includegraphics[width=.75\textwidth]{imagenes/figura25.png}
+				\caption{Contexto con escalamiento conceptual aplicado: contexto derivado}
+				\label{fig:figura25}
+			\end{figure}
+	
+			Si nos fijamos en la figura anterior:
+			
+			\begin{itemize}
+				\item[-] Han sido insertados nuevos atributos: $a_y$ ... young, $a_m$ ... middle-aged, $a_0$ ... old, $e_BS$ ... licenciado
+						en Ciencias, $e_MS$ ... tiene máster en Ciencias, $e_PhD$ ... Doctor en Filosofía.
+						
+				\item Después del escalamiento, la información puede ser procesada mediante FCA.
+			\end{itemize}
+			
+			El contexto formal derivado es obtenido a partir del contexto multivalor de partida y las escalas de cada uno de sus atributos. A
+			este proceso se le llama \textit{escalamiento simple}.
+			
+			Asumamos que $Y_{y_1} \cap {Y_{y_2}} = \emptyset$ para $y_1, y_2 \in Y$. Entonces, para un contexto multivalor 
+			$\dmathcal = \left\langle X, Y, W, I \right\rangle$, escalas $S_y (y \in Y)$,  el contexto formal derivado es 
+			$\left\langle X, Z, J \right\rangle$ donde:
+			
+			\begin{itemize}
+				\item[-] $Z = U_{y \in Y} Y{y \in Y}$,
+				
+				\item[-] $\left\langle x, z\right\rangle \in J$ sii $y(x) = w \land \left\langle w, z\right\rangle \in I_y$
+			\end{itemize}
+			
+			$\left\langle X, Y, W, I\right\rangle \rightarrow \left\langle X, Z, J \right\rangle$ significa que:
+			
+			\begin{itemize}
+				\item[-] los objetos del contexto derivado son los mismos que los del contexto multivalor original.
+				
+				\item[-] cada columna que representa un atributo \textit{y} es reemplazada por columnas que representan a escala de atributos
+						 $z \in Y_y$.
+						 
+				\item[-] El valor $y(x)$ es reemplazado por la fila del contexto de escala $S_y$.
+			\end{itemize}
+						
+			\emph{Ejemplo}: En la siguiente figura, se muestra el contexto formal y las escalas nominales para los atributos \textit{age} y
+			\textit{education}.
+			
+			\begin{figure}[H]
+				\centering
+					\includegraphics[width=1.00\textwidth]{imagenes/figura26.png}
+				\caption{Contexto formal y escalas nominales para \textit{age} y \textit{education}}
+				\label{fig:figura26}
+			\end{figure}
+
+			El contexto formal derivado es:
+			
+			\begin{figure}[H]
+				\centering
+					\includegraphics[width=.75\textwidth]{imagenes/figura25.png}
+				\caption{Contexto formal derivado}
+				\label{fig:figura25_2}
+			\end{figure}
+			
+\section{ALGORITMOS DE CÁLCULO DE BASES}
+	En esta sección se incluyen los algoritmos implementados para el cálculo de bases.
+	
+	\subsection{CLA}
+		A continuación se muestra el algortimo CLA presentado en el artículo \cite{bib:ref9}, definiéndose primeramente las
+		funciones \textit{Direct-Reduced} y \textit{RD-Simplify} que después son usadas en el algoritmo.
+		\newline
+		
+		La función \textit{Direct-Reduced($\Sigma$)} calcula el IS directo-reducido de $\Sigma$:
+		\newline
+		
+		\begin{tabular}{p{15cm}}
+			\hline
+			Direct-Reduced($\Sigma$)\\
+			\hline
+			
+			\textbf{input}: Un sistema implicacional $\Sigma$	en S	\\
+			\textbf{output}: El IS directo-reducido $\Sigma_{dr}$ en S	\\
+			\textbf{begin}												\\
+			\ESPACIO \FOREACH $A \rightarrow B \in \Sigma_{dr}$ y $C \rightarrow D \in \Sigma_{dr}$ \DO\\
+			\ESPACIO \ESPACIO \IF $B \cap c \neq \emptyset \neq D \backslash (A \cup B)$ \THEN add $AC-B \rightarrow D-(AB)$ to
+							 $\Sigma_{dr}$; \\
+			\ESPACIO \RETURN $\Sigma_{dr}$ \\
+			\hline
+		\end{tabular}
+		\newline
+		\newline
+		
+		La función \textit{RD-Simplify($\Sigma$)} calcula el IS directo-reducido-simplificado a partir de $\Sigma$ reducido:
+		\newline
+		\begin{tabular}{p{15cm}}
+			\hline
+			RD-Simplify($\Sigma$)\\
+			\hline
+			
+			\textbf{input}: Un sistema implicacional directo-reducido $\Sigma$	en S	\\
+			\textbf{output}: El IS directo-reducido-simplificado $\Sigma_{drs}$ en S equivalente a $\Sigma$	\\
+			\textbf{begin}												\\
+			\ESPACIO $\Sigma_{drs} := \emptyset$ \\
+			\ESPACIO \FOREACH $A \rightarrow B \in \Sigma$ \DO \\
+			\ESPACIO \ESPACIO \FOREACH $C \rightarrow D \in \Sigma$ \DO \\
+			\ESPACIO \ESPACIO \ESPACIO \IF $C = A$ \THEN $B := B \cup D$; \\
+			\ESPACIO \ESPACIO \ESPACIO \IF $C \nsubseteq A$ \THEN $B := B \backslash D$; \\
+			\ESPACIO \ESPACIO \IF $B \neq \emptyset$ \THEN add $A \rightarrow B$ to $\Sigma{drs}$; \\
+			\ESPACIO \RETURN $\Sigma_{drs}$ \\
+			\hline
+		\end{tabular}
+		\newline
+		\newline
+		
+		La función \textit{doSimp($\Sigma$)} calcula el IS directo-óptimo equivalente a $\Sigma$ usando las dos funciones
+		 anteriores:
+		\newline
+		\newline
+			\begin{tabular}{p{15cm}}
+				\hline
+					doSimp($\Sigma$)\\
+				\hline
+				%
+				\textbf{input}: Un sistema implicacional $\Sigma$	en S	\\
+				\textbf{output}: El IS directo-óptimo $\Sigma_{do}$	en S	\\
+				\textbf{begin}												\\
+				\ESPACIO $\Sigma_r := \left\{A \rightarrow B-A | A \rightarrow B \in \Sigma, B \nsubseteq A
+				 					 \right\}$\\			
+				\ESPACIO $\Sigma_{dr}$ := Direct-Reduced($\Sigma_r$)\\
+				\ESPACIO $\Sigma_{do}$ := RD-Simplify($\Sigma_{dr}$)\\
+				\RETURN $\Sigma_{do}$\\
+				\hline
+			\end{tabular}
+		
+		
+	\subsection{Direct Optimal Basis}
+		A continuación se muestra el algortimo Direct Optimal Basis presentado en el artículo \cite{bib:ref1}.
+		
+		\begin{tabular}{l p{15cm}}
+							& \textbf{input}: Un sistema implicacional $\Sigma$	en S	\\
+							& \textbf{output}: El IS directo-óptimo $\Sigma_{do}$	en S	\\
+			 1				& \textbf{begin}												\\
+			 2				& /* Fase 1: Generación de $\Sigma_r$ por reducción de $\Sigma$*/ \\
+			 3				& $\Sigma_r = \emptyset$ \\
+			 4				& \FOREACH $A \rightarrow_{\Sigma} B$ \DO\\
+			 5				& \ESPACIO \IF $B \nsubseteq A$ \THEN add $A \rightarrow B-A$ to $\Sigma_r $; \\
+			 6				& /* Fase 2: Generación de $\Sigma_{sr}$ por simplificación de $\Sigma_r$*/ \\
+			 7				& $\Sigma_{sr} = \Sigma_r$\\
+			 8				& \textbf \REPEAT\\
+			 9				& \ESPACIO \FOREACH $A \rightarrow B \in \Sigma_{sr}$ \DO\\
+			10				& \ESPACIO \ESPACIO \FOREACH $C \rightarrow D \in \Sigma_{sr}$ \DO\\
+			11				& \ESPACIO \ESPACIO \ESPACIO \IF $A \subseteq C$ \THEN\\
+			12				& \ESPACIO \ESPACIO \ESPACIO \ESPACIO \IF $C \subseteq A \cup B$ \THEN\\
+			13				& \ESPACIO \ESPACIO \ESPACIO \ESPACIO \ESPACIO replace $A \rightarrow B$ and $C \rightarrow D$ by\\
+							& \ESPACIO \ESPACIO \ESPACIO \ESPACIO \ESPACIO $A \rightarrow BD$ in $\Sigma_{sr};$\\
+			14				& \ESPACIO \ESPACIO \ESPACIO \ESPACIO \ESPACIO \ELSE \IF $D \subseteq B$ \THEN\\
+			15				& \ESPACIO \ESPACIO \ESPACIO \ESPACIO \ESPACIO \ESPACIO  remove $C \rightarrow D$ from 
+																					 $\Sigma_{sr}$\\
+			16				& \ESPACIO \ESPACIO \ESPACIO \ESPACIO \ESPACIO \ESPACIO \ELSE replace $C \rightarrow D$ by\\
+							& \ESPACIO \ESPACIO \ESPACIO \ESPACIO \ESPACIO \ESPACIO $C-B \rightarrow D-B$ in$\Sigma_{sr};$\\
+			17				& \UNTIL $\Sigma_{sr}$ es un punto fijo;\\
+			18				& /*Fase 3: Generación de $\Sigma_{dsr}$ por Strong Simplification de $\Sigma_{sr}$*/   \\
+			19				& $\Sigma_{dsr}$ = $\Sigma_{sr}$   \\
+			20				& \FOREACH $A \rightarrow B \in \Sigma_{dsr}$ and $C \rightarrow D \in \Sigma_{dsr}$ \DO  \\
+			21				& \ESPACIO \IF $B \cap C \neq \emptyset \neq D \backslash (A \cup B)$ \THEN   \\
+			22				& \ESPACIO \ESPACIO add $AC - B \rightarrow D-(AB)$ to $\Sigma_{dsr}$   \\
+			23				& /*Fase 4: Generación de $\Sigma_{do}$ por optimización de $\Sigma_{dsr}$*/   \\
+			24				& $\Sigma_{do} = \emptyset$  \\
+			25				& \FOREACH $A \rightarrow B \in \Sigma_{dsr}$ \DO  \\
+			26				& \ESPACIO \FOREACH $C \rightarrow D \in \Sigma_{dsr}$ DO  \\
+			27				& \ESPACIO \ESPACIO \IF $C = A$ \THEN $B = B \cup D$;  \\
+			28				& \ESPACIO \ESPACIO \IF $C \nsubseteq A$ \THEN $B = B \backslash D$;   \\
+			29				& \ESPACIO \IF $B \neq \emptyset$ \THEN add $A \rightarrow B$ to $\Sigma_{do}$;  \\
+			30				& \RETURN $\Sigma_{do}$\\
+		\end{tabular}
+	
+			
+\newpage	
+\section{HERRAMIENTA PARA IMPLICACIONES}			
+	
+	El PFC \textit{Algoritmos para la manipulación de implicaciones en ACF} tiene como objetivo la implementación de algoritmos
+	relacionados con cierres y cálculo de bases y bases directas y realizar comparativas entre ellos.
+	
+	Por esto, surge la idea de desarrollar una herramienta que permita ejecutar los algoritmos implementados, medir su rendimiento
+	y guardar los resultados y estadísticas de éstos permitiendo compararlos entre sí. A esta herramienta se le ha llamado IS Bench.
+	
+	Además, debido a que no existen conjuntos de implicaciones en la literatura que los investigadores puedan usar, se hace
+	necesario un generador de conjuntos de implicaciones aleatorios que pueda servir de entrada a los algoritmos en cuestión.		
+	
+	\subsection{IS Bench}
+		
+		\textit{IS Bench} es una aplicación cuyo objetivo es ejecutar algoritmos de cálculo de bases y bases directas, guardar sus
+		resultados y compararlos posteriormente.
+		
+		La información se organiza en \textit{workspaces}, que no son más que directorios que contendrán los algoritmos y
+		benchmarks definidos y ejecutados en él, así como los resultados (sistemas de salida, trazas y estadísticas) generados.
+		
+		Un \textit{algoritmo} es una implementación Java que recibe como entrada un sistema implicacional y devuelve otro
+		directo-óptimo equivalente.
+		
+		Un \textit{benchmark} o \textit{experimento} es un conjunto de algoritmos que se ejecutan con uno o varios sistemas
+		implicacionales de entrada comunes. 
+		
+		El menú principal consta de las opciones:
+		
+		\begin{itemize}
+			\item Fichero $\rightarrow$ Algoritmos para el registro de algoritmos.
+			
+			\item Preferencias $\rightarrow$ Workspaces para la configuración de workspaces.
+			
+			\item Help con la ayuda de usuario.
+		\end{itemize}
+		
+		El funcionamiento básico de la aplicación se resume en registro de algoritmos y benchmarks, ejecución de éstos y
+		visualización de resultados. Por esto la aplicación se divide en tres zonas principales: \textit{Inicio},
+		\textit{Benchmarks} y \textit{Resultados}.
+		
+		Con el área Inicio se pretende que el usuario pueda recordar las últimas acciones en el workspace actual al entrar en la
+		aplicación.
+		
+		Se muestra un resumen de las últimas ejecuciones que contiene el nombre del benchmark, la fecha y hora de la última
+		ejecución y un enlace para ejecutarlo de nuevo.
+		
+		%INSERTAR IMAGEN
+		
+		La pestaña \textit{Benchmarks}, es el área en el que se definen y ejecutan los benchmarks.
+		
+		Se divide a su vez en dos pestañas: \textit{Nuevo} y \textit{Ejecutar}. Como sus nombres indican, en la pestaña
+		\textit{Nuevo} se pueden registrar nuevos benchmarks y en \textit{Ejecutar}, ejecutarlos.
+		
+		
+			%IMAGEN PESTAÑA BENCHMARKS
+			\begin{figure}[H]
+				\centering
+				\includegraphics[width=1.00\textwidth,frame]{imagenes/figura28.png}
+				\caption{Pestaña Benchmarks}
+				\label{fig:figura28}
+			\end{figure}				
+			
+		
+			
+		El área \textit{Resultados}, contendrá los resultados detallados de los benchmarks del workspace actual, y será la zona que
+		el usuario utilizará para realizar sus comparativas.
+		
+			\begin{figure}[H]
+				\centering
+					\includegraphics[width=1.00\textwidth, frame]{imagenes/figura29.png}
+				\caption{Pestaña Resultados}
+				\label{fig:figura29}
+			\end{figure}
+
+		
+			
+		\subsubsection{Workspaces}
+		
+			La configuración de la aplicación está organizada en \textit{workspaces} que no son más que directorios en los que se
+			guardan archivos relacionados para su uso en IS Bench. 
+			
+			Estos archivos pueden ser:
+			\begin{itemize}
+				\item Registro de algoritmos y benchmarks. 
+				\item Archivos con sistemas implicacionales de entrada para los algoritmos a ejecutar. 
+				\item Archivos con los sistemas implicacionales de salida de los algoritmos ejecutados. 
+			\end{itemize}
+			
+			El contenido de un workspace puede ser:\\
+			IMAGEN WORKSPACE
+			
+			La primera vez que se arranca la aplicación, se crea el archivo isbench.properties en el directorio \textit{.isbench}
+			del \textit{home} del usuario. En Windows por ejemplo sería 
+			\textit{C:$\backslash$Users$\backslash$usuario$\backslash$.isbench}.
+			
+			Este archivo contiene las rutas de los workspaces registrados y el último workspace con el que el usuario entró a la
+			aplicación. Por ejemplo:
+			
+			\begin{figure}[H]
+				\centering
+					\includegraphics[width=.75\textwidth]{imagenes/figura37.PNG}
+				\caption{isbench.properties}
+				\label{fig:figura37}
+			\end{figure}
+			
+			La carpeta de un workspace contiene los algoritmos y benchmarks registrados en él, así como un archivo de preferencias
+			como se ve en la siguiente figura. También contiene un directorio por benchmark registrado que almacenará las entradas
+			y salidas de sus ejecuciones.
+			
+			\begin{figure}[H]
+				\centering
+					\includegraphics[width=1.00\textwidth]{imagenes/figura39.PNG}
+				\caption{Contenido de un Workspace}
+				\label{fig:figura39}
+			\end{figure}
+			
+			La primera vez que el usuario arranca la aplicación, se establece un workspace por defecto en
+			[home\_usuario]$\backslash\text{.isbench}\backslash\text{default}$.	Desde la ventana \textit{Workspaces}, que se puede
+			acceder desde la opción de menú \textit{Preferencias} $\rightarrow$ \textit{Workspaces}, el usuario puede:
+			
+			\begin{itemize}
+				\item Consultar el workspace actual y su configuración.
+				
+				\item Cambiar de workspace.
+				
+				\item Crear un nuevo workspace.
+			\end{itemize}
+			
+		
+			\begin{figure}[H]
+				\centering
+					\includegraphics[width=1.00\textwidth]{imagenes/figura38.PNG}
+				\caption{Ventana Áreas de Trabajo}
+				\label{fig:figura38}
+			\end{figure}
+
+			
+			El campo \textit{Directorio} es un desplegable editable, que contiene como ítems los workspaces existentes.
+			
+			Para cambiar de workspace, el usuario sólo tiene que seleccionar uno de los ítems del desplegable.
+			
+			Para crear uno nuevo, sólo ha de introducir la ruta absoluta del directorio en el que quiere crearlo o seleccionarlo
+			con el buscador pulsando en el botón \includegraphics[scale=.5]{imagenes/figura36.png}.
+			
+		\subsubsection{Registrar Algoritmos}\label{sec:registrar algoritmos}
+		
+			Para ejecutar un algoritmo o incluirlo en un benchmark, éste debe estar previamente registrado en el workspace.
+			
+			Los algoritmos que contempla la aplicación, son implementaciones Java de algoritmos de cálculo de bases y bases
+			directas. Éstos deben implementar la interfaz \\
+			\texttt{es.uma.pfc.is.algorithms.Algorithm} tal y como se explica en el
+			apartado Implementación de Algoritmos y encontrarse en el classpath del workspace: [workspace\_dir]/lib.
+
+			La opción \textit{Archivo} $\rightarrow$ \textit{Algoritmos del menú principal}, abre la ventana \textit{Nuevo
+			Algoritmo}:
+
+			\begin{figure}[H]
+				\centering
+					\includegraphics[width=1.00\textwidth,frame]{imagenes/figura30.PNG}
+				\caption{Ventana Nuevo Algoritmo}
+				\label{fig:figura30}
+			\end{figure}
+
+			
+			En ella se puede registrar un algoritmo introduciendo su nombre, abreviatura y la clase que lo implementa.
+			
+			\begin{description}
+				\item[Nombre:] Obligatorio y único. Nombre identificativo del algoritmo.\\
+					Es el nombre que se muestra cuando el algoritmo se carga en listas o tablas.
+				\item[Abreviatura:] Obligatorio. Nombre corto del algoritmo.\\
+					Se usa para formar el nombre por defecto del archivo en el que se guarda el sistema  de salida de la ejecución
+					del algoritmo.
+				\item[Clase:] Obligatorio.\\
+					Debe contener el \textit{fully qualified name} de la clase que implementa el algoritmo. Se usa para crear la
+					instancia del algoritmo a ejecutar, por lo que ésta ha de ser una implementación, es decir, no debe ser una
+					interfaz o clase abstracta.
+			\end{description}
+			
+			Para facilitar la introducción del nombre de la clase, el campo \textit{Clase} es un desplegable combinado
+			(\textit{combobox})  cuyos ítems son las implementaciones de los algoritmos incluidos en las librerías de la carpeta
+			\textit{lib} del workspace actual. 
+			
+			Si alguno de los campos no se introduce y se pulsa el botón \textit{Guardar}, se produce un error de validación y se
+			marcan los campos incompletos:
+			
+			\begin{figure}[H]
+				\centering
+					\includegraphics[width=1.00\textwidth,frame]{imagenes/figura31.PNG}
+				\caption{Error de validación}
+				\label{fig:figura31}
+			\end{figure}
+
+			
+			Igual sucede, si la clase introducida no existe o no es una implementación:
+			
+			
+			\begin{figure}[H]
+				\centering
+					\includegraphics[width=1.00\textwidth,frame]{imagenes/figura32.PNG}
+				\caption{Error clase no existente}
+				\label{fig:figura32}
+			\end{figure}
+
+			
+			Una vez introducidos correctamente todos los campos, al pulsar el botón \textit{Guardar}, el algoritmo se registra en
+			el archivo [workspace\_dir]/algorithms.xml.
+			
+			\begin{figure}[H]
+				\includegraphics[width=.85\textwidth]{imagenes/figura40.PNG}
+				\caption{algorithms.xml}
+				\label{fig:figura40}
+			\end{figure}
+
+		
+		\subsubsection{Registrar Benchmarks}\label{sec:registrar bench}
+		
+			Un benchmark es la agrupación de un conjunto de algoritmos que se ejecutan con una misma entrada para la posterior
+			comparación de sus resultados.
+			
+			Para poder ejecutar un benchmark éste ha debido ser registrado en el workspace y esto se puede hacer desde la pestaña
+			\textit{Nuevo} del área Benchmarks .	
+			
+			\begin{figure}[H]
+				\centering
+					\includegraphics[width=1.00\textwidth,frame]{imagenes/figura33.png}
+				\caption{Pestaña Nuevo Benchmark}
+				\label{fig:figura33}
+			\end{figure}
+
+			
+			En ésta se muestra un formulario con los campos que se ven en la imagen:
+			
+			\begin{itemize}
+				\item \textbf{Nombre:} Obligatorio y único. Nombre identificativo del benchmark.\\
+						Es el nombre que se muestra cuando se carga en listas o tablas.
+				\item \textbf{Ficheros de Entrada:} Lista de archivos que contienen los sistemas implicacionales de entrada.\\
+					Este campo se puede introducir manualmente, seleccionándolo mediante el explorador (opción \textit{File} del
+					botón ...) o creándolo con el generador de implicaciones (opción \textit{Random} del botón ...).\\
+				\item \textbf{Algoritmos:} Obligatorio. Hay dos listas. La de la izquierda contiene los algoritmos registrados en
+					el workspace y en la de la derecha se van añadiendo los algoritmos seleccionados con doble click en la primera
+					lista y éstos serán los que contenga el benchmark que se está creando.\\
+					Para filtrar la lista de algoritmos registrados en el workspace, se puede hacer uso del filtro en vivo situado
+					en la parte superior de la primera lista.
+			\end{itemize}
+			
+			Si se pulsa el botón \textit{Guardar} con algún campo obligatorio sin completar, la aplicación muestra un mensaje
+			informando de ello y para los campos \textit{Nombre} y \textit{Entrada} se marcan como erróneos.
+		
+			\begin{figure}[H]
+				\centering
+					\includegraphics[width=1.00\textwidth,frame]{imagenes/figura34.PNG}
+				\caption{Error de validación del campo Nombre}
+				\label{fig:figura34}
+			\end{figure}
+
+			
+			Una vez introducidos todos los valores correctamente, al pulsar el botón \textit{Guardar}, el benchmark se registra en
+			el archivo \textit{[workspace\_dir]/benchmarks.xml}:
+			
+			\begin{figure}[H]
+				\centering
+					\includegraphics[width=1\textwidth]{imagenes/figura41.PNG}
+				\caption{benchmarks.xml}
+				\label{fig:figura41}
+			\end{figure}
+
+			
+		\subsubsection{Ejecutar algoritmos: Modos de ejecución}
+		
+			Recordemos que el objetivo de la ejecución de un algoritmo es, además de obtener un sistema implicacional de salida,
+			obtener trazas y estadísticas que proporcionen información adicional para su comparativa.
+			
+			Por ello es que se distinguen tres modos de ejecución:
+			\begin{itemize}
+				\item \textbf{Tiempos: }Se mide el tiempo de ejecución del algoritmo y se registra en el resultado de éste.
+				
+				\item \textbf{Con traza:} En este modo, se genera el archivo \textit{[nombre\_archivo\_salida]\_history.log}, que
+				contiene la traza  de la ejecución.
+				
+				Esta traza será la que el desarrollador, en el momento de la implementación del algoritmo, considere que pueda ser
+				de interés para el investigador.
+				
+				[nombre\_archivo\_salida] es el nombre base del archivo seleccionado para la salida del algoritmo. P.e., si el
+				archivo que se ha tomado como salida es \textit{do\_output.txt}, el archivo de  traza será
+				\textit{do\_output\_history.log}. 
+				
+				\item \textbf{Con Estadísticas: }En este modo, se genera el archivo \textit{[nombre\_archivo\_salida].csv}, en el
+					que se guardan la evolución de los tamaños del sistema implicacional procesado. Esto se hace al final de la
+					ejecución de cada algoritmo y se miden el tamaño y la cardinalidad del sistema obtenido.
+					
+					\textit{[nombre\_archivo\_salida]} es el nombre base del archivo seleccionado para la salida del algoritmo.
+					P.e., si el archivo que se ha tomado como salida es \textit{do\_output.txt}, el archivo con las estadísticas
+					será \textit{do\_output.csv}. 
+					
+					La información se guarda en archivos .csv para facilitar su visualización mediante tablas y gráficos. 
+					
+			\end{itemize}
+			
+			Estos modos no son excluyentes y pueden combinarse como el usuario considere necesario.
+			
+		\subsubsection{Ejecutar Benchmarks}\label{sec:ejecutar bench}
+		
+			La ejecución de un benchmark consiste en la ejecución secuencial del conjunto de algoritmos que lo componen con uno o 				varios sistemas implicacionales de entrada en común.
+			
+			Se genera un archivo de salida y varios adicionales según el modo de ejecución, por algoritmo ejecutado, además de un
+			resumen de dicha ejecución con:
+			
+			\begin{itemize}
+				\item La fecha y hora de ejecución
+				\item Algoritmo ejecutado
+				\item Sistema implicacional de entrada
+				\item Sistema implicacional de salida
+				\item Rutas de trazas y estadísticas generadas
+			\end{itemize}
+			
+			Esta información se usará para la consulta de resultados.
+			\newline
+			
+			La ejecución de benchmarks se hace desde la pestaña \textit{Ejecutar} del área \textit{Benchmarks}.
+			
+			\begin{figure}[H]
+				\centering
+					\includegraphics[width=1\textwidth,frame]{imagenes/figura35.PNG}
+				\caption{Pestaña Ejecutar Benchmark}
+				\label{fig:figura35}
+			\end{figure}
+
+			Como se ve en la imagen, esta pestaña se compone de:
+			
+			\begin{itemize}
+				\item Barra de herramientas
+				\item Listado de Benchmarks
+				\item Formulario para introducción de parámetros
+				\item Visor de resultados y estadísticas
+			\end{itemize}
+
+			La barra de herramientas contiene dos botones \textit{Ejecutar}, que ejecuta un benchmark o algoritmo seleccionado y
+			\textit{Limpiar} que limpia tanto la selección en el árbol como el formulario.
+			
+			En la zona izquierda, se encuentra un árbol de dos niveles que contiene los benchmarks registrados en el workspace
+			actual en el primer nivel, y los algoritmos que forman el benchmark en el segundo nivel. El contenido de éste árbol
+			puede ser filtrado con el filtro en vivo situado en la parte superior de éste.
+			
+			El formulario de introducción de parámetros consta de:
+			
+		
+			\begin{itemize}
+				\item \textbf{Modo de ejecución:} Tres modos posibles \textit{Tiempos}, \textit{Traza} y \textit{Estadísticas}  no
+					 excluyentes. Si se selecciona un benchmark en el árbol, el modo \textit{Traza} se deshabilita.
+					 
+					 Si se selecciona un algoritmo, los tres modos de ejecución están disponibles.
+				\item \textbf{Ficheros de entrada:} Lista de los ficheros que contienen los sistemas implicacionales que servirán
+					como entrada a los algoritmos a ejecutar. Para seleccionarlos, en el botón \textit{Seleccionar Entrada} se
+					presentan dos opciones: \textit{Fichero} para seleccionar un fichero existente y \textit{Aleatorio} para
+					generar un sistema implicacional aleatorio con el Generador de Implicaciones.
+					
+				\item \textbf{Salida:} Directorio en el que se guardará los archivos resultantes de la ejecución. La ruta se puede
+					introducir manualmente o seleccionándolo pulsando el botón
+					\includegraphics[scale=.5]{imagenes/figura36.PNG}. La salida se puede generar en dos formatos: texto y prolog,
+					que se pueden seleccionar en el desplegable que se encuentra a la izquierda del campo que contiene la ruta.
+			\end{itemize}
+					
+			
+			En la pestaña \textit{Resultados} se muestran los resultados de la ejecución actual, agrupados por algoritmo. Haciendo
+			doble click sobre alguno de ellos, se abre un visor con la traza generada si ésta ha sido activada. 
+			
+			\begin{figure}[H]
+				\centering
+					\includegraphics[width=1.00\textwidth]{imagenes/figura42.PNG}
+				\caption{Visor de traza}
+				\label{fig:figura42}
+			\end{figure}
+
+			
+			La pestaña \textit{Estadísticas} contiene una tabla en la que se muestran las estadísticas generadas cuando el modo
+			\textit{Estadísticas} ha sido activado. Cada fila se corresponde con la ejecución de cada algoritmo para la que existe
+			dos columnas por entrada procesada (Size y Card).
+			
+			Para ejecutar un benchmark:			
+			
+			\begin{enumerate}
+				\item Seleccionar el benchmark a ejecutar en el árbol.
+				\item La lista \textit{Ficheros de Entrada} se inicializa con las entradas definidas en el momento del registro del
+					 Benchmark.
+				\item El campo Salida, se inicializa con la ruta \textit{[workspace\_dir]/[nombre\_benchmark]/output.}
+						En este caso la ruta es un directorio, ya que se generarán n salidas, una o más por algoritmo ejecutado.
+						
+						Los archivos generados tomarán nombres por defecto:
+						\begin{itemize}
+							\item de salida: [abreviatura\_algoritmo]\_[nombre\_archivo\_entrada].txt
+							\item traza: [abreviatura\_algoritmo]\_history.log
+							\item estadísticas: [nombre\_algoritmo]\_[fecha\_hora\_ejecucion].csv, donde [fecha\_hora\_ejecucion]
+							es el momento de la ejecución con formato \texttt{yyyymmddhhMMss}.
+						\end{itemize}
+						
+				\item El modo de ejecución por defecto es \textit{Con Tiempos}.
+				\item Pulsar el botón \textit{Run}.
+				\item Una vez finalice la ejecución, se muestran los resultados en la pestaña \textit{Resultados}.	
+			\end{enumerate}
+			
+		\subsubsection{Consulta de Resultados}
+			En el área de \textit{Resultados}, se pueden consultar los resultados de las ejecuciones realizadas en el workspace
+			actual. Éstos se presentan en una tabla en forma de árbol agrupados por benchmark, fecha y hora de ejecución y
+			algoritmo. En el último nivel, se muestra una fila por entrada procesada con el tiempo de ejecución, el archivo de
+			entrada y el archivo de salida como se ve en la siguiente imagen.
+			
+			\begin{figure}[H]
+				\centering
+					\includegraphics[width=1.00\textwidth,frame]{imagenes/figura44.PNG}
+				\caption{Resultados}
+				\label{fig:figura44}
+			\end{figure}
+			
+			Seleccionando la fila que agrupa los resultados de una ejecución (fecha y hora), se cargan en la parte inferior las
+			estadísticas generadas.
+			
+			Si se selecciona una de éstas filas, se muestra a la derecha los sistemas implicacionales de entrada y salida.
+			
+	\subsection{Generador de sistemas implicacionales aleatorios}
+	
+		El generador de sistemas implicacionales, permite a partir de un número de argumentos y un número de implicaciones, generar
+		un sistema implicacional aleatorio. Se utiliza la librería \textit{java-lattices} de la doctora Karell Bertet, para el
+		cálculo del sistema a partir de estos parámetros.
+		
+		Como se ve en la figura \ref{fig:figura45}, este generador es una herramienta sencilla que consta de una pantalla principal
+		dividida en tres zonas bien diferenciadas:
+		
+		\begin{itemize}
+			\item Barra de herramientas
+			\item Panel izquierdo en el que se introducen los parámetros para la creación del sistema.
+			\item Panel derecho que contiene el campo \textit{Salida} con la ruta absoluta del fichero en el que se guarda el
+				 sistema generado, y un visor en el que se muestra dicho sistema.
+		\end{itemize}
+			
+		\begin{figure}[H]
+			\centering
+				\includegraphics[width=1.00\textwidth]{imagenes/figura48.PNG}
+			\caption{Generador de Implicaciones}
+			\label{fig:figura48}
+		\end{figure}
+
+		\subsubsection{Generar un sistema implicacional}
+			
+			Para generar un sistema implicacional se deben seguir los siguientes pasos:
+			
+			\begin{enumerate}
+				\item Introducir los parámetros para el sistema.
+			
+					\begin{itemize}
+						\item \textbf{Atributos:} Número de atributos.
+						\item \textbf{Implicaciones:} Número de implicaciones.
+						\item \textbf{Tipo:} Tipo de los atributos. Se puede seleccionar entre tres tipos: númerico (1, 2, 3,...) ,
+							alfabético (a, b, c, ...), alfanumérico (a1, a2, a3, ...).
+						\item \textbf{Premisa: } Número mínimo y máximo de atributos en la premisa.
+						\item \textbf{Conclusion: } Número mínimo y máximo de atributos en la conclusión.
+						\item \textbf{Sistemas: } Número de sistemas implicacionales a generar. Por defecto, 1.
+					\end{itemize}
+					
+				\item Pulsar el botón \textit{Generar}.
+						Al pulsar este botón se genera el sistema con los parámetros introducidos y se muestra en el visor.
+			
+						\begin{figure}[H]
+							\centering
+								\includegraphics[width=1.00\textwidth]{imagenes/figura46.PNG}
+							\caption{Generación de sistema aleatorio}
+							\label{fig:figura46}
+						\end{figure}
+						
+				\item Guardar el sistema en un fichero si se desea.\\
+					  Para guardar el sistema, se debe introducir previamente la ruta absoluta del fichero en el que se desea
+					  guardar.
+					  Se puede hacer introduciéndolo directamente en el campo de texto, o buscándolo en el explorador, haciendo
+					  click en el botón \textit{Examinar} (\includegraphics[scale=.5]{imagenes/figura36.png}) del campo
+					  \textit{Salida}.
+					  
+					\begin{figure}[H]
+						\centering
+							\includegraphics[width=1.00\textwidth]{imagenes/figura47.PNG}
+						\caption{Selección de archivo de salida}
+						\label{fig:figura47}
+					\end{figure}
+					
+					El sistema se puede guardar en dos formatos: archivo de texto (txt) y  archivo 	Prolog (pl).
+					
+					Una vez introducida la ruta del archivo, el botón \textit{Guardar} se habilitará y al pulsar sobre 	él se
+					creará o actualizará el archivo con el sistema implicacional generado.
+			\end{enumerate}
+			
+		\subsubsection{Generar \textit{n} sistemas implicacionales}
+		
+			Como  se ha comentado anteriormente, es posible generar \textit{n} sistemas implicacionales con los mismos parámetros.
+			Para ello, sólo se ha de introducir en el campo \textit{Sistemas} el número de sistemas a generar.
+			En este modo de ejecución, los sistemas generados no se previsualizan y se guardan directamente en fichero.Por ello, es
+			obligatorio que el campo \textit{Salida} contenga la ruta absoluta del fichero base, de otra forma, el botón 	
+			\textit{Generar} no se habilitará.
+			
+			A partir de esta ruta, se guardarán los \textit{n} sistemas generados en \textit{n} archivos, tomando su nombre a
+			partir del introducido en el campo \textit{Salida} y añadiéndole un índice.
+			
+			Por ejemplo, si el campo \textit{Salida} contiene la ruta C:$\backslash$implications$\backslash$system.txt  y se van a
+			generar tres sistemas, se crearan los archivos:
+			
+			\begin{itemize}
+				\item[-] C:$\backslash$implications$\backslash$system\_0.txt
+				\item[-] C:$\backslash$implications$\backslash$system\_1.txt 
+				\item[-] C:$\backslash$implications$\backslash$system\_2.txt 
+			\end{itemize}
+			
+			\begin{figure}[H]
+				\centering
+					\includegraphics[width=1.00\textwidth]{imagenes/figura49.PNG}
+				\caption{Generar \textit{n} sistemas implicacionales}
+				\label{fig:figura49}
+			\end{figure}
+			
+			\begin{figure}[H]
+				\centering
+					\includegraphics[width=0.8\textwidth]{imagenes/figura50.PNG}
+				\caption{Sistemas implicacionales generados}
+				\label{fig:figura50}
+			\end{figure}
+			Desde IS Bench se puede acceder al Generador de Implicaciones, para seleccionar las entradas de los benchmarks y
+			algoritmos. Se puede hacer en:
+			
+			\begin{enumerate}
+				\item el registro de Benchmarks (\textit{Benchmarks} $\rightarrow$ \textit{Nuevo}).
+					\begin{figure}[h]
+						\centering
+							\includegraphics[width=1.00\textwidth,frame]{imagenes/figura52.PNG}
+						\caption{IS aleatorio para el registro de benchmarks}
+						\label{fig:figura52}
+					\end{figure}
+
+				\item la ejecución de benchmarks o algoritmos (\textit{Benchmarks} $\rightarrow$ \textit{Ejecutar}).
+				
+					\begin{figure}[h]
+						\centering
+							\includegraphics[width=1.00\textwidth,frame]{imagenes/figura51.PNG}
+						\caption{IS aleatorio para la ejecución de benchmarks o algoritmos}
+						\label{fig:figura51}
+					\end{figure}
+			\end{enumerate}
+			
+	\subsection{Implementación de Algoritmos}
+	
+		Para que terceros puedan implementar algoritmos que puedan ser ejecutados por IS Bench, se ha creado una API con las
+		interfaces y clases básicas para este fin que se incluye en el la librería \textit{is-algorithms}.
+		
+		El requisito mínimo para que un algoritmo pueda ser ejecutado desde IS Bench, es que implemente la interfaz 
+		\texttt{ es.uma.pfc.is.algorithms.Algorithm}. La aplicación ejecuta el método 
+		\texttt{execute(input : ImplicationalSystem) : ImplicationalSystem} por lo que éste será en el que se implemente el
+		algoritmo en cuestión.
+		
+		\begin{figure}[H]
+			\centering
+				\includegraphics[width=.65\textwidth]{imagenes/figura53.png}
+			\caption{Interfaz Algorithm}
+			\label{fig:figura53}
+		\end{figure}
+
+		
+		La API proporciona una implementación abstracta de esta interfaz,\\ \texttt{es.uma.pfc.is.algorithms.GenericAlgorithm}, que
+		implementa los \textit{getters} y \textit{setters} obligatorios, así como utilidades para la sustitución, adición y
+		eliminación de implicaciones del sistema. El método\\  
+		\texttt{execute(input : ImplicationalSystem) : ImplicationalSystem} no se implementa, ya que esto se deberá hacer en la
+		implementación final.
+		
+		\begin{figure}[H]
+			\centering
+				\includegraphics[width=1.00\textwidth]{imagenes/figura54.png}
+			\caption{Clase abstracta GenericAlgorithm}
+			\label{fig:figura54}
+		\end{figure}
+
+		En el apartado [REFERENCIA A ANALISIS] se incluyen los detalles de esta API.
+		\newline
+		
+		Por lo que, para implementar un algoritmo y ejecutarlo desde IS Bench:
+				
+		\begin{enumerate}
+			\item Crear un proyecto Java (JDK 1.8\_u65+) que tenga como dependencia la librería \textit{is-algorithms}.
+			
+			\item Crear una clase que implemente la interfaz \texttt{ es.uma.pfc.is.algorithms.Algorithm} o extienda de
+					\texttt{es.uma.pfc.is.algorithms.GenericAlgorithm}.
+					
+			\item En el método \texttt{execute(input : ImplicationalSystem) : ImplicationalSystem} implementar el algoritmo en
+				 cuestión.
+				 
+			\item Compilar el proyecto y generar el JAR correspondiente.
+			
+			\item Copiar el JAR a la carpeta \textit{lib} del workspace actual.
+			
+			\item Registrar el algoritmo en IS Bench, bien desde la ventana Nuevo Algoritmo (opción de menú \textit{Archivo}
+					$\rightarrow$ \textit{Algoritmos}) o bien desde la pestaña \textit{Benchmarks} / \textit{Nuevo}, como se
+					explica en los apartados  \ref{sec:registrar algoritmos} y \ref{sec:registrar bench}.
+			
+			\item Incluir el algoritmo en un \textit{benchmark} como se explica en el apartado \ref{sec:registrar bench}, si no se
+				 ha hecho ya en el punto anterior.
+			
+			\item Una vez incluido en el Benchmark, se podrá ejecutar el algoritmo bien individualmente o bien a través del
+				 Benchmark desde la pestaña \textit{Benchmarks} / \textit{Ejecución}, como se explica en \ref{sec:ejecutar bench}.
+		\end{enumerate}
+
+\newpage		
+\subfile{tex/comparativa_algoritmos.tex}
+
+\newpage 
+\subfile{tex/analisis_aplicacion.tex}
+		
+
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+
+%------------------------- BIBLIOGRAFIA -------------------------------------------
+\newpage
+\begin{thebibliography}{99}
+	\bibitem{bib:ref1}
+	E. Rodríguez, K. Bertet, P. Cordero, M. Enciso, A. Mora y M. Ojeda-Aciego: {\it A method to build the Direct-Optimal Basis from
+	an implicational system}.
+	
+	\bibitem{bib:ref2} K. V. Adaricheva and J. B. Nation and R. Rand, Ordered direct implicational basis of a finite closure
+	system, International Symposium on Artificial Intelligence and Mathematics, ISAIM 2012.
+
+	\bibitem{bib:ref3} K. Bertet, M. Nebut, Efficient algorithms on the Moore family associated to an implicational system, DMTCS,
+	6(2): 315-338, 2004.
+
+	\bibitem{bib:ref4} K. Bertet, B. Monjardet, The multiple facets of the canonical direct unit implicational basis, Theor.
+	Comput. Sci., 411(22-24): 2155-2166, 2010.
+
+	\bibitem{bib:ref5} K. Bertet, Some Algorithmical Aspects Using the Canonical Direct Implicationnal Basis, CLA:101-114, 2006.
+
+	\bibitem{bib:ref6} K. Bertet, C. Demko, J.F. Viaud, C. Guèrin, java-lattices: a Java for lattices computation,
+	\url{http://thegalactic.org}, 2014.
+
+	\bibitem{bib:ref7} P Cordero, A. Mora, M. Enciso, I.Pérez de Guzmán, SLFD Logic: Elimination of Data Redundancy in Knowledge
+	Representation, Lecture Notes in Computer Science, 2527: 141-150, 2002.
+
+	\bibitem{bib:ref8} A. Mora, M. Enciso, P. Cordero, and I. Fortes, Closure via functional dependence simplification, I. J.of
+	Computer Mathematics, 89(4): 510-526, 2012.
+
+	\bibitem{bib:ref9} E. Rodríguez Lorenzo, K. Bertet, P. Cordero, M. Enciso, A. Mora,  Direct-optimal Basis via Reductions, CLA:
+	145-156, 2014.
+
+	\bibitem{bib:ref10} E. Rodríguez Lorenzo, K. Bertet, P. Cordero, M. Enciso, A. Mora, Ojeda-Aciego From Implicational Systems to
+	Direct-Optimal bases: A logic-based Approach, Applied Mathematics \& Information Sciences, 2L: 305-317, 2015.
+	
+	\bibitem{bib:ref11} A. Mora, M. Enciso, P. Cordero, and I. Pérez de Guzmán,Preprocessing Transformation for Functional
+	Dependencies Sets Based on the Substitution Paradigm, Lecture Notes in Computer Science, 3040: 136-146, 2004.
+\end{thebibliography}
+		
+\end{document}
