@@ -1,0 +1,607 @@
+\documentclass[../main.tex]{subfiles}
+% Preamble
+\begin{document}
+	\chapter{HERRAMIENTA PARA IMPLICACIONES}
+	\newpage
+	
+	El PFC \textit{Algoritmos para la manipulación de implicaciones en ACF} tiene como objetivo la implementación de algoritmos
+	relacionados con cierres y cálculo de bases y bases directas y realizar comparativas entre ellos.
+	
+	Por esto, surge la idea de desarrollar una herramienta que permita ejecutar los algoritmos implementados, medir su rendimiento
+	y guardar los resultados y estadísticas de éstos permitiendo compararlos entre sí. A esta herramienta se le ha llamado IS Bench.
+	
+	Además, debido a que no existen conjuntos de implicaciones en la literatura que los investigadores puedan usar, se hace
+	necesario un generador de conjuntos de implicaciones aleatorios que pueda servir de entrada a los algoritmos en cuestión.		
+	
+	\section{IS Bench}
+		
+		\textit{IS Bench} es una aplicación cuyo objetivo es ejecutar algoritmos de cálculo de bases y bases directas, guardar sus
+		resultados y compararlos posteriormente.
+		
+		La información se organiza en \textit{workspaces}, que no son más que directorios que contendrán los algoritmos y
+		benchmarks definidos y ejecutados en él, así como los resultados (sistemas de salida, trazas y estadísticas) generados.
+		
+		Un \textit{algoritmo} es una implementación Java que recibe como entrada un sistema implicacional y devuelve otro
+		directo-óptimo equivalente.
+		
+		Un \textit{benchmark} o \textit{experimento} es un conjunto de algoritmos que se ejecutan con uno o varios sistemas
+		implicacionales de entrada comunes. 
+		
+		El menú principal consta de las opciones:
+		
+		\begin{itemize}
+			\item Fichero $\rightarrow$ Algoritmos para el registro de algoritmos.
+			
+			\item Preferencias $\rightarrow$ Workspaces para la configuración de workspaces.
+			
+			\item Help con la ayuda de usuario.
+		\end{itemize}
+		
+		El funcionamiento básico de la aplicación se resume en registro de algoritmos y benchmarks, ejecución de éstos y
+		visualización de resultados. Por esto la aplicación se divide en tres zonas principales: \textit{Inicio},
+		\textit{Benchmarks} y \textit{Resultados}.
+		
+		Con el área Inicio se pretende que el usuario pueda recordar las últimas acciones en el workspace actual al entrar en la
+		aplicación.
+		
+		Se muestra un resumen de las últimas ejecuciones que contiene el nombre del benchmark, la fecha y hora de la última
+		ejecución y un enlace para ejecutarlo de nuevo.
+		
+		%INSERTAR IMAGEN
+		
+		La pestaña \textit{Benchmarks}, es el área en el que se definen y ejecutan los benchmarks.
+		
+		Se divide a su vez en dos pestañas: \textit{Nuevo} y \textit{Ejecutar}. Como sus nombres indican, en la pestaña
+		\textit{Nuevo} se pueden registrar nuevos benchmarks y en \textit{Ejecutar}, ejecutarlos.
+		
+		
+			%IMAGEN PESTAÑA BENCHMARKS
+			\begin{figure}[H]
+				\centering
+				\includegraphics[width=1.00\textwidth,frame]{imagenes/figura28.png}
+				\caption{Pestaña Benchmarks}
+				\label{fig:figura28}
+			\end{figure}				
+			
+		
+			
+		El área \textit{Resultados}, contendrá los resultados detallados de los benchmarks del workspace actual, y será la zona que
+		el usuario utilizará para realizar sus comparativas.
+		
+			\begin{figure}[H]
+				\centering
+					\includegraphics[width=1.00\textwidth, frame]{imagenes/figura29.png}
+				\caption{Pestaña Resultados}
+				\label{fig:figura29}
+			\end{figure}
+
+		
+			
+		\subsection{Workspaces}
+		
+			La configuración de la aplicación está organizada en \textit{workspaces} que no son más que directorios en los que se
+			guardan archivos relacionados para su uso en IS Bench. 
+			
+			Estos archivos pueden ser:
+			\begin{itemize}
+				\item Registro de algoritmos y benchmarks. 
+				\item Archivos con sistemas implicacionales de entrada para los algoritmos a ejecutar. 
+				\item Archivos con los sistemas implicacionales de salida de los algoritmos ejecutados. 
+			\end{itemize}
+			
+			El contenido de un workspace puede ser:\\
+			IMAGEN WORKSPACE
+			
+			La primera vez que se arranca la aplicación, se crea el archivo isbench.properties en el directorio \textit{.isbench}
+			del \textit{home} del usuario. En Windows por ejemplo sería 
+			\textit{C:$\backslash$Users$\backslash$usuario$\backslash$.isbench}.
+			
+			Este archivo contiene las rutas de los workspaces registrados y el último workspace con el que el usuario entró a la
+			aplicación. Por ejemplo:
+			
+			\begin{figure}[H]
+				\centering
+					\includegraphics[width=.75\textwidth]{imagenes/figura37.PNG}
+				\caption{isbench.properties}
+				\label{fig:figura37}
+			\end{figure}
+			
+			La carpeta de un workspace contiene los algoritmos y benchmarks registrados en él, así como un archivo de preferencias
+			como se ve en la siguiente figura. También contiene un directorio por benchmark registrado que almacenará las entradas
+			y salidas de sus ejecuciones.
+			
+			\begin{figure}[H]
+				\centering
+					\includegraphics[width=1.00\textwidth]{imagenes/figura39.PNG}
+				\caption{Contenido de un Workspace}
+				\label{fig:figura39}
+			\end{figure}
+			
+			La primera vez que el usuario arranca la aplicación, se establece un workspace por defecto en
+			[home\_usuario]$\backslash\text{.isbench}\backslash\text{default}$.	Desde la ventana \textit{Workspaces}, que se puede
+			acceder desde la opción de menú \textit{Preferencias} $\rightarrow$ \textit{Workspaces}, el usuario puede:
+			
+			\begin{itemize}
+				\item Consultar el workspace actual y su configuración.
+				
+				\item Cambiar de workspace.
+				
+				\item Crear un nuevo workspace.
+			\end{itemize}
+			
+		
+			\begin{figure}[H]
+				\centering
+					\includegraphics[width=1.00\textwidth]{imagenes/figura38.PNG}
+				\caption{Ventana Áreas de Trabajo}
+				\label{fig:figura38}
+			\end{figure}
+
+			
+			El campo \textit{Directorio} es un desplegable editable, que contiene como ítems los workspaces existentes.
+			
+			Para cambiar de workspace, el usuario sólo tiene que seleccionar uno de los ítems del desplegable.
+			
+			Para crear uno nuevo, sólo ha de introducir la ruta absoluta del directorio en el que quiere crearlo o seleccionarlo
+			con el buscador pulsando en el botón \includegraphics[scale=.5]{imagenes/figura36.png}.
+			
+		\subsection{Registrar Algoritmos}\label{sec:registrar algoritmos}
+		
+			Para ejecutar un algoritmo o incluirlo en un benchmark, éste debe estar previamente registrado en el workspace.
+			
+			Los algoritmos que contempla la aplicación, son implementaciones Java de algoritmos de cálculo de bases y bases
+			directas. Éstos deben implementar la interfaz \\
+			\texttt{es.uma.pfc.is.algorithms.Algorithm} tal y como se explica en el
+			apartado Implementación de Algoritmos y encontrarse en el classpath del workspace: [workspace\_dir]/lib.
+
+			La opción \textit{Archivo} $\rightarrow$ \textit{Algoritmos del menú principal}, abre la ventana \textit{Nuevo
+			Algoritmo}:
+
+			\begin{figure}[H]
+				\centering
+					\includegraphics[width=1.00\textwidth,frame]{imagenes/figura30.PNG}
+				\caption{Ventana Nuevo Algoritmo}
+				\label{fig:figura30}
+			\end{figure}
+
+			
+			En ella se puede registrar un algoritmo introduciendo su nombre, abreviatura y la clase que lo implementa.
+			
+			\begin{description}
+				\item[Nombre:] Obligatorio y único. Nombre identificativo del algoritmo.\\
+					Es el nombre que se muestra cuando el algoritmo se carga en listas o tablas.
+				\item[Abreviatura:] Obligatorio. Nombre corto del algoritmo.\\
+					Se usa para formar el nombre por defecto del archivo en el que se guarda el sistema  de salida de la ejecución
+					del algoritmo.
+				\item[Clase:] Obligatorio.\\
+					Debe contener el \textit{fully qualified name} de la clase que implementa el algoritmo. Se usa para crear la
+					instancia del algoritmo a ejecutar, por lo que ésta ha de ser una implementación, es decir, no debe ser una
+					interfaz o clase abstracta.
+			\end{description}
+			
+			Para facilitar la introducción del nombre de la clase, el campo \textit{Clase} es un desplegable combinado
+			(\textit{combobox})  cuyos ítems son las implementaciones de los algoritmos incluidos en las librerías de la carpeta
+			\textit{lib} del workspace actual. 
+			
+			Si alguno de los campos no se introduce y se pulsa el botón \textit{Guardar}, se produce un error de validación y se
+			marcan los campos incompletos:
+			
+			\begin{figure}[H]
+				\centering
+					\includegraphics[width=1.00\textwidth,frame]{imagenes/figura31.PNG}
+				\caption{Error de validación}
+				\label{fig:figura31}
+			\end{figure}
+
+			
+			Igual sucede, si la clase introducida no existe o no es una implementación:
+			
+			
+			\begin{figure}[H]
+				\centering
+					\includegraphics[width=1.00\textwidth,frame]{imagenes/figura32.PNG}
+				\caption{Error clase no existente}
+				\label{fig:figura32}
+			\end{figure}
+
+			
+			Una vez introducidos correctamente todos los campos, al pulsar el botón \textit{Guardar}, el algoritmo se registra en
+			el archivo [workspace\_dir]/algorithms.xml.
+			
+			\begin{figure}[H]
+				\includegraphics[width=.85\textwidth]{imagenes/figura40.PNG}
+				\caption{algorithms.xml}
+				\label{fig:figura40}
+			\end{figure}
+
+		
+		\subsection{Registrar Benchmarks}\label{sec:registrar bench}
+		
+			Un benchmark es la agrupación de un conjunto de algoritmos que se ejecutan con una misma entrada para la posterior
+			comparación de sus resultados.
+			
+			Para poder ejecutar un benchmark éste ha debido ser registrado en el workspace y esto se puede hacer desde la pestaña
+			\textit{Nuevo} del área Benchmarks .	
+			
+			\begin{figure}[H]
+				\centering
+					\includegraphics[width=1.00\textwidth,frame]{imagenes/figura33.png}
+				\caption{Pestaña Nuevo Benchmark}
+				\label{fig:figura33}
+			\end{figure}
+
+			
+			En ésta se muestra un formulario con los campos que se ven en la imagen:
+			
+			\begin{itemize}
+				\item \textbf{Nombre:} Obligatorio y único. Nombre identificativo del benchmark.\\
+						Es el nombre que se muestra cuando se carga en listas o tablas.
+				\item \textbf{Ficheros de Entrada:} Lista de archivos que contienen los sistemas implicacionales de entrada.\\
+					Este campo se puede introducir manualmente, seleccionándolo mediante el explorador (opción \textit{File} del
+					botón ...) o creándolo con el generador de implicaciones (opción \textit{Random} del botón ...).\\
+				\item \textbf{Algoritmos:} Obligatorio. Hay dos listas. La de la izquierda contiene los algoritmos registrados en
+					el workspace y en la de la derecha se van añadiendo los algoritmos seleccionados con doble click en la primera
+					lista y éstos serán los que contenga el benchmark que se está creando.\\
+					Para filtrar la lista de algoritmos registrados en el workspace, se puede hacer uso del filtro en vivo situado
+					en la parte superior de la primera lista.
+			\end{itemize}
+			
+			Si se pulsa el botón \textit{Guardar} con algún campo obligatorio sin completar, la aplicación muestra un mensaje
+			informando de ello y para los campos \textit{Nombre} y \textit{Entrada} se marcan como erróneos.
+		
+			\begin{figure}[H]
+				\centering
+					\includegraphics[width=1.00\textwidth,frame]{imagenes/figura34.PNG}
+				\caption{Error de validación del campo Nombre}
+				\label{fig:figura34}
+			\end{figure}
+
+			
+			Una vez introducidos todos los valores correctamente, al pulsar el botón \textit{Guardar}, el benchmark se registra en
+			el archivo \textit{[workspace\_dir]/benchmarks.xml}:
+			
+			\begin{figure}[H]
+				\centering
+					\includegraphics[width=1\textwidth]{imagenes/figura41.PNG}
+				\caption{benchmarks.xml}
+				\label{fig:figura41}
+			\end{figure}
+
+			
+		\subsection{Ejecutar algoritmos: Modos de ejecución}
+		
+			Recordemos que el objetivo de la ejecución de un algoritmo es, además de obtener un sistema implicacional de salida,
+			obtener trazas y estadísticas que proporcionen información adicional para su comparativa.
+			
+			Por ello es que se distinguen tres modos de ejecución:
+			\begin{itemize}
+				\item \textbf{Tiempos: }Se mide el tiempo de ejecución del algoritmo y se registra en el resultado de éste.
+				
+				\item \textbf{Con traza:} En este modo, se genera el archivo \textit{[nombre\_archivo\_salida]\_history.log}, que
+				contiene la traza  de la ejecución.
+				
+				Esta traza será la que el desarrollador, en el momento de la implementación del algoritmo, considere que pueda ser
+				de interés para el investigador.
+				
+				[nombre\_archivo\_salida] es el nombre base del archivo seleccionado para la salida del algoritmo. P.e., si el
+				archivo que se ha tomado como salida es \textit{do\_output.txt}, el archivo de  traza será
+				\textit{do\_output\_history.log}. 
+				
+				\item \textbf{Con Estadísticas: }En este modo, se genera el archivo \textit{[nombre\_archivo\_salida].csv}, en el
+					que se guardan la evolución de los tamaños del sistema implicacional procesado. Esto se hace al final de la
+					ejecución de cada algoritmo y se miden el tamaño y la cardinalidad del sistema obtenido.
+					
+					\textit{[nombre\_archivo\_salida]} es el nombre base del archivo seleccionado para la salida del algoritmo.
+					P.e., si el archivo que se ha tomado como salida es \textit{do\_output.txt}, el archivo con las estadísticas
+					será \textit{do\_output.csv}. 
+					
+					La información se guarda en archivos .csv para facilitar su visualización mediante tablas y gráficos. 
+					
+			\end{itemize}
+			
+			Estos modos no son excluyentes y pueden combinarse como el usuario considere necesario.
+			
+		\subsection{Ejecutar Benchmarks}\label{sec:ejecutar bench}
+		
+			La ejecución de un benchmark consiste en la ejecución secuencial del conjunto de algoritmos que lo componen con uno o 				varios sistemas implicacionales de entrada en común.
+			
+			Se genera un archivo de salida y varios adicionales según el modo de ejecución, por algoritmo ejecutado, además de un
+			resumen de dicha ejecución con:
+			
+			\begin{itemize}
+				\item La fecha y hora de ejecución
+				\item Algoritmo ejecutado
+				\item Sistema implicacional de entrada
+				\item Sistema implicacional de salida
+				\item Rutas de trazas y estadísticas generadas
+			\end{itemize}
+			
+			Esta información se usará para la consulta de resultados.
+			\newline
+			
+			La ejecución de benchmarks se hace desde la pestaña \textit{Ejecutar} del área \textit{Benchmarks}.
+			
+			\begin{figure}[H]
+				\centering
+					\includegraphics[width=1\textwidth,frame]{imagenes/figura35.PNG}
+				\caption{Pestaña Ejecutar Benchmark}
+				\label{fig:figura35}
+			\end{figure}
+
+			Como se ve en la imagen, esta pestaña se compone de:
+			
+			\begin{itemize}
+				\item Barra de herramientas
+				\item Listado de Benchmarks
+				\item Formulario para introducción de parámetros
+				\item Visor de resultados y estadísticas
+			\end{itemize}
+
+			La barra de herramientas contiene dos botones \textit{Ejecutar}, que ejecuta un benchmark o algoritmo seleccionado y
+			\textit{Limpiar} que limpia tanto la selección en el árbol como el formulario.
+			
+			En la zona izquierda, se encuentra un árbol de dos niveles que contiene los benchmarks registrados en el workspace
+			actual en el primer nivel, y los algoritmos que forman el benchmark en el segundo nivel. El contenido de éste árbol
+			puede ser filtrado con el filtro en vivo situado en la parte superior de éste.
+			
+			El formulario de introducción de parámetros consta de:
+			
+		
+			\begin{itemize}
+				\item \textbf{Modo de ejecución:} Tres modos posibles \textit{Tiempos}, \textit{Traza} y \textit{Estadísticas}  no
+					 excluyentes. Si se selecciona un benchmark en el árbol, el modo \textit{Traza} se deshabilita.
+					 
+					 Si se selecciona un algoritmo, los tres modos de ejecución están disponibles.
+				\item \textbf{Ficheros de entrada:} Lista de los ficheros que contienen los sistemas implicacionales que servirán
+					como entrada a los algoritmos a ejecutar. Para seleccionarlos, en el botón \textit{Seleccionar Entrada} se
+					presentan dos opciones: \textit{Fichero} para seleccionar un fichero existente y \textit{Aleatorio} para
+					generar un sistema implicacional aleatorio con el Generador de Implicaciones.
+					
+				\item \textbf{Salida:} Directorio en el que se guardará los archivos resultantes de la ejecución. La ruta se puede
+					introducir manualmente o seleccionándolo pulsando el botón
+					\includegraphics[scale=.5]{imagenes/figura36.PNG}. La salida se puede generar en dos formatos: texto y prolog,
+					que se pueden seleccionar en el desplegable que se encuentra a la izquierda del campo que contiene la ruta.
+			\end{itemize}
+					
+			
+			En la pestaña \textit{Resultados} se muestran los resultados de la ejecución actual, agrupados por algoritmo. Haciendo
+			doble click sobre alguno de ellos, se abre un visor con la traza generada si ésta ha sido activada. 
+			
+			\begin{figure}[H]
+				\centering
+					\includegraphics[width=1.00\textwidth]{imagenes/figura42.PNG}
+				\caption{Visor de traza}
+				\label{fig:figura42}
+			\end{figure}
+
+			
+			La pestaña \textit{Estadísticas} contiene una tabla en la que se muestran las estadísticas generadas cuando el modo
+			\textit{Estadísticas} ha sido activado. Cada fila se corresponde con la ejecución de cada algoritmo para la que existe
+			dos columnas por entrada procesada (Size y Card).
+			
+			Para ejecutar un benchmark:			
+			
+			\begin{enumerate}
+				\item Seleccionar el benchmark a ejecutar en el árbol.
+				\item La lista \textit{Ficheros de Entrada} se inicializa con las entradas definidas en el momento del registro del
+					 Benchmark.
+				\item El campo Salida, se inicializa con la ruta \textit{[workspace\_dir]/[nombre\_benchmark]/output.}
+						En este caso la ruta es un directorio, ya que se generarán n salidas, una o más por algoritmo ejecutado.
+						
+						Los archivos generados tomarán nombres por defecto:
+						\begin{itemize}
+							\item de salida: [abreviatura\_algoritmo]\_[nombre\_archivo\_entrada].txt
+							\item traza: [abreviatura\_algoritmo]\_history.log
+							\item estadísticas: [nombre\_algoritmo]\_[fecha\_hora\_ejecucion].csv, donde [fecha\_hora\_ejecucion]
+							es el momento de la ejecución con formato \texttt{yyyymmddhhMMss}.
+						\end{itemize}
+						
+				\item El modo de ejecución por defecto es \textit{Con Tiempos}.
+				\item Pulsar el botón \textit{Run}.
+				\item Una vez finalice la ejecución, se muestran los resultados en la pestaña \textit{Resultados}.	
+			\end{enumerate}
+			
+		\subsection{Consulta de Resultados}
+			En el área de \textit{Resultados}, se pueden consultar los resultados de las ejecuciones realizadas en el workspace
+			actual. Éstos se presentan en una tabla en forma de árbol agrupados por benchmark, fecha y hora de ejecución y
+			algoritmo. En el último nivel, se muestra una fila por entrada procesada con el tiempo de ejecución, el archivo de
+			entrada y el archivo de salida como se ve en la siguiente imagen.
+			
+			\begin{figure}[H]
+				\centering
+					\includegraphics[width=1.00\textwidth,frame]{imagenes/figura44.PNG}
+				\caption{Resultados}
+				\label{fig:figura44}
+			\end{figure}
+			
+			Seleccionando la fila que agrupa los resultados de una ejecución (fecha y hora), se cargan en la parte inferior las
+			estadísticas generadas.
+			
+			Si se selecciona una de éstas filas, se muestra a la derecha los sistemas implicacionales de entrada y salida.
+			
+	\section{Generador de sistemas implicacionales aleatorios}
+	
+		El generador de sistemas implicacionales, permite a partir de un número de argumentos y un número de implicaciones, generar
+		un sistema implicacional aleatorio. Se utiliza la librería \textit{java-lattices} de la doctora Karell Bertet, para el
+		cálculo del sistema a partir de estos parámetros.
+		
+		Como se ve en la figura \ref{fig:figura45}, este generador es una herramienta sencilla que consta de una pantalla principal
+		dividida en tres zonas bien diferenciadas:
+		
+		\begin{itemize}
+			\item Barra de herramientas
+			\item Panel izquierdo en el que se introducen los parámetros para la creación del sistema.
+			\item Panel derecho que contiene el campo \textit{Salida} con la ruta absoluta del fichero en el que se guarda el
+				 sistema generado, y un visor en el que se muestra dicho sistema.
+		\end{itemize}
+			
+		\begin{figure}[H]
+			\centering
+				\includegraphics[width=1.00\textwidth]{imagenes/figura48.PNG}
+			\caption{Generador de Implicaciones}
+			\label{fig:figura48}
+		\end{figure}
+
+		\subsection{Generar un sistema implicacional}
+			
+			Para generar un sistema implicacional se deben seguir los siguientes pasos:
+			
+			\begin{enumerate}
+				\item Introducir los parámetros para el sistema.
+			
+					\begin{itemize}
+						\item \textbf{Atributos:} Número de atributos.
+						\item \textbf{Implicaciones:} Número de implicaciones.
+						\item \textbf{Tipo:} Tipo de los atributos. Se puede seleccionar entre tres tipos: númerico (1, 2, 3,...) ,
+							alfabético (a, b, c, ...), alfanumérico (a1, a2, a3, ...).
+						\item \textbf{Premisa: } Número mínimo y máximo de atributos en la premisa.
+						\item \textbf{Conclusion: } Número mínimo y máximo de atributos en la conclusión.
+						\item \textbf{Sistemas: } Número de sistemas implicacionales a generar. Por defecto, 1.
+					\end{itemize}
+					
+				\item Pulsar el botón \textit{Generar}.
+						Al pulsar este botón se genera el sistema con los parámetros introducidos y se muestra en el visor.
+			
+						\begin{figure}[H]
+							\centering
+								\includegraphics[width=1.00\textwidth]{imagenes/figura46.PNG}
+							\caption{Generación de sistema aleatorio}
+							\label{fig:figura46}
+						\end{figure}
+						
+				\item Guardar el sistema en un fichero si se desea.\\
+					  Para guardar el sistema, se debe introducir previamente la ruta absoluta del fichero en el que se desea
+					  guardar.
+					  Se puede hacer introduciéndolo directamente en el campo de texto, o buscándolo en el explorador, haciendo
+					  click en el botón \textit{Examinar} (\includegraphics[scale=.5]{imagenes/figura36.png}) del campo
+					  \textit{Salida}.
+					  
+					\begin{figure}[H]
+						\centering
+							\includegraphics[width=1.00\textwidth]{imagenes/figura47.PNG}
+						\caption{Selección de archivo de salida}
+						\label{fig:figura47}
+					\end{figure}
+					
+					El sistema se puede guardar en dos formatos: archivo de texto (txt) y  archivo 	Prolog (pl).
+					
+					Una vez introducida la ruta del archivo, el botón \textit{Guardar} se habilitará y al pulsar sobre 	él se
+					creará o actualizará el archivo con el sistema implicacional generado.
+			\end{enumerate}
+			
+		\subsection{Generar \textit{n} sistemas implicacionales}
+		
+			Como  se ha comentado anteriormente, es posible generar \textit{n} sistemas implicacionales con los mismos parámetros.
+			Para ello, sólo se ha de introducir en el campo \textit{Sistemas} el número de sistemas a generar.
+			En este modo de ejecución, los sistemas generados no se previsualizan y se guardan directamente en fichero.Por ello, es
+			obligatorio que el campo \textit{Salida} contenga la ruta absoluta del fichero base, de otra forma, el botón 	
+			\textit{Generar} no se habilitará.
+			
+			A partir de esta ruta, se guardarán los \textit{n} sistemas generados en \textit{n} archivos, tomando su nombre a
+			partir del introducido en el campo \textit{Salida} y añadiéndole un índice.
+			
+			Por ejemplo, si el campo \textit{Salida} contiene la ruta C:$\backslash$implications$\backslash$system.txt  y se van a
+			generar tres sistemas, se crearan los archivos:
+			
+			\begin{itemize}
+				\item[-] C:$\backslash$implications$\backslash$system\_0.txt
+				\item[-] C:$\backslash$implications$\backslash$system\_1.txt 
+				\item[-] C:$\backslash$implications$\backslash$system\_2.txt 
+			\end{itemize}
+			
+			\begin{figure}[H]
+				\centering
+					\includegraphics[width=1.00\textwidth]{imagenes/figura49.PNG}
+				\caption{Generar \textit{n} sistemas implicacionales}
+				\label{fig:figura49}
+			\end{figure}
+			
+			\begin{figure}[H]
+				\centering
+					\includegraphics[width=0.8\textwidth]{imagenes/figura50.PNG}
+				\caption{Sistemas implicacionales generados}
+				\label{fig:figura50}
+			\end{figure}
+			Desde IS Bench se puede acceder al Generador de Implicaciones, para seleccionar las entradas de los benchmarks y
+			algoritmos. Se puede hacer en:
+			
+			\begin{enumerate}
+				\item el registro de Benchmarks (\textit{Benchmarks} $\rightarrow$ \textit{Nuevo}).
+					\begin{figure}[h]
+						\centering
+							\includegraphics[width=1.00\textwidth,frame]{imagenes/figura52.PNG}
+						\caption{IS aleatorio para el registro de benchmarks}
+						\label{fig:figura52}
+					\end{figure}
+
+				\item la ejecución de benchmarks o algoritmos (\textit{Benchmarks} $\rightarrow$ \textit{Ejecutar}).
+				
+					\begin{figure}[h]
+						\centering
+							\includegraphics[width=1.00\textwidth,frame]{imagenes/figura51.PNG}
+						\caption{IS aleatorio para la ejecución de benchmarks o algoritmos}
+						\label{fig:figura51}
+					\end{figure}
+			\end{enumerate}
+			
+	\section{Implementación de Algoritmos}
+	
+		Para que terceros puedan implementar algoritmos que puedan ser ejecutados por IS Bench, se ha creado una API con las
+		interfaces y clases básicas para este fin que se incluye en el la librería \textit{is-algorithms}.
+		
+		El requisito mínimo para que un algoritmo pueda ser ejecutado desde IS Bench, es que implemente la interfaz 
+		\texttt{ es.uma.pfc.is.algorithms.Algorithm}. La aplicación ejecuta el método 
+		\texttt{execute(input : ImplicationalSystem) : ImplicationalSystem} por lo que éste será en el que se implemente el
+		algoritmo en cuestión.
+		
+		\begin{figure}[H]
+			\centering
+				\includegraphics[width=.65\textwidth]{imagenes/figura53.png}
+			\caption{Interfaz Algorithm}
+			\label{fig:figura53}
+		\end{figure}
+
+		
+		La API proporciona una implementación abstracta de esta interfaz,\\ \texttt{es.uma.pfc.is.algorithms.GenericAlgorithm}, que
+		implementa los \textit{getters} y \textit{setters} obligatorios, así como utilidades para la sustitución, adición y
+		eliminación de implicaciones del sistema. El método\\  
+		\texttt{execute(input : ImplicationalSystem) : ImplicationalSystem} no se implementa, ya que esto se deberá hacer en la
+		implementación final.
+		
+		\begin{figure}[H]
+			\centering
+				\includegraphics[width=1.00\textwidth]{imagenes/figura54.png}
+			\caption{Clase abstracta GenericAlgorithm}
+			\label{fig:figura54}
+		\end{figure}
+
+		En el apartado [REFERENCIA A ANALISIS] se incluyen los detalles de esta API.
+		\newline
+		
+		Por lo que, para implementar un algoritmo y ejecutarlo desde IS Bench:
+				
+		\begin{enumerate}
+			\item Crear un proyecto Java (JDK 1.8\_u65+) que tenga como dependencia la librería \textit{is-algorithms}.
+			
+			\item Crear una clase que implemente la interfaz \texttt{ es.uma.pfc.is.algorithms.Algorithm} o extienda de
+					\texttt{es.uma.pfc.is.algorithms.GenericAlgorithm}.
+					
+			\item En el método \texttt{execute(input : ImplicationalSystem) : ImplicationalSystem} implementar el algoritmo en
+				 cuestión.
+				 
+			\item Compilar el proyecto y generar el JAR correspondiente.
+			
+			\item Copiar el JAR a la carpeta \textit{lib} del workspace actual.
+			
+			\item Registrar el algoritmo en IS Bench, bien desde la ventana Nuevo Algoritmo (opción de menú \textit{Archivo}
+					$\rightarrow$ \textit{Algoritmos}) o bien desde la pestaña \textit{Benchmarks} / \textit{Nuevo}, como se
+					explica en los apartados  \ref{sec:registrar algoritmos} y \ref{sec:registrar bench}.
+			
+			\item Incluir el algoritmo en un \textit{benchmark} como se explica en el apartado \ref{sec:registrar bench}, si no se
+				 ha hecho ya en el punto anterior.
+			
+			\item Una vez incluido en el Benchmark, se podrá ejecutar el algoritmo bien individualmente o bien a través del
+				 Benchmark desde la pestaña \textit{Benchmarks} / \textit{Ejecución}, como se explica en \ref{sec:ejecutar bench}.
+		\end{enumerate}
+
+\end{document}
