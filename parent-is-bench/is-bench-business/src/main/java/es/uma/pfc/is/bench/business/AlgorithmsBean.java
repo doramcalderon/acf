@@ -13,11 +13,13 @@ import java.util.stream.Collectors;
  * @author Dora Calderón
  */
 public class AlgorithmsBean {
-    
+    /**
+     * Algorithms persistence.
+     */
     private AlgorithmsPersistence persistence;
 
     /**
-     * Consturctor.
+     * Constructor.
      * @param algorithmsFilePath Workspace path.
      */
     public AlgorithmsBean(String algorithmsFilePath) {
@@ -25,7 +27,7 @@ public class AlgorithmsBean {
     }
 
     /**
-     * Return the algorithms defined in the algorithms file.
+     * Returns the algorithms defined in the algorithms file.
      * @return Algorithm Entities list.
      */
     public Set<AlgorithmInfo> getAlgorithms() {

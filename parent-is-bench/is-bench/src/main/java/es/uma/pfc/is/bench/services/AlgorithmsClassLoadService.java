@@ -25,8 +25,7 @@ import org.reflections.Reflections;
 import org.reflections.util.ConfigurationBuilder;
 
 /**
- *
- * @since @author Dora Calderón
+ * Service which loads the classes name of algorithms implementations found in the workspace classpath.
  */
 public class AlgorithmsClassLoadService extends Service<List<String>> {
 
@@ -37,7 +36,7 @@ public class AlgorithmsClassLoadService extends Service<List<String>> {
     }
 
     /**
-     * Searches the implementantios of Algorithm interface and returns its names.
+     * Searches the implementations of Algorithm interface and returns its names.
      *
      * @return List of classes names.
      */
@@ -57,6 +56,9 @@ public class AlgorithmsClassLoadService extends Service<List<String>> {
         };
     }
 
+    /**
+     * This method is executed when the background task is completed with errors.<br/>
+     */
     @Override
     protected void failed() {
         Logger.getLogger(getClass().getName()).severe(getException().getMessage());

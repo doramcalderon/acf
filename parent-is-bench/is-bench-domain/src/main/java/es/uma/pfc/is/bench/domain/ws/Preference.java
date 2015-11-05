@@ -4,9 +4,7 @@ package es.uma.pfc.is.bench.domain.ws;
 import java.util.Objects;
 
 /**
- *
- * @since 
- * @author Dora Calderón
+ * User preference.
  */
 public class Preference {
     /**
@@ -35,7 +33,7 @@ public class Preference {
     }
 
     /**
-     * Name.
+     * Returns the name.
      * @return the name
      */
     public String getName() {
@@ -43,7 +41,7 @@ public class Preference {
     }
 
     /**
-     * Name.
+     * Sets the name.
      * @param name the name to set
      */
     public void setName(String name) {
@@ -51,7 +49,7 @@ public class Preference {
     }
 
     /**
-     * Value.
+     * Returns the value.
      * @return the value
      */
     public String getValue() {
@@ -59,7 +57,7 @@ public class Preference {
     }
 
     /**
-     * Value.
+     * Sets the value.
      * @param value the value to set
      */
     public void setValue(String value) {

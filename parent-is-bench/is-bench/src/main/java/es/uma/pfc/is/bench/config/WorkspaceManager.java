@@ -30,7 +30,7 @@ public class WorkspaceManager {
      * Logger.
      */
     private static final Logger LOGGER = LoggerFactory.getLogger(WorkspaceManager.class);
-    
+
     /**
      * Default workspace location.
      */
@@ -64,11 +64,11 @@ public class WorkspaceManager {
      * General configuration.
      */
     private Properties config;
-    
+
     /**
      * Configuration file path.
      */
-    public String configPath = Paths.get(System.getProperty("user.home"),".isbench", "isbench.properties").toString();
+    public String configPath = Paths.get(System.getProperty("user.home"), ".isbench", "isbench.properties").toString();
     /**
      * Current workspace.
      */
@@ -89,17 +89,12 @@ public class WorkspaceManager {
      * Constructor.
      */
     protected WorkspaceManager(String configPath, Properties config) {
-//        try {
-            this.configPath = configPath;
-            this.config = config;
-//            initialize();
-//        } catch (IOException ex) {
-//            LOGGER.error("Error initializing the config file.");
-//        }
+        this.configPath = configPath;
+        this.config = config;
     }
 
-     /**
-     * Initialize the workspacemanager.<br/>
+    /**
+     * Initializes the workspacemanager.<br/>
      * If no exists the config file, creates it.<br/>
      * If the current workspace not is setted, creates the default workspace and sets it as the current.
      */
@@ -111,8 +106,8 @@ public class WorkspaceManager {
         }
         commitPendingChanges();
     }
-    
-     /**
+
+    /**
      * Loads the isbench.properties file and if no exists, creates it.
      *
      * @throws IOException Read / Write error.
@@ -123,10 +118,9 @@ public class WorkspaceManager {
         config.load(new FileInputStream(configFile));
     }
 
-  
     /**
-     *
-     * @return Single instance of WorkspaceManager.
+     * Returns a single instance of WorkspaceManager.
+     * @return WorkspaceManager.
      */
     public static WorkspaceManager get() {
         if (me == null) {
@@ -135,15 +129,17 @@ public class WorkspaceManager {
         return me;
     }
 
-   /**
-    * Only for testing purpose.
-    * @param ws 
-    */
+    /**
+     * Only for testing purpose.
+     *
+     * @param ws
+     */
     protected void setCurrentWorkspace(Workspace ws) {
         current = ws;
     }
+
     /**
-     * Create the default workspace.
+     * Creates the default workspace.
      */
     public void createDefaultWorkspace() {
         String currentPath = config.getProperty(CURRENT_WORKSPACE);
@@ -154,8 +150,7 @@ public class WorkspaceManager {
     }
 
     /**
-     * Create a workspace.
-     *
+     * Create the basic workspace directories and files hirerchachy, based on the info that contains the ws param.
      * @param ws Workspace info.
      * @param current If sets this workspace to the current.
      */
@@ -163,10 +158,10 @@ public class WorkspaceManager {
         try {
             String location = ws.getLocation();
             FileUtils.createDirIfNoExists(location);
-            String inputDir = (String) ws.getPreferences().getOrDefault(Preferences.DEFAULT_INPUT_DIR, 
-                                                                    Paths.get(location, DEFAULT_INPUT_PATH).toString());
-            String outputDir = (String) ws.getPreferences().getOrDefault(Preferences.DEFAULT_OUTPUT_DIR, 
-                                                                    Paths.get(location, DEFAULT_OUTPUT_PATH).toString());
+            String inputDir = (String) ws.getPreferences().getOrDefault(Preferences.DEFAULT_INPUT_DIR,
+                    Paths.get(location, DEFAULT_INPUT_PATH).toString());
+            String outputDir = (String) ws.getPreferences().getOrDefault(Preferences.DEFAULT_OUTPUT_DIR,
+                    Paths.get(location, DEFAULT_OUTPUT_PATH).toString());
 
             FileUtils.createDirIfNoExists(inputDir);
             FileUtils.createDirIfNoExists(outputDir);
@@ -179,7 +174,6 @@ public class WorkspaceManager {
 
     /**
      * Mark a workspace as current. The change will take effect with {@link #commitPendingChanges() }.
-     *
      * @param ws Workspace.
      */
     public void change(Workspace ws) {
@@ -212,7 +206,7 @@ public class WorkspaceManager {
     }
 
     /**
-     * Current workspace.
+     * Returns the current workspace.
      *
      * @return Workspace.
      */
@@ -229,6 +223,11 @@ public class WorkspaceManager {
         return current;
     }
 
+    /**
+     * Returns the registered workspaces list.
+     * Devuelve la lista de workspaces registrados.
+     * @return Workspaces list.
+     */
     public List<Workspace> registeredWorkspaces() {
         List<Workspace> workspaces = new ArrayList<>();
         List<String> propertyNames = Collections.list((Enumeration<String>) config.propertyNames());
@@ -248,33 +247,34 @@ public class WorkspaceManager {
         }
         return workspaces;
     }
+
     /**
-     * Gets a preference value.
+     * Gets a preference value of the current workspace.
      * @param name Name.
      * @return Preference value. {@code null} if the preference not exists.
      */
     public String getPreference(String name) {
         return (current != null) ? current.getPreferences().getPreference(name) : null;
     }
-    
+
     /**
-     * 
-     * @param name
-     * @return 
-     * @throws InvalidPathException  if the path string cannot be converted to a Path
+     * Assume that a preference value is the file path and returns as it.
+     * @param name Preference name.
+     * @return File given from the consulted preference.
+     * @throws InvalidPathException If the path string cannot be converted to a Path.
      */
     public File getPreferenceAsFile(String name) {
         File preferenceValue = null;
-        
-        if(!StringUtils.isEmpty(name)) {
+
+        if (!StringUtils.isEmpty(name)) {
             String stringValue = getPreference(name);
-            if(!StringUtils.isEmpty(stringValue)) {
+            if (!StringUtils.isEmpty(stringValue)) {
                 preferenceValue = Paths.get(stringValue).toFile();
             }
         }
         return preferenceValue;
     }
-    
+
     /**
      * Adds a new preference.
      * @param name Name.
@@ -290,12 +290,11 @@ public class WorkspaceManager {
     }
 
     /**
-     * Saves the preferences in afile.
-     *
-     * @param prefs
-     * @param wsLocation
-     * @throws IllegalArgumentException if location is null.
-     * @throws IOException if ther is an error saving the file.
+     * Saves the preferences in a preferences.properties file, in a path (wsLocation param).
+     * @param prefs Preferences.
+     * @param wsLocation Directory of the preferences.properties file.
+     * @throws IllegalArgumentException If wsLocation is null.
+     * @throws IOException if an error saving the file occurred.
      */
     public void savePreferences(Preferences prefs, String wsLocation) throws IOException {
         if (wsLocation == null) {
@@ -333,7 +332,7 @@ public class WorkspaceManager {
      * @param current If sets this workspace to the current.
      * @throws IOException
      */
-    protected void saveWorkspace(Workspace ws, boolean current)  {
+    protected void saveWorkspace(Workspace ws, boolean current) {
 
         String wsNameProperty = ws.getName();
         config.setProperty(wsNameProperty, ws.getLocation());
@@ -341,9 +340,10 @@ public class WorkspaceManager {
             config.setProperty(WORKSPACE_CHANGE, wsNameProperty);
         }
     }
+
     /**
      * Save the config in the file.
-     * @throws IOException 
+     * @throws IOException
      */
     protected void saveConfig() throws IOException {
         config.store(new FileOutputStream(new File(configPath)), "");

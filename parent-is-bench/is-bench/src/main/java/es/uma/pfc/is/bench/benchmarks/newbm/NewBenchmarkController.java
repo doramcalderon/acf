@@ -64,18 +64,29 @@ import javafx.stage.FileChooser;
 import org.controlsfx.validation.Validator;
 
 /**
- * FXML Controller class
+ * NewBenchmark view Controller class.
  *
  * @author Dora Calderón
  */
 public class NewBenchmarkController extends Controller {
-    
+    /**
+     * Name field.
+     */
     @FXML
     private TextField txtName;
+    /**
+     * Container of inputs implicational systems selected.
+     */
     @FXML
     private TitledPane inputsTitledPane;
+    /**
+     * Label with selected files count.
+     */
     @FXML
     private Label lbSelectedFiles;
+    /**
+     * List of selected input files.
+     */
     @FXML
     private ListView inputsList;
 
@@ -84,11 +95,19 @@ public class NewBenchmarkController extends Controller {
      */
     @FXML
     private TextField txtFilter;
+    /**
+     * Available algorithms.
+     */
     @FXML
     private ListView algorithmsList;
+    /**
+     * Algorithms selected.
+     */
     @FXML
     private ListView algorithmsSelected;
-    
+    /**
+     * Root pane.
+     */
     @FXML
     private AnchorPane rootPane;
 
@@ -108,8 +127,8 @@ public class NewBenchmarkController extends Controller {
     /**
      * Initializes the controller class.
      *
-     * @param url
-     * @param rb
+     * @param url URL of the view.
+     * @param rb Resource bundle.
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -128,11 +147,18 @@ public class NewBenchmarkController extends Controller {
         }
     }
     
+    /**
+     * Initializes the inputsList selection mode.
+     * @throws IOException 
+     */
     @Override
     protected void initView() throws IOException {
         inputsList.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
     }
     
+    /**
+     * Initializes the model.
+     */
     @Override
     protected void initModel() {
         model = new NewBenchmarkModel();
@@ -148,6 +174,9 @@ public class NewBenchmarkController extends Controller {
         loadService.restart();
     }
     
+    /**
+     * Initializes the binding between view components and the model.
+     */
     @Override
     protected void initBinding() {
         txtName.textProperty().bindBidirectional(model.nameProperty());
@@ -175,6 +204,9 @@ public class NewBenchmarkController extends Controller {
         algorithmsSelected.itemsProperty().bindBidirectional(model.algorithmsSelectedProperty());
     }
     
+    /**
+     * Initializes the listeners.
+     */
     @Override
     protected void initListeners() {
         Eventbus.register(this);
@@ -211,12 +243,18 @@ public class NewBenchmarkController extends Controller {
         
     }
     
+    /**
+     * Initializes the validation support.
+     */
     @Override
     protected void initValidation() {
         getValidationSupport().registerValidator(txtName,
                 Validator.createEmptyValidator(getI18nMessage(BenchMessages.EMPTY_ALGORITHM_NAME)));
     }
     
+    /**
+     * Load the algorithms list with algorihtms of the model.
+     */
     @Override
     protected void modelToView() {
         algorithmsList.setItems(model.getAlgorithmsFilteredList());
@@ -247,22 +285,36 @@ public class NewBenchmarkController extends Controller {
         return super.validate();
     }
     
+    /**
+     * Reloads the view and model.
+     */
     protected void reload() {
         initModel();
     }
-    
+    /**
+     * Root pane.
+     * @return Pane.
+     */
     @Override
     protected Pane getRootPane() {
         return rootPane;
     }
-    
+    /**
+     * Handles the AlgorithmsSelectedEvent published by the Eventbus.<br/>
+     * Adds all algorithms contained in the event to algorithms selected list.
+     * @param event Event.
+     */
     @Subscribe
     public void algorithmsSelected(AlgorithmsSelectedEvent event) {
         if (event.getAlgorithmsSelection() != null) {
             algorithmsSelected.getItems().addAll(event.getAlgorithmsSelection());
         }
     }
-    
+    /**
+     * Handles the AlgorithmChangeEvent published by the Eventbus.<br/>
+     * Reloads the model and view.
+     * @param event Event.
+     */
     @Subscribe
     public void handleAlgorithmChanges(AlgorithmChangeEvent event) {
         reload();
@@ -281,7 +333,10 @@ public class NewBenchmarkController extends Controller {
                     .forEach(path -> model.inputFilesListProperty().get().add(Paths.get(path).toFile()));
         }
     }
-    
+    /**
+     * Handles the event thrown when New Algorithm button is pressed.
+     * @param event Action event.
+     */
     @FXML
     protected void handleNewAlgorithm(ActionEvent event) {
         try {
@@ -359,7 +414,10 @@ public class NewBenchmarkController extends Controller {
             this.algorithmsSelected.getItems().remove(unselectedItem);
         }
     }
-    
+    /**
+     * When the Save button is pressed, the current values are validated and saved.
+     * @param event Action event.
+     */
     @FXML
     protected void handleSaveButton(ActionEvent event) {
         if (validate()) {
@@ -373,13 +431,19 @@ public class NewBenchmarkController extends Controller {
             service.restart();
         }
     }
-    
+    /**
+     * When the Clear button is pressed, the fields are cleared.
+     * @param event Action event.
+     */
     @FXML
     protected void handleClearButton(ActionEvent event) {
         clear();
         
     }
-    
+    /**
+     * When the Add Algorithm button is pressed, the New Algorithm window is shown.
+     * @param event Action event.
+     */
     @FXML
     protected void handleAddAlgAction(ActionEvent event) {
         try {
@@ -392,7 +456,7 @@ public class NewBenchmarkController extends Controller {
     }
 
     /**
-     * Delete the current selection in the inputs list.
+     * Deletes the current selection in the inputs list.
      *
      * @param event Action event.
      */
@@ -422,7 +486,9 @@ public class NewBenchmarkController extends Controller {
         }
         
     }
-    
+    /**
+     * Clears all fields.
+     */
     protected void clear() {
         txtName.clear();
         inputsList.getItems().clear();

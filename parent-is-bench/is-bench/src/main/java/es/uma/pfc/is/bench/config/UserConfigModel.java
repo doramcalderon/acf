@@ -13,11 +13,12 @@ import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 
 /**
- *
- * @since 
- * @author Dora Calderón
+ * Workspaces model.
  */
 public class UserConfigModel {
+    /**
+     * Workspaces list.
+     */
     private final ListProperty<Workspace> workspacesList;
     /**
      * Workspace selected.
@@ -72,12 +73,15 @@ public class UserConfigModel {
     public Workspace getWorkspaceSelected() {
         return workspaceSelected.get();
     }
-
+    /**
+     * Preferences property.
+     * @return Preferences property.
+     */
     public ListProperty<PreferenceModel> preferencesProperty() {
         return preferences;
     }
     /**
-     * Workspace selected.
+     * Sets the workspace selected.
      * @param workspaceSelected the workspaceSelected to set
      */
     public void setWorkspaceSelected(Workspace workspaceSelected) {

@@ -28,9 +28,7 @@ import javafx.stage.Window;
 import javafx.util.StringConverter;
 
 /**
- * FXML Controller class
- *
- * @author Dora Calderón
+ * Workspaces view controller.
  */
 public class UserConfigController extends Controller {
 
@@ -46,12 +44,21 @@ public class UserConfigController extends Controller {
     private TableColumn<PreferenceModel, String> nameColumn;
     @FXML
     private TableColumn<PreferenceModel, String> valueColumn;
+    
+    /**
+     * Workspaces model.
+     */
     private UserConfigModel model;
 
+    /**
+     * Workspaces manager.
+     */
     private WorkspaceManager wsManager;
 
     /**
      * Initializes the controller class.
+     * @param url View's URL.
+     * @parm rb Internationalization resources.
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -73,6 +80,10 @@ public class UserConfigController extends Controller {
         return wsAnchorPane;
     }
 
+    /**
+     * Particular view initializations.
+     * @throws IOException 
+     */
     @Override
     protected void initView() throws IOException {
         nameColumn.setCellValueFactory(cellData -> cellData.getValue().getName());
@@ -108,6 +119,9 @@ public class UserConfigController extends Controller {
         });
     }
 
+    /**
+     * Initializes the model with the registered workspaces.
+     */
     @Override
     protected void initModel() {
         model = new UserConfigModel();
@@ -134,6 +148,10 @@ public class UserConfigController extends Controller {
         
     }
 
+    /**
+     * Saves the workspace change. If the worksapce is new, asks to the user if he would like establish it as the current workspace.
+     * If the user accepts, shows a new message indication that the change will take effect in the next application start.
+     */
     public void save() {
         List<Workspace> workspaces = model.workspacesListProperty().get();
         boolean newWs;
@@ -161,7 +179,12 @@ public class UserConfigController extends Controller {
         }
     }
 
-
+    /**
+     * Handles the event thrown when Search(...) button is pressed.
+     * Open a dialog for directory selection.
+     * The selection shows in the Location field.
+     * @param event ActionEvent.
+     */
     @FXML
     protected void handleSelectWorkspace(ActionEvent event) {
         Window mainStage = wsAnchorPane.getScene().getWindow();
@@ -175,12 +198,21 @@ public class UserConfigController extends Controller {
 
     }
 
+    /**
+     * Handles the event thrown when Save button is pressed. Invokes the save() method to save the changes and closes 
+     * the window.
+     * @param event ActionEvent.
+     */
     @FXML
     protected void handleSaveEvent(ActionEvent event) {
         save();
         close();
     }
 
+    /**
+     * Ignores the changes and closes the window.
+     * @param event ActionEvent.
+     */
     @FXML
     protected void handleCancelAction(ActionEvent event) {
         close();

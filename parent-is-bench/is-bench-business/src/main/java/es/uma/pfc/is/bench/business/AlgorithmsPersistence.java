@@ -10,7 +10,7 @@ import javax.xml.bind.JAXBException;
 import org.slf4j.LoggerFactory;
 
 /**
- * Persist the algorithms into an XML file entities using JAXB.
+ * Persists the algorithms into an XML file entities using JAXB.
  *
  * @author Dora Calderón
  */
@@ -21,6 +21,9 @@ public class AlgorithmsPersistence extends Persistence {
      * Single instance.
      */
     private static AlgorithmsPersistence me;
+    /**
+     * Target file.
+     */
     private final String algorithmsFile;
 
     /**
@@ -31,7 +34,7 @@ public class AlgorithmsPersistence extends Persistence {
     }
 
     /**
-     * Get a single instance of AlgorithmsPersistence.
+     * Returns a single instance of AlgorithmsPersistence.
      *
      * @param algorithmsFilePath
      * @return AlgorithmsPersistence.
@@ -59,7 +62,7 @@ public class AlgorithmsPersistence extends Persistence {
     }
 
     /**
-     * Add the algorithms of {@code algorithms} param to algorithms file.
+     * Adds the algorithms of {@code algorithms} param to algorithms file.
      * @param algorithms Algorithms to add.
      */
     public void insert(AlgorithmInfo ... algorithms) {
@@ -104,7 +107,7 @@ public class AlgorithmsPersistence extends Persistence {
         }
     }
     /**
-     * Clear the algorithms file.
+     * Clears the algorithms file.
      */
     public void clear() {
         try {
@@ -114,7 +117,7 @@ public class AlgorithmsPersistence extends Persistence {
         }
     }
     /**
-     * Update the algorithms.
+     * Updates the registered algorithms file.
      * @param algorithms Algorithms.
      */
     public void update(Algorithms algorithms) {

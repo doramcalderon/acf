@@ -5,7 +5,6 @@ import es.uma.pfc.is.commons.strings.StringUtils;
 
 /**
  * Workspace.
- * @author Dora Calderón
  */
 public class Workspace {
     /**

@@ -12,7 +12,6 @@ import javafx.collections.FXCollections;
 
 /**
  * Model of Algorithms view.
- * @author Dora Calderón
  */
 public class AlgorithmsModel {
     /**
@@ -29,11 +28,14 @@ public class AlgorithmsModel {
     private StringProperty className;
     
     /**
-     * Algorithms list.
+     * Class algorithms list found in the classpath.
      */
     private ListProperty<String> algorithmsProperty;
     
 
+    /**
+     * Constructor.
+     */
     public AlgorithmsModel() {
         this.name = new SimpleStringProperty();    
         this.shortName = new SimpleStringProperty();
@@ -44,7 +46,7 @@ public class AlgorithmsModel {
     
 
     /**
-     * Return the name property.
+     * Returns the name property.
      * @return StringProperty.
      */
     public StringProperty getNameProperty() {
@@ -52,7 +54,7 @@ public class AlgorithmsModel {
     }
     
     /**
-     * Name.
+     * Returns the algorithm name.
      * @return the name
      */
     public String getName() {
@@ -60,7 +62,7 @@ public class AlgorithmsModel {
     }
 
     /**
-     * Name.
+     * Sets the algorithm name.
      * @param name the name to set
      */
     public void setName(String name) {
@@ -77,7 +79,7 @@ public class AlgorithmsModel {
 
     
     /**
-     * Return the short name property.
+     * Returns the short name property.
      * @return StringProperty.
      */
     public StringProperty getShortNameProperty() {
@@ -85,7 +87,7 @@ public class AlgorithmsModel {
     }
     
     /**
-     * Short name.
+     * Returns the algorithm short name.
      * @return the shortName
      */
     public String getShortName() {
@@ -93,7 +95,7 @@ public class AlgorithmsModel {
     }
 
     /**
-     * Short name.
+     * Sets the algorithm short name.
      * @param shortName the shortName to set
      */
     public void setShortName(String shortName) {
@@ -101,7 +103,7 @@ public class AlgorithmsModel {
     }
 
     /**
-     * Return the class name property.
+     * Returns the class name property.
      * @return StringProperty.
      */
     public StringProperty getClassNameProperty() {
@@ -109,7 +111,7 @@ public class AlgorithmsModel {
     }
     
     /**
-     * Full qualified name of algorithm implementation.
+     * Returns the full qualified name of algorithm implementation.
      * @return the className
      */
     public String getClassName() {
@@ -117,7 +119,7 @@ public class AlgorithmsModel {
     }
 
     /**
-     * Full qualified name of algorithm implementation.
+     * Sets the full qualified name of algorithm implementation.
      * @param className the className to set
      */
     public void setClassName(String className) {
@@ -125,7 +127,7 @@ public class AlgorithmsModel {
     }
     
     /**
-     * Get the value of a StringPRoperty.
+     * Get the value of a StringProperty.
      * @param property Property.
      * @return Value of the StringProperty. {@code null} if property or its value is null.
      */
@@ -146,7 +148,7 @@ public class AlgorithmsModel {
     }
 
     /**
-     * Algorithms list.
+     * Sets the algorithms list.
      * @param algorithms the algorithms to set
      */
     public void setAlgorithms(List<String> algorithms) {

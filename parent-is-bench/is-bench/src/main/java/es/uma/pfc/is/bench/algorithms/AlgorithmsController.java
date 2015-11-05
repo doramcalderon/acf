@@ -35,20 +35,27 @@ import javafx.scene.layout.Pane;
  * @author Dora Calderón
  */
 public class AlgorithmsController extends Controller {
-
+    /** Root pane.*/
     @FXML
     private GridPane gridPane;
+    /** Algorithm name field.*/
     @FXML
     private TextField txtAlgName;
+    /** Short name field.**/
     @FXML
     private TextField txtAlgShortName;
+    /** Algorithms in the classpath combobox.*/
     @FXML
     private ComboBox<String> algorithmsCombo;
+    /** Indicator of algorithms load.**/
     @FXML
     private ProgressIndicator loadingIndicator;
+    /** Label wich contains error messages.*/
     @FXML
     private Label lbErrorMessages;
-    
+    /**
+     * Model.
+     */
     private AlgorithmsModel model;
     /**
      * Algorithms business logic.
@@ -58,7 +65,7 @@ public class AlgorithmsController extends Controller {
     /**
      * Initializes the controller class.
      *
-     * @param url URL.
+     * @param url URL of the view.
      * @param rb Resource bundle.
      */
     @Override
@@ -79,7 +86,7 @@ public class AlgorithmsController extends Controller {
     
 
     /**
-     * Initialize the model.
+     * Initializes the model.
      */
     @Override
     protected void initModel() {
@@ -87,7 +94,7 @@ public class AlgorithmsController extends Controller {
     }
 
     /**
-     * Initialize the bindings.
+     * Initializes the bindings between view components and model.
      */
     protected void initBindings() {
         txtAlgName.textProperty().bindBidirectional(model.getNameProperty());
@@ -175,17 +182,29 @@ public class AlgorithmsController extends Controller {
         return valid;
     }
 
-
+    /**
+     * Handles the event thrown when Cancel button is pressed.
+     * Ignores the changes and closes the window.
+     * @param action Event.
+     */
     @FXML
     public void handleCancelAction(ActionEvent action) {
         close();
     }
 
+    /**
+     * Handles the event thrown whtn Save button is pressed.
+     * Saves the changes.
+     * @param action Event.
+     */
     @FXML
     public void handleSaveAction(ActionEvent action) {
         save();
     }
 
+    /**
+     * Validates the changes and if are ok, these are saved.
+     */
     protected void save() {
         if (validate()) {
             AlgorithmsSaveService saveService = new AlgorithmsSaveService(model);

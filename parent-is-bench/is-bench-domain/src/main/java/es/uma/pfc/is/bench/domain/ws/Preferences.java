@@ -1,4 +1,3 @@
-
 package es.uma.pfc.is.bench.domain.ws;
 
 import es.uma.pfc.is.commons.files.FileUtils;
@@ -12,36 +11,39 @@ import java.util.Properties;
 import org.slf4j.LoggerFactory;
 
 /**
- * User preferences.
- * @author Dora Calderón
+ * Contains the user preferences.
+ * These are serialized to properties file in the workspace.
  */
-public class Preferences  extends Properties implements PreferencesNames {
-    
+public class Preferences extends Properties implements PreferencesNames {
+
     /**
      * Logger.
      */
     private static final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(Preferences.class);
-    
+
     /**
      * Preferences list.
      */
     private List<Preference> preferencesList;
 
+    /**
+     * Constructor.
+     */
     public Preferences() {
         preferencesList = new ArrayList<>();
     }
-    
+
     /**
-     * Constructor.
-     * @param p Path.
+     * Builds an instance based on an existent preferences file.
+     * @param p Ruta absoluta del archivo de preferencias.
      */
     public Preferences(Path p) {
         this();
-        if(p != null) {
+        if (p != null) {
             try {
                 File preferencesFile = FileUtils.createIfNoExists(p.toString());
                 this.load(new FileInputStream(preferencesFile));
-                
+
                 preferencesList = new ArrayList<>();
                 this.entrySet().forEach(s -> preferencesList.add(new Preference((String) s.getKey(), (String) s.getValue())));
             } catch (IOException ex) {
@@ -49,8 +51,7 @@ public class Preferences  extends Properties implements PreferencesNames {
             }
         }
     }
-    
-    
+
     /**
      * Value of a preference.
      * @param preference Preference name.
@@ -60,32 +61,41 @@ public class Preferences  extends Properties implements PreferencesNames {
         return this.getProperty(preference);
     }
 
+    /**
+     * Creates or modify a preference.
+     * @param name Name.
+     * @param value Value.
+     * @return Previous value of modified preference.
+     */
     @Override
-    public synchronized Object put(Object key, Object value) {
-        return setPreference(String.valueOf(key), String.valueOf(value));
+    public synchronized Object put(Object name, Object value) {
+        return setPreference(String.valueOf(name), String.valueOf(value));
     }
-    
+
     /**
      * Sets the value of a preference. If value is null, remove the preference if exists.
      * @param key Name of preference.
      * @param value Value.
      */
-    public String setPreference(String key, String value) {
+    public String setPreference(String name, String value) {
         Object r;
-        Preference pref = new Preference(key, value);
-        if(value == null) {
-            r = super.remove(key);
+        Preference pref = new Preference(name, value);
+        if (value == null) {
+            r = super.remove(name);
             preferencesList.remove(pref);
         } else {
-            r = super.put(key, value);
+            r = super.put(name, value);
             preferencesList.add(pref);
         }
         return String.valueOf(r);
     }
 
+    /**
+     * Returns the preferences list.
+     * @return Preferences list.
+     */
     public List<Preference> getPreferencesList() {
         return preferencesList;
     }
 
-    
 }

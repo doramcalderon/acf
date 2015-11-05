@@ -1,8 +1,4 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package es.uma.pfc.is.bench;
 
 import es.uma.pfc.is.commons.eventbus.Eventbus;
@@ -22,18 +18,28 @@ import javafx.stage.Stage;
 import org.controlsfx.validation.ValidationSupport;
 
 /**
- *
- * @since @author Dora Calderón
+ * Controller of a FXML View.
  */
 public abstract class Controller implements Initializable {
-
+    /**
+     * Internationalization resources.
+     */
     private ResourceBundle bundle;
+    /**
+     * Internationalization messages class.
+     */
     protected BenchMessages messages;
     /**
      * Validation support.
      */
     private ValidationSupport validationSupport;
 
+    /**
+     * Initializes the controller.
+     * @param location URL of the view.
+     * @param resources Internationalization resources.
+     */
+    @Override
     public void initialize(URL location, ResourceBundle resources) {
         this.bundle = resources;
         messages = BenchMessages.get();
@@ -50,16 +56,15 @@ public abstract class Controller implements Initializable {
     }
 
     /**
-     * Bundle of view.
-     *
-     * @return Bundle.
+     * View internationalization resources.
+     * @return ResourceBundle.
      */
     public ResourceBundle getBundle() {
         return bundle;
     }
 
     /**
-     * Establish bundle of view.
+     * Establish view internationalization resources.
      *
      * @param bundle Bundle.
      */
@@ -68,10 +73,9 @@ public abstract class Controller implements Initializable {
     }
 
     /**
-     * Return internazionalized value.
-     *
+     * Returns translated value.
      * @param key Key.
-     * @return Internazionalized value if exists, key otherwise.
+     * @return Translated value if exists, key otherwise.
      */
     public String getI18nLabel(String key) {
         String value = key;
@@ -82,11 +86,11 @@ public abstract class Controller implements Initializable {
     }
 
     /**
-     * Return internazionalized value.
-     *
+     * Returns a translated value with the args params. If the message contains "{}" tokens, these will be replaced 
+     * by  args params.
      * @param key Key.
-     * @param args
-     * @return Internazionalized value if exists, key otherwise.
+     * @param args Arguments to replace.
+     * @return Translated value if exists, key otherwise.
      */
     public String getI18nMessage(String key, Object... args) {
         String value = key;
@@ -106,7 +110,7 @@ public abstract class Controller implements Initializable {
     }
 
     /**
-     * Close the parent window.
+     * Closes the parent window.
      */
     protected void close() {
         Pane rootPane = getRootPane();
@@ -115,36 +119,48 @@ public abstract class Controller implements Initializable {
         }
     }
 
+    /**
+     * Hook method for additionals view initializations.
+     * @throws IOException 
+     */
     protected void initView() throws IOException {
     }
 
-    ;
+    /**
+     * Initializes the view-model bindings.
+     */
     protected void initBinding() {
     }
 
-    ;
+    /**
+     * Initializes the model.
+     */
     protected void initModel() {
     }
 
     ;
     /**
-     * Update the view with the model values.
+     * Updates the view with the model values.
      */
     protected void modelToView() {
     }
 
-    ;
+    /**
+     * Initializes the listeners.
+     */
     protected void initListeners() {
     }
 
-    ;
+    /**
+     * Validation initialization.
+     */
     protected void initValidation() {
     }
 
-    ;
+    
     /**
-     * Check the validation support status. If not is valid, show the message errors in the state bar.
-     * @return 
+     * Checks the validation support status. If not is valid, show the message errors in the state bar.
+     * @return true if there is not validation errors, false otherwise.
      */
     protected boolean validate() {
         boolean isValid = !validationSupport.isInvalid();
@@ -159,7 +175,7 @@ public abstract class Controller implements Initializable {
     }
     
     /**
-     * Show an alert and return the user response.
+     * Shows an alert and return the user response.
      * @param type Alert type.
      * @param title Title.
      * @param message Message
@@ -169,6 +185,12 @@ public abstract class Controller implements Initializable {
          return Dialogs.alert(type, title, message, getRootPane().getScene().getWindow()).showAndWait();
     }
     
+    /**
+     * Publishes an event by Eventbus for show a message.
+     * This event must be listened by state bar and this one, will show it.
+     * @param message Message.
+     * @param level Level (INFO, SUCCEEDED, WARNING, ERROR).
+    */
     protected void publicMessage(String message, Level level) {
         Eventbus.post(new MessageEvent(message, level));
     }

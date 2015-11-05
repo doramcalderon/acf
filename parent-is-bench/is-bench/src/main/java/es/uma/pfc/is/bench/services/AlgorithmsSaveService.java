@@ -13,7 +13,7 @@ import javafx.concurrent.Service;
 import javafx.concurrent.Task;
 
 /**
- *
+ * Service which saves the algorithms changes.
  *@author Dora Calderón
  */
 public class AlgorithmsSaveService extends Service<Void> {
@@ -35,6 +35,10 @@ public class AlgorithmsSaveService extends Service<Void> {
         algorithmsBean = new AlgorithmsBean(WorkspaceManager.get().getPreference(Preferences.ALGORITHMS_FILE));
     }
 
+    /**
+     * Creates the background task which saves the changes.
+     * @return 
+     */
     @Override
     protected Task<Void> createTask() {
         return new Task<Void>() {
@@ -54,6 +58,10 @@ public class AlgorithmsSaveService extends Service<Void> {
         };
     }
 
+    /**
+     * This method is executed when the background task is completed succesfully.<br/>
+     * Publishes an AlgorithmChangeEvent by Eventbus.
+     */
     @Override
     protected void succeeded() {
         Eventbus.post(new AlgorithmChangeEvent());

@@ -14,7 +14,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.transformation.FilteredList;
 
 /**
- *
+ * New Benchmark view model.
  * @since 
  * @author Dora Calderón
  */
