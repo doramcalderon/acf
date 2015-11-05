@@ -11,7 +11,6 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.util.List;
-import java.util.Optional;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -21,9 +20,14 @@ import java.util.logging.Logger;
  * @author Dora Calderón
  */
 public class BenchmarksBean {
-
+    /**
+     * Benchmarks persistence.
+     */
     private BenchmarksPersistence persistence;
 
+    /**
+     * Constructor.
+     */
     public BenchmarksBean() {
         persistence = BenchmarksPersistence.get();
     }

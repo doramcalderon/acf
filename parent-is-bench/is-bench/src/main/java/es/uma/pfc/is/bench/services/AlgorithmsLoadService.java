@@ -10,7 +10,7 @@ import javafx.concurrent.Service;
 import javafx.concurrent.Task;
 
 /**
- * Load the algorithms declared in algorithms.properties file in the actual workspace.
+ * Loads the algorithms declared in algorithms.properties file in the actual workspace.
  * @author Dora Calderón
  */
 public class AlgorithmsLoadService extends Service<Set<AlgorithmInfo>>{
@@ -27,7 +27,10 @@ public class AlgorithmsLoadService extends Service<Set<AlgorithmInfo>>{
     }
 
     
-
+    /**
+     * Creates the background task which laods the registered algorithms.
+     * @return Algorithms info set.
+     */
     @Override
     protected Task<Set<AlgorithmInfo>> createTask() {
         return new Task<Set<AlgorithmInfo>>() {
@@ -40,7 +43,9 @@ public class AlgorithmsLoadService extends Service<Set<AlgorithmInfo>>{
         };
     }
 
-    
+    /**
+     * This method is executed when the background task is completed with errors.<br/>
+     */
     @Override
     protected void failed() {
         Logger.getLogger(getClass().getName()).severe(getException().getMessage());

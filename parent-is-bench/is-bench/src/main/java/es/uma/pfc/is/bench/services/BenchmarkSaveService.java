@@ -14,7 +14,7 @@ import javafx.concurrent.Service;
 import javafx.concurrent.Task;
 
 /**
- *
+ * Service which saves benchmark changes.
  * @since 
  * @author Dora Calderón
  */
@@ -38,7 +38,10 @@ public class BenchmarkSaveService extends Service<Benchmark>{
     }
     
     
-
+    /**
+     * Creates the background task which saves the benchmarks changes.
+     * @return Updated benchmark.
+     */
     @Override
     protected Task<Benchmark> createTask() {
         return new Task<Benchmark>(){
@@ -53,6 +56,9 @@ public class BenchmarkSaveService extends Service<Benchmark>{
         };
     }
 
+    /**
+     * This method is executed when the background task is completed with errors.
+     */
     @Override
     protected void failed() {
         String message = BenchMessages.get().getMessage(BenchMessages.BENCHMARK_CREATION_ERROR, getException().getMessage());
@@ -60,6 +66,10 @@ public class BenchmarkSaveService extends Service<Benchmark>{
         Eventbus.post(new MessageEvent(message, MessageEvent.Level.ERROR));
     }
 
+    /**
+     * This method is executed when the background task is completed succesfully.<br/>
+     * Publishes a BenchmarksChangeEvent and MessageEvent by the Eventbus.
+     */
     @Override
     protected void succeeded() {
         Eventbus.post(new BenchmarksChangeEvent());
