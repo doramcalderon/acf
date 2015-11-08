@@ -25,7 +25,7 @@
                               <TreeTableColumn fx:id="outputColumn" editable="false" minWidth="150.0" prefWidth="-1.0" text="%column.results.output" />
                           </columns>
                         </TreeTableView>
-                        <AnchorPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1">
+                        <AnchorPane>
                                    <fx:include source="/es/uma/pfc/is/bench/benchmarks/results/ResultsViewer.fxml"/>
                               </AnchorPane>
                      </items>
