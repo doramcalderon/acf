@@ -6,8 +6,7 @@ import es.uma.pfc.is.commons.strings.StringUtils;
 import java.nio.file.Paths;
 
 /**
- *
- * @since 
+ * Model for algorithm result nodes.
  * @author Dora Calderón
  */
 public class TreeAlgorithmResultModel extends TreeResultModel {
@@ -38,7 +37,7 @@ public class TreeAlgorithmResultModel extends TreeResultModel {
     }
 
     /**
-     * Algorithm result;
+     * Algorithm result.
      * @return the algorithmresult
      */
     public AlgorithmResult getAlgorithmresult() {

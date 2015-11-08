@@ -39,15 +39,6 @@
                         </StackPane>
                      </content>
                   </Tab>
-                  <Tab closable="false" text="%tab.resultsviewer.diagram">
-                    <content>
-                      <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
-                           <children>
-                              <ImageView fx:id="imgInputDiagram" fitHeight="222.0" fitWidth="287.0" layoutX="6.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="5.0" />
-                           </children>
-                        </AnchorPane>
-                    </content>
-                  </Tab>
                </tabs>
             </TabPane>
             <StackPane GridPane.columnIndex="1" GridPane.rowIndex="2">
@@ -57,15 +48,6 @@
                         <Tab closable="false" text="%tab.resultsviewer.output">
                            <content>
                               <TextArea fx:id="txtOutputViewer" editable="false" prefHeight="200.0" prefWidth="200.0" wrapText="true" GridPane.columnIndex="1" GridPane.rowIndex="3" />
-                           </content>
-                        </Tab>
-                        <Tab closable="false" text="%tab.resultsviewer.diagram">
-                           <content>
-                              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
-                                 <children>
-                                    <ImageView fx:id="imgOutputDiagram" fitHeight="222.0" fitWidth="287.0" layoutX="6.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="5.0" />
-                                 </children>
-                              </AnchorPane>
                            </content>
                         </Tab>
                      </tabs>

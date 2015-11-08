@@ -38,8 +38,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 
 /**
- * FXML Controller class
- *
+ * Results view controller.
  * @author Dora Calderón
  */
 public class ResultsController extends Controller {
@@ -55,8 +54,16 @@ public class ResultsController extends Controller {
     @FXML
     private TreeTableColumn nameColumn, timeColumn, inputColumn, outputColumn;
 
+    /**
+     * Results view model.
+     */
     private ResultsModel model;
 
+    /**
+     * Initializes the view.
+     * @param url URL of the view.
+     * @param rb Resource bundle.
+     */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         try {
@@ -70,6 +77,10 @@ public class ResultsController extends Controller {
         }
     }
 
+    /**
+     * Initializes the results table.
+     * @throws IOException 
+     */
     @Override
     protected void initView() throws IOException {
         tableResults.setShowRoot(false);
@@ -91,6 +102,9 @@ public class ResultsController extends Controller {
 
     }
 
+    /**
+     * Initializes the model.
+     */
     @Override
     protected void initModel() {
         model = new ResultsModel();
@@ -99,6 +113,9 @@ public class ResultsController extends Controller {
         model.setAllResults(allResults);
     }
 
+    /**
+     * Initializes the listners.
+     */
     @Override
     protected void initListeners() {
         Eventbus.register(this);
@@ -120,6 +137,9 @@ public class ResultsController extends Controller {
 
     }
 
+    /**
+     * Loads the model data into the results table.
+     */
     @Override
     protected void modelToView() {
         List<BenchmarkResultSet> allResults = model.getAllResults();
@@ -153,7 +173,7 @@ public class ResultsController extends Controller {
                         algorithmItem.getChildren().addAll(resultItems);
                         algorithmItems.add(algorithmItem);
 
-                    }
+    }
                     executionNode.getChildren().addAll(algorithmItems);
                     benchItem.getChildren().add(executionNode);
 
@@ -169,17 +189,27 @@ public class ResultsController extends Controller {
         }
     }
 
+    /**
+     * Root pane.
+     * @return Pane.
+     */
     @Override
     protected Pane getRootPane() {
         return rootPane;
     }
 
+    /**
+     * Reloads the view and the model.
+     */
     protected void reload() {
         clear();
         initModel();
         modelToView();
     }
 
+    /**
+     * Clear the tables.
+     */
     protected void clear() {
         Eventbus.post(new AlgorithmResultSelection(null));
         tableStatistics.getColumns().clear();
@@ -202,6 +232,10 @@ public class ResultsController extends Controller {
         }
     }
 
+    /**
+     * Handles the NewResultsEvent published by Eventbus and reload the view and the model.
+     * @param event Event.
+     */
     @Subscribe
     public void handleNewResult(NewResultsEvent event) {
         if (event != null) {

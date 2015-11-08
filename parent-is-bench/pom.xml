@@ -10,8 +10,8 @@
     <packaging>pom</packaging>
     <modules>
         <module>is-bench-domain</module>
-        <module>is-bench</module>
         <module>is-bench-business</module>
+        <module>is-bench</module>
     </modules>
     
     <dependencies>

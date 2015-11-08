@@ -26,7 +26,7 @@ import javafx.concurrent.WorkerStateEvent;
 import javafx.event.EventHandler;
 
 /**
- *
+ * Service for the background execution of algorithms and benchmarks.
  * @author Dora Calderón
  */
 public class AlgorithmExecService extends Service<BenchmarkResult> {
@@ -35,13 +35,22 @@ public class AlgorithmExecService extends Service<BenchmarkResult> {
      * Algorithms to execute.
      */
     private List<Algorithm> algorithms;
+    /**
+     * Model.
+     */
     private RunBenchmarkModel model;
     
-
+    /**
+     * Constructor.
+     * @param algs Algorithms to execute.
+     */
     public AlgorithmExecService(List<Algorithm> algs) {
         this.algorithms = algs;
     }
-
+    /**
+     * Constructor.
+     * @param model Model. 
+     */
     public AlgorithmExecService(RunBenchmarkModel model) {
         this.model = model;
     }
@@ -52,7 +61,7 @@ public class AlgorithmExecService extends Service<BenchmarkResult> {
     protected void instanceAlgorithms() {
         if (algorithms == null) {
             algorithms = new ArrayList<>();
-        }
+    }
         model.getSelectedAlgorithms().stream().forEach(algEnt -> {
             algorithms.add(instanceAlgorithm(algEnt));
         });
@@ -64,7 +73,6 @@ public class AlgorithmExecService extends Service<BenchmarkResult> {
      * @param entity Algorithm entity.
      * @return Algorithm.
      */
-    //TODO junit
     protected Algorithm instanceAlgorithm(AlgorithmInfo entity) {
         try {
             
@@ -80,8 +88,8 @@ public class AlgorithmExecService extends Service<BenchmarkResult> {
     
 
     /**
-     * Sets the active modes in the model to the algorithm.
-     * @param alg Algorithm.
+     * Establishes the algorithm options from the model.
+     * @return Algorithm execution options.
      */
     protected AlgorithmOptions getOptions() {
         AlgorithmOptions options = new AlgorithmOptions();
@@ -137,7 +145,7 @@ public class AlgorithmExecService extends Service<BenchmarkResult> {
                     algorithms.stream().filter((alg) -> (alg != null)).forEach((alg) -> {
                         results.addAll(exec.execute(alg));
                     });
-                    
+            
                     benchmarkResult = new BenchmarkResult(model.getSelectedBenchmark().getName(), results, timeStamp);
                     
                     new ResultsBean().save(benchmarkResult, model.getSelectedBenchmark().getBenchmarkPath());
@@ -164,7 +172,9 @@ public class AlgorithmExecService extends Service<BenchmarkResult> {
         setOnFailed(handler);
         setOnSucceeded(handler);
     }
-
+      /**
+     * This method is executed when the background task is completed with errors.<br/>
+     */
     @Override
     protected void failed() {
         getException().printStackTrace();
@@ -172,7 +182,7 @@ public class AlgorithmExecService extends Service<BenchmarkResult> {
     }
 
     /**
-     * If statistics mode is enabled, prints the benchmark results into a CSV file.
+     * Publishes a message event when the task is finished succesfully.
      */
     @Override
     protected void succeeded() {

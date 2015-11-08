@@ -1,8 +1,4 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package es.uma.pfc.is.bench.domain;
 
 import java.util.ArrayList;
@@ -14,10 +10,9 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
- *
- * @since @author Dora Calderón
+ * Benchmarks container.
+ * @author Dora Calderón
  */
-//TODO esta clase desaparecerá ya que se debe guardar en el Workspace
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
 public class Benchmarks {

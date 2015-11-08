@@ -11,70 +11,38 @@
 
 <AnchorPane id="AnchorPane" minWidth="800.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="es.uma.pfc.is.bench.algorithms.results.ResultsController">
    <children>
-      <GridPane AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-         <columnConstraints>
-            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" />
-         </columnConstraints>
-         <rowConstraints>
-            <RowConstraints maxHeight="100.0" minHeight="10.0" percentHeight="10.0" vgrow="NEVER" />
-            <RowConstraints minHeight="10.0" percentHeight="90.0" vgrow="SOMETIMES" />
-         </rowConstraints>
+      <VBox layoutY="97.0" prefHeight="969.0" prefWidth="992.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" GridPane.rowIndex="1">
          <children>
-             <ToolBar maxHeight="90.0">
-              <items>
-                <Button mnemonicParsing="false" prefHeight="60.0" prefWidth="80.0" text="Open" />
-                  <Button layoutX="10.0" layoutY="10.0" mnemonicParsing="false" prefHeight="60.0" prefWidth="80.0" text="Save" />
-                  <Button layoutX="10.0" layoutY="10.0" mnemonicParsing="false" prefHeight="60.0" prefWidth="80.0" text="Delete" />
-              </items>
-            </ToolBar>
-            <VBox GridPane.rowIndex="1">
-               <children>
-                  <TitledPane fx:id="resultsTitledPane" alignment="TOP_LEFT" text="%title.results">
-                     <content>
-                        <ScrollPane prefViewportHeight="420.0" prefViewportWidth="990.0">
-                           <content>
-                              <GridPane hgap="5.0">
-                                 <columnConstraints>
-                                    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="60.0" />
-                                    <ColumnConstraints hgrow="SOMETIMES" minWidth="0.0" percentWidth="40.0" />
-                                 </columnConstraints>
-                                 <rowConstraints>
-                                    <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
-                                 </rowConstraints>
-                                 <children>
-                                    <TreeTableView fx:id="tableResults">
-                                      <columns>
-                                        <TreeTableColumn fx:id="nameColumn" editable="false" minWidth="200.0" prefWidth="-1.0" text="%column.results.name" />
-                                          <TreeTableColumn fx:id="timeColumn" editable="false" minWidth="80.0" prefWidth="-1.0" style="-fx-text-alignment: RIGHT;" text="%column.results.time" />
-                                          <TreeTableColumn fx:id="inputColumn" editable="false" minWidth="150.0" prefWidth="-1.0" text="%column.results.input" />
-                                          <TreeTableColumn fx:id="outputColumn" editable="false" minWidth="150.0" prefWidth="-1.0" text="%column.results.output" />
-                                      </columns>
-                                    </TreeTableView>
-                                    <VBox prefHeight="200.0" prefWidth="100.0" spacing="5.0" GridPane.columnIndex="1">
-                                       <children>
-                                    <fx:include source="/es/uma/pfc/is/bench/benchmarks/results/ResultsViewer.fxml"/>
-                                 </children>
-                                    </VBox>
-                                 </children>
-                              </GridPane>
-                           </content>
-                        </ScrollPane>
-                     </content>
-                  </TitledPane>
-                  <TitledPane fx:id="statsTiltedPane" text="%title.statistics">
-                     <content>
-                        <TableView fx:id="tableStatistics" tableMenuButtonVisible="true" GridPane.columnSpan="2" GridPane.rowIndex="3">
+            <TitledPane fx:id="resultsTitledPane" alignment="TOP_LEFT" text="%title.results">
+               <content>
+                  <SplitPane dividerPositions="0.5">
+                     <items>
+                        <TreeTableView fx:id="tableResults">
                           <columns>
-                            <TableColumn prefWidth="75.0" text="C1" />
-                            <TableColumn prefWidth="75.0" text="C2" />
+                            <TreeTableColumn fx:id="nameColumn" editable="false" minWidth="200.0" prefWidth="-1.0" text="%column.results.name" />
+                              <TreeTableColumn fx:id="timeColumn" editable="false" minWidth="80.0" prefWidth="-1.0" style="-fx-text-alignment: RIGHT;" text="%column.results.time" />
+                              <TreeTableColumn fx:id="inputColumn" editable="false" minWidth="150.0" prefWidth="-1.0" text="%column.results.input" />
+                              <TreeTableColumn fx:id="outputColumn" editable="false" minWidth="150.0" prefWidth="-1.0" text="%column.results.output" />
                           </columns>
-                        </TableView>
-                     </content>
-                  </TitledPane>
-               </children>
-            </VBox>
-            
+                        </TreeTableView>
+                        <AnchorPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1">
+                                   <fx:include source="/es/uma/pfc/is/bench/benchmarks/results/ResultsViewer.fxml"/>
+                              </AnchorPane>
+                     </items>
+                  </SplitPane>
+               </content>
+            </TitledPane>
+            <TitledPane fx:id="statsTiltedPane" text="%title.statistics">
+               <content>
+                  <TableView fx:id="tableStatistics" tableMenuButtonVisible="true" GridPane.columnSpan="2" GridPane.rowIndex="3">
+                    <columns>
+                      <TableColumn prefWidth="75.0" text="C1" />
+                      <TableColumn prefWidth="75.0" text="C2" />
+                    </columns>
+                  </TableView>
+               </content>
+            </TitledPane>
          </children>
-      </GridPane>
+      </VBox>
    </children>
 </AnchorPane>

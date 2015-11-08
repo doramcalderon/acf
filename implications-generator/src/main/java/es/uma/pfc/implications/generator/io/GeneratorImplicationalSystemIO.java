@@ -10,16 +10,16 @@ import java.nio.file.Paths;
 import java.util.List;
 
 /**
- * Implementa los métodos para guardar sistemas implicacionales en archivos.
+ * Implements the methods to save implicational systems in files.
  * @author Dora Calderón
  */
 public class GeneratorImplicationalSystemIO {
     /**
-      * Guarda n sistemas en n ficheros con el nombre filename_1, filename_2, ..., filename_n.<br/>
-      * Si la lista sólo contiene un elemento, se guarda el sistema en el archivo con el nombre pasado en el parámetro {@code fileName}.
-     * @param systems Sistemas de implicaciones.
-     * @param fileName Prefijo del nombre de los ficheros. 
-     * @throws IOException Error en la lectura / escritura de los ficheros.
+     * Saves n systems in  n files with the names filename_1, filename_2, ..., filename_n.<br/>
+     * If the list only contains one element, this is saved in the file with the name {@code fileName}.
+     * @param systems Implicational systems.
+     * @param fileName File names prefix.
+     * @throws IOException Read / write error.
      */
     public static void save(List<ImplicationalSystem> systems, String fileName) throws IOException {
         if (systems != null) {
@@ -39,9 +39,10 @@ public class GeneratorImplicationalSystemIO {
         }
     }
     /**
-     * Comprueba si existe el fichero con nombre {@code fileName}, y si no existe, lo crea.
-     * @param fileName Nombre del fichero.
-     * @throws IOException Error en la lectura / escritura del fichero.
+     * Checks if the file with name {@code fileName} exists.<br/>
+     * If no exists, this is created.
+     * @param fileName File name.
+     * @throws IOException Read / write error.
      */
     protected static void checkFile(String fileName) throws IOException {
         Path path = Paths.get(fileName);

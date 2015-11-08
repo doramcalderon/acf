@@ -26,12 +26,10 @@ import es.uma.pfc.is.bench.i18n.BenchMessages;
 import es.uma.pfc.is.bench.i18n.I18n;
 import es.uma.pfc.is.bench.services.AlgorithmExecService;
 import es.uma.pfc.is.bench.services.BenchmarksLoadService;
-import es.uma.pfc.is.bench.services.FileReaderService;
 import es.uma.pfc.is.bench.services.StatisticsReaderService;
 import es.uma.pfc.is.bench.uitls.Animations;
 import es.uma.pfc.is.bench.uitls.Chooser;
 import es.uma.pfc.is.bench.uitls.Dialogs;
-import es.uma.pfc.is.bench.validators.FilePathValidator;
 import es.uma.pfc.is.commons.strings.StringUtils;
 import es.uma.pfc.is.javafx.FilterableTreeItem;
 import es.uma.pfc.is.javafx.NoZeroLongCellFactory;
@@ -68,10 +66,8 @@ import javafx.scene.control.MenuItem;
 import javafx.scene.control.ProgressIndicator;
 import javafx.scene.control.SelectionMode;
 import javafx.scene.control.TableView;
-import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TreeItem;
-import javafx.scene.control.TreeTableCell;
 import javafx.scene.control.TreeTableColumn;
 import javafx.scene.control.TreeTableView;
 import javafx.scene.control.TreeView;
@@ -83,10 +79,14 @@ import javafx.scene.layout.Pane;
 import javafx.stage.FileChooser;
 import javafx.stage.Window;
 
+/**
+ * Run view controller.
+ * @author Dora Calderón
+ */
 public class RunBenchmarkController extends Controller {
 
     /**
-     * Modelo.
+     * Model.
      */
     private RunBenchmarkModel model;
 
@@ -97,6 +97,9 @@ public class RunBenchmarkController extends Controller {
      */
     @FXML
     private Label lbSelectedFiles;
+    /**
+     * Output field.
+     */
     @FXML
     private TextField txtOutput;
     /**
@@ -104,6 +107,9 @@ public class RunBenchmarkController extends Controller {
      */
     @FXML
     private TextField filterField;
+    /**
+     * Benchmarks and algorithms tree.
+     */
     @FXML
     private TreeView benchmarksTree;
     /**
@@ -112,38 +118,58 @@ public class RunBenchmarkController extends Controller {
     @FXML
     private Button btnRun;
 
+    /**
+     * Root pane.
+     */
     @FXML
     private BorderPane rootPane;
+    /**
+     * Output type combobox.
+     */
     @FXML
     private ChoiceBox<String> cbOutputType;
-    @FXML
-    private TextArea txtHistoryArea;
+    /**
+     * Table with statistics results.
+     */
     @FXML
     private TableView tableStatistics;
-
+    /**
+     * Mode checks.
+     */
     @FXML
     private CheckBox chkTime, chkHistory, chkStatistics;
 
+    /**
+     * Statistics loading progress indicator.
+     */
     @FXML
     private ProgressIndicator statsProgressInd;
-
+    /**
+     * Execution progress indicator.
+     */
     @FXML
     private ProgressIndicator execurtionIndicator;
+    /**
+     * Layer which contains progress indicators.
+     */
     @FXML
     private AnchorPane busyLayer;
-
+    /**
+     * Execution results table.
+     */
     @FXML
     private TreeTableView<TreeResultModel> tableResults;
+    /**
+     * Columns of execution results table.
+     */
     @FXML
     private TreeTableColumn nameColumn, timeColumn, inputColumn, outputColumn;
 
     /**
-     * Service for read a file.
+     * Initializes the controller.
+     * @param url URL of the view.
+     * @param rb Resource bundle.
      */
-    private FileReaderService readerService;
-
-    FilePathValidator filePathValidator;
-
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         super.initialize(url, rb);
@@ -153,13 +179,14 @@ public class RunBenchmarkController extends Controller {
             initBinding();
             initListeners();
             initValidation();
-
-            readerService = new FileReaderService();
         } catch (IOException ex) {
             Logger.getLogger(RunBenchmarkController.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-
+    /**
+     * Initializes the view.
+     * @throws IOException 
+     */
     @Override
     protected void initView() throws IOException {
         inputsList.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
@@ -202,7 +229,7 @@ public class RunBenchmarkController extends Controller {
     }
 
     /**
-     * Inicializa el modelo.
+     * Initializes the model loading the benchmarks into the tree.
      */
     @Override
     protected void initModel() {
@@ -216,6 +243,9 @@ public class RunBenchmarkController extends Controller {
 
     }
 
+    /**
+     * Initializes the bindings between components view and the model.
+     */
     @Override
     protected void initBinding() {
         btnRun.disableProperty().bind(benchmarksTree.getSelectionModel().selectedItemProperty().isNull());
@@ -236,7 +266,7 @@ public class RunBenchmarkController extends Controller {
     }
 
     /**
-     * Initialize the bindings with the model.
+     * Initializes the bindings with the model.
      */
     protected void initModelBinding() {
         model.timeCheckedProperty().bind(chkTime.selectedProperty());
@@ -246,7 +276,7 @@ public class RunBenchmarkController extends Controller {
     }
 
     /**
-     * Crea los listeners necesarios.
+     * Initializes the listeners.
      */
     @Override
     protected void initListeners() {
@@ -271,19 +301,19 @@ public class RunBenchmarkController extends Controller {
             }
         });
     }
-
+                    
+    /**
+     * Handles the event BenchmarksChangeEvent published by Eventbus, and reloads view and model.
+     * @param event Event.
+     */
     @Subscribe
     public void handleBenchamrksChange(BenchmarksChangeEvent event) {
         reload();
     }
 
-    @Override
-    protected void initValidation() {
-        filePathValidator = new FilePathValidator();
-    }
 
     /**
-     * Actualiza la vista con los valores del modelo.
+     * Updates the view with model values.
      */
     @Override
     protected void modelToView() {
@@ -297,7 +327,7 @@ public class RunBenchmarkController extends Controller {
                     bench.getAlgorithmsEntities().stream().forEach(algorithm
                             -> algItems.add(new TreeItem(algorithm)));
                     benchItem.getInternalChildren().addAll(algItems);
-                }
+        }
                 root.getInternalChildren().add(benchItem);
             });
 
@@ -316,7 +346,7 @@ public class RunBenchmarkController extends Controller {
     }
 
     /**
-     * Validate the fields values.
+     * Validates the fields values.
      *
      * @return {@code true} if values are valids, {@code false} en otro caso.
      */
@@ -327,37 +357,41 @@ public class RunBenchmarkController extends Controller {
         return valid;
     }
 
+    /**
+     * Reloads the view and model.
+     */
     protected void reload() {
         initModel();
         initModelBinding();
     }
 
+    /**
+     * Return the root pane.
+     * @return Root pane.
+     */
     @Override
     protected Pane getRootPane() {
         return rootPane;
     }
 
     /**
-     * Manejador del evento ActionEvent del botón <i>Run</i>.<br/>
-     * Ejecuta el algoritmo seleccionado.
-     *
-     * @param event Evento.
+     * Handles the event thrown when Run button is pressed.<br/>
+     * Runs the selected benchmark / algorithm.
+     * @param event Event.
      */
     @FXML
     public void handleRunAction(ActionEvent event) {
-        clearTraces();
+        clearStatistics(event);
 
         if (validate()) {
-            executeBenchmark(model.getSelectedAlgorithms());
+            execute();
         }
     }
 
     /**
-     * Execute a benchmark.
-     *
-     * @param algs Algorithms to execute.
+     * Executes the algorithms or benchmark selected with AlgorithmExecService.
      */
-    protected void executeBenchmark(List<AlgorithmInfo> algs) {
+    protected void execute() {
         try {
             AlgorithmExecService service = new AlgorithmExecService(model);
             service.setOnRunning((WorkerStateEvent event) -> {
@@ -376,7 +410,7 @@ public class RunBenchmarkController extends Controller {
     }
 
     /**
-     * Show the traces if are checked.
+     * Shows the results and statistics.
      *
      * @param r Benchmark result.
      * @param ex Exception.
@@ -392,7 +426,7 @@ public class RunBenchmarkController extends Controller {
     }
 
     /**
-     * Shows the result statistics into a table.
+     * Loads the result statistics into a table.
      * @param statisticsFile Statistics file path.
      */
     protected void showStatistics(String statisticsFile) {
@@ -432,9 +466,8 @@ public class RunBenchmarkController extends Controller {
     }
 
     /**
-     * Abre el cuadro diálogo para seleccionar la entrada del algoritmo.
-     *
-     * @param event Evento.
+     * Shows a dialog box for select the input of algorithm.
+     * @param event Event.
      */
     @FXML
     public void handleSelectInputAction(ActionEvent event) {
@@ -474,9 +507,8 @@ public class RunBenchmarkController extends Controller {
     }
 
     /**
-     * Abre el cuadro de diálogo para seleccionar el destino de los resultados del algoritmo.
-     *
-     * @param event Evento.
+     * Shows the dialog box for select the target of algorithm results.
+     * @param event Event.
      */
     @FXML
     public void handleSelectOutputAction(ActionEvent event) {
@@ -491,21 +523,19 @@ public class RunBenchmarkController extends Controller {
         }
     }
 
+    /**
+     * Clear the statistics table.
+     * @param event Event.
+     */
     @FXML
     public void clearStatistics(ActionEvent event) {
         tableStatistics.getItems().clear();
         tableStatistics.getColumns().clear();
     }
 
-    /**
-     * Clear the textareas content.
-     */
-    protected void clearTraces() {
-        clearStatistics(null);
-    }
 
     /**
-     * Clear the model and the view.
+     * Clears the model and the view.
      */
     protected void clear() {
         benchmarksTree.getSelectionModel().clearSelection();
@@ -516,7 +546,7 @@ public class RunBenchmarkController extends Controller {
         inputsList.getItems().clear();
         txtOutput.clear();
         tableResults.getRoot().getChildren().clear();
-        clearTraces();
+        clearStatistics(null);
         model.setLastExecutionResult(null);
     }
 
@@ -580,6 +610,10 @@ public class RunBenchmarkController extends Controller {
         inputsList.getItems().removeAll(selectedItems);
     }
 
+    /**
+     * Loads the input files defined for the selected benchmark.
+     * @param benchmark Benchmark's name.
+     */
     protected void loadInputFiles(String benchmark) {
         BenchmarksDelegate benchmarksDelegate = new BenchmarksDelegate();
         try {

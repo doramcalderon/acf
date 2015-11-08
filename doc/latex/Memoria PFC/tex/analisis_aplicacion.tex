@@ -1,15 +1,13 @@
-\documentclass[../main.tex]{subfiles}
+AS>\documentclass[../main.tex]{subfiles}
+
 % Preamble
 \begin{document}
 	\chapter{DISEÑO E IMPLEMENTACIÓN DE LA APLICACIÓN}
 		\newpage
+	
 		
 		\section{Casos de uso}
-		Los Casos de Uso en Ingeniería del software, es una técnica para la captura de requisitos potenciales de un nuevo Sistema o
-		una actualización de Software. Cada caso de uso proporciona uno o más escenarios que indican cómo debería interactuar el
-		sistema con el usuario o con otro sistema para conseguir un objetivo específico. Normalmente, en los casos de usos se evita
-		el empleo de jergas técnicas, prefiriendo en su lugar un lenguaje más cercano al usuario final.
-		
+				
 		En 1986, Ivar Jacobson, importante contribuyente al desarrollo de los modelos de UML y proceso unificado, creó el concepto
 		de caso de uso. 
 
@@ -19,20 +17,7 @@
 		
 		Un caso de uso es una secuencia de interacciones que se desarrollarán entre un sistema y sus actores en respuesta a un evento
 		que inicia un actor principal sobre el propio sistema. Los diagramas de casos de uso sirven para especificar la comunicación
-		y el comportamiento de un sistema mediante su interacción con los usuarios y/u otros sistemas. O lo que es igual, un diagrama
-		que muestra la relación entre los actores y los casos de uso en un sistema.
-
-		Una relación es una conexión entre los elementos del modelo, por ejemplo la especialización y la generalización son
-		relaciones. Los diagramas de casos de uso se utilizan para ilustrar los requerimientos del sistema al mostrar cómo reacciona
-		a eventos que se producen en su ámbito o en él mismo.
-
-		Los casos de uso se utilizan básicamente en el Proceso de modelado de sistemas, partiendo de una percepción o perspectiva que
-		nos plantea el paradigma de la orientación a objetos, y en este caso el análisis y diseño orientados a objetos.
-
-		Forman parte del Lenguaje Unificado de Modelado UML por sus siglas en ingles (Unified Modeling Languaje) el cual a su vez se
-		compone de muchas otras herramientas, básicamente diagramas como: Diagramas de Clase, Diagramas de Secuencia, Colaboración,
-		Transición de Estados, Diagramas de Actividad, Componentes, Deployment, entre otros. Todas ellas usadas a lo largo de las
-		etapas o ciclo de vida del proceso de desarrollo.
+		y el comportamiento de un sistema mediante su interacción con los usuarios y/u otros sistemas.
 
 		La aplicación principal de los casos de uso es en el proceso de análisis y diseño pero de manera particular en la definición
 		de requerimientos del usuario. Es una excelente herramienta de comunicación debido a la sencillez de su elaboración así como
@@ -46,6 +31,65 @@
 		\includepdf[pages=-,pagecommand={}]{ext/cu_benchmarks.pdf}
 		\includepdf[pages=-,pagecommand={}]{ext/cu_resultados.pdf}
 		
+		\section{Diagrama de componentes}
+			En los diagramas de componentes se muestran los elementos de diseño de un sistema de software. Un diagrama de componentes
+			permite visualizar con más facilidad la estructura general del sistema y el comportamiento del servicio que estos
+			componentes proporcionan y utilizan a través de las interfaces.
+			
+			En el  siguiente diagrama se muestran los principales componentes de la aplicación y las relaciones entre ellos.
+			
+			\begin{figure}[h]
+				\centering
+					\includegraphics[width=1.00\textwidth]{diagramas/componentes.png}
+				\caption{Diagrama de componentes}
+				\label{fig:componentes}
+			\end{figure}
+			
+			\begin{itemize}
+				\item \textbf{is-bench: } Herramienta para ejecución de algoritmos y benchmarks sobre sistemas implicacionales.
+				\item \textbf{is-algorithms: } API para la implementación y ejecución de algoritmos sobre sistemas implicacionales.
+				\item \textbf{implications-generator: } Generador de sistemas implicacionales aleatorios.
+				\item \textbf{java-lattice: } Librería de la Dra. K. Bertet, para el manejo de sistemas implicacionales.
+				\item \textbf{trace.txt: } Fichero de traza que se genera en la ejecución de un algoritmo.
+				\item \textbf{statistics.csv: } Fichero con las estadísticas de los resultados obtenidos en la ejecución de
+				 algoritmos.
+			\end{itemize}
+			
+		\section{Diagramas de paquetes}
+		
+			\begin{figure}[h]
+				\centering
+					\includegraphics[width=1.00\textwidth]{diagramas/paquetes.png}
+				\caption{Diagrama de paquetes}
+				\label{fig:paquetes}
+			\end{figure}
+			
+			
+			\begin{itemize}
+				\item \textbf{is-bench: } Librerías que implementan la herramienta para ejecución de algoritmos y benchmarks sobre
+			 		sistemas implicacionales.
+			 		
+				\begin{itemize}
+					\item \textbf{is-bench-ui: } Paquete con las clases de la interfaz de usuario.
+					\item \textbf{is-bench-domain: } Paquete con las clases de dominio.
+					\item \textbf{is-bench-business: } Paquete con las clases relacionadas con la persistencia de la información en
+					 ficheros.
+				\end{itemize}
+				\item \textbf{is-algorithms: } API para la implementación y ejecución de algoritmos sobre sistemas implicacionales.
+				\item \textbf{implications-generator: } Contiene las clases que implementan el generador de sistemas implicacionales
+			 		aleatorios.
+			 	\item \textbf{is-commons: } Librería de utilidades genéricas.
+				\item \textbf{java-lattice: } Librería de la Dra. K. Bertet, para el manejo de sistemas implicacionales en la que se
+					basan las librerías anteriores.
+				\item \textbf{ch.qos.logback: } Librería de logging, para la generación de traza de la ejecución de algoritmos y
+				 benchmarks (\href{http://logback.qos.ch/index.html}{Logback project}).
+				\item \textbf{guava: } Librería de Google que implementa diversas utilidades
+				 (\href{https://github.com/google/guava}{Guava project}). En este proyecto, se utiliza en concreto la implementación
+				  del bus de eventos (Eventbus).
+			\end{itemize}
+
+			
+		
 		\section{Diagramas de clases}
 		
 			Los diagramas de clases muestran las diferentes clases que componen un sistema y cómo se relacionan unas con otras. Se
@@ -56,10 +100,21 @@
 			En esta sección, se presentan los diagramas de clases asociados a cada uno de los casos de uso del apartado anterior y sus
 			especificaciones.
 			
-			\includepdf[pages=-,pagecommand={}]{ext/clases_workspaces.pdf}
-			\includepdf[pages=-,pagecommand={}]{ext/clases_registrar_alg.pdf}
-			\includepdf[pages=-,pagecommand={}]{ext/clases_registrar_bench.pdf}
-		
+			\subsubsection{Workspaces}
+				\includepdf[pages=-,pagecommand={}]{ext/clases_workspaces.pdf}
+			\subsubsection{Registrar Algoritmos}
+				\includepdf[pages=-,pagecommand={}]{ext/clases_registrar_alg.pdf}
+			\subsubsection{Registrar Benchmarks}
+				\includepdf[pages=-,pagecommand={}]{ext/clases_registrar_bench.pdf}
+			\subsubsection{Ejecutar Benchmarks}
+				\includepdf[pages=-,pagecommand={}]{ext/clases_ejecutar_bench.pdf}
+			\subsubsection{Generador de implicaciones}
+				\includepdf[pages=-,pagecommand={}]{ext/clases_generador_impl.pdf}
+			\subsubsection{Consulta de resultados}
+				\includepdf[pages=-,pagecommand={}]{ext/clases_resultados.pdf}
+			\subsubsection{API de implementación de Algoritmos}
+				\includepdf[pages=-,pagecommand={}]{ext/clases_api_algoritmos.pdf}
+				
 		\section{Diagramas de secuencia}
 		
 			Los diagramas de secuencia muestran el intercambio de mensajes (es decir la forma en que se invocan) en un momento dado.
@@ -70,6 +125,41 @@
 			son enviados de un objeto a otro en forma de flechas con los nombres de la operación y los parámetros.
 			
 			En esta sección, se presentan los diagramas de secuencia de los escenarios más relevantes.
-		
-		
+				
+				\begin{figure}[H]
+					\centering
+						\includegraphics[width=1.00\textwidth]{diagramas/sec_primer_acceso.png}
+					\label{fig:sec_primer_acceso}
+					\caption{Primer acceso al sistema}
+				\end{figure}
+				
+					
+				\begin{figure}[H]
+					\centering
+						\includegraphics[width=1.00\textwidth]{diagramas/sec_crear_ws.png}
+					\label{fig:sec_crear_ws}
+					\caption{Crear un workspace}
+				\end{figure}
+				
+					
+				\begin{figure}[H]
+					\centering
+						\includegraphics[width=1.00\textwidth]{diagramas/sec_cambiar_ws.png}
+					\label{fig:sec_cambiar_ws}
+					\caption{Cambiar de workspace}
+				\end{figure}
+				
+			
+				\begin{sidewaysfigure}[p]
+	    			\includegraphics[scale=.65]{diagramas/sec_registrar_bench.png}
+	    			\label{fig:sec_registrar_bench}
+	    			\caption{Registrar Benchmark}
+				\end{sidewaysfigure}
+			
+			
+				\begin{sidewaysfigure}[p]
+	    			\includegraphics[scale=.65]{diagramas/sec_ejecutar_bench.png}
+	    			\label{fig:sec_ejecutar_bench}
+	    			\caption{Ejecutar Benchmark}
+				\end{sidewaysfigure}
 \end{document}

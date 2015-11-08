@@ -11,7 +11,7 @@ import java.util.logging.Logger;
 import javax.xml.bind.JAXBException;
 
 /**
- *
+ * Class for the read and write results to/from files.
  * @since @author Dora Calderón
  */
 public class ResultsPersistence extends Persistence {
@@ -28,7 +28,7 @@ public class ResultsPersistence extends Persistence {
     }
 
     /**
-     * Get a single instance of ResultsPersistence.
+     * Gets a single instance of ResultsPersistence.
      *
      * @return ResultsPersistence.
      */
@@ -42,7 +42,7 @@ public class ResultsPersistence extends Persistence {
     }
 
     /**
-     * 
+     * Saves a benchmark result to the path.
      * @param result Benchmark result to save.
      * @param path results.xml dir path.
      */

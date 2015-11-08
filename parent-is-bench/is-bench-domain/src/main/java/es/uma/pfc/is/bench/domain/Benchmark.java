@@ -18,7 +18,7 @@ import javax.xml.bind.annotation.XmlType;
 
 /**
  * Benchmark entity.
- * @since @author Dora Calderón
+ * @author Dora Calderón
  */
 @XmlType(propOrder={"name", "workspace", "inputsDir", "algorithmsEntities"})
 @XmlRootElement(name="benchmark")

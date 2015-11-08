@@ -21,7 +21,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
 /**
- *
+ * Benchmark execution results.
  * @author Dora Calderón
  */
 @XmlRootElement

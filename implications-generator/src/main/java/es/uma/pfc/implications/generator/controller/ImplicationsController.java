@@ -47,7 +47,7 @@ import org.controlsfx.validation.ValidationMessage;
 import org.controlsfx.validation.ValidationSupport;
 
 /**
- * FXML Controller class
+ * Implications generator view's controller.
  *
  * @author Dora Calderón
  */
@@ -87,11 +87,11 @@ public class ImplicationsController implements Initializable {
     private ProgressIndicator generationProgressInd;
 
     /**
-     * Tipo de los nodos *
+     * Nodes type.
      */
     private AttributeType nodeType;
     /**
-     * Sistema generado.*
+     * Generated system.
      */
     private List<ImplicationalSystem> implicationSystems;
     /**
@@ -128,7 +128,10 @@ public class ImplicationsController implements Initializable {
     protected void initModel() {
         model = new ImplicationsModel();
     }
-    
+    /**
+     * Sets the output file path into the output field.
+     * @param outputPath Output file path.
+     */
     public void setOutput(String outputPath) {
         txtOutput.setText(outputPath);
     }
@@ -210,10 +213,9 @@ public class ImplicationsController implements Initializable {
     }
 
     /**
-     * Controlador del botón Clean.<br/>
-     * Limpia los campos.
-     *
-     * @param event ActionEvent.
+     * Handles the event thrown when the Clean button is pressed.<br/>
+     * Cleans the form fields.
+     * @param event Event.
      */
     @FXML
     public void clean(ActionEvent event) {
@@ -222,9 +224,8 @@ public class ImplicationsController implements Initializable {
     }
 
     /**
-     * Actualiza el tipo de nodo a utilizar para las implicaciones.
-     *
-     * @param event Evento.
+     * Updates the node type to use form implications.
+     * @param event Event.
      */
     @FXML
     public void handleNodeTypeSelection(ActionEvent event) {
@@ -248,9 +249,10 @@ public class ImplicationsController implements Initializable {
     }
 
     /**
-     * Controlador del botón Generate. Genera las implicaciones con los valores introducidos.
+     * Handles the event thrown when the Generate button is pressed.<br/>
+     * Generates the implications with the inserted values.
      *
-     * @param event ActionEvent.
+     * @param event Event.
      */
     @FXML
     public void handleGenerateButton(ActionEvent event) {
@@ -278,8 +280,8 @@ public class ImplicationsController implements Initializable {
     }
 
     /**
-     * Muestra el conjunto generado en el visor, si sólo ha sido uno.<br/>
-     * Si han sido varios, muestra el cuadro de diálogo <i>Guardar</i>.
+     * Shows the generated system in the viewer, if was generated only one.<br/>
+     * If was generated several, shows the <i>Save</i> dialog box.
      *
      * @param systems Implicaciones generadas.
      */
@@ -294,6 +296,10 @@ public class ImplicationsController implements Initializable {
         }
     }
 
+    /**
+     * Open the dialog box to select an output file, and copy the selected file path into Output field.
+     * @param event Event.
+     */
     @FXML
     public void handleOutputAction(ActionEvent event) {
         File selectedFile = showSaveDialog();
@@ -305,9 +311,8 @@ public class ImplicationsController implements Initializable {
     }
 
     /**
-     * Guarda las implicaciones generadas en el archivo introducido en el campo txtOutput.<br/>
-     *
-     * @param event ActionEvent.
+     * Saves the implicational system in the path inserted into Output filed.
+     * @param event Event.
      */
     @FXML
     public void handleSaveButton(ActionEvent event) {
@@ -315,7 +320,7 @@ public class ImplicationsController implements Initializable {
     }
 
     /**
-     * Guarda los conjuntos generados.
+     * Saves the generated implicational systems.
      */
     protected void save() {
         String selectedFile = txtOutput.getText();
@@ -350,6 +355,10 @@ public class ImplicationsController implements Initializable {
         }
     }
 
+    /**
+     * Publishes a SystemSaved event by Eventbus.
+     * @param selectedFile Output file path.
+     */
     protected void publicSystemsGenerated(String selectedFile) {
         SystemSaved event = new SystemSaved();
         if (model.getNum() == 1) {
@@ -365,9 +374,8 @@ public class ImplicationsController implements Initializable {
         
     }
     /**
-     * Muestra el cuadro de diálogo "Guardar" y devuelve la ruta seleccionada.
-     *
-     * @return Archivo seleccionado.
+     * Shows the "Save" dialog box and returns the selected path.
+     * @return Selected file.
      */
     protected File showSaveDialog() {
         FileChooser fileChooser = new FileChooser();
@@ -381,9 +389,8 @@ public class ImplicationsController implements Initializable {
     }
 
     /**
-     * Muestra en el visor la representación en texto de un sistema implicacional.
-     *
-     * @param system Sistema de implicaciones.
+     * Shows in the viewer an implicational system.
+     * @param system Implicational system.
      */
     protected void showText(ImplicationalSystem system) {
         if (system != null) {
@@ -392,9 +399,8 @@ public class ImplicationsController implements Initializable {
     }
 
     /**
-     * Muestra en el visor el sistema guardado en un archivo.
-     *
-     * @param implicationsFile Sistema de implicaciones.
+     * Shows in the viewer a saved system.
+     * @param implicationsFile Implicational system.
      */
     protected void showText(File implicationsFile) {
         try {
@@ -414,9 +420,8 @@ public class ImplicationsController implements Initializable {
     }
 
     /**
-     * Valida el modelo.
-     *
-     * @throw RuntimeException Si hay algún error de validación.
+     * Performs the model validation.
+     * @throw RuntimeException If validation error exists.
      */
     protected void validate() {
         ResultValidation validation = ResultValidation.OK;
@@ -448,7 +453,7 @@ public class ImplicationsController implements Initializable {
     }
 
     /**
-     * Lee las propiedades de la vista y las guarda en el modelo.
+     * Reads the view values and saves them into the model.
      */
     protected void viewToModel() {
         String strRulesNumber = txtImplications.getText();
@@ -477,7 +482,7 @@ public class ImplicationsController implements Initializable {
     }
 
     /**
-     * Limpia los datos introducidos de la vista.
+     * Cleans the view fields.
      */
     protected void cleanView() {
         txtNodes.clear();
