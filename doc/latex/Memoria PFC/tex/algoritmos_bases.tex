@@ -1,0 +1,117 @@
+\documentclass[../main.tex]{subfiles}
+% Preamble
+\begin{document}
+	
+\chapter{ALGORITMOS DE CÁLCULO DE BASES}
+	\newpage
+	En esta sección se incluyen los algoritmos implementados para el cálculo de bases.
+	
+	\section{CLA}
+		A continuación se muestra el algortimo CLA presentado en el artículo \cite{bib:ref9}, definiéndose primeramente las
+		funciones \textit{Direct-Reduced} y \textit{RD-Simplify} que después son usadas en el algoritmo.
+		\newline
+		
+		La función \textit{Direct-Reduced($\Sigma$)} calcula el IS directo-reducido de $\Sigma$:
+		\newline
+		
+		\begin{tabular}{p{15cm}}
+			\hline
+			Direct-Reduced($\Sigma$)\\
+			\hline
+			
+			\textbf{input}: Un sistema implicacional $\Sigma$	en S	\\
+			\textbf{output}: El IS directo-reducido $\Sigma_{dr}$ en S	\\
+			\textbf{begin}												\\
+			\ESPACIO \FOREACH $A \rightarrow B \in \Sigma_{dr}$ y $C \rightarrow D \in \Sigma_{dr}$ \DO\\
+			\ESPACIO \ESPACIO \IF $B \cap c \neq \emptyset \neq D \backslash (A \cup B)$ \THEN add $AC-B \rightarrow D-(AB)$ to
+							 $\Sigma_{dr}$; \\
+			\ESPACIO \RETURN $\Sigma_{dr}$ \\
+			\hline
+		\end{tabular}
+		\newline
+		\newline
+		
+		La función \textit{RD-Simplify($\Sigma$)} calcula el IS directo-reducido-simplificado a partir de $\Sigma$ reducido:
+		\newline
+		\begin{tabular}{p{15cm}}
+			\hline
+			RD-Simplify($\Sigma$)\\
+			\hline
+			
+			\textbf{input}: Un sistema implicacional directo-reducido $\Sigma$	en S	\\
+			\textbf{output}: El IS directo-reducido-simplificado $\Sigma_{drs}$ en S equivalente a $\Sigma$	\\
+			\textbf{begin}												\\
+			\ESPACIO $\Sigma_{drs} := \emptyset$ \\
+			\ESPACIO \FOREACH $A \rightarrow B \in \Sigma$ \DO \\
+			\ESPACIO \ESPACIO \FOREACH $C \rightarrow D \in \Sigma$ \DO \\
+			\ESPACIO \ESPACIO \ESPACIO \IF $C = A$ \THEN $B := B \cup D$; \\
+			\ESPACIO \ESPACIO \ESPACIO \IF $C \nsubseteq A$ \THEN $B := B \backslash D$; \\
+			\ESPACIO \ESPACIO \IF $B \neq \emptyset$ \THEN add $A \rightarrow B$ to $\Sigma{drs}$; \\
+			\ESPACIO \RETURN $\Sigma_{drs}$ \\
+			\hline
+		\end{tabular}
+		\newline
+		\newline
+		
+		La función \textit{doSimp($\Sigma$)} calcula el IS directo-óptimo equivalente a $\Sigma$ usando las dos funciones
+		 anteriores:
+		\newline
+		\newline
+			\begin{tabular}{p{15cm}}
+				\hline
+					doSimp($\Sigma$)\\
+				\hline
+				%
+				\textbf{input}: Un sistema implicacional $\Sigma$	en S	\\
+				\textbf{output}: El IS directo-óptimo $\Sigma_{do}$	en S	\\
+				\textbf{begin}												\\
+				\ESPACIO $\Sigma_r := \left\{A \rightarrow B-A | A \rightarrow B \in \Sigma, B \nsubseteq A
+				 					 \right\}$\\			
+				\ESPACIO $\Sigma_{dr}$ := Direct-Reduced($\Sigma_r$)\\
+				\ESPACIO $\Sigma_{do}$ := RD-Simplify($\Sigma_{dr}$)\\
+				\RETURN $\Sigma_{do}$\\
+				\hline
+			\end{tabular}
+		
+		
+	\section{Direct Optimal Basis}
+		A continuación se muestra el algortimo Direct Optimal Basis presentado en el artículo \cite{bib:ref1}.
+		
+		\begin{tabular}{l p{15cm}}
+							& \textbf{input}: Un sistema implicacional $\Sigma$	en S	\\
+							& \textbf{output}: El IS directo-óptimo $\Sigma_{do}$	en S	\\
+			 1				& \textbf{begin}												\\
+			 2				& /* Fase 1: Generación de $\Sigma_r$ por reducción de $\Sigma$*/ \\
+			 3				& $\Sigma_r = \emptyset$ \\
+			 4				& \FOREACH $A \rightarrow_{\Sigma} B$ \DO\\
+			 5				& \ESPACIO \IF $B \nsubseteq A$ \THEN add $A \rightarrow B-A$ to $\Sigma_r $; \\
+			 6				& /* Fase 2: Generación de $\Sigma_{sr}$ por simplificación de $\Sigma_r$*/ \\
+			 7				& $\Sigma_{sr} = \Sigma_r$\\
+			 8				& \textbf \REPEAT\\
+			 9				& \ESPACIO \FOREACH $A \rightarrow B \in \Sigma_{sr}$ \DO\\
+			10				& \ESPACIO \ESPACIO \FOREACH $C \rightarrow D \in \Sigma_{sr}$ \DO\\
+			11				& \ESPACIO \ESPACIO \ESPACIO \IF $A \subseteq C$ \THEN\\
+			12				& \ESPACIO \ESPACIO \ESPACIO \ESPACIO \IF $C \subseteq A \cup B$ \THEN\\
+			13				& \ESPACIO \ESPACIO \ESPACIO \ESPACIO \ESPACIO replace $A \rightarrow B$ and $C \rightarrow D$ by\\
+							& \ESPACIO \ESPACIO \ESPACIO \ESPACIO \ESPACIO $A \rightarrow BD$ in $\Sigma_{sr};$\\
+			14				& \ESPACIO \ESPACIO \ESPACIO \ESPACIO \ESPACIO \ELSE \IF $D \subseteq B$ \THEN\\
+			15				& \ESPACIO \ESPACIO \ESPACIO \ESPACIO \ESPACIO \ESPACIO  remove $C \rightarrow D$ from 
+																					 $\Sigma_{sr}$\\
+			16				& \ESPACIO \ESPACIO \ESPACIO \ESPACIO \ESPACIO \ESPACIO \ELSE replace $C \rightarrow D$ by\\
+							& \ESPACIO \ESPACIO \ESPACIO \ESPACIO \ESPACIO \ESPACIO $C-B \rightarrow D-B$ in$\Sigma_{sr};$\\
+			17				& \UNTIL $\Sigma_{sr}$ es un punto fijo;\\
+			18				& /*Fase 3: Generación de $\Sigma_{dsr}$ por Strong Simplification de $\Sigma_{sr}$*/   \\
+			19				& $\Sigma_{dsr}$ = $\Sigma_{sr}$   \\
+			20				& \FOREACH $A \rightarrow B \in \Sigma_{dsr}$ and $C \rightarrow D \in \Sigma_{dsr}$ \DO  \\
+			21				& \ESPACIO \IF $B \cap C \neq \emptyset \neq D \backslash (A \cup B)$ \THEN   \\
+			22				& \ESPACIO \ESPACIO add $AC - B \rightarrow D-(AB)$ to $\Sigma_{dsr}$   \\
+			23				& /*Fase 4: Generación de $\Sigma_{do}$ por optimización de $\Sigma_{dsr}$*/   \\
+			24				& $\Sigma_{do} = \emptyset$  \\
+			25				& \FOREACH $A \rightarrow B \in \Sigma_{dsr}$ \DO  \\
+			26				& \ESPACIO \FOREACH $C \rightarrow D \in \Sigma_{dsr}$ DO  \\
+			27				& \ESPACIO \ESPACIO \IF $C = A$ \THEN $B = B \cup D$;  \\
+			28				& \ESPACIO \ESPACIO \IF $C \nsubseteq A$ \THEN $B = B \backslash D$;   \\
+			29				& \ESPACIO \IF $B \neq \emptyset$ \THEN add $A \rightarrow B$ to $\Sigma_{do}$;  \\
+			30				& \RETURN $\Sigma_{do}$\\
+		\end{tabular}
+\end{document}

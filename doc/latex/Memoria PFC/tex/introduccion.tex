@@ -15,11 +15,11 @@
 	de Darmstadt, ya existían enfoques similares de varios grupos franceses, y sus fundamentos filosóficos apuntan principalmente a
 	Charles S. Peirce y el pedagogo Hartmut von Hentig.
 		
-	En su artículo 		\href{http://books.google.de/books?hl=de&lr=&id=gwpq0acO3kgC&oi=fnd&pg=PA314&dq=Wille+Restructuring+Lattice+Theory&ots=zYmNQeCJKb&sig=TyDygU5lU_91iJWIuJbNi2or6Ls#v=onepage&q=Wille Restructuring Lattice Theory&f=false}{''Reestructuración de la Teoría de Retículos''}
+	En su artículo 		\href{http://books.google.de/books?hl=de&lr=&id=gwpq0acO3kgC&oi=fnd&pg=PA314&dq=Wille+Restructuring+Lattice+Theory&ots=zYmNQeCJKb&sig=TyDygU5lU_91iJWIuJbNi2or6Ls#v=onepage&q=Wille Restructuring Lattice Theory&f=false}{``Reestructuración de la Teoría de Retículos''}
 	(de 1982, con el que se inicia el FCA como disciplina matemática) Rudolf Wille parte de un descontento con la teoría de retículos
-	en particular y con las matemáticas puras en general: 
+	en particular y con las matemáticas puras en general.
 		
-	La producción de resultados teóricos - a menudo alcanzados por medio de ·elaboradas gimnasias mentales" - eran impresionantes,
+	La producción de resultados teóricos - a menudo alcanzados por medio de elaboradas ``gimnasias mentales'' - eran impresionantes,
 	pero las conexiones entre dominios vecinos, o incluso entre partes de una misma teoría se estaban debilitando. La
 	reestructuración de la teoría de retículos es un intento de revitalizar las conexiones entre dominios mediante la
 	reinterpretación de la teoría de la manera más concreta posible, con el fin de propiciar una mejor comunicación entre los
@@ -30,7 +30,7 @@
 		
 	El FCA corrige el punto de partida de la teoría reticular en el desarrollo de la lógica formal en el siglo XIX, donde un
 	concepto, como predicado unario, se había reducido a su extensión. El objetivo fue trabajar con una visión de los conceptos menos
-	abstracta, haciendo uso también de la intensión, una orientación que provenía de la lingÃ¼ística y de la lógica conceptual
+	abstracta, haciendo uso también de la intensión, una orientación que provenía de la lingüística y de la lógica conceptual
 	clásica.
 		
 	FCA tiene como objetivo aclarar los conceptos siguiendo la máxima de Charles S. Peirce de desplegar las propiedades observables y
@@ -43,24 +43,23 @@
 		
 	\section{Contextos y conceptos}
 		
-	El FCA tiene como entrada una tabla con la relación entre un conjunto de objetos (o conceptos) y un conjunto de propiedades
-	(atributos).
-	
-	Esta entrada es lo que se  denomina \textbf{contexto formal} y la relación que se define en dicha tabla determina qué objetos
-	cumplen qué propiedades.
+		El FCA tiene como entrada una tabla con una relación entre un conjunto de objetos y un conjunto de propiedades (atributos).
+		
+		Esta entrada es lo que se  denomina \textbf{contexto formal} y la relación que se define en dicha tabla determina qué objetos
+		cumplen qué propiedades.
 		
 		Un concepto formal se define como un par formado por  un conjunto de objetos (\textbf{extensión}) y un conjunto de atributos
-		(\textbf{intensión}) de forma que la extensión está formada por todos los objetos que comparten los atributos dados y la intensión por
-		los atributos compartidos por los objetos dados.
+		(\textbf{intensión}) de forma que la extensión está formada por todos los objetos que comparten los atributos dados y la
+		 intensión por los atributos compartidos por los objetos dados.
 		
-		Por lo que, un \textbf{contexto formal} se puede definir como una tripleta \textit{K=(O,A,P)}, donde \textit{O} es un conjunto de
-		objetos, \textit{A} es un conjunto de atributos y \textit{P} una relación binaria, $P \subseteq O \times A$, que muestra qué objeto
-		posee qué  atributo. Formalmente, se puede considerar como un grafo bipartito que refleje las relaciones entre los conjuntos \textit{O}
-		y \textit{A}, o también como una una tabla con los objetos ocupando las filas de la tabla, los atributos en las columnas, y de forma que
-		un valor booleano en la celda \textit{(x,y)} significa que el objeto \textit{x} tiene el atributo \textit{y}.
+		Por lo que, un \textbf{contexto formal} se puede definir como una tripleta \textit{K=(O,A,P)}, donde \textit{O} es un
+		conjunto de objetos, \textit{A} es un conjunto de atributos y \textit{P} una relación binaria, $P \subseteq O \times A$, que
+		muestra qué objeto posee qué  atributo. Formalmente, se puede considerar como un grafo bipartito que refleje las relaciones
+		entre los conjuntos \textit{O} y \textit{A}, o también como una tabla con los objetos ocupando las filas de la tabla,
+		los atributos en las columnas, y de forma que un valor booleano en la celda \textit{(x,y)} significa que el objeto
+		\textit{x} tiene el atributo \textit{y}.
 				
-	
-		\begin{figure}[htbp]
+	 	\begin{figure}[H]
 			\centering
 				\includegraphics[width=0.75\textwidth]{imagenes/figura1.png}
 			\caption{Contexto Formal}
@@ -71,36 +70,43 @@
 	\section{Implicaciones y reglas de asociación con FCA}
 	
 		Una vez formalizados matemáticamente los conceptos, puede resultar relativamente sencillo trasladar las relaciones lógicas que
-		encontramos entre atributos... aunque debemos tener en cuenta que las relaciones lógicas que se obtengan son aquellas que vengan
-		confirmadas por nuestro contexto, que podría representar un conocimiento concreto en un instante de tiempo, pero que podría variar al
-		añadir un mayor número de objetos o atributos. Por ejemplo, que en el ejemplo siguiente podamos decir que ''ser animal de jungla''
-		implica ''ser mamífero'' se debe a que todos los objetos que verifican la propiedad ''ser animal de jungla'' verifican ''ser mamífero'',
-		pero en el momento que introduzcamos un objeto nuevo que sea de la jungla (por ejemplo, un manglar) y no sea mamífero, esa implicación
-		deja de ser cierta. Por supuesto, podemos trabajar con varios atributos simultáneamente.
+		encontramos entre atributos... aunque debemos tener en cuenta que las relaciones lógicas que se obtengan son aquellas que
+		vengan confirmadas por nuestro contexto, que podría representar un conocimiento concreto en un instante de tiempo, pero que
+		podría variar al añadir un mayor número de objetos o atributos. Por ejemplo, que en el ejemplo siguiente podamos decir que
+		``ser animal de jungla'' implica ``ser mamífero'' se debe a que todos los objetos que verifican la propiedad ``ser animal de
+		jungla'' verifican ``ser mamífero'', pero en el momento que introduzcamos un objeto nuevo que sea de la jungla (por ejemplo,
+		un manglar) y no sea mamífero, esa implicación deja de ser cierta. Por supuesto, podemos trabajar con varios atributos
+		simultáneamente.
 		
-		Consecuentemente, en FCA podemos formalizarlo de la siguiente forma: dados \textit{A} y \textit{B}subconjuntos de atributos, diremos que
-		se tiene la implicación $A \to B$ si se verifica $A' \subseteq B'$, es decir, todos los objetos que tienen cada atributo de \textit{A}
-		también tienen cada atributo de \textit{B} (observa que es coherente con la implicación intuitiva que dimos en el apartado anterior).
+		Consecuentemente, en FCA podemos formalizarlo de la siguiente forma: dados \textit{A} y \textit{B} subconjuntos de atributos,
+		diremos que se tiene la implicación $A \to B$ si se verifica $A' \subseteq B'$, es decir, todos los objetos que tienen cada
+		atributo de \textit{A} también tienen cada atributo de \textit{B} (observa que es coherente con la implicación intuitiva que
+		dimos en el apartado anterior).
 	
-		Con esta definición, las implicaciones obedecen las reglas de Armstrong (reflexiva, aumentativa y transitiva) comunes en las dependencias
-		funcionales que se dan entre los atributos de una base de datos:
-	
-		\[
-			B \subseteq A A \to B, A \to B A \cup C \to B \cup C, X \to B, B \to C A\to C
-		\]
+		Con esta definición, las implicaciones obedecen las reglas de Armstrong (reflexiva, aumentativa y transitiva) comunes en las
+		dependencias funcionales que se dan entre los atributos de una base de datos:
 		
-		A partir de la definición de implicación y de las propiedades básicas que verifica, podemos definir un cálculo lógico que nos permitiría
-		realizar sistemas de deducción completos sobre el contexto actual. En cierta forma, hemos pasado de tener un conocimiento por ejemplos a
-		disponer de un conocimiento abstracto que introduce sistemas de razonamiento más elaborados en nuestro mundo, partiendo únicamente de las
-		observaciones concretas que hemos realizado, es decir, hemos aprendido reglas generales a partir de ejemplos.
+		\begin{description}
+			\item[Reflexividad: ] $B \subseteq A \quad A \to B$
+			\item[Aumento: ] $A \to B \quad A \cup C \to B \cup C$
+			\item[Transitividad:] $A \to B, B \to C \quad A\to C$
+		\end{description}
+	
+		
+		A partir de la definición de implicación y de las propiedades básicas que verifica, podemos definir un cálculo lógico que nos
+		permitirá realizar sistemas de deducción completos sobre el contexto actual. En cierta forma, hemos pasado de tener un
+		conocimiento por ejemplos a disponer de un conocimiento abstracto que introduce sistemas de razonamiento más elaborados en
+		nuestro mundo, partiendo únicamente de las observaciones concretas que hemos realizado, es decir, hemos aprendido reglas
+		generales a partir de ejemplos.
  
  	\section{Aplicaciones}
  	
- 		Desde su introducción ha sido aplicado en campos tan variados como la minería de datos, minería de textos, gestión del conocimiento, web
- 		semántica, desarrollo de software, biología, etc.
+ 		Desde su introducción ha sido aplicado en campos tan variados como la minería de datos, minería de textos, gestión del
+ 		conocimiento, web semántica, desarrollo de software, biología, etc.
  		
- 		La doctora Karell Bertet, investigadora de la Universidad de La Rochelle con la que colabora el director del proyecto,  ha desarrollado
- 		una librería java, java-lattices, para la generación, representación y manipulación de los Conceptos Formales, etc. 
+ 		La doctora Karell Bertet, investigadora de la Universidad de La Rochelle con la que colabora el director del proyecto,  ha
+ 		desarrollado una librería java, java-lattices, para la generación, representación y manipulación de los Conceptos Formales,
+ 		etc. 
  		
  		Dicha librería implementa la generación de retículos. Se pueden generar:
  		\begin{itemize}
@@ -108,8 +114,8 @@
  			\item Álgebras booleanas de $2^{n}$ elementos.
  			\item Retículos de permutaciones.
  			\item Retículos aleatorios de n nodos.
- 			\item Retículos de Conceptos a partir de un contexto o de un conjunto de implicaciones.
- 			\item Cáculo de Implicaciones y de bases de implicaciones.
+ 			\item Retículos de conceptos a partir de un contexto o de un conjunto de implicaciones.
+ 			\item Cálculo de implicaciones y de bases de implicaciones.
  			\item Etc.
  		\end{itemize}
  		

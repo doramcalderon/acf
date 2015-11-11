@@ -51,34 +51,32 @@
 \newcommand{\DO}{\textbf{do }}
 \newcommand{\RETURN}{\textbf{return }}
 
+\makeindex
+
 
 \begin{document}
 
-	\subfile{tex/paginas_iniciales.tex}
-	\newpage
+	\includepdf[pages=-,pagecommand={}]{ext/paginas_iniciales.pdf}	
+	
+	%\printi%dex
 
 	\tableofcontents
-	\newpage
 	
 	\subfile{tex/introduccion.tex}
-	\newpage
 	
 	\subfile{tex/acf.tex}
-	\newpage
-	
+		
+	\subfile{tex/algoritmos_bases.tex}
+		
 	\subfile{tex/herramienta_impl.tex}
-	\newpage
-	
-	\newpage		
+			
 	\subfile{tex/comparativa_algoritmos.tex}
 	
-	\newpage 
 	\subfile{tex/analisis_aplicacion.tex}
 		
 		
 
 %------------------------- BIBLIOGRAFIA -------------------------------------------
-\newpage
 \begin{thebibliography}{99}
 	\bibitem{bib:ref1}
 	E. Rodríguez, K. Bertet, P. Cordero, M. Enciso, A. Mora y M. Ojeda-Aciego: {\it A method to build the Direct-Optimal Basis from
