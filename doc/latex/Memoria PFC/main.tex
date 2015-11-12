@@ -1,4 +1,4 @@
-\documentclass[12pt]{book}
+\documentclass[a4paper,12pt]{book}
 \usepackage[spanish]{babel}
 \usepackage[latin1]{inputenc} 
 \usepackage{makeidx}
@@ -25,16 +25,15 @@
 % sangría y separacion entre parrafos
 \setlength{\parindent}{0pt}
 
-
-%\makeatletter
-%	\newenvironment{indentation}[3]%
-%	{\par\setlength{\parindent}{#3}
-%	\setlength{\leftmargin}{#1}       \setlength{\rightmargin}{#2}%
-%	\advance\linewidth -\leftmargin       \advance\linewidth -\rightmargin%
-%	\advance\@totalleftmargin\leftmargin  \@setpar{{\@@par}}%
-%	\parshape 1\@totalleftmargin \linewidth\ignorespaces}{\par}%
-\makeatother 
+\makeatletter
+\renewcommand\chapter{\if@openright\cleardoublepage\else\clearpage\fi
+                    \thispagestyle{empty}%
+                    \global\@topnum\z@
+                    \@afterindentfalse
+                    \secdef\@chapter\@schapter}
+\makeatother
 	\onehalfspacing
+	\pagestyle{plain}
 	
 \newtheorem{theorem}{Teorema}
 \newcommand{\definition}{\textbf{Definición}}
@@ -56,12 +55,18 @@
 
 \begin{document}
 
-	\includepdf[pages=-,pagecommand={}]{ext/paginas_iniciales.pdf}	
+	\includepdf[pages=-]{ext/paginas_iniciales.pdf}	
 	
-	%\printi%dex
+	% quitar la numeración de páginas
+	\cleardoublepage
+	\pagenumbering{gobble}
 
 	\tableofcontents
 	
+	% añdir la numeración de páginas
+	\cleardoublepage
+	\pagenumbering{arabic}
+
 	\subfile{tex/introduccion.tex}
 	
 	\subfile{tex/acf.tex}
