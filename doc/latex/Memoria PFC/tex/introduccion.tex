@@ -1,5 +1,6 @@
 \documentclass[../main.tex]{subfiles}
 % Preamble
+               
 \begin{document}
 	\chapter{INTRODUCCIÓN}
 	\newpage
@@ -59,13 +60,48 @@
 		las columnas, y de forma que un valor booleano en la celda \textit{(x,y)} significa que el objeto
 		\textit{x} tiene el atributo \textit{y}.
 				
-	 	\begin{figure}[H]
+		\begin{table}[H]
 			\centering
-				\includegraphics[width=0.75\textwidth]{imagenes/figura1.png}
-			\caption{Contexto Formal}
-			\label{fig:Figura1}
-		\end{figure}
-
+			\begin{tabular}{|l||c|c|c|c|c|c|c|c|c|}
+				\hline
+				 &\begin{turn}{90}necesita agua para vivir\end{turn}
+				 &\begin{turn}{90}vive en el agua\end{turn}
+				 &\begin{turn}{90}vive en la tierra\end{turn}
+				 &\begin{turn}{90}necesita clorofila\end{turn}
+				 &\begin{turn}{90}dicotiledónea\end{turn}
+				 &\begin{turn}{90}monocotiledónea\end{turn}
+				 &\begin{turn}{90}puede moverse\end{turn}
+				 &\begin{turn}{90}tiene extremidades\end{turn}
+				 &\begin{turn}{90}lactantes\end{turn}\\
+			 	 \hline\hline
+			 	 
+			 	 sanguijuela&$\times$&$\times$&&&&&$\times$&&\\
+			 	 \hline
+			 	 
+			 	 brema&$\times$&$\times$&&&&&$\times$&$\times$&\\
+			 	 \hline
+			 	 
+			 	 rana&$\times$&$\times$&$\times$&&&&$\times$&$\times$&\\
+			 	 \hline
+			 	 
+			 	 perro&$\times$&&$\times$&&&&$\times$&$\times$&$\times$\\
+			 	 \hline
+			 	 
+			 	 maleza acuática&$\times$&$\times$&&$\times$&&$\times$&&&\\
+			 	 \hline
+			 	 
+			 	 caña&$\times$&$\times$&$\times$&$\times$&&$\times$&&&\\
+			 	 \hline
+			 	 
+			 	 judía&$\times$&&$\times$&$\times$&$\times$&&&&\\
+			 	 \hline
+			 	 
+			 	 maíz&$\times$&&$\times$&$\times$&&$\times$&&&\\
+			 	 \hline
+			\end{tabular}
+			\label{table:contexto_formal}
+			\caption*{Contexto Formal}
+		\end{table}
 		
 	\section{Implicaciones y reglas de asociación con FCA}
 	

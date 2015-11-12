@@ -2,15 +2,13 @@
 \usepackage[spanish]{babel}
 \usepackage[latin1]{inputenc} 
 \usepackage{makeidx}
-\usepackage{multirow}
-\usepackage{multicol}
 \usepackage[dvipsnames,svgnames,table]{xcolor}
 \usepackage[export]{adjustbox}
 \usepackage{graphicx}
-\usepackage{epstopdf}
 \usepackage{ulem}
 \usepackage[hidelinks]{hyperref} 
 \usepackage{amsmath}
+\usepackage{amsthm}
 \usepackage{amssymb}
 \usepackage[paperwidth=595pt,paperheight=841pt,top=56pt,right=86pt,bottom=84pt,left=71pt]{geometry}
 \usepackage{setspace}
@@ -19,10 +17,11 @@
 \usepackage[final]{pdfpages}
 \usepackage{fancyhdr}
 \usepackage[figuresright]{rotating}
+\usepackage{caption}
 
 \title{Titulo}
 
-% sangría y separacion entre parrafos
+% sangría y separacion entre parrafos
 \setlength{\parindent}{0pt}
 
 \makeatletter
@@ -35,7 +34,9 @@
 	\onehalfspacing
 	\pagestyle{plain}
 	
-\newtheorem{theorem}{Teorema}
+\newtheorem{theorem}{Teorema}[section]
+\newtheorem*{proof-non}{Demostración}
+\newtheorem{lemma}[theorem]{Lema}
 \newcommand{\definition}{\textbf{Definición}}
 \newcommand{\bmathcal}{\mathcal{B}}
 \newcommand{\dmathcal}{\mathcal{D}}
@@ -49,6 +50,7 @@
 \newcommand{\FOREACH}{\textbf{foreach }}
 \newcommand{\DO}{\textbf{do }}
 \newcommand{\RETURN}{\textbf{return }}
+\renewcommand\qedsymbol{QED}
 
 \makeindex
 
