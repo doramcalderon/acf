@@ -69,7 +69,6 @@ public class AlgorithmsClassLoadService extends Service<List<String>> {
      * Searches the algorithms implementations in the application classpath.
      * @return List of algorithm classes.
      * @throws IOException 
-     * @throws IllegalArgumentException When {@code libsPath} is null or empty.
      */
     protected List<Class<?>> getAlgorithmsImplInClasspath() throws IOException {
         List<Class<?>> algorithmsClasses = null;

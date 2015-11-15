@@ -18,6 +18,7 @@ import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import javafx.concurrent.Service;
@@ -70,15 +71,15 @@ public class AlgorithmExecService extends Service<BenchmarkResult> {
     /**
      * Instances the algorithm of type of {@code entity} param.
      *
-     * @param entity Algorithm entity.
+     * @param algorithm Algorithm entity.
      * @return Algorithm.
      */
-    protected Algorithm instanceAlgorithm(AlgorithmInfo entity) {
+    protected Algorithm instanceAlgorithm(AlgorithmInfo algorithm) {
         try {
             
-            Algorithm alg = entity.getType().newInstance();
-            alg.setName(entity.getName());
-            alg.setShortName(entity.getShortName());
+            Algorithm alg = algorithm.getType().newInstance();
+            alg.setName(algorithm.getName());
+            alg.setShortName(algorithm.getShortName());
             return alg;
 
         } catch (InstantiationException | IllegalAccessException ex) {
@@ -103,9 +104,8 @@ public class AlgorithmExecService extends Service<BenchmarkResult> {
         if (model.isStatisticsChecked()) {
             options.enable(AlgorithmOptions.Mode.STATISTICS);
         }
+        
         options.addOption(Options.OUTPUT_TYPE, model.getOutputFileType());
-        String outputDirName = Paths.get(model.getOutputDir(), DateUtils.getCurrentDateString()).toString();               
-        options.addOption(Options.OUTPUT, outputDirName);
         return options;
     }
     
@@ -135,14 +135,17 @@ public class AlgorithmExecService extends Service<BenchmarkResult> {
                 instanceAlgorithms();
                 List<AlgorithmResult> results = new ArrayList<>();
                 Date timeStamp = new Date();
-                
+        
                 if (algorithms != null) {
                     String [] inputs = model.getSelectedInputFiles().toArray(new String[]{});
                     AlgorithmOptions options = getOptions();
                     AlgorithmExecutor exec = new AlgorithmExecutor()
                                                 .inputs(inputs)
-                                                .options(options);
-                    algorithms.stream().filter((alg) -> (alg != null)).forEach((alg) -> {
+                                                .options(options)
+                                                .output(Paths.get(model.getOutputDir(), 
+                                                        DateUtils.getDateString(timeStamp)).toString());
+                    algorithms.stream().filter((alg) -> (alg != null)).parallel().forEach((alg) -> {
+                        System.out.println("alg: "+ alg.getName());
                         results.addAll(exec.execute(alg));
                     });
             
