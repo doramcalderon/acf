@@ -18,7 +18,7 @@ public class ImplicationalSystems {
     }
 
     /**
-     * Number implications of a system.
+     * Number of system implications.
      * @param system Implicational System.
      * @return Implications number. {@code null} when the syste is null.
      */
