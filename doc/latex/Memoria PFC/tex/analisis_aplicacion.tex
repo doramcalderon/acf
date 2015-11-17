@@ -25,11 +25,17 @@ AS>\documentclass[../main.tex]{subfiles}
 		
 		En esta sección, se presentan los diagramas de casos de uso diseñados para el análisis y diseño de la herramienta 
 		\textit{IS Bench} y sus especificaciones.
+		%addtotoc={4,chapter,1,{A Great Chapter},greatchap}}
+		\includepdf[pages=1,pagecommand={\subsection{Inicio}}]{ext/cu_inicio.pdf}
 		
-		\includepdf[pages=-,pagecommand={}]{ext/cu_inicio.pdf}	
-		\includepdf[pages=-,pagecommand={}]{ext/cu_workspaces.pdf}
-		\includepdf[pages=-,pagecommand={}]{ext/cu_benchmarks.pdf}
-		\includepdf[pages=-,pagecommand={}]{ext/cu_resultados.pdf}
+		\includepdf[pages=1,pagecommand={\subsection{Workspaces}}]{ext/cu_workspaces.pdf}
+		\includepdf[pages=2-,pagecommand={}]{ext/cu_workspaces.pdf}
+		
+		\includepdf[pages=1,pagecommand={\subsection{Benchmarks}}]{ext/cu_benchmarks.pdf}
+		\includepdf[pages=2-,pagecommand={}]{ext/cu_benchmarks.pdf}
+		
+		\includepdf[pages=1,pagecommand={\subsection{Resultados}}]{ext/cu_resultados.pdf}
+		\includepdf[pages=2-,pagecommand={}]{ext/cu_resultados.pdf}
 		
 		\section{Diagrama de componentes}
 			En los diagramas de componentes se muestran los elementos de diseño de un sistema de software. Un diagrama de componentes
@@ -100,20 +106,27 @@ AS>\documentclass[../main.tex]{subfiles}
 			En esta sección, se presentan los diagramas de clases asociados a cada uno de los casos de uso del apartado anterior y sus
 			especificaciones.
 			
+				\includepdf[pages=1,pagecommand={\subsection{Workspaces}}]{ext/clases_workspaces.pdf}
+				\includepdf[pages=2-,pagecommand={}]{ext/clases_workspaces.pdf}
 			
-				\includepdf[pages=-,pagecommand={}]{ext/clases_workspaces.pdf}
+				\includepdf[pages=1,pagecommand={\subsection{Registrar Algoritmos}}]{ext/clases_registrar_alg.pdf}
+				\includepdf[pages=2-,pagecommand={}]{ext/clases_registrar_alg.pdf}
 			
-				\includepdf[pages=-,pagecommand={}]{ext/clases_registrar_alg.pdf}
+				\includepdf[pages=1,pagecommand={\subsection{Registrar Benchmarks}}]{ext/clases_registrar_bench.pdf}
+				\includepdf[pages=2-,pagecommand={}]{ext/clases_registrar_bench.pdf}
 			
-				\includepdf[pages=-,pagecommand={}]{ext/clases_registrar_bench.pdf}
+				\includepdf[pages=1,pagecommand={\subsection{Ejecutar Benchmarks}}]{ext/clases_ejecutar_bench.pdf}
+				\includepdf[pages=2-,pagecommand={}]{ext/clases_ejecutar_bench.pdf}
 			
-				\includepdf[pages=-,pagecommand={}]{ext/clases_ejecutar_bench.pdf}
+				\includepdf[pages=1,pagecommand={\subsection{Generador Implicaciones}}]{ext/clases_generador_impl.pdf}
+				\includepdf[pages=2-,pagecommand={}]{ext/clases_generador_impl.pdf}
 			
-				\includepdf[pages=-,pagecommand={}]{ext/clases_generador_impl.pdf}
+				\includepdf[pages=1,pagecommand={\subsection{Resultados}}]{ext/clases_resultados.pdf}
+				\includepdf[pages=2-,pagecommand={}]{ext/clases_resultados.pdf}
 			
-				\includepdf[pages=-,pagecommand={}]{ext/clases_resultados.pdf}
-			
-				\includepdf[pages=-,pagecommand={}]{ext/clases_api_algoritmos.pdf}
+				\includepdf[pages=1,pagecommand={\subsection{API Algoritmos}\label{subsec:clases_api_alg}}]
+				{ext/clases_api_algoritmos.pdf}
+				\includepdf[pages=2-,pagecommand={}]{ext/clases_api_algoritmos.pdf}
 				
 		\section{Diagramas de secuencia}
 		
