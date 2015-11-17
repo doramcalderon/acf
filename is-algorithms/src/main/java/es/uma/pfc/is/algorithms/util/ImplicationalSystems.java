@@ -31,9 +31,10 @@ public class ImplicationalSystems {
     }
 
     /**
-     * Sum of the number of attributes of right and left side for all the implications.
+     * Sum of the number of attributes of right and left side for all implications.
      * @param system Implicational system.
-     * @return The sum of the number of attributes of right and left side for all the implications.
+     * @return The sum of the number of attributes of right and left side for all
+	 * 		   implications.
      * <br/> {@code null} when the system is null.
      */
     public static final Integer getSize(ImplicationalSystem system) {
