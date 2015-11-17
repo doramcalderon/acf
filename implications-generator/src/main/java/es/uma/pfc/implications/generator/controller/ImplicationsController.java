@@ -380,7 +380,7 @@ public class ImplicationsController implements Initializable {
     protected File showSaveDialog() {
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Guardar");
-        fileChooser.getExtensionFilters().add(new ExtensionFilter("Text File", "*.txt"));
+        fileChooser.getExtensionFilters().add(new ExtensionFilter("Java Library Format", "*.txt"));
         fileChooser.getExtensionFilters().add(new ExtensionFilter("Prolog File", "*.pl"));
         fileChooser.setInitialFileName("implications.txt");
         Window mainStage = implicationsPane.getScene().getWindow();

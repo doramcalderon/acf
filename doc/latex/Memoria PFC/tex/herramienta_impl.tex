@@ -10,29 +10,32 @@
 	Por esto, surge la idea de desarrollar una herramienta que permita ejecutar los algoritmos implementados, medir su rendimiento
 	y guardar los resultados y estadísticas de éstos permitiendo compararlos entre sí. A esta herramienta se le ha llamado IS Bench.
 	
-	Además, debido a que no existen conjuntos de implicaciones en la literatura que los investigadores puedan usar, se hace
-	necesario un generador de conjuntos de implicaciones aleatorios que pueda servir de entrada a los algoritmos en cuestión.		
+	Además, debido a que no existe un benchmark (banco de pruebas) al estilo de los que se utilizan en lógica para la comparación de 
+	algoritmos,  se hace necesario un generador de conjuntos de implicaciones aleatorios que pueda servir de entrada a los algoritmos en cuestión.		
 	
 	\section{IS Bench}
 		
-		\textit{IS Bench} es una aplicación cuyo objetivo es ejecutar algoritmos de cálculo de bases y bases directas, guardar sus
-		resultados y compararlos posteriormente.
+		\textit{IS Bench} es una aplicación cuyo objetivo es ejecutar algoritmos sobre sistemas implicacionales, guardar sus
+		resultados y compararlos posteriormente. Esta herramienta se pretende ofrecer a la comunidad FCA, para incorporarla en un futuro cercano
+		a la librería de la Dra. K.Bertet para comparativas de algoritmos relacionados con las bases.
 		
 		La información se organiza en \textit{workspaces}, que no son más que directorios que contendrán los algoritmos y
-		benchmarks definidos y ejecutados en él, así como los resultados (sistemas de salida, trazas y estadísticas) generados.
-		
-		Un \textit{algoritmo} es una implementación Java que recibe como entrada un sistema implicacional y devuelve otro
-		directo-óptimo equivalente.
+		benchmarks registrados y ejecutados en él, así como los resultados (sistemas de salida, trazas y estadísticas) generados.
 		
 		Un \textit{benchmark} o \textit{experimento} es un conjunto de algoritmos que se ejecutan con uno o varios sistemas
 		implicacionales de entrada comunes. 
 		
+		Un \textit{algoritmo} es una implementación Java que recibe como entrada un sistema implicacional y devuelve otro equivalente.
+		Los algoritmos implementados inicialmente son algoritmos de cálculo de bases directas-optimales, pero la API no restringe su uso
+		a este tipo de bases ya que la única condición es que su entrada sea un sistema implicacional al igual que la salida.
+		
+		
 		El menú principal consta de las opciones:
 		
 		\begin{itemize}
-			\item Fichero $\rightarrow$ Algoritmos para el registro de algoritmos.
+			\item Algoritmos $\rightarrow$ Registro, para el registro de algoritmos.
 			
-			\item Preferencias $\rightarrow$ Workspaces para la configuración de workspaces.
+			\item Preferencias $\rightarrow$ Workspaces, para la configuración de workspaces.
 			
 			\item Help con la ayuda de usuario.
 		\end{itemize}
@@ -53,29 +56,24 @@
 		
 		Se divide a su vez en dos pestañas: \textit{Nuevo} y \textit{Ejecutar}. Como sus nombres indican, en la pestaña
 		\textit{Nuevo} se pueden registrar nuevos benchmarks y en \textit{Ejecutar}, ejecutarlos.
-		
-		
+				
 			%IMAGEN PESTAÑA BENCHMARKS
 			\begin{figure}[H]
 				\centering
-				\includegraphics[width=1.00\textwidth,frame]{imagenes/figura28.png}
+				\includegraphics[width=.75\textwidth]{imagenes/figura28.png}
 				\caption{Pestaña Benchmarks}
 				\label{fig:figura28}
 			\end{figure}				
-			
-		
 			
 		El área \textit{Resultados}, contendrá los resultados detallados de los benchmarks del workspace actual, y será la zona que
 		el usuario utilizará para realizar sus comparativas.
 		
 			\begin{figure}[H]
 				\centering
-					\includegraphics[width=1.00\textwidth, frame]{imagenes/figura29.png}
+					\includegraphics[width=.85\textwidth, frame]{imagenes/figura29.png}
 				\caption{Pestaña Resultados}
 				\label{fig:figura29}
 			\end{figure}
-
-		
 			
 		\subsection{Workspaces}
 		
@@ -240,14 +238,14 @@
 					Este campo se puede introducir manualmente, seleccionándolo mediante el explorador (opción \textit{File} del
 					botón ...) o creándolo con el generador de implicaciones (opción \textit{Random} del botón ...).\\
 				\item \textbf{Algoritmos:} Obligatorio. Hay dos listas. La de la izquierda contiene los algoritmos registrados en
-					el workspace y en la de la derecha se van añadiendo los algoritmos seleccionados con doble click en la primera
-					lista y éstos serán los que contenga el benchmark que se está creando.\\
-					Para filtrar la lista de algoritmos registrados en el workspace, se puede hacer uso del filtro en vivo situado
+					el workspace y en la de la derecha se irán añadiendo los algoritmos seleccionados con doble click en la primera
+					lista.\\
+					Para filtrar la lista de algoritmos registrados en el workspace, se puede hacer uso del filtro situado
 					en la parte superior de la primera lista.
 			\end{itemize}
 			
 			Si se pulsa el botón \textit{Guardar} con algún campo obligatorio sin completar, la aplicación muestra un mensaje
-			informando de ello y para los campos \textit{Nombre} y \textit{Entrada} se marcan como erróneos.
+			informando de ello y los campos \textit{Nombre} y \textit{Entrada} se marcan como erróneos.
 		
 			\begin{figure}[H]
 				\centering
@@ -273,9 +271,9 @@
 			Recordemos que el objetivo de la ejecución de un algoritmo es, además de obtener un sistema implicacional de salida,
 			obtener trazas y estadísticas que proporcionen información adicional para su comparativa.
 			
-			Por ello es que se distinguen tres modos de ejecución:
+			Para lo que se distinguen tres modos de ejecución:
 			\begin{itemize}
-				\item \textbf{Tiempos: }Se mide el tiempo de ejecución del algoritmo y se registra en el resultado de éste.
+				\item \textbf{Tiempos: }Se mide el tiempo de ejecución del algoritmo y se registra.
 				
 				\item \textbf{Con traza:} En este modo, se genera el archivo \textit{[nombre\_archivo\_salida]\_history.log}, que
 				contiene la traza  de la ejecución.
@@ -288,11 +286,11 @@
 				\textit{do\_output\_history.log}. 
 				
 				\item \textbf{Con Estadísticas: }En este modo, se genera el archivo \textit{[nombre\_archivo\_salida].csv}, en el
-					que se guardan la evolución de los tamaños del sistema implicacional procesado. Esto se hace al final de la
+					que se guarda la evolución de los tamaños del sistema implicacional procesado. Esto se hace al final de la
 					ejecución de cada algoritmo y se miden el tamaño y la cardinalidad del sistema obtenido.
 					
 					\textit{[nombre\_archivo\_salida]} es el nombre base del archivo seleccionado para la salida del algoritmo.
-					P.e., si el archivo que se ha tomado como salida es \textit{do\_output.txt}, el archivo con las estadísticas
+					Por ejemplo, si el archivo que se ha tomado como salida es \textit{do\_output.txt}, el archivo con las estadísticas
 					será \textit{do\_output.csv}. 
 					
 					La información se guarda en archivos .csv para facilitar su visualización mediante tablas y gráficos. 
@@ -342,7 +340,7 @@
 			
 			En la zona izquierda, se encuentra un árbol de dos niveles que contiene los benchmarks registrados en el workspace
 			actual en el primer nivel, y los algoritmos que forman el benchmark en el segundo nivel. El contenido de éste árbol
-			puede ser filtrado con el filtro en vivo situado en la parte superior de éste.
+			puede ser filtrado con el filtro situado en la parte superior de éste.
 			
 			El formulario de introducción de parámetros consta de:
 			
@@ -357,10 +355,11 @@
 					presentan dos opciones: \textit{Fichero} para seleccionar un fichero existente y \textit{Aleatorio} para
 					generar un sistema implicacional aleatorio con el Generador de Implicaciones.
 					
-				\item \textbf{Salida:} Directorio en el que se guardará los archivos resultantes de la ejecución. La ruta se puede
+				\item \textbf{Salida:} Directorio en el que se guardarán los archivos resultantes de la ejecución. La ruta se puede
 					introducir manualmente o seleccionándolo pulsando el botón
 					\includegraphics[scale=.5]{imagenes/figura36.PNG}. La salida se puede generar en dos formatos: texto y prolog,
 					que se pueden seleccionar en el desplegable que se encuentra a la izquierda del campo que contiene la ruta.
+					El formato texto es la utilizada por defecto en la librería \textit{java-lattice}.
 			\end{itemize}
 					
 			
@@ -376,7 +375,7 @@
 
 			
 			La pestaña \textit{Estadísticas} contiene una tabla en la que se muestran las estadísticas generadas cuando el modo
-			\textit{Estadísticas} ha sido activado. Cada fila se corresponde con la ejecución de cada algoritmo para la que existe
+			\textit{Estadísticas} ha sido activado. Cada fila se corresponde con la ejecución de cada algoritmo para la que existen
 			dos columnas por entrada procesada (Size y Card).
 			
 			Para ejecutar un benchmark:			
@@ -425,14 +424,15 @@
 		un sistema implicacional aleatorio. Se utiliza la librería \textit{java-lattices} de la doctora Karell Bertet, para el
 		cálculo del sistema a partir de estos parámetros.
 		
-		Como se ve en la figura \ref{fig:figura45}, este generador es una herramienta sencilla que consta de una pantalla principal
+		Como se ve en la Figura \ref{fig:figura48}, este generador es una herramienta sencilla que consta de una pantalla principal
 		dividida en tres zonas bien diferenciadas:
 		
 		\begin{itemize}
 			\item Barra de herramientas
-			\item Panel izquierdo en el que se introducen los parámetros para la creación del sistema.
+			\item Panel izquierdo en el que se introducen los parámetros para la creación del sistema: número de atributos, número de implicaciones,
+					tipo, máximo y mínimo número de atributos en premisas y conclusiones y número de sistemas.
 			\item Panel derecho que contiene el campo \textit{Salida} con la ruta absoluta del fichero en el que se guarda el
-				 sistema generado, y un visor en el que se muestra dicho sistema.
+				 sistema implicacional generado, y un visor en el que se muestra dicho sistema.
 		\end{itemize}
 			
 		\begin{figure}[H]
@@ -492,16 +492,16 @@
 		\subsection{Generar \textit{n} sistemas implicacionales}
 		
 			Como  se ha comentado anteriormente, es posible generar \textit{n} sistemas implicacionales con los mismos parámetros.
-			Para ello, sólo se ha de introducir en el campo \textit{Sistemas} el número de sistemas a generar.
-			En este modo de ejecución, los sistemas generados no se previsualizan y se guardan directamente en fichero.Por ello, es
+			Para ello, sólo se ha de introducir en el campo \textit{Sistemas} el número de conjuntos de implicaciones a generar.
+			En este modo de ejecución, los conjuntos de implicaciones generados no se previsualizan y se guardan directamente en fichero.Por ello, es
 			obligatorio que el campo \textit{Salida} contenga la ruta absoluta del fichero base, de otra forma, el botón 	
 			\textit{Generar} no se habilitará.
 			
-			A partir de esta ruta, se guardarán los \textit{n} sistemas generados en \textit{n} archivos, tomando su nombre a
+			A partir de esta ruta, se guardarán los \textit{n} conjuntos de implicaciones generados en \textit{n} archivos, tomando su nombre a
 			partir del introducido en el campo \textit{Salida} y añadiéndole un índice.
 			
 			Por ejemplo, si el campo \textit{Salida} contiene la ruta C:$\backslash$implications$\backslash$system.txt  y se van a
-			generar tres sistemas, se crearan los archivos:
+			generar tres conjuntos de implicaciones, se crearan los archivos:
 			
 			\begin{itemize}
 				\item[-] C:$\backslash$implications$\backslash$system\_0.txt
@@ -511,7 +511,7 @@
 			
 			\begin{figure}[H]
 				\centering
-					\includegraphics[width=1.00\textwidth]{imagenes/figura49.PNG}
+					\includegraphics[width=.75\textwidth]{imagenes/figura49.PNG}
 				\caption{Generar \textit{n} sistemas implicacionales}
 				\label{fig:figura49}
 			\end{figure}

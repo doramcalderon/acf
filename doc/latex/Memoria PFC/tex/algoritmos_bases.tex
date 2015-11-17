@@ -4,17 +4,56 @@
 	
 \chapter{ALGORITMOS DE CÁLCULO DE BASES}
 	\newpage
-	En esta sección se incluyen los algoritmos implementados para el cálculo de bases.
+	En esta sección se incluyen los pseudocódigos de los algoritmos implementados para el cálculo de bases directas, por el grupo de investigación GIMAC, en colaboración
+	con la Dra. K. Bertet de la Universidad de La Rochelle. Uno de los objetivos de este proyecto es implementar estos algoritmos en Java siguiendo las estructuras de datos
+	que están implementadas en el repositorio \url{https://github.com/kbertet/java-lattices} ya que es probable que en un futuro dichos
+	algoritmos se incluyan en dicha librería.
 	
-	\section{CLA}
-		A continuación se muestra el algortimo CLA presentado en el artículo \cite{bib:ref9}, definiéndose primeramente las
-		funciones \textit{Direct-Reduced} y \textit{RD-Simplify} que después son usadas en el algoritmo.
-		\newline
+	La estructura principal usada es la clase \textit{ImplicationalSystem} que representa un conjunto o sistema de implicaciones e implementa las operaciones
+	clásicas sobre éstos: sitema propio, base canónica, base canónica directa, sistema unario, etc. 
+	
+	\textit{ImplicationalSystem} está compuesto por un conjunto de elementos (atributo \texttt{set} en la Figura \ref{fig:java-lattice}) y un conjunto de implicaciones
+	representadas mediante la clase \textit{Rule}.
+	Ésta a su vez está compuesta por dos conjuntos de atributos que representan la premisa y la	conclusión de la implicación e implementa métodos para la
+	obtención de cada una de las partes así como para la adición y eliminación de elementos de éstas. En la Figura \ref{fig:java-lattice} se muestra el diagrama de clases
+	con los métodos y relaciones más relevantes:
+	
+	\begin{figure}[H]
+		\centering
+			\includegraphics[width=1.00\textwidth]{diagramas/java-lattice.png}
+		\caption{Clases librería java-lattice}
+		\label{fig:java-lattice}
+	\end{figure}
 		
+	
+	Un ejemplo del uso de estos tipos, se puede ver en el cálculo de la cardinalidad de un sistema implicacional:
+
+	\begin{figure}[H]
+		\centering
+			\includegraphics[scale=0.9]{imagenes/figura56.png}
+		\caption{Cálculo de la cardinalidad de un sistema implicacional}
+		\label{fig:cardinality}
+	\end{figure}
+	
+	O en el cálculo de su tamaño:
+	
+	\begin{figure}[H]
+		\centering
+			\includegraphics[scale=0.9]{imagenes/figura57.png}
+		\caption{Cálculo del tamaño de un sistema implicacional}
+		\label{fig:size}
+	\end{figure}
+	
+	\pagebreak
+	\section{CLA}
+		A continuación se muestra el algoritmo CLA presentado en el artículo \cite{bib:ref9}, definiéndose primeramente las
+		funciones \textit{Direct-Reduced} y \textit{RD-Simplify} que después son usadas en el algoritmo. Para abreviar, se 
+		hará referencia al sistema implicacional con las siglas en inglés IS (Implicational System).
+				
 		La función \textit{Direct-Reduced($\Sigma$)} calcula el IS directo-reducido de $\Sigma$:
 		\newline
 		
-		\begin{tabular}{p{15cm}}
+		\begin{tabular}[c]{p{15cm}}
 			\hline
 			Direct-Reduced($\Sigma$)\\
 			\hline
@@ -29,11 +68,12 @@
 			\hline
 		\end{tabular}
 		\newline
-		\newline
+		
 		
 		La función \textit{RD-Simplify($\Sigma$)} calcula el IS directo-reducido-simplificado a partir de $\Sigma$ reducido:
 		\newline
-		\begin{tabular}{p{15cm}}
+		
+		\begin{tabular}[c]{p{15cm}}
 			\hline
 			RD-Simplify($\Sigma$)\\
 			\hline
@@ -57,7 +97,7 @@
 		 anteriores:
 		\newline
 		\newline
-			\begin{tabular}{p{15cm}}
+			\begin{tabular}[c]{p{15cm}}
 				\hline
 					doSimp($\Sigma$)\\
 				\hline
@@ -73,7 +113,7 @@
 				\hline
 			\end{tabular}
 		
-		
+	\pagebreak
 	\section{Direct Optimal Basis}
 		A continuación se muestra el algortimo Direct Optimal Basis presentado en el artículo \cite{bib:ref1}.
 		
@@ -114,4 +154,138 @@
 			29				& \ESPACIO \IF $B \neq \emptyset$ \THEN add $A \rightarrow B$ to $\Sigma_{do}$;  \\
 			30				& \RETURN $\Sigma_{do}$\\
 		\end{tabular}
+		
+		\section{Implementaciones}
+		
+		En esta sección se describe la implementación de los algoritmos anteriores en Java y un ejemplo de uso. Ambos algoritmos implementan la interfaz
+		\textit{es.uma.pfc.is.algorithms.Algorithm} para que puedan ser ejecutadas por IS Bench. En la siguiente figura, se muestra el diagrama que muestra la jerarquía de
+		clases implementada.
+				
+		\begin{figure}[H]
+			\centering
+				\includegraphics[width=1.00\textwidth]{diagramas/clases_api_alg.png}
+			\caption{Implementación de Algoritmos}
+			\label{fig:clases_api_alg}
+		\end{figure}
+
+		Los algoritmos tienen un parámetro de entrada de tipo \textit{ImplicationalSystem}, que es el sistema implicacional inicial y devuelve un valor del mismo tipo 	
+		con el sistema implicacional final.
+		Ambos hacen uso de la clase \textit{es.uma.pfc.is.algorithms.optbasis.SimplificationLogic} donde se implementan las reglas de equivalencia de la Lógica de
+		Simplificación (Simplification Logic) mencionada en el artículo \cite{bib:ref1}.
+		
+		\subsubsection{CLA}
+			\textbf{Clase:} es.uma.pfc.is.algorithms.optbasis.ClaAlgorithm
+			
+			\begin{verbatim}
+					public class ClaAlgorithm extends GenericAlgorithm {
+    					@Override
+					    public ImplicationalSystem execute(ImplicationalSystem input) {
+					        ImplicationalSystem directOptimalBasis = new ImplicationalSystem(input);
+					        
+					        try {
+					            directOptimalBasis = SimplificationLogic.reduce(
+					            						directOptimalBasis, getLogger());
+					            						
+					            directOptimalBasis = SimplificationLogic.strongSimplification(
+					            						directOptimalBasis, getLogger());
+					            						
+					            directOptimalBasis = SimplificationLogic.composition(
+					            						directOptimalBasis, getLogger());
+					            						
+					            directOptimalBasis = SimplificationLogic.optimize(
+					            						directOptimalBasis, getLogger());
+					            
+					        } finally {
+					            getLogger().flush();
+					            getLogger().freeResources();
+					        }	        
+					        return directOptimalBasis;
+					    }
+					
+					    @Override
+					    public String getShortName() {
+					        return "cla";
+					    }
+					
+					    @Override
+					    public String getName() {
+					        return "CLA";
+					    }
+					}
+				\end{verbatim}
+								
+				
+		\subsubsection{Direct Optimal Basis}
+			\textbf{Clase:} es.uma.pfc.is.algorithms.optbasis.DirectOptimalBasis
+			
+			\begin{verbatim}
+				public class DirectOptimalBasis extends GenericAlgorithm {			
+				    
+				    /**
+				     * Executes the Direct Optimal Basis algorithm.
+				     * @param system Input system.
+				     * @return Direct optimal basis.
+				     */
+				    @Override
+				    public ImplicationalSystem execute(ImplicationalSystem system) {
+				        ImplicationalSystem directOptimalBasis = new ImplicationalSystem(system);
+				        
+				        try {
+				            // Stage 1 : Generation of sigma-r by reduction of sigma
+				            directOptimalBasis = SimplificationLogic.reduce(
+				            						directOptimalBasis, getLogger());
+				
+				            // Stage 2: Generation of sigma-sr by simplification 
+				            // (left+right) + composition of sigma-r
+				            directOptimalBasis = simplify(directOptimalBasis);
+				
+				            // Stage 3: Generation of sigma-dsr by completion of sigma-sr
+				            directOptimalBasis = SimplificationLogic.strongSimplification(
+				            						directOptimalBasis, getLogger());
+				
+				            // Stage 4: Composition of sigma-dsr
+				            SimplificationLogic.composition(directOptimalBasis, getLogger());
+				
+				            // Stage 5: Generation of sigma-do by optimization of sigma-dsr
+				            directOptimalBasis = SimplificationLogic.optimize(
+				            						directOptimalBasis, getLogger());
+				            
+				        } finally {
+				            getLogger().flush();
+				            getLogger().freeResources();;
+				        }
+				        return directOptimalBasis;
+				    }
+				    
+				    @Override
+					public String getShortName() {
+						return "do";
+					}
+					
+					@Override
+					public String getName() {
+						return "Direct Optimal Basis";
+					}
+				  }
+
+			\end{verbatim}
+			
+		%	\subsubsection{Ejemplo de uso}
+%			
+%				A continuación se enumeran los pasos a seguir para ejecutar estos algoritmos desde IS Bench.
+%				
+%				
+%				\begin{enumerate}
+%					\item Crear un benchnark (o experimento) que incluya los algoritmos a ejecutar.
+%					
+%					\item Seleccionar el benchmark creado 
+%					
+%					\item Ejecutar
+%					
+%					\item Consultar los resultados
+%				\end{enumerate}
+			
+		
+		
+		
 \end{document}
