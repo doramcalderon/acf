@@ -34,7 +34,7 @@ public class ImplicationalSystems {
      * Sum of the number of attributes of right and left side for all implications.
      * @param system Implicational system.
      * @return The sum of the number of attributes of right and left side for all
-	 * 		   implications.
+	 * implications.
      * <br/> {@code null} when the system is null.
      */
     public static final Integer getSize(ImplicationalSystem system) {
@@ -43,7 +43,8 @@ public class ImplicationalSystems {
         if (system != null) {
             size = 0;
             for (Rule implication : system.getRules()) {
-                size += implication.getPremise().size() + implication.getConclusion().size();
+                size += implication.getPremise().size() 
+						+ implication.getConclusion().size();
             }
         }
         return size;
