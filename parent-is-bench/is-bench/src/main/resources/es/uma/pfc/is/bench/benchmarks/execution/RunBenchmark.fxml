@@ -19,6 +19,7 @@
                         <HBox spacing="5.0">
                            <children>
                               <Button fx:id="btnRun" mnemonicParsing="false" onAction="#handleRunAction" prefHeight="60.0" prefWidth="80.0" text="%btn.run" />
+                              <Button fx:id="btnStop" layoutX="95.0" layoutY="10.0" mnemonicParsing="false" onAction="#handleStop" prefHeight="60.0" prefWidth="80.0" text="%menu.stop" />
                               <Button fx:id="btnClear" layoutX="15.0" layoutY="15.0" mnemonicParsing="false" onAction="#handleClearAll" prefHeight="60.0" prefWidth="80.0" text="%menu.clear" />
                            </children>
                         </HBox>
@@ -121,10 +122,12 @@
                                                       <StackPane>
                                                          <children>
                                                             <ProgressIndicator fx:id="historyProgressInd" layoutX="812.0" layoutY="401.0" maxHeight="50.0" maxWidth="50.0" visible="false" AnchorPane.leftAnchor="400.0" AnchorPane.topAnchor="300.0" />
-                                                            <TreeTableView fx:id="tableResults" prefHeight="200.0" prefWidth="200.0" tableMenuButtonVisible="true">
+                                                            <TreeTableView fx:id="tableResults" prefHeight="200.0" prefWidth="200.0">
                                                               <columns>
                                                                   <TreeTableColumn fx:id="nameColumn" minWidth="150.0" prefWidth="-1.0" text="%column.benchmarks.results.name" />
                                                                   <TreeTableColumn fx:id="timeColumn" prefWidth="75.0" text="%column.benchmarks.results.time" />
+                                                                  <TreeTableColumn fx:id="sizeColumn" prefWidth="75.0" text="%column.benchmarks.results.size" />
+                                                                  <TreeTableColumn fx:id="cardColumn" prefWidth="75.0" text="%column.benchmarks.results.card" />
                                                                 <TreeTableColumn fx:id="inputColumn" editable="false" minWidth="200.0" prefWidth="-1.0" text="%column.benchmarks.results.input" />
                                                                 <TreeTableColumn fx:id="outputColumn" editable="false" minWidth="200.0" prefWidth="-1.0" text="%column.benchmarks.results.output" />
                                                               </columns>

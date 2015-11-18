@@ -21,6 +21,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.concurrent.Service;
 import javafx.concurrent.Task;
 import javafx.concurrent.WorkerStateEvent;
@@ -40,6 +42,12 @@ public class AlgorithmExecService extends Service<BenchmarkResult> {
      * Model.
      */
     private RunBenchmarkModel model;
+    private AlgorithmExecutor exec;
+
+    public AlgorithmExecService() {
+    }
+    
+    
     
     /**
      * Constructor.
@@ -53,6 +61,10 @@ public class AlgorithmExecService extends Service<BenchmarkResult> {
      * @param model Model. 
      */
     public AlgorithmExecService(RunBenchmarkModel model) {
+        this.model = model;
+    }
+    
+    public void setModel(RunBenchmarkModel model) {
         this.model = model;
     }
 
@@ -139,16 +151,16 @@ public class AlgorithmExecService extends Service<BenchmarkResult> {
                 if (algorithms != null) {
                     String [] inputs = model.getSelectedInputFiles().toArray(new String[]{});
                     AlgorithmOptions options = getOptions();
-                    AlgorithmExecutor exec = new AlgorithmExecutor()
+                    exec = new AlgorithmExecutor()
                                                 .inputs(inputs)
                                                 .options(options)
                                                 .output(Paths.get(model.getOutputDir(), 
                                                         DateUtils.getDateString(timeStamp)).toString());
-                    algorithms.stream().filter((alg) -> (alg != null)).parallel().forEach((alg) -> {
-                        System.out.println("alg: "+ alg.getName());
+                    algorithms.stream().filter((alg) -> (alg != null)).forEach((alg) -> {
                         results.addAll(exec.execute(alg));
                     });
-            
+//                    exec.shutdown();
+                    
                     benchmarkResult = new BenchmarkResult(model.getSelectedBenchmark().getName(), results, timeStamp);
                     
                     new ResultsBean().save(benchmarkResult, model.getSelectedBenchmark().getBenchmarkPath());
@@ -192,4 +204,17 @@ public class AlgorithmExecService extends Service<BenchmarkResult> {
         Eventbus.post(new MessageEvent("The execution has finished succeeded.", MessageEvent.Level.SUCCEEDED));
     }
 
+    @Override
+    public boolean cancel() {
+        if (exec != null) {
+            try {
+                exec.shutdown();
+            } catch (InterruptedException ex) {
+                Logger.getLogger(AlgorithmExecService.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        return super.cancel(); 
+    }
+
+    
 }

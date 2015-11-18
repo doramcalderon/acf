@@ -51,6 +51,7 @@ import javafx.beans.binding.StringBinding;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
+import javafx.concurrent.Worker.State;
 import javafx.concurrent.WorkerStateEvent;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -163,7 +164,9 @@ public class RunBenchmarkController extends Controller {
      * Columns of execution results table.
      */
     @FXML
-    private TreeTableColumn nameColumn, timeColumn, inputColumn, outputColumn;
+    private TreeTableColumn nameColumn, timeColumn, sizeColumn, cardColumn, inputColumn, outputColumn;
+    
+    private AlgorithmExecService service;
 
     /**
      * Initializes the controller.
@@ -179,9 +182,24 @@ public class RunBenchmarkController extends Controller {
             initBinding();
             initListeners();
             initValidation();
+            initExecutionService();
         } catch (IOException ex) {
             Logger.getLogger(RunBenchmarkController.class.getName()).log(Level.SEVERE, null, ex);
         }
+    }
+    /**
+     * Initializes the algorithm execution service.
+     */
+    protected void initExecutionService() {
+        service = new AlgorithmExecService();
+        service.setOnRunning((WorkerStateEvent event) -> {
+            busyLayer.setVisible(true);
+        });
+        service.setOnFinished((WorkerStateEvent event) -> {
+            finishAlgExecution((BenchmarkResult) event.getSource().getValue(), event.getSource().getException());
+        });
+
+        execurtionIndicator.visibleProperty().bind(service.runningProperty());
     }
     /**
      * Initializes the view.
@@ -209,6 +227,10 @@ public class RunBenchmarkController extends Controller {
         timeColumn.setCellFactory(new NoZeroLongCellFactory());
         inputColumn.setCellValueFactory(new TreeItemPropertyValueFactory("input"));
         outputColumn.setCellValueFactory(new TreeItemPropertyValueFactory("output"));
+        sizeColumn.setCellValueFactory(new TreeItemPropertyValueFactory("size"));
+        sizeColumn.setCellFactory(new NoZeroLongCellFactory());
+        cardColumn.setCellValueFactory(new TreeItemPropertyValueFactory("cardinality"));
+        cardColumn.setCellFactory(new NoZeroLongCellFactory());
 
     }
 
@@ -286,16 +308,20 @@ public class RunBenchmarkController extends Controller {
 
             if (event.getClickCount() > 1) {
                 TreeTableView<TreeResultModel> table = (TreeTableView<TreeResultModel>) event.getSource();
-                TreeResultModel value = table.getSelectionModel().getSelectedItem().getValue();
+                TreeItem<TreeResultModel> selectedItem = table.getSelectionModel().getSelectedItem();
                 
-                if (value instanceof TreeAlgorithmResultModel) {
-                    TreeAlgorithmResultModel resultItem = (TreeAlgorithmResultModel) value;
-                    AlgorithmResult algorithmResult = resultItem.getAlgorithmresult();
-                    
-                    if (!es.uma.pfc.is.algorithms.util.StringUtils.isEmpty(algorithmResult.getLogFile())) {
-                        Eventbus.post(new ViewFileActionEvent(new File(algorithmResult.getLogFile()),
-                                algorithmResult.getLogFile(), rootPane.getScene().getWindow(),
-                                null));
+                if(selectedItem != null) {
+                    TreeResultModel value = selectedItem.getValue();
+
+                    if (value instanceof TreeAlgorithmResultModel) {
+                        TreeAlgorithmResultModel resultItem = (TreeAlgorithmResultModel) value;
+                        AlgorithmResult algorithmResult = resultItem.getAlgorithmresult();
+
+                        if (!es.uma.pfc.is.algorithms.util.StringUtils.isEmpty(algorithmResult.getLogFile())) {
+                            Eventbus.post(new ViewFileActionEvent(new File(algorithmResult.getLogFile()),
+                                    algorithmResult.getLogFile(), rootPane.getScene().getWindow(),
+                                    null));
+                        }
                     }
                 }
             }
@@ -393,15 +419,7 @@ public class RunBenchmarkController extends Controller {
      */
     protected void execute() {
         try {
-            AlgorithmExecService service = new AlgorithmExecService(model);
-            service.setOnRunning((WorkerStateEvent event) -> {
-                busyLayer.setVisible(true);
-            });
-            service.setOnFinished((WorkerStateEvent event) -> {
-                finishAlgExecution((BenchmarkResult) event.getSource().getValue(), event.getSource().getException());
-            });
-
-            execurtionIndicator.visibleProperty().bind(service.runningProperty());
+            service.setModel(model);
             service.restart();
 
         } catch (AlgorithmException ex) {
@@ -419,9 +437,11 @@ public class RunBenchmarkController extends Controller {
         Animations.fadeOut(busyLayer);
         if (ex == null) {
             model.setLastExecutionResult(r);
-            tableResults.setRoot(getData(r));
-            showStatistics(r.getStatisticsFileName());
-            Eventbus.post(new NewResultsEvent());
+            if(State.SUCCEEDED.equals(service.getState())) {
+                tableResults.setRoot(getData(r));
+    //            showStatistics(r.getStatisticsFileName());
+                Eventbus.post(new NewResultsEvent());
+            }
         }
     }
 
@@ -451,6 +471,13 @@ public class RunBenchmarkController extends Controller {
         if (paths != null) {
             Arrays.stream(paths)
                     .forEach(path -> model.selectedInputFilesListProperty().get().add(Paths.get(path).toString()));
+        }
+    }
+    
+    @FXML
+    public void handleStop(ActionEvent event) {
+        if(service.isRunning()) {
+            service.cancel();
         }
     }
 
@@ -582,7 +609,7 @@ public class RunBenchmarkController extends Controller {
                     model.setSelectedBenchmark(selectedBenchmark);
                     model.setSelectedAlgorithm(alg);
                     model.outputDirProperty().setValue(Paths.get(WorkspaceManager.get().currentWorkspace().getLocation(),
-                            selectedBenchmark.getName(),
+                            selectedBenchmark.getName().trim(),
                             alg.getName(), "output").toString());
 
                 }
@@ -637,27 +664,30 @@ public class RunBenchmarkController extends Controller {
      * @return TreeItem<BenchmarkResultsModel>
      */
     private TreeItem<TreeResultModel> getData(BenchmarkResult benchResult) {
-        Map<AlgorithmInfo, List<AlgorithmResult>> results = benchResult.groupByAlgorithm();
+        TreeItem<TreeResultModel> rootItem = new TreeItem();
+        if(benchResult != null) {
+            Map<AlgorithmInfo, List<AlgorithmResult>> results = benchResult.groupByAlgorithm();
 
-        TreeItem<TreeResultModel> rootItem = new TreeItem<>(new TreeBenchmarkResultModel(benchResult));
-        List<TreeItem<TreeResultModel>> algorithmItems = new ArrayList<>();
-        List<TreeItem<TreeResultModel>> resultItems = new ArrayList<>();
+            rootItem = new TreeItem<>(new TreeBenchmarkResultModel(benchResult));
+            List<TreeItem<TreeResultModel>> algorithmItems = new ArrayList<>();
+            List<TreeItem<TreeResultModel>> resultItems = new ArrayList<>();
 
-        for (AlgorithmInfo algorithm : results.keySet()) {
-            resultItems.clear();
-            List<AlgorithmResult> algResults = results.getOrDefault(algorithm, new ArrayList<>());
-            TreeItem<TreeResultModel> algorithmItem = new TreeItem<>(new TreeAlgorithmModel(algorithm));
+            for (AlgorithmInfo algorithm : results.keySet()) {
+                resultItems.clear();
+                List<AlgorithmResult> algResults = results.getOrDefault(algorithm, new ArrayList<>());
+                TreeItem<TreeResultModel> algorithmItem = new TreeItem<>(new TreeAlgorithmModel(algorithm));
 
-            algResults.stream().map((r) -> new TreeAlgorithmResultModel(r)).forEach((resultNode) -> {
-                resultItems.add(new TreeItem<>(resultNode));
-            });
-            algorithmItem.setExpanded(true);
-            algorithmItem.getChildren().addAll(resultItems);
-            algorithmItems.add(algorithmItem);
+                algResults.stream().map((r) -> new TreeAlgorithmResultModel(r)).forEach((resultNode) -> {
+                    resultItems.add(new TreeItem<>(resultNode));
+                });
+                algorithmItem.setExpanded(true);
+                algorithmItem.getChildren().addAll(resultItems);
+                algorithmItems.add(algorithmItem);
 
+            }
+            rootItem.setExpanded(true);
+            rootItem.getChildren().addAll(algorithmItems);
         }
-        rootItem.setExpanded(true);
-        rootItem.getChildren().addAll(algorithmItems);
         return rootItem;
     }
 

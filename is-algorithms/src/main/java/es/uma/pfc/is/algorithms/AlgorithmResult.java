@@ -10,6 +10,7 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
  * Algorithm result info.
@@ -29,7 +30,7 @@ public class AlgorithmResult {
     @XmlElement
     private String inputFile;
     /**
-     * Implicational system output file.
+     * Implicational system resultSystem file.
      */
     @XmlElement
     private String outputFile;
@@ -54,7 +55,9 @@ public class AlgorithmResult {
      */
     @XmlElement
     private long executionTime;
-
+    
+    @XmlTransient
+    private ImplicationalSystem resultSystem;
     /**
      * Constructor.
      */
@@ -87,6 +90,17 @@ public class AlgorithmResult {
         this.algorithmInfo = new AlgorithmInfo(algorithm);
     }
     
+    @XmlTransient
+    public ImplicationalSystem getResultSystem() {
+        if(resultSystem == null) {
+            try {
+                resultSystem = new ImplicationalSystem(outputFile);
+            } catch (IOException ex) {
+                Logger.getLogger(AlgorithmResult.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        return resultSystem;
+    }
     
     
     /**
@@ -95,12 +109,7 @@ public class AlgorithmResult {
      */
     public Integer getSize() {
         if(size == null) {
-            try {
-                ImplicationalSystem resultSystem = new ImplicationalSystem(outputFile);
-                size = ImplicationalSystems.getSize(resultSystem);
-            } catch (IOException ex) {
-                Logger.getLogger(AlgorithmResult.class.getName()).log(Level.SEVERE, null, ex);
-            }
+            size = ImplicationalSystems.getSize(getResultSystem());
         }
         return size;
     }
@@ -111,12 +120,7 @@ public class AlgorithmResult {
      */
     public Integer getCardinality() {
         if(cardinality == null) {
-            try {
-                ImplicationalSystem resultSystem = new ImplicationalSystem(outputFile);
-                cardinality = ImplicationalSystems.getCardinality(resultSystem);
-            } catch (IOException ex) {
-                Logger.getLogger(AlgorithmResult.class.getName()).log(Level.SEVERE, null, ex);
-            }
+            cardinality = ImplicationalSystems.getCardinality(getResultSystem());
         }
         return cardinality;
     }
@@ -139,7 +143,7 @@ public class AlgorithmResult {
     }
 
     /**
-     * Implicational system output file.
+     * Implicational system resultSystem file.
      * @return the outputFile
      */
     public String getOutputFile() {

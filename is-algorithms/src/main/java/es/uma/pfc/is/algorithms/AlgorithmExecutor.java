@@ -1,5 +1,6 @@
 package es.uma.pfc.is.algorithms;
 
+import com.google.common.util.concurrent.ThreadFactoryBuilder;
 import es.uma.pfc.is.algorithms.AlgorithmOptions.Options;
 import static es.uma.pfc.is.algorithms.AlgorithmOptions.Options.OUTPUT;
 import es.uma.pfc.is.algorithms.exceptions.AlgorithmException;
@@ -7,18 +8,27 @@ import es.uma.pfc.is.algorithms.exceptions.InvalidPathException;
 import es.uma.pfc.is.commons.files.FileUtils;
 import es.uma.pfc.is.commons.io.ImplicationalSystemWriterProlog;
 import es.uma.pfc.is.commons.strings.StringUtils;
-import es.uma.pfc.is.logging.AlgorithmLogger;
-import fr.kbertet.lattice.ImplicationalSystem;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+import java.util.concurrent.Callable;
+import java.util.concurrent.CancellationException;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
+import java.util.concurrent.RejectedExecutionException;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.TimeoutException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
  * Service which executes an algorithm.
+ *
  * @author Dora Calderón
  */
 public class AlgorithmExecutor {
@@ -27,7 +37,7 @@ public class AlgorithmExecutor {
      * Algorithm to execute.
      */
     private Algorithm algorithm;
- 
+
     /**
      * Execution options.
      */
@@ -42,19 +52,40 @@ public class AlgorithmExecutor {
      * I18n messages.
      */
     protected AlgMessages messages;
-
+    /**
+     * Number of concurrent executions.
+     */
+    private int threadsNum;
+    
+    private ExecutorService executor;
     /**
      * Constructor.
      */
     public AlgorithmExecutor() {
         options = new AlgorithmOptions();
         messages = AlgMessages.get();
+        threadsNum = getThreadsNum();
+        executor = Executors.newFixedThreadPool(threadsNum, 
+                                                new ThreadFactoryBuilder().setNameFormat("Algorithms-%d")
+                                                        .setDaemon(true).build());
         ImplicationalSystemWriterProlog.register();
+    }
+    
+    /**
+     * Gets the threads num from the "isbench.threads.num" system property.
+     * If it is not established or the value it is not numeric, the default value is 10.
+     * @return Number of threads.
+     */
+    private int getThreadsNum() {
+        String value = System.getProperty("isbench.threads.num");
+        if (!StringUtils.isNumeric(value)) {
+            value = "5";
+        }
+        return Integer.valueOf(value);
     }
 
     /**
-     * Constructor.
-     * For testing purpose only.
+     * Constructor. For testing purpose only.
      *
      * @param algorithm Algorithm to execute.
      */
@@ -68,6 +99,7 @@ public class AlgorithmExecutor {
 
     /**
      * Executes an algorithm.
+     *
      * @param alg Algorithm.
      * @return Algorithm results.
      */
@@ -75,9 +107,10 @@ public class AlgorithmExecutor {
         this.algorithm = alg;
         return execute();
     }
-    
-      /**
+
+    /**
      * Sets the path of the inputs system.
+     *
      * @param fileNames Additionals inputs.
      * @return AlgorithmExecuter with inputs system setted.
      */
@@ -98,7 +131,6 @@ public class AlgorithmExecutor {
         return this;
     }
 
-    
     /**
      * Sets the output path of the result execution.
      *
@@ -109,8 +141,6 @@ public class AlgorithmExecutor {
         this.options.addOption(AlgorithmOptions.Options.OUTPUT.toString(), file);
         return this;
     }
-  
-
 
     /**
      * Sets an execution options.
@@ -123,12 +153,12 @@ public class AlgorithmExecutor {
         return this;
     }
 
-   
     /**
      * Executes an algorithm in three stages: initialization, execution, finalization.
+     *
      * @return Resultado de la ejecución.
      */
-    protected  List<AlgorithmResult> execute() {
+    protected List<AlgorithmResult> execute() {
         init();
         List<AlgorithmResult> result = run();
         stop();
@@ -143,99 +173,131 @@ public class AlgorithmExecutor {
     }
 
     /**
-     * Executes the algorith with the inputs and options stablished.
+     * Executes the algorithm with the inputs and options stablished.
+     *
      * @return Algorithm results.
      * @throws IllegalArgumentException if the algorithm is null.
      * @throw IOException if IO error ocurred.
      */
     protected List<AlgorithmResult> run() {
         List<AlgorithmResult> results = null;
-        
+
         if (algorithm == null) {
             throw new IllegalArgumentException("Algorithm can't be null");
         } else {
             results = new ArrayList<>();
             try {
+                options.addOption(Options.LOG_BASE_NAME, algorithm.getShortName());
                 String outputDirName = options.<String>getOption(OUTPUT);
                 FileUtils.createDirIfNoExists(outputDirName);
-                
-                options.addOption(Options.LOG_BASE_NAME, algorithm.getShortName());
-                algorithm.getLogger().setOptions(options);
-                AlgorithmLogger logger = new AlgorithmLogger(algorithm.getClass().getName(), options, false);
-                
-                for (String input : inputs) {
-                    AlgorithmResult result = run(input, outputDirName, logger);
-                    results.add(result);
-                }
+                results = concurrentExecution(inputs, outputDirName);
+
             } catch (IOException ex) {
                 Logger.getLogger(AlgorithmExecutor.class.getName()).log(Level.SEVERE, null, ex);
                 throw new AlgorithmException("Error creting the output dir.", ex);
-            } 
+            }
         }
         return results;
     }
 
-    
     /**
-     * Executes the algorithm with an input and output dir.
-     * @param input Input implicational system.
-     * @param outputDir Output dir.
-     * @param logger Logger.
-     * @return Algorithm result.
+     * Executes the algorithm in a thread by input, with a threadsNum property value as max.
+     * If the inputs number is greater than the number of threads, the executions will be enqued.
+     * @param inputs Algorithm inputs paths.
+     * @param outputDir Output directory path.
+     * @return Execution results.
      */
-    protected AlgorithmResult run(String input, String outputDir, AlgorithmLogger logger) {
-        AlgorithmResult result = null;
-        ImplicationalSystem outputSystem;
+    protected List<AlgorithmResult> concurrentExecution(String[] inputs, String outputDir) {
+        List<AlgorithmResult> results = Collections.synchronizedList(new ArrayList());
+//        List<Callable<AlgorithmResult>> tasks = new ArrayList();
+//        for (String input : inputs) {
+//            tasks.add(new AlgExecutionTask(algorithm, options, input, outputDir));
+//        }
+//
+//        
+//        List<Future<AlgorithmResult>> resultTasks = null;
+//        try {
+//            resultTasks = executor.invokeAll(tasks, 5, TimeUnit.SECONDS);
+//        } catch (InterruptedException ex) {
+//            Logger.getLogger(AlgorithmExecutor.class.getName()).log(Level.SEVERE, "The task has been interrupted");
+//        }
+//        
+//        
+//
+//        for (Future<AlgorithmResult> future : resultTasks) {
+//            AlgorithmResult r;
+//            try {
+//                r = future.get(5, TimeUnit.SECONDS);
+//                results.add(r);
+//            } catch (ExecutionException ex) {
+//                Logger.getLogger(AlgorithmExecutor.class.getName()).log(Level.SEVERE, null, ex);
+//            } catch (InterruptedException ex) {
+//                future.cancel(true);
+//                Logger.getLogger(AlgorithmExecutor.class.getName()).log(Level.SEVERE, "The task has been interrupted");
+//            } catch (TimeoutException ex) {
+//                future.cancel(true);
+//                Logger.getLogger(AlgorithmExecutor.class.getName())
+//                        .log(Level.SEVERE, "The task has been cancelled because takes too long.");
+//                
+//            } catch (CancellationException ex) {
+//                Logger.getLogger(AlgorithmExecutor.class.getName())
+//                        .log(Level.SEVERE, "The task has been cancelled because takes too long.");
+//                
+//            }
         
-        try {
-
-
-            ImplicationalSystem inputSystem = new ImplicationalSystem(input);
-            logger.startTime();
-            outputSystem = algorithm.execute(inputSystem);
-            long executionTime = logger.endTime();
-
-            if (outputSystem != null) {
-                String outputType = options.<String>getOption(Options.OUTPUT_TYPE);
-                if (StringUtils.isEmpty(outputType)) {
-                    outputType = "txt";
+//        }
+        
+        for (String input : inputs) {
+            Future<AlgorithmResult> futureResult = null;
+            try {
+                futureResult = executor.submit(new AlgExecutionTask(algorithm, options, input, outputDir));
+                AlgorithmResult r = futureResult.get(5, TimeUnit.SECONDS);
+                if(r != null) {
+                    results.add(r);
                 }
-                
-                String outputFilename = algorithm.getShortName() + "_" + FileUtils.getName(input) + "." + outputType;
-                String outputFile = Paths.get(outputDir, outputFilename).toString();
-                outputSystem.save(outputFile);
-                
-                result = new AlgorithmResult(input, outputFile, algorithm);
-                result.setExecutionTime(executionTime);
-                result.setLogFile(Paths.get(outputDir, options.getOption(Options.LOG_BASE_NAME) + "_trace.log").toString());
+            } catch (InterruptedException ex) {
+                cancelFuture(futureResult);
+                Logger.getLogger(AlgorithmExecutor.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (ExecutionException ex) {
+                Logger.getLogger(AlgorithmExecutor.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (TimeoutException ex) {
+                cancelFuture(futureResult);
+                 Logger.getLogger(AlgorithmExecutor.class.getName())
+                        .log(Level.SEVERE, "The task has been cancelled because takes too long.");
+            } catch (RejectedExecutionException ex) {
+                cancelFuture(futureResult);
+                Logger.getLogger(AlgorithmExecutor.class.getName()).log(Level.SEVERE, "The task has been rejected.");
             }
-
-        } catch (Exception ex) {
-            ex.printStackTrace();
-            throw new AlgorithmException("Error en la ejecución de " + toString(), ex);
-        } finally {
-            logger.flush();
-            logger.freeResources();
         }
 
-        return result;
+        return results;
+    }
+    private void cancelFuture(Future f) {
+        if (f != null) {
+            f.cancel(true);
+        }
     }
 
+    /**
+   
     /**
      * Finaliza la ejecución y libera recursos.
      */
     protected void stop() {
-
+       
     }
-
+    public void shutdown() throws InterruptedException {
+        executor.shutdown();
+        executor.awaitTermination(5, TimeUnit.SECONDS);
+    }
     /**
      * Returns the inputs path.
+     *
      * @return Input path.
      */
     protected String[] getInputs() {
         return inputs;
     }
-
 
     /**
      * Returns the output path.
@@ -245,5 +307,4 @@ public class AlgorithmExecutor {
     protected String getOutput() {
         return options.getOption(AlgorithmOptions.Options.OUTPUT.toString());
     }
-
 }

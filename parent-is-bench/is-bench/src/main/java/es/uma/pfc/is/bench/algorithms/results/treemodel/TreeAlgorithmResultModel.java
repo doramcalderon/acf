@@ -24,8 +24,9 @@ public class TreeAlgorithmResultModel extends TreeResultModel {
         algorithmresult = result;
         
         if(result != null) {
-            nameProperty().set(result.getAlgorithmInfo().getName());
             executionTimeProperty().set(result.getExecutionTime());
+            sizeProperty().set(result.getSize());
+            cardinalityProperty().set(result.getCardinality());
             if(!StringUtils.isEmpty(result.getInputFile())) {
                 inputProperty().set(Paths.get(result.getInputFile()).getFileName().toString());
             }

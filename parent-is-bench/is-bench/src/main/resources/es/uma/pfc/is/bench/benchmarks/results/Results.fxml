@@ -11,38 +11,22 @@
 
 <AnchorPane id="AnchorPane" minWidth="800.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="es.uma.pfc.is.bench.algorithms.results.ResultsController">
    <children>
-      <VBox layoutY="97.0" prefHeight="969.0" prefWidth="992.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" GridPane.rowIndex="1">
-         <children>
-            <TitledPane fx:id="resultsTitledPane" alignment="TOP_LEFT" text="%title.results">
-               <content>
-                  <SplitPane dividerPositions="0.5">
-                     <items>
-                        <TreeTableView fx:id="tableResults">
-                          <columns>
-                            <TreeTableColumn fx:id="nameColumn" editable="false" minWidth="200.0" prefWidth="-1.0" text="%column.results.name" />
-                              <TreeTableColumn fx:id="timeColumn" editable="false" minWidth="80.0" prefWidth="-1.0" style="-fx-text-alignment: RIGHT;" text="%column.results.time" />
-                              <TreeTableColumn fx:id="inputColumn" editable="false" minWidth="150.0" prefWidth="-1.0" text="%column.results.input" />
-                              <TreeTableColumn fx:id="outputColumn" editable="false" minWidth="150.0" prefWidth="-1.0" text="%column.results.output" />
-                          </columns>
-                        </TreeTableView>
-                        <AnchorPane>
-                                   <fx:include source="/es/uma/pfc/is/bench/benchmarks/results/ResultsViewer.fxml"/>
-                              </AnchorPane>
-                     </items>
-                  </SplitPane>
-               </content>
-            </TitledPane>
-            <TitledPane fx:id="statsTiltedPane" text="%title.statistics">
-               <content>
-                  <TableView fx:id="tableStatistics" tableMenuButtonVisible="true" GridPane.columnSpan="2" GridPane.rowIndex="3">
-                    <columns>
-                      <TableColumn prefWidth="75.0" text="C1" />
-                      <TableColumn prefWidth="75.0" text="C2" />
-                    </columns>
-                  </TableView>
-               </content>
-            </TitledPane>
-         </children>
-      </VBox>
+<!--      <SplitPane dividerPositions="0.5" orientation="VERTICAL" prefHeight="408.0" prefWidth="800.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <items>-->
+            <TreeTableView fx:id="tableResults" prefHeight="400.0" prefWidth="800.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+              <columns>
+                <TreeTableColumn fx:id="nameColumn" editable="false" minWidth="200.0" prefWidth="-1.0" text="%column.results.name" />
+                  <TreeTableColumn fx:id="timeColumn" editable="false" minWidth="80.0" prefWidth="-1.0" style="-fx-text-alignment: RIGHT;" text="%column.results.time" />
+                  <TreeTableColumn fx:id="sizeColumn" editable="false" minWidth="80.0" prefWidth="-1.0" style="-fx-text-alignment: RIGHT;" text="%column.results.size" />
+                  <TreeTableColumn fx:id="cardColumn" editable="false" minWidth="80.0" prefWidth="-1.0" style="-fx-text-alignment: RIGHT;" text="%column.results.card" />
+                  <TreeTableColumn fx:id="inputColumn" editable="false" minWidth="150.0" prefWidth="-1.0" text="%column.results.input" />
+                  <TreeTableColumn fx:id="outputColumn" editable="false" minWidth="150.0" prefWidth="-1.0" text="%column.results.output" />
+              </columns>
+            </TreeTableView>
+<!--            <AnchorPane>
+                <fx:include source="/es/uma/pfc/is/bench/benchmarks/results/ResultsViewer.fxml"/>
+            </AnchorPane>-->
+<!--         </items>
+      </SplitPane>-->
    </children>
 </AnchorPane>

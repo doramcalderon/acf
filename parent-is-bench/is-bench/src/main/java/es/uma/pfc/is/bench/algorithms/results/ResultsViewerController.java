@@ -195,7 +195,7 @@ public class ResultsViewerController extends Controller {
             reload();
         }
     }
-
+    
     /**
      * Reloads the view.
      */

@@ -146,12 +146,12 @@ public class AlgorithmLogger {
             if (outputDir == null) {outputDir = "";}
             
             String logBaseName = options.getOption(Options.LOG_BASE_NAME);
-            System.out.println("[AlgorithmLogger] LOG_BASE_NAME: " + logBaseName);
+//            System.out.println("[AlgorithmLogger] LOG_BASE_NAME: " + logBaseName);
             if (logBaseName == null) {logBaseName = algorithmName;}
             
             outputName = Paths.get(outputDir, logBaseName).toString();
         }
-        System.out.println("[AlgorithmLogger] outputName: " + outputName);
+//        System.out.println("[AlgorithmLogger] outputName: " + outputName);
         return outputName;
     }
 

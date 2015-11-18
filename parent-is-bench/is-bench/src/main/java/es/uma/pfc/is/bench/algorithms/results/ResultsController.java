@@ -5,10 +5,12 @@ import es.uma.pfc.is.algorithms.AlgorithmInfo;
 import es.uma.pfc.is.algorithms.AlgorithmResult;
 import es.uma.pfc.is.algorithms.util.StringUtils;
 import es.uma.pfc.is.bench.Controller;
+import es.uma.pfc.is.bench.MainLayoutController;
 import es.uma.pfc.is.bench.algorithms.results.treemodel.TreeAlgorithmModel;
 import es.uma.pfc.is.bench.algorithms.results.treemodel.TreeAlgorithmResultModel;
 import es.uma.pfc.is.bench.algorithms.results.treemodel.TreeBenchmarkResultModel;
 import es.uma.pfc.is.bench.algorithms.results.treemodel.TreeResultModel;
+import es.uma.pfc.is.bench.benchmarks.execution.FileViewerController;
 import es.uma.pfc.is.bench.business.ResultsBean;
 import es.uma.pfc.is.bench.config.WorkspaceManager;
 import es.uma.pfc.is.bench.domain.BenchmarkResult;
@@ -16,6 +18,8 @@ import es.uma.pfc.is.bench.domain.BenchmarkResultSet;
 import es.uma.pfc.is.bench.events.AlgorithmResultSelection;
 import es.uma.pfc.is.bench.events.NewResultsEvent;
 import es.uma.pfc.is.bench.services.StatisticsReaderService;
+import es.uma.pfc.is.bench.uitls.Dialogs;
+import es.uma.pfc.is.bench.view.FXMLViews;
 import es.uma.pfc.is.commons.eventbus.Eventbus;
 import es.uma.pfc.is.javafx.NoZeroLongCellFactory;
 import java.io.IOException;
@@ -28,6 +32,8 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TitledPane;
 import javafx.scene.control.TreeItem;
@@ -52,7 +58,7 @@ public class ResultsController extends Controller {
     @FXML
     private TableView tableStatistics;
     @FXML
-    private TreeTableColumn nameColumn, timeColumn, inputColumn, outputColumn;
+    private TreeTableColumn nameColumn, timeColumn, sizeColumn, cardColumn, inputColumn, outputColumn;
 
     /**
      * Results view model.
@@ -97,6 +103,10 @@ public class ResultsController extends Controller {
         nameColumn.setCellValueFactory(new TreeItemPropertyValueFactory("name"));
         timeColumn.setCellValueFactory(new TreeItemPropertyValueFactory("executionTime"));
         timeColumn.setCellFactory(new NoZeroLongCellFactory());
+        sizeColumn.setCellValueFactory(new TreeItemPropertyValueFactory("size"));
+        sizeColumn.setCellFactory(new NoZeroLongCellFactory());
+        cardColumn.setCellValueFactory(new TreeItemPropertyValueFactory("cardinality"));
+        cardColumn.setCellFactory(new NoZeroLongCellFactory());
         inputColumn.setCellValueFactory(new TreeItemPropertyValueFactory("input"));
         outputColumn.setCellValueFactory(new TreeItemPropertyValueFactory("output"));
 
@@ -127,16 +137,28 @@ public class ResultsController extends Controller {
                     if (value != null) {
                         if (value instanceof TreeAlgorithmResultModel) {
                             result = ((TreeAlgorithmResultModel) value).getAlgorithmresult();
-                        } else if (value instanceof TreeBenchmarkResultModel) {
-                            String statsFile = ((TreeBenchmarkResultModel) value).getBenchmarkResult().getStatisticsFileName();
-                            showStatistics(statsFile);
                         }
+//                        else if (value instanceof TreeBenchmarkResultModel) {
+//                            String statsFile = ((TreeBenchmarkResultModel) value).getBenchmarkResult().getStatisticsFileName();
+//                            showStatistics(statsFile);
+//                        }
                     }
                     Eventbus.post(new AlgorithmResultSelection(result));   
                 });
 
     }
 
+    public void showDetail(AlgorithmResult result) {
+        try {
+            FXMLLoader loader = new FXMLLoader(ResultsViewerController.class.getResource(FXMLViews.RESULTS_VIEWER_VIEW), getBundle());
+            loader.setControllerFactory((Class<?> param) -> new ResultsViewerController(result));
+            Parent resultViewer = loader.load();
+            Dialogs.showModalDialog(result.getAlgorithmInfo().getName(), resultViewer, getRootPane().getParent().getScene().getWindow());
+        } catch (IOException ex) {
+            Logger.getLogger(MainLayoutController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+    }
     /**
      * Loads the model data into the results table.
      */

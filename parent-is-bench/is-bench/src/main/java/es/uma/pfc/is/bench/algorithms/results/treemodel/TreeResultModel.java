@@ -5,6 +5,8 @@ import es.uma.pfc.is.algorithms.util.StringUtils;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import javafx.beans.property.LongProperty;
+import javafx.beans.property.LongProperty;
+import javafx.beans.property.SimpleLongProperty;
 import javafx.beans.property.SimpleLongProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
@@ -36,6 +38,14 @@ public class TreeResultModel {
      */
     private final LongProperty executionTime;
     /**
+     * Size
+     */
+    private final LongProperty size;
+    /**
+     * Cardinality.
+     */
+    private final LongProperty cardinality;
+    /**
      * Statistics file.
      */
     private final StringProperty statsFile;
@@ -52,6 +62,8 @@ public class TreeResultModel {
         this.name = new SimpleStringProperty(name);
         date = new SimpleStringProperty();
         executionTime = new SimpleLongProperty();
+        size = new SimpleLongProperty();
+        cardinality = new SimpleLongProperty();
         input = new SimpleStringProperty();
         output = new SimpleStringProperty();
         statsFile = new SimpleStringProperty();
@@ -64,6 +76,8 @@ public class TreeResultModel {
         name = new SimpleStringProperty();
         date = new SimpleStringProperty();
         executionTime = new SimpleLongProperty();
+        size = new SimpleLongProperty();
+        cardinality = new SimpleLongProperty();
         input = new SimpleStringProperty();
         output = new SimpleStringProperty();
         statsFile = new SimpleStringProperty();
@@ -180,6 +194,34 @@ public class TreeResultModel {
      */
     public void setExecutionTime(Long time) {
         this.executionTime.setValue(time);
+    }
+    /**
+     * Size property.
+     * @return LongProperty.
+     */
+    public LongProperty sizeProperty() {
+        return size;
+    }
+    /**
+     * Establishes the size.
+     * @param size Size.
+     */
+    public void setSize(Integer size) {
+        this.size.setValue(size);
+    }
+    /**
+     * Cardinality property.
+     * @return LongProperty.
+     */
+    public LongProperty cardinalityProperty() {
+        return cardinality;
+    }
+    /**
+     * Establishes the cardinality.
+     * @param card Cardinality.
+     */
+    public void setCardinality(Integer card) {
+        this.size.setValue(card);
     }
     /**
      * If the row is an algorithm result.
