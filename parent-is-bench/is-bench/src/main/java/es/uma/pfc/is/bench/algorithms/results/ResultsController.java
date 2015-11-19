@@ -10,7 +10,6 @@ import es.uma.pfc.is.bench.algorithms.results.treemodel.TreeAlgorithmModel;
 import es.uma.pfc.is.bench.algorithms.results.treemodel.TreeAlgorithmResultModel;
 import es.uma.pfc.is.bench.algorithms.results.treemodel.TreeBenchmarkResultModel;
 import es.uma.pfc.is.bench.algorithms.results.treemodel.TreeResultModel;
-import es.uma.pfc.is.bench.benchmarks.execution.FileViewerController;
 import es.uma.pfc.is.bench.business.ResultsBean;
 import es.uma.pfc.is.bench.config.WorkspaceManager;
 import es.uma.pfc.is.bench.domain.BenchmarkResult;
@@ -21,6 +20,7 @@ import es.uma.pfc.is.bench.services.StatisticsReaderService;
 import es.uma.pfc.is.bench.uitls.Dialogs;
 import es.uma.pfc.is.bench.view.FXMLViews;
 import es.uma.pfc.is.commons.eventbus.Eventbus;
+import es.uma.pfc.is.javafx.NoZeroDoubleCellFactory;
 import es.uma.pfc.is.javafx.NoZeroLongCellFactory;
 import java.io.IOException;
 import java.net.URL;
@@ -35,24 +35,23 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.control.TableView;
-import javafx.scene.control.TitledPane;
 import javafx.scene.control.TreeItem;
 import javafx.scene.control.TreeTableColumn;
 import javafx.scene.control.TreeTableView;
 import javafx.scene.control.cell.TreeItemPropertyValueFactory;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 
 /**
  * Results view controller.
+ *
  * @author Dora Calderón
  */
 public class ResultsController extends Controller {
 
     @FXML
     private AnchorPane rootPane;
-    @FXML
-    private TitledPane statsTiltedPane;
     @FXML
     private TreeTableView<TreeResultModel> tableResults;
     @FXML
@@ -67,6 +66,7 @@ public class ResultsController extends Controller {
 
     /**
      * Initializes the view.
+     *
      * @param url URL of the view.
      * @param rb Resource bundle.
      */
@@ -85,7 +85,8 @@ public class ResultsController extends Controller {
 
     /**
      * Initializes the results table.
-     * @throws IOException 
+     *
+     * @throws IOException
      */
     @Override
     protected void initView() throws IOException {
@@ -102,7 +103,7 @@ public class ResultsController extends Controller {
                 });
         nameColumn.setCellValueFactory(new TreeItemPropertyValueFactory("name"));
         timeColumn.setCellValueFactory(new TreeItemPropertyValueFactory("executionTime"));
-        timeColumn.setCellFactory(new NoZeroLongCellFactory());
+        timeColumn.setCellFactory(new NoZeroDoubleCellFactory());
         sizeColumn.setCellValueFactory(new TreeItemPropertyValueFactory("size"));
         sizeColumn.setCellFactory(new NoZeroLongCellFactory());
         cardColumn.setCellValueFactory(new TreeItemPropertyValueFactory("cardinality"));
@@ -138,27 +139,13 @@ public class ResultsController extends Controller {
                         if (value instanceof TreeAlgorithmResultModel) {
                             result = ((TreeAlgorithmResultModel) value).getAlgorithmresult();
                         }
-//                        else if (value instanceof TreeBenchmarkResultModel) {
-//                            String statsFile = ((TreeBenchmarkResultModel) value).getBenchmarkResult().getStatisticsFileName();
-//                            showStatistics(statsFile);
-//                        }
                     }
-                    Eventbus.post(new AlgorithmResultSelection(result));   
+                    Eventbus.post(new AlgorithmResultSelection(result));
                 });
 
     }
 
-    public void showDetail(AlgorithmResult result) {
-        try {
-            FXMLLoader loader = new FXMLLoader(ResultsViewerController.class.getResource(FXMLViews.RESULTS_VIEWER_VIEW), getBundle());
-            loader.setControllerFactory((Class<?> param) -> new ResultsViewerController(result));
-            Parent resultViewer = loader.load();
-            Dialogs.showModalDialog(result.getAlgorithmInfo().getName(), resultViewer, getRootPane().getParent().getScene().getWindow());
-        } catch (IOException ex) {
-            Logger.getLogger(MainLayoutController.class.getName()).log(Level.SEVERE, null, ex);
-        }
 
-    }
     /**
      * Loads the model data into the results table.
      */
@@ -195,14 +182,14 @@ public class ResultsController extends Controller {
                         algorithmItem.getChildren().addAll(resultItems);
                         algorithmItems.add(algorithmItem);
 
-    }
+                    }
                     executionNode.getChildren().addAll(algorithmItems);
                     benchItem.getChildren().add(executionNode);
 
                 }
                 benchmarkItems.add(benchItem);
             }
-            if(benchmarkItems.size() > 0) {
+            if (benchmarkItems.size() > 0) {
                 benchmarkItems.get(0).setExpanded(true);
             }
             rootItem.getChildren().addAll(benchmarkItems);
@@ -213,6 +200,7 @@ public class ResultsController extends Controller {
 
     /**
      * Root pane.
+     *
      * @return Pane.
      */
     @Override
@@ -256,6 +244,7 @@ public class ResultsController extends Controller {
 
     /**
      * Handles the NewResultsEvent published by Eventbus and reload the view and the model.
+     *
      * @param event Event.
      */
     @Subscribe

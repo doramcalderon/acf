@@ -79,9 +79,14 @@ public class SimplificationLogic {
                         newRule = new Rule(Sets.difference(Sets.union(a, c), b), Sets.difference(d, unionAB));
                         changed = ImplicationalSystems.addRuleAndElements(simplified, newRule) || changed;
                         logger.history("({}) + ({})  --->  ({})", ab, cd, newRule);
+//                        System.out.println("("+ab+") + ("+cd+")  --->  ("+newRule+")");
                     }
                 }
             }
+//            System.out.println("changed: " + changed);
+//            System.out.println("Antiguo: " + save);
+//            System.out.println("Nuevo: " + simplified);
+//            System.out.println("------------------------------------------------");
         } while(changed);
         
         logger.history("\n" + simplified.toString());

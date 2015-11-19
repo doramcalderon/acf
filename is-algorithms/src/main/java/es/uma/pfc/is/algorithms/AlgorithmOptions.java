@@ -2,6 +2,7 @@
 package es.uma.pfc.is.algorithms;
 
 import es.uma.pfc.is.algorithms.exceptions.InvalidKeyException;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 

@@ -54,7 +54,7 @@ public class AlgorithmResult {
      * Execution time.
      */
     @XmlElement
-    private long executionTime;
+    private double executionTime;
     
     @XmlTransient
     private ImplicationalSystem resultSystem;
@@ -170,7 +170,7 @@ public class AlgorithmResult {
      * Execution time.
      * @return the executionTime
      */
-    public long getExecutionTime() {
+    public double getExecutionTime() {
         return executionTime;
     }
 
@@ -178,7 +178,7 @@ public class AlgorithmResult {
      * Execution time.
      * @param executionTime the executionTime to set
      */
-    public void setExecutionTime(long executionTime) {
+    public void setExecutionTime(double executionTime) {
         this.executionTime = executionTime;
     }
 

@@ -9,9 +9,9 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane id="AnchorPane" fx:id="rootPane" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="es.uma.pfc.is.bench.algorithms.results.ResultsViewerController">
+<AnchorPane id="AnchorPane" fx:id="rootPane" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="es.uma.pfc.is.bench.algorithms.results.ResultsViewerController">
    <children>
-      <GridPane hgap="5.0" layoutX="100.0" layoutY="110.0" prefHeight="400.0" prefWidth="600.0" vgap="5.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <GridPane hgap="5.0" layoutX="100.0" layoutY="110.0" vgap="5.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
         <columnConstraints>
           <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
           <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
@@ -55,9 +55,14 @@
                   <ProgressIndicator fx:id="loadingOutputIndicator" maxHeight="50.0" maxWidth="50.0" visible="false" />
                </children>
             </StackPane>
-            <ToolBar prefHeight="40.0" prefWidth="200.0" GridPane.columnSpan="2147483647">
+            <ToolBar GridPane.columnSpan="2147483647">
               <items>
                 <Button fx:id="btnLog" mnemonicParsing="false" onAction="#handleLogAction" prefHeight="50.0" prefWidth="50.0" text="%btn.log">
+                     <font>
+                        <Font size="10.0" />
+                     </font>
+                  </Button>
+                  <Button fx:id="btnStats" layoutX="10.0" layoutY="10.0" mnemonicParsing="false" onAction="#handleStatsAction" prefHeight="50.0" prefWidth="50.0" text="%btn.stats">
                      <font>
                         <Font size="10.0" />
                      </font>

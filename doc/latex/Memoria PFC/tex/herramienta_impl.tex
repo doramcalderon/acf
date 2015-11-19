@@ -57,7 +57,6 @@
 		Se divide a su vez en dos pestañas: \textit{Nuevo} y \textit{Ejecutar}. Como sus nombres indican, en la pestaña
 		\textit{Nuevo} se pueden registrar nuevos benchmarks y en \textit{Ejecutar}, ejecutarlos.
 				
-			%IMAGEN PESTAÑA BENCHMARKS
 			\begin{figure}[H]
 				\centering
 				\includegraphics[width=.75\textwidth]{imagenes/figura28.png}
@@ -85,14 +84,12 @@
 				\item Registro de algoritmos y benchmarks. 
 				\item Archivos con sistemas implicacionales de entrada para los algoritmos a ejecutar. 
 				\item Archivos con los sistemas implicacionales de salida de los algoritmos ejecutados. 
+				\item Resultados.
 			\end{itemize}
-			
-			El contenido de un workspace puede ser:\\
-			IMAGEN WORKSPACE
-			
-			La primera vez que se arranca la aplicación, se crea el archivo isbench.properties en el directorio \textit{.isbench}
-			del \textit{home} del usuario. En Windows por ejemplo sería 
-			\textit{C:$\backslash$Users$\backslash$usuario$\backslash$.isbench}.
+						
+			La primera vez que se arranca la aplicación, se crea el archivo isbench.properties en el directorio \textit{isbench}
+			del \textit{home} del usuario. En Windows por ejemplo sería\\ 
+			\textit{C:$\backslash$Users$\backslash$usuario$\backslash$isbench}.
 			
 			Este archivo contiene las rutas de los workspaces registrados y el último workspace con el que el usuario entró a la
 			aplicación. Por ejemplo:
@@ -116,7 +113,7 @@
 			\end{figure}
 			
 			La primera vez que el usuario arranca la aplicación, se establece un workspace por defecto en
-			[home\_usuario]$\backslash\text{.isbench}\backslash\text{default}$.	Desde la ventana \textit{Workspaces}, que se puede
+			[home\_usuario]$\backslash\text{isbench}\backslash\text{default}$.	Desde la ventana \textit{Workspaces}, que se puede
 			acceder desde la opción de menú \textit{Preferencias} $\rightarrow$ \textit{Workspaces}, el usuario puede:
 			
 			\begin{itemize}
@@ -152,18 +149,19 @@
 			\texttt{es.uma.pfc.is.algorithms.Algorithm} tal y como se explica en el
 			apartado Implementación de Algoritmos y encontrarse en el classpath del workspace: [workspace\_dir]/lib.
 
-			La opción \textit{Archivo} $\rightarrow$ \textit{Algoritmos del menú principal}, abre la ventana \textit{Nuevo
+			La opción \textit{Algoritmos} $\rightarrow$ \textit{Registro} del menú principal, abre la ventana \textit{Nuevo
 			Algoritmo}:
 
 			\begin{figure}[H]
 				\centering
-					\includegraphics[width=1.00\textwidth,frame]{imagenes/figura30.PNG}
+					\includegraphics[width=0.75\textwidth,frame]{imagenes/figura30.PNG}
 				\caption{Ventana Nuevo Algoritmo}
 				\label{fig:figura30}
 			\end{figure}
 
 			
-			En ella se puede registrar un algoritmo introduciendo su nombre, abreviatura y la clase que lo implementa.
+			En ella se puede añadir librerías al workspace con el botón \textit{Añadir librería} y registrar algoritmos introduciendo su nombre, abreviatura y la clase que
+			lo implementa.
 			
 			\begin{description}
 				\item[Nombre:] Obligatorio y único. Nombre identificativo del algoritmo.\\
@@ -186,7 +184,7 @@
 			
 			\begin{figure}[H]
 				\centering
-					\includegraphics[width=1.00\textwidth,frame]{imagenes/figura31.PNG}
+					\includegraphics[width=0.75\textwidth,frame]{imagenes/figura31.PNG}
 				\caption{Error de validación}
 				\label{fig:figura31}
 			\end{figure}
@@ -197,7 +195,7 @@
 			
 			\begin{figure}[H]
 				\centering
-					\includegraphics[width=1.00\textwidth,frame]{imagenes/figura32.PNG}
+					\includegraphics[width=0.75\textwidth,frame]{imagenes/figura32.PNG}
 				\caption{Error clase no existente}
 				\label{fig:figura32}
 			\end{figure}
@@ -211,6 +209,8 @@
 				\caption{algorithms.xml}
 				\label{fig:figura40}
 			\end{figure}
+			
+			Los algoritmos implementados en este proyecto, CLA y Direct Optimal Basis, se incluyen por defecto y no son necesarios registrarlos.
 
 		
 		\subsection{Registrar Benchmarks}\label{sec:registrar bench}
@@ -301,7 +301,7 @@
 			
 		\subsection{Ejecutar Benchmarks}\label{sec:ejecutar bench}
 		
-			La ejecución de un benchmark consiste en la ejecución secuencial del conjunto de algoritmos que lo componen con uno o 				varios sistemas implicacionales de entrada en común.
+			La ejecución de un benchmark consiste en la ejecución secuencial del conjunto de algoritmos que lo componen con uno o varios sistemas implicacionales de entrada en común.
 			
 			Se genera un archivo de salida y varios adicionales según el modo de ejecución, por algoritmo ejecutado, además de un
 			resumen de dicha ejecución con:
@@ -321,7 +321,7 @@
 			
 			\begin{figure}[H]
 				\centering
-					\includegraphics[width=1\textwidth,frame]{imagenes/figura35.PNG}
+					\includegraphics[width=.85\textwidth,frame]{imagenes/figura35.PNG}
 				\caption{Pestaña Ejecutar Benchmark}
 				\label{fig:figura35}
 			\end{figure}
@@ -332,11 +332,11 @@
 				\item Barra de herramientas
 				\item Listado de Benchmarks
 				\item Formulario para introducción de parámetros
-				\item Visor de resultados y estadísticas
+				\item Visor de resultados
 			\end{itemize}
 
-			La barra de herramientas contiene dos botones \textit{Ejecutar}, que ejecuta un benchmark o algoritmo seleccionado y
-			\textit{Limpiar} que limpia tanto la selección en el árbol como el formulario.
+			La barra de herramientas contiene tres botones \textit{Ejecutar}, que ejecuta un benchmark o algoritmo seleccionado, \textit{Parar} que para la ejecución en
+			curso y \textit{Limpiar} que limpia tanto la selección en el árbol como el formulario.
 			
 			En la zona izquierda, se encuentra un árbol de dos niveles que contiene los benchmarks registrados en el workspace
 			actual en el primer nivel, y los algoritmos que forman el benchmark en el segundo nivel. El contenido de éste árbol
@@ -361,44 +361,42 @@
 					que se pueden seleccionar en el desplegable que se encuentra a la izquierda del campo que contiene la ruta.
 					El formato texto es la utilizada por defecto en la librería \textit{java-lattice}.
 			\end{itemize}
+			Los archivos generados tomarán nombres por defecto:
+				\begin{itemize}
+					\item de salida: [abreviatura\_algoritmo]\_[nombre\_archivo\_entrada].txt
+					\item traza: [abreviatura\_algoritmo]\_trace.log
+					\item estadísticas: [nombre\_algoritmo]\_[fecha\_hora\_ejecucion].csv, donde
+						
+								 [fecha\_hora\_ejecucion] es el momento de la ejecución con formato \\\texttt{yyyymmddhhMMss}.
+				\end{itemize}
 					
+			Bajo el campo \textit{Salida}, se encuentra la tabla de resultados que contendrá los resultados de la ejecución actual agrupados por algoritmo. 			
+			El contenido de cada una de las columnas es:
 			
-			En la pestaña \textit{Resultados} se muestran los resultados de la ejecución actual, agrupados por algoritmo. Haciendo
-			doble click sobre alguno de ellos, se abre un visor con la traza generada si ésta ha sido activada. 
+			\begin{itemize}
+				\item \textbf{Nombre:} Sólo tiene valor en el primer nivel, y contiene el nombre del algoritmo.
+				\item \textbf{Tiempo:} Tiempo de ejecución.
+				\item \textbf{Tamaño:} Tamaño del sistema implicacional de salida.
+				\item \textbf{Card.:} Cardinalidad del sistema implicacional de salida.
+				\item \textbf{Entrada:} Nombre del archivo que contiene el sistema implicacional de entrada.
+				\item \textbf{Entrada:} Nombre del archivo que contiene el sistema implicacional de salida.
+			\end{itemize}
+			
+			Al hacer click con el botón derecho sobre alguno de los resultados, se muestra un menú contextual con las siguientes opciones:
+			
+			
+			\begin{itemize}
+				\item \textbf{Mostrar Log:} Muestra la traza generada si se ha ejecutado con el modo \textit{Tiempos} activo como se ve en la Figura \ref{fig:figura42}.
+					También se podrá ver dicha traza haciendo doble click sobre el resultado.
+				\item \textbf{Fichero de Estadísticas:} Abre el archivo de estadísticas generado si se ha ejecutado con el modo \textit{Estadísticas} activo.
+			\end{itemize}
 			
 			\begin{figure}[H]
 				\centering
-					\includegraphics[width=1.00\textwidth]{imagenes/figura42.PNG}
+					\includegraphics[width=0.75\textwidth]{imagenes/figura42.PNG}
 				\caption{Visor de traza}
 				\label{fig:figura42}
 			\end{figure}
-
-			
-			La pestaña \textit{Estadísticas} contiene una tabla en la que se muestran las estadísticas generadas cuando el modo
-			\textit{Estadísticas} ha sido activado. Cada fila se corresponde con la ejecución de cada algoritmo para la que existen
-			dos columnas por entrada procesada (Size y Card).
-			
-			Para ejecutar un benchmark:			
-			
-			\begin{enumerate}
-				\item Seleccionar el benchmark a ejecutar en el árbol.
-				\item La lista \textit{Ficheros de Entrada} se inicializa con las entradas definidas en el momento del registro del
-					 Benchmark.
-				\item El campo Salida, se inicializa con la ruta \textit{[workspace\_dir]/[nombre\_benchmark]/output.}
-						En este caso la ruta es un directorio, ya que se generarán n salidas, una o más por algoritmo ejecutado.
-						
-						Los archivos generados tomarán nombres por defecto:
-						\begin{itemize}
-							\item de salida: [abreviatura\_algoritmo]\_[nombre\_archivo\_entrada].txt
-							\item traza: [abreviatura\_algoritmo]\_history.log
-							\item estadísticas: [nombre\_algoritmo]\_[fecha\_hora\_ejecucion].csv, donde [fecha\_hora\_ejecucion]
-							es el momento de la ejecución con formato \texttt{yyyymmddhhMMss}.
-						\end{itemize}
-						
-				\item El modo de ejecución por defecto es \textit{Con Tiempos}.
-				\item Pulsar el botón \textit{Run}.
-				\item Una vez finalice la ejecución, se muestran los resultados en la pestaña \textit{Resultados}.	
-			\end{enumerate}
 			
 		\subsection{Consulta de Resultados}
 			En el área de \textit{Resultados}, se pueden consultar los resultados de las ejecuciones realizadas en el workspace
@@ -408,15 +406,13 @@
 			
 			\begin{figure}[H]
 				\centering
-					\includegraphics[width=1.00\textwidth,frame]{imagenes/figura44.PNG}
+					\includegraphics[width=.75\textwidth,frame]{imagenes/figura29.PNG}
 				\caption{Resultados}
-				\label{fig:figura44}
+				\label{fig:figura29}
 			\end{figure}
-			
-			Seleccionando la fila que agrupa los resultados de una ejecución (fecha y hora), se cargan en la parte inferior las
-			estadísticas generadas.
-			
-			Si se selecciona una de éstas filas, se muestra a la derecha los sistemas implicacionales de entrada y salida.
+						
+			Si se selecciona una de éstas filas, se muestra enla parte inferior sistemas implicacionales de entrada y salida. Además se puede consultar la traza generada y
+			el archivo de estadísticas mediante los botones \textit{Traza} y \textit{Estadísticas}.
 			
 	\section{Generador de sistemas implicacionales aleatorios}
 	
@@ -437,7 +433,7 @@
 			
 		\begin{figure}[H]
 			\centering
-				\includegraphics[width=1.00\textwidth]{imagenes/figura48.PNG}
+				\includegraphics[width=0.85\textwidth]{imagenes/figura48.PNG}
 			\caption{Generador de Implicaciones}
 			\label{fig:figura48}
 		\end{figure}
@@ -464,7 +460,7 @@
 			
 						\begin{figure}[H]
 							\centering
-								\includegraphics[width=1.00\textwidth]{imagenes/figura46.PNG}
+								\includegraphics[width=0.85\textwidth]{imagenes/figura46.PNG}
 							\caption{Generación de sistema aleatorio}
 							\label{fig:figura46}
 						\end{figure}
@@ -478,7 +474,7 @@
 					  
 					\begin{figure}[H]
 						\centering
-							\includegraphics[width=1.00\textwidth]{imagenes/figura47.PNG}
+							\includegraphics[width=0.85\textwidth]{imagenes/figura47.PNG}
 						\caption{Selección de archivo de salida}
 						\label{fig:figura47}
 					\end{figure}
@@ -544,6 +540,81 @@
 					\end{figure}
 			\end{enumerate}
 			
+	\section{Ejemplo de uso}
+	
+		En esta sección se muestra un ejemplo de uso de la herramienta, desde que se registra el benchmark hasta la consulta de resultados, pasando por su ejecución.
+		El ejemplo será de un benchmark en el que se compararán los algoritmos CLA y Direct Optimal Basis con un conjunto de implicaciones aleatorias.
+		
+			
+			\begin{enumerate}
+				\item Registrar un nuevo benchmark en la pestaña \textit{Nuevo} del área \textit{Benchmarks}.
+					
+						\begin{enumerate}
+							\item Introducir el nombre en el campo \textit{Nombre}.
+							\item Seleccionar la opción \textit{Aleatorio} del desplegable \textit{Seleccione Entrada}.\\
+									
+									\begin{figure}[h]
+										\centering
+										\includegraphics[scale=.75]{imagenes/figura58.png}
+										\caption*{}
+									\end{figure}
+							\item Se abre el generador de implicaciones. Introducir el número de atributos, implicaciones y conjuntos a generar en sus correspondientes
+									 campos y pulsar el botón \textit{Generar}.
+									 
+							\item Al finalizar la generación, se muestra un mensaje informando de ello. Aceptar el mensaje y cerrar el generador. Las rutas de las entradas
+									 generadas se cargan en la lista de entradas.
+									 
+								\begin{figure}[H]
+									\centering
+										\includegraphics[width=.80\textwidth]{imagenes/figura59.png}
+									\caption{Entadas insertadas desde el Generador}
+									\label{fig:figura59}
+								\end{figure}
+
+									 
+							\item Seleccionar los algoritmos CLA y Direct Optimal Basis de la lista de algoritmos con doble click. Éstos se añadirán a la lista de la
+									derecha.
+							\item Hacer click en \textit{Guardar}. Si todo ha ido bien, se mostrará un mensaje al pie informando de ello.
+						\end{enumerate}
+						
+				\item Ejecutar el benchmark creado desde la pestaña \textit{Ejecutar}.
+					
+					\begin{enumerate}
+						\item El benchmark registrado aparece en el árbol de benchmarks a la izquierda. Seleccionarlo haciendo click sobre él.
+						
+						\item La lista \textit{Ficheros de Entrada} se inicializa con las entradas definidas.
+												
+						\item El campo \textit{Salida}, se inicializa con la ruta \textit{[workspace\_dir]/[nombre\_benchmark]/output.}
+							En este caso la ruta es un directorio, ya que se generarán \textit{n} salidas, una o más por algoritmo ejecutado.
+							
+					
+						\item El modo de ejecución por defecto es \textit{Tiempos}. Seleccionar además el modo \textit{Estadísticas} para que calcule los tamaños y
+							 cardinalidades de los sitemas implicacionales de salida.
+						\item Pulsar el botón \textit{Run}. Aparece un indicador que estará visible durante la ejecución.
+				
+								\begin{figure}[H]
+									\centering
+										\includegraphics[width=.75\textwidth]{imagenes/figura63.png}
+									\caption{Ejecución de un benchmark}
+									\label{fig:figura63}
+								\end{figure}
+
+						\item Cuando finaliza la ejecución, el indicador desaparece y los resultados se muestran en la tabla de resultados.
+						
+								\begin{figure}[H]
+									\centering
+										\includegraphics[width=.75\textwidth]{imagenes/figura61.PNG}
+									\caption{Resultados de la ejecución}
+									\label{fig:figura61}
+								\end{figure}
+
+					\end{enumerate}
+				
+				
+			\end{enumerate}
+		
+		
+	\newpage		
 	\section{Implementación de Algoritmos}
 	
 		Para que terceros puedan implementar algoritmos que puedan ser ejecutados por IS Bench, se ha creado una API con las
@@ -575,8 +646,21 @@
 			\label{fig:figura54}
 		\end{figure}
 
-		En el apartado \ref{sec:clases_api_alg} se incluyen los detalles de esta API.
-		\newline
+		En el apartado \ref{subsec:clases_api_alg} se incluyen los detalles de esta API.
+				
+		A continuación se muestra un ejemplo de un algoritmo, que devuelve un sistema equivalente al de entrada cuyas conclusiones
+		sólo contienen un atributo.
+		
+		\begin{verbnobox}[\small]
+			public class UnaryAlgorithm extends GenericAlgorithm {
+			    @Override
+			    public ImplicationalSystem execute(ImplicationalSystem system) {
+			        ImplicationalSystem outputSystem = new ImplicationalSystem(system);
+			        outputSystem.makeUnary();
+			        return outputSystem;
+			    }
+			}
+		\end{verbnobox}
 		
 		Por lo que, para implementar un algoritmo y ejecutarlo desde IS Bench:
 				
@@ -591,10 +675,9 @@
 				 
 			\item Compilar el proyecto y generar el JAR correspondiente.
 			
-			\item Copiar el JAR a la carpeta \textit{lib} del workspace actual.
-			
-			\item Registrar el algoritmo en IS Bench, bien desde la ventana Nuevo Algoritmo (opción de menú \textit{Archivo}
-					$\rightarrow$ \textit{Algoritmos}) o bien desde la pestaña \textit{Benchmarks} / \textit{Nuevo}, como se
+						
+			\item Registrar el algoritmo en IS Bench, bien desde la ventana Nuevo Algoritmo (opción de menú \textit{Algoritmos}
+					$\rightarrow$ \textit{Registro}) o bien desde la pestaña \textit{Benchmarks} / \textit{Nuevo}, como se
 					explica en los apartados  \ref{sec:registrar algoritmos} y \ref{sec:registrar bench}.
 			
 			\item Incluir el algoritmo en un \textit{benchmark} como se explica en el apartado \ref{sec:registrar bench}, si no se

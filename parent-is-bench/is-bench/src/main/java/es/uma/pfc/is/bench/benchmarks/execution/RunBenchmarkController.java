@@ -26,12 +26,12 @@ import es.uma.pfc.is.bench.i18n.BenchMessages;
 import es.uma.pfc.is.bench.i18n.I18n;
 import es.uma.pfc.is.bench.services.AlgorithmExecService;
 import es.uma.pfc.is.bench.services.BenchmarksLoadService;
-import es.uma.pfc.is.bench.services.StatisticsReaderService;
 import es.uma.pfc.is.bench.uitls.Animations;
 import es.uma.pfc.is.bench.uitls.Chooser;
 import es.uma.pfc.is.bench.uitls.Dialogs;
 import es.uma.pfc.is.commons.strings.StringUtils;
 import es.uma.pfc.is.javafx.FilterableTreeItem;
+import es.uma.pfc.is.javafx.NoZeroDoubleCellFactory;
 import es.uma.pfc.is.javafx.NoZeroLongCellFactory;
 import es.uma.pfc.is.javafx.TreeItemPredicate;
 import java.io.File;
@@ -66,7 +66,6 @@ import javafx.scene.control.ListView;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.ProgressIndicator;
 import javafx.scene.control.SelectionMode;
-import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TreeItem;
 import javafx.scene.control.TreeTableColumn;
@@ -129,11 +128,7 @@ public class RunBenchmarkController extends Controller {
      */
     @FXML
     private ChoiceBox<String> cbOutputType;
-    /**
-     * Table with statistics results.
-     */
-    @FXML
-    private TableView tableStatistics;
+    
     /**
      * Mode checks.
      */
@@ -220,11 +215,19 @@ public class RunBenchmarkController extends Controller {
                 showLog();
             }
         });
-        tableResults.setContextMenu(new ContextMenu(logItem));
+        MenuItem statisticsItem = new MenuItem("Statistics File"); // TODO crear label
+        logItem.setOnAction(new EventHandler<ActionEvent>() {
+
+            @Override
+            public void handle(ActionEvent event) {
+                showStatisticsFile();
+            }
+        });
+        tableResults.setContextMenu(new ContextMenu(logItem, statisticsItem));
         tableResults.setShowRoot(false);
         nameColumn.setCellValueFactory(new TreeItemPropertyValueFactory("name"));
         timeColumn.setCellValueFactory(new TreeItemPropertyValueFactory("executionTime"));
-        timeColumn.setCellFactory(new NoZeroLongCellFactory());
+        timeColumn.setCellFactory(new NoZeroDoubleCellFactory());
         inputColumn.setCellValueFactory(new TreeItemPropertyValueFactory("input"));
         outputColumn.setCellValueFactory(new TreeItemPropertyValueFactory("output"));
         sizeColumn.setCellValueFactory(new TreeItemPropertyValueFactory("size"));
@@ -249,6 +252,18 @@ public class RunBenchmarkController extends Controller {
             }
         }
     }
+    
+    /**
+     * Shows the statistics files if exists.
+     */
+    public void showStatisticsFile() {
+        TreeItem<TreeResultModel> item = tableResults.getSelectionModel().getSelectedItem();
+        if (item != null && item.getValue().isAlgorithmResult()) {
+            // crear propiedad que guarda la ruta del fichero de estadísticas
+        }
+    }
+    
+    
 
     /**
      * Initializes the model loading the benchmarks into the tree.
@@ -275,12 +290,12 @@ public class RunBenchmarkController extends Controller {
         inputsList.itemsProperty().bindBidirectional(model.selectedInputFilesListProperty());
         lbSelectedFiles.textProperty().bind(new StringBinding() {
             {
-                super.bind(inputsList.itemsProperty());
+                super.bind(model.selectedInputFilesListProperty());
             }
 
             @Override
             protected String computeValue() {
-                return BenchMessages.get().getMessage(I18n.SELECTED_FILES_COUNT, inputsList.getItems().size());
+                return BenchMessages.get().getMessage(I18n.SELECTED_FILES_COUNT, model.selectedInputFilesListProperty().size());
             }
         });
         txtOutput.textProperty().bindBidirectional(model.outputDirProperty());
@@ -407,8 +422,9 @@ public class RunBenchmarkController extends Controller {
      */
     @FXML
     public void handleRunAction(ActionEvent event) {
-        clearStatistics(event);
-
+        if(tableResults.getRoot() != null && tableResults.getRoot().getChildren() != null) {
+            tableResults.getRoot().getChildren().clear();
+        }
         if (validate()) {
             execute();
         }
@@ -450,14 +466,14 @@ public class RunBenchmarkController extends Controller {
      * @param statisticsFile Statistics file path.
      */
     protected void showStatistics(String statisticsFile) {
-        if (chkStatistics.isSelected()) {
-            if (!StringUtils.isEmpty(statisticsFile)) {
-                StatisticsReaderService statisticsReader
-                        = new StatisticsReaderService(statisticsFile, tableStatistics);
-                statsProgressInd.visibleProperty().bind(statisticsReader.runningProperty());
-                statisticsReader.restart();
-            }
-        }
+//        if (chkStatistics.isSelected()) {
+//            if (!StringUtils.isEmpty(statisticsFile)) {
+//                StatisticsReaderService statisticsReader
+//                        = new StatisticsReaderService(statisticsFile, tableStatistics);
+//                statsProgressInd.visibleProperty().bind(statisticsReader.runningProperty());
+//                statisticsReader.restart();
+//            }
+//        }
     }
 
     /**
@@ -550,15 +566,15 @@ public class RunBenchmarkController extends Controller {
         }
     }
 
-    /**
-     * Clear the statistics table.
-     * @param event Event.
-     */
-    @FXML
-    public void clearStatistics(ActionEvent event) {
-        tableStatistics.getItems().clear();
-        tableStatistics.getColumns().clear();
-    }
+//    /**
+//     * Clear the statistics table.
+//     * @param event Event.
+//     */
+//    @FXML
+//    public void clearStatistics(ActionEvent event) {
+//        tableStatistics.getItems().clear();
+//        tableStatistics.getColumns().clear();
+//    }
 
 
     /**
@@ -573,7 +589,6 @@ public class RunBenchmarkController extends Controller {
         inputsList.getItems().clear();
         txtOutput.clear();
         tableResults.getRoot().getChildren().clear();
-        clearStatistics(null);
         model.setLastExecutionResult(null);
     }
 
@@ -590,8 +605,8 @@ public class RunBenchmarkController extends Controller {
 
         @Override
         public void changed(ObservableValue<? extends TreeItem> observable, TreeItem oldItem, TreeItem newItem) {
+            
             if (newItem != null) {
-                tableStatistics.getColumns().clear();
 
                 Benchmark selectedBenchmark;
                 boolean isBenchmark = (newItem.getValue() instanceof Benchmark);

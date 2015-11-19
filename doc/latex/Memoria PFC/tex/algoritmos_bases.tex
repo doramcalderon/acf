@@ -2,12 +2,12 @@
 % Preamble
 \begin{document}
 	
-\chapter{ALGORITMOS DE CÁLCULO DE BASES}
+\chapter{ALGORITMOS DE CÁLCULO DE BASES}\label{chap:algoritmosBases}
 	\newpage
 	En esta sección se incluyen los pseudocódigos de los algoritmos implementados para el cálculo de bases directas, por el grupo de investigación GIMAC, en colaboración
 	con la Dra. K. Bertet de la Universidad de La Rochelle. Uno de los objetivos de este proyecto es implementar estos algoritmos en Java siguiendo las estructuras de datos
 	que están implementadas en el repositorio \url{https://github.com/kbertet/java-lattices} ya que es probable que en un futuro dichos
-	algoritmos se incluyan en dicha librería.
+	algoritmos se incluyan en esta librería.
 	
 	La estructura principal usada es la clase \textit{ImplicationalSystem} que representa un conjunto o sistema de implicaciones e implementa las operaciones
 	clásicas sobre éstos: sitema propio, base canónica, base canónica directa, sistema unario, etc. 
@@ -115,7 +115,8 @@
 		
 	\pagebreak
 	\section{Direct Optimal Basis}
-		A continuación se muestra el algortimo Direct Optimal Basis presentado en el artículo \cite{bib:ref1}.
+		A continuación se muestra el algortimo Direct Optimal Basis presentado en el artículo \cite{bib:ref1}. La diferencia con el algoritmo CLA, es que se hace
+		una simplificación izquierda y derecha antes de aplicar la regla Strong Simplification.
 		
 		\begin{tabular}{l p{15cm}}
 							& \textbf{input}: Un sistema implicacional $\Sigma$	en S	\\
@@ -176,29 +177,24 @@
 		\subsubsection{CLA}
 			\textbf{Clase:} es.uma.pfc.is.algorithms.optbasis.ClaAlgorithm
 			
-			\begin{verbatim}
+			\begin{verbnobox}[\small]
 					public class ClaAlgorithm extends GenericAlgorithm {
     					@Override
 					    public ImplicationalSystem execute(ImplicationalSystem input) {
 					        ImplicationalSystem directOptimalBasis = new ImplicationalSystem(input);
 					        
-					        try {
-					            directOptimalBasis = SimplificationLogic.reduce(
-					            						directOptimalBasis, getLogger());
+					        directOptimalBasis = SimplificationLogic.reduce(
+					            					directOptimalBasis, getLogger());
 					            						
-					            directOptimalBasis = SimplificationLogic.strongSimplification(
-					            						directOptimalBasis, getLogger());
+					        directOptimalBasis = SimplificationLogic.strongSimplification(
+					            					directOptimalBasis, getLogger());
 					            						
-					            directOptimalBasis = SimplificationLogic.composition(
-					            						directOptimalBasis, getLogger());
+					        directOptimalBasis = SimplificationLogic.composition(
+					            					directOptimalBasis, getLogger());
 					            						
-					            directOptimalBasis = SimplificationLogic.optimize(
-					            						directOptimalBasis, getLogger());
-					            
-					        } finally {
-					            getLogger().flush();
-					            getLogger().freeResources();
-					        }	        
+					        directOptimalBasis = SimplificationLogic.optimize(
+					            					directOptimalBasis, getLogger());
+					      	        
 					        return directOptimalBasis;
 					    }
 					
@@ -212,13 +208,13 @@
 					        return "CLA";
 					    }
 					}
-				\end{verbatim}
+				\end{verbnobox}
 								
 				
 		\subsubsection{Direct Optimal Basis}
 			\textbf{Clase:} es.uma.pfc.is.algorithms.optbasis.DirectOptimalBasis
 			
-			\begin{verbatim}
+			\begin{verbnobox}[\small]
 				public class DirectOptimalBasis extends GenericAlgorithm {			
 				    
 				    /**
@@ -230,30 +226,25 @@
 				    public ImplicationalSystem execute(ImplicationalSystem system) {
 				        ImplicationalSystem directOptimalBasis = new ImplicationalSystem(system);
 				        
-				        try {
-				            // Stage 1 : Generation of sigma-r by reduction of sigma
-				            directOptimalBasis = SimplificationLogic.reduce(
-				            						directOptimalBasis, getLogger());
+				        // Stage 1 : Generation of sigma-r by reduction of sigma
+				        directOptimalBasis = SimplificationLogic.reduce(
+				            					directOptimalBasis, getLogger());
 				
-				            // Stage 2: Generation of sigma-sr by simplification 
-				            // (left+right) + composition of sigma-r
-				            directOptimalBasis = simplify(directOptimalBasis);
+				        // Stage 2: Generation of sigma-sr by simplification 
+				        // (left+right) + composition of sigma-r
+				        directOptimalBasis = simplify(directOptimalBasis);
 				
-				            // Stage 3: Generation of sigma-dsr by completion of sigma-sr
-				            directOptimalBasis = SimplificationLogic.strongSimplification(
-				            						directOptimalBasis, getLogger());
+				        // Stage 3: Generation of sigma-dsr by completion of sigma-sr
+				        directOptimalBasis = SimplificationLogic.strongSimplification(
+				            					directOptimalBasis, getLogger());
 				
-				            // Stage 4: Composition of sigma-dsr
-				            SimplificationLogic.composition(directOptimalBasis, getLogger());
+				        // Stage 4: Composition of sigma-dsr
+				        SimplificationLogic.composition(directOptimalBasis, getLogger());
 				
-				            // Stage 5: Generation of sigma-do by optimization of sigma-dsr
-				            directOptimalBasis = SimplificationLogic.optimize(
-				            						directOptimalBasis, getLogger());
+				        // Stage 5: Generation of sigma-do by optimization of sigma-dsr
+				        directOptimalBasis = SimplificationLogic.optimize(
+				            					directOptimalBasis, getLogger());
 				            
-				        } finally {
-				            getLogger().flush();
-				            getLogger().freeResources();;
-				        }
 				        return directOptimalBasis;
 				    }
 				    
@@ -268,5 +259,5 @@
 					}
 				  }
 
-			\end{verbatim}
+			\end{verbnobox}
 \end{document}

@@ -4,9 +4,9 @@ package es.uma.pfc.is.bench.algorithms.results.treemodel;
 import es.uma.pfc.is.algorithms.util.StringUtils;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.LongProperty;
-import javafx.beans.property.LongProperty;
-import javafx.beans.property.SimpleLongProperty;
+import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleLongProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
@@ -36,7 +36,7 @@ public class TreeResultModel {
     /**
      * Execution time.
      */
-    private final LongProperty executionTime;
+    private final DoubleProperty executionTime;
     /**
      * Size
      */
@@ -61,7 +61,7 @@ public class TreeResultModel {
     public TreeResultModel(String name) {
         this.name = new SimpleStringProperty(name);
         date = new SimpleStringProperty();
-        executionTime = new SimpleLongProperty();
+        executionTime = new SimpleDoubleProperty();
         size = new SimpleLongProperty();
         cardinality = new SimpleLongProperty();
         input = new SimpleStringProperty();
@@ -75,7 +75,7 @@ public class TreeResultModel {
     public TreeResultModel() {
         name = new SimpleStringProperty();
         date = new SimpleStringProperty();
-        executionTime = new SimpleLongProperty();
+        executionTime = new SimpleDoubleProperty();
         size = new SimpleLongProperty();
         cardinality = new SimpleLongProperty();
         input = new SimpleStringProperty();
@@ -185,14 +185,14 @@ public class TreeResultModel {
      * Execution time property.
      * @return LongProperty.
      */
-    public LongProperty executionTimeProperty() {
+    public DoubleProperty executionTimeProperty() {
         return executionTime;
     }
     /**
      * Establishes the execution time.
      * @param time Execution time.
      */
-    public void setExecutionTime(Long time) {
+    public void setExecutionTime(Double time) {
         this.executionTime.setValue(time);
     }
     /**

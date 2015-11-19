@@ -14,16 +14,10 @@ public class ClaAlgorithm extends GenericAlgorithm {
     public ImplicationalSystem execute(ImplicationalSystem input) {
         ImplicationalSystem directOptimalBasis = new ImplicationalSystem(input);
         
-        try {
-            directOptimalBasis = SimplificationLogic.reduce(directOptimalBasis, getLogger());
-            directOptimalBasis = SimplificationLogic.strongSimplification(directOptimalBasis, getLogger());
-            directOptimalBasis = SimplificationLogic.composition(directOptimalBasis, getLogger());
-            directOptimalBasis = SimplificationLogic.optimize(directOptimalBasis, getLogger());
-            
-        } finally {
-            getLogger().flush();
-            getLogger().freeResources();
-        }
+        directOptimalBasis = SimplificationLogic.reduce(directOptimalBasis, getLogger());
+        directOptimalBasis = SimplificationLogic.strongSimplification(directOptimalBasis, getLogger());
+        directOptimalBasis = SimplificationLogic.composition(directOptimalBasis, getLogger());
+        directOptimalBasis = SimplificationLogic.optimize(directOptimalBasis, getLogger());
         
         return directOptimalBasis;
     }

@@ -14,8 +14,6 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.concurrent.Callable;
-import java.util.concurrent.CancellationException;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -56,6 +54,10 @@ public class AlgorithmExecutor {
      * Number of concurrent executions.
      */
     private int threadsNum;
+    /**
+     * Timeout in seconds for task executed. 1800 (30 minutes) by default.
+     */
+    private int timeoutTask;
     
     private ExecutorService executor;
     /**
@@ -65,6 +67,7 @@ public class AlgorithmExecutor {
         options = new AlgorithmOptions();
         messages = AlgMessages.get();
         threadsNum = getThreadsNum();
+        timeoutTask = getTimeoutTask();
         executor = Executors.newFixedThreadPool(threadsNum, 
                                                 new ThreadFactoryBuilder().setNameFormat("Algorithms-%d")
                                                         .setDaemon(true).build());
@@ -76,10 +79,23 @@ public class AlgorithmExecutor {
      * If it is not established or the value it is not numeric, the default value is 10.
      * @return Number of threads.
      */
+    private int getTimeoutTask() {
+        String value = System.getProperty("isbench.timeout.task");
+        if (!StringUtils.isNumeric(value)) {
+            value = "7200";
+        }
+        return Integer.valueOf(value);
+    }
+    
+    /**
+     * Gets the threads num from the "isbench.threads.num" system property.
+     * If it is not established or the value it is not numeric, the default value is 10.
+     * @return Number of threads.
+     */
     private int getThreadsNum() {
         String value = System.getProperty("isbench.threads.num");
         if (!StringUtils.isNumeric(value)) {
-            value = "5";
+            value = "2";
         }
         return Integer.valueOf(value);
     }
@@ -209,49 +225,12 @@ public class AlgorithmExecutor {
      */
     protected List<AlgorithmResult> concurrentExecution(String[] inputs, String outputDir) {
         List<AlgorithmResult> results = Collections.synchronizedList(new ArrayList());
-//        List<Callable<AlgorithmResult>> tasks = new ArrayList();
-//        for (String input : inputs) {
-//            tasks.add(new AlgExecutionTask(algorithm, options, input, outputDir));
-//        }
-//
-//        
-//        List<Future<AlgorithmResult>> resultTasks = null;
-//        try {
-//            resultTasks = executor.invokeAll(tasks, 5, TimeUnit.SECONDS);
-//        } catch (InterruptedException ex) {
-//            Logger.getLogger(AlgorithmExecutor.class.getName()).log(Level.SEVERE, "The task has been interrupted");
-//        }
-//        
-//        
-//
-//        for (Future<AlgorithmResult> future : resultTasks) {
-//            AlgorithmResult r;
-//            try {
-//                r = future.get(5, TimeUnit.SECONDS);
-//                results.add(r);
-//            } catch (ExecutionException ex) {
-//                Logger.getLogger(AlgorithmExecutor.class.getName()).log(Level.SEVERE, null, ex);
-//            } catch (InterruptedException ex) {
-//                future.cancel(true);
-//                Logger.getLogger(AlgorithmExecutor.class.getName()).log(Level.SEVERE, "The task has been interrupted");
-//            } catch (TimeoutException ex) {
-//                future.cancel(true);
-//                Logger.getLogger(AlgorithmExecutor.class.getName())
-//                        .log(Level.SEVERE, "The task has been cancelled because takes too long.");
-//                
-//            } catch (CancellationException ex) {
-//                Logger.getLogger(AlgorithmExecutor.class.getName())
-//                        .log(Level.SEVERE, "The task has been cancelled because takes too long.");
-//                
-//            }
-        
-//        }
-        
+
         for (String input : inputs) {
             Future<AlgorithmResult> futureResult = null;
             try {
                 futureResult = executor.submit(new AlgExecutionTask(algorithm, options, input, outputDir));
-                AlgorithmResult r = futureResult.get(5, TimeUnit.SECONDS);
+                AlgorithmResult r = futureResult.get(timeoutTask, TimeUnit.SECONDS);
                 if(r != null) {
                     results.add(r);
                 }

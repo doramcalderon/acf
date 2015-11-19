@@ -72,9 +72,7 @@ public class AlgorithmExecService extends Service<BenchmarkResult> {
      * Creates the instances of the benchmark algorithms.
      */
     protected void instanceAlgorithms() {
-        if (algorithms == null) {
-            algorithms = new ArrayList<>();
-    }
+        algorithms = new ArrayList<>();
         model.getSelectedAlgorithms().stream().forEach(algEnt -> {
             algorithms.add(instanceAlgorithm(algEnt));
         });

@@ -16,7 +16,6 @@ import java.util.TreeSet;
 public class DirectOptimalBasis extends GenericAlgorithm {
 
     public DirectOptimalBasis() {
-        setName("Direct Optimal Basis II");
     }
 
     
@@ -28,30 +27,27 @@ public class DirectOptimalBasis extends GenericAlgorithm {
     @Override
     public ImplicationalSystem execute(ImplicationalSystem system) {
         ImplicationalSystem directOptimalBasis = new ImplicationalSystem(system);
-        try {
-            history("**************************************************************************************");
-            history(messages.getMessage("INPUT:"));
-            history(system.toString());
-            history("**************************************************************************************");
 
-            // Stage 1 : Generation of sigma-r by reduction of sigma
-            directOptimalBasis = SimplificationLogic.reduce(directOptimalBasis, getLogger());
+        history("**************************************************************************************");
+        history(messages.getMessage("INPUT:"));
+        history(system.toString());
+        history("**************************************************************************************");
 
-            // Stage 2: Generation of sigma-sr by simplification (left+right) + composition of sigma-r
-            directOptimalBasis = simplify(directOptimalBasis);
+        // Stage 1 : Generation of sigma-r by reduction of sigma
+        directOptimalBasis = SimplificationLogic.reduce(directOptimalBasis, getLogger());
 
-            // Stage 3: Generation of sigma-dsr by completion of sigma-sr
-            directOptimalBasis = SimplificationLogic.strongSimplification(directOptimalBasis, getLogger());
+        // Stage 2: Generation of sigma-sr by simplification (left+right) + composition of sigma-r
+        directOptimalBasis = simplify(directOptimalBasis);
 
-            // Stage 4: Composition of sigma-dsr
-            SimplificationLogic.composition(directOptimalBasis, getLogger());
+        // Stage 3: Generation of sigma-dsr by completion of sigma-sr
+        directOptimalBasis = SimplificationLogic.strongSimplification(directOptimalBasis, getLogger());
 
-            // Stage 5: Generation of sigma-do by optimization of sigma-dsr
-            directOptimalBasis = SimplificationLogic.optimize(directOptimalBasis, getLogger());
-        } finally {
-            getLogger().flush();
-            getLogger().freeResources();;
-        }
+        // Stage 4: Composition of sigma-dsr
+        SimplificationLogic.composition(directOptimalBasis, getLogger());
+
+        // Stage 5: Generation of sigma-do by optimization of sigma-dsr
+        directOptimalBasis = SimplificationLogic.optimize(directOptimalBasis, getLogger());
+
         return directOptimalBasis;
     }
     

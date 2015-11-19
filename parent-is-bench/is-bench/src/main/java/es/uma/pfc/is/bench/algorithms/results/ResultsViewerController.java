@@ -61,6 +61,8 @@ public class ResultsViewerController extends Controller {
     @FXML
     private Button btnLog;
     @FXML
+    private Button btnStats;
+    @FXML
     private ImageView imgInputDiagram, imgOutputDiagram;
     @FXML
     private FileReaderService inputReaderService, outputReaderService;
@@ -170,7 +172,7 @@ public class ResultsViewerController extends Controller {
 
     @Override
     protected void initBinding() {
-        btnLog.disableProperty().bind(new BooleanBinding() {
+        BooleanBinding buttonsDisabled = new BooleanBinding() {
             {super.bind(txtInputViewer.textProperty());}
 
             ;
@@ -178,7 +180,9 @@ public class ResultsViewerController extends Controller {
             protected boolean computeValue() {
                 return (algorithmResult == null);
             }
-        });
+        };
+        btnLog.disableProperty().bind(buttonsDisabled);
+        btnStats.disableProperty().bind(buttonsDisabled);
     }
 
     @Override
@@ -269,5 +273,13 @@ public class ResultsViewerController extends Controller {
                                                     algorithmResult.getLogFile(), getRootPane().getScene().getWindow(), 
                                                     getBundle()));
         }
+    }
+    /**
+     * Shows the statistics file if exists.
+     * @param event Action event.
+     */
+    @FXML
+    protected void handleStatsAction(ActionEvent event) {
+        
     }
 }
