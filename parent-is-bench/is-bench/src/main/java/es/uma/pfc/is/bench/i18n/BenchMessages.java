@@ -75,6 +75,10 @@ public class BenchMessages extends Messages {
      * Algorithm Results viewer title.
      */
     public static final String RESULTS_VIEWER_TITLE = "msg.results.viewer.title";
+    /**
+     * IO error.
+     */
+    public static final String COPYING_JARS_ERROR = "msg.copy.jars.error";
             
             
 /**

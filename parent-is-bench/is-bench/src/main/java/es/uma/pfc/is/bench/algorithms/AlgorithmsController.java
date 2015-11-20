@@ -1,5 +1,6 @@
 package es.uma.pfc.is.bench.algorithms;
 
+
 import es.uma.pfc.is.bench.Controller;
 import es.uma.pfc.is.bench.business.AlgorithmsBean;
 import es.uma.pfc.is.bench.i18n.BenchMessages;
@@ -8,8 +9,16 @@ import es.uma.pfc.is.bench.services.AlgorithmsSaveService;
 import es.uma.pfc.is.bench.validators.ClassNameValidator;
 import es.uma.pfc.is.bench.validators.EmptyStringValidator;
 import es.uma.pfc.is.bench.config.WorkspaceManager;
+import es.uma.pfc.is.bench.domain.ws.Preferences;
+import es.uma.pfc.is.bench.i18n.I18n;
+import es.uma.pfc.is.bench.uitls.Chooser;
+import java.io.File;
 import java.io.IOException;
 import java.net.URL;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.util.List;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
@@ -28,6 +37,7 @@ import javafx.scene.control.ProgressIndicator;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
+import javafx.stage.FileChooser;
 
 /**
  * Algorithms FXML Controller class.
@@ -180,6 +190,34 @@ public class AlgorithmsController extends Controller {
             }
         }
         return valid;
+    }
+    
+    /**
+     * Shows the Open File dialog box for select one or more JARs library which will be added to lib directory 
+     * in the current workspace.
+     * @param action Event thrown when the Add Lib button is pressed.
+     */
+    public void handleAddLib(ActionEvent action) {
+        File homeDir = Paths.get(System.getProperty("user.home")).toFile();
+        List<File> jars = Chooser.openMultipleFileChooser(getRootPane().getScene().getWindow(),
+                Chooser.FileChooserMode.OPEN, getI18nLabel(I18n.SELECT_JAR_DIALOG_TITLE), homeDir,
+                new FileChooser.ExtensionFilter(getI18nLabel(I18n.JAR_FILE), "*.jar"));
+        
+        Path targetDir = Paths.get(WorkspaceManager.get().getPreference(Preferences.ALGORITHMS_PATH));
+        
+        if(jars != null) {
+            for(File jar : jars) {
+                try {
+                    //TODOD hacer que pregunte si el archivo existe ya en el directorio
+                    Path targetFile = Paths.get(targetDir.toString(), jar.getName());
+                    Files.copy(jar.toPath(), targetFile, StandardCopyOption.COPY_ATTRIBUTES,  StandardCopyOption.REPLACE_EXISTING);
+                } catch (IOException ex) {
+                    Logger.getLogger(AlgorithmsController.class.getName())
+                            .log(Level.SEVERE, getI18nMessage(BenchMessages.COPYING_JARS_ERROR, jar, targetDir), ex);
+                }
+            }
+        }
+        
     }
 
     /**

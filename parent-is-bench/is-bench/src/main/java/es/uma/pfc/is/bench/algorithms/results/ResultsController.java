@@ -222,8 +222,6 @@ public class ResultsController extends Controller {
      */
     protected void clear() {
         Eventbus.post(new AlgorithmResultSelection(null));
-        tableStatistics.getColumns().clear();
-        tableStatistics.getItems().clear();
     }
 
     /**

@@ -22,4 +22,8 @@ public interface PreferencesNames {
      * Default input dir.
      */
     String DEFAULT_INPUT_DIR = "input.dir.default";
+    /**
+     * Algorihtms libraries path.
+     */
+    String ALGORITHMS_PATH = "algorithms.path";
 }

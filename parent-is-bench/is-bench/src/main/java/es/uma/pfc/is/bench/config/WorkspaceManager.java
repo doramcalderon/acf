@@ -35,7 +35,7 @@ public class WorkspaceManager {
      * Default workspace location.
      */
     public static final String DEFAULT_WORKSPACE_PATH = Paths.get(System.getProperty("user.home"),
-            ".isbench", "default").toString();
+            "isbench", "default").toString();
     /**
      * Default workspace name.
      */
@@ -48,6 +48,10 @@ public class WorkspaceManager {
      * Output default directory.
      */
     public static final String DEFAULT_OUTPUT_PATH = "output";
+    /**
+     * Default algorithms libraries directory.
+     */
+    public static final String DEFAULT_ALGS_PATH = "lib";
     /**
      * Current workspace property.
      */
@@ -68,7 +72,7 @@ public class WorkspaceManager {
     /**
      * Configuration file path.
      */
-    public String configPath = Paths.get(System.getProperty("user.home"), ".isbench", "isbench.properties").toString();
+    public String configPath = Paths.get(System.getProperty("user.home"), "isbench", "isbench.properties").toString();
     /**
      * Current workspace.
      */
@@ -145,7 +149,8 @@ public class WorkspaceManager {
         String currentPath = config.getProperty(CURRENT_WORKSPACE);
 
         if (StringUtils.isEmpty(currentPath)) {
-            create(new Workspace(DEFAULT_WORKSPACE_NAME, DEFAULT_WORKSPACE_PATH), true);
+            Workspace defaultWs = new Workspace(DEFAULT_WORKSPACE_NAME, DEFAULT_WORKSPACE_PATH);
+            create(defaultWs, true);
         }
     }
 
@@ -158,13 +163,14 @@ public class WorkspaceManager {
         try {
             String location = ws.getLocation();
             FileUtils.createDirIfNoExists(location);
-            String inputDir = (String) ws.getPreferences().getOrDefault(Preferences.DEFAULT_INPUT_DIR,
-                    Paths.get(location, DEFAULT_INPUT_PATH).toString());
-            String outputDir = (String) ws.getPreferences().getOrDefault(Preferences.DEFAULT_OUTPUT_DIR,
-                    Paths.get(location, DEFAULT_OUTPUT_PATH).toString());
-
-            FileUtils.createDirIfNoExists(inputDir);
-            FileUtils.createDirIfNoExists(outputDir);
+            
+            String algorithmsPath = (String) ws.getPreferences().get(Preferences.ALGORITHMS_PATH);
+            if(StringUtils.isEmpty(algorithmsPath)) {
+                algorithmsPath = Paths.get(location, DEFAULT_ALGS_PATH).toString();
+                ws.getPreferences().setPreference(Preferences.ALGORITHMS_PATH, algorithmsPath);
+            }
+            FileUtils.createDirIfNoExists(algorithmsPath);
+            
             savePreferences(ws.getPreferences(), ws.getLocation());
             saveWorkspace(ws, current);
         } catch (IOException ex) {

@@ -150,7 +150,7 @@ public class MainLayoutController extends Controller {
      * @param event Action Event.
      */
     @FXML
-    public void handleMenuAlgorithms(ActionEvent event) {
+    public void handleMenuRegister(ActionEvent event) {
         try {
             Parent algorithmsPane = FXMLLoader.load(MainLayoutController.class.getResource(FXMLViews.ALGORITHMS_VIEW), getBundle());
             String title = getI18nLabel(I18n.ALGORITHMS_DIALOG_TITLE);
