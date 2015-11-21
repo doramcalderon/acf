@@ -474,7 +474,7 @@
 					  
 					\begin{figure}[H]
 						\centering
-							\includegraphics[width=0.85\textwidth]{imagenes/figura47.PNG}
+							\includegraphics[width=0.75\textwidth]{imagenes/figura47.PNG}
 						\caption{Selección de archivo de salida}
 						\label{fig:figura47}
 					\end{figure}
@@ -507,14 +507,14 @@
 			
 			\begin{figure}[H]
 				\centering
-					\includegraphics[width=.75\textwidth]{imagenes/figura49.PNG}
+					\includegraphics[width=.70\textwidth]{imagenes/figura49.PNG}
 				\caption{Generar \textit{n} sistemas implicacionales}
 				\label{fig:figura49}
 			\end{figure}
 			
 			\begin{figure}[H]
 				\centering
-					\includegraphics[width=0.8\textwidth]{imagenes/figura50.PNG}
+					\includegraphics[width=0.70\textwidth]{imagenes/figura50.PNG}
 				\caption{Sistemas implicacionales generados}
 				\label{fig:figura50}
 			\end{figure}
@@ -594,7 +594,7 @@
 				
 								\begin{figure}[H]
 									\centering
-										\includegraphics[width=.75\textwidth]{imagenes/figura63.png}
+										\includegraphics[width=.65\textwidth]{imagenes/figura63.png}
 									\caption{Ejecución de un benchmark}
 									\label{fig:figura63}
 								\end{figure}
@@ -621,7 +621,19 @@
 		interfaces y clases básicas para este fin que se incluye en el la librería \textit{is-algorithms}.
 		
 		El requisito mínimo para que un algoritmo pueda ser ejecutado desde IS Bench, es que implemente la interfaz 
-		\texttt{ es.uma.pfc.is.algorithms.Algorithm}. La aplicación ejecuta el método 
+		\texttt{ es.uma.pfc.is.algorithms.Algorithm} incluida en la librería \textbf{is-algorithms-1.0.0.jar}. 
+		
+		La dependencia a incluir en proyectos Maven es:
+		
+		\begin{verbnobox}[\small]
+			<dependency>
+	            <groupId>es.uma.pfc</groupId>
+	            <artifactId>is-algorithms</artifactId>
+	            <version>1.0.0</version>
+	        </dependency>
+		\end{verbnobox}
+		
+		La aplicación ejecuta el método \\
 		\texttt{execute(input : ImplicationalSystem) : ImplicationalSystem} por lo que éste será en el que se implemente el
 		algoritmo en cuestión.
 		

@@ -98,6 +98,7 @@ public class BenchmarksBean {
                     if (!inputFilePath.toString().equals(targetInputFile.toString())) {
                         Files.copy(inputFilePath, targetInputFile,
                                 StandardCopyOption.COPY_ATTRIBUTES, StandardCopyOption.REPLACE_EXISTING);
+                        
                     }
                 } else {
                     throw new RuntimeException("The input system not exists.");

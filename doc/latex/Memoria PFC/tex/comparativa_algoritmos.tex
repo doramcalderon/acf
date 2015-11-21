@@ -2,6 +2,7 @@
 % Preamble
 \begin{document}
 	\chapter{COMPARATIVA ENTRE ALGORITMOS}
+	\newpage
 	
 	En este capítulo, se realiza una comparativa entre los algoritmos implementados (Direct Optimal Basis y CLA) obteniendo los
 	resultados con IS Bench.
@@ -12,8 +13,26 @@
 	Se han desarrollado dos clases para la comparación de los dos algoritmos cuyos detalles se han explicado en el capítulo \ref{chap:algoritmosBases} 
 	\textit{Algoritmos de cálculo de bases}. El experimento ha sido ejecutado en un Intel Core i5, 8GB de RAM, con Windows 7 64 bits.
 	
-	En la siguiente tabla se muestran para cada par número de implicaciones y número de atributos, el tamaño mínimo, el tamaño máximo
-	y el tamaño medio del conjunto de implicaciones generado.
+	En la Figura \ref{fig:tabla_resumen} se muestran para cada par número de implicaciones atributos, los promedios de los tamaños, cardinalidades y tiempo de ejecución en segundos para ambos algoritmos.
+	
+	
+		\begin{figure}[H]
+			\centering
+				\includegraphics[width=.75\textwidth]{imagenes/tabla_resumen.png}
+			\caption{Resultados del experimento}
+			\label{fig:tabla_resumen}
+		\end{figure}
+
+En la Figura \ref{fig:grafica} se muestra una gráfica donde se puede apreciar que el tiempo de ejecución del algoritmo CLA aumenta a medida que aumenta la cardinalidad de los resultados. Sin embargo, el algoritmo Direct Optimal Basis también lo hace pero de una forma más moderada.
+
+	\begin{figure}[h]
+		\centering
+			\includegraphics[width=.75\textwidth]{imagenes/grafica.png}
+		\caption{Gráfica de resultados}
+		\label{fig:grafica}
+	\end{figure}
+
+	
 \end{document}
 
 
