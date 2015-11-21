@@ -74,7 +74,7 @@ public class Preferences extends Properties implements PreferencesNames {
 
     /**
      * Sets the value of a preference. If value is null, remove the preference if exists.
-     * @param key Name of preference.
+     * @param name Name of preference.
      * @param value Value.
      */
     public String setPreference(String name, String value) {
@@ -89,7 +89,18 @@ public class Preferences extends Properties implements PreferencesNames {
         }
         return String.valueOf(r);
     }
-
+    /**
+     * Sets the value of a preference if no exists. If value is null, remove the preference if exists.
+     * @param name Name of preference.
+     * @param value Value.
+     */
+    public String setIfNoExist(String name, String value) {
+        String p = getPreference(value);
+        if(p == null) {
+            p = setPreference(name, value);
+        }
+        return p;
+    }
     /**
      * Returns the preferences list.
      * @return Preferences list.

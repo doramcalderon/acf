@@ -3,11 +3,16 @@ package es.uma.pfc.is.commons.files;
 import es.uma.pfc.is.commons.strings.StringUtils;
 import java.io.File;
 import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.nio.file.DirectoryStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.function.Predicate;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * Utilidades con ficheros.
@@ -151,5 +156,31 @@ public class FileUtils {
             }
         }
         return nameSplits;
+    }
+     /**
+     * Return the URLS of files of libPath, that matches the {@code filter}.
+     * @param libPath Path.
+     * @param filter Filter.
+     * @return List of URL's.
+     * @throws IOException 
+     */
+    public static List<URL> getURLs(Path libPath, String filter) throws IOException {
+        final List<URL> urlLibs = new ArrayList();
+        
+        if(!Files.exists(libPath)) {
+            FileUtils.createDirIfNoExists(libPath.toString());
+        } else {
+            try(DirectoryStream<Path> ds = Files.newDirectoryStream(libPath, filter)) {
+                ds.forEach(path -> {
+                    try {
+                        urlLibs.add(path.toUri().toURL());
+                    } catch (MalformedURLException ex) {
+                        Logger.getLogger(FileUtils.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                });
+            }
+        }
+        
+        return urlLibs;
     }
 }

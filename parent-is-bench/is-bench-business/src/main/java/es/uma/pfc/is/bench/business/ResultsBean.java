@@ -85,7 +85,7 @@ public class ResultsBean {
                 for(AlgorithmInfo alg : grouped.keySet()) {
                     List<AlgorithmResult> algResults = grouped.get(alg);
                     Path target = Paths.get("C:\\Users\\Dorilla (Fakul)\\resultados", br.getBenchmarkName() + "_" 
-                                        + alg.getName() + ".csv");
+                                        + alg.getShortName() + ".csv");
                     System.out.println(target.toString());
                     FileUtils.createIfNoExists(target.toString());
                     

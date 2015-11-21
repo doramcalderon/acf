@@ -76,7 +76,7 @@ public class BenchmarkCSVWriter {
 
         for (AlgorithmInfo algInfo : resultsGrouped.keySet()) {
             fields.clear();
-            fields.add(algInfo.getName());
+            fields.add(algInfo.getShortName());
 
             currentResults = resultsGrouped.get(algInfo);
             if (currentResults != null && !currentResults.isEmpty()) {

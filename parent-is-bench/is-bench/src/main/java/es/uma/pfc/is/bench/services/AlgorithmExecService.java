@@ -9,16 +9,18 @@ import es.uma.pfc.is.algorithms.AlgorithmResult;
 import es.uma.pfc.is.bench.benchmarks.execution.RunBenchmarkModel;
 import es.uma.pfc.is.algorithms.AlgorithmInfo;
 import es.uma.pfc.is.bench.business.ResultsBean;
+import es.uma.pfc.is.bench.config.WorkspaceManager;
 import es.uma.pfc.is.bench.domain.BenchmarkResult;
+import es.uma.pfc.is.bench.domain.ws.Preferences;
 import es.uma.pfc.is.commons.eventbus.Eventbus;
 import es.uma.pfc.is.bench.events.MessageEvent;
 import es.uma.pfc.is.bench.io.BenchmarkCSVWriter;
+import es.uma.pfc.is.commons.reflection.ReflectionUtil;
 import es.uma.pfc.is.commons.strings.date.DateUtils;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
@@ -86,13 +88,14 @@ public class AlgorithmExecService extends Service<BenchmarkResult> {
      */
     protected Algorithm instanceAlgorithm(AlgorithmInfo algorithm) {
         try {
-            
-            Algorithm alg = algorithm.getType().newInstance();
+            ClassLoader classLoader = 
+                    ReflectionUtil.getClassLoader(Paths.get(WorkspaceManager.get().getPreference(Preferences.ALGORITHMS_PATH)));
+            Algorithm alg = (Algorithm) classLoader.loadClass(algorithm.getType()).newInstance();
             alg.setName(algorithm.getName());
             alg.setShortName(algorithm.getShortName());
             return alg;
 
-        } catch (InstantiationException | IllegalAccessException ex) {
+        } catch (InstantiationException | IllegalAccessException |  IOException | ClassNotFoundException ex) {
             throw new RuntimeException("Error runing the benchmark.", ex);
         }
     }

@@ -15,22 +15,21 @@ import es.uma.pfc.is.commons.eventbus.Eventbus;
 import es.uma.pfc.is.bench.events.MessageEvent;
 import es.uma.pfc.is.bench.i18n.BenchMessages;
 import es.uma.pfc.is.bench.i18n.I18n;
-import es.uma.pfc.is.bench.services.AlgorithmsLoadService;
 import es.uma.pfc.is.bench.services.BenchmarkSaveService;
 import es.uma.pfc.is.bench.uitls.Chooser;
 import es.uma.pfc.is.bench.uitls.Dialogs;
 import es.uma.pfc.is.bench.view.FXMLViews;
 import es.uma.pfc.is.commons.strings.StringUtils;
 import es.uma.pfc.is.bench.config.WorkspaceManager;
-import es.uma.pfc.is.commons.files.FileUtils;
+import es.uma.pfc.is.bench.domain.ws.Preferences;
+import es.uma.pfc.is.bench.services.AlgorithmsClassLoadService;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
-import java.nio.file.DirectoryStream;
-import java.nio.file.DirectoryStream.Filter;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -38,7 +37,6 @@ import java.util.Locale;
 import java.util.Optional;
 import java.util.ResourceBundle;
 import java.util.Set;
-import java.util.function.Predicate;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.beans.binding.BooleanBinding;
@@ -162,9 +160,9 @@ public class NewBenchmarkController extends Controller {
     @Override
     protected void initModel() {
         model = new NewBenchmarkModel();
-        AlgorithmsLoadService loadService = new AlgorithmsLoadService();
+        AlgorithmsClassLoadService loadService = new AlgorithmsClassLoadService();
         loadService.setOnSucceeded((WorkerStateEvent event) -> {
-            Set<AlgorithmInfo> algorithms = (Set<AlgorithmInfo>) event.getSource().getValue();
+            List<AlgorithmInfo> algorithms = (List<AlgorithmInfo>) event.getSource().getValue();
             model.algorithmsListProperty().clear();
             if (algorithms != null) {
                 model.algorithmsListProperty().set(FXCollections.observableArrayList(algorithms));
@@ -237,7 +235,7 @@ public class NewBenchmarkController extends Controller {
         txtFilter.textProperty().addListener(
                 (observable, oldValue, newValue) -> {
                     model.getAlgorithmsFilteredList().setPredicate(algorithm -> {
-                        return (StringUtils.isEmpty(newValue) || StringUtils.containsIgnoreCase(algorithm.getName(), newValue));
+                        return (StringUtils.isEmpty(newValue) || StringUtils.containsIgnoreCase(algorithm.getShortName(), newValue));
                     });
                 });
         
@@ -334,17 +332,37 @@ public class NewBenchmarkController extends Controller {
         }
     }
     /**
-     * Handles the event thrown when New Algorithm button is pressed.
-     * @param event Action event.
+     * Shows the Open File dialog box for select one or more JARs library which will be added to lib directory 
+     * in the current workspace.
+     * @param action Event thrown when the Add Lib button is pressed.
      */
     @FXML
     protected void handleNewAlgorithm(ActionEvent event) {
-        try {
-            Parent algorithmsPane = FXMLLoader.load(MainLayoutController.class.getResource(FXMLViews.ALGORITHMS_VIEW), getBundle());
-            String title = getI18nLabel(I18n.ALGORITHMS_DIALOG_TITLE);
-            Dialogs.showModalDialog(title, algorithmsPane, rootPane.getScene().getWindow());
-        } catch (IOException ex) {
-            Logger.getLogger(MainLayoutController.class.getName()).log(Level.SEVERE, null, ex);
+        File homeDir = Paths.get(WorkspaceManager.get().currentWorkspace().getLocation()).toFile();
+        List<File> jars = Chooser.openMultipleFileChooser(getRootPane().getScene().getWindow(),
+                Chooser.FileChooserMode.OPEN, getI18nLabel(I18n.SELECT_JAR_DIALOG_TITLE), homeDir,
+                new FileChooser.ExtensionFilter(getI18nLabel(I18n.JAR_FILE), "*.jar"));
+        
+        Path targetDir = Paths.get(WorkspaceManager.get().getPreference(Preferences.ALGORITHMS_PATH));
+        
+        if(jars != null) {
+            for(File jar : jars) {
+                try {
+                    Path targetFile = Paths.get(targetDir.toString(), jar.getName());
+                    if(Files.exists(targetFile)) {
+                        showAlert(Alert.AlertType.ERROR, 
+                                  BenchMessages.get().getMessage(BenchMessages.FILE_EXISTS_TITLE), 
+                                  BenchMessages.get().getMessage(BenchMessages.FILE_EXISTS));
+                        
+                    } else {
+                        Files.copy(jar.toPath(), targetFile, StandardCopyOption.COPY_ATTRIBUTES,  StandardCopyOption.REPLACE_EXISTING);
+                    }
+                } catch (IOException ex) {
+                    Logger.getLogger(NewBenchmarkController.class.getName())
+                            .log(Level.SEVERE, getI18nMessage(BenchMessages.COPYING_JARS_ERROR, jar, targetDir), ex);
+                }
+            }
+            reload();
         }
     }
 

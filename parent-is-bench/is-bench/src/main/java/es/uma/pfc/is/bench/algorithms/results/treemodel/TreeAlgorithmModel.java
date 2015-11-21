@@ -18,7 +18,7 @@ public class TreeAlgorithmModel extends TreeResultModel {
         
         algorithmInfo = algInfo;
         if(algInfo != null) {
-            nameProperty().set(algInfo.getName());
+            nameProperty().set(algInfo.getShortName());
         }
     }
 

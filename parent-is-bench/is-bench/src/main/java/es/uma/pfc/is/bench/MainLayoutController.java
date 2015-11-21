@@ -144,22 +144,7 @@ public class MainLayoutController extends Controller {
 //        }
     }
 
-    /**
-     * Abre el cuadro de diálogo para el registro de algoritmos.
-     *
-     * @param event Action Event.
-     */
-    @FXML
-    public void handleMenuRegister(ActionEvent event) {
-        try {
-            Parent algorithmsPane = FXMLLoader.load(MainLayoutController.class.getResource(FXMLViews.ALGORITHMS_VIEW), getBundle());
-            String title = getI18nLabel(I18n.ALGORITHMS_DIALOG_TITLE);
-            Dialogs.showModalDialog(title, algorithmsPane, rootPane.getScene().getWindow());
-        } catch (IOException ex) {
-            Logger.getLogger(MainLayoutController.class.getName()).log(Level.SEVERE, null, ex);
-        }
-
-    }
+   
 
     /**
      * Handler of Preferences Menu action event.

@@ -49,7 +49,7 @@
             <HBox prefWidth="200.0" spacing="5.0" GridPane.rowIndex="4">
                <children>
                   <TextField fx:id="txtFilter" maxWidth="-Infinity" GridPane.hgrow="NEVER" GridPane.rowIndex="4" />
-                  <Button mnemonicParsing="false" onAction="#handleNewAlgorithm" text="%btn.new" />
+                  <Button mnemonicParsing="false" onAction="#handleNewAlgorithm" text="%btn.add.lib" />
                </children>
             </HBox>
             <HBox prefHeight="100.0" prefWidth="200.0" spacing="10.0" GridPane.hgrow="ALWAYS" GridPane.rowIndex="5" GridPane.vgrow="ALWAYS">

@@ -39,11 +39,6 @@
    <top>
         <MenuBar BorderPane.alignment="CENTER">
             <menus>
-                <Menu mnemonicParsing="false" text="%menu.algorithms">
-                    <items>
-                        <MenuItem mnemonicParsing="false" onAction="#handleMenuRegister" text="%menu.register" />
-                    </items>
-                </Menu>
                 <Menu mnemonicParsing="false" text="%preferences">
                     <items>
                         <MenuItem fx:id="workspaceMenuItem" mnemonicParsing="false" onAction="#handleWorkspacesAction" text="%workspaces" />

@@ -100,7 +100,7 @@ public class Algorithms {
         if (algs != null) {
             algorithmsObjects = new ArrayList();
             for (AlgorithmInfo entity : algs) {
-                Algorithm alg = entity.getType().newInstance();
+                Algorithm alg =  ((Class<? extends Algorithm>) Class.forName(entity.getType())).newInstance();
                 alg.setName(entity.getName());
                 alg.setShortName(entity.getShortName());
                 algorithmsObjects.add(alg);

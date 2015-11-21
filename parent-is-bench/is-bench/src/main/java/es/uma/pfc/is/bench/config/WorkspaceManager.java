@@ -164,11 +164,11 @@ public class WorkspaceManager {
             String location = ws.getLocation();
             FileUtils.createDirIfNoExists(location);
             
-            String algorithmsPath = (String) ws.getPreferences().get(Preferences.ALGORITHMS_PATH);
-            if(StringUtils.isEmpty(algorithmsPath)) {
-                algorithmsPath = Paths.get(location, DEFAULT_ALGS_PATH).toString();
-                ws.getPreferences().setPreference(Preferences.ALGORITHMS_PATH, algorithmsPath);
-            }
+            String algorithmsPath = Paths.get(location, DEFAULT_ALGS_PATH).toString();
+            algorithmsPath = ws.getPreferences().setIfNoExist(Preferences.ALGORITHMS_PATH, algorithmsPath);
+            
+            ws.getPreferences().setIfNoExist(Preferences.ALGORITHMS_FILE, 
+                                             Paths.get(ws.getLocation(),"algorithms.xml").toString());
             FileUtils.createDirIfNoExists(algorithmsPath);
             
             savePreferences(ws.getPreferences(), ws.getLocation());
@@ -336,7 +336,6 @@ public class WorkspaceManager {
      *
      * @param ws Workspace.
      * @param current If sets this workspace to the current.
-     * @throws IOException
      */
     protected void saveWorkspace(Workspace ws, boolean current) {
 

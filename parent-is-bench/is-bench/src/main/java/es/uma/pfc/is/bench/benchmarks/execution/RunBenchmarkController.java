@@ -625,7 +625,7 @@ public class RunBenchmarkController extends Controller {
                     model.setSelectedAlgorithm(alg);
                     model.outputDirProperty().setValue(Paths.get(WorkspaceManager.get().currentWorkspace().getLocation(),
                             selectedBenchmark.getName().trim(),
-                            alg.getName(), "output").toString());
+                            alg.getShortName(), "output").toString());
 
                 }
 

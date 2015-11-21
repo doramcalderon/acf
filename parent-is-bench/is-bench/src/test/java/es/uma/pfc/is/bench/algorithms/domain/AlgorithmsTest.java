@@ -27,13 +27,13 @@ public class AlgorithmsTest {
         AlgorithmInfo alg = new AlgorithmInfo();
         alg.setName("Direct Optimal");
         alg.setShortName("DO");
-        alg.setType(DirectOptimalBasis.class);
+        alg.setType(DirectOptimalBasis.class.getName());
         algs.add(alg);
         
         alg = new AlgorithmInfo();
         alg.setName("Direct Optimal 2");
         alg.setShortName("DO2");
-        alg.setType(DirectOptimalBasis.class);
+        alg.setType(DirectOptimalBasis.class.getName());
         algs.add(alg);
         
         File xmlFile = new File(path + "algorithms.xml");

@@ -6,12 +6,15 @@ import es.uma.pfc.is.algorithms.AlgorithmInfo;
 import es.uma.pfc.is.bench.domain.Algorithms;
 import es.uma.pfc.is.bench.domain.Benchmark;
 import es.uma.pfc.is.bench.domain.Benchmarks;
+import es.uma.pfc.is.commons.reflection.ReflectionUtil;
+import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.xml.bind.JAXB;
+import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 
 /**
@@ -77,62 +80,10 @@ public class BenchmarksPersistence extends Persistence {
         Benchmarks benchmarks = null;
         Path benchmarksPath = Paths.get(workspacePath, "benchmarks.xml");
         if(Files.exists(benchmarksPath)) {
-            benchmarks = JAXB.unmarshal(benchmarksPath.toFile(), Benchmarks.class);
-        }
+                benchmarks = JAXB.unmarshal(benchmarksPath.toFile(), Benchmarks.class);
+            }
         return benchmarks;
     }
 
-    /**
-     * Add the algorithms of {@code algorithms} param to algorithms file.
-     *
-     * @param algorithms
-     */
-    public void insert(Algorithms algorithms) {
-       
-    }
-
-    /**
-     * Add an algorithm to algorithms file.
-     *
-     * @param algorithm Algorithm.
-     */
-    public void insert(AlgorithmInfo algorithm) {
-    }
-    
-
-  
-
-//    /**
-//     * Get the algorithms from algorithms file.
-//     *
-//     * @param workspace
-//     * @return Algorithms.
-//     * @throws java.lang.Exception
-//     */
-//    protected List<Benchmark> getBenchmarks(String workspace) throws Exception {
-//        List<Benchmark> benchmarks = null;
-//        
-//        if(!StringUtils.isEmpty(workspace)) {
-//            Path benchmarksPath = Paths.get(workspace, "benchmarks");
-//            if(Files.exists(benchmarksPath)) {
-//                List<Path> benchPaths = Arrays.asList(Files.list(benchmarksPath).toArray(Path[]::new));
-//                benchmarks = new ArrayList();
-//
-//                for(Path p : benchPaths) {
-//                    Algorithms benchAlgorithms;
-//                    Path algorithmsPath = Paths.get(p.toString(), "algorithms.xml");
-//                    if(Files.exists(algorithmsPath)) {
-//                        File algorithmsXml = algorithmsPath.toFile();
-//                        benchAlgorithms = JAXB.unmarshal(algorithmsXml, Algorithms.class);
-//                        Benchmark b = new Benchmark(workspace, p.toFile().getName(), Algorithms.convertAll(benchAlgorithms.getAlgorithms()));
-//                        benchmarks.add(b);
-//                    }
-//                }
-//            }
-//            
-//        }
-//        
-//        return benchmarks;
-//    }
 
 }

@@ -4,7 +4,14 @@ package es.uma.pfc.is.algorithms;
 
 import es.uma.pfc.is.commons.strings.StringUtils;
 import java.util.Objects;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
+import javax.xml.bind.annotation.XmlType;
 
 /**
  * Entity with an algorithm attributes.
@@ -23,7 +30,7 @@ public class AlgorithmInfo {
     /**
      * Algorithm implementation class.
      */
-    private Class<? extends Algorithm> type;
+    private String type;
 
     /**
      * Constructor.
@@ -39,7 +46,7 @@ public class AlgorithmInfo {
         if(alg != null) {
             this.name = alg.getName();
             this.shortName = alg.getShortName();
-            this.type = alg.getClass();
+            this.type = alg.getClass().getName();
         }
     }
     
@@ -81,7 +88,7 @@ public class AlgorithmInfo {
      * Class of implementation.
      * @return the type
      */
-    public Class<? extends Algorithm> getType() {
+    public String getType() {
         return type;
     }
 
@@ -89,13 +96,13 @@ public class AlgorithmInfo {
      * Class of implementation.
      * @param type the type to set
      */
-    public void setType(Class<? extends Algorithm> type) {
+    public void setType(String type) {
         this.type = type;
     }
 
     @Override
     public String toString() {
-        return (this.name != null) ? this.name : String.valueOf(this.getType());
+        return (this.shortName != null) ? this.shortName : String.valueOf(this.getName());
     }
     
     

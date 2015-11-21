@@ -2,6 +2,9 @@
 package es.uma.pfc.is.bench.services;
 
 import es.uma.pfc.is.algorithms.Algorithm;
+import es.uma.pfc.is.algorithms.optbasis.ClaAlgorithm;
+import es.uma.pfc.is.algorithms.optbasis.DirectOptimalBasis;
+import es.uma.pfc.is.commons.files.FileUtils;
 import es.uma.pfc.is.commons.reflection.ReflectionUtil;
 import java.io.IOException;
 import java.net.MalformedURLException;
@@ -46,7 +49,7 @@ public class AlgorithmsClassLoadServiceTest {
         List<URL> expectedList = Arrays.asList(Paths.get(libPath.toString(), "is-algorithms-1.0.0-SNAPSHOT.jar").toUri().toURL());
         
         AlgorithmsClassLoadService service = new AlgorithmsClassLoadService();
-        List<URL> urlsList = service.getURLs(libPath, filter);
+        List<URL> urlsList = FileUtils.getURLs(libPath, filter);
         
         assertNotNull(urlsList);
         assertEquals(expectedList.size(), urlsList.size());
@@ -93,10 +96,13 @@ public class AlgorithmsClassLoadServiceTest {
         Path libPath = Paths.get(System.getProperty("user.dir"), "target", "lib");
         AlgorithmsClassLoadService service = new AlgorithmsClassLoadService();
         
-        List<Class<?>> algorithms = service.getAlgorithmsImpl(libPath);
+        List<Class<? extends Algorithm>> algorithms = service.getAlgorithmsImpl(libPath);
         
         assertNotNull(algorithms);
-        assertTrue(algorithms.isEmpty());
+        assertFalse(algorithms.isEmpty());
+        assertEquals(2, algorithms.size());
+        assertTrue(algorithms.contains(DirectOptimalBasis.class));
+        assertTrue(algorithms.contains(ClaAlgorithm.class));
     }
     
     @Test(expected = IllegalArgumentException.class)
@@ -111,7 +117,7 @@ public class AlgorithmsClassLoadServiceTest {
         Path libPath = Paths.get(System.getProperty("localRepository"), "es", "uma", "pfc", "is-algorithms", "1.0.0-SNAPSHOT");
         AlgorithmsClassLoadService service = new AlgorithmsClassLoadService();
         
-        List<Class<?>> algClasses = service.getAlgorithmsImpl(libPath);
+        List<Class<? extends Algorithm>> algClasses = service.getAlgorithmsImpl(libPath);
         
         assertNotNull(algClasses);
         assertFalse(algClasses.isEmpty());

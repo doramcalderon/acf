@@ -55,8 +55,6 @@ public class WorkspaceManagerTest {
         manager.create(ws, false);
         
         assertTrue(Files.exists(Paths.get(location)));
-        assertTrue(Files.exists(Paths.get(location, WorkspaceManager.DEFAULT_INPUT_PATH)));
-        assertTrue(Files.exists(Paths.get(location, WorkspaceManager.DEFAULT_OUTPUT_PATH)));
     }
     /**
      * Test of create method, of class WorkspaceManager.
@@ -76,8 +74,6 @@ public class WorkspaceManagerTest {
         manager.create(ws, true);
         
         assertTrue(Files.exists(Paths.get(location)));
-        assertTrue(Files.exists(Paths.get(location, WorkspaceManager.DEFAULT_INPUT_PATH)));
-        assertTrue(Files.exists(Paths.get(location, WorkspaceManager.DEFAULT_OUTPUT_PATH)));
         assertEquals(name.replace(" ", ""), config.getProperty(WorkspaceManager.WORKSPACE_CHANGE));
     }
       /**

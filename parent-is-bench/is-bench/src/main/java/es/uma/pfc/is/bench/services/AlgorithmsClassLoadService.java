@@ -2,32 +2,41 @@
 package es.uma.pfc.is.bench.services;
 
 import es.uma.pfc.is.algorithms.Algorithm;
+import es.uma.pfc.is.algorithms.AlgorithmInfo;
+import es.uma.pfc.is.algorithms.optbasis.ClaAlgorithm;
+import es.uma.pfc.is.algorithms.optbasis.DirectOptimalBasis;
+import es.uma.pfc.is.bench.business.AlgorithmsBean;
 import es.uma.pfc.is.commons.files.FileUtils;
 import es.uma.pfc.is.commons.reflection.ReflectionUtil;
 import es.uma.pfc.is.bench.config.WorkspaceManager;
+import es.uma.pfc.is.bench.domain.ws.Preferences;
+import java.io.File;
 import java.io.IOException;
 import java.net.MalformedURLException;
+import java.net.URISyntaxException;
 import java.net.URL;
+import java.net.URLClassLoader;
 import java.nio.file.DirectoryStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.jar.JarFile;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
 import javafx.concurrent.Service;
 import javafx.concurrent.Task;
 import org.reflections.Reflections;
-import org.reflections.util.ConfigurationBuilder;
 
 /**
  * Service which loads the classes name of algorithms implementations found in the workspace classpath.
  */
-public class AlgorithmsClassLoadService extends Service<List<String>> {
+public class AlgorithmsClassLoadService extends Service<List<AlgorithmInfo>> {
 
     /**
      * Constructor.
@@ -41,16 +50,17 @@ public class AlgorithmsClassLoadService extends Service<List<String>> {
      * @return List of classes names.
      */
     @Override
-    protected Task<List<String>> createTask() {
-        return new Task<List<String>>() {
+    protected Task<List<AlgorithmInfo>> createTask() {
+        return new Task<List<AlgorithmInfo>>() {
 
             @Override
-            protected List<String> call() throws Exception {
-                List<Class<?>> classesInClasspath = getAlgorithmsImplInClasspath();
-                List<Class<?>> classes = getAlgorithmsImpl(Paths.get(WorkspaceManager.get().currentWorkspace().getLocation(), "lib"));
-                classes.addAll(classesInClasspath);
+            protected List<AlgorithmInfo> call() throws Exception {
                 
-                return getClassesName((Collection<Class<?>>) classes);
+                List<Class<? extends Algorithm>> classes = getAlgorithmsImpl(
+                        Paths.get(WorkspaceManager.get().getPreference(Preferences.ALGORITHMS_PATH)));
+                
+                
+                return getAlgorithmInfos(classes);
             }
 
         };
@@ -65,22 +75,6 @@ public class AlgorithmsClassLoadService extends Service<List<String>> {
         getException().printStackTrace();
     }
 
-    /**
-     * Searches the algorithms implementations in the application classpath.
-     * @return List of algorithm classes.
-     * @throws IOException 
-     */
-    protected List<Class<?>> getAlgorithmsImplInClasspath() throws IOException {
-        List<Class<?>> algorithmsClasses = null;
-        Reflections r = new Reflections();
-        Set<Class<? extends Algorithm>> classes = r.getSubTypesOf(Algorithm.class);
-        
-        if (classes != null) {
-            algorithmsClasses = classes.stream().filter(clazz -> ReflectionUtil.isImplementation(clazz))
-                                                .collect(Collectors.toList());   
-        }
-        return (algorithmsClasses != null) ? algorithmsClasses : new ArrayList<>();
-    }
 
     /**
      * Searches the algorithms implementations that contains the jars into current workspace lib folder.
@@ -89,44 +83,32 @@ public class AlgorithmsClassLoadService extends Service<List<String>> {
      * @throws IOException 
      * @throws IllegalArgumentException When {@code libsPath} is null or empty.
      */
-    protected List<Class<?>> getAlgorithmsImpl(Path libPath) throws IOException {
+    protected List<Class<? extends Algorithm>> getAlgorithmsImpl(Path libPath) throws IOException, URISyntaxException {
         if(libPath == null) {
             throw new IllegalArgumentException("The libsPath argument is mandatory");
         }
-        List<Class<?>> algorithmsClasses = null;
+        List<Class<? extends Algorithm>> algorithmsClasses = new ArrayList<>();
+        algorithmsClasses.add(DirectOptimalBasis.class);
+        algorithmsClasses.add(ClaAlgorithm.class);
                         
-        final List<URL> urlLibs = getURLs(libPath, "*.jar");                
-        Reflections r = new ConfigurationBuilder().setUrls(urlLibs).build();
-        Set<Class<? extends Algorithm>> classes = r.getSubTypesOf(Algorithm.class);
+        final List<URL> urlLibs = FileUtils.getURLs(libPath, "*.jar");                
         
-        if (classes != null) {
-            algorithmsClasses = classes.stream().filter(clazz -> ReflectionUtil.isImplementation(clazz))
-                                                .collect(Collectors.toList());   
+        ClassLoader classLoader = ReflectionUtil.getClassLoader(libPath);
+        Set<Class<? extends Algorithm>> classes = new HashSet<>();
+        for(URL url : urlLibs) {
+            try (JarFile jar = new JarFile(new File(url.toURI()))) {
+                classes.addAll(ReflectionUtil.getClassesFromJar(jar, classLoader, Algorithm.class));
+            }
         }
-        return (algorithmsClasses != null) ? algorithmsClasses : new ArrayList<>();
+        
+        
+        algorithmsClasses.addAll(classes.stream().filter(clazz -> ReflectionUtil.isImplementation(clazz))
+                                                .collect(Collectors.toList()));   
+        
+        return algorithmsClasses;
     }
     
-    /**
-     * Return the URLS of files of libPath, that matches the {@code filter}.
-     * @param libPath Path.
-     * @param filter Filter.
-     * @return List of URL's.
-     * @throws IOException 
-     */
-    protected List<URL> getURLs(Path libPath, String filter) throws IOException {
-        FileUtils.createDirIfNoExists(libPath.toString());
-        final List<URL> urlLibs = new ArrayList();
-        try(DirectoryStream<Path> ds = Files.newDirectoryStream(libPath, filter)) {
-            ds.forEach(path -> {
-                try {
-                    urlLibs.add(path.toUri().toURL());
-                } catch (MalformedURLException ex) {
-                    Logger.getLogger(AlgorithmsClassLoadService.class.getName()).log(Level.SEVERE, null, ex);
-                }
-            });
-        }
-        return urlLibs;
-    }
+    
     
     /**
      * Returns the names of the classes collection.
@@ -140,5 +122,23 @@ public class AlgorithmsClassLoadService extends Service<List<String>> {
             classes.stream().forEach(clazz -> names.add(clazz.getName()));
         }
         return names;
+    }
+    
+    protected List<AlgorithmInfo> getAlgorithmInfos(Collection<Class<? extends Algorithm>> classes) {
+        List<AlgorithmInfo> algorithms = null;
+        
+        if(classes != null) {
+            algorithms = new ArrayList();
+            AlgorithmInfo algorithm;
+            
+            for(Class<? extends Algorithm> clazz : classes) {
+                algorithm = new AlgorithmInfo();
+                algorithm.setType(clazz.getName());
+                algorithm.setName(clazz.getName());
+                algorithm.setShortName(clazz.getSimpleName());
+                algorithms.add(algorithm);
+            }
+        }
+        return algorithms;
     }
 }

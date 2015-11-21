@@ -79,6 +79,14 @@ public class BenchMessages extends Messages {
      * IO error.
      */
     public static final String COPYING_JARS_ERROR = "msg.copy.jars.error";
+    /**
+     * File exists title.
+     */
+    public static final String FILE_EXISTS_TITLE = "msg.library.exists.title";
+    /**
+     * File exists.
+     */
+    public static final String FILE_EXISTS = "msg.library.exists";
             
             
 /**
