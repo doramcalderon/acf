@@ -11,7 +11,6 @@ import es.uma.pfc.is.bench.domain.Benchmark;
 import es.uma.pfc.is.algorithms.AlgorithmInfo;
 import es.uma.pfc.is.algorithms.optbasis.ClaAlgorithm;
 import es.uma.pfc.is.algorithms.optbasis.DirectOptimalBasis;
-import es.uma.pfc.is.bench.events.AlgorithmChangeEvent;
 import es.uma.pfc.is.bench.events.AlgorithmsSelectedEvent;
 import es.uma.pfc.is.commons.eventbus.Eventbus;
 import es.uma.pfc.is.bench.events.MessageEvent;
@@ -20,7 +19,6 @@ import es.uma.pfc.is.bench.i18n.I18n;
 import es.uma.pfc.is.bench.services.BenchmarkSaveService;
 import es.uma.pfc.is.bench.uitls.Chooser;
 import es.uma.pfc.is.bench.uitls.Dialogs;
-import es.uma.pfc.is.bench.view.FXMLViews;
 import es.uma.pfc.is.commons.strings.StringUtils;
 import es.uma.pfc.is.bench.config.WorkspaceManager;
 import es.uma.pfc.is.bench.domain.ws.Preferences;
@@ -49,7 +47,6 @@ import javafx.concurrent.WorkerStateEvent;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
@@ -350,15 +347,7 @@ public class NewBenchmarkController extends Controller {
             algorithmsSelected.getItems().addAll(event.getAlgorithmsSelection());
         }
     }
-    /**
-     * Handles the AlgorithmChangeEvent published by the Eventbus.<br/>
-     * Reloads the model and view.
-     * @param event Event.
-     */
-    @Subscribe
-    public void handleAlgorithmChanges(AlgorithmChangeEvent event) {
-        reload();
-    }
+  
 
     /**
      * Handles the {@link SystemSaved} event, copying the path of system into input field.
@@ -367,10 +356,12 @@ public class NewBenchmarkController extends Controller {
      */
     @Subscribe
     public void handleSystemSaved(SystemSaved event) {
-        String[] paths = event.getPaths();
-        if (paths != null) {
-            Arrays.stream(paths)
-                    .forEach(path -> model.inputFilesListProperty().get().add(Paths.get(path).toFile()));
+        if (this.getClass().equals(event.getCalledBy())) {
+            String[] paths = event.getPaths();
+            if (paths != null) {
+                Arrays.stream(paths)
+                        .forEach(path -> model.inputFilesListProperty().get().add(Paths.get(path).toFile()));
+            }
         }
     }
     /**
@@ -441,7 +432,7 @@ public class NewBenchmarkController extends Controller {
                     ResourceBundle.getBundle("es.uma.pfc.implications.generator.i18n.labels", Locale.getDefault()));
             
             Pane generatorForm = loader.load();
-            loader.<ImplicationsController>getController().setOutput(implicationsPath);
+            loader.<ImplicationsController>getController().calledBy(this.getClass()).setOutput(implicationsPath);
             String title = getI18nLabel("Implications Generator"); // TODO crear label
             Dialogs.showModalDialog(title, generatorForm, rootPane.getScene().getWindow());
         } catch (IOException ex) {

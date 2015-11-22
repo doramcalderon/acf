@@ -20,4 +20,6 @@ public interface I18n {
     
     String WORKSPACE_CONFIG_TITLE = "dialog.workspace.config.title";
     
+    String SHOW_LOG = "context.menu.showlog";
+    String SHOW_STATS = "context.menu.showstats";
 }

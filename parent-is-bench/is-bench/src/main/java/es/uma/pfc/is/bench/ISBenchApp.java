@@ -1,14 +1,15 @@
 package es.uma.pfc.is.bench;
 
-import es.uma.pfc.is.bench.config.WorkspaceManager;
-import es.uma.pfc.is.bench.domain.ws.Preferences;
+import com.google.common.eventbus.Subscribe;
+import es.uma.pfc.is.bench.events.OpenFileEvent;
 import es.uma.pfc.is.bench.view.FXMLViews;
+import es.uma.pfc.is.commons.eventbus.Eventbus;
 import java.io.IOException;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.util.List;
+import java.net.MalformedURLException;
 import java.util.Locale;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.application.Application;
 import static javafx.application.Application.launch;
 import javafx.event.ActionEvent;
@@ -31,10 +32,25 @@ public class ISBenchApp extends Application {
 //        System.setProperty("log4j.configurationFile", "es/uma/pfc/is/bench/log4j2.xml");
 //        System.setProperty("isbench.output.dir", ConfigManager.get().getDefaultOutputDir().getPath());
        //Locale.setDefault(new Locale("en", "GB"));
+        Eventbus.register(this);
         loadResources(Locale.getDefault());
         loadRootLayout();
         showStage(primaryStage);
+        
     }
+    /**
+     * Opens a file with the associated system program.
+     * @param event Event.
+     */
+    @Subscribe
+    public void openFile(OpenFileEvent event) {
+        try {
+            getHostServices().showDocument(event.getFile().toURI().toURL().toExternalForm());
+        } catch (MalformedURLException ex) {
+            Logger.getLogger(ISBenchApp.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
     
     /**
      * Load resource bundles.

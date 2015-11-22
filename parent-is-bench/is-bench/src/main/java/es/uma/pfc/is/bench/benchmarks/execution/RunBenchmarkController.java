@@ -21,6 +21,7 @@ import es.uma.pfc.is.bench.domain.BenchmarkResult;
 import es.uma.pfc.is.commons.eventbus.Eventbus;
 import es.uma.pfc.is.bench.events.BenchmarksChangeEvent;
 import es.uma.pfc.is.bench.events.NewResultsEvent;
+import es.uma.pfc.is.bench.events.OpenFileEvent;
 import es.uma.pfc.is.bench.events.ViewFileActionEvent;
 import es.uma.pfc.is.bench.i18n.BenchMessages;
 import es.uma.pfc.is.bench.i18n.I18n;
@@ -34,6 +35,7 @@ import es.uma.pfc.is.javafx.FilterableTreeItem;
 import es.uma.pfc.is.javafx.NoZeroDoubleCellFactory;
 import es.uma.pfc.is.javafx.NoZeroLongCellFactory;
 import es.uma.pfc.is.javafx.TreeItemPredicate;
+import java.awt.Desktop;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
@@ -207,22 +209,11 @@ public class RunBenchmarkController extends Controller {
         cbOutputType.getItems().add(1, getI18nLabel(I18n.PROLOG_FILE));
         cbOutputType.getSelectionModel().select(0);
 
-        MenuItem logItem = new MenuItem("Show log"); // TODO crear label
-        logItem.setOnAction(new EventHandler<ActionEvent>() {
-
-            @Override
-            public void handle(ActionEvent event) {
-                showLog();
-            }
-        });
-        MenuItem statisticsItem = new MenuItem("Statistics File"); // TODO crear label
-        logItem.setOnAction(new EventHandler<ActionEvent>() {
-
-            @Override
-            public void handle(ActionEvent event) {
-                showStatisticsFile();
-            }
-        });
+        MenuItem logItem = new MenuItem(getI18nLabel(I18n.SHOW_LOG));
+        logItem.setOnAction((ActionEvent event) -> {showLog();});
+        MenuItem statisticsItem = new MenuItem(getI18nLabel(I18n.SHOW_STATS));
+        logItem.setOnAction((ActionEvent event) -> {showLog();});
+        statisticsItem.setOnAction((ActionEvent event) -> {showStatisticsFile();});
         tableResults.setContextMenu(new ContextMenu(logItem, statisticsItem));
         tableResults.setShowRoot(false);
         nameColumn.setCellValueFactory(new TreeItemPropertyValueFactory("name"));
@@ -257,9 +248,12 @@ public class RunBenchmarkController extends Controller {
      * Shows the statistics files if exists.
      */
     public void showStatisticsFile() {
-        TreeItem<TreeResultModel> item = tableResults.getSelectionModel().getSelectedItem();
-        if (item != null && item.getValue().isAlgorithmResult()) {
-            // crear propiedad que guarda la ruta del fichero de estadísticas
+        if(tableResults.getRoot() != null) {
+            TreeBenchmarkResultModel benchmarkResult =  (TreeBenchmarkResultModel) tableResults.getRoot().getValue();
+            if(benchmarkResult != null) {
+                String statisticsPath = benchmarkResult.getBenchmarkResult().getStatisticsFileName();
+                Eventbus.post(new OpenFileEvent(statisticsPath));
+            }
         }
     }
     
@@ -455,26 +449,11 @@ public class RunBenchmarkController extends Controller {
             model.setLastExecutionResult(r);
             if(State.SUCCEEDED.equals(service.getState())) {
                 tableResults.setRoot(getData(r));
-    //            showStatistics(r.getStatisticsFileName());
                 Eventbus.post(new NewResultsEvent());
             }
         }
     }
 
-    /**
-     * Loads the result statistics into a table.
-     * @param statisticsFile Statistics file path.
-     */
-    protected void showStatistics(String statisticsFile) {
-//        if (chkStatistics.isSelected()) {
-//            if (!StringUtils.isEmpty(statisticsFile)) {
-//                StatisticsReaderService statisticsReader
-//                        = new StatisticsReaderService(statisticsFile, tableStatistics);
-//                statsProgressInd.visibleProperty().bind(statisticsReader.runningProperty());
-//                statisticsReader.restart();
-//            }
-//        }
-    }
 
     /**
      * Handles the {@link SystemSaved} event, copying the path of system into input field.
@@ -483,10 +462,12 @@ public class RunBenchmarkController extends Controller {
      */
     @Subscribe
     public void handleSystemSaved(SystemSaved event) {
-        String[] paths = event.getPaths();
-        if (paths != null) {
-            Arrays.stream(paths)
-                    .forEach(path -> model.selectedInputFilesListProperty().get().add(Paths.get(path).toString()));
+        if(this.getClass().equals(event.getCalledBy())) {
+            String[] paths = event.getPaths();
+            if (paths != null) {
+                Arrays.stream(paths)
+                        .forEach(path -> model.selectedInputFilesListProperty().get().add(Paths.get(path).toString()));
+            }
         }
     }
     
@@ -540,7 +521,7 @@ public class RunBenchmarkController extends Controller {
                     ResourceBundle.getBundle("es.uma.pfc.implications.generator.i18n.labels", Locale.getDefault()));
 
             Pane generatorForm = loader.load();
-            loader.<ImplicationsController>getController().setOutput(implicationsPath);
+            loader.<ImplicationsController>getController().calledBy(this.getClass()).setOutput(implicationsPath);
             String title = getI18nLabel("Implications Generator"); // TODO crear label
             Dialogs.showModalDialog(title, generatorForm, rootPane.getScene().getWindow());
         } catch (IOException ex) {
@@ -586,9 +567,13 @@ public class RunBenchmarkController extends Controller {
         chkHistory.setSelected(false);
         chkStatistics.setSelected(false);
         filterField.clear();
-        inputsList.getItems().clear();
+        if(inputsList.getItems() != null) {
+            inputsList.getItems().clear();
+        }
         txtOutput.clear();
-        tableResults.getRoot().getChildren().clear();
+        if(tableResults.getRoot() != null && tableResults.getRoot().getChildren() != null) {
+            tableResults.getRoot().getChildren().clear();
+        }
         model.setLastExecutionResult(null);
     }
 

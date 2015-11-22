@@ -4,7 +4,9 @@ import com.google.common.eventbus.Subscribe;
 import es.uma.pfc.is.algorithms.AlgorithmResult;
 import es.uma.pfc.is.algorithms.util.StringUtils;
 import es.uma.pfc.is.bench.Controller;
+import es.uma.pfc.is.bench.algorithms.results.treemodel.TreeBenchmarkResultModel;
 import es.uma.pfc.is.bench.events.AlgorithmResultSelection;
+import es.uma.pfc.is.bench.events.OpenFileEvent;
 import es.uma.pfc.is.bench.events.ViewFileActionEvent;
 import es.uma.pfc.is.bench.i18n.BenchMessages;
 import es.uma.pfc.is.bench.services.FileReaderService;
@@ -61,8 +63,6 @@ public class ResultsViewerController extends Controller {
     @FXML
     private Button btnLog;
     @FXML
-    private Button btnStats;
-    @FXML
     private ImageView imgInputDiagram, imgOutputDiagram;
     @FXML
     private FileReaderService inputReaderService, outputReaderService;
@@ -72,7 +72,7 @@ public class ResultsViewerController extends Controller {
     public ResultsViewerController() {
         ImplicationalSystemWriterProlog.register();
     }
-
+    
     /**
      * Constructor.
      *
@@ -175,14 +175,13 @@ public class ResultsViewerController extends Controller {
         BooleanBinding buttonsDisabled = new BooleanBinding() {
             {super.bind(txtInputViewer.textProperty());}
 
-            ;
+            
             @Override
             protected boolean computeValue() {
                 return (algorithmResult == null);
             }
         };
         btnLog.disableProperty().bind(buttonsDisabled);
-        btnStats.disableProperty().bind(buttonsDisabled);
     }
 
     @Override
@@ -274,12 +273,5 @@ public class ResultsViewerController extends Controller {
                                                     getBundle()));
         }
     }
-    /**
-     * Shows the statistics file if exists.
-     * @param event Action event.
-     */
-    @FXML
-    protected void handleStatsAction(ActionEvent event) {
-        
-    }
+    
 }

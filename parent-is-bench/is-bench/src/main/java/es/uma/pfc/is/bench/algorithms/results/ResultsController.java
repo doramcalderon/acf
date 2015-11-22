@@ -3,9 +3,7 @@ package es.uma.pfc.is.bench.algorithms.results;
 import com.google.common.eventbus.Subscribe;
 import es.uma.pfc.is.algorithms.AlgorithmInfo;
 import es.uma.pfc.is.algorithms.AlgorithmResult;
-import es.uma.pfc.is.algorithms.util.StringUtils;
 import es.uma.pfc.is.bench.Controller;
-import es.uma.pfc.is.bench.MainLayoutController;
 import es.uma.pfc.is.bench.algorithms.results.treemodel.TreeAlgorithmModel;
 import es.uma.pfc.is.bench.algorithms.results.treemodel.TreeAlgorithmResultModel;
 import es.uma.pfc.is.bench.algorithms.results.treemodel.TreeBenchmarkResultModel;
@@ -16,9 +14,7 @@ import es.uma.pfc.is.bench.domain.BenchmarkResult;
 import es.uma.pfc.is.bench.domain.BenchmarkResultSet;
 import es.uma.pfc.is.bench.events.AlgorithmResultSelection;
 import es.uma.pfc.is.bench.events.NewResultsEvent;
-import es.uma.pfc.is.bench.services.StatisticsReaderService;
-import es.uma.pfc.is.bench.uitls.Dialogs;
-import es.uma.pfc.is.bench.view.FXMLViews;
+import es.uma.pfc.is.bench.events.OpenFileEvent;
 import es.uma.pfc.is.commons.eventbus.Eventbus;
 import es.uma.pfc.is.javafx.NoZeroDoubleCellFactory;
 import es.uma.pfc.is.javafx.NoZeroLongCellFactory;
@@ -30,16 +26,15 @@ import java.util.Map;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javafx.beans.binding.BooleanBinding;
 import javafx.beans.value.ObservableValue;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.control.TableView;
+import javafx.scene.control.Button;
 import javafx.scene.control.TreeItem;
 import javafx.scene.control.TreeTableColumn;
 import javafx.scene.control.TreeTableView;
 import javafx.scene.control.cell.TreeItemPropertyValueFactory;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 
@@ -55,7 +50,7 @@ public class ResultsController extends Controller {
     @FXML
     private TreeTableView<TreeResultModel> tableResults;
     @FXML
-    private TableView tableStatistics;
+    private Button btnStats;
     @FXML
     private TreeTableColumn nameColumn, timeColumn, sizeColumn, cardColumn, inputColumn, outputColumn;
 
@@ -76,6 +71,7 @@ public class ResultsController extends Controller {
             super.initialize(url, rb);
             initView();
             initModel();
+            initBinding();
             initListeners();
             modelToView();
         } catch (IOException ex) {
@@ -124,6 +120,22 @@ public class ResultsController extends Controller {
         model.setAllResults(allResults);
     }
 
+    @Override
+    protected void initBinding() {
+        btnStats.disableProperty().bind(new BooleanBinding(){
+            {super.bind(tableResults.getSelectionModel().selectedItemProperty());}
+            @Override
+            protected boolean computeValue() {
+                TreeItem<TreeResultModel> selection = tableResults.getSelectionModel().getSelectedItem();
+                return (selection == null) 
+                        || (!(selection.getValue() instanceof TreeBenchmarkResultModel)
+                            && !(selection.getValue() instanceof TreeAlgorithmModel)
+                            && !(selection.getValue() instanceof TreeAlgorithmResultModel));
+            }
+        });
+    }
+
+    
     /**
      * Initializes the listners.
      */
@@ -224,22 +236,32 @@ public class ResultsController extends Controller {
         Eventbus.post(new AlgorithmResultSelection(null));
     }
 
-    /**
-     * Shows the result statistics into a table.
-     *
-     * @param statisticsFile Statistics file path.
-     */
-    protected void showStatistics(String statisticsFile) {
-        tableStatistics.getColumns().clear();
-        tableStatistics.getItems().clear();
 
-        if (!StringUtils.isEmpty(statisticsFile)) {
-            StatisticsReaderService statisticsReader
-                    = new StatisticsReaderService(statisticsFile, tableStatistics);
-            statisticsReader.restart();
+    /**
+     * Shows the statistics file if exists.
+     * @param event Action event.
+     */
+    @FXML
+    protected void handleStatsAction(ActionEvent event) {
+        TreeItem<TreeResultModel> selection =  tableResults.getSelectionModel().getSelectedItem();
+        TreeResultModel selectionValue = selection.getValue();
+        
+        if(selectionValue != null) {
+            TreeBenchmarkResultModel benchmarkResultModel = null;
+            if (selectionValue instanceof TreeAlgorithmResultModel) {
+                benchmarkResultModel = (TreeBenchmarkResultModel) selection.getParent().getParent().getValue();
+            } else if (selectionValue instanceof TreeAlgorithmModel) {
+                benchmarkResultModel = (TreeBenchmarkResultModel) selection.getParent().getValue();
+            } else if (selectionValue instanceof TreeBenchmarkResultModel) {
+                benchmarkResultModel = (TreeBenchmarkResultModel) selectionValue;
+            }
+            
+            if(benchmarkResultModel != null) {
+                String statisticsPath = benchmarkResultModel.getBenchmarkResult().getStatisticsFileName();
+                Eventbus.post(new OpenFileEvent(statisticsPath));
+            }
         }
     }
-
     /**
      * Handles the NewResultsEvent published by Eventbus and reload the view and the model.
      *

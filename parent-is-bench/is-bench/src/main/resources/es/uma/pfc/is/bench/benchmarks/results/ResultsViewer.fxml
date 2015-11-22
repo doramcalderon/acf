@@ -62,11 +62,6 @@
                         <Font size="10.0" />
                      </font>
                   </Button>
-                  <Button fx:id="btnStats" layoutX="10.0" layoutY="10.0" mnemonicParsing="false" onAction="#handleStatsAction" prefHeight="50.0" prefWidth="50.0" text="%btn.stats">
-                     <font>
-                        <Font size="10.0" />
-                     </font>
-                  </Button>
               </items>
             </ToolBar>
          </children>
