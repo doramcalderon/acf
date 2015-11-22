@@ -19,7 +19,6 @@
           <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="NEVER" />
             <RowConstraints minHeight="10.0" vgrow="NEVER" />
           <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="NEVER" />
-            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="NEVER" />
             <RowConstraints minHeight="10.0" prefHeight="100.0" vgrow="NEVER" />
         </rowConstraints>
          <children>
@@ -46,16 +45,38 @@
                   <Label fx:id="lbErrorMessages" style="-fx-border-color: red;" text="lbErrorMessages" textFill="#fc0909" visible="false" />
                </children>
             </StackPane>
-            <HBox prefWidth="200.0" spacing="5.0" GridPane.rowIndex="4">
+            <HBox spacing="20.0" GridPane.hgrow="ALWAYS" GridPane.rowIndex="4" GridPane.vgrow="ALWAYS">
                <children>
-                  <TextField fx:id="txtFilter" maxWidth="-Infinity" GridPane.hgrow="NEVER" GridPane.rowIndex="4" />
-                  <Button mnemonicParsing="false" onAction="#handleNewAlgorithm" text="%btn.add.lib" />
-               </children>
-            </HBox>
-            <HBox prefHeight="100.0" prefWidth="200.0" spacing="10.0" GridPane.hgrow="ALWAYS" GridPane.rowIndex="5" GridPane.vgrow="ALWAYS">
-               <children>
-                  <ListView fx:id="algorithmsList" onMouseClicked="#handleListDoubleClick" prefHeight="200.0" prefWidth="200.0" HBox.hgrow="ALWAYS" />
-                  <ListView fx:id="algorithmsSelected" onMouseClicked="#handleSelectedListDoubleClick" prefHeight="200.0" prefWidth="200.0" HBox.hgrow="ALWAYS" />
+                  <VBox spacing="5.0" HBox.hgrow="ALWAYS">
+                     <children>
+                        <HBox alignment="CENTER_RIGHT" spacing="5.0">
+                           <children>
+                              <TextField fx:id="txtFilter" GridPane.hgrow="NEVER" GridPane.rowIndex="4" HBox.hgrow="ALWAYS" />
+                              <Button mnemonicParsing="false" onAction="#handleNewAlgorithm" text="+">
+                                 <font>
+                                    <Font size="14.0" />
+                                 </font>
+                              </Button>
+                              <Button fx:id="btnRemove" layoutX="164.0" layoutY="10.0" mnemonicParsing="false" onAction="#handleRemoveLibrary" text="-">
+                                 <font>
+                                    <Font name="System Bold" size="14.0" />
+                                 </font>
+                              </Button>
+                           </children>
+                        </HBox>
+                        <ListView fx:id="algorithmsList" onMouseClicked="#handleListDoubleClick" HBox.hgrow="ALWAYS" VBox.vgrow="ALWAYS" />
+                     </children>
+                  </VBox>
+                  <VBox nodeOrientation="RIGHT_TO_LEFT" spacing="5.0" HBox.hgrow="ALWAYS">
+                     <children>
+                        <Label fx:id="lbAlgSelects" minHeight="30.0" text="0 seleccionados" VBox.vgrow="ALWAYS" />
+                        <ListView fx:id="algorithmsSelected" onMouseClicked="#handleSelectedListDoubleClick" HBox.hgrow="ALWAYS" VBox.vgrow="ALWAYS">
+                           <HBox.margin>
+                              <Insets />
+                           </HBox.margin>
+                        </ListView>
+                     </children>
+                  </VBox>
                </children>
             </HBox>
             <TitledPane fx:id="inputsTitledPane" disable="true" text="%title.benchmarks.input" GridPane.rowIndex="2">

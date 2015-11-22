@@ -4,14 +4,7 @@ package es.uma.pfc.is.algorithms;
 
 import es.uma.pfc.is.commons.strings.StringUtils;
 import java.util.Objects;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlTransient;
-import javax.xml.bind.annotation.XmlType;
 
 /**
  * Entity with an algorithm attributes.
@@ -31,7 +24,11 @@ public class AlgorithmInfo {
      * Algorithm implementation class.
      */
     private String type;
-
+    /**
+     * Library.
+     */
+    private String library;
+    
     /**
      * Constructor.
      */
@@ -99,7 +96,22 @@ public class AlgorithmInfo {
     public void setType(String type) {
         this.type = type;
     }
+    /**
+     * Algorithm library.
+     * @return Library name.
+     */
+    public String getLibrary() {
+        return library;
+    }
+    /**
+     * Sets the library name.
+     * @param library Library name.
+     */
+    public void setLibrary(String library) {
+        this.library = library;
+    }
 
+    
     @Override
     public String toString() {
         return (this.shortName != null) ? this.shortName : String.valueOf(this.getName());

@@ -9,6 +9,8 @@ import es.uma.pfc.is.bench.MainLayoutController;
 import es.uma.pfc.is.bench.business.BenchmarksBean;
 import es.uma.pfc.is.bench.domain.Benchmark;
 import es.uma.pfc.is.algorithms.AlgorithmInfo;
+import es.uma.pfc.is.algorithms.optbasis.ClaAlgorithm;
+import es.uma.pfc.is.algorithms.optbasis.DirectOptimalBasis;
 import es.uma.pfc.is.bench.events.AlgorithmChangeEvent;
 import es.uma.pfc.is.bench.events.AlgorithmsSelectedEvent;
 import es.uma.pfc.is.commons.eventbus.Eventbus;
@@ -23,6 +25,7 @@ import es.uma.pfc.is.commons.strings.StringUtils;
 import es.uma.pfc.is.bench.config.WorkspaceManager;
 import es.uma.pfc.is.bench.domain.ws.Preferences;
 import es.uma.pfc.is.bench.services.AlgorithmsClassLoadService;
+import es.uma.pfc.is.commons.files.FileUtils;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
@@ -36,7 +39,6 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Optional;
 import java.util.ResourceBundle;
-import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.beans.binding.BooleanBinding;
@@ -49,6 +51,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
@@ -83,6 +86,11 @@ public class NewBenchmarkController extends Controller {
     @FXML
     private Label lbSelectedFiles;
     /**
+     * Label with selected algorithms count.
+     */
+    @FXML
+    private Label lbAlgSelects;
+    /**
      * List of selected input files.
      */
     @FXML
@@ -103,6 +111,11 @@ public class NewBenchmarkController extends Controller {
      */
     @FXML
     private ListView algorithmsSelected;
+    /**
+     * Remove library button.
+     */
+    @FXML
+    private Button btnRemove;
     /**
      * Root pane.
      */
@@ -171,7 +184,7 @@ public class NewBenchmarkController extends Controller {
         });
         loadService.restart();
     }
-    
+
     /**
      * Initializes the binding between view components and the model.
      */
@@ -200,6 +213,35 @@ public class NewBenchmarkController extends Controller {
             }
         });
         algorithmsSelected.itemsProperty().bindBidirectional(model.algorithmsSelectedProperty());
+        lbAlgSelects.textProperty().bind(new StringBinding() {
+            {
+                super.bind(model.algorithmsSelectedProperty());
+            }
+            
+            @Override
+            protected String computeValue() {
+                return BenchMessages.get().getMessage(I18n.SELECTED_FILES_COUNT, model.getAlgorithmsSelectedList().size());
+            }
+        });
+        btnRemove.disableProperty().bind(new BooleanBinding() {
+            {
+                super.bind(algorithmsList.getSelectionModel().getSelectedItems());
+            }
+            
+            @Override
+            protected boolean computeValue() {
+                ObservableList<AlgorithmInfo> selectedItems = algorithmsList.getSelectionModel().getSelectedItems();
+                boolean containsDefault = false;
+                if(selectedItems != null) {
+                    containsDefault = selectedItems.stream()
+                                                   .filter(alg -> DirectOptimalBasis.class.getName().equals(alg.getType())
+                                                                  || ClaAlgorithm.class.getName().equals(alg.getType()))
+                                                    .findAny().isPresent();
+                }
+                
+                return (selectedItems == null || selectedItems.isEmpty() || containsDefault);
+            }
+        });
     }
     
     /**
@@ -337,7 +379,7 @@ public class NewBenchmarkController extends Controller {
      * @param action Event thrown when the Add Lib button is pressed.
      */
     @FXML
-    protected void handleNewAlgorithm(ActionEvent event) {
+    protected void handleNewAlgorithm(ActionEvent action) {
         File homeDir = Paths.get(WorkspaceManager.get().currentWorkspace().getLocation()).toFile();
         List<File> jars = Chooser.openMultipleFileChooser(getRootPane().getScene().getWindow(),
                 Chooser.FileChooserMode.OPEN, getI18nLabel(I18n.SELECT_JAR_DIALOG_TITLE), homeDir,
@@ -458,18 +500,39 @@ public class NewBenchmarkController extends Controller {
         clear();
         
     }
+ 
+    
     /**
-     * When the Add Algorithm button is pressed, the New Algorithm window is shown.
-     * @param event Action event.
+     * Removes the library which contains the selected algorithm.
+     * @param event  Event thrown when "-" button is pressed.
      */
     @FXML
-    protected void handleAddAlgAction(ActionEvent event) {
-        try {
-            Parent algorithmsPane = FXMLLoader.load(MainLayoutController.class.getResource(FXMLViews.ALGORITHMS_VIEW), getBundle());
-            String title = getI18nLabel(I18n.ALGORITHMS_DIALOG_TITLE);
-            Dialogs.showModalDialog(title, algorithmsPane, rootPane.getScene().getWindow());
-        } catch (IOException ex) {
-            Logger.getLogger(NewBenchmarkController.class.getName()).log(Level.SEVERE, null, ex);
+    public void handleRemoveLibrary(ActionEvent event) {
+        List<AlgorithmInfo> algorithmsSelection = algorithmsList.getSelectionModel().getSelectedItems();
+        
+        if(algorithmsSelection != null && !algorithmsSelection.isEmpty()) {
+            List<String> libraries = new ArrayList<>();
+            
+            algorithmsSelection.stream()
+                    .filter((algorithm) -> (!StringUtils.isEmpty(algorithm.getLibrary())))
+                    .forEach((algorithm) -> {libraries.add(FileUtils.getName(algorithm.getLibrary()));
+            });
+            
+            String title = getI18nMessage(BenchMessages.REMOVE_LIBRARIES_TITLE);
+            String message = getI18nMessage(BenchMessages.CONFIRM_REMOVE_LIBRARIES, libraries);
+            
+            Optional<ButtonType> response = showAlert(Alert.AlertType.CONFIRMATION, title, message);
+            
+            if(response.isPresent() && response.get().equals(ButtonType.OK)) {
+                try {
+                    for(AlgorithmInfo algorithm : algorithmsSelection) {
+                        Files.deleteIfExists(Paths.get(algorithm.getLibrary()));
+                    }
+                } catch (IOException ex) {
+                    Logger.getLogger(NewBenchmarkController.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                reload();
+            }
         }
     }
 

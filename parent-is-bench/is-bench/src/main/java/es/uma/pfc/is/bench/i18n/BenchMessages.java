@@ -87,6 +87,14 @@ public class BenchMessages extends Messages {
      * File exists.
      */
     public static final String FILE_EXISTS = "msg.library.exists";
+    /**
+     * Remove libraries dialog title.
+     */
+    public static final String REMOVE_LIBRARIES_TITLE = "msg.library.remove.title";
+    /**
+     * Remove libraries confirmation.
+     */
+    public static final String CONFIRM_REMOVE_LIBRARIES = "msg.library.remove.confirm";
             
             
 /**

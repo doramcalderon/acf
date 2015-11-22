@@ -18,6 +18,7 @@ import es.uma.pfc.is.bench.io.BenchmarkCSVWriter;
 import es.uma.pfc.is.commons.reflection.ReflectionUtil;
 import es.uma.pfc.is.commons.strings.date.DateUtils;
 import java.io.IOException;
+import java.net.URLClassLoader;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
@@ -87,9 +88,11 @@ public class AlgorithmExecService extends Service<BenchmarkResult> {
      * @return Algorithm.
      */
     protected Algorithm instanceAlgorithm(AlgorithmInfo algorithm) {
-        try {
-            ClassLoader classLoader = 
-                    ReflectionUtil.getClassLoader(Paths.get(WorkspaceManager.get().getPreference(Preferences.ALGORITHMS_PATH)));
+        
+        try (URLClassLoader classLoader = 
+                    ReflectionUtil.getClassLoader(
+                            Paths.get(WorkspaceManager.get().getPreference(Preferences.ALGORITHMS_PATH)))) {
+        
             Algorithm alg = (Algorithm) classLoader.loadClass(algorithm.getType()).newInstance();
             alg.setName(algorithm.getName());
             alg.setShortName(algorithm.getShortName());

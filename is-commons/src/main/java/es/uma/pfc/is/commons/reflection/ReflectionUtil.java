@@ -185,6 +185,18 @@ public class ReflectionUtil {
         
         return classes;
     }
+    /**
+     * Returns the implementation classes of a type in a JAR file.
+     * @param <T> Type.
+     * @param jar JAR file.
+     * @param loader Classloader.
+     * @param type Type.
+     * @return Implementation classes of a type in a JAR file.
+     */
+    public static <T> List<Class<? extends T>> getImplFromJar(JarFile jar, ClassLoader loader, Class<? extends T> type) {
+        List<Class<? extends T>> classes = getClassesFromJar(jar, loader, type);
+        return classes.stream().filter(clazz -> isImplementation(clazz)).collect(Collectors.toList());
+    }
 
     /**
      * Returns the names of a JAR elements.
@@ -234,7 +246,7 @@ public class ReflectionUtil {
      * @param path path.
      * @return ClassLoader.
      */
-    public static final ClassLoader getClassLoader(Path path) throws IOException {
+    public static final URLClassLoader getClassLoader(Path path) throws IOException {
         ClassLoader parentLoader = Thread.currentThread().getContextClassLoader();
         URL[] jarsUrl = FileUtils.getURLs(path, "*.jar").toArray(new URL[]{});  
         URLClassLoader loader = new URLClassLoader(jarsUrl, parentLoader);

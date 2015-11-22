@@ -1,7 +1,12 @@
 package es.uma.pfc.is.bench;
 
+import es.uma.pfc.is.bench.config.WorkspaceManager;
+import es.uma.pfc.is.bench.domain.ws.Preferences;
 import es.uma.pfc.is.bench.view.FXMLViews;
 import java.io.IOException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.List;
 import java.util.Locale;
 import java.util.ResourceBundle;
 import javafx.application.Application;

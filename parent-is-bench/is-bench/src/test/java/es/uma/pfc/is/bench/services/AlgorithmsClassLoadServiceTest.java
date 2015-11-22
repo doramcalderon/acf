@@ -2,6 +2,7 @@
 package es.uma.pfc.is.bench.services;
 
 import es.uma.pfc.is.algorithms.Algorithm;
+import es.uma.pfc.is.algorithms.AlgorithmInfo;
 import es.uma.pfc.is.algorithms.optbasis.ClaAlgorithm;
 import es.uma.pfc.is.algorithms.optbasis.DirectOptimalBasis;
 import es.uma.pfc.is.commons.files.FileUtils;
@@ -96,13 +97,14 @@ public class AlgorithmsClassLoadServiceTest {
         Path libPath = Paths.get(System.getProperty("user.dir"), "target", "lib");
         AlgorithmsClassLoadService service = new AlgorithmsClassLoadService();
         
-        List<Class<? extends Algorithm>> algorithms = service.getAlgorithmsImpl(libPath);
+        List<AlgorithmInfo> algorithms = service.getAlgorithmsImpl(libPath);
         
         assertNotNull(algorithms);
         assertFalse(algorithms.isEmpty());
         assertEquals(2, algorithms.size());
-        assertTrue(algorithms.contains(DirectOptimalBasis.class));
-        assertTrue(algorithms.contains(ClaAlgorithm.class));
+        assertTrue(algorithms.stream().filter(alg -> DirectOptimalBasis.class.getName().equals(alg.getType())).findAny().isPresent());
+        assertTrue(algorithms.stream().filter(alg -> ClaAlgorithm.class.getName().equals(alg.getType())).findAny().isPresent());
+        
     }
     
     @Test(expected = IllegalArgumentException.class)
@@ -113,14 +115,18 @@ public class AlgorithmsClassLoadServiceTest {
     }
     
     @Test
-    public void testGetAlgorithms() throws Exception {
+    public void testGetAlgorithms() throws Exception, ClassNotFoundException {
         Path libPath = Paths.get(System.getProperty("localRepository"), "es", "uma", "pfc", "is-algorithms", "1.0.0-SNAPSHOT");
         AlgorithmsClassLoadService service = new AlgorithmsClassLoadService();
         
-        List<Class<? extends Algorithm>> algClasses = service.getAlgorithmsImpl(libPath);
+        List<AlgorithmInfo> algClasses = service.getAlgorithmsImpl(libPath);
         
         assertNotNull(algClasses);
         assertFalse(algClasses.isEmpty());
-        algClasses.forEach(clazz -> assertTrue(ReflectionUtil.isImplementation(clazz)));
+        
+        for(AlgorithmInfo alg : algClasses) {
+            Class clazz = Class.forName(alg.getType());
+            assertTrue(ReflectionUtil.isImplementation(clazz));
+        }
     }
 }
