@@ -36,6 +36,12 @@
             <menus>
                 <Menu mnemonicParsing="false" text="%preferences">
                     <items>
+                  <Menu mnemonicParsing="false" text="%menu.item.language">
+                     <items>
+                        <RadioMenuItem fx:id="menuLanguageEN" mnemonicParsing="false" onAction="#handleLanguageAction" text="%menu.item.lang.en" />
+                        <RadioMenuItem fx:id="menuLanguageES" mnemonicParsing="false" onAction="#handleLanguageAction" text="%menu.item.lang.es" />
+                     </items>
+                  </Menu>
                         <MenuItem fx:id="workspaceMenuItem" mnemonicParsing="false" onAction="#handleWorkspacesAction" text="%workspaces" />
                     </items>
                 </Menu>

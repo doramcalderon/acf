@@ -103,6 +103,10 @@ public class ImplicationsController implements Initializable {
      * Validation support.
      */
     private ValidationSupport validationSupport;
+    /**
+     * Type of class which call to this controller.
+     */
+    private Class<?> callerType;
 
 //    @FXML
 //    private ResourceBundle resources;
@@ -135,6 +139,16 @@ public class ImplicationsController implements Initializable {
     public void setOutput(String outputPath) {
         txtOutput.setText(outputPath);
     }
+    /**
+     * Sets the caller class of implications generator.
+     * @param callerType Caller class.
+     * @return This instance.
+     */
+    public ImplicationsController calledBy(Class<?> callerType) {
+        this.callerType = callerType;
+        return this;
+    }
+    
     /**
      * Inititalizes bindings.
      */
@@ -361,6 +375,7 @@ public class ImplicationsController implements Initializable {
      */
     protected void publicSystemsGenerated(String selectedFile) {
         SystemSaved event = new SystemSaved();
+        event.setCalledBy(callerType);
         if (model.getNum() == 1) {
             event.setPath(selectedFile);
         } else {

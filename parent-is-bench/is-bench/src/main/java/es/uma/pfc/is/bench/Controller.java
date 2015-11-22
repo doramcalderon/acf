@@ -1,6 +1,7 @@
 
 package es.uma.pfc.is.bench;
 
+import es.uma.pfc.is.bench.config.WorkspaceManager;
 import es.uma.pfc.is.commons.eventbus.Eventbus;
 import es.uma.pfc.is.bench.events.MessageEvent;
 import es.uma.pfc.is.bench.events.MessageEvent.Level;
@@ -8,6 +9,7 @@ import es.uma.pfc.is.bench.i18n.BenchMessages;
 import es.uma.pfc.is.bench.uitls.Dialogs;
 import java.io.IOException;
 import java.net.URL;
+import java.util.Locale;
 import java.util.Optional;
 import java.util.ResourceBundle;
 import javafx.fxml.Initializable;

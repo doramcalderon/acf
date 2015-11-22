@@ -13,6 +13,10 @@ public class SystemSaved {
      * Path of system saved.
      */
     private String [] paths;
+    /**
+     * Type of class which call to Implications Generator.
+     */
+    private Class<?> calledBy;
 
     /**
      * Constructor.
@@ -34,10 +38,26 @@ public class SystemSaved {
 
     /**
      * Paths of systems saved.
-     * @param path the path to set
+     * @param paths the path to set
      */
     public void setPath(String ... paths) {
         this.paths = paths;
+    }
+
+    /**
+     * Returns the type of class which call to Implications Generator.
+     * @return Type of class which call to Implications Generator.
+     */
+    public Class<?> getCalledBy() {
+        return calledBy;
+    }
+
+    /**
+     * Sets the type of class which call to Implications Generator.
+     * @param calledBy Type of class which call to Implications Generator.
+     */
+    public void setCalledBy(Class<?> calledBy) {
+        this.calledBy = calledBy;
     }
     
     

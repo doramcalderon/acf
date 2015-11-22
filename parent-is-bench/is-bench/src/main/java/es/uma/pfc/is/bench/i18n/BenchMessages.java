@@ -95,6 +95,14 @@ public class BenchMessages extends Messages {
      * Remove libraries confirmation.
      */
     public static final String CONFIRM_REMOVE_LIBRARIES = "msg.library.remove.confirm";
+    /**
+     * Language change confirmation title.
+     */
+    public static final String LANGUAGE_CHANGE_TITLE = "msg.language.change.title";
+    /**
+     * * Language change confirmation message.
+     */
+    public static final String LANGUAGE_CHANGE = "msg.language.change";
             
             
 /**

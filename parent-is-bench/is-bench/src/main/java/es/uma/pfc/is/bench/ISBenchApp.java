@@ -1,6 +1,7 @@
 package es.uma.pfc.is.bench;
 
 import com.google.common.eventbus.Subscribe;
+import es.uma.pfc.is.bench.config.WorkspaceManager;
 import es.uma.pfc.is.bench.events.OpenFileEvent;
 import es.uma.pfc.is.bench.view.FXMLViews;
 import es.uma.pfc.is.commons.eventbus.Eventbus;
@@ -31,9 +32,8 @@ public class ISBenchApp extends Application {
     public void start(Stage primaryStage) throws IOException {
 //        System.setProperty("log4j.configurationFile", "es/uma/pfc/is/bench/log4j2.xml");
 //        System.setProperty("isbench.output.dir", ConfigManager.get().getDefaultOutputDir().getPath());
-       //Locale.setDefault(new Locale("en", "GB"));
         Eventbus.register(this);
-        loadResources(Locale.getDefault());
+        loadResources(WorkspaceManager.get().getLocale());
         loadRootLayout();
         showStage(primaryStage);
         

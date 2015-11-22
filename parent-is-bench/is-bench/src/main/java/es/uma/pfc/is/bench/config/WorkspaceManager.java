@@ -124,6 +124,12 @@ public class WorkspaceManager {
         File configFile = FileUtils.createIfNoExists(configPath);
         config.load(new FileInputStream(configFile));
     }
+    /**
+     * Initializes the locale, with the locale configured.
+     */
+    protected void initLocale() {
+        Locale.setDefault(getLocale());
+    }
 
     /**
      * Returns a single instance of WorkspaceManager.
@@ -263,7 +269,7 @@ public class WorkspaceManager {
      * @return Preference value. {@code null} if the preference not exists.
      */
     public String getPreference(String name) {
-        return (current != null) ? current.getPreferences().getPreference(name) : null;
+        return (currentWorkspace() != null) ? currentWorkspace().getPreferences().getPreference(name) : null;
     }
 
     /**
@@ -291,8 +297,8 @@ public class WorkspaceManager {
      */
     public void addPreference(String name, String value) {
         try {
-            current.getPreferences().setPreference(name, value);
-            savePreferences(current.getPreferences(), current.getLocation());
+            currentWorkspace().getPreferences().setPreference(name, value);
+            savePreferences(currentWorkspace().getPreferences(), currentWorkspace().getLocation());
         } catch (IOException ex) {
             LOGGER.error("Error initializing the preferences.", ex);
         }
@@ -356,4 +362,36 @@ public class WorkspaceManager {
     protected void saveConfig() throws IOException {
         config.store(new FileOutputStream(new File(configPath)), "");
     }
+    
+    /**
+     * Sets the workspace locale.
+     * @param locale Locale.
+     */
+    public void setLocalePreference(Locale locale) {
+        if(locale != null) {
+           addPreference(Preferences.LANGUAGE, locale.toString());
         }
+    }
+    
+    /**
+     * Returns the workspace locale.
+     * @return Locale.
+     */
+    public Locale getLocale() {
+        String localeStr = getPreference(Preferences.LANGUAGE);
+        if(StringUtils.isEmpty(localeStr)) {
+            localeStr = Locale.getDefault().toString();
+            setLocalePreference(Locale.getDefault());
+        }
+        
+        String [] localeSplit = localeStr.split("_");
+        String language = localeSplit[0];
+        String country = "";
+        if(localeSplit.length > 1) {
+            country = localeSplit[1];
+        }
+        
+        
+        return new Locale(language, country);
+    }
+}

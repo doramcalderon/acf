@@ -2,9 +2,11 @@ package es.uma.pfc.is.bench;
 
 import com.google.common.eventbus.Subscribe;
 import es.uma.pfc.is.bench.benchmarks.execution.FileViewerListener;
+import es.uma.pfc.is.bench.config.WorkspaceManager;
 import es.uma.pfc.is.commons.eventbus.Eventbus;
 import es.uma.pfc.is.bench.events.MessageEvent;
 import es.uma.pfc.is.bench.events.NavigationEvent;
+import es.uma.pfc.is.bench.i18n.BenchMessages;
 import es.uma.pfc.is.bench.i18n.I18n;
 import es.uma.pfc.is.bench.uitls.Animations;
 import es.uma.pfc.is.bench.uitls.Dialogs;
@@ -15,27 +17,26 @@ import java.net.URL;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Optional;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.application.Platform;
-import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Node;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.control.Menu;
+import javafx.scene.control.MenuItem;
+import javafx.scene.control.RadioMenuItem;
 import javafx.scene.control.TabPane;
-import javafx.scene.control.Toggle;
-import javafx.scene.control.ToggleButton;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
-import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Paint;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
@@ -53,6 +54,15 @@ public class MainLayoutController extends Controller {
     private static final int GENERATOR_PANE_INDEX = 3;
 
     /**
+     * Spanish language menu id.
+     */
+    private static final String MENU_LANGUAGE_ES = "menuLanguageES";
+    /**
+     * English language menu id.
+     */
+    private static final String MENU_LANGUAGE_EN = "menuLanguageEN";
+
+    /**
      * Map whit buttons and panes relations. The key is the button id and the value, the index of pane in the stack
      * pane.
      */
@@ -66,6 +76,9 @@ public class MainLayoutController extends Controller {
 
     @FXML
     private Label lbStateBar;
+    
+    @FXML
+    private RadioMenuItem menuLanguageEN, menuLanguageES;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -79,18 +92,33 @@ public class MainLayoutController extends Controller {
 
     }
 
-
+    @Override
+    protected void initView() throws IOException {
+        Locale locale = WorkspaceManager.get().getLocale();
+        ToggleGroup tGroup = new ToggleGroup();
+        
+        menuLanguageES.setToggleGroup(tGroup);
+        menuLanguageEN.setToggleGroup(tGroup);
+        
+        menuLanguageES.setSelected(locale.getLanguage().equals("es"));
+        menuLanguageEN.setSelected(locale.getLanguage().equals("en"));
+    }
 
     @Override
     protected void initListeners() {
         Eventbus.register(this);
         Eventbus.register(new FileViewerListener());
     }
-    
+
+    @Override
+    protected Pane getRootPane() {
+        return rootPane;
+    }
+
     @Subscribe
     public void newBenchmark(NavigationEvent event) {
         String viewTo = event.getView();
-        switch(viewTo) {
+        switch (viewTo) {
             case FXMLViews.NEW_BENCHMARK_VIEW:
 //                btnBenchmarks.setSelected(true);
                 break;
@@ -100,7 +128,7 @@ public class MainLayoutController extends Controller {
             default:
                 break;
         }
-        
+
     }
 
     /**
@@ -127,7 +155,7 @@ public class MainLayoutController extends Controller {
                 case ERROR:
                     lbStateBar.setTextFill(Paint.valueOf("RED"));
                     break;
-                    
+
             }
             Animations.fadeOut(lbStateBar, 5000);
         });
@@ -144,8 +172,6 @@ public class MainLayoutController extends Controller {
 //        }
     }
 
-   
-
     /**
      * Handler of Preferences Menu action event.
      *
@@ -161,6 +187,27 @@ public class MainLayoutController extends Controller {
         } catch (IOException ex) {
             Logger.getLogger(MainLayoutController.class.getName()).log(Level.SEVERE, null, ex);
         }
+    }
+
+    /**
+     * Changes to the language selected.
+     *
+     * @param event Event.
+     */
+    @FXML
+    public void handleLanguageAction(ActionEvent event) {
+        RadioMenuItem item = (RadioMenuItem) event.getSource();
+        Locale locale;
+        if (MENU_LANGUAGE_ES.equals(item.getId()) && item.isSelected()) {
+            locale = new Locale("es", "ES");
+        } else {
+            locale = new Locale("en", "GB");
+        }
+        WorkspaceManager.get().setLocalePreference(locale);
+
+        String title = getI18nMessage(BenchMessages.LANGUAGE_CHANGE_TITLE);
+        String message = getI18nMessage(BenchMessages.LANGUAGE_CHANGE);
+        Optional<ButtonType> response = showAlert(Alert.AlertType.CONFIRMATION, title, message);
     }
 
     /**
