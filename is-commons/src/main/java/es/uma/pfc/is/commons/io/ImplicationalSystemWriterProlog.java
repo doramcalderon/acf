@@ -11,7 +11,7 @@ import java.io.IOException;
 import java.util.SortedSet;
 
 /**
- * Define la forma de guardar un ImplicationalSystem en un archivo Prolog.
+ * Writes an ImplicationalSystem in a Prolog file.
  * @author Dora Calderón
  */
 public class ImplicationalSystemWriterProlog implements ImplicationalSystemWriter {

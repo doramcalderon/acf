@@ -280,8 +280,6 @@ public class RunBenchmarkController extends Controller {
     @Override
     protected void initBinding() {
         btnRun.disableProperty().bind(benchmarksTree.getSelectionModel().selectedItemProperty().isNull());
-
-        inputsList.itemsProperty().bindBidirectional(model.selectedInputFilesListProperty());
         lbSelectedFiles.textProperty().bind(new StringBinding() {
             {
                 super.bind(model.selectedInputFilesListProperty());
@@ -304,6 +302,7 @@ public class RunBenchmarkController extends Controller {
         model.historyCheckedProperty().bind(chkHistory.selectedProperty());
         model.statisticsCheckedProperty().bind(chkStatistics.selectedProperty());
         model.outputTypeProperty().bind(cbOutputType.getSelectionModel().selectedIndexProperty());
+        model.selectedInputFilesListProperty().bind(inputsList.itemsProperty());
     }
 
     /**
@@ -547,15 +546,6 @@ public class RunBenchmarkController extends Controller {
         }
     }
 
-//    /**
-//     * Clear the statistics table.
-//     * @param event Event.
-//     */
-//    @FXML
-//    public void clearStatistics(ActionEvent event) {
-//        tableStatistics.getItems().clear();
-//        tableStatistics.getColumns().clear();
-//    }
 
 
     /**
@@ -649,8 +639,7 @@ public class RunBenchmarkController extends Controller {
                 File inputsDir = Paths.get(b.getInputsDir()).toFile();
                 List<String> inputs = new ArrayList<>();
                 Arrays.stream(inputsDir.listFiles()).forEach(p -> inputs.add(p.toString()));
-
-                model.selectedInputFilesListProperty().set(FXCollections.observableArrayList(inputs));
+                inputsList.getItems().setAll(inputs);
             }
         } catch (Exception ex) {
             Logger.getLogger(NewBenchmarkController.class.getName()).log(Level.SEVERE, null, ex);

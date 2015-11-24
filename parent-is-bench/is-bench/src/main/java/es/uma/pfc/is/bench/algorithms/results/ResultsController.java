@@ -16,6 +16,7 @@ import es.uma.pfc.is.bench.events.AlgorithmResultSelection;
 import es.uma.pfc.is.bench.events.NewResultsEvent;
 import es.uma.pfc.is.bench.events.OpenFileEvent;
 import es.uma.pfc.is.commons.eventbus.Eventbus;
+import es.uma.pfc.is.commons.io.ImplicationalSystemReaderProlog;
 import es.uma.pfc.is.javafx.NoZeroDoubleCellFactory;
 import es.uma.pfc.is.javafx.NoZeroLongCellFactory;
 import java.io.IOException;
@@ -114,6 +115,7 @@ public class ResultsController extends Controller {
      */
     @Override
     protected void initModel() {
+        ImplicationalSystemReaderProlog.register();
         model = new ResultsModel();
         ResultsBean resultsBean = new ResultsBean();
         List<BenchmarkResultSet> allResults = resultsBean.getAllResults(WorkspaceManager.get().currentWorkspace().getLocation());

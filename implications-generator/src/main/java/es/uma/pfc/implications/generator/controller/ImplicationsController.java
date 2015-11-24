@@ -28,6 +28,7 @@ import javafx.beans.value.ObservableValue;
 import javafx.concurrent.Task;
 import javafx.concurrent.WorkerStateEvent;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Cursor;
@@ -361,9 +362,15 @@ public class ImplicationsController implements Initializable {
                     clean(null);
                 }
 
+                @Override
+                protected void failed() {
+                    Logger.getLogger(ImplicationsController.class.getName()).log(Level.SEVERE, "System generation error", getException());
+                }
+                
+                
+
             };
             generationProgressInd.visibleProperty().bind(saveTask.runningProperty());
-
             saveTask.run();
 
         }
