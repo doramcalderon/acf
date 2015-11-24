@@ -84,7 +84,7 @@ public class ISBenchApp extends Application {
         primaryStage.setMaximized(true);
         Scene scene = new Scene(root);
         primaryStage.setScene(scene);
-        primaryStage.setTitle("IS Bench");
+        primaryStage.setTitle("IS Bench - " + WorkspaceManager.get().currentWorkspace().getName() );
         primaryStage.show();
     }
 

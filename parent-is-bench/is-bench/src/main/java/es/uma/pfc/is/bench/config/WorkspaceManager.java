@@ -8,12 +8,9 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.nio.file.Files;
 import java.nio.file.InvalidPathException;
-import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.Enumeration;
 import java.util.List;
@@ -122,8 +119,11 @@ public class WorkspaceManager {
     protected void initConfig() throws IOException {
         config = new Properties();
         File configFile = FileUtils.createIfNoExists(configPath);
-        config.load(new FileInputStream(configFile));
+        try (FileInputStream configInputStream = new FileInputStream(configFile)) {
+            config.load(configInputStream);
+        }
     }
+
     /**
      * Initializes the locale, with the locale configured.
      */
@@ -133,6 +133,7 @@ public class WorkspaceManager {
 
     /**
      * Returns a single instance of WorkspaceManager.
+     *
      * @return WorkspaceManager.
      */
     public static WorkspaceManager get() {
@@ -165,6 +166,7 @@ public class WorkspaceManager {
 
     /**
      * Create the basic workspace directories and files hirerchachy, based on the info that contains the ws param.
+     *
      * @param ws Workspace info.
      * @param current If sets this workspace to the current.
      */
@@ -172,14 +174,14 @@ public class WorkspaceManager {
         try {
             String location = ws.getLocation();
             FileUtils.createDirIfNoExists(location);
-            
+
             String algorithmsPath = Paths.get(location, DEFAULT_ALGS_PATH).toString();
             algorithmsPath = ws.getPreferences().setIfNoExist(Preferences.ALGORITHMS_PATH, algorithmsPath);
-            
-            ws.getPreferences().setIfNoExist(Preferences.ALGORITHMS_FILE, 
-                                             Paths.get(ws.getLocation(),"algorithms.xml").toString());
+
+            ws.getPreferences().setIfNoExist(Preferences.ALGORITHMS_FILE,
+                    Paths.get(ws.getLocation(), "algorithms.xml").toString());
             FileUtils.createDirIfNoExists(algorithmsPath);
-            
+
             savePreferences(ws.getPreferences(), ws.getLocation());
             saveWorkspace(ws, current);
         } catch (IOException ex) {
@@ -189,16 +191,13 @@ public class WorkspaceManager {
 
     /**
      * Mark a workspace as current. The change will take effect with {@link #commitPendingChanges() }.
+     *
      * @param ws Workspace.
      */
     public void change(Workspace ws) {
         if (ws != null && !StringUtils.isEmpty(ws.getName())) {
-            try {
-                config.setProperty(WORKSPACE_CHANGE, ws.getName());
-                saveConfig();
-            } catch (IOException ex) {
-                LOGGER.error("Error saving config.", ex);
-            }
+            config.setProperty(WORKSPACE_CHANGE, ws.getName());
+            saveConfig();
         }
     }
 
@@ -239,8 +238,8 @@ public class WorkspaceManager {
     }
 
     /**
-     * Returns the registered workspaces list.
-     * Devuelve la lista de workspaces registrados.
+     * Returns the registered workspaces list. Devuelve la lista de workspaces registrados.
+     *
      * @return Workspaces list.
      */
     public List<Workspace> registeredWorkspaces() {
@@ -265,6 +264,7 @@ public class WorkspaceManager {
 
     /**
      * Gets a preference value of the current workspace.
+     *
      * @param name Name.
      * @return Preference value. {@code null} if the preference not exists.
      */
@@ -274,6 +274,7 @@ public class WorkspaceManager {
 
     /**
      * Assume that a preference value is the file path and returns as it.
+     *
      * @param name Preference name.
      * @return File given from the consulted preference.
      * @throws InvalidPathException If the path string cannot be converted to a Path.
@@ -292,6 +293,7 @@ public class WorkspaceManager {
 
     /**
      * Adds a new preference.
+     *
      * @param name Name.
      * @param value Value.
      */
@@ -306,6 +308,7 @@ public class WorkspaceManager {
 
     /**
      * Saves the preferences in a preferences.properties file, in a path (wsLocation param).
+     *
      * @param prefs Preferences.
      * @param wsLocation Directory of the preferences.properties file.
      * @throws IllegalArgumentException If wsLocation is null.
@@ -322,7 +325,10 @@ public class WorkspaceManager {
         if (p.size() == 0) {
             p = createDefaultPreferences(wsLocation);
         }
-        p.store(new FileOutputStream(Paths.get(wsLocation, "preferences.properties").toFile()), "");
+        try (FileOutputStream prefOutStream = new FileOutputStream(Paths.get(wsLocation, "preferences.properties").toFile())) {
+            p.store(prefOutStream, "");
+        }
+
     }
 
     /**
@@ -353,45 +359,50 @@ public class WorkspaceManager {
         if (current) {
             config.setProperty(WORKSPACE_CHANGE, wsNameProperty);
         }
+        saveConfig();
     }
 
     /**
      * Save the config in the file.
-     * @throws IOException
      */
-    protected void saveConfig() throws IOException {
-        config.store(new FileOutputStream(new File(configPath)), "");
+    protected void saveConfig() {
+        try (FileOutputStream configOutStream = new FileOutputStream(configPath)) {
+            config.store(configOutStream, "");
+        } catch (IOException ex) {
+            LOGGER.error("Error saving config.", ex);
+        }
     }
-    
+
     /**
      * Sets the workspace locale.
+     *
      * @param locale Locale.
      */
     public void setLocalePreference(Locale locale) {
-        if(locale != null) {
-           addPreference(Preferences.LANGUAGE, locale.toString());
+        if (locale != null) {
+            addPreference(Preferences.LANGUAGE, locale.toString());
         }
     }
-    
+
     /**
      * Returns the workspace locale.
+     *
      * @return Locale.
      */
     public Locale getLocale() {
         String localeStr = getPreference(Preferences.LANGUAGE);
-        if(StringUtils.isEmpty(localeStr)) {
+        if (StringUtils.isEmpty(localeStr)) {
             localeStr = Locale.getDefault().toString();
             setLocalePreference(Locale.getDefault());
         }
-        
-        String [] localeSplit = localeStr.split("_");
+
+        String[] localeSplit = localeStr.split("_");
         String language = localeSplit[0];
         String country = "";
-        if(localeSplit.length > 1) {
+        if (localeSplit.length > 1) {
             country = localeSplit[1];
         }
-        
-        
+
         return new Locale(language, country);
     }
 }
