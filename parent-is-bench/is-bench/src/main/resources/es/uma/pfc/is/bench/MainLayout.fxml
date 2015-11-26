@@ -7,50 +7,58 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<BorderPane id="rootPane" fx:id="rootPane" minHeight="650.0" minWidth="800.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="es.uma.pfc.is.bench.MainLayoutController">
-    <center>
-      <TabPane rotateGraphic="true" side="LEFT">
-         <tabs>
-                <Tab closable="false" text="%tab.benchmarks">
-                    <content>
+<StackPane id="rootPane" fx:id="rootPane" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="es.uma.pfc.is.bench.MainLayoutController">
+   <children>
+      <BorderPane id="mainPane" fx:id="mainPane" minHeight="650.0" minWidth="800.0">
+          <center>
+            <TabPane rotateGraphic="true" side="LEFT">
+               <tabs>
+                      <Tab closable="false" text="%tab.benchmarks">
+                          <content>
                         <fx:include source="/es/uma/pfc/is/bench/benchmarks/Benchmarks.fxml"/>
                     </content>
-                </Tab>
-                <Tab closable="false" text="%tab.results">
-                    <content>
+                      </Tab>
+                      <Tab closable="false" text="%tab.results">
+                          <content>
                         <fx:include source="/es/uma/pfc/is/bench/benchmarks/results/Results.fxml"/>
                     </content>
-                </Tab>
-            </tabs>
-        </TabPane>
-    </center>
-    <bottom>
-        <AnchorPane fx:id="stateBar" minHeight="40.0" BorderPane.alignment="CENTER">
-            <children>
-                <Label fx:id="lbStateBar" layoutX="36.0" layoutY="12.0" text="" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
-            </children>
-        </AnchorPane>
-    </bottom>
-   <top>
-        <MenuBar BorderPane.alignment="CENTER">
-            <menus>
-                <Menu mnemonicParsing="false" text="%preferences">
-                    <items>
-                  <Menu mnemonicParsing="false" text="%menu.item.language">
-                     <items>
-                        <RadioMenuItem fx:id="menuLanguageEN" mnemonicParsing="false" onAction="#handleLanguageAction" text="%menu.item.lang.en" />
-                        <RadioMenuItem fx:id="menuLanguageES" mnemonicParsing="false" onAction="#handleLanguageAction" text="%menu.item.lang.es" />
-                     </items>
-                  </Menu>
-                        <MenuItem fx:id="workspaceMenuItem" mnemonicParsing="false" onAction="#handleWorkspacesAction" text="%workspaces" />
-                    </items>
-                </Menu>
-                <Menu mnemonicParsing="false" text="%help">
-                    <items>
-                        <MenuItem fx:id="aboutMenu" mnemonicParsing="false" onAction="#handleAbout" text="%about" />
-                    </items>
-                </Menu>
-            </menus>
-        </MenuBar>
-   </top>
-</BorderPane>
+                      </Tab>
+                  </tabs>
+              </TabPane>
+          </center>
+         <top>
+              <MenuBar BorderPane.alignment="CENTER">
+                  <menus>
+                      <Menu mnemonicParsing="false" text="%preferences">
+                          <items>
+                        <Menu mnemonicParsing="false" text="%menu.item.language">
+                           <items>
+                              <RadioMenuItem fx:id="menuLanguageEN" mnemonicParsing="false" onAction="#handleLanguageAction" text="%menu.item.lang.en" />
+                              <RadioMenuItem fx:id="menuLanguageES" mnemonicParsing="false" onAction="#handleLanguageAction" text="%menu.item.lang.es" />
+                           </items>
+                        </Menu>
+                              <MenuItem fx:id="workspaceMenuItem" mnemonicParsing="false" onAction="#handleWorkspacesAction" text="%workspaces" />
+                          </items>
+                      </Menu>
+                      <Menu mnemonicParsing="false" text="%help">
+                          <items>
+                              <MenuItem fx:id="aboutMenu" mnemonicParsing="false" onAction="#handleAbout" text="%about" />
+                          </items>
+                      </Menu>
+                  </menus>
+              </MenuBar>
+         </top>
+      </BorderPane>
+      <AnchorPane fx:id="stateBarPane" maxHeight="60.0" opacity="0.3" prefHeight="50.0" visible="false" StackPane.alignment="BOTTOM_LEFT">
+         <children>
+                <Label fx:id="lbStateBar" textFill="WHITE" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+               <font>
+                  <Font name="System Bold" size="14.0" />
+               </font>
+               <padding>
+                  <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+               </padding></Label>
+         </children>
+      </AnchorPane>
+   </children>
+</StackPane>

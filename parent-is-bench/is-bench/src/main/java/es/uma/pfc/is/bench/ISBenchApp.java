@@ -15,7 +15,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
-import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -28,7 +28,7 @@ public class ISBenchApp extends Application {
     private final Logger logger = LoggerFactory.getLogger(ISBenchApp.class);
     
     private Stage primaryStage;
-    private BorderPane root;
+    private StackPane root;
     private ResourceBundle bundle;
     
     

@@ -19,22 +19,27 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.Optional;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.control.Menu;
-import javafx.scene.control.MenuItem;
 import javafx.scene.control.RadioMenuItem;
 import javafx.scene.control.TabPane;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundFill;
+import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.StackPane;
+import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
@@ -76,10 +81,12 @@ public class MainLayoutController extends Controller {
     private Menu preferencesMenu;
 
     @FXML
-    private BorderPane rootPane;
+    private StackPane rootPane;
 
     @FXML
     private Label lbStateBar;
+    @FXML
+    private Pane stateBarPane;
     
     @FXML
     private RadioMenuItem menuLanguageEN, menuLanguageES;
@@ -143,25 +150,30 @@ public class MainLayoutController extends Controller {
     @Subscribe
     public void showMessage(MessageEvent event) {
         Platform.runLater(() -> {
-            lbStateBar.setVisible(true);
-            lbStateBar.setOpacity(1.0);
             lbStateBar.setText(event.getMessage());
+            lbStateBar.setVisible(true);
+            stateBarPane.setOpacity(0.65);
+            stateBarPane.setVisible(true);
             switch (event.getLevel()) {
                 case INFO:
-                    lbStateBar.setTextFill(Paint.valueOf("BLUE"));
+                    stateBarPane.setBackground(new Background(
+                            new BackgroundFill(Color.CORNFLOWERBLUE, CornerRadii.EMPTY, Insets.EMPTY)));
                     break;
                 case SUCCEEDED:
-                    lbStateBar.setTextFill(Paint.valueOf("GREEN"));
+                    stateBarPane.setBackground(new Background(
+                            new BackgroundFill(Color.YELLOWGREEN, CornerRadii.EMPTY, Insets.EMPTY)));
                     break;
                 case WARNING:
-                    lbStateBar.setTextFill(Paint.valueOf("YELLOW"));
+                    stateBarPane.setBackground(new Background(
+                            new BackgroundFill(Color.YELLOWGREEN, CornerRadii.EMPTY, Insets.EMPTY)));
                     break;
                 case ERROR:
-                    lbStateBar.setTextFill(Paint.valueOf("RED"));
+                    stateBarPane.setBackground(new Background(
+                            new BackgroundFill(Color.RED, CornerRadii.EMPTY, Insets.EMPTY)));
                     break;
 
             }
-            Animations.fadeOut(lbStateBar, 5000);
+            Animations.fadeInOut(stateBarPane, 2000);
         });
     }
 
