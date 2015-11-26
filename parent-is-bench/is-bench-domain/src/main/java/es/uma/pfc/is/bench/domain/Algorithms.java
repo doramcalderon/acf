@@ -1,8 +1,4 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package es.uma.pfc.is.bench.domain;
 
 import es.uma.pfc.is.algorithms.AlgorithmInfo;
@@ -19,18 +15,26 @@ import javax.xml.bind.annotation.XmlElements;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
- *
- * @since @author Dora Calderón
+ * Workspace algorithms.
+ * @author Dora Calderón
  */
 @XmlRootElement(name = "algorithms")
 public class Algorithms {
-
+    /**
+     * Algorithms.
+     */
     private Set<AlgorithmInfo> algorithms;
 
+    /**
+     * Constructor.
+     */
     public Algorithms() {
         algorithms = new HashSet<>();
     }
-
+    /**
+     * Constructor.
+     * @param algorithms Algorithms.
+     */
     public Algorithms(Set<AlgorithmInfo> algorithms) {
         this.algorithms = algorithms;
     }

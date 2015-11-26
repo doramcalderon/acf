@@ -2,20 +2,14 @@ package es.uma.pfc.is.bench.business;
 
 
 
-import es.uma.pfc.is.algorithms.AlgorithmInfo;
-import es.uma.pfc.is.bench.domain.Algorithms;
 import es.uma.pfc.is.bench.domain.Benchmark;
 import es.uma.pfc.is.bench.domain.Benchmarks;
-import es.uma.pfc.is.commons.reflection.ReflectionUtil;
-import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.xml.bind.JAXB;
-import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
+import org.slf4j.LoggerFactory;
 
 /**
  * Persist the benchmarks into an XML file entities using JAXB.
@@ -23,6 +17,10 @@ import javax.xml.bind.JAXBException;
  * @author Dora Calderón
  */
 public class BenchmarksPersistence extends Persistence {
+        /**
+     * Logger.
+     */
+    private final org.slf4j.Logger logger = LoggerFactory.getLogger(BenchmarksPersistence.class);
     
 
     /**
@@ -71,7 +69,7 @@ public class BenchmarksPersistence extends Persistence {
             String benchmarksFilePath = Paths.get(benchmark.getWorkspace(), "benchmarks.xml").toString();
             persist(benchmarks, benchmarksFilePath, true);
         } catch (JAXBException ex) {
-            Logger.getLogger(BenchmarksPersistence.class.getName()).log(Level.SEVERE, null, ex);
+            logger.error("Error updating the benchmark.", ex);
         }
     }
     

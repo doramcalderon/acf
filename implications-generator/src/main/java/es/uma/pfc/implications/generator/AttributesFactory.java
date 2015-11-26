@@ -1,8 +1,4 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package es.uma.pfc.implications.generator;
 
 import es.uma.pfc.implications.generator.i18n.I18n;
@@ -15,8 +11,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- *
- * @since @author Dora Calderón
+ * Attributes factory.
+ * @author Dora Calderón
  */
 public class AttributesFactory {
 

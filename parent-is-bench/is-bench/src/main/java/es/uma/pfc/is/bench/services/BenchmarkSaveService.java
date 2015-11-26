@@ -8,10 +8,9 @@ import es.uma.pfc.is.bench.events.BenchmarksChangeEvent;
 import es.uma.pfc.is.bench.events.MessageEvent;
 import es.uma.pfc.is.bench.i18n.BenchMessages;
 import es.uma.pfc.is.bench.config.WorkspaceManager;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javafx.concurrent.Service;
 import javafx.concurrent.Task;
+import org.slf4j.LoggerFactory;
 
 /**
  * Service which saves benchmark changes.
@@ -19,6 +18,10 @@ import javafx.concurrent.Task;
  * @author Dora Calderón
  */
 public class BenchmarkSaveService extends Service<Benchmark>{
+     /**
+     * Logger.
+     */
+    private final org.slf4j.Logger logger = LoggerFactory.getLogger(BenchmarkSaveService.class);
     /**
      * Benchmark to save.
      */
@@ -62,7 +65,7 @@ public class BenchmarkSaveService extends Service<Benchmark>{
     @Override
     protected void failed() {
         String message = BenchMessages.get().getMessage(BenchMessages.BENCHMARK_CREATION_ERROR, getException().getMessage());
-        Logger.getLogger(BenchmarkSaveService.class.getName()).log(Level.SEVERE, message, getException());
+        logger.error(message, getException());
         Eventbus.post(new MessageEvent(message, MessageEvent.Level.ERROR));
     }
 

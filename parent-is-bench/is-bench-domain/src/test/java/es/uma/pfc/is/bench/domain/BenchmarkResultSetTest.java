@@ -1,8 +1,4 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package es.uma.pfc.is.bench.domain;
 
 import es.uma.pfc.is.algorithms.AlgorithmInfo;
@@ -11,8 +7,6 @@ import java.io.IOException;
 import java.io.StringReader;
 import java.io.StringWriter;
 import java.util.Arrays;
-import java.util.Calendar;
-import java.util.Date;
 import javax.xml.bind.JAXB;
 import org.junit.Test;
 import static org.junit.Assert.*;
@@ -23,22 +17,6 @@ import static org.junit.Assert.*;
  */
 public class BenchmarkResultSetTest {
     
-    public BenchmarkResultSetTest() {
-    }
-
-    /**
-     * Test of getResults method, of class BenchmarkResultSet.
-     */
-    @Test
-    public void testGetResults() {
-    }
-
-    /**
-     * Test of setResults method, of class BenchmarkResultSet.
-     */
-    @Test
-    public void testSetResults() {
-    }
     
     @Test
     public void testPersist() throws IOException {
@@ -55,9 +33,6 @@ public class BenchmarkResultSetTest {
         
         BenchmarkResult r2 = new BenchmarkResult();
         r2.setBenchmarkName("bench1");
-//        Calendar cal = Calendar.getInstance();
-//        cal.add(Calendar.DAY_OF_MONTH, 1);
-//        r2.setDate(cal.getTime());
         
         
         BenchmarkResultSet resultSet = new BenchmarkResultSet();

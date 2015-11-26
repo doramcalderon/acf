@@ -1,12 +1,6 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package es.uma.pfc.is.bench.domain.ws;
 
-import es.uma.pfc.is.bench.domain.ws.Preferences;
-import es.uma.pfc.is.bench.domain.ws.Preference;
 import java.util.List;
 import org.junit.Test;
 import static org.junit.Assert.*;
@@ -17,8 +11,7 @@ import static org.junit.Assert.*;
  */
 public class PreferencesTest {
     
-    public PreferencesTest() {
-    }
+ 
 
     /**
      * Test of getPreference method, of class Preferences.
@@ -48,19 +41,6 @@ public class PreferencesTest {
         assertFalse(p.getPreferencesList().contains(new Preference("language", "ES")));
     }
 
-    /**
-     * Test of getPreference method, of class Preferences.
-     */
-    @Test
-    public void testGetPreference() {
-    }
-
-    /**
-     * Test of setPreference method, of class Preferences.
-     */
-    @Test
-    public void testSetPreference() {
-    }
 
     /**
      * Test of getPreferencesList method, of class Preferences.

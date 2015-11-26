@@ -1,16 +1,6 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package es.uma.pfc.implications.generator;
 
-import es.uma.pfc.implications.generator.model.AttributeType;
-import java.util.Arrays;
-import org.junit.After;
-import org.junit.AfterClass;
-import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
@@ -19,25 +9,7 @@ import static org.junit.Assert.*;
  * @author Dora Calderón
  */
 public class NodesFactoryTest {
-    
-    public NodesFactoryTest() {
-    }
-    
-    @BeforeClass
-    public static void setUpClass() {
-    }
-    
-    @AfterClass
-    public static void tearDownClass() {
-    }
-    
-    @Before
-    public void setUp() {
-    }
-    
-    @After
-    public void tearDown() {
-    }
+   
 
     /**
      * Comprueba que el método {@link NodesFactory#getNumbersArray(java.lang.Integer) } devuelve un array de números

@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package es.uma.pfc.implications.generator;
 
 import es.uma.pfc.implications.generator.model.ImplicationsModel;
@@ -18,8 +13,8 @@ import static org.junit.Assert.*;
 
 
 /**
- *
- * @author Dorilla (Fakul)
+ * Test for ImplicationsFactory methods.
+ * @author Dora Calderón.
  */
 public class ImplicationsFactoryTest {
     

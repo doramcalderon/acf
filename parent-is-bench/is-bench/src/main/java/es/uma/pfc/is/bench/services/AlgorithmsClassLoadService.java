@@ -9,6 +9,8 @@ import es.uma.pfc.is.commons.files.FileUtils;
 import es.uma.pfc.is.commons.reflection.ReflectionUtil;
 import es.uma.pfc.is.bench.config.WorkspaceManager;
 import es.uma.pfc.is.bench.domain.ws.Preferences;
+import es.uma.pfc.is.bench.events.MessageEvent;
+import es.uma.pfc.is.commons.eventbus.Eventbus;
 import java.io.File;
 import java.io.IOException;
 import java.net.URISyntaxException;
@@ -23,14 +25,22 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.jar.JarFile;
-import java.util.logging.Logger;
 import javafx.concurrent.Service;
 import javafx.concurrent.Task;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Service which loads the classes name of algorithms implementations found in the workspace classpath.
  */
 public class AlgorithmsClassLoadService extends Service<List<AlgorithmInfo>> {
+    /**
+     * Logger.
+     */
+    private final Logger logger = LoggerFactory.getLogger(AlgorithmsClassLoadService.class);
+    /**
+     * Workspace manager.
+     */
     private WorkspaceManager wsManager;
     /**
      * Constructor.
@@ -64,8 +74,9 @@ public class AlgorithmsClassLoadService extends Service<List<AlgorithmInfo>> {
      */
     @Override
     protected void failed() {
-        Logger.getLogger(getClass().getName()).severe(getException().getMessage());
-        getException().printStackTrace();
+        String message = "Error loading the algorithm classes.";
+        logger.error(message, getException());
+        Eventbus.post(new MessageEvent(message, MessageEvent.Level.ERROR));
     }
 
 

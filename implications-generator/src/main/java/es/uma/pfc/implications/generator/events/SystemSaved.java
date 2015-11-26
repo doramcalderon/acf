@@ -4,8 +4,7 @@ package es.uma.pfc.implications.generator.events;
 import java.util.Arrays;
 
 /**
- *
- * @since 
+ * Event thrown when a generated syste is saved.
  * @author Dora Calderón
  */
 public class SystemSaved {

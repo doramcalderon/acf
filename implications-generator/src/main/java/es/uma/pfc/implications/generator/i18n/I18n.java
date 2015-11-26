@@ -2,7 +2,7 @@
 package es.uma.pfc.implications.generator.i18n;
 
 /**
- *
+ * Claves de los mensajes i18n.
  * @author Dora Calderón
  */
 public interface I18n {

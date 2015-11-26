@@ -8,9 +8,7 @@ import es.uma.pfc.is.algorithms.AlgorithmResult;
 import es.uma.pfc.is.algorithms.exceptions.AlgorithmException;
 import es.uma.pfc.is.bench.Controller;
 import es.uma.pfc.is.bench.ISBenchApp;
-import es.uma.pfc.is.bench.MainLayoutController;
 import es.uma.pfc.is.bench.benchmarks.newbm.BenchmarksDelegate;
-import es.uma.pfc.is.bench.benchmarks.newbm.NewBenchmarkController;
 import es.uma.pfc.is.bench.config.WorkspaceManager;
 import es.uma.pfc.is.bench.domain.Benchmark;
 import es.uma.pfc.is.algorithms.AlgorithmInfo;
@@ -20,6 +18,7 @@ import es.uma.pfc.is.bench.algorithms.results.treemodel.TreeBenchmarkResultModel
 import es.uma.pfc.is.bench.domain.BenchmarkResult;
 import es.uma.pfc.is.commons.eventbus.Eventbus;
 import es.uma.pfc.is.bench.events.BenchmarksChangeEvent;
+import es.uma.pfc.is.bench.events.MessageEvent.Level;
 import es.uma.pfc.is.bench.events.NewResultsEvent;
 import es.uma.pfc.is.bench.events.OpenFileEvent;
 import es.uma.pfc.is.bench.events.ViewFileActionEvent;
@@ -35,7 +34,6 @@ import es.uma.pfc.is.javafx.FilterableTreeItem;
 import es.uma.pfc.is.javafx.NoZeroDoubleCellFactory;
 import es.uma.pfc.is.javafx.NoZeroLongCellFactory;
 import es.uma.pfc.is.javafx.TreeItemPredicate;
-import java.awt.Desktop;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
@@ -46,17 +44,13 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.ResourceBundle;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javafx.beans.binding.Bindings;
 import javafx.beans.binding.StringBinding;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
-import javafx.collections.FXCollections;
 import javafx.concurrent.Worker.State;
 import javafx.concurrent.WorkerStateEvent;
 import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Button;
@@ -80,12 +74,18 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 import javafx.stage.FileChooser;
 import javafx.stage.Window;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Run view controller.
  * @author Dora Calderón
  */
 public class RunBenchmarkController extends Controller {
+        /**
+     * Logger.
+     */
+    private final Logger logger = LoggerFactory.getLogger(RunBenchmarkController.class);
 
     /**
      * Model.
@@ -181,7 +181,7 @@ public class RunBenchmarkController extends Controller {
             initValidation();
             initExecutionService();
         } catch (IOException ex) {
-            Logger.getLogger(RunBenchmarkController.class.getName()).log(Level.SEVERE, null, ex);
+            logger.error("Error initializing the RunBenchmarkController.", ex);
         }
     }
     /**
@@ -432,7 +432,8 @@ public class RunBenchmarkController extends Controller {
             service.restart();
 
         } catch (AlgorithmException ex) {
-            Logger.getLogger(RunBenchmarkController.class.getName()).log(Level.SEVERE, ex.getMessage(), ex);
+            logger.error(ex.getMessage(), ex);
+            publicMessage(ex.getMessage(), Level.ERROR);
         }
     }
 
@@ -524,7 +525,9 @@ public class RunBenchmarkController extends Controller {
             String title = getI18nLabel("Implications Generator"); // TODO crear label
             Dialogs.showModalDialog(title, generatorForm, rootPane.getScene().getWindow());
         } catch (IOException ex) {
-            Logger.getLogger(MainLayoutController.class.getName()).log(Level.SEVERE, null, ex);
+            String message = "Error opening the Implications Generator.";
+            logger.error(message, ex);
+            publicMessage(message, Level.ERROR);
         }
 
     }
@@ -642,7 +645,8 @@ public class RunBenchmarkController extends Controller {
                 inputsList.getItems().setAll(inputs);
             }
         } catch (Exception ex) {
-            Logger.getLogger(NewBenchmarkController.class.getName()).log(Level.SEVERE, null, ex);
+            logger.error("Error loading the input files", ex);
+            publicMessage("Error loading the input files: " + ex.getMessage(), Level.ERROR);
         }
     }
 

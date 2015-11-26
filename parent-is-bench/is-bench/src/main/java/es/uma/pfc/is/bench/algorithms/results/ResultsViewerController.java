@@ -4,9 +4,7 @@ import com.google.common.eventbus.Subscribe;
 import es.uma.pfc.is.algorithms.AlgorithmResult;
 import es.uma.pfc.is.algorithms.util.StringUtils;
 import es.uma.pfc.is.bench.Controller;
-import es.uma.pfc.is.bench.algorithms.results.treemodel.TreeBenchmarkResultModel;
 import es.uma.pfc.is.bench.events.AlgorithmResultSelection;
-import es.uma.pfc.is.bench.events.OpenFileEvent;
 import es.uma.pfc.is.bench.events.ViewFileActionEvent;
 import es.uma.pfc.is.bench.i18n.BenchMessages;
 import es.uma.pfc.is.bench.services.FileReaderService;
@@ -14,7 +12,6 @@ import es.uma.pfc.is.commons.eventbus.Eventbus;
 import es.uma.pfc.is.commons.io.ImplicationalSystemWriterProlog;
 import fr.kbertet.dgraph.io.DGraphWriterFactory;
 import fr.kbertet.lattice.ImplicationalSystem;
-import java.awt.image.BufferedImage;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.ByteArrayInputStream;
@@ -26,8 +23,6 @@ import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.net.URL;
 import java.util.ResourceBundle;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javafx.beans.binding.BooleanBinding;
 import javafx.concurrent.WorkerStateEvent;
 import javafx.event.ActionEvent;
@@ -41,8 +36,9 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
-import net.automatalib.commons.dotutil.DOT;
 import static net.automatalib.commons.dotutil.DOT.runDOT;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * FXML Controller class
@@ -50,6 +46,10 @@ import static net.automatalib.commons.dotutil.DOT.runDOT;
  * @author Dora Calderón
  */
 public class ResultsViewerController extends Controller {
+    /**
+     * Logger.
+     */
+    private final Logger logger = LoggerFactory.getLogger(ResultsViewerController.class);
 
     private AlgorithmResult algorithmResult;
     @FXML
@@ -116,7 +116,7 @@ public class ResultsViewerController extends Controller {
             initListeners();
            
         } catch (IOException ex) {
-            Logger.getLogger(ResultsViewerController.class.getName()).log(Level.SEVERE, null, ex);
+            logger.error("Error initializing the ResultsViewerController.", ex);
         }
     }
 
@@ -165,7 +165,7 @@ public class ResultsViewerController extends Controller {
                     viewer.setImage(new Image(pngIs));
                 }
             } catch (IOException ex) {
-                Logger.getLogger(ResultsViewerController.class.getName()).log(Level.SEVERE, null, ex);
+                logger.error("Error showing a diagram.", ex);
             }
         }
     }
@@ -208,7 +208,7 @@ public class ResultsViewerController extends Controller {
             initBinding();
             initListeners();
         } catch (IOException ex) {
-            Logger.getLogger(ResultsViewerController.class.getName()).log(Level.SEVERE, null, ex);
+            logger.error("Error reloading the ResultsViewerController.", ex);
         }
     }
 

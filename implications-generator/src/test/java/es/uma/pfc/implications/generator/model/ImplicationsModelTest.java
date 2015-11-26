@@ -2,10 +2,6 @@
 package es.uma.pfc.implications.generator.model;
 
 
-import org.junit.After;
-import org.junit.AfterClass;
-import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
@@ -14,25 +10,6 @@ import static org.junit.Assert.*;
  * @author Dora Calderón
  */
 public class ImplicationsModelTest {
-
-    public ImplicationsModelTest() {
-    }
-
-    @BeforeClass
-    public static void setUpClass() {
-    }
-
-    @AfterClass
-    public static void tearDownClass() {
-    }
-
-    @Before
-    public void setUp() {
-    }
-
-    @After
-    public void tearDown() {
-    }
 
     /**
      * Test of getNodes method, of class ImplicationsModel.

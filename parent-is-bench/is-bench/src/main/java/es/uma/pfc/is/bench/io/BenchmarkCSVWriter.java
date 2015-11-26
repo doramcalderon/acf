@@ -7,6 +7,7 @@ import es.uma.pfc.is.bench.domain.BenchmarkResult;
 import es.uma.pfc.is.commons.files.FileUtils;
 import java.io.IOException;
 import java.nio.file.Path;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -22,6 +23,7 @@ public class BenchmarkCSVWriter {
      * CSV Writer.
      */
     private static CSVFileWriter csvWriter;
+    private static final DecimalFormat decimalFormat = new DecimalFormat("#.###");
 
     /**
      * Prints a benchmark results to a CSV file.
@@ -59,6 +61,7 @@ public class BenchmarkCSVWriter {
             headers.add("Input" + index);
             headers.add("Size" + index);
             headers.add("Card" + index);
+            headers.add("Time" + index);
         }
         csvWriter.header(headers.toArray(new String[]{}));
     }
@@ -84,6 +87,7 @@ public class BenchmarkCSVWriter {
                     fields.add(FileUtils.getName(r.getInputFile()));
                     fields.add(String.valueOf(r.getSize()));
                     fields.add(String.valueOf(r.getCardinality()));
+                    fields.add(decimalFormat.format(r.getExecutionTime()));
                 }
 
             }

@@ -9,8 +9,6 @@ import java.io.IOException;
 import java.net.MalformedURLException;
 import java.util.Locale;
 import java.util.ResourceBundle;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javafx.application.Application;
 import static javafx.application.Application.launch;
 import javafx.event.ActionEvent;
@@ -19,14 +17,21 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 
 public class ISBenchApp extends Application {
-
-
+    /**
+     * Logger.
+     */
+    private final Logger logger = LoggerFactory.getLogger(ISBenchApp.class);
+    
     private Stage primaryStage;
     private BorderPane root;
     private ResourceBundle bundle;
+    
+    
     
     @Override
     public void start(Stage primaryStage) throws IOException {
@@ -47,7 +52,7 @@ public class ISBenchApp extends Application {
         try {
             getHostServices().showDocument(event.getFile().toURI().toURL().toExternalForm());
         } catch (MalformedURLException ex) {
-            Logger.getLogger(ISBenchApp.class.getName()).log(Level.SEVERE, null, ex);
+            logger.error("Error openning " + ((event != null) ? event.getFile() : "null"), ex);
         }
     }
     

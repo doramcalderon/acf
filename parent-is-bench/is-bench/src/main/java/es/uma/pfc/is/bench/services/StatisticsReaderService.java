@@ -1,13 +1,12 @@
 package es.uma.pfc.is.bench.services;
 
 import es.uma.pfc.is.algorithms.util.StringUtils;
+import es.uma.pfc.is.bench.events.MessageEvent;
+import es.uma.pfc.is.commons.eventbus.Eventbus;
 import java.io.File;
 import java.io.IOException;
 import java.nio.charset.Charset;
 import java.util.Iterator;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javafx.application.Platform;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javafx.beans.value.ObservableValue;
@@ -15,13 +14,13 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.concurrent.Service;
 import javafx.concurrent.Task;
-import javafx.event.EventType;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.util.Callback;
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVParser;
 import org.apache.commons.csv.CSVRecord;
+import org.slf4j.LoggerFactory;
 
 /**
  * Read the statistics generated and show them in a TableView.
@@ -29,6 +28,10 @@ import org.apache.commons.csv.CSVRecord;
  * @author Dora Calderón
  */
 public class StatisticsReaderService extends Service<CSVParser> {
+         /**
+     * Logger.
+     */
+    private final org.slf4j.Logger logger = LoggerFactory.getLogger(BenchmarkSaveService.class);
 
     /**
      * CSV File name.
@@ -72,11 +75,19 @@ public class StatisticsReaderService extends Service<CSVParser> {
                     parser.close();
                 }
             } catch (IOException ex) {
-                Logger.getLogger(StatisticsReaderService.class.getName()).log(Level.SEVERE, null, ex);
+                logger.error("Error closing the parser.", ex);
             }
         }
     }
 
+    @Override
+    protected void failed() {
+        String message = "Error opening the statistics.";
+        logger.error(message, getException());
+        Eventbus.post(new MessageEvent(message, MessageEvent.Level.ERROR));
+    }
+
+    
     /**
      * Print the headers as columns.
      *

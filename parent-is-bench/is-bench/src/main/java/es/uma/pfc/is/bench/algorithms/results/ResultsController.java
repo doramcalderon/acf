@@ -25,8 +25,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.ResourceBundle;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javafx.beans.binding.BooleanBinding;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
@@ -38,6 +36,8 @@ import javafx.scene.control.TreeTableView;
 import javafx.scene.control.cell.TreeItemPropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Results view controller.
@@ -45,6 +45,10 @@ import javafx.scene.layout.Pane;
  * @author Dora Calderón
  */
 public class ResultsController extends Controller {
+    /**
+     * Logger.
+     */
+    private final Logger logger = LoggerFactory.getLogger(ResultsController.class);
 
     @FXML
     private AnchorPane rootPane;
@@ -76,7 +80,7 @@ public class ResultsController extends Controller {
             initListeners();
             modelToView();
         } catch (IOException ex) {
-            Logger.getLogger(ResultsController.class.getName()).log(Level.SEVERE, null, ex);
+            logger.error("Error initializing the Resulst controller.", ex);
         }
     }
 

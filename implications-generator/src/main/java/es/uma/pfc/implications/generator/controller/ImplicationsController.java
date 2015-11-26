@@ -21,14 +21,11 @@ import java.net.URL;
 import java.nio.file.Files;
 import java.util.List;
 import java.util.ResourceBundle;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javafx.beans.binding.BooleanBinding;
 import javafx.beans.value.ObservableValue;
 import javafx.concurrent.Task;
 import javafx.concurrent.WorkerStateEvent;
 import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Cursor;
@@ -46,6 +43,8 @@ import javafx.stage.FileChooser.ExtensionFilter;
 import javafx.stage.Window;
 import org.controlsfx.validation.ValidationMessage;
 import org.controlsfx.validation.ValidationSupport;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Implications generator view's controller.
@@ -53,8 +52,10 @@ import org.controlsfx.validation.ValidationSupport;
  * @author Dora Calderón
  */
 public class ImplicationsController implements Initializable {
-
-    private Logger logger = Logger.getLogger(ImplicationsController.class.getName());
+    /**
+     * Logger.
+     */
+    private final Logger logger = LoggerFactory.getLogger (ImplicationsController.class);
 
     @FXML
     private TextField txtNodes;
@@ -290,7 +291,7 @@ public class ImplicationsController implements Initializable {
 
         } catch (RuntimeException modelEx) {
             // TODO pintar el mensaje en la interfaz
-            logger.log(Level.SEVERE, modelEx.getMessage());
+            logger.error(modelEx.getMessage());
         }
     }
 
@@ -348,7 +349,7 @@ public class ImplicationsController implements Initializable {
                     try {
                         GeneratorImplicationalSystemIO.save(implicationSystems, selectedFile);
                     } catch (IOException ex) {
-                        Logger.getLogger(ImplicationsController.class.getName()).log(Level.SEVERE, null, ex);
+                        logger.error("Error saving the system.", ex);
                     }
                     return null;
                 }
@@ -364,7 +365,7 @@ public class ImplicationsController implements Initializable {
 
                 @Override
                 protected void failed() {
-                    Logger.getLogger(ImplicationsController.class.getName()).log(Level.SEVERE, "System generation error", getException());
+                    logger.error("System generation error", getException());
                 }
                 
                 
@@ -437,7 +438,7 @@ public class ImplicationsController implements Initializable {
                 textViewer.setText(sb.toString());
             }
         } catch (IOException ex) {
-            Logger.getLogger(ImplicationsController.class.getName()).log(Level.SEVERE, null, ex);
+            logger.error("IO Exception", ex);
         }
     }
 

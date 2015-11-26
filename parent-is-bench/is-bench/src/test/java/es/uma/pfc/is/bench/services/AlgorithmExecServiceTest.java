@@ -1,17 +1,11 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package es.uma.pfc.is.bench.services;
 
 import es.uma.pfc.is.algorithms.AlgorithmOptions;
 import es.uma.pfc.is.algorithms.AlgorithmOptions.Mode;
 import es.uma.pfc.is.algorithms.GenericAlgorithm;
 import es.uma.pfc.is.bench.benchmarks.execution.RunBenchmarkModel;
-import es.uma.pfc.is.algorithms.AlgorithmInfo;
 import fr.kbertet.lattice.ImplicationalSystem;
-import java.nio.file.Paths;
 import static org.junit.Assert.*;
 import org.junit.Test;
 
@@ -51,7 +45,7 @@ public class AlgorithmExecServiceTest {
         GenericAlgorithm alg = new GenericAlgorithm() {
             @Override
             public ImplicationalSystem execute(ImplicationalSystem system) {
-                throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+                throw new UnsupportedOperationException("Not supported yet."); 
             }
         };
         
@@ -71,7 +65,7 @@ public class AlgorithmExecServiceTest {
         GenericAlgorithm alg = new GenericAlgorithm() {
             @Override
             public ImplicationalSystem execute(ImplicationalSystem system) {
-                throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+                throw new UnsupportedOperationException("Not supported yet.");
             }
         };
         
@@ -91,7 +85,7 @@ public class AlgorithmExecServiceTest {
         GenericAlgorithm alg = new GenericAlgorithm() {
             @Override
             public ImplicationalSystem execute(ImplicationalSystem system) {
-                throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+                throw new UnsupportedOperationException("Not supported yet."); 
             }
         };
         

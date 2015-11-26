@@ -4,6 +4,7 @@ import es.uma.pfc.is.bench.Controller;
 import es.uma.pfc.is.bench.i18n.I18n;
 import es.uma.pfc.is.bench.uitls.Chooser;
 import es.uma.pfc.is.bench.domain.ws.Workspace;
+import es.uma.pfc.is.bench.events.MessageEvent.Level;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
@@ -11,8 +12,6 @@ import java.nio.file.Paths;
 import java.util.List;
 import java.util.Optional;
 import java.util.ResourceBundle;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javafx.beans.binding.StringBinding;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -26,11 +25,16 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.stage.Window;
 import javafx.util.StringConverter;
+import org.slf4j.LoggerFactory;
 
 /**
  * Workspaces view controller.
  */
 public class UserConfigController extends Controller {
+    /**
+     * Logger.
+     */
+    private final org.slf4j.Logger logger = LoggerFactory.getLogger(UserConfigController.class);
 
     @FXML
     private AnchorPane wsAnchorPane;
@@ -71,7 +75,9 @@ public class UserConfigController extends Controller {
             initListeners();
             modelToView();
         } catch (IOException ex) {
-            Logger.getLogger(UserConfigController.class.getName()).log(Level.SEVERE, null, ex);
+            String message = "Error initializing the UserConfigController.";
+            logger.error(message, ex);
+            publicMessage(message, Level.ERROR);
         }
     }
 

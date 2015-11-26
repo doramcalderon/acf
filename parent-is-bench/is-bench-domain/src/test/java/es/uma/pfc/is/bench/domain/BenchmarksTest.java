@@ -1,8 +1,4 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package es.uma.pfc.is.bench.domain;
 
 import es.uma.pfc.is.algorithms.AlgorithmInfo;
@@ -18,29 +14,6 @@ import static org.mockito.Mockito.mock;
  */
 public class BenchmarksTest {
     
-    public BenchmarksTest() {
-    }
-
-    /**
-     * Test of getBenchmarks method, of class Benchmarks.
-     */
-    @Test
-    public void testGetBenchmarks() {
-    }
-
-    /**
-     * Test of setBenchmarks method, of class Benchmarks.
-     */
-    @Test
-    public void testSetBenchmarks() {
-    }
-
-    /**
-     * Test of addBenchmark method, of class Benchmarks.
-     */
-    @Test
-    public void testAddBenchmark() {
-    }
 
     /**
      * Test of getBenchmark method, of class Benchmarks.

@@ -11,6 +11,7 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
+import org.slf4j.LoggerFactory;
 
 /**
  * Algorithm result info.
@@ -19,6 +20,11 @@ import javax.xml.bind.annotation.XmlTransient;
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
 public class AlgorithmResult {
+     /**
+     * Logger.
+     */
+    @XmlTransient
+    private final org.slf4j.Logger logger = LoggerFactory.getLogger (AlgorithmResult.class);
      /**
      * Info of the executed algorithm.
      */
@@ -96,7 +102,7 @@ public class AlgorithmResult {
             try {
                 resultSystem = new ImplicationalSystem(outputFile);
             } catch (IOException ex) {
-                Logger.getLogger(AlgorithmResult.class.getName()).log(Level.SEVERE, null, ex);
+                logger.error("IO Error creating the implicational system.", ex);
             }
         }
         return resultSystem;

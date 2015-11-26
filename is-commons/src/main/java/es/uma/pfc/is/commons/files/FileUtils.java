@@ -11,8 +11,9 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 
 /**
  * Utilidades con ficheros.
@@ -20,6 +21,10 @@ import java.util.logging.Logger;
  * @author Dora Calderón
  */
 public class FileUtils {
+       /**
+     * Logger.
+     */
+    private static final Logger logger = LoggerFactory.getLogger(FileUtils.class);
 
     /**
      * Crea las carpetas y archivo de un path si no existe.
@@ -175,7 +180,7 @@ public class FileUtils {
                     try {
                         urlLibs.add(path.toUri().toURL());
                     } catch (MalformedURLException ex) {
-                        Logger.getLogger(FileUtils.class.getName()).log(Level.SEVERE, null, ex);
+                        logger.error("Error getting URLs.", ex);
                     }
                 });
             }

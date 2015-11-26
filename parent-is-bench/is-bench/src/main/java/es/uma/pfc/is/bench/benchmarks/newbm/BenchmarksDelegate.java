@@ -1,8 +1,4 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 
 package es.uma.pfc.is.bench.benchmarks.newbm;
 
@@ -10,13 +6,18 @@ import es.uma.pfc.is.bench.business.BenchmarksBean;
 import es.uma.pfc.is.bench.config.WorkspaceManager;
 import es.uma.pfc.is.bench.domain.Benchmark;
 import java.util.logging.Level;
-import java.util.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Methods for access to business logic.
  * @author Dora Calderón
  */
 public class BenchmarksDelegate {
+    /**
+     * Logger.
+     */
+    private final Logger logger = LoggerFactory.getLogger(BenchmarksDelegate.class);
     /**
      * Benchmarks business bean.
      */
@@ -37,7 +38,7 @@ public class BenchmarksDelegate {
         try {
             benchmark = benchmarksBean.getBenchmark(name, WorkspaceManager.get().currentWorkspace().getLocation());
         } catch (Exception ex) {
-            Logger.getLogger(BenchmarksDelegate.class.getName()).log(Level.SEVERE, null, ex);
+            logger.error("Error getting benchmarks.", ex);
         }
         return benchmark;
     }

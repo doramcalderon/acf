@@ -1,8 +1,4 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package es.uma.pfc.is.algorithms.util;
 
 import fr.kbertet.lattice.Rule;
@@ -11,7 +7,7 @@ import static org.junit.Assert.*;
 import org.junit.Test;
 
 /**
- *
+ * Tests of {@link Rules} class.
  * @author Dora Calderón
  */
 public class RulesTest {

@@ -11,8 +11,8 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Business logic for insert, modify and delete algorithms.
@@ -20,6 +20,10 @@ import java.util.logging.Logger;
  * @author Dora Calderón
  */
 public class BenchmarksBean {
+    /**
+     * Logger.
+     */
+    private final Logger logger = LoggerFactory.getLogger(BenchmarksBean.class);
     /**
      * Benchmarks persistence.
      */
@@ -47,7 +51,7 @@ public class BenchmarksBean {
                 benchmarksList = benchmarks.getBenchmarks();
             }
         } catch (Exception ex) {
-            Logger.getLogger(BenchmarksBean.class.getName()).log(Level.SEVERE, "Error consulting benchmarks.", ex);
+            logger.error("Error consulting benchmarks.", ex);
         }
         return benchmarksList;
     }
@@ -71,7 +75,7 @@ public class BenchmarksBean {
                                           .findFirst().orElse(null);
             }
         } catch (Exception ex) {
-            Logger.getLogger(BenchmarksBean.class.getName()).log(Level.SEVERE, "Error consulting benchmarks.", ex);
+            logger.error("Error consulting benchmarks.", ex);
         }
         return benchmark;
     }

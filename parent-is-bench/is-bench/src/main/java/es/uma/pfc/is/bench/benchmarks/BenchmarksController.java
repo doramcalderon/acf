@@ -10,10 +10,11 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
-import java.util.logging.Logger;
 import javafx.fxml.FXML;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * FXML Controller class
@@ -21,6 +22,10 @@ import javafx.scene.control.TabPane;
  * @author Dora Calderón
  */
 public class BenchmarksController extends Controller {
+    /**
+     * Logger.
+     */
+    private final Logger logger = LoggerFactory.getLogger(BenchmarksController.class);
     @FXML
     private TabPane benchmarksTabPane;
     @FXML
@@ -40,7 +45,7 @@ public class BenchmarksController extends Controller {
             initListeners();
             initValidation();
         } catch (IOException ex) {
-            Logger.getLogger(BenchmarksController.class.getName()).log(Level.SEVERE, null, ex);
+            logger.error("Error initializing the BenchmarksController.", ex);
         }
         
     }    

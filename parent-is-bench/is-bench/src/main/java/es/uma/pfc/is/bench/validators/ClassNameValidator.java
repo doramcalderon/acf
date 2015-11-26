@@ -5,12 +5,11 @@ import es.uma.pfc.is.algorithms.Algorithm;
 import es.uma.pfc.is.bench.i18n.BenchMessages;
 import es.uma.pfc.is.commons.strings.StringUtils;
 import java.lang.reflect.Modifier;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javafx.collections.ObservableList;
 import javafx.scene.control.Control;
 import org.controlsfx.validation.ValidationResult;
 import org.controlsfx.validation.Validator;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  *
@@ -18,6 +17,10 @@ import org.controlsfx.validation.Validator;
  * @author Dora Calderón
  */
 public class ClassNameValidator implements Validator<String> {
+    /**
+     * Logger.
+     */
+    private final Logger logger = LoggerFactory.getLogger(ClassNameValidator.class);
 
     @Override
     public ValidationResult apply(Control control, String value) {
@@ -38,7 +41,7 @@ public class ClassNameValidator implements Validator<String> {
 
             } catch (ClassNotFoundException ex) {
                 errorMessage = BenchMessages.get().getMessage(BenchMessages.CLASS_NOT_EXISTS);
-                Logger.getLogger(ClassNameValidator.class.getName()).log(Level.SEVERE, errorMessage);
+                logger.error(errorMessage, ex);
             }
         } else {
             errorMessage = BenchMessages.get().getMessage(BenchMessages.EMPTY_CLASS);

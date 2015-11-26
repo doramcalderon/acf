@@ -5,7 +5,6 @@ import es.uma.pfc.implications.generator.controller.ImplicationsController;
 import es.uma.pfc.implications.generator.events.SystemSaved;
 import es.uma.pfc.is.bench.Controller;
 import es.uma.pfc.is.bench.ISBenchApp;
-import es.uma.pfc.is.bench.MainLayoutController;
 import es.uma.pfc.is.bench.business.BenchmarksBean;
 import es.uma.pfc.is.bench.domain.Benchmark;
 import es.uma.pfc.is.algorithms.AlgorithmInfo;
@@ -22,6 +21,7 @@ import es.uma.pfc.is.bench.uitls.Dialogs;
 import es.uma.pfc.is.commons.strings.StringUtils;
 import es.uma.pfc.is.bench.config.WorkspaceManager;
 import es.uma.pfc.is.bench.domain.ws.Preferences;
+import es.uma.pfc.is.bench.events.MessageEvent.Level;
 import es.uma.pfc.is.bench.services.AlgorithmsClassLoadService;
 import es.uma.pfc.is.commons.files.FileUtils;
 import java.io.File;
@@ -37,8 +37,6 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Optional;
 import java.util.ResourceBundle;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javafx.beans.binding.BooleanBinding;
 import javafx.beans.binding.StringBinding;
 import javafx.collections.FXCollections;
@@ -60,6 +58,8 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.stage.FileChooser;
 import org.controlsfx.validation.Validator;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * NewBenchmark view Controller class.
@@ -67,6 +67,10 @@ import org.controlsfx.validation.Validator;
  * @author Dora Calderón
  */
 public class NewBenchmarkController extends Controller {
+    /**
+     * Logger.
+     */
+    private final Logger logger = LoggerFactory.getLogger(NewBenchmarkController.class);
     /**
      * Name field.
      */
@@ -151,7 +155,7 @@ public class NewBenchmarkController extends Controller {
             initValidation();
             modelToView();
         } catch (IOException ex) {
-            Logger.getLogger(NewBenchmarkController.class.getName()).log(Level.SEVERE, null, ex);
+            logger.error("Error initializing the NewBenchmarkController.", ex);
         }
     }
     
@@ -258,7 +262,9 @@ public class NewBenchmarkController extends Controller {
                         
                     }
                 } catch (Exception ex) {
-                    Logger.getLogger(NewBenchmarkController.class.getName()).log(Level.SEVERE, null, ex);
+                    String message = "Error loading a benchmark";
+                    logger.error(message, ex);
+                    publicMessage(message, Level.ERROR);
                 }
             }
         });
@@ -391,8 +397,9 @@ public class NewBenchmarkController extends Controller {
                         Files.copy(jar.toPath(), targetFile, StandardCopyOption.COPY_ATTRIBUTES,  StandardCopyOption.REPLACE_EXISTING);
                     }
                 } catch (IOException ex) {
-                    Logger.getLogger(NewBenchmarkController.class.getName())
-                            .log(Level.SEVERE, getI18nMessage(BenchMessages.COPYING_JARS_ERROR, jar, targetDir), ex);
+                    String message = getI18nMessage(BenchMessages.COPYING_JARS_ERROR, jar, targetDir);
+                    logger.error(message, ex);
+                    publicMessage(message, MessageEvent.Level.ERROR);
                 }
             }
             reload();
@@ -436,7 +443,9 @@ public class NewBenchmarkController extends Controller {
             String title = getI18nLabel("Implications Generator"); // TODO crear label
             Dialogs.showModalDialog(title, generatorForm, rootPane.getScene().getWindow());
         } catch (IOException ex) {
-            Logger.getLogger(MainLayoutController.class.getName()).log(Level.SEVERE, null, ex);
+            String message = "Error loading the inputs generated.";
+            logger.error(message, ex);
+            publicMessage(message, Level.ERROR);
         }
         
     }
@@ -520,7 +529,9 @@ public class NewBenchmarkController extends Controller {
                         Files.deleteIfExists(Paths.get(algorithm.getLibrary()));
                     }
                 } catch (IOException ex) {
-                    Logger.getLogger(NewBenchmarkController.class.getName()).log(Level.SEVERE, null, ex);
+                    String errorMessage = "Error deleting libraries.";
+                    logger.error(errorMessage, ex);
+                    publicMessage(errorMessage, Level.ERROR);
                 }
                 reload();
             }
@@ -549,7 +560,9 @@ public class NewBenchmarkController extends Controller {
                     try {
                         Files.delete(Paths.get(f));
                     } catch (IOException ex) {
-                        Logger.getLogger(NewBenchmarkController.class.getName()).log(Level.SEVERE, null, ex);
+                        String message = "Error deleting an input";
+                        logger.error(message, ex);
+                        publicMessage(message, Level.ERROR);
                     }
                 });
                 

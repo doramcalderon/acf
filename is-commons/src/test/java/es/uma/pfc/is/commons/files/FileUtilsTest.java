@@ -1,8 +1,4 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package es.uma.pfc.is.commons.files;
 
 import org.junit.Test;
@@ -14,23 +10,6 @@ import static org.junit.Assert.*;
  */
 public class FileUtilsTest {
     
-    public FileUtilsTest() {
-    }
-
-    /**
-     * Test of createIfNoExists method, of class FileUtils.
-     */
-    @Test
-    public void testCreateIfNoExists() throws Exception {
-    }
-
-    /**
-     * Test of createDirIfNoExists method, of class FileUtils.
-     */
-    @Test
-    public void testCreateDirIfNoExists() throws Exception {
-    }
-
   /**
      * Test the {@link FileUtils#getFileName(java.lang.String, int) }.
      */
@@ -80,13 +59,6 @@ public class FileUtilsTest {
          
          assertEquals("test", nameExtension[0]);
          assertEquals("txt", nameExtension[1]);
-    }
-
-    /**
-     * Test of createDirOrResetIfExists method, of class FileUtils.
-     */
-    @Test
-    public void testCreateDirOrResetIfExists() throws Exception {
     }
 
     /**

@@ -1,14 +1,9 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package es.uma.pfc.is.algorithms.optbasis;
 
-import es.uma.pfc.is.algorithms.optbasis.SimplificationLogic;
+import es.uma.pfc.is.algorithms.util.ImplicationalSystems;
 import fr.kbertet.lattice.Rule;
 import java.util.List;
-import java.util.TreeSet;
 import org.junit.Test;
 import static org.junit.Assert.*;
 

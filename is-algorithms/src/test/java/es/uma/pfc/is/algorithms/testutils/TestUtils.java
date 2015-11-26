@@ -1,12 +1,7 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package es.uma.pfc.is.algorithms.testutils;
 
 import fr.kbertet.lattice.ImplicationalSystem;
-import java.io.File;
 import java.io.IOException;
 import java.nio.file.Paths;
 

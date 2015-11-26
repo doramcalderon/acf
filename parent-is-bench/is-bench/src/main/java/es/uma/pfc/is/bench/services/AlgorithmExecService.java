@@ -24,19 +24,22 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javafx.concurrent.Service;
 import javafx.concurrent.Task;
 import javafx.concurrent.WorkerStateEvent;
 import javafx.event.EventHandler;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Service for the background execution of algorithms and benchmarks.
  * @author Dora Calderón
  */
 public class AlgorithmExecService extends Service<BenchmarkResult> {
-
+/**
+     * Logger.
+     */
+    private final Logger logger = LoggerFactory.getLogger(AlgorithmExecService.class);
     /**
      * Algorithms to execute.
      */
@@ -196,7 +199,7 @@ public class AlgorithmExecService extends Service<BenchmarkResult> {
      */
     @Override
     protected void failed() {
-        getException().printStackTrace();
+        logger.error("The execution has failed. ", getException());
         Eventbus.post(new MessageEvent("The execution has failed: " + getException().getMessage(), MessageEvent.Level.ERROR));
     }
 
@@ -214,7 +217,7 @@ public class AlgorithmExecService extends Service<BenchmarkResult> {
             try {
                 exec.shutdown();
             } catch (InterruptedException ex) {
-                Logger.getLogger(AlgorithmExecService.class.getName()).log(Level.SEVERE, null, ex);
+                logger.error("The service has been interrupted.", ex);
             }
         }
         return super.cancel(); 

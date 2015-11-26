@@ -1,8 +1,4 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package es.uma.pfc.is.commons.reflection;
 
 import es.uma.pfc.is.commons.files.FileUtils;
@@ -17,16 +13,19 @@ import java.util.Collections;
 import java.util.List;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import java.util.stream.Collectors;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
- *
- * @since @author Dora Calderón
+ * Reflection utils.
+ * @author Dora Calderón
  */
 public class ReflectionUtil {
-
+       /**
+     * Logger.
+     */
+    private static final Logger logger = LoggerFactory.getLogger(ReflectionUtil.class);
     /**
      * Extensión .class *
      */
@@ -131,7 +130,7 @@ public class ReflectionUtil {
                 classes = getClassesFromJar(new JarFile(path), Thread.currentThread().getContextClassLoader());
 
             } catch (IOException ioEx) {
-                Logger.getLogger(ReflectionUtil.class.getName()).log(Level.SEVERE, "Error al cargar el archivo " + path, ioEx);
+                logger.error("Error al cargar el archivo " + path, ioEx);
                 throw ioEx;
             }
 
@@ -158,8 +157,7 @@ public class ReflectionUtil {
             }
 
         } catch (ClassNotFoundException | NoClassDefFoundError error) {
-            Logger.getLogger(ReflectionUtil.class.getName()).log(Level.SEVERE, "Error al cargar las clases del jar " 
-                    + ((jar != null) ? jar.getName() : "null"), error);
+            logger.error("Error al cargar las clases del jar " + ((jar != null) ? jar.getName() : "null"), error);
             throw new RuntimeException(error);
         }
         

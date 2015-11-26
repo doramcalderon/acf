@@ -9,9 +9,7 @@ import fr.kbertet.lattice.ImplicationalSystem;
 import java.io.IOException;
 import java.nio.file.Paths;
 import java.util.concurrent.Callable;
-import java.util.concurrent.TimeUnit;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Task for algorithm execution in a thread.
@@ -19,7 +17,10 @@ import java.util.logging.Logger;
  * @author Dora Calderón
  */
 public class AlgExecutionTask implements Callable<AlgorithmResult> {
-
+ /**
+     * Logger.
+     */
+    private final org.slf4j.Logger logger = LoggerFactory.getLogger (AlgExecutionTask.class);
     /**
      * Algorithm to execute.
      */
@@ -61,10 +62,8 @@ public class AlgExecutionTask implements Callable<AlgorithmResult> {
             this.outputDir = outputDir;
             this.outputFilename = algorithm.getShortName() + "_" + FileUtils.getName(input) 
                                    + "." + getOutputType(options);
-        } catch (InstantiationException ex) {
-            Logger.getLogger(AlgExecutionTask.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            Logger.getLogger(AlgExecutionTask.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (InstantiationException | IllegalAccessException ex) {
+            logger.error("Error instantiating the algorithm.", ex);
         }
     }
 

@@ -6,15 +6,19 @@ import es.uma.pfc.is.bench.domain.BenchmarkResult;
 import es.uma.pfc.is.bench.domain.BenchmarkResultSet;
 import java.io.File;
 import java.nio.file.Paths;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.xml.bind.JAXBException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Class for the read and write results to/from files.
  * @since @author Dora Calderón
  */
 public class ResultsPersistence extends Persistence {
+    /**
+     * Logger.
+     */
+    private final Logger logger = LoggerFactory.getLogger(ResultsPersistence.class);
 
     /**
      * Single instance.
@@ -60,7 +64,7 @@ public class ResultsPersistence extends Persistence {
                 benchResultSet.getResults().add(0, result);
                 persist(benchResultSet, resultsPath, true);
             } catch (JAXBException ex) {
-                Logger.getLogger(ResultsPersistence.class.getName()).log(Level.SEVERE, null, ex);
+                logger.error("Error saving results.", ex);
             }
         }
     }

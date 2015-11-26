@@ -4,8 +4,8 @@ import es.uma.pfc.is.commons.i18n.Messages;
 import java.util.ResourceBundle;
 
 /**
- *
- * @since @author Dora Calderón
+ * Mensajes i18n.
+ * @author Dora Calderón
  */
 public class GeneratorMessages extends Messages implements I18n {
 

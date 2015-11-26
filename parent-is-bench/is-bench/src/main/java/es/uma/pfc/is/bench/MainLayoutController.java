@@ -19,8 +19,6 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.Optional;
 import java.util.ResourceBundle;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -40,6 +38,8 @@ import javafx.scene.layout.Pane;
 import javafx.scene.paint.Paint;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Controller of Root Vieww.
@@ -47,6 +47,10 @@ import javafx.stage.Stage;
  * @author Dora Calderón
  */
 public class MainLayoutController extends Controller {
+    /**
+     * Logger.
+     */
+    private final Logger logger = LoggerFactory.getLogger(MainLayoutController.class);
 
     private static final int HOME_PANE_INDEX = 0;
     private static final int BENCHMARKS_PANE_INDEX = 1;
@@ -87,7 +91,7 @@ public class MainLayoutController extends Controller {
             initView();
             initListeners();
         } catch (IOException ex) {
-            Logger.getLogger(MainLayoutController.class.getName()).log(Level.SEVERE, null, ex);
+            logger.error("Error initializing MainLayoutController", ex);
         }
 
     }
@@ -185,7 +189,7 @@ public class MainLayoutController extends Controller {
             Dialogs.showModalDialog(title, configView, rootPane.getScene().getWindow());
 
         } catch (IOException ex) {
-            Logger.getLogger(MainLayoutController.class.getName()).log(Level.SEVERE, null, ex);
+            logger.error("Error opening workspaces vindow.", ex);
         }
     }
 
@@ -229,7 +233,7 @@ public class MainLayoutController extends Controller {
             aboutStage.setScene(aboutScene);
             aboutStage.showAndWait();
         } catch (IOException ex) {
-            Logger.getLogger(MainLayoutController.class.getName()).log(Level.SEVERE, null, ex);
+            logger.error("Error opening the about view.", ex);
         }
     }
 }

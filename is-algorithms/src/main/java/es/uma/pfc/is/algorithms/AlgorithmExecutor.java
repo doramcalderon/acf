@@ -21,8 +21,7 @@ import java.util.concurrent.Future;
 import java.util.concurrent.RejectedExecutionException;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Service which executes an algorithm.
@@ -30,7 +29,10 @@ import java.util.logging.Logger;
  * @author Dora Calderón
  */
 public class AlgorithmExecutor {
-
+ /**
+     * Logger.
+     */
+    private final org.slf4j.Logger logger = LoggerFactory.getLogger(AlgorithmExecutor.class);
     /**
      * Algorithm to execute.
      */
@@ -209,8 +211,8 @@ public class AlgorithmExecutor {
                 results = concurrentExecution(inputs, outputDirName);
 
             } catch (IOException ex) {
-                Logger.getLogger(AlgorithmExecutor.class.getName()).log(Level.SEVERE, null, ex);
-                throw new AlgorithmException("Error creting the output dir.", ex);
+                logger.error("Error creating the output dir.", ex);
+                throw new AlgorithmException("Error creating the output dir.", ex);
             }
         }
         return results;
@@ -236,16 +238,15 @@ public class AlgorithmExecutor {
                 }
             } catch (InterruptedException ex) {
                 cancelFuture(futureResult);
-                Logger.getLogger(AlgorithmExecutor.class.getName()).log(Level.SEVERE, null, ex);
+                logger.error("The execution has been interrupted.", ex);
             } catch (ExecutionException ex) {
-                Logger.getLogger(AlgorithmExecutor.class.getName()).log(Level.SEVERE, null, ex);
+                logger.error("Error executing the algorithm.", ex);
             } catch (TimeoutException ex) {
+                logger.error("The task has been cancelled because takes too long.");
                 cancelFuture(futureResult);
-                 Logger.getLogger(AlgorithmExecutor.class.getName())
-                        .log(Level.SEVERE, "The task has been cancelled because takes too long.");
             } catch (RejectedExecutionException ex) {
                 cancelFuture(futureResult);
-                Logger.getLogger(AlgorithmExecutor.class.getName()).log(Level.SEVERE, "The task has been rejected.");
+                logger.error("The task has been rejected.");
             }
         }
 
