@@ -98,6 +98,18 @@ public class BenchMessages extends Messages {
      * * Language change confirmation message.
      */
     public static final String LANGUAGE_CHANGE = "msg.language.change";
+    /**
+     * Initializing controller error message.
+     */
+    public static final String INITIALIZING_CONTROLLER_ERROR = "msg.error.controller.initialize";
+    /**
+     * Initializing controller error message.
+     */
+    public static final String LAST_RUN = "msg.home.last.run";
+    /**
+     * Loading error message.
+     */
+    public static final String LOADING_RESULTS_ERROR = "msg.results.error";
             
             
 /**

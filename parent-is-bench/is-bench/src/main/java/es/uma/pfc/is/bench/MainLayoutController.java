@@ -19,7 +19,6 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.Optional;
 import java.util.ResourceBundle;
-import java.util.logging.Level;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -29,8 +28,8 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
-import javafx.scene.control.Menu;
 import javafx.scene.control.RadioMenuItem;
+import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.layout.AnchorPane;
@@ -40,7 +39,6 @@ import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
-import javafx.scene.paint.Paint;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import org.slf4j.Logger;
@@ -78,9 +76,6 @@ public class MainLayoutController extends Controller {
     private Map<String, Integer> panes = new HashMap();
 
     @FXML
-    private Menu preferencesMenu;
-
-    @FXML
     private StackPane rootPane;
 
     @FXML
@@ -90,6 +85,10 @@ public class MainLayoutController extends Controller {
     
     @FXML
     private RadioMenuItem menuLanguageEN, menuLanguageES;
+    @FXML
+    private Tab tabBenchmarks;
+    @FXML
+    private TabPane mainTabPane;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -128,18 +127,7 @@ public class MainLayoutController extends Controller {
 
     @Subscribe
     public void newBenchmark(NavigationEvent event) {
-        String viewTo = event.getView();
-        switch (viewTo) {
-            case FXMLViews.NEW_BENCHMARK_VIEW:
-//                btnBenchmarks.setSelected(true);
-                break;
-            case FXMLViews.RUN_BENCHMARK_VIEW:
-//                btnBenchmarks.setSelected(true);
-                break;
-            default:
-                break;
-        }
-
+        mainTabPane.getSelectionModel().select(tabBenchmarks);
     }
 
     /**

@@ -74,35 +74,5 @@ public class ResultsBean {
         return allResults;
     }
     
-    public static void main(String[] args) throws IOException {
-        ResultsBean bean = new ResultsBean();
-        List<BenchmarkResultSet> results = bean.getAllResults(Paths.get("C:\\Users\\Dorilla (Fakul)\\resultados").toString());
-        
-        for(BenchmarkResultSet rs : results) {
-            for(BenchmarkResult br : rs.getResults()) {
-                Map<AlgorithmInfo, List<AlgorithmResult>> grouped = br.groupByAlgorithm();
-                
-                for(AlgorithmInfo alg : grouped.keySet()) {
-                    List<AlgorithmResult> algResults = grouped.get(alg);
-                    Path target = Paths.get("C:\\Users\\Dorilla (Fakul)\\resultados", br.getBenchmarkName() + "_" 
-                                        + alg.getShortName() + ".csv");
-                    System.out.println(target.toString());
-                    FileUtils.createIfNoExists(target.toString());
-                    
-                    CSVFileWriter writer = new CSVFileWriter(target);
-                    writer.header("Size", "Card", "Time").start();
-                    for(AlgorithmResult ar : algResults) {
-                        Integer size = ar.getSize();
-                        Integer card = ar.getCardinality();
-                        Double time = ar.getExecutionTime();
-                        
-                        writer.printRecord(size, card, time);
-                    }
-                    writer.finish();
-                }
-                
-                
-            }
-        }
-    }
+   
 }

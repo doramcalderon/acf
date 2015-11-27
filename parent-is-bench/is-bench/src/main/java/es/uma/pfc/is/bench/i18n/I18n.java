@@ -22,4 +22,7 @@ public interface I18n {
     
     String SHOW_LOG = "context.menu.showlog";
     String SHOW_STATS = "context.menu.showstats";
+    String RUN_LINK = "home.run.link";
+    String NEW_LINK = "tab.create.benchmark";
+    String NEW_BENCHMARK = "home.new.benchmark";
 }

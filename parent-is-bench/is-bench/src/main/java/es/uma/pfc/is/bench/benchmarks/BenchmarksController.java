@@ -64,10 +64,13 @@ public class BenchmarksController extends Controller {
     @Subscribe
     public void showTab(NavigationEvent event) {
         String viewTo = event.getView();
-        if(FXMLViews.NEW_BENCHMARK_VIEW.equals(viewTo)) {
-            benchmarksTabPane.getSelectionModel().select(tabNew);
-        } else if (FXMLViews.RUN_BENCHMARK_VIEW.equals(viewTo)) {
-            benchmarksTabPane.getSelectionModel().select(tabRun);
+        if(null != viewTo) switch (viewTo) {
+            case FXMLViews.NEW_BENCHMARK_VIEW:
+                benchmarksTabPane.getSelectionModel().select(tabNew);
+                break;
+            case FXMLViews.RUN_BENCHMARK_VIEW:
+                benchmarksTabPane.getSelectionModel().select(tabRun);
+                break;
         }
     }
     
