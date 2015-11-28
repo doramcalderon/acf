@@ -1,5 +1,6 @@
 package es.uma.pfc.is.bench.home;
 
+import com.google.common.eventbus.Subscribe;
 import es.uma.pfc.is.algorithms.AlgorithmInfo;
 import es.uma.pfc.is.algorithms.AlgorithmResult;
 import es.uma.pfc.is.algorithms.util.StringUtils;
@@ -9,6 +10,7 @@ import es.uma.pfc.is.bench.domain.BenchmarkResultSet;
 import es.uma.pfc.is.bench.events.MessageEvent.Level;
 import es.uma.pfc.is.commons.eventbus.Eventbus;
 import es.uma.pfc.is.bench.events.NavigationEvent;
+import es.uma.pfc.is.bench.events.NewResultsEvent;
 import es.uma.pfc.is.bench.i18n.BenchMessages;
 import es.uma.pfc.is.bench.i18n.I18n;
 import es.uma.pfc.is.bench.services.ResultsLoadService;
@@ -148,7 +150,26 @@ public class HomeController extends Controller implements Initializable {
         }
        
     }
-
+    /**
+     * Reloads the view and the model.
+     */
+    protected void reload() {
+        try {
+            initView();
+            initModel();
+            modelToView();
+        } catch (IOException ex) {
+            String message = getI18nMessage(BenchMessages.INITIALIZING_CONTROLLER_ERROR, HomeController.class);
+            logger.error(message, ex);
+            publicMessage(message, Level.ERROR);
+        }
+    }
+    /**
+     * Adds a titled pane to main container.
+     * @param title Title.
+     * @param row Row num.
+     * @param nodes Nodes to add.
+     */
     protected void addTitledPane(String title, int row, Node... nodes) {
         VBox box = new VBox(nodes);
         box.setStyle("-fx-background-color:white");
@@ -159,6 +180,19 @@ public class HomeController extends Controller implements Initializable {
         container.getChildren().add(row, titledPane);
         
     }
+    
+    /**
+     * Handles the NewResultsEvent published by Eventbus and reload the view and the model.
+     *
+     * @param event Event.
+     */
+    @Subscribe
+    public void handleNewResult(NewResultsEvent event) {
+        if (event != null) {
+            reload();
+        }
+    }
+
 
     @Override
     protected Pane getRootPane() {
