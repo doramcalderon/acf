@@ -117,9 +117,6 @@
                                 <goals>
                                     <goal>build-jar</goal>
                                 </goals>
-<!--                                <configuration>
-                                    <preLoader>es.uma.pfc.is.bench.ISBenchPreloader</preLoader>
-                                </configuration>-->
                             </execution>
                             <execution>
                                 <id>create-native</id>
