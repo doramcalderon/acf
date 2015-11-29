@@ -7,23 +7,23 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<StackPane xmlns:fx="http://javafx.com/fxml/1" id="rootPane" fx:id="rootPane" xmlns="http://javafx.com/javafx/8" fx:controller="es.uma.pfc.is.bench.MainLayoutController">
+<StackPane id="rootPane" fx:id="rootPane" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="es.uma.pfc.is.bench.MainLayoutController">
     <children>
         <BorderPane id="mainPane" fx:id="mainPane" minHeight="650.0" minWidth="800.0">
             <center>
-                <TabPane rotateGraphic="true" side="LEFT" fx:id="mainTabPane">
+                <TabPane fx:id="mainTabPane" rotateGraphic="true" side="LEFT">
                     <tabs>
                         <Tab closable="false" text="%tab.home">
                             <content>
                                 <fx:include source="/es/uma/pfc/is/bench/home/Home.fxml"/>
                             </content>
                         </Tab>
-                        <Tab closable="false" text="%tab.benchmarks" fx:id="tabBenchmarks" >
+                        <Tab fx:id="tabBenchmarks" closable="false" text="%tab.benchmarks">
                             <content>
                                 <fx:include source="/es/uma/pfc/is/bench/benchmarks/Benchmarks.fxml"/>
                             </content>
                         </Tab>
-                        <Tab closable="false" text="%tab.results" fx:id="tabResults">
+                        <Tab fx:id="tabResults" closable="false" text="%tab.results">
                             <content>
                                 <fx:include source="/es/uma/pfc/is/bench/benchmarks/results/Results.fxml"/>
                             </content>
@@ -47,6 +47,7 @@
                         </Menu>
                         <Menu mnemonicParsing="false" text="%help">
                             <items>
+                        <MenuItem mnemonicParsing="false" onAction="#handleUserGuide" text="%menu.user.guide" />
                                 <MenuItem fx:id="aboutMenu" mnemonicParsing="false" onAction="#handleAbout" text="%about" />
                             </items>
                         </Menu>

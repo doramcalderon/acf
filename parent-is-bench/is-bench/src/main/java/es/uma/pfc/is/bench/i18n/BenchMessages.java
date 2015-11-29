@@ -11,6 +11,8 @@ import java.util.ResourceBundle;
  * @author Dora Calderón
  */
 public class BenchMessages extends Messages {
+    public static final String LOADING = "msg.loading";
+    public static final String OPEN_USERGUIDE_ERROR = "msg.userguide.error";
     /**
     * Empty values validation message.
     */

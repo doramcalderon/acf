@@ -3,6 +3,7 @@ package es.uma.pfc.is.bench;
 import com.google.common.eventbus.Subscribe;
 import es.uma.pfc.is.bench.config.WorkspaceManager;
 import es.uma.pfc.is.bench.events.OpenFileEvent;
+import es.uma.pfc.is.bench.i18n.BenchMessages;
 import es.uma.pfc.is.bench.view.FXMLViews;
 import es.uma.pfc.is.commons.eventbus.Eventbus;
 import java.io.IOException;
@@ -18,7 +19,6 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Pos;
-import javafx.geometry.Rectangle2D;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.ProgressBar;
@@ -29,7 +29,6 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
-import javafx.stage.Screen;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import javafx.util.Duration;
@@ -52,8 +51,7 @@ public class ISBenchApp extends Application {
     private Pane splashLayout;
     private ProgressBar loadProgress;
     private Label progressText;
-    private static final int SPLASH_WIDTH = 676;
-    private static final int SPLASH_HEIGHT = 227;
+    
 
     @Override
     public void init() {
@@ -67,8 +65,7 @@ public class ISBenchApp extends Application {
         AnchorPane.setLeftAnchor(loadProgress, new Double(0));
         AnchorPane.setRightAnchor(loadProgress, new Double(0));
         AnchorPane.setTopAnchor(loadProgress, new Double(0));
-        //loadProgress.setPrefWidth(splash.getFitWidth());
-        progressText = new Label("Loading . . .");
+        progressText = new Label(BenchMessages.get().getMessage(BenchMessages.LOADING));
         splashLayout = new VBox();
         splashLayout.getChildren().addAll(splash, anchProgress, progressText);
         progressText.setAlignment(Pos.CENTER);

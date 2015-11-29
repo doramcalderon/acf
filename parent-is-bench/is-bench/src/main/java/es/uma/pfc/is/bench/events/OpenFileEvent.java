@@ -18,6 +18,9 @@ public class OpenFileEvent {
     public OpenFileEvent(Path path) {
         this.file = path.toFile();
     }
+    public OpenFileEvent(File file) {
+        this.file = file;
+    }
 
     public File getFile() {
         return file;

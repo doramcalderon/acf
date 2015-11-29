@@ -6,19 +6,23 @@ import es.uma.pfc.is.bench.config.WorkspaceManager;
 import es.uma.pfc.is.commons.eventbus.Eventbus;
 import es.uma.pfc.is.bench.events.MessageEvent;
 import es.uma.pfc.is.bench.events.NavigationEvent;
+import es.uma.pfc.is.bench.events.OpenFileEvent;
 import es.uma.pfc.is.bench.i18n.BenchMessages;
 import es.uma.pfc.is.bench.i18n.I18n;
 import es.uma.pfc.is.bench.uitls.Animations;
 import es.uma.pfc.is.bench.uitls.Dialogs;
 import es.uma.pfc.is.bench.view.FXMLViews;
 import static es.uma.pfc.is.bench.view.FXMLViews.ABOUT_VIEW;
+import java.io.File;
 import java.io.IOException;
+import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Optional;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -202,6 +206,23 @@ public class MainLayoutController extends Controller {
         String title = getI18nMessage(BenchMessages.LANGUAGE_CHANGE_TITLE);
         String message = getI18nMessage(BenchMessages.LANGUAGE_CHANGE);
         Optional<ButtonType> response = showAlert(Alert.AlertType.CONFIRMATION, title, message);
+    }
+
+    /**
+     * Handler of User Guide menu action event.
+     *
+     * @param event
+     */
+    @FXML
+    public void handleUserGuide(ActionEvent event) {
+        try {
+            File userGuide = new File(Thread.currentThread().getContextClassLoader().getResource("doc/userguide.pdf").toURI());
+            Eventbus.post(new OpenFileEvent(userGuide));
+        } catch (URISyntaxException  ex) {
+            String message = getI18nMessage(BenchMessages.OPEN_USERGUIDE_ERROR);
+            logger.error(message, ex);
+            publicMessage(message, MessageEvent.Level.INFO);
+        }
     }
 
     /**
