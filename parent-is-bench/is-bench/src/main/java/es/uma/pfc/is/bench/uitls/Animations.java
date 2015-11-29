@@ -1,7 +1,10 @@
 package es.uma.pfc.is.bench.uitls;
 
-
+import es.uma.pfc.is.bench.domain.BenchmarkResult;
 import javafx.animation.FadeTransition;
+import javafx.application.Platform;
+import javafx.concurrent.Service;
+import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Node;
@@ -17,6 +20,7 @@ public class Animations {
     public static void fadeOut(Node node) {
         fadeOut(node, 500);
     }
+
     public static void fadeOut(Node node, double duration) {
         double opacity = node.getOpacity();
         FadeTransition ft = new FadeTransition(Duration.millis(duration), node);
@@ -34,6 +38,7 @@ public class Animations {
             }
         });
     }
+
     public static void fadeIn(Node node, double duration) {
         double opacity = node.getOpacity();
         node.setVisible(true);
@@ -52,6 +57,7 @@ public class Animations {
             }
         });
     }
+
     public static void fadeInOut(Node node, double duration) {
         double opacity = node.getOpacity();
         node.setVisible(true);
@@ -65,13 +71,47 @@ public class Animations {
 
             @Override
             public void handle(ActionEvent event) {
-                try {
-                    Thread.sleep(7000);
-                } catch (InterruptedException ex) {
-                    LoggerFactory.getLogger(Animations.class).error("", ex);
-                }
-                fadeOut(node, duration);
+                Service sleepService = new Service() {
+
+                    @Override
+                    protected Task createTask() {
+                        return new Task() {
+
+                            @Override
+                            protected Object call() throws Exception {
+                                try {
+                                    Thread.currentThread().sleep(7000);
+                                } catch (InterruptedException ex) {
+                                    LoggerFactory.getLogger(Animations.class).error("", ex);
+                                }
+
+                                return null;
+
+                            }
+
+                            @Override
+                            protected void failed() {
+                                fadeOut(node, duration);
+                            }
+
+                            @Override
+                            protected void cancelled() {
+                                fadeOut(node, duration);
+                            }
+
+                            @Override
+                            protected void succeeded() {
+                                fadeOut(node, duration);
+                            }
+                        };
+
+                    }
+
+                };
+                sleepService.restart();
+
             }
-        });
+        }
+        );
     }
 }

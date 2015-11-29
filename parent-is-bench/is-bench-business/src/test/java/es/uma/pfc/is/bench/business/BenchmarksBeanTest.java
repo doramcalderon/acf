@@ -4,6 +4,7 @@ package es.uma.pfc.is.bench.business;
 import es.uma.pfc.is.algorithms.AlgorithmInfo;
 import es.uma.pfc.is.bench.domain.Benchmark;
 import es.uma.pfc.is.bench.domain.Benchmarks;
+import es.uma.pfc.is.commons.files.FileUtils;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -41,21 +42,7 @@ public class BenchmarksBeanTest {
      */
     @Test
     public void testCreate() throws IOException, JAXBException {
-        String workspace = Paths.get(System.getProperty("user.dir"), "target").toString();
-        Files.deleteIfExists(Paths.get(workspace, "benchmarks.xml"));
-        
-        Benchmark benchmark = null;
-        AlgorithmInfo alg = new AlgorithmInfo();
-        alg.setName("Alg 1");
-
-
-        benchmark = new Benchmark("Bench1", Arrays.asList(alg));
-        benchmark.setWorkspace(workspace);
-        benchmark.setInputsDir(Paths.get(System.getProperty("user.dir"), "src", "test", "resources").toString());
-        benchmark.setInputFiles(Arrays.asList(Paths.get(System.getProperty("user.dir"), "src", "test", "resources","implications.txt").toFile()));
-        BenchmarksBean bean = new BenchmarksBean();
-        bean.update(benchmark);
-
+        Benchmark benchmark = createBench1();
 
         Path benchmarksPath = Paths.get(benchmark.getWorkspace(), "benchmarks.xml");
         assertTrue(Files.exists(Paths.get(benchmark.getBenchmarkPath())));
@@ -81,26 +68,41 @@ public class BenchmarksBeanTest {
      * Test of exists method, of class BenchmarksBean.
      */
     @Test
-    public void testExists() throws IOException {
-        String workspace = Paths.get(System.getProperty("user.dir"), "src", "test").toString();
-        String name = "BENCH1";
-        try {
-            Files.createDirectories(Paths.get(workspace, name));
+    public void testExists() throws Exception {
+        createBench1();
+        String workspace = Paths.get(System.getProperty("user.dir"), "target").toAbsolutePath().toString();
+        String name = "Bench1";
+        FileUtils.createDirIfNoExists(Paths.get(workspace, name).toAbsolutePath().toString());
 
-            BenchmarksBean bean = new BenchmarksBean();
-            assertTrue(bean.exists(name, workspace));
-        } finally {
-            Files.deleteIfExists(Paths.get(workspace, name));
-        }
+        BenchmarksBean bean = new BenchmarksBean();
+        assertTrue(bean.exists(name, workspace));
     }
     @Test
-    public void testNoExists() throws IOException {
-        String workspace = System.getProperty("user.dir") + File.separator + "src" + File.separator + "test";
+    public void testNoExists() throws Exception {
+        String workspace = Paths.get(System.getProperty("user.dir"), "src", "test").toAbsolutePath().toString();
         String name = "BENCH2";
         
         BenchmarksBean bean = new BenchmarksBean();
         assertFalse(bean.exists(name, workspace));
 
+    }
+    
+    private Benchmark createBench1() throws IOException {
+        String workspace = Paths.get(System.getProperty("user.dir"), "target").toString();
+        Files.deleteIfExists(Paths.get(workspace, "benchmarks.xml"));
+        
+        Benchmark benchmark = null;
+        AlgorithmInfo alg = new AlgorithmInfo();
+        alg.setName("Alg 1");
+
+
+        benchmark = new Benchmark("Bench1", Arrays.asList(alg));
+        benchmark.setWorkspace(workspace);
+        benchmark.setInputsDir(Paths.get(System.getProperty("user.dir"), "src", "test", "resources").toString());
+        benchmark.setInputFiles(Arrays.asList(Paths.get(System.getProperty("user.dir"), "src", "test", "resources","implications.txt").toFile()));
+        BenchmarksBean bean = new BenchmarksBean();
+        bean.update(benchmark);
+        return benchmark;
     }
 
 }

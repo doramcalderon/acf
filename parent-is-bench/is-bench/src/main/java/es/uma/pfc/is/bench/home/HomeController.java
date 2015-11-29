@@ -69,6 +69,7 @@ public class HomeController extends Controller implements Initializable {
         try {
             initView();
             initModel();
+            initListeners();
 
         } catch (IOException ex) {
             String message = getI18nMessage(BenchMessages.INITIALIZING_CONTROLLER_ERROR,
@@ -81,6 +82,11 @@ public class HomeController extends Controller implements Initializable {
     @Override
     protected void initView() throws IOException {
         container.getChildren().clear();  
+    }
+
+    @Override
+    protected void initListeners() {
+        Eventbus.register(this);
     }
 
     @Override
@@ -99,13 +105,13 @@ public class HomeController extends Controller implements Initializable {
     protected void modelToView() {
         DateFormat df = new SimpleDateFormat();
         container.getChildren().clear();
+        int i = 0;
 
         if (model.getResults() != null && !model.getResults().isEmpty()) {
             int numResults = model.getResults().size() % 6;
             Map<String, List<BenchmarkResultSet>> groupedByName = model.groupByBenchmark();
             
             Iterator<String> rsIterator = groupedByName.keySet().iterator();
-            int i = 0;
             while (rsIterator.hasNext() && i <= numResults) {
                 String benchName = rsIterator.next();
                 BenchmarkResultSet rs = groupedByName.get(benchName).get(0);
@@ -122,14 +128,12 @@ public class HomeController extends Controller implements Initializable {
                     int inputs = 0;
                     
                     for (AlgorithmInfo ar : ars.keySet()) {
-                        if(ar != null 
-                                && ar != null
-                                && !StringUtils.isEmpty(ar.getName())) {
+                        if(ar != null && !StringUtils.isEmpty(ar.getName())) {
                             sb.append("- ").append(ar.getName()).append("\n");
                             inputs = ars.get(ar).size();
                         }
                     }
-                    sb.append("\n" + inputs + " inputs");
+                    sb.append("\n").append(getI18nMessage(BenchMessages.INPUTS, inputs));
                     Text tx = new Text(sb.toString());
                     flow.getChildren().add(tx);
                 }
@@ -137,17 +141,17 @@ public class HomeController extends Controller implements Initializable {
                 addTitledPane(br.getBenchmarkName(), i++, lbDate, flow);
                
             }
-            Hyperlink newLink = new Hyperlink(getI18nLabel(I18n.NEW_LINK));
-            newLink.setOnAction(new EventHandler<ActionEvent>() {
-
-                @Override
-                public void handle(ActionEvent event) {
-                    Eventbus.post(new NavigationEvent(FXMLViews.NEW_BENCHMARK_VIEW));
-                }
-            });
             
-            addTitledPane(getI18nLabel(I18n.NEW_BENCHMARK), i, newLink);
         }
+        Hyperlink newLink = new Hyperlink(getI18nLabel(I18n.NEW_LINK));
+        newLink.setOnAction(new EventHandler<ActionEvent>() {
+
+            @Override
+            public void handle(ActionEvent event) {
+                Eventbus.post(new NavigationEvent(FXMLViews.NEW_BENCHMARK_VIEW));
+            }
+        });
+        addTitledPane(getI18nLabel(I18n.NEW_BENCHMARK), i, newLink);
        
     }
     /**

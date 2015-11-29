@@ -165,16 +165,6 @@ public class MainLayoutController extends Controller {
         });
     }
 
-    /**
-     * Selects the pane with the index in the stack pane.
-     *
-     * @param index
-     */
-    protected void selectPane(int index) {
-//        for (Node node : centerContainer.getChildren()) {
-//            node.setVisible((index == centerContainer.getChildren().indexOf(node)));
-//        }
-    }
 
     /**
      * Handler of Preferences Menu action event.

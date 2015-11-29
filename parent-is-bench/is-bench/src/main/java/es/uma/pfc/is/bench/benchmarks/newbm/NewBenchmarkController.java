@@ -191,7 +191,7 @@ public class NewBenchmarkController extends Controller {
      */
     @Override
     protected void initBinding() {
-        txtName.textProperty().bindBidirectional(model.nameProperty());
+        model.nameProperty().bind(txtName.textProperty());
         inputsList.itemsProperty().bind(model.inputFilesListProperty());
         inputsList.disableProperty().bind(new BooleanBinding() {
             {
@@ -260,6 +260,9 @@ public class NewBenchmarkController extends Controller {
                         model.inputFilesListProperty().set(FXCollections.observableArrayList(inputsDir.listFiles()));
                         model.algorithmsSelectedProperty().set(FXCollections.observableArrayList(b.getAlgorithmsEntities()));
                         
+                    } else {
+                        inputsList.getItems().clear();
+                        algorithmsSelected.getItems().clear();
                     }
                 } catch (Exception ex) {
                     String message = "Error loading a benchmark";
@@ -315,8 +318,14 @@ public class NewBenchmarkController extends Controller {
             publicMessage(getI18nMessage(BenchMessages.EMPTY_ALGORITHM_LIST), MessageEvent.Level.ERROR);
             return false;
         }
-        
-        boolean validBenchmarkName = !new BenchmarksBean().exists(model.getName(), wsManager.currentWorkspace().getLocation());
+        boolean validBenchmarkName = false;
+        try {
+            validBenchmarkName = !new BenchmarksBean().exists(model.getName(), wsManager.currentWorkspace().getLocation());
+        } catch (Exception ex) {
+            String message = getI18nMessage(BenchMessages.VALIDATION_ERROR, ex.getMessage());
+            logger.error(message, ex);
+            publicMessage(message, Level.ERROR);
+        }
         if (!validBenchmarkName) {
             Optional<ButtonType> confirm
                     = showAlert(Alert.AlertType.CONFIRMATION, null, getI18nMessage(BenchMessages.DUPLICATED_BENCHMARK));

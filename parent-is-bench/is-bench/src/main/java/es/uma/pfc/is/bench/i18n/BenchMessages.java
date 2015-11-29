@@ -1,6 +1,7 @@
 
 package es.uma.pfc.is.bench.i18n;
 
+import es.uma.pfc.is.bench.config.WorkspaceManager;
 import es.uma.pfc.is.commons.i18n.Messages;
 import java.util.ResourceBundle;
 
@@ -110,6 +111,11 @@ public class BenchMessages extends Messages {
      * Loading error message.
      */
     public static final String LOADING_RESULTS_ERROR = "msg.results.error";
+    /**
+     * validation error message.
+     */
+    public static final String VALIDATION_ERROR = "msg.validation.error";
+    public static final String INPUTS = "msg.home.inputs";
             
             
 /**
@@ -126,7 +132,7 @@ public class BenchMessages extends Messages {
      * Constructor.
      */
     private BenchMessages() {
-        messages = ResourceBundle.getBundle("bundles.messages");
+        messages = ResourceBundle.getBundle("bundles.messages", WorkspaceManager.get().getLocale());
     }
     
     public static BenchMessages get() {

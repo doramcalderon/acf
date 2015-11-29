@@ -22,6 +22,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.net.URL;
+import java.text.DecimalFormat;
 import java.util.ResourceBundle;
 import javafx.beans.binding.BooleanBinding;
 import javafx.concurrent.WorkerStateEvent;
@@ -50,7 +51,11 @@ public class ResultsViewerController extends Controller {
      * Logger.
      */
     private final Logger logger = LoggerFactory.getLogger(ResultsViewerController.class);
-
+    /**
+     * Decimal format.
+     */
+    private DecimalFormat decimalFormat = new DecimalFormat("#.###");   
+    
     private AlgorithmResult algorithmResult;
     @FXML
     private AnchorPane rootPane;
@@ -145,7 +150,7 @@ public class ResultsViewerController extends Controller {
                     ? algorithmResult.getAlgorithmInfo().getName() : "Algorithm"; //TODO crear label
             lbTimeMessage.setText(getI18nMessage(BenchMessages.ALGORITHM_EXECUTION_TIME,
                     algorithmName,
-                    algorithmResult.getExecutionTime()));
+                    decimalFormat.format(algorithmResult.getExecutionTime())));
         }
     }
     

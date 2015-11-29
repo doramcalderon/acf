@@ -121,11 +121,13 @@ public class BenchmarksBean {
      * @param workspace Workspace path.
      * @return {@code true} if exists a benchmark with the name argument, {@code false} otherwise.
      */
-    public boolean exists(String name, String workspace) {
+    public boolean exists(String name, String workspace) throws Exception {
         boolean exists = false;
-
         if (!StringUtils.isEmpty(name) && !StringUtils.isEmpty(workspace)) {
-            exists = Files.exists(Paths.get(workspace, name));
+            List<Benchmark> benchmarks = getBenchmarks(workspace);
+            if(benchmarks != null && !benchmarks.isEmpty()) {
+                exists = benchmarks.stream().anyMatch(b -> name.equalsIgnoreCase(b.getName()));
+            }
         }
 
         return exists;
