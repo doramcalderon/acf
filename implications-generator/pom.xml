@@ -45,9 +45,10 @@
         <profile>
             <id>release</id>
             <build>
-                <plugins>
+                <plugins>                    
                     <plugin>
                         <artifactId>maven-assembly-plugin</artifactId>
+                        <version>2.5.3</version>
                         <configuration>
                             <archive>
                                 <manifest>
@@ -55,14 +56,14 @@
                                     <addDefaultImplementationEntries>true</addDefaultImplementationEntries>
                                 </manifest>
                                 <manifestEntries>
-                                    <Implementation-Build>${maven.build.timestamp}</Implementation-Build>
+                                    <Implementation-Build>1.0.0</Implementation-Build>
                                 </manifestEntries>
                             </archive>
                             <descriptorRefs>
                                 <descriptorRef>jar-with-dependencies</descriptorRef>
                             </descriptorRefs>
 
-                            <finalName>implications-generator-full-${maven.build.timestamp}</finalName>
+                            <finalName>implications-generator-full-1.0.0</finalName>
                             <appendAssemblyId>false</appendAssemblyId>
                         </configuration>
                         <executions>

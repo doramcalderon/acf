@@ -22,7 +22,6 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.Optional;
 import java.util.ResourceBundle;
-import java.util.logging.Level;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -216,12 +215,19 @@ public class MainLayoutController extends Controller {
     @FXML
     public void handleUserGuide(ActionEvent event) {
         try {
-            File userGuide = new File(Thread.currentThread().getContextClassLoader().getResource("doc/userguide.pdf").toURI());
-            Eventbus.post(new OpenFileEvent(userGuide));
-        } catch (URISyntaxException  ex) {
+            ClassLoader cl = this.getClass().getClassLoader();
+            URL docUrl = cl.getResource("doc/userguide.pdf");
+        
+            if (docUrl != null) {
+                File userGuide = new File(docUrl.toURI());
+                Eventbus.post(new OpenFileEvent(userGuide));
+            } else {
+                throw new RuntimeException("userguide.pdf not found.");
+            }
+        } catch (URISyntaxException | RuntimeException ex ) {
             String message = getI18nMessage(BenchMessages.OPEN_USERGUIDE_ERROR);
             logger.error(message, ex);
-            publicMessage(message, MessageEvent.Level.INFO);
+            publicMessage(message, MessageEvent.Level.ERROR);
         }
     }
 

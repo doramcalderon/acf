@@ -64,9 +64,15 @@
             <id>release</id>
                 
             <build>
+                <resources>
+                    <resource>
+                        <directory>src/main/resources</directory>
+                    </resource>
+                </resources>
                 <plugins>
                     <plugin>
                         <artifactId>maven-assembly-plugin</artifactId>
+                        <version>2.5.3</version>
                         <configuration>
                             <archive>
                                 <manifest>
@@ -74,15 +80,16 @@
                                     <addDefaultImplementationEntries>true</addDefaultImplementationEntries>
                                 </manifest>
                                 <manifestEntries>
-                                    <Implementation-Build>${maven.build.timestamp}</Implementation-Build>
+                                    <Implementation-Build>1.0.0</Implementation-Build>
                                 </manifestEntries>
                             </archive>
                             <descriptorRefs>
                                 <descriptorRef>jar-with-dependencies</descriptorRef>
                             </descriptorRefs>
 
-                            <finalName>is-bench-full-${maven.build.timestamp}</finalName>
+                            <finalName>is-bench-full-1.0.0</finalName>
                             <appendAssemblyId>false</appendAssemblyId>
+                            
                         </configuration>
                         <executions>
                             <execution>

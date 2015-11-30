@@ -125,18 +125,6 @@ public class ISBenchApp extends Application {
         public void complete();
     }
 
-//    @Override
-//    public void start(Stage primaryStage) throws IOException {
-//        
-//        
-//        
-//        
-//        Eventbus.register(this);
-//        loadResources(WorkspaceManager.get().getLocale());
-//        loadRootLayout();
-//        showStage(primaryStage);
-//
-//    }
     /**
      * Opens a file with the associated system program.
      *

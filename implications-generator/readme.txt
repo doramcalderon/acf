@@ -5,7 +5,7 @@
 	implications-generator-full.jar  es un generador de implicaciones aleatorias.
 	A continuación se indican los pasos a seguir para su ejecución:
 	
-	1. Debe tener instalado JAVA SE 8u31
+	1. Debe tener instalado JAVA SE 8u65
 	   
 	2. Copie el archivo implications-generator-full.jar en su máquina.
 	

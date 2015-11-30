@@ -14,6 +14,19 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
+    <profiles>
+        <profile>
+            <id>release</id>
+        </profile>
+        <profile>
+            <id>windows</id>
+            <!-- configuration in is-bench module-->
+        </profile>
+        <profile>
+            <id>macosx</id>
+            <!-- configuration in is-bench module-->
+        </profile>
+    </profiles>
     
     <repositories>
         <repository>
