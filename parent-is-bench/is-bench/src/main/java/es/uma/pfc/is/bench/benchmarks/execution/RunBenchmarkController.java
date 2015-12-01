@@ -290,7 +290,6 @@ public class RunBenchmarkController extends Controller {
                 return BenchMessages.get().getMessage(I18n.SELECTED_FILES_COUNT, model.selectedInputFilesListProperty().size());
             }
         });
-        txtOutput.textProperty().bindBidirectional(model.outputDirProperty());
         initModelBinding();
     }
 
@@ -303,6 +302,7 @@ public class RunBenchmarkController extends Controller {
         model.statisticsCheckedProperty().bind(chkStatistics.selectedProperty());
         model.outputTypeProperty().bind(cbOutputType.getSelectionModel().selectedIndexProperty());
         model.selectedInputFilesListProperty().bind(inputsList.itemsProperty());
+        model.outputDirProperty().bind(txtOutput.textProperty());
     }
 
     /**
@@ -593,15 +593,14 @@ public class RunBenchmarkController extends Controller {
                     selectedBenchmark = (Benchmark) newItem.getValue();
                     model.setSelectedBenchmark(selectedBenchmark);
                     model.setSelectedAlgorithm(null);
-                    model.outputDirProperty().setValue(
-                            Paths.get(selectedBenchmark.getOutputDir()).toString());
+                    txtOutput.setText(Paths.get(selectedBenchmark.getOutputDir()).toString());
 
                 } else {
                     selectedBenchmark = (Benchmark) newItem.getParent().getValue();
                     AlgorithmInfo alg = (AlgorithmInfo) newItem.getValue();
                     model.setSelectedBenchmark(selectedBenchmark);
                     model.setSelectedAlgorithm(alg);
-                    model.outputDirProperty().setValue(Paths.get(WorkspaceManager.get().currentWorkspace().getLocation(),
+                    txtOutput.setText(Paths.get(WorkspaceManager.get().currentWorkspace().getLocation(),
                             selectedBenchmark.getName().trim(),
                             alg.getShortName(), "output").toString());
 
