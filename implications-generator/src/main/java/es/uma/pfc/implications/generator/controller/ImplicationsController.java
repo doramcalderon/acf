@@ -52,10 +52,11 @@ import org.slf4j.LoggerFactory;
  * @author Dora Calderón
  */
 public class ImplicationsController implements Initializable {
+
     /**
      * Logger.
      */
-    private final Logger logger = LoggerFactory.getLogger (ImplicationsController.class);
+    private final Logger logger = LoggerFactory.getLogger(ImplicationsController.class);
 
     @FXML
     private TextField txtNodes;
@@ -127,22 +128,26 @@ public class ImplicationsController implements Initializable {
         initListeners();
         ImplicationsFactory.initialize();
     }
-    
+
     /**
      * Initializes the model.
      */
     protected void initModel() {
         model = new ImplicationsModel();
     }
+
     /**
      * Sets the output file path into the output field.
+     *
      * @param outputPath Output file path.
      */
     public void setOutput(String outputPath) {
         txtOutput.setText(outputPath);
     }
+
     /**
      * Sets the caller class of implications generator.
+     *
      * @param callerType Caller class.
      * @return This instance.
      */
@@ -150,27 +155,31 @@ public class ImplicationsController implements Initializable {
         this.callerType = callerType;
         return this;
     }
-    
+
     /**
      * Inititalizes bindings.
      */
     protected void initBinding() {
-        
+
         BooleanBinding nSystemsBinding = new BooleanBinding() {
-            {super.bind(txtSystemsNumber.textProperty(), txtOutput.textProperty());}
-            
+            {
+                super.bind(txtSystemsNumber.textProperty(), txtOutput.textProperty());
+            }
+
             @Override
             protected boolean computeValue() {
-                final int systemNumbers = (StringUtils.isNumeric(txtSystemsNumber.getText())) ? 
-                                    Integer.valueOf(txtSystemsNumber.getText()) : 0;
+                final int systemNumbers = (StringUtils.isNumeric(txtSystemsNumber.getText()))
+                        ? Integer.valueOf(txtSystemsNumber.getText()) : 0;
                 return (systemNumbers > 1) && StringUtils.isEmpty(txtOutput.getText());
             }
-            
+
         };
         btnGenerate.disableProperty().bind(nSystemsBinding);
         txtOutput.textProperty().bindBidirectional(model.outputProperty());
         BooleanBinding systemCreatedBinding = new BooleanBinding() {
-            {super.bind(model.systemCreatedProperty(), txtOutput.textProperty());}
+            {
+                super.bind(model.systemCreatedProperty(), txtOutput.textProperty());
+            }
 
             @Override
             protected boolean computeValue() {
@@ -181,6 +190,7 @@ public class ImplicationsController implements Initializable {
         };
         btnSave.disableProperty().bind(systemCreatedBinding);
     }
+
     protected void initView() {
         this.cbNodeType.getItems().addAll(AttributeType.NUMBER, AttributeType.LETTER, AttributeType.INDEXED_LETTER);
         this.cbNodeType.getSelectionModel().select(AttributeType.NUMBER);
@@ -221,7 +231,7 @@ public class ImplicationsController implements Initializable {
                 ObservableValue<? extends String> observable, String oldValue, String newValue) -> {
                     handleConclusionSizeChange();
                 });
-        
+
     }
 
     protected void initValidation() {
@@ -231,6 +241,7 @@ public class ImplicationsController implements Initializable {
     /**
      * Handles the event thrown when the Clean button is pressed.<br/>
      * Cleans the form fields.
+     *
      * @param event Event.
      */
     @FXML
@@ -241,6 +252,7 @@ public class ImplicationsController implements Initializable {
 
     /**
      * Updates the node type to use form implications.
+     *
      * @param event Event.
      */
     @FXML
@@ -313,7 +325,9 @@ public class ImplicationsController implements Initializable {
     }
 
     /**
-     * Open the dialog box to select an output file, and copy the selected file path into Output field.
+     * Open the dialog box to select an output file, and copy the selected file
+     * path into Output field.
+     *
      * @param event Event.
      */
     @FXML
@@ -328,6 +342,7 @@ public class ImplicationsController implements Initializable {
 
     /**
      * Saves the implicational system in the path inserted into Output filed.
+     *
      * @param event Event.
      */
     @FXML
@@ -356,19 +371,14 @@ public class ImplicationsController implements Initializable {
 
                 @Override
                 protected void succeeded() {
-                    String path = txtOutput.getText(0, txtOutput.getText().lastIndexOf(File.separator)).replace(File.separator, "\\\\");
-                    String message = GeneratorMessages.get().getMessage(I18n.SYSTEM_GENERATED,  txtSystemsNumber.getText(), path);
-                    new Alert(AlertType.INFORMATION, message).showAndWait();
+                    showGeneratedFiles(selectedFile);
                     publicSystemsGenerated(selectedFile);
-                    clean(null);
                 }
 
                 @Override
                 protected void failed() {
                     logger.error("System generation error", getException());
                 }
-                
-                
 
             };
             generationProgressInd.visibleProperty().bind(saveTask.runningProperty());
@@ -376,9 +386,41 @@ public class ImplicationsController implements Initializable {
 
         }
     }
+    /**
+     * Shows the generated files paths.
+     * @param selectedFile File base path.
+     */
+    protected void showGeneratedFiles(String selectedFile) {
+        String path = txtOutput.getText(0, txtOutput.getText().lastIndexOf(File.separator)).replace(File.separator, "\\\\");
+        String message = GeneratorMessages.get().getMessage(I18n.SYSTEM_GENERATED, txtSystemsNumber.getText());
+        String [] paths = getGeneratedFiles(selectedFile);
+        StringBuilder text = new StringBuilder(message).append("\n\n ");
+        
+        if (paths != null && paths.length > 0) {
+            for(String p : paths) {
+                text.append(p).append("\n");
+            }
+        }
+        textViewer.clear();
+        textViewer.appendText(text.toString());
+        
+    }
+    /**
+     * Gets the path of generated files.
+     * @param selectedFile Base selected files.
+     * @return Generated files path.
+     */
+    public String[] getGeneratedFiles(String selectedFile) {
+        String[] paths = new String[model.getNum()];
+        for (int i = 1; i <= model.getNum(); i++) {
+            paths[i - 1] = FileUtils.getFileName(selectedFile, i);
+        }
+        return paths;
+    }
 
     /**
      * Publishes a SystemSaved event by Eventbus.
+     *
      * @param selectedFile Output file path.
      */
     protected void publicSystemsGenerated(String selectedFile) {
@@ -387,17 +429,16 @@ public class ImplicationsController implements Initializable {
         if (model.getNum() == 1) {
             event.setPath(selectedFile);
         } else {
-            String [] paths = new String[model.getNum()];
-            for(int i = 1; i <= model.getNum(); i++) {
-                paths[i-1] = FileUtils.getFileName(selectedFile, i);
-            }
+            String[] paths = getGeneratedFiles(selectedFile);
             event.setPath(paths);
         }
         Eventbus.post(event);
-        
+
     }
+
     /**
      * Shows the "Save" dialog box and returns the selected path.
+     *
      * @return Selected file.
      */
     protected File showSaveDialog() {
@@ -413,6 +454,7 @@ public class ImplicationsController implements Initializable {
 
     /**
      * Shows in the viewer an implicational system.
+     *
      * @param system Implicational system.
      */
     protected void showText(ImplicationalSystem system) {
@@ -423,6 +465,7 @@ public class ImplicationsController implements Initializable {
 
     /**
      * Shows in the viewer a saved system.
+     *
      * @param implicationsFile Implicational system.
      */
     protected void showText(File implicationsFile) {
@@ -444,6 +487,7 @@ public class ImplicationsController implements Initializable {
 
     /**
      * Performs the model validation.
+     *
      * @throw RuntimeException If validation error exists.
      */
     protected void validate() {

@@ -80,7 +80,7 @@ public class Animations {
                             @Override
                             protected Object call() throws Exception {
                                 try {
-                                    Thread.currentThread().sleep(7000);
+                                    Thread.currentThread().sleep(5000);
                                 } catch (InterruptedException ex) {
                                     LoggerFactory.getLogger(Animations.class).error("", ex);
                                 }

@@ -79,10 +79,12 @@ import org.slf4j.LoggerFactory;
 
 /**
  * Run view controller.
+ *
  * @author Dora Calderón
  */
 public class RunBenchmarkController extends Controller {
-        /**
+
+    /**
      * Logger.
      */
     private final Logger logger = LoggerFactory.getLogger(RunBenchmarkController.class);
@@ -130,7 +132,7 @@ public class RunBenchmarkController extends Controller {
      */
     @FXML
     private ChoiceBox<String> cbOutputType;
-    
+
     /**
      * Mode checks.
      */
@@ -162,11 +164,12 @@ public class RunBenchmarkController extends Controller {
      */
     @FXML
     private TreeTableColumn nameColumn, timeColumn, sizeColumn, cardColumn, inputColumn, outputColumn;
-    
+
     private AlgorithmExecService service;
 
     /**
      * Initializes the controller.
+     *
      * @param url URL of the view.
      * @param rb Resource bundle.
      */
@@ -184,6 +187,7 @@ public class RunBenchmarkController extends Controller {
             logger.error("Error initializing the RunBenchmarkController.", ex);
         }
     }
+
     /**
      * Initializes the algorithm execution service.
      */
@@ -198,9 +202,11 @@ public class RunBenchmarkController extends Controller {
 
         execurtionIndicator.visibleProperty().bind(service.runningProperty());
     }
+
     /**
      * Initializes the view.
-     * @throws IOException 
+     *
+     * @throws IOException
      */
     @Override
     protected void initView() throws IOException {
@@ -210,10 +216,16 @@ public class RunBenchmarkController extends Controller {
         cbOutputType.getSelectionModel().select(0);
 
         MenuItem logItem = new MenuItem(getI18nLabel(I18n.SHOW_LOG));
-        logItem.setOnAction((ActionEvent event) -> {showLog();});
+        logItem.setOnAction((ActionEvent event) -> {
+            showLog();
+        });
         MenuItem statisticsItem = new MenuItem(getI18nLabel(I18n.SHOW_STATS));
-        logItem.setOnAction((ActionEvent event) -> {showLog();});
-        statisticsItem.setOnAction((ActionEvent event) -> {showStatisticsFile();});
+        logItem.setOnAction((ActionEvent event) -> {
+            showLog();
+        });
+        statisticsItem.setOnAction((ActionEvent event) -> {
+            showStatisticsFile();
+        });
         tableResults.setContextMenu(new ContextMenu(logItem, statisticsItem));
         tableResults.setShowRoot(false);
         nameColumn.setCellValueFactory(new TreeItemPropertyValueFactory("name"));
@@ -235,29 +247,27 @@ public class RunBenchmarkController extends Controller {
         TreeItem<TreeResultModel> item = tableResults.getSelectionModel().getSelectedItem();
         if (item != null && item.getValue().isAlgorithmResult()) {
             String logFile = item.getValue().logProperty().get();
-            
+
             if (!StringUtils.isEmpty(logFile)) {
                 Eventbus.post(new ViewFileActionEvent(new File(logFile), logFile,
-                                                      getRootPane().getScene().getWindow(),
-                                                      getBundle()));
+                        getRootPane().getScene().getWindow(),
+                        getBundle()));
             }
         }
     }
-    
+
     /**
      * Shows the statistics files if exists.
      */
     public void showStatisticsFile() {
-        if(tableResults.getRoot() != null) {
-            TreeBenchmarkResultModel benchmarkResult =  (TreeBenchmarkResultModel) tableResults.getRoot().getValue();
-            if(benchmarkResult != null) {
+        if (tableResults.getRoot() != null) {
+            TreeBenchmarkResultModel benchmarkResult = (TreeBenchmarkResultModel) tableResults.getRoot().getValue();
+            if (benchmarkResult != null) {
                 String statisticsPath = benchmarkResult.getBenchmarkResult().getStatisticsFileName();
                 Eventbus.post(new OpenFileEvent(statisticsPath));
             }
         }
     }
-    
-    
 
     /**
      * Initializes the model loading the benchmarks into the tree.
@@ -317,8 +327,8 @@ public class RunBenchmarkController extends Controller {
             if (event.getClickCount() > 1) {
                 TreeTableView<TreeResultModel> table = (TreeTableView<TreeResultModel>) event.getSource();
                 TreeItem<TreeResultModel> selectedItem = table.getSelectionModel().getSelectedItem();
-                
-                if(selectedItem != null) {
+
+                if (selectedItem != null) {
                     TreeResultModel value = selectedItem.getValue();
 
                     if (value instanceof TreeAlgorithmResultModel) {
@@ -335,16 +345,17 @@ public class RunBenchmarkController extends Controller {
             }
         });
     }
-                    
+
     /**
-     * Handles the event BenchmarksChangeEvent published by Eventbus, and reloads view and model.
+     * Handles the event BenchmarksChangeEvent published by Eventbus, and
+     * reloads view and model.
+     *
      * @param event Event.
      */
     @Subscribe
     public void handleBenchamrksChange(BenchmarksChangeEvent event) {
         reload();
     }
-
 
     /**
      * Updates the view with model values.
@@ -361,7 +372,7 @@ public class RunBenchmarkController extends Controller {
                     bench.getAlgorithmsEntities().stream().forEach(algorithm
                             -> algItems.add(new TreeItem(algorithm)));
                     benchItem.getInternalChildren().addAll(algItems);
-        }
+                }
                 root.getInternalChildren().add(benchItem);
             });
 
@@ -401,6 +412,7 @@ public class RunBenchmarkController extends Controller {
 
     /**
      * Return the root pane.
+     *
      * @return Root pane.
      */
     @Override
@@ -411,11 +423,12 @@ public class RunBenchmarkController extends Controller {
     /**
      * Handles the event thrown when Run button is pressed.<br/>
      * Runs the selected benchmark / algorithm.
+     *
      * @param event Event.
      */
     @FXML
     public void handleRunAction(ActionEvent event) {
-        if(tableResults.getRoot() != null && tableResults.getRoot().getChildren() != null) {
+        if (tableResults.getRoot() != null && tableResults.getRoot().getChildren() != null) {
             tableResults.getRoot().getChildren().clear();
         }
         if (validate()) {
@@ -447,22 +460,22 @@ public class RunBenchmarkController extends Controller {
         Animations.fadeOut(busyLayer);
         if (ex == null) {
             model.setLastExecutionResult(r);
-            if(State.SUCCEEDED.equals(service.getState())) {
+            if (State.SUCCEEDED.equals(service.getState())) {
                 tableResults.setRoot(getData(r));
                 Eventbus.post(new NewResultsEvent());
             }
         }
     }
 
-
     /**
-     * Handles the {@link SystemSaved} event, copying the path of system into input field.
+     * Handles the {@link SystemSaved} event, copying the path of system into
+     * input field.
      *
      * @param event Event.
      */
     @Subscribe
     public void handleSystemSaved(SystemSaved event) {
-        if(this.getClass().equals(event.getCalledBy())) {
+        if (this.getClass().equals(event.getCalledBy())) {
             String[] paths = event.getPaths();
             if (paths != null) {
                 Arrays.stream(paths)
@@ -470,10 +483,10 @@ public class RunBenchmarkController extends Controller {
             }
         }
     }
-    
+
     @FXML
     public void handleStop(ActionEvent event) {
-        if(service.isRunning()) {
+        if (service.isRunning()) {
             service.cancel();
         }
     }
@@ -491,6 +504,7 @@ public class RunBenchmarkController extends Controller {
 
     /**
      * Shows a dialog box for select the input of algorithm.
+     *
      * @param event Event.
      */
     @FXML
@@ -534,6 +548,7 @@ public class RunBenchmarkController extends Controller {
 
     /**
      * Shows the dialog box for select the target of algorithm results.
+     *
      * @param event Event.
      */
     @FXML
@@ -549,8 +564,6 @@ public class RunBenchmarkController extends Controller {
         }
     }
 
-
-
     /**
      * Clears the model and the view.
      */
@@ -560,31 +573,42 @@ public class RunBenchmarkController extends Controller {
         chkHistory.setSelected(false);
         chkStatistics.setSelected(false);
         filterField.clear();
-        if(inputsList.getItems() != null) {
+        if (inputsList.getItems() != null) {
             inputsList.getItems().clear();
         }
         txtOutput.clear();
-        if(tableResults.getRoot() != null && tableResults.getRoot().getChildren() != null) {
-            tableResults.getRoot().getChildren().clear();
-        }
+        clearResults();
         model.setLastExecutionResult(null);
     }
 
     /**
+     * Clears the results table.
+     */
+    protected void clearResults() {
+        if (tableResults.getRoot() != null && tableResults.getRoot().getChildren() != null) {
+            tableResults.getRoot().getChildren().clear();
+        }
+    }
+
+    /**
      * Benchmarks tree listener.<br/>
-     * When a benchmark is selected, the output field is initialized with benchmark output dir and is disabled.<br/>
+     * When a benchmark is selected, the output field is initialized with
+     * benchmark output dir and is disabled.<br/>
      * In this case, the mode checks and console outputs are disabled too.<br/>
-     * If the selection is an algorithm, the output field is enabled and initialized with the path of algorithm default
-     * output file.<br/>
-     * If the selection is more than one algorithm, the output field is cleared and disabled.<br/>
-     * If the selection contains benchmarks and algorithms the output field is cleared ant the Run button disabled.
+     * If the selection is an algorithm, the output field is enabled and
+     * initialized with the path of algorithm default output file.<br/>
+     * If the selection is more than one algorithm, the output field is cleared
+     * and disabled.<br/>
+     * If the selection contains benchmarks and algorithms the output field is
+     * cleared ant the Run button disabled.
      */
     protected class BenchmarkSelectionListener implements ChangeListener<TreeItem> {
 
         @Override
         public void changed(ObservableValue<? extends TreeItem> observable, TreeItem oldItem, TreeItem newItem) {
-            
+
             if (newItem != null) {
+                clearResults();
 
                 Benchmark selectedBenchmark;
                 boolean isBenchmark = (newItem.getValue() instanceof Benchmark);
@@ -631,6 +655,7 @@ public class RunBenchmarkController extends Controller {
 
     /**
      * Loads the input files defined for the selected benchmark.
+     *
      * @param benchmark Benchmark's name.
      */
     protected void loadInputFiles(String benchmark) {
@@ -657,7 +682,7 @@ public class RunBenchmarkController extends Controller {
      */
     private TreeItem<TreeResultModel> getData(BenchmarkResult benchResult) {
         TreeItem<TreeResultModel> rootItem = new TreeItem();
-        if(benchResult != null) {
+        if (benchResult != null) {
             Map<AlgorithmInfo, List<AlgorithmResult>> results = benchResult.groupByAlgorithm();
 
             rootItem = new TreeItem<>(new TreeBenchmarkResultModel(benchResult));

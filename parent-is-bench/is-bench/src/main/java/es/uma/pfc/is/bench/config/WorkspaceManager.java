@@ -177,9 +177,9 @@ public class WorkspaceManager {
 
             String algorithmsPath = Paths.get(location, DEFAULT_ALGS_PATH).toString();
             algorithmsPath = ws.getPreferences().setIfNoExist(Preferences.ALGORITHMS_PATH, algorithmsPath);
-
-            ws.getPreferences().setIfNoExist(Preferences.ALGORITHMS_FILE,
-                    Paths.get(ws.getLocation(), "algorithms.xml").toString());
+//
+//            ws.getPreferences().setIfNoExist(Preferences.ALGORITHMS_FILE,
+//                    Paths.get(ws.getLocation(), "algorithms.xml").toString());
             FileUtils.createDirIfNoExists(algorithmsPath);
 
             savePreferences(ws.getPreferences(), ws.getLocation());
