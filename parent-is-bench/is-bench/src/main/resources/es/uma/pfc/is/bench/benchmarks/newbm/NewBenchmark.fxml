@@ -97,7 +97,7 @@
                               <Insets left="5.0" right="5.0" />
                            </padding>
                         </AnchorPane>
-                        <ListView fx:id="inputsList" disable="true" prefHeight="100.0" GridPane.rowIndex="3">
+                        <ListView fx:id="inputsList" prefHeight="100.0" GridPane.rowIndex="3">
                            <contextMenu>
                               <ContextMenu fx:id="ctxMnuDeleteInput" onAction="#handleDeleteInputAction">
                                 <items>

@@ -215,7 +215,7 @@ public class MainLayoutController extends Controller {
     @FXML
     public void handleUserGuide(ActionEvent event) {
         try {
-            ClassLoader cl = this.getClass().getClassLoader();
+            ClassLoader cl = Thread.currentThread().getContextClassLoader();
             URL docUrl = cl.getResource("doc/userguide.pdf");
         
             if (docUrl != null) {
